@@ -48,4 +48,22 @@ echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 #-------------------------------- HOP setup ----------------------------------#
 
+# Create folders
+mkdir ~/Desktop/hop && cd ~/Desktop/hop/
+
+# Download bigloo and HOP
+wget ftp://ftp-sop.inria.fr/indes/rapp/hop/2014-09-05/bigloo4.2a.tar
+wget ftp://ftp-sop.inria.fr/indes/rapp/hop/2014-09-05/hop-3.0.0-pre11.tar
+
+# Unzip them and remove the tars
+tar -xvf bigloo4.2a.tar && rm bigloo4.2a.tar
+tar -xvf hop-3.0.0-pre11.tar && rm hop-3.0.0-pre11.tar
+
+# Install Bigloo
+cd bigloo4.2a && ./configure && make && make install && ldconfig
+cd ../hop-3.0.0-pre11 && ./configure && make && make install && ldconfig
+
+# Initial setup of HOP must be performed through a web client.
+
+ 
 
