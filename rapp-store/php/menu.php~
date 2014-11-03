@@ -1,0 +1,12 @@
+<div class="pure-skin-rapp pure-menu pure-menu-open pure-menu-horizontal">
+    <a href="#" class="pure-menu-heading">RAPP Store</a>
+
+    <ul>
+        <li class="pure-menu-selected"><a href="#">News</a></li>
+        <li><a href="#">Sign-In</a></li>
+        <li><a href="register">Register</a></li>
+        <li><a href="#">Applications</a></li>
+        <li><a href="#">Robots</a></li>
+        <li><a href="#">Support</a></li>
+    </ul>
+</div>
