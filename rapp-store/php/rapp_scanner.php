@@ -12,13 +12,15 @@
  * @author Alex Giokas <a.gkiokas@ortelio.co.uk>
  * @date 7-11-2014
  * @copyright Ortelio Ltd
+ *
+ * @warning Methods assume that CWD is ???
  */
 function rapp_cpp_scan ( $path, $verbose )
 {
     $result = array();
     $Directory = new RecursiveDirectoryIterator( $path );
-    $Iterator = new RecursiveIteratorIterator($Directory);
-    $Regex = new RegexIterator( $Iterator, '/^.+\.(hpp|h|hxx|c|cpp|cxx)$/i', RecursiveRegexIterator::GET_MATCH );
+    $Iterator = new RecursiveIteratorIterator( $Directory );
+    $Regex = new RegexIterator( $Iterator, '/^.+\.(hpp|h|hxx|h++|hh|c|cpp|cxx|cc|c++)$/i', RecursiveRegexIterator::GET_MATCH );
 
     foreach( $Regex as $name => $object )
     {
@@ -33,7 +35,7 @@ function rapp_js_scan ( $path, $verbose )
 {
     $result = array();
     $Directory = new RecursiveDirectoryIterator( $path );
-    $Iterator = new RecursiveIteratorIterator($Directory);
+    $Iterator = new RecursiveIteratorIterator( $Directory );
     $Regex = new RegexIterator( $Iterator, '/^.+\.(js|script)$/i', RecursiveRegexIterator::GET_MATCH );
 
     foreach( $Regex as $name => $object )
@@ -50,7 +52,7 @@ function rapp_py_scan ( $path, $verbose )
 {
     $result = array();
     $Directory = new RecursiveDirectoryIterator( $path );
-    $Iterator = new RecursiveIteratorIterator($Directory);
+    $Iterator = new RecursiveIteratorIterator( $Directory );
     $Regex = new RegexIterator( $Iterator, '/^.+\.(py|python)$/i', RecursiveRegexIterator::GET_MATCH );
 
     foreach( $Regex as $name => $object )
