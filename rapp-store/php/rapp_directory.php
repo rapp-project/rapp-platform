@@ -8,7 +8,8 @@
  *
  *  @param $rapp_name is the base package name
  *  @param $version is current (integer) version
- *  @param $arch is the current cpu architecture
+ *  @param $arch is the current cpu architecture (@note arch may be: `i386`, `amd64`, `arm`, or `generic` - used by js and py)
+ *  @param $cmake defines if a CMakeLists.txt should be touched for cpp compiling/linking
  *  @return void
  *
  *  @version 1
@@ -30,26 +31,14 @@ function rapp_dir_create ( $rapp_name, $version, $arch )
     // Calculate base dir via ref_dir + rapp_name + version + arch
     $rapp_dir = $rapp_name . "-" . $version . "_" . $arch;
     $base_dir = $ref_dir . "/userdir/" . $rapp_dir;
-    $dirs = array( $base_dir, $base_dir . "/src", $base_dir . "/build", $base_dir . "/includes" );
+    $dirs = array( $base_dir, $base_dir . "/src", $base_dir . "/src/build", $base_dir . "/extra" );
 
     foreach ( $dirs as &$value )
     {
-        // DANGER: Take care of the umask used - it should allow only read to others
+        // @note Take care of the umask used - it should allow only read/write to apache2 & gcc/ld
         if ( !mkdir ( $value, 0777, true ) )
-        {
             error_log('Failed to create dir: ' . $value );
-        }   
-        //echo ( $value ."\r\n" );
     }
-
-    // chdir into base dir
-    if ( chdir( "userdir/" . $rapp_dir ) )
-    {
-        // Touch CMakeLists.txt
-        if ( !touch( "CMakeLists.txt" ) ) error_log ( "Failed to touch CMakeLists.txt in " . getcwd() );
-    }
-    else
-        error_log ( "Failed to chdir into " . "userdir/" . $rapp_dir . " from " . getcwd() );
 
     // Return local reference to the newly created rapp_dir
     return $rapp_dir;
@@ -62,20 +51,19 @@ function rapp_dir_create ( $rapp_name, $version, $arch )
  * @version 1
  * @date 6-11-2014
  * @author Alex Giokas <a.gkiokas@ortelio.co.uk>
+ * @copyright Ortelio Ltd
  */
 function rapp_dir_populate ( array $files, $rapp_dir, $subdir )
 {
     if ( empty($files) || empty($rapp_dir) || empty($subdir) )
         throw new Exception( "rapp_dir_populate null param" );
    
-    //echo ( $rapp_dir . "\r\n" );
     // Move up one level from cwd (/php)
     $cwd = getcwd();
     chdir( "../" );
     $ref_dir = getcwd();
 
     $target_dir = $ref_dir . "/" . $rapp_dir . "/" . $subdir;
-    //echo ( $target_dir . "\r\n" );
 
     foreach ( $files as $filepath )
     {
@@ -87,8 +75,6 @@ function rapp_dir_populate ( array $files, $rapp_dir, $subdir )
         // Try to copy
         if ( !copy( $filepath, $target ) ) error_log( "failed to copy $file...\n" );
     }
-    
-    // TODO???
 }
 
 ?>

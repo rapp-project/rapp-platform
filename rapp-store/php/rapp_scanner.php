@@ -16,30 +16,49 @@
 function rapp_cpp_scan ( $path, $verbose )
 {
     $result = array();
-
     $Directory = new RecursiveDirectoryIterator( $path );
     $Iterator = new RecursiveIteratorIterator($Directory);
     $Regex = new RegexIterator( $Iterator, '/^.+\.(hpp|h|hxx|c|cpp|cxx)$/i', RecursiveRegexIterator::GET_MATCH );
 
     foreach( $Regex as $name => $object )
     {
-        //$entry = str_replace( $path, "", $name );
         if ( $verbose ) echo ( $name . "\r\n" );
         array_push( $result, $name );
     }
-
     return $result;
 }
 
-// TODO... Scan a Directory for JavaScript files
+// Scan a Directory for JavaScript files
 function rapp_js_scan ( $path, $verbose )
 {
+    $result = array();
+    $Directory = new RecursiveDirectoryIterator( $path );
+    $Iterator = new RecursiveIteratorIterator($Directory);
+    $Regex = new RegexIterator( $Iterator, '/^.+\.(js|script)$/i', RecursiveRegexIterator::GET_MATCH );
+
+    foreach( $Regex as $name => $object )
+    {
+        if ( $verbose ) echo ( $name . "\r\n" );
+        array_push( $result, $name );
+    }
+    return $result;
 
 }
 
-// TODO... Scan a Directory for Python files
-function rapp_python_scan ( $path, $verbose )
+// Scan a Directory for Python files
+function rapp_py_scan ( $path, $verbose )
 {
+    $result = array();
+    $Directory = new RecursiveDirectoryIterator( $path );
+    $Iterator = new RecursiveIteratorIterator($Directory);
+    $Regex = new RegexIterator( $Iterator, '/^.+\.(py|python)$/i', RecursiveRegexIterator::GET_MATCH );
+
+    foreach( $Regex as $name => $object )
+    {
+        if ( $verbose ) echo ( $name . "\r\n" );
+        array_push( $result, $name );
+    }
+    return $result;
 
 }
 
