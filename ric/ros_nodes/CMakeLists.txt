@@ -46,5 +46,5 @@ add_dependencies(face_detection_ros_node
 ## Tests
 
 if (CATKIN_ENABLE_TESTING)
-  catkin_add_nosetests(tests/face_detection/functional_tests.py)
+  catkin_add_nosetests(test/face_detection/functional_tests.py)
 endif()
