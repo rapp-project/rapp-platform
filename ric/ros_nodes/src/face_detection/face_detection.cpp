@@ -13,6 +13,7 @@ bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Request& req,
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)
 {
+  ROS_ERROR("Service called");
   return true;
 }
 
