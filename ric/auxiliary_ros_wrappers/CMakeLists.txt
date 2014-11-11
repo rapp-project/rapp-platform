@@ -6,6 +6,9 @@ project(auxiliary_ros_wrappers)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  rospy
+  std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -51,6 +54,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
+#   DB.srv
 #   Service1.srv
 #   Service2.srv
 # )
@@ -78,12 +82,18 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-  INCLUDE_DIRS include
+  CATKIN_DEPENDS
+    roscpp
+    rapp_platform_ros_communications
+  INCLUDE_DIRS
+    include
 #  LIBRARIES auxiliary_ros_wrappers
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
-
+include_directories(include
+  ${catkin_INCLUDE_DIRS}  
+)
 ###########
 ## Build ##
 ###########
@@ -156,3 +166,6 @@ catkin_package(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+if (CATKIN_ENABLE_TESTING)
+  catkin_add_nosetests(test/mysql_wrapper/t1.py)
+endif()

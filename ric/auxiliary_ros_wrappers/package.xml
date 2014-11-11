@@ -13,4 +13,18 @@
   <build_depend>roscpp</build_depend>
 
   <run_depend>roscpp</run_depend>
+
+
+  
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+  <test_depend>unittest</test_depend>
+
+  <build_depend>rapp_platform_ros_communications</build_depend>
+  <run_depend>rapp_platform_ros_communications</run_depend>
+
 </package>
