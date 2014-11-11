@@ -29,14 +29,14 @@ include_directories(include
 # )
 
 ## Declare a cpp executable
-add_executable(face_detection_wrapper_node 
-  src/face_detection_wrapper/face_detection_wrapper_node.cpp
-  src/face_detection_wrapper/face_detection_wrapper_class.cpp
+add_executable(face_detection_ros_node 
+  src/face_detection/face_detection_node.cpp
+  src/face_detection/face_detection.cpp
 )
-target_link_libraries(face_detection_wrapper_node
+target_link_libraries(face_detection_ros_node
   ${catkin_LIBRARIES}
 )
-add_dependencies(face_detection_wrapper_node
+add_dependencies(face_detection_ros_node
   rapp_platform_ros_communications_gencpp
   ${catkin_EXPORTED_TARGETS}
 )
