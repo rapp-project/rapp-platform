@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(beginner_tutorials)
+project(db_wrapper)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -54,7 +54,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate services in the 'srv' folder
  add_service_files(
    FILES
-   DB.srv   
+   DB.srv 
  )
 
 ## Generate actions in the 'action' folder
@@ -154,10 +154,14 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_beginner_tutorials.cpp)
+ #catkin_add_gtest(${PROJECT_NAME}-test test/test_beginner_tutorials.cpp)
+#catkin_add_gtest(${beginner_tutorials}-test test/test_beginner_tutorials.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+if (CATKIN_ENABLE_TESTING)
+  catkin_add_nosetests(test/t1.py)
+endif()

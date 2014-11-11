@@ -18,8 +18,8 @@ def usage():
 
 if __name__ == "__main__":
     if len(sys.argv) == 3:
-        x = sys.argv[1] #int(sys.argv[1])
-        y = sys.argv[2] #int(sys.argv[2])
+        x = int(sys.argv[1])
+        y = int(sys.argv[2])
     else:
         print usage()
         sys.exit(1)

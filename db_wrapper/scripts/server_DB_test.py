@@ -14,10 +14,12 @@ def writePersonalData():
 		cur.execute("INSERT INTO Users(Name,Job) VALUES('Takis','ydraylikos')")
 		cur.execute("INSERT INTO Users(Name,Job) VALUES('Sakis','hlektrologos')")
 		cur.execute("SELECT * FROM Users")
-		rows = cur.fetchall()
-
-		for row in rows:
-			print row
+		
+				
+		#rows = cur.fetchall()
+		
+		#for row in rows:
+			#print row
 
 def clearTable():
 	con = mdb.connect('localhost', 'testuser', 'test623', 'testdb');
@@ -34,11 +36,11 @@ def fetchPersonalData(name):
 			
 		cur = con.cursor()			
 		cur.execute("SELECT * FROM Users WHERE Name = %s",name)
-		rows = cur.fetchall()
-		t=''
-		for row in rows:
-			t=t+row
-			print row
+		#rows = cur.fetchall()
+		s=str(cur.fetchone()[2])
+		#for row in rows:
+		#	print row
+		return s
 
 def createTable():
 	con = mdb.connect('localhost', 'testuser', 'test623', 'testdb');
@@ -77,12 +79,13 @@ def checkConnection():
 
 def handle_add_two_ints(req):
     print "Returning [%s + %s = %s]"%(req.a, req.b, (req.a + req.b))
-    fetchPersonalData(req.a)
-    return AddTwoIntsResponse(req.a + req.b)
+    s=fetchPersonalData(req.a)
+    print "ttt %s"%s
+    return DBResponse(s) #req.a + req.b
 
 def add_two_ints_server():
     rospy.init_node('add_two_ints_server')
-    s = rospy.Service('add_two_ints', AddTwoInts, handle_add_two_ints)
+    s = rospy.Service('add_two_ints', DB, handle_add_two_ints)
     print "Ready to add two ints."
     checkConnection()
     rospy.spin()

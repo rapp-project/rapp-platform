@@ -1,4 +1,0 @@
-string a
-string b
----
-string sum
