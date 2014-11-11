@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-#from rapp_platform_ros_communications.srv import DB
-import rapp_platform_ros_communications as comm
+from rapp_platform_ros_communications.srv import *
+#import rapp_platform_ros_communications as comm
 
 import rospy
 import MySQLdb as mdb
@@ -87,7 +87,7 @@ def handle_add_two_ints(req):
 
 def add_two_ints_server():
     rospy.init_node('add_two_ints_server')
-    s = rospy.Service('add_two_ints', comm.srv.DB, handle_add_two_ints)
+    s = rospy.Service('add_two_ints', DB, handle_add_two_ints)
     print "Ready to add two ints."
     checkConnection()
     rospy.spin()
