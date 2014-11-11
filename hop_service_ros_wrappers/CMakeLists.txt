@@ -29,19 +29,19 @@ include_directories(include
 # )
 
 ## Declare a cpp executable
-add_executable(face_detection_wrapper_node 
-  src/face_detection_wrapper/face_detection_wrapper_node.cpp
-  src/face_detection_wrapper/face_detection_wrapper_class.cpp
-)
-target_link_libraries(face_detection_wrapper_node
-  ${catkin_LIBRARIES}
-)
+#add_executable(face_detection_wrapper_node 
+  #src/face_detection_wrapper/face_detection_wrapper_node.cpp
+  #src/face_detection_wrapper/face_detection_wrapper_class.cpp
+#)
+#target_link_libraries(face_detection_wrapper_node
+  #${catkin_LIBRARIES}
+#)
+#add_dependencies(face_detection_wrapper_node
+  #rapp_platform_ros_communications_gencpp
+  #${catkin_EXPORTED_TARGETS}
+#)
 
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(hop_service_ros_wrappers_node hop_service_ros_wrappers_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
+# Specify libraries to link a library or executable target against
 # target_link_libraries(hop_service_ros_wrappers_node
 #   ${catkin_LIBRARIES}
 # )
