@@ -1,0 +1,6 @@
+FAIL: test_one_equals_one (t1.TestBareBones)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+File "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/auxiliary_ros_wrappers/test/mysql_wrapper/t1.py", line 14, in test_one_equals_one
+self.assertEqual( 3*4, 13)
+AssertionError: 12 != 13
