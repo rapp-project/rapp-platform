@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   rapp_platform_ros_communications
+  cv_bridge
 )
 
 ## System dependencies are found with CMake's conventions
@@ -16,6 +17,7 @@ catkin_package(
     roscpp
     rospy
     rapp_platform_ros_communications
+    cv_bridge
   INCLUDE_DIRS 
     include
 )
@@ -24,11 +26,6 @@ catkin_package(
 include_directories(include
   ${catkin_INCLUDE_DIRS}  
 )
-
-## Declare a cpp library
-# add_library(hop_service_ros_wrappers
-#   src/${PROJECT_NAME}/hop_service_ros_wrappers.cpp
-# )
 
 ## Declare a cpp executable
 add_executable(face_detection_ros_node 

@@ -2,7 +2,13 @@
 #define RAPP_FACE_DETECTION_NODE
 
 #include <iostream>
+
 #include "ros/ros.h"
+
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/objdetect/objdetect.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 
 #include <rapp_platform_ros_communications/FaceDetectionRosSrv.h>
 
@@ -27,6 +33,8 @@ class FaceDetection
     
     // Topic nomeclarure
     std::string faceDetectionTopic_;    
+
+    cv::CascadeClassifier face_cascade;
 };
 
 #endif

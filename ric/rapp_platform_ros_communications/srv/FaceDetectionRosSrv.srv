@@ -4,4 +4,5 @@ Header header
 string imageFilename
 ---
 # Container for detected face positions
-geometry_msgs/PointStamped[] facePositions
+geometry_msgs/PointStamped[] faces_up_left
+geometry_msgs/PointStamped[] faces_down_right
