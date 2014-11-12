@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  rostest 
   rapp_platform_ros_communications
   message_generation
 )
@@ -168,5 +169,6 @@ include_directories(include
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 if (CATKIN_ENABLE_TESTING)
-  catkin_add_nosetests(test/mysql_wrapper/t1.py)
+  #catkin_add_nosetests(test/mysql_wrapper/t1.py)
+  add_rostest(test/mysql_wrapper/db_test.launch)
 endif()
