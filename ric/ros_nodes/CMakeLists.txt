@@ -43,5 +43,9 @@ add_dependencies(face_detection_ros_node
 ## Tests
 
 if (CATKIN_ENABLE_TESTING)
-  catkin_add_nosetests(test/face_detection/functional_tests.py)
+  # unit tests
+  #catkin_add_nosetests(test/face_detection/functional_tests.py)
+
+  # functional tests
+  add_rostest(test/face_detection/functional_tests.launch)
 endif()

@@ -17,7 +17,11 @@ bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)
 {
   cv::Mat input_img, grayscale_img;
+  // Must check if file exists
   input_img = cv::imread(req.imageFilename.c_str());
+  ROS_ERROR_STREAM (req.imageFilename << "\n");
+  //input_img.convertTo(input_img, CV_8UC3);
+  ROS_ERROR("%d", input_img.channels());
   cv::cvtColor(input_img, grayscale_img, CV_BGR2GRAY);
   cv::equalizeHist(grayscale_img, grayscale_img);
 
