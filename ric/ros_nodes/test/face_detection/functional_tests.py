@@ -9,7 +9,7 @@ from rapp_platform_ros_communications.srv import *
 class FaceDetFunc(unittest.TestCase):
 
     def faceDetectionFunctionalTest(self):
-        rospy.wait_for_service('MySQLWrapperService')
+        rospy.wait_for_service('ric/face_detection_service')
         fd_service = rospy.ServiceProxy('ric/face_detection_service', FaceDetectionRosSrv)
         req = FaceDetectionRosSrv.Request
         req.imageFilename = "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/Lenna.png"
