@@ -1,0 +1,3 @@
+<launch>
+  <node name="Mysql_DB_Wrapper" pkg="auxiliary_ros_wrappers" type="mysql_wrapper.py" />
+</launch>
