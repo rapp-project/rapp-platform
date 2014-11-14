@@ -71,9 +71,5 @@ class MySQLdbWrapper:
 
 
 db_wrapper=MySQLdbWrapper()
-
-#db_wrapper.fetchPersonalData()
-t1,t2=db_wrapper.getLogin()
-print t1,t2
 db_wrapper.DbServer()
 
