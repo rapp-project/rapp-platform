@@ -46,6 +46,12 @@ if (CATKIN_ENABLE_TESTING)
   # unit tests
   #catkin_add_nosetests(test/face_detection/functional_tests.py)
 
+  catkin_add_gtest(face_detection_unit_test test/face_detection/unit_tests.cpp)
+  target_link_libraries(face_detection_unit_test 
+    ${catkin_LIBRARIES}
+    gtest_main
+  )
+
   # functional tests
   add_rostest(test/face_detection/functional_tests.launch)
 endif()

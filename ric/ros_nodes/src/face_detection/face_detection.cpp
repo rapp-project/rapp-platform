@@ -16,20 +16,8 @@ bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Request& req,
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)
 {
-  cv::Mat input_img, grayscale_img;
-  // Must check if file exists
-  input_img = cv::imread(req.imageFilename.c_str());
-  ROS_ERROR_STREAM (req.imageFilename << "\n");
-  //input_img.convertTo(input_img, CV_8UC3);
-  ROS_ERROR("%d", input_img.channels());
-  cv::cvtColor(input_img, grayscale_img, CV_BGR2GRAY);
-  cv::equalizeHist(grayscale_img, grayscale_img);
-
-  std::vector<cv::Rect> faces;
-
-  face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 3,
-    CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_SCALE_IMAGE, cv::Size(30,30));
-
+  std::vector<cv::Rect> faces = findFaces(req.imageFilename);
+  
   for(unsigned int i = 0 ; i < faces.size() ; i++)
   {
     geometry_msgs::PointStamped up_left_corner;
@@ -48,3 +36,18 @@ bool FaceDetection::faceDetectionCallback(
   return true;
 }
 
+std::vector<cv::Rect> FaceDetection::findFaces(std::string file_name)
+{
+  cv::Mat input_img, grayscale_img;
+  // Must check if file exists
+  input_img = cv::imread(file_name);
+  cv::cvtColor(input_img, grayscale_img, CV_BGR2GRAY);
+  cv::equalizeHist(grayscale_img, grayscale_img);
+
+  std::vector<cv::Rect> faces;;
+
+  face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 3,
+    CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_SCALE_IMAGE, cv::Size(30,30));
+
+  return faces;
+}

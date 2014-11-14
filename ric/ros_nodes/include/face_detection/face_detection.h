@@ -35,6 +35,8 @@ class FaceDetection
     std::string faceDetectionTopic_;    
 
     cv::CascadeClassifier face_cascade;
+
+    std::vector<cv::Rect> findFaces(std::string file_name);
 };
 
 #endif
