@@ -1,7 +1,28 @@
 #!/usr/bin/env python
 
-from rapp_platform_ros_communications.srv import *
+#MIT License (MIT)
 
+#Copyright (c) <2014> <Rapp Project EU>
+
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+
+#The above copyright notice and this permission notice shall be included in
+#all copies or substantial portions of the Software.
+
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+#THE SOFTWARE.
+
+from rapp_platform_ros_communications.srv import *
 import rospy
 import MySQLdb as mdb
 import sys
@@ -19,7 +40,6 @@ class MySQLdbWrapper:
     except IOError:
       print "Error: can\'t find file or read data"
       sys.exit(1)
-
 
   #def writePersonalData(self):     
       #TO BE DEVELOPED
@@ -44,8 +64,7 @@ class MySQLdbWrapper:
       return s
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
-      sys.exit(1)
-      
+      sys.exit(1)      
 
   def checkConnection(self):    
     db_username,db_password=self.getLogin() 
@@ -61,14 +80,11 @@ class MySQLdbWrapper:
       print "Error %d: %s" % (e.args[0],e.args[1])
       sys.exit(1)
 
-
-
   def DbServer(self):
     rospy.init_node('MySQLWrapper')
     s = rospy.Service('ric/mysql_wrapper_service', DB, self.fetchPersonalData)          
     self.checkConnection()
     rospy.spin()
-
 
 db_wrapper=MySQLdbWrapper()
 db_wrapper.DbServer()
