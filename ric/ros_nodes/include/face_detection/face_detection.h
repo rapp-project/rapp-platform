@@ -23,7 +23,11 @@ class FaceDetection
       rapp_platform_ros_communications::FaceDetectionRosSrv::Request& req,
       rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res
       );
+
+    void initializeCommunications(void);
     
+    std::vector<cv::Rect> findFaces(std::string file_name);
+
   private:
     // The ROS node handle
     ros::NodeHandle nh_;
@@ -35,8 +39,6 @@ class FaceDetection
     std::string faceDetectionTopic_;    
 
     cv::CascadeClassifier face_cascade;
-
-    std::vector<cv::Rect> findFaces(std::string file_name);
 };
 
 #endif

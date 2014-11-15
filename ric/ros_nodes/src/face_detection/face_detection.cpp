@@ -4,12 +4,15 @@ FaceDetection::FaceDetection(void)
 {
   faceDetectionTopic_ = "ric/face_detection_service";
 
+  // Create the classifier
+  face_cascade.load("haarcascade_frontalface_alt.xml");
+}
+
+void FaceDetection::initializeCommunications(void)
+{
   // Creating the service server concerning the face detection functionality
   faceDetectionService_ = nh_.advertiseService(faceDetectionTopic_, 
     &FaceDetection::faceDetectionCallback, this);
-
-  // Create the classifier
-  face_cascade.load("haarcascade_frontalface_alt.xml");
 }
 
 bool FaceDetection::faceDetectionCallback(

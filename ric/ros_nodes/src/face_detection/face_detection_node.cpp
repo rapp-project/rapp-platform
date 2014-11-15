@@ -4,6 +4,7 @@ int main(int argc, char ** argv)
 {
   ros::init(argc, argv, "face_detection_node");
   FaceDetection fdnode;
+  fdnode.initializeCommunications();
   ros::spin();
   return 0;
 }

@@ -27,31 +27,5 @@ include_directories(include
   ${catkin_INCLUDE_DIRS}  
 )
 
-## Declare a cpp executable
-add_executable(face_detection_ros_node 
-  src/face_detection/face_detection_node.cpp
-  src/face_detection/face_detection.cpp
-)
-target_link_libraries(face_detection_ros_node
-  ${catkin_LIBRARIES}
-)
-add_dependencies(face_detection_ros_node
-  rapp_platform_ros_communications_gencpp
-  ${catkin_EXPORTED_TARGETS}
-)
-
-## Tests
-
-if (CATKIN_ENABLE_TESTING)
-  # unit tests
-  #catkin_add_nosetests(test/face_detection/functional_tests.py)
-
-  catkin_add_gtest(face_detection_unit_test test/face_detection/unit_tests.cpp)
-  target_link_libraries(face_detection_unit_test 
-    ${catkin_LIBRARIES}
-    gtest_main
-  )
-
-  # functional tests
-  add_rostest(test/face_detection/functional_tests.launch)
-endif()
+## Nodes CMakeLists
+add_subdirectory(src/face_detection)

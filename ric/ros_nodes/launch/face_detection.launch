@@ -1,0 +1,3 @@
+<launch>
+  <node name="face_detection_ros_node" pkg="ros_nodes" type="face_detection_ros_node" />
+</launch>
