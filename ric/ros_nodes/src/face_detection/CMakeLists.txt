@@ -1,19 +1,18 @@
-add_library(face_detection_lib
-  face_detection.cpp
+## Library for unit testing
+add_library(face_detector_lib
+  face_detector.cpp
   )
-target_link_libraries(face_detection_lib
+target_link_libraries(face_detector_lib
   ${catkin_LIBRARIES}
   )
-add_dependencies(face_detection_lib
-  rapp_platform_ros_communications_gencpp
-  )
 
-## Declare a cpp executable
+## ROS node executable
 add_executable(face_detection_ros_node 
+  face_detection.cpp
   face_detection_node.cpp
 )
 target_link_libraries(face_detection_ros_node
-  face_detection_lib
+  face_detector_lib
   ${catkin_LIBRARIES}
 )
 add_dependencies(face_detection_ros_node
@@ -29,7 +28,7 @@ if (CATKIN_ENABLE_TESTING)
     )
   target_link_libraries(face_detection_unit_test 
     ${catkin_LIBRARIES}
-    face_detection_lib
+    face_detector_lib
     gtest_main
     )
 

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <face_detection/face_detection.h>
+#include <face_detection/face_detector.h>
 
 class FaceDetectionTest : public ::testing::Test
 {
@@ -10,21 +10,26 @@ class FaceDetectionTest : public ::testing::Test
     }
     virtual void SetUp()
     {
-      face_detection_ = new FaceDetection;
+      face_detector_ = new FaceDetector;
     }
     virtual void TearDown()
     {
-      delete face_detection_;
+      delete face_detector_;
     }
 
-    FaceDetection *face_detection_;
+    FaceDetector *face_detector_;
 
 };
 
 TEST_F(FaceDetectionTest, test1){
   std::string s("/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/Lenna.png");
-  std::vector<cv::Rect> faces = face_detection_->findFaces(s);
+  std::vector<cv::Rect> faces = face_detector_->findFaces(s);
   EXPECT_EQ(1,faces.size());
 }
 
+int main(int argc, char **argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
 

@@ -8,7 +8,7 @@ from rapp_platform_ros_communications.srv import *
 
 class FaceDetFunc(unittest.TestCase):
 
-    def faceDetectionFunctionalTest(self):
+    def test_faceDetectionFunctional(self):
         rospy.wait_for_service('ric/face_detection_service')
         fd_service = rospy.ServiceProxy('ric/face_detection_service', FaceDetectionRosSrv)
         req = FaceDetectionRosSrv.Request

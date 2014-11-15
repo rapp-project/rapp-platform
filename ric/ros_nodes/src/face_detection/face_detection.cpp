@@ -4,12 +4,6 @@ FaceDetection::FaceDetection(void)
 {
   faceDetectionTopic_ = "ric/face_detection_service";
 
-  // Create the classifier
-  face_cascade.load("haarcascade_frontalface_alt.xml");
-}
-
-void FaceDetection::initializeCommunications(void)
-{
   // Creating the service server concerning the face detection functionality
   faceDetectionService_ = nh_.advertiseService(faceDetectionTopic_, 
     &FaceDetection::faceDetectionCallback, this);
@@ -19,7 +13,7 @@ bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Request& req,
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)
 {
-  std::vector<cv::Rect> faces = findFaces(req.imageFilename);
+  std::vector<cv::Rect> faces = face_detector_.findFaces(req.imageFilename);
   
   for(unsigned int i = 0 ; i < faces.size() ; i++)
   {
@@ -37,20 +31,4 @@ bool FaceDetection::faceDetectionCallback(
   }
 
   return true;
-}
-
-std::vector<cv::Rect> FaceDetection::findFaces(std::string file_name)
-{
-  cv::Mat input_img, grayscale_img;
-  // Must check if file exists
-  input_img = cv::imread(file_name);
-  cv::cvtColor(input_img, grayscale_img, CV_BGR2GRAY);
-  cv::equalizeHist(grayscale_img, grayscale_img);
-
-  std::vector<cv::Rect> faces;;
-
-  face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 3,
-    CV_HAAR_FIND_BIGGEST_OBJECT | CV_HAAR_SCALE_IMAGE, cv::Size(30,30));
-
-  return faces;
 }
