@@ -94,6 +94,11 @@ textarea {
     font-family: sans-serif;
 }
 
+.error
+{
+    font-size: 14px !important;
+}
+
 /**
  * Address margins handled incorrectly in IE 6/7.
  */

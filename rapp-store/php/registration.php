@@ -23,37 +23,37 @@
                         <h2 class="information-head">Registration</h2>
                         <hr>
                         <p>
-                            <form class="pure-form pure-form-aligned">
+                            <form class="pure-form pure-form-aligned" id="registration" method="post" accept-charset="UTF-8">
                                 <fieldset>
                                 
-                                    <div class="pure-control-group">
+                                    <div class="pure-control-group" emptyname>
                                         <label for="firstname">First name</label>
                                         <input id="firstname" type="text" placeholder="Bob">
                                     </div>
                                     
-                                    <div class="pure-control-group">
+                                    <div class="pure-control-group" emptysurname>
                                         <label for="surname">Surname</label>
                                         <input id="surname" type="text" placeholder="Smith">
                                     </div>
                                 
-                                    <div class="pure-control-group">
-                                        <label for="username">Username</label>
-                                        <input id="username" type="text" placeholder="bsmith">
+                                    <div class="pure-control-group" usrexists>
+                                        <label for="Username">Username</label>
+                                        <input id="Username" type="text" placeholder="bsmith">
                                     </div>
 
-                                    <div class="pure-control-group">
-                                        <label for="pwd">Password</label>
-                                        <input id="pwd" type="password" placeholder="Password">
+                                    <div class="pure-control-group" emptypwd>
+                                        <label for="Password">Password</label>
+                                        <input id="Password" type="password" placeholder="Password">
                                     </div>
                                     
-                                    <div class="pure-control-group">
-                                        <label for="confirm-password">Confirm Password</label>
-                                        <input id="confirm-password" type="password" placeholder="Confirm Password">
+                                    <div class="pure-control-group" missmatch>
+                                        <label for="confirm">Confirm Password</label>
+                                        <input id="confirm" type="password" placeholder="Confirm Password">
                                     </div>
 
-                                    <div class="pure-control-group">
-                                        <label for="email">Email Address</label>
-                                        <input id="email" type="email" placeholder="b.smith@hotmail.com">
+                                    <div class="pure-control-group" badformat>
+                                        <label for="Email">Email Address</label>
+                                        <input id="Email" type="email" placeholder="b.smith@hotmail.com">
                                     </div>
 
                                     <div class="pure-control-group">
@@ -68,8 +68,8 @@
                                     <hr>
                                     
                                     <div class="pure-controls">
-                                        <label for="terms-conditions" class="pure-checkbox">
-                                            <input id="terms-conditions" type="checkbox"> I've read the terms and conditions</label>
+                                        <label for="terms and conditions" class="pure-checkbox">
+                                            <input id="terms and conditions" type="checkbox"> I've read the terms and conditions</label>
                                         <button type="submit" class="pure-button pure-button-primary">Submit</button>
                                     </div>
                                     
