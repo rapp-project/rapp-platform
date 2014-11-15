@@ -15,7 +15,6 @@ $( "#sign-in" ).click(function()
                                                     {
                                                         $(this).dialog().find('form').submit();
                                                     }
-                                                }}
-                                             ]
+                                              }}]
                                     });
 });

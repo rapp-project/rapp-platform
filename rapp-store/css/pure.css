@@ -1145,6 +1145,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     *display: inline;
     *zoom: 1;
     vertical-align: middle;
+    text-align: center;
 }
 .pure-form-aligned textarea {
     vertical-align: top;

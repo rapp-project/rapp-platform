@@ -1,0 +1,64 @@
+
+body {
+    color: #526066;
+}
+
+h2, h3 {
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+p {
+    line-height: 1.6em;
+}
+
+
+.l-content {
+    margin: 0 auto;
+}
+
+.l-box 
+{
+    padding: 0.5em 2em;
+    width: 50% ;
+    margin-left: 35% ;
+    margin-right: 25% ;
+}
+
+.pure-menu {
+    box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+}
+
+
+.sidebar {
+    background-color: #DEDEDE;
+    background-image: url("images/vertical_cloth.png");
+    background-repeat: repeat;
+    color: white;
+}
+
+.banner 
+{
+    background: transparent url('swirl.jpg') 0 0 no-repeat fixed;
+    text-align: center;
+    background-size: cover;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='swirl.jpg', sizingMethod='scale');
+
+    height: 200px;
+    width: 100%;
+    margin-bottom: 3em;
+    display: table;
+}
+
+.banner-head 
+{
+    display: table-cell;
+    vertical-align: middle;
+    margin-bottom: 0;
+    font-size: 2em;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 1px 1px black;
+}
+

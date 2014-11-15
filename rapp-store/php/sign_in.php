@@ -7,6 +7,7 @@
             <label for="password">Password</label>
             <input id="password" type="password" name="password" placeholder="Password">
             <label for="remember" class="pure-checkbox"><input id="remember" type="checkbox"> Remember me</label>
+            <!--<a href="register.php"> Register new account</a>-->
             <!--
             <button type="submit" class="pure-button pure-button-primary">Sign in</button>
             -->
