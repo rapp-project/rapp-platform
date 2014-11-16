@@ -1,0 +1,3 @@
+<launch>
+  <node name="speech_recognition_node" pkg="auxiliary_ros_wrappers" type="speech_recognition_google.py" />
+</launch>
