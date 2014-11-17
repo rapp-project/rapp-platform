@@ -27,9 +27,8 @@ if ( isset( $_POST['usr'] ) )
         if ( !($stmt->fetch() ) )
             die ('fetch() failed :' . $mysqli->error );
         
+        /// Echo - ajax caller will receive the output
         echo $rows;
-        error_log( $rows );
-        
         $stmt->close();
     }
     else

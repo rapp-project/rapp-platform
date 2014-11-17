@@ -32,10 +32,10 @@ p {
 
 
 .sidebar {
-    background-color: #DEDEDE;
-    background-image: url("images/vertical_cloth.png");
+    background-color: white;
+    /*background-image: url("images/vertical_cloth.png");*/
     background-repeat: repeat;
-    color: white;
+    color: black;
 }
 
 .banner 
@@ -61,4 +61,3 @@ p {
     font-weight: 500;
     text-shadow: 0 1px 1px black;
 }
-

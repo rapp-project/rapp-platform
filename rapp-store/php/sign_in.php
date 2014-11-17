@@ -1,17 +1,20 @@
-<div id="dialog-sign-in" title="Sign-In" style="display: none;">
-    <p>
-    <form class="pure-form pure-form-stacked" action="signing_in.php" method="post">
+<script type="text/javascript" src="/scripts/sign-in.js"></script>
+<script type="text/javascript" src="/scripts/sha256.js"></script>
+
+<div id="dialog-sign-in" title="Sign In" style="display: none;">
+    <form class="pure-form pure-form-stacked" id="signin_form" method="post">
         <fieldset>
-            <label for="username">Username</label>
-            <input id="username" type="email" name="username" placeholder="user@email.com">
-            <label for="password">Password</label>
-            <input id="password" type="password" name="password" placeholder="Password">
-            <label for="remember" class="pure-checkbox"><input id="remember" type="checkbox"> Remember me</label>
-            <!--<a href="register.php"> Register new account</a>-->
-            <!--
-            <button type="submit" class="pure-button pure-button-primary">Sign in</button>
-            -->
+            <p>
+                <label for="Username">Username</label>
+                <input id="Username" type="email" name="username" placeholder="user@email.com">
+            </p>
+            <p>
+                <label for="Password">Password</label>
+                <input id="Password" type="password" name="password" placeholder="Password">
+            </p>
+            <p>
+                <button type="submit" id="signin_button" class="pure-button pure-button-primary">Sign in</button>
+            </p>
         </fieldset>
     </form>
-    </p>
 </div>

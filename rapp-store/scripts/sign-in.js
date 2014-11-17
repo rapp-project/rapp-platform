@@ -1,20 +1,34 @@
 // Only if button Sign-In is clicked
-$( "#sign-in" ).click(function()
+
+/// Document Ready Functions
+$( document ).ready(function() 
 {
-    $( "#dialog-sign-in" ).dialog({ resizable: false,
-                                    height: 'auto',
-                                    modal: true,
-                                    buttons: [{ text: "Sign-In",
-                                                type: "submit",
-                                                open: function() {},
-                                                click: function() {
-                                                    var form = $(this).dialog().find('form');
-                                                    if( $("#username").val().length === 0 || $("#password").val().length === 0 )
-                                                    { alert( "Username or Password field empty!" ); }
-                                                    else
-                                                    {
-                                                        $(this).dialog().find('form').submit();
-                                                    }
-                                              }}]
-                                    });
+    $( "#sign-in" ).click(function()
+    {
+        $( "#dialog-sign-in" ).dialog(
+        { 
+            resizable: false,
+            height: 'auto',
+            modal: true
+            // TODO... Ajax call on submit OR forward somewhere else.
+        });
+    });
+    
+    $( "#signin_button").on("click",function( event )
+    {
+       event.preventDefault();
+       
+       // Check that both fields are not empty
+       if ( $("#Username").val() && $("#Password").val() )
+       {
+           console.log( "Proceed with an ajax call to /ajax/signin.php" );
+           // NOTE: Remember to sha256 the password right away!
+       }
+       
+       if ( !$("#Username").val() )
+           alert( "Empty username" );
+       
+       if ( !$("#Password").val() )
+           alert( "Empty password" );
+    });
 });

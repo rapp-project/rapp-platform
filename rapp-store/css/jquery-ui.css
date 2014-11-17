@@ -493,6 +493,8 @@ button.ui-button::-moz-focus-inner {
 	width: 90%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+        font-family: "Montserrat", "Helvetica Neue", "Droid Sans", sans-serif;
+        text-align: center;
 }
 .ui-dialog .ui-dialog-titlebar-close {
 	position: absolute;

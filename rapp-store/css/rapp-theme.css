@@ -1,10 +1,25 @@
 body {
-    background-color: #DEDEDE;
+    background-color: white;
     /*background-image: url("images/sos.png");
     background-repeat: repeat;*/
+    font-family: "proxima-nova", "Helvetica Neue", sans-serif !important;
+
 }
 
-/* from PURE buttons-core.css */
+.rapp-logo
+{
+    display: inline-block;
+    *display: inline; /*IE 6/7*/
+    text-align: center;
+    text-align: center;
+    background: url("images/rapp_logo.png") center bottom;
+    width: 64px;
+    height: 32px;
+    bottom: 0;
+    overflow: visible;
+    float: left;
+}
+
 .pure-skin-rapp .pure-button {
     /* Structure */
     display: inline-block;
@@ -597,6 +612,7 @@ striping:
     visibility: visible;
     z-index: 2;
     width: 100%;
+    background: #2299dd;
 }
 
 .pure-skin-rapp .pure-menu ul {
@@ -653,7 +669,7 @@ striping:
 .pure-skin-rapp .pure-menu-can-have-children > .pure-menu-label:after {
     content: '\25B8';
     float: right;
-    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'DejaVu Sans', sans-serif; /* These specific fonts have the Unicode char we need. */
+    font-family: "Montserrat", "Helvetica Neue", "Droid Sans", 'Lucida Grande', 'Lucida Sans Unicode', 'DejaVu Sans', sans-serif;
     margin-right: -20px;
     margin-top: -1px;
 }
