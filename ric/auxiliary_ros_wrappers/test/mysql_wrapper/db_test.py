@@ -26,13 +26,13 @@ PKG='auxiliary_ros_wrappers'
 import sys
 import unittest
 import rospy
-from rapp_platform_ros_communications.srv import *
+from rapp_platform_ros_communications.srv import DbWrapperSrv
 
 class TestDbWrapper(unittest.TestCase):      
 
   def testSubmitQuery(self):
     rospy.wait_for_service('ric/mysql_wrapper_service')
-    db_service = rospy.ServiceProxy('ric/mysql_wrapper_service', DB)
+    db_service = rospy.ServiceProxy('ric/mysql_wrapper_service', DbWrapperSrv)
     response = db_service("test_name", "1")
     s=response.sum
     #print "Error %s" % (s)

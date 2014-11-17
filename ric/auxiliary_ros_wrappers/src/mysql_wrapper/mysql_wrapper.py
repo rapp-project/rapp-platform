@@ -22,7 +22,7 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
-from rapp_platform_ros_communications.srv import *
+from rapp_platform_ros_communications.srv import DbWrapperSrv
 import rospy
 import MySQLdb as mdb
 import sys
@@ -82,7 +82,7 @@ class MySQLdbWrapper:
 
   def DbServer(self):
     rospy.init_node('MySQLWrapper')
-    s = rospy.Service('ric/mysql_wrapper_service', DB, self.fetchPersonalData)          
+    s = rospy.Service('ric/mysql_wrapper_service', DbWrapperSrv, self.fetchPersonalData)          
     self.checkConnection()
     rospy.spin()
 
