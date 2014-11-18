@@ -1,5 +1,5 @@
 <launch> 
    <node type="face_detection_ros_node" pkg="ros_nodes" name="ros_nodes"/> 
-   <test time-limit="10" test-name="face_detection_functional" pkg="ros_nodes" type="functional_tests.py" /> 
+   <test time-limit="10" test-name="face_detection_functional" pkg="ros_nodes" type="functional_tests.py"/> 
  </launch> 
  

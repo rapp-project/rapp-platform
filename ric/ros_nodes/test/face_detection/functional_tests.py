@@ -14,9 +14,11 @@ class FaceDetFunc(unittest.TestCase):
 
     def test_faceDetectionFunctional(self):
         rospy.wait_for_service('ric/face_detection_service')
-        fd_service = rospy.ServiceProxy('ric/face_detection_service', FaceDetectionRosSrv)
+        fd_service = rospy.ServiceProxy('ric/face_detection_service', \
+            FaceDetectionRosSrv)
         req = FaceDetectionRosSrvRequest()
-        req.imageFilename = "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/Lenna.png"
+        req.imageFilename = \
+            "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/FrontalFace2.jpg"
         response = fd_service(req)
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1, "Face detection ok")
