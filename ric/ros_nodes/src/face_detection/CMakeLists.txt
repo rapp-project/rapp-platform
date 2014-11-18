@@ -23,15 +23,15 @@ add_dependencies(face_detection_ros_node
 ## Tests
 if (CATKIN_ENABLE_TESTING)
   # unit tests
-  catkin_add_gtest(face_detection_unit_test 
-    ../../test/face_detection/unit_tests.cpp
-    )
-  target_link_libraries(face_detection_unit_test 
-    ${catkin_LIBRARIES}
-    face_detector_lib
-    gtest_main
-    )
+  #catkin_add_gtest(face_detection_unit_test 
+    #../../test/face_detection/unit_tests.cpp
+    #)
+  #target_link_libraries(face_detection_unit_test 
+    #${catkin_LIBRARIES}
+    #face_detector_lib
+    #gtest_main
+    #)
 
   # functional tests
-  add_rostest(../../test/face_detection/functional_tests.launch)
+  #add_rostest(../../test/face_detection/functional_tests.launch)
 endif()
