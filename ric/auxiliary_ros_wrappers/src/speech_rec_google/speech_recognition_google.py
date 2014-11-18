@@ -27,26 +27,63 @@ import httplib
 import json
 import sys
 
-from rapp_platform_ros_communications.srv import SpeechToTextSrv
+from rapp_platform_ros_communications.srv import (
+  SpeechToTextSrv,
+  SpeechToTextSrvResponse
+  )
 
-#TESTCASE: python speech_recognition_google.py ../../../test_auxiliary_files/test.flac
+from rapp_platform_ros_communications.msg import (
+  StringArrayMsg
+  )
+
+from std_msgs.msg import (
+  String
+  )
 
 class SpeechToTextGoogle:
 
   def __init__(self):
-    self.serv = rospy.Service('ric/speech_to_text_service', SpeechToTextSrv, self.speech_to_text_callback)
+    # Speech recognition service published
+    self.serv = rospy.Service('ric/speech_to_text_service', \
+        SpeechToTextSrv, self.speech_to_text_callback)
 
+  # The service callback  
   def speech_to_text_callback(self, req):
-    res = SpeechToTextSrcResponce()
-    words = self.speech_to_text(req.filename)
+    # Getting the results in order to parse them
+    transcripts = self.speech_to_text(req.filename.data)
+    # The alternative results
+    alternatives = transcripts['result'][0]['alternative']
+    
+    res = SpeechToTextSrvResponse()
+
+    # If alternatives is 0 returns void response
+    if len(alternatives) > 0:
+      # The first alternative is Google's suggestion
+      words = alternatives[0]['transcript'].split(" ")
+      for w in words:
+        res.words = res.words + [String(data=w)]
+      # Google provides the confidence for the first suggestion
+      res.confidence.data = alternatives[0]['confidence']
+
+      # Google API may return other alternatives without confidence
+      for alt in alternatives[1:]:
+        sam = StringArrayMsg()
+        words = alt['transcript'].split(" ")
+        for w in words:
+          sam.s = sam.s + [String(data=w)]
+        res.alternatives = res.alternatives + [sam]
+    else:
+      res.confidence.data = 0
     return res
+   
 
-
+  #NOTE The audio file should be flac to work.
   def speech_to_text(self, file_path):
     with open(file_path, "r") as f:
       speech = f.read()
     url = "www.google.com"
     language = "en-US" 
+
     #NOTE - Thats a general usage key. They may disable it in the future.
     key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
     path = "/speech-api/v2/recognize?lang=" + language + "&key=" + key
@@ -56,9 +93,11 @@ class SpeechToTextGoogle:
     conn.request("POST", path, speech, headers)
     response = conn.getresponse()
     data = response.read()
-    return data # something is wrong with the json format
-    #jsdata = json.loads(data)
-    #return jsdata
+    # Google returns one empty result for some reason here. Removing it..
+    index = data.find("}")
+    data = data[index + 1:]
+    jsdata = json.loads(data)
+    return jsdata
 
 if __name__ == "__main__":
   rospy.init_node('speech_to_text_ros_node')
