@@ -88,12 +88,11 @@ catkin_package(
     roscpp
     rapp_platform_ros_communications
   INCLUDE_DIRS
-    include
 #  LIBRARIES auxiliary_ros_wrappers
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
-include_directories(include
+include_directories(
   ${catkin_INCLUDE_DIRS}  
 )
 ###########
