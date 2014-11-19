@@ -14,9 +14,6 @@ bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)
 {
   std::vector<cv::Rect> faces = face_detector_.findFaces(req.imageFilename);
-  ROS_ERROR("%d", faces.size());
-  std::cout << faces.size() << "\n\n";
-
   for(unsigned int i = 0 ; i < faces.size() ; i++)
   {
     geometry_msgs::PointStamped up_left_corner;

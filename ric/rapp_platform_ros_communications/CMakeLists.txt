@@ -24,6 +24,7 @@ add_service_files(
   DbWrapperSrv.srv
   FaceDetectionRosSrv.srv
   SpeechToTextSrv.srv
+  OntologySimpleQuerySrv.srv
 )
 
 ## Generate actions in the 'action' folder

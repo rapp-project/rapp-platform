@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find json_prolog)/launch/json_prolog.launch" />
+  <node name="knowrob_wrapper_node" pkg="auxiliary_ros_wrappers" type="knowrob_wrapper_node" output="screen"/>
+</launch>

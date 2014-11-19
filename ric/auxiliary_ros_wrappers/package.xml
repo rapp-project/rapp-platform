@@ -27,4 +27,7 @@
   <build_depend>rapp_platform_ros_communications</build_depend>
   <run_depend>rapp_platform_ros_communications</run_depend>
 
+  <build_depend>json_prolog</build_depend>
+  <run_depend>json_prolog</run_depend>
+
 </package>
