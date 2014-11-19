@@ -2,10 +2,14 @@
 
 KnowrobWrapperCommunications::KnowrobWrapperCommunications()
 {
+  ros::service::waitForService("json_prolog/query", -1);
+
   subclassOfServiceTopic_ = "ric/knowrob/subclass_of";
 
   subclassOfService_ = nh_.advertiseService(subclassOfServiceTopic_,
     &KnowrobWrapperCommunications::subclassOfCallback, this);
+
+  ROS_WARN("KnowRob ROS wrapper initialized");
 }
 
 bool KnowrobWrapperCommunications::subclassOfCallback(
