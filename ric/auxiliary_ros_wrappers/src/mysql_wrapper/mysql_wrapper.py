@@ -171,17 +171,21 @@ class MySQLdbWrapper:
       cur.execute(st1)
       #s=str(cur.fetchone()[0])
       result_set = cur.fetchall()     
-      res.res_data=[]
+      #res.res_data=[]
       for i in range(len(result_set)):
         line=StringArrayMsg()
-        line=[]        
+        #line=[]        
         for j in range(len(result_set[i])):
           temp_s=String(result_set[i][j])
           print temp_s
-          line=line+[String(data=temp_s)]
+          line.s.append(String(data=temp_s))#=line.s+[String(data=temp_s)]
           #print line.s[0].data
-        res.res_data=res.res_data+ [StringArrayMsg(s=line)]
-        #res.res_data=res.res_data+[line]
+        #res.res_data=res.res_data+ [StringArrayMsg(s=line)]
+        print "skaei"
+        print res.res_data
+        print line
+        #res.res_data=res.res_data+[line.s]
+        res.res_data.append(line)
           
           
       #line=StringArrayMsg() 
@@ -208,6 +212,7 @@ class MySQLdbWrapper:
     res.res_cols=req.return_cols
     print "after true"
     print res.res_data[0].s[0].data
+    print "last true"
     #res.res_cols=req.return_cols
     return res      
     #self.checkConnection()
