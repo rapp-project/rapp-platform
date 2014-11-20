@@ -153,8 +153,51 @@ class MySQLdbWrapper:
     
     print "received something"
     res = DbWrapperSrvResponse()
-    tic=self.fetchPersonalData(req,res)
-    res=tic
+    db_username,db_password=self.getLogin()        
+    try:  
+      con = mdb.connect('localhost', db_username, db_password, 'ric_db');            
+      cur = con.cursor()
+      ttt1="test_name"
+      t2="users"	
+      
+      returncols=req.return_cols[0].data+","+req.return_cols[1].data+","+req.return_cols[2].data
+      print returncols
+      
+      
+      query=req.req_data[0].s[0].data+"=\""+req.req_data[0].s[1].data+"\""+" AND "+req.req_data[1].s[0].data+"=\""+req.req_data[1].s[1].data+"\""
+      print query
+      st1="SELECT "+returncols+" FROM tblUser WHERE "+query
+      print st1
+      cur.execute(st1)
+      #s=str(cur.fetchone()[0])
+      result_set = cur.fetchall()     
+      res.res_data=[]
+      for i in range(len(result_set)):
+        line=StringArrayMsg()
+        line=[]        
+        for j in range(len(result_set[i])):
+          temp_s=String(result_set[i][j])
+          print temp_s
+          line=line+[String(data=temp_s)]
+          #print line.s[0].data
+        res.res_data=res.res_data+ [StringArrayMsg(s=line)]
+        #res.res_data=res.res_data+[line]
+          
+          
+      #line=StringArrayMsg() 
+      #line=[String(data="1"), String(data="2"), String(data="3")]
+      #res.res_data=res.res_data+[StringArrayMsg(s=line)]
+      
+      
+      
+      
+      #s=str(cur.fetchone()[2])
+      #print s
+      con.close()
+      return res
+    except mdb.Error, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])   
+    
     print "returned"
     myli=["1","2","3"]
     #mk.data=True
