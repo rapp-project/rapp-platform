@@ -1,4 +1,7 @@
-string a
-string b
+std_msgs/String[] return_cols
+rapp_platform_ros_communications/StringArrayMsg[] req_data
 ---
-string sum
+std_msgs/Bool success
+std_msgs/String[] res_cols
+rapp_platform_ros_communications/StringArrayMsg[] res_data
+

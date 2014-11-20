@@ -99,7 +99,7 @@ include_directories(include
 ###########
 ## Build ##
 ###########
-
+add_subdirectory(src/mysql_wrapper)
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
@@ -168,7 +168,7 @@ include_directories(include
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-if (CATKIN_ENABLE_TESTING)
+#if (CATKIN_ENABLE_TESTING)
   #catkin_add_nosetests(test/mysql_wrapper/t1.py)
-  add_rostest(test/mysql_wrapper/db_test.launch)
-endif()
+  #add_rostest(test/mysql_wrapper/db_test.launch)
+#endif()

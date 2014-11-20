@@ -22,12 +22,50 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
-from rapp_platform_ros_communications.srv import DbWrapperSrv
+
 import rospy
 import MySQLdb as mdb
 import sys
 
-class MySQLdbWrapper:
+from rapp_platform_ros_communications.srv import (
+  DbWrapperSrv,
+  DbWrapperSrvResponse
+  )
+  
+from rapp_platform_ros_communications.msg import ( 
+  StringArrayMsg 
+  ) 
+    
+from std_msgs.msg import ( 
+  String 
+  ) 
+
+class MySQLdbWrapper: 
+  
+  def __init__(self):
+    print "start"
+    self.serv=rospy.Service('ric/mysql_wrapper_service', DbWrapperSrv, self.DbHandler)
+    
+    
+  def getColumnNames(self):
+    db_username,db_password=self.getLogin()
+    print "dunato"
+    try:
+      con = mdb.connect('localhost', db_username, db_password, 'ric_db');            
+      cur = con.cursor()
+      cur.execute("Show columns from users")
+      #s=str(cur.fetchone()[0])
+      result_set = cur.fetchall()
+      Columns=[]
+      for row in result_set:
+        print row[0]
+        Columns=Columns+[row[0]]
+      print Columns[0:]
+      
+      
+    except mdb.Error, e:
+      print "Error %d: %s" % (e.args[0],e.args[1])
+    
 
   def getLogin(self):
     try:
@@ -38,8 +76,7 @@ class MySQLdbWrapper:
       db_password=db_password.split()[0]
       return db_username,db_password
     except IOError:
-      print "Error: can\'t find file or read data"
-      sys.exit(1)
+      print "Error: can\'t find file or read data"      
 
   #def writePersonalData(self):     
       #TO BE DEVELOPED
@@ -50,21 +87,51 @@ class MySQLdbWrapper:
       #cur.execute("INSERT INTO Users(Name,Job) VALUES('Sakis','hlektrologos')")
       #cur.execute("SELECT * FROM users")  
 
-  def fetchPersonalData(self,req):
+  def fetchPersonalData(self,req,res):
     db_username,db_password=self.getLogin()        
     try:  
       con = mdb.connect('localhost', db_username, db_password, 'ric_db');            
       cur = con.cursor()
-      ttt1="test_name"			
-      cur.execute("SELECT surname FROM users WHERE name = %s",req.a)
-      s=str(cur.fetchone()[0])
+      ttt1="test_name"
+      t2="users"	
+      
+      returncols=req.return_cols[0].data+","+req.return_cols[1].data+","+req.return_cols[2].data
+      print returncols
+      
+      
+      query=req.req_data[0].s[0].data+"=\""+req.req_data[0].s[1].data+"\""+" AND "+req.req_data[1].s[0].data+"=\""+req.req_data[1].s[1].data+"\""
+      print query
+      st1="SELECT "+returncols+" FROM tblUser WHERE "+query
+      print st1
+      cur.execute(st1)
+      #s=str(cur.fetchone()[0])
+      result_set = cur.fetchall()     
+      res.res_data=[]
+      for i in range(len(result_set)):
+        line=StringArrayMsg()
+        line=[]        
+        for j in range(len(result_set[i])):
+          temp_s=result_set[i][j]
+          print temp_s
+          line=line+[String(data=temp_s)]
+          #print line.s[0].data
+        res.res_data=res.res_data+ [StringArrayMsg(s=line)]
+        #res.res_data=res.res_data+[line]
+          
+          
+      #line=StringArrayMsg() 
+      #line=[String(data="1"), String(data="2"), String(data="3")]
+      #res.res_data=res.res_data+[StringArrayMsg(s=line)]
+      
+      
+      
+      
       #s=str(cur.fetchone()[2])
-      print s
+      #print s
       con.close()
-      return s
+      return res
     except mdb.Error, e:
-      print "Error %d: %s" % (e.args[0],e.args[1])
-      sys.exit(1)      
+      print "Error %d: %s" % (e.args[0],e.args[1])           
 
   def checkConnection(self):    
     db_username,db_password=self.getLogin() 
@@ -78,14 +145,37 @@ class MySQLdbWrapper:
 
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
-      sys.exit(1)
+      
+  def DbHandler(self,req):
+    
+    print "waiting to receive"
+      
+    
+    print "received something"
+    res = DbWrapperSrvResponse()
+    tic=self.fetchPersonalData(req,res)
+    res=tic
+    print "returned"
+    myli=["1","2","3"]
+    #mk.data=True
+    
+    
+    
+    res.success.data=True
+    res.res_cols=req.return_cols
+    print "after true"
+    print res.res_data[0].s[0].data
+    #res.res_cols=req.return_cols
+    return res      
+    #self.checkConnection()
+    #rospy.spin()
 
-  def DbServer(self):
-    rospy.init_node('MySQLWrapper')
-    s = rospy.Service('ric/mysql_wrapper_service', DbWrapperSrv, self.fetchPersonalData)          
-    self.checkConnection()
-    rospy.spin()
+#db_wrapper=MySQLdbWrapper()
+#db_wrapper.DbServer()
 
-db_wrapper=MySQLdbWrapper()
-db_wrapper.DbServer()
-
+if __name__ == "__main__": 
+  rospy.init_node('MySQLWrapper') 
+  #db_wrapper=MySQLdbWrapper()
+  MySQLWrapperNode = MySQLdbWrapper() 
+  #MySQLWrapperNode.getColumnNames()
+  rospy.spin()
