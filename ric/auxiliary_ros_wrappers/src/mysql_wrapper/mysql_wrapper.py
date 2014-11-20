@@ -155,7 +155,7 @@ class MySQLdbWrapper:
     res = DbWrapperSrvResponse()
     db_username,db_password=self.getLogin()        
     try:  
-      con = mdb.connect('localhost', db_username, db_password, 'ric_db');            
+      con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
       ttt1="test_name"
       t2="users"	
