@@ -45,10 +45,8 @@ class MySQLdbWrapper:
   def __init__(self):   
     self.serv=rospy.Service('ric/db/mysql_wrapper_service', DbWrapperSrv, self.fetchPersonalDataHandler)
     
-  def constructCommaColumns(self,cols):
-    if(len(cols)==0):
-      return ""
-    elif (cols[0].data=="*"):
+  def constructCommaColumns(self,cols):    
+    if (cols[0].data=="*"):
       return "*"
     else:
       returncols=""
@@ -61,12 +59,16 @@ class MySQLdbWrapper:
     
   def constructAndQuery(self,cols):    
     returnquery=""
-    for i in range(len(cols)):
-      if i==0:
-        returnquery=returnquery+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
-      else:          
-        returnquery=returnquery+" AND "+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
-    return returnquery 
+    if(len(cols)==0):
+      return ""
+    else:  
+      for i in range(len(cols)):
+        if i==0:
+          returnquery=returnquery+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
+        else:          
+          returnquery=returnquery+" AND "+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
+      returnquery=" WHERE "+returnquery
+      return returnquery 
     
   def getColumnNames(self):
     db_username,db_password=self.getLogin()   
@@ -74,13 +76,10 @@ class MySQLdbWrapper:
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
       cur.execute("Show columns from tblUser")
-      #s=str(cur.fetchone()[0])
       result_set = cur.fetchall()
       Columns=[]
-      for row in result_set:
-        #print row[0]
+      for row in result_set: 
         Columns=Columns+[String(data=str(row[0]))]
-      #print Columns[0:]
       return Columns 
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
@@ -117,12 +116,11 @@ class MySQLdbWrapper:
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
       returncols=self.constructCommaColumns(req.return_cols)
-      print returncols
-      self.getColumnNames()
-      where=self.constructAndQuery(req.req_data)
-      print where
-      query="SELECT "+returncols+" FROM tblUser WHERE "+where
-      print query
+      #print returncols            
+      where=self.constructAndQuery(req.req_data)          
+      #print where
+      query="SELECT "+returncols+" FROM tblUser"+where
+      #print query
       cur.execute(query)  
       result_set = cur.fetchall()     
 
@@ -134,16 +132,22 @@ class MySQLdbWrapper:
         res.res_data.append(line)
    
       con.close()
-      res.report.data="Operation Successful"
+  
+      res.report.data="Success"
+      res.success.data=True
       if (returncols=="*"):
         res.res_cols=self.getColumnNames()
       else:
         res.res_cols=req.return_cols
-      print "Operation Successful"
+      #print "Operation Successful"
       return res
     except mdb.Error, e:
-      res.report.data= "Error %d: %s" % (e.args[0],e.args[1]) 
+      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
+    except IndexError:
+      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.success.data=False
 
     return res      
 
