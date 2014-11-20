@@ -1,7 +1,7 @@
 std_msgs/String[] return_cols
 rapp_platform_ros_communications/StringArrayMsg[] req_data
 ---
-std_msgs/Bool success
+std_msgs/String report
 std_msgs/String[] res_cols
 rapp_platform_ros_communications/StringArrayMsg[] res_data
 

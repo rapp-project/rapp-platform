@@ -42,27 +42,46 @@ from std_msgs.msg import (
 
 class MySQLdbWrapper: 
   
-  def __init__(self):
-    print "start"
-    self.serv=rospy.Service('ric/mysql_wrapper_service', DbWrapperSrv, self.DbHandler)
+  def __init__(self):   
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service', DbWrapperSrv, self.fetchPersonalDataHandler)
     
+  def constructCommaColumns(self,cols):
+    if(len(cols)==0):
+      return ""
+    elif (cols[0].data=="*"):
+      return "*"
+    else:
+      returncols=""
+      for i in range(len(cols)):
+          if i==0:
+            returncols=returncols+cols[i].data
+          else:
+            returncols=returncols+","+cols[i].data
+      return returncols 
+    
+  def constructAndQuery(self,cols):    
+    returnquery=""
+    for i in range(len(cols)):
+      if i==0:
+        returnquery=returnquery+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
+      else:          
+        returnquery=returnquery+" AND "+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
+    return returnquery 
     
   def getColumnNames(self):
-    db_username,db_password=self.getLogin()
-    print "dunato"
+    db_username,db_password=self.getLogin()   
     try:
-      con = mdb.connect('localhost', db_username, db_password, 'ric_db');            
+      con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      cur.execute("Show columns from users")
+      cur.execute("Show columns from tblUser")
       #s=str(cur.fetchone()[0])
       result_set = cur.fetchall()
       Columns=[]
       for row in result_set:
-        print row[0]
-        Columns=Columns+[row[0]]
-      print Columns[0:]
-      
-      
+        #print row[0]
+        Columns=Columns+[String(data=str(row[0]))]
+      #print Columns[0:]
+      return Columns 
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
     
@@ -77,66 +96,11 @@ class MySQLdbWrapper:
       return db_username,db_password
     except IOError:
       print "Error: can\'t find file or read data"      
-
-  #def writePersonalData(self):     
-      #TO BE DEVELOPED
-      
-      #con = mdb.connect('localhost', 'testuser', 'test623', 'testdb');               
-      #cur = con.cursor()
-      #cur.execute("INSERT INTO users(Name,Job) VALUES('Takis','ydraylikos')")
-      #cur.execute("INSERT INTO Users(Name,Job) VALUES('Sakis','hlektrologos')")
-      #cur.execute("SELECT * FROM users")  
-
-  def fetchPersonalData(self,req,res):
-    db_username,db_password=self.getLogin()        
-    try:  
-      con = mdb.connect('localhost', db_username, db_password, 'ric_db');            
-      cur = con.cursor()
-      ttt1="test_name"
-      t2="users"	
-      
-      returncols=req.return_cols[0].data+","+req.return_cols[1].data+","+req.return_cols[2].data
-      print returncols
-      
-      
-      query=req.req_data[0].s[0].data+"=\""+req.req_data[0].s[1].data+"\""+" AND "+req.req_data[1].s[0].data+"=\""+req.req_data[1].s[1].data+"\""
-      print query
-      st1="SELECT "+returncols+" FROM tblUser WHERE "+query
-      print st1
-      cur.execute(st1)
-      #s=str(cur.fetchone()[0])
-      result_set = cur.fetchall()     
-      res.res_data=[]
-      for i in range(len(result_set)):
-        line=StringArrayMsg()
-        line=[]        
-        for j in range(len(result_set[i])):
-          temp_s=result_set[i][j]
-          print temp_s
-          line=line+[String(data=temp_s)]
-          #print line.s[0].data
-        res.res_data=res.res_data+ [StringArrayMsg(s=line)]
-        #res.res_data=res.res_data+[line]
-          
-          
-      #line=StringArrayMsg() 
-      #line=[String(data="1"), String(data="2"), String(data="3")]
-      #res.res_data=res.res_data+[StringArrayMsg(s=line)]
-      
-      
-      
-      
-      #s=str(cur.fetchone()[2])
-      #print s
-      con.close()
-      return res
-    except mdb.Error, e:
-      print "Error %d: %s" % (e.args[0],e.args[1])           
-
+           
   def checkConnection(self):    
     db_username,db_password=self.getLogin() 
     try:
-      con = mdb.connect('localhost', db_username, db_password, 'ric_db')
+      con = mdb.connect('localhost', db_username, db_password, 'RappStore')
       cur = con.cursor()
       cur.execute("SELECT VERSION()")
       ver = cur.fetchone()
@@ -146,84 +110,45 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
       
-  def DbHandler(self,req):
-    
-    print "waiting to receive"
-      
-    
-    print "received something"
+  def fetchPersonalDataHandler(self,req): 
     res = DbWrapperSrvResponse()
     db_username,db_password=self.getLogin()        
     try:  
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      ttt1="test_name"
-      t2="users"	
-      
-      returncols=req.return_cols[0].data+","+req.return_cols[1].data+","+req.return_cols[2].data
+      returncols=self.constructCommaColumns(req.return_cols)
       print returncols
-      
-      
-      query=req.req_data[0].s[0].data+"=\""+req.req_data[0].s[1].data+"\""+" AND "+req.req_data[1].s[0].data+"=\""+req.req_data[1].s[1].data+"\""
+      self.getColumnNames()
+      where=self.constructAndQuery(req.req_data)
+      print where
+      query="SELECT "+returncols+" FROM tblUser WHERE "+where
       print query
-      st1="SELECT "+returncols+" FROM tblUser WHERE "+query
-      print st1
-      cur.execute(st1)
-      #s=str(cur.fetchone()[0])
+      cur.execute(query)  
       result_set = cur.fetchall()     
-      #res.res_data=[]
+
       for i in range(len(result_set)):
-        line=StringArrayMsg()
-        #line=[]        
+        line=StringArrayMsg()       
         for j in range(len(result_set[i])):
-          temp_s=String(result_set[i][j])
-          print temp_s
-          line.s.append(String(data=temp_s))#=line.s+[String(data=temp_s)]
-          #print line.s[0].data
-        #res.res_data=res.res_data+ [StringArrayMsg(s=line)]
-        print "skaei"
-        print res.res_data
-        print line
-        #res.res_data=res.res_data+[line.s]
+          temp_s=String(result_set[i][j])          
+          line.s.append(String(data=str(result_set[i][j])))#=line.s+[String(data=temp_s)]
         res.res_data.append(line)
-          
-          
-      #line=StringArrayMsg() 
-      #line=[String(data="1"), String(data="2"), String(data="3")]
-      #res.res_data=res.res_data+[StringArrayMsg(s=line)]
-      
-      
-      
-      
-      #s=str(cur.fetchone()[2])
-      #print s
+   
       con.close()
+      res.report.data="Operation Successful"
+      if (returncols=="*"):
+        res.res_cols=self.getColumnNames()
+      else:
+        res.res_cols=req.return_cols
+      print "Operation Successful"
       return res
     except mdb.Error, e:
-      print "Error %d: %s" % (e.args[0],e.args[1])   
-    
-    print "returned"
-    myli=["1","2","3"]
-    #mk.data=True
-    
-    
-    
-    res.success.data=True
-    res.res_cols=req.return_cols
-    print "after true"
-    print res.res_data[0].s[0].data
-    print "last true"
-    #res.res_cols=req.return_cols
-    return res      
-    #self.checkConnection()
-    #rospy.spin()
+      res.report.data= "Error %d: %s" % (e.args[0],e.args[1]) 
+      print "Error %d: %s" % (e.args[0],e.args[1]) 
 
-#db_wrapper=MySQLdbWrapper()
-#db_wrapper.DbServer()
+    return res      
+
 
 if __name__ == "__main__": 
-  rospy.init_node('MySQLWrapper') 
-  #db_wrapper=MySQLdbWrapper()
+  rospy.init_node('MySQLWrapper')
   MySQLWrapperNode = MySQLdbWrapper() 
-  #MySQLWrapperNode.getColumnNames()
   rospy.spin()

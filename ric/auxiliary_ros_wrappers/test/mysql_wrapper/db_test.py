@@ -41,64 +41,43 @@ from std_msgs.msg import (
   String
   ) 
 
-#class TestDbWrapper(unittest.TestCase):      
+class TestDbWrapper(unittest.TestCase):      
 
-  #def testSubmitQuery(self):
-rospy.wait_for_service('ric/mysql_wrapper_service')
-db_service = rospy.ServiceProxy('ric/mysql_wrapper_service', DbWrapperSrv)
+  def testSubmitQuery(self):
+    rospy.wait_for_service('ric/db/mysql_wrapper_service')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service', DbWrapperSrv)
 
-req = DbWrapperSrv()
-req.return_cols=[String(data="id"), String(data="username"), String(data="firstname")]
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="email")]
+    #req.return_cols=[String(data="*")]
 
-###
-t1=StringArrayMsg() 
-t1=[]
-t1=t1+[String(data="ttname")]
-t1=t1+[String(data="ttname")]
-t1=t1+[String(data="t`11tname")]
-print t1[0].data
+    entry1=StringArrayMsg()    
+    entry1=[String(data="username"), String(data="admin")]
+    entry2=StringArrayMsg()
+    entry2=[String(data="firstname"), String(data="Alex")]
+    req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
 
-###
-print "exit test"
-sam=StringArrayMsg()    #=[String(data="1"), String(data="2"), String(data="3")]
-sam=[String(data="username"), String(data="admin")]
-sam1=StringArrayMsg()
-sam1=[String(data="firstname"), String(data="Alex")]
-#print sam[0].data
+    response = db_service(req.return_cols,req.req_data)
+    print "Report "+response.report.data
+    for i in range(len(response.res_cols)):
+      sys.stdout.write(response.res_cols[i].data+" ")      
+    sys.stdout.write('\n')
+    for i in range(len(response.res_data)):
+      for j in range(len(response.res_data[i].s)):
+        sys.stdout.write(response.res_data[i].s[j].data+" ")
+      sys.stdout.write('\n')
+    sys.stdout.write('\n')
 
-req.req_data=[StringArrayMsg(s=sam),StringArrayMsg(s=sam1)]
+    self.assertEqual(response.report.data,"Operation Successful")
+    self.assertEqual(response.res_cols[0].data,"id")
+    self.assertEqual(response.res_cols[1].data,"username")
+    self.assertEqual(response.res_cols[2].data,"firstname")
+    self.assertEqual(response.res_cols[3].data,"email")
 
-print req.req_data[1].s[1].data
-
-
-response = db_service(req.return_cols,req.req_data)
-
-
-
-#print starray[0].data
-#print req_data.data[0].s[0]
-#response = db_service(req)
-    
-    
-    
-    #s=response.sum
-    #m=response.success.data
-    #print "Error %s" % (s)
-    #self.assertEqual( s, "test_surname","Query returned correct answer")
-    #self.assertTrue(response.success)
-    
-    
-    
-    #self.assertEqual("2",(response.results[1].data)) #works
-    
-    #if s=="ydraylikos":
-    #    self.assertTrue(True,'ok')
-    #else:
-    #     self.assertTrue(False,'error, unexpected string')
           
-#if __name__ == '__main__':
-#  import rosunit
- # rosunit.unitrun(PKG, 'TestDbWrapper', TestDbWrapper)
+if __name__ == '__main__':
+  import rosunit
+  rosunit.unitrun(PKG, 'TestDbWrapper', TestDbWrapper)
 
 
 
