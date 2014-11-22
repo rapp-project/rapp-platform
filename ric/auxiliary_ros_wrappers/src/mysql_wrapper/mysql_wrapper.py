@@ -43,11 +43,84 @@ from std_msgs.msg import (
 class MySQLdbWrapper: 
   
   def __init__(self):   
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service', DbWrapperSrv, self.fetchPersonalDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv, self.fetchPersonalDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/writePersonalData', DbWrapperSrv, self.writePersonalDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/deletePersonalData', DbWrapperSrv, self.deletePersonalDataHandler)
+  
+  def writeData(self,req,tblName):
+    res = DbWrapperSrvResponse()
+    db_username,db_password=self.getLogin()
+    con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
+    cur = con.cursor()
+    returncols=self.constructCommaColumns(req.return_cols)
+    if (len(returncols)>1):
+      returncols="("+returncols+")"
+    print returncols
+    values=""
+    for i in range(len(req.req_data)):
+      if (i==0):
+        values=values+"("+self.constructCommaColumns(req.req_data[i].s)+")"
+      else:
+        values=values+",("+self.constructCommaColumns(req.req_data[i].s)+")"
     
-  def constructCommaColumns(self,cols):    
-    if (cols[0].data=="*"):
-      return "*"
+    print values      
+    query="Insert into "+tblName+" "+ returncols+" values "+values
+    print query      
+    cur.execute("LOCK TABLES "+tblName+" WRITE")
+    cur.execute(query)
+    cur.execute("UNLOCK TABLES")
+    return res
+      
+  def deleteData(self,req,tblName):
+    res = DbWrapperSrvResponse()
+    db_username,db_password=self.getLogin()
+    con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
+    cur = con.cursor()
+    print "inside"
+    where=self.constructAndQuery(req.req_data)
+    query="Delete from "+tblName+where
+    cur.execute("LOCK TABLES "+tblName+" WRITE")
+    cur.execute(query)
+    cur.execute("UNLOCK TABLES")
+    return res
+    
+    
+  def fetchData(self,req,tblName):
+    res = DbWrapperSrvResponse()
+    db_username,db_password=self.getLogin()
+    con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
+    cur = con.cursor()
+    returncols=self.constructCommaColumns(req.return_cols)
+    #print returncols            
+    where=self.constructAndQuery(req.req_data)          
+    #print where
+    query="SELECT "+returncols+" FROM "+tblName+where
+    #print query
+    cur.execute(query)  
+    result_set = cur.fetchall()     
+
+    for i in range(len(result_set)):
+      line=StringArrayMsg()       
+      for j in range(len(result_set[i])):
+        temp_s=String(result_set[i][j])          
+        line.s.append(String(data=str(result_set[i][j])))#=line.s+[String(data=temp_s)]
+      res.res_data.append(line)
+ 
+    con.close()
+    if (returncols=="*"):
+      res.res_cols=self.getTableColumnNames()
+    else:
+      res.res_cols=req.return_cols
+    #print "Operation Successful"
+    return res
+    
+  def constructCommaColumns(self,cols):        
+    if (len(cols)<1):
+      print "return cols empty"
+      return ""
+      
+    elif (cols[0].data=="*"):      
+      return "*"      
     else:
       returncols=""
       for i in range(len(cols)):
@@ -70,7 +143,7 @@ class MySQLdbWrapper:
       returnquery=" WHERE "+returnquery
       return returnquery 
     
-  def getColumnNames(self):
+  def getTableColumnNames(self):
     db_username,db_password=self.getLogin()   
     try:
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
@@ -86,19 +159,17 @@ class MySQLdbWrapper:
     
 
   def getLogin(self):
-    try:
-      fh = open("/etc/db_credentials", "r")
-      db_username=fh.readline()
-      db_username=db_username.split( )[0]
-      db_password=fh.readline()
-      db_password=db_password.split()[0]
-      return db_username,db_password
-    except IOError:
-      print "Error: can\'t find file or read data"      
+    fh = open("/etc/db_credentials", "r")
+    db_username=fh.readline()
+    db_username=db_username.split( )[0]
+    db_password=fh.readline()
+    db_password=db_password.split()[0]
+    return db_username,db_password
+     
            
-  def checkConnection(self):    
-    db_username,db_password=self.getLogin() 
+  def checkConnection(self):        
     try:
+      db_username,db_password=self.getLogin() 
       con = mdb.connect('localhost', db_username, db_password, 'RappStore')
       cur = con.cursor()
       cur.execute("SELECT VERSION()")
@@ -109,38 +180,14 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
       
-  def fetchPersonalDataHandler(self,req): 
-    res = DbWrapperSrvResponse()
-    db_username,db_password=self.getLogin()        
-    try:  
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
-      cur = con.cursor()
-      returncols=self.constructCommaColumns(req.return_cols)
-      #print returncols            
-      where=self.constructAndQuery(req.req_data)          
-      #print where
-      query="SELECT "+returncols+" FROM tblUser"+where
-      #print query
-      cur.execute(query)  
-      result_set = cur.fetchall()     
-
-      for i in range(len(result_set)):
-        line=StringArrayMsg()       
-        for j in range(len(result_set[i])):
-          temp_s=String(result_set[i][j])          
-          line.s.append(String(data=str(result_set[i][j])))#=line.s+[String(data=temp_s)]
-        res.res_data.append(line)
-   
-      con.close()
-  
-      res.report.data="Success"
+  def fetchPersonalDataHandler(self,req):   
+    print "fetch called"            
+    try:      
+      res = DbWrapperSrvResponse()
+      res=self.fetchData(req,"tblUser")
       res.success.data=True
-      if (returncols=="*"):
-        res.res_cols=self.getColumnNames()
-      else:
-        res.res_cols=req.return_cols
-      #print "Operation Successful"
-      return res
+      res.report.data="Success"
+        
     except mdb.Error, e:
       res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
       res.success.data=False
@@ -148,10 +195,61 @@ class MySQLdbWrapper:
     except IndexError:
       res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
       res.success.data=False
-
+    except IOError:
+      print "Error: can\'t find login file or read data" 
+      res.success.data=False
+      res.report.data="Error: can\'t find login file or read data" 
     return res      
 
-
+  def writePersonalDataHandler(self,req):
+    print "write called"             
+    try:
+      res = DbWrapperSrvResponse()
+      res=self.writeData(req,"tblUser")
+      res.success.data=True
+      res.report.data="Success"
+      
+      
+    except mdb.Error, e:
+      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.success.data=False
+      print "Error %d: %s" % (e.args[0],e.args[1])     
+      
+    except IndexError:
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.success.data=False
+    except IOError:
+      print "Error: can\'t find login file or read data" 
+      res.success.data=False
+      res.report.data="Error: can\'t find login file or read data"
+    return res  
+    
+  def deletePersonalDataHandler(self,req):
+    print "delete called"
+    try:
+      res = DbWrapperSrvResponse()
+      res=self.deleteData(req,"tblUser")
+      res.success.data=True
+      res.report.data="Success"
+      
+      
+    except mdb.Error, e:
+      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.success.data=False
+      print "Error %d: %s" % (e.args[0],e.args[1])     
+      
+    except IndexError:
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.success.data=False
+    except IOError:
+      print "Error: can\'t find login file or read data" 
+      res.success.data=False
+      res.report.data="Error: can\'t find login file or read data"
+    return res  
+    
+    
 if __name__ == "__main__": 
   rospy.init_node('MySQLWrapper')
   MySQLWrapperNode = MySQLdbWrapper() 
