@@ -46,11 +46,9 @@ class TestDbWrapper(unittest.TestCase):
   def testSubmitCorrectQuery(self):
     rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
-
     req = DbWrapperSrv()
     req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="email")]
     #req.return_cols=[String(data="*")]
-
     entry1=StringArrayMsg()    
     entry1=[String(data="username"), String(data="admin")]
     entry2=StringArrayMsg()
@@ -80,7 +78,6 @@ class TestDbWrapper(unittest.TestCase):
   def testSubmitIncompleteQuery(self):
     rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
-
     req = DbWrapperSrv()
     req.return_cols=[]#[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]
     entry1=StringArrayMsg() 
@@ -89,18 +86,15 @@ class TestDbWrapper(unittest.TestCase):
     entry2=StringArrayMsg()    
     entry2=[] 
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-
     response = db_service(req.return_cols,req.req_data)
     self.assertFalse(response.success.data)
     self.assertEqual(response.report.data,"Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
 
   def testSubmitWrongQuery(self):
     rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
-    
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)    
     req = DbWrapperSrv()
-    req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]
-    
+    req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]    
     entry1=StringArrayMsg()    
     entry1=[String(data="username"), String(data="admin")]
     entry2=StringArrayMsg()
@@ -115,16 +109,13 @@ class TestDbWrapper(unittest.TestCase):
   def testSubmitCorrectReturnAllColumnQuery(self):
     rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
-
     req = DbWrapperSrv()    
     req.return_cols=[String(data="*")]
-
     entry1=StringArrayMsg()    
     entry1=[String(data="username"), String(data="admin")]
     entry2=StringArrayMsg()
     entry2=[String(data="firstname"), String(data="Alex")]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-
     response = db_service(req.return_cols,req.req_data)
     print "Report "+response.report.data
     for i in range(len(response.res_cols)):
@@ -135,8 +126,8 @@ class TestDbWrapper(unittest.TestCase):
         sys.stdout.write(response.res_data[i].s[j].data+" ")
       sys.stdout.write('\n')
     sys.stdout.write('\n')
-    self.assertTrue(response.success.data)
     self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)
     self.assertEqual(response.res_cols[0].data,"id")
     self.assertEqual(response.res_cols[1].data,"username")
     self.assertEqual(response.res_cols[2].data,"firstname")
@@ -147,8 +138,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_cols[7].data,"created")
     self.assertEqual(response.res_cols[8].data,"accessed")
     self.assertEqual(response.res_cols[9].data,"enabled")
-    self.assertEqual(response.res_cols[10].data,"activation")
-    
+    self.assertEqual(response.res_cols[10].data,"activation")    
     self.assertEqual(response.res_data[0].s[9].data,"1")
     self.assertEqual(response.res_data[0].s[4].data,"a.gkiokas@ortelio.co.uk")
     self.assertEqual(response.res_data[0].s[0].data,"1")
@@ -156,15 +146,13 @@ class TestDbWrapper(unittest.TestCase):
   def testSubmitMoreLinesQuery(self):
     rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
-
     req = DbWrapperSrv()    
     req.return_cols=[String(data="*")]
-
     entry1=StringArrayMsg()    
     entry1=[String(data="firstname"), String(data="Alex")]
     req.req_data=[StringArrayMsg(s=entry1)]
-
     response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0].data,"1")
     self.assertEqual(response.res_data[0].s[4].data,"a.gkiokas@ortelio.co.uk")
@@ -185,7 +173,8 @@ class TestDbWrapper(unittest.TestCase):
     entry2=[String(data="'12'"),String(data="'merk3'"), String(data="'Alex2'"),String(data="'Marko3'"), String(data="'alma3r@prose.com'"),String(data="'86'"), String(data="'0'"),String(data="'2014-15-15 18:01:34'"), String(data="'0000-00-00 00:00:00'"),String(data="'1'"), String(data="'555'")]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     response = db_service(req.return_cols,req.req_data)
-    self.assertTrue(response.success.data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)    
     #Read what was written
     rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
@@ -194,20 +183,42 @@ class TestDbWrapper(unittest.TestCase):
     entry1=[String(data="firstname"),String(data="Alex2")]
     req.req_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.return_cols,req.req_data)
-    self.assertTrue(response.success.data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)    
     self.assertEqual(response.res_data[0].s[1].data,"Marko2")
-    self.assertEqual(response.res_data[1].s[1].data,"Marko3")
-    
-    #Delete what was written
+    self.assertEqual(response.res_data[1].s[1].data,"Marko3")    
+    #Update written
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/updatePersonalData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/updatePersonalData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="firstname='Alex3'")]
+    entry1=[String(data="firstname"),String(data='Alex2')]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)       
+    #Read again
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="firstname"),String(data="lastname")]
+    entry1=[String(data="firstname"),String(data="Alex3")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)
+    self.assertEqual(response.res_data[0].s[0].data,"Alex3")
+    self.assertEqual(response.res_data[1].s[0].data,"Alex3")    
+    #Delete updated what was written
     rospy.wait_for_service('ric/db/mysql_wrapper_service/deletePersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/deletePersonalData', DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]
-    entry1=[String(data="firstname"),String(data="Alex2")]
+    entry1=[String(data="firstname"),String(data="Alex3")]
     req.req_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.return_cols,req.req_data)
-    self.assertTrue(response.success.data)
-    
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)   
     #Check if it was deleted
     rospy.wait_for_service('ric/db/mysql_wrapper_service/fetchPersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
@@ -215,14 +226,11 @@ class TestDbWrapper(unittest.TestCase):
     req.return_cols=[String(data="firstname"),String(data="lastname")]
     entry1=[String(data="firstname"),String(data="Alex2")]
     req.req_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.return_cols,req.req_data)
+    response = db_service(req.return_cols,req.req_data)    
+    self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
 
-
-
-
-          
 if __name__ == '__main__':
   import rosunit
   rosunit.unitrun(PKG, 'TestDbWrapper', TestDbWrapper)

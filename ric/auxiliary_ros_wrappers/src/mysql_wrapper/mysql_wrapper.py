@@ -46,6 +46,7 @@ class MySQLdbWrapper:
     self.serv=rospy.Service('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv, self.fetchPersonalDataHandler)
     self.serv=rospy.Service('ric/db/mysql_wrapper_service/writePersonalData', DbWrapperSrv, self.writePersonalDataHandler)
     self.serv=rospy.Service('ric/db/mysql_wrapper_service/deletePersonalData', DbWrapperSrv, self.deletePersonalDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/updatePersonalData', DbWrapperSrv, self.updatePersonalDataHandler)
   
   def writeData(self,req,tblName):
     res = DbWrapperSrvResponse()
@@ -76,7 +77,6 @@ class MySQLdbWrapper:
     db_username,db_password=self.getLogin()
     con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
     cur = con.cursor()
-    print "inside"
     where=self.constructAndQuery(req.req_data)
     query="Delete from "+tblName+where
     cur.execute("LOCK TABLES "+tblName+" WRITE")
@@ -84,6 +84,19 @@ class MySQLdbWrapper:
     cur.execute("UNLOCK TABLES")
     return res
     
+  def updateData(self,req,tblName):
+    res = DbWrapperSrvResponse()
+    db_username,db_password=self.getLogin()
+    con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
+    cur = con.cursor()
+    returncols=self.constructCommaColumns(req.return_cols)
+    where=self.constructAndQuery(req.req_data)
+    query="Update "+tblName+" SET "+returncols+where
+    print query
+    cur.execute("LOCK TABLES "+tblName+" WRITE")
+    cur.execute(query)
+    cur.execute("UNLOCK TABLES")
+    return res
     
   def fetchData(self,req,tblName):
     res = DbWrapperSrvResponse()
@@ -97,8 +110,7 @@ class MySQLdbWrapper:
     query="SELECT "+returncols+" FROM "+tblName+where
     #print query
     cur.execute(query)  
-    result_set = cur.fetchall()     
-
+    result_set = cur.fetchall() 
     for i in range(len(result_set)):
       line=StringArrayMsg()       
       for j in range(len(result_set[i])):
@@ -111,12 +123,11 @@ class MySQLdbWrapper:
       res.res_cols=self.getTableColumnNames()
     else:
       res.res_cols=req.return_cols
-    #print "Operation Successful"
     return res
     
   def constructCommaColumns(self,cols):        
     if (len(cols)<1):
-      print "return cols empty"
+      #print "return cols empty"
       return ""
       
     elif (cols[0].data=="*"):      
@@ -176,7 +187,6 @@ class MySQLdbWrapper:
       ver = cur.fetchone()
       print "Database version : %s " % ver
       con.close()
-
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
       
@@ -187,7 +197,6 @@ class MySQLdbWrapper:
       res=self.fetchData(req,"tblUser")
       res.success.data=True
       res.report.data="Success"
-        
     except mdb.Error, e:
       res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
       res.success.data=False
@@ -208,13 +217,10 @@ class MySQLdbWrapper:
       res=self.writeData(req,"tblUser")
       res.success.data=True
       res.report.data="Success"
-      
-      
     except mdb.Error, e:
       res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
       res.success.data=False
-      print "Error %d: %s" % (e.args[0],e.args[1])     
-      
+      print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
       print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
       res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
@@ -232,13 +238,10 @@ class MySQLdbWrapper:
       res=self.deleteData(req,"tblUser")
       res.success.data=True
       res.report.data="Success"
-      
-      
     except mdb.Error, e:
       res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
       res.success.data=False
-      print "Error %d: %s" % (e.args[0],e.args[1])     
-      
+      print "Error %d: %s" % (e.args[0],e.args[1])
     except IndexError:
       print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
       res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
@@ -249,6 +252,26 @@ class MySQLdbWrapper:
       res.report.data="Error: can\'t find login file or read data"
     return res  
     
+  def updatePersonalDataHandler(self,req):
+    print "update called"
+    try:
+      res = DbWrapperSrvResponse()
+      res=self.updateData(req,"tblUser")
+      res.success.data=True
+      res.report.data="Success"      
+    except mdb.Error, e:
+      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.success.data=False
+      print "Error %d: %s" % (e.args[0],e.args[1])     
+    except IndexError:
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.success.data=False
+    except IOError:
+      print "Error: can\'t find login file or read data" 
+      res.success.data=False
+      res.report.data="Error: can\'t find login file or read data"
+    return res
     
 if __name__ == "__main__": 
   rospy.init_node('MySQLWrapper')
