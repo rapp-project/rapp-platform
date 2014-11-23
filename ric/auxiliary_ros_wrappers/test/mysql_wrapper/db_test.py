@@ -209,7 +209,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0].data,"Alex3")
     self.assertEqual(response.res_data[1].s[0].data,"Alex3")    
-    #Delete updated what was written
+    #Delete updated
     rospy.wait_for_service('ric/db/mysql_wrapper_service/deletePersonalData')
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/deletePersonalData', DbWrapperSrv)
     req = DbWrapperSrv()
@@ -224,7 +224,7 @@ class TestDbWrapper(unittest.TestCase):
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/fetchPersonalData', DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="firstname"),String(data="lastname")]
-    entry1=[String(data="firstname"),String(data="Alex2")]
+    entry1=[String(data="firstname"),String(data="Alex3")]
     req.req_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.return_cols,req.req_data)    
     self.assertEqual(response.report.data,"Success")

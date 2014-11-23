@@ -120,7 +120,7 @@ class MySQLdbWrapper:
  
     con.close()
     if (returncols=="*"):
-      res.res_cols=self.getTableColumnNames()
+      res.res_cols=self.getTableColumnNames(tblName)
     else:
       res.res_cols=req.return_cols
     return res
@@ -154,12 +154,12 @@ class MySQLdbWrapper:
       returnquery=" WHERE "+returnquery
       return returnquery 
     
-  def getTableColumnNames(self):
+  def getTableColumnNames(self,tblName):
     db_username,db_password=self.getLogin()   
     try:
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      cur.execute("Show columns from tblUser")
+      cur.execute("Show columns from "+tblName)
       result_set = cur.fetchall()
       Columns=[]
       for row in result_set: 
@@ -194,7 +194,7 @@ class MySQLdbWrapper:
     print "fetch called"            
     try:      
       res = DbWrapperSrvResponse()
-      res=self.fetchData(req,"tblUser")
+      res=self.fetchData(req,"tbluser")
       res.success.data=True
       res.report.data="Success"
     except mdb.Error, e:
@@ -214,7 +214,7 @@ class MySQLdbWrapper:
     print "write called"             
     try:
       res = DbWrapperSrvResponse()
-      res=self.writeData(req,"tblUser")
+      res=self.writeData(req,"tbluser")
       res.success.data=True
       res.report.data="Success"
     except mdb.Error, e:
@@ -235,7 +235,7 @@ class MySQLdbWrapper:
     print "delete called"
     try:
       res = DbWrapperSrvResponse()
-      res=self.deleteData(req,"tblUser")
+      res=self.deleteData(req,"tbluser")
       res.success.data=True
       res.report.data="Success"
     except mdb.Error, e:
@@ -256,7 +256,7 @@ class MySQLdbWrapper:
     print "update called"
     try:
       res = DbWrapperSrvResponse()
-      res=self.updateData(req,"tblUser")
+      res=self.updateData(req,"tbluser")
       res.success.data=True
       res.report.data="Success"      
     except mdb.Error, e:
