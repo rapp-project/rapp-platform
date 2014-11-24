@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>auxiliary_ros_wrappers</name>
+  <name>ros_wrappers</name>
   <version>0.0.1</version>
-  <description>The auxiliary_ros_wrappers package</description>
+  <description>The auxiliary ros_wrappers package</description>
 
   <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
 
@@ -11,23 +11,16 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>roscpp</build_depend>
-
-  <run_depend>roscpp</run_depend>
-
-
-  
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
-  
+  <build_depend>rapp_platform_ros_communications</build_depend>
+  <build_depend>json_prolog</build_depend>
+
+  <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
-
   <test_depend>unittest</test_depend>
-
-  <build_depend>rapp_platform_ros_communications</build_depend>
   <run_depend>rapp_platform_ros_communications</run_depend>
-
-  <build_depend>json_prolog</build_depend>
   <run_depend>json_prolog</run_depend>
 
 </package>

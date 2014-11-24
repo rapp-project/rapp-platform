@@ -1,5 +1,0 @@
-<launch> 
-   <node type="speech_recognition_google.py" pkg="auxiliary_ros_wrappers" name="auxiliary_ros_wrappers"/> 
-   <test time-limit="10" test-name="speech_to_text_functional" pkg="auxiliary_ros_wrappers" type="functional_tests.py" /> 
- </launch> 
- 

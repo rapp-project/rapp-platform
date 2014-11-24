@@ -1,5 +1,0 @@
-<launch> 
-   <node name="server_DB_test" pkg="auxiliary_ros_wrappers" type="mysql_wrapper.py" /> 
-   <test time-limit="10" test-name="db_test" pkg="auxiliary_ros_wrappers" type="db_test.py" /> 
- </launch> 
- 
