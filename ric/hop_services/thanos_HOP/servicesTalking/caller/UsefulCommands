@@ -1,0 +1,45 @@
+ssh -p 6622 -i <path to private key> akintsakis@155.207.19.37 
+---mysql
+mysql -u root -p
+
+
+--git commands
+git clone git@github.com:rapp-project/rapp-platform.git
+git checkout platform_structure
+git checkout -b branchname
+
+
+---UNtar (unzip)
+
+tar -xvf filename
+
+
+---combos
+
+grep -c ">" *.fasta > test.txt
+
+cat test.txt | grep ">" *.fasta
+
+
+
+To Run CD-HIT (threshold 92% / 0.92)
+=====================================
+./cd-hit -i ../blast_plants/fasta_files_v3/CoGent_ID/ATHA-XXX.faa -o nonRedundant092 -c 0.92 -n 5 -g 1 
+
+./../cd-hit-v4.6.1-2012-08-27/cd-hit -i AANO-000-VD-PP-01.fasta -o testCDHIT -c 0.92 -n 5 -g 1
+
+
+~/Downloads/cd-hit-v4.6.1-2012-08-27/cd-hit -i AANO-000-VD-PP-01.fasta -o testCDHIT -c 0.92 -n 5 -g 1
+
+
+Output
+------
+testCDHIT	: copy of the input file, with highly similar seqs removed
+testCDHIT.clstr	: list of the highly similar seqs groups (or "clusters")
+
+
+------------------
+HOP
+
+--run
+hop -p 8080

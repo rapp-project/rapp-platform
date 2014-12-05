@@ -12,7 +12,7 @@
 /*    (this assumes an echo WebSocket server at localhost:9999)        */
 /*=====================================================================*/
 
-var ws = new WebSocket( "ws://localhost:9999/hop/wss" );
+var ws = new WebSocket( "ws://155.207.19.37:9001/hop/wss" );
 
 service fileGet( path ) {
    return hop.HTTPResponseFile( path );
