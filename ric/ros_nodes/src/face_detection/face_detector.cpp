@@ -3,8 +3,10 @@
 
 FaceDetector::FaceDetector(void)
 {
+  std::string haar_file_path = 
+    "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml";
   // Create the classifier
-  face_cascade.load("haarcascade_frontalface_alt.xml");
+  face_cascade.load(haar_file_path);
 }
 
 std::vector<cv::Rect> FaceDetector::findFaces(std::string file_name)
