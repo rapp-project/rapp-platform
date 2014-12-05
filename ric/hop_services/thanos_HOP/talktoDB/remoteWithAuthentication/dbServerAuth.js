@@ -8,7 +8,7 @@ hop -v -p 9001 dbWrapperHop
 var rosbridgeURL = 'ws://localhost:9090';
 var hop = require( "hop" );
 var rs = new WebSocket (rosbridgeURL);
-service private(type,message) {
+service dbService(message) {
   //on message receive, open websocket to rosbridge and pass the message.
   
   console.log ('ROSbridge connection opened');
@@ -32,7 +32,7 @@ service private(type,message) {
       //return ret_message;
     }   
     var endDate = new Date().getTime();  
-    if((endDate-startDate)>100)
+    if((endDate-startDate)>1000)
     {
       console.log("Ros timeout, exiting..");
       ret_message="Ros timeout";

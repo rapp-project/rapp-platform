@@ -1,54 +1,23 @@
-//var w = new Worker ("./slave.js");
+import service my_service (n);
 
-//import service my_service (n);
-
-service my_service (x){
-    console.log(aaa);
-    return (x + 1);    
-}
-
-var ls=0;
-//function run () {
-//    var tmp1=0;
-    //var tmp2 = my_service(1).post(//function (value)
-    //{
-	   //// console.log ("direct use: ", value * value);
-	   //// ls = value * value+1;	    return value * value;
-      //}
-      //,	{asynchronous:false});
-  
-  
-    //console.log ("tmp1: ", ls);
-    //console.log ("tmp2: ", tmp2);
-    //ls=1;
-    var start = new Date().getTime();
-    var t=0;
-    while(t==0)
-    {
-      
-      var start2 = new Date().getTime();
-      if((start2-start)>3000)
+function run () {
+    var tmp1;
+    var tt = my_service(1).post(
+      function (value)
       {
-        break;
-      }
-      
-    }
-    console.log(start2-start);
-    
-   //// ls=1;
-  ////  return ls;
-    
-	//}
-  
-//function run () {
-  
-  ////return takis;
-  //ls=2;
-//}
-//ls=run(ls);
-//setTimeout (run, 10);
+        console.log ("direct use: ", value * value);
+        tmp1 = value * value;
+        return value * value;
+      },
+      { host: "localhost",asynchronous: false, port: "9000" }
+    );
+    console.log ("tmp1: ", tmp1);
+    return tt;
+	}
+
+var t = run()
+console.log ("t: ", t);
 //timeout to let the slave worker some time to initiate
-//ls=setTimeout (run, 10);
-//ls=run();
-//ls=run(ls);
-console.log(ls);
+
+//~ rapp +d0d8b7c7d5c993c02f6b87972f690c28
+

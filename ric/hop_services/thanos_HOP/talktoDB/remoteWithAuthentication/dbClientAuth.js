@@ -5,7 +5,7 @@ to run
 hop -v -p 9002
 */
 
-import service private(type,message);
+import service dbService(message);
 //import service private(type,message);
 
 //function connect() {
@@ -44,12 +44,12 @@ var ls =false;
 //var result1=svc1 ({message:send}).post(function(result){console.log(result);return result;},{ host: "localhost", port: "9001" }); //function(result){return result;},
 
 
-var tak= private("password",send).post(function(result){return result},
+var tak= dbService(send).post(function(result){return result},
 		  { asynchronous: false,
 		    host: "155.207.19.37",
 		    port: 9001,
-		    user: "foo",
-		    password: "foo",
+		    user: "rapp",
+		    password: "R@pPpaSS!",
 		    fail: function( err ) { console.log( "private, with pwd, connection refused: ", err ) }
 		    } );
 console.log(tak);
