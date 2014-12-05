@@ -21,8 +21,24 @@ $( document ).ready(function()
        // Check that both fields are not empty
        if ( $("#Username").val() && $("#Password").val() )
        {
-           console.log( "Proceed with an ajax call to /ajax/signin.php" );
-           // NOTE: Remember to sha256 the password right away!
+           var usr = $("#Username").val();
+           var pwd = sha256_digest( $("#Password").val() );
+           //console.log ( pwd );
+           $.ajax({
+                type: "POST",
+                data: { username: usr, password: pwd },
+                url: "/php/ajax/login.php",
+                success: function( data ){
+                    //console.log( "ajax/login.php RET: " + data );
+                    // NOTE: If I receive an OK, ask for a reload of the page
+                    if ( data == "OK" ){ location.reload(); }
+                    // Else show the error message
+                    else { 
+                        console.log ( data );
+                        alert( data );
+                    }
+                }
+            });
        }
        
        if ( !$("#Username").val() )

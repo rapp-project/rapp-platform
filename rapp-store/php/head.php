@@ -34,6 +34,7 @@
     
     <!-- Javascript Includes -->
     <script type="text/javascript" src="/scripts/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
     <script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/scripts/jquery.qtip.min.js"></script>
     

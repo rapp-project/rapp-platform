@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/scripts/sign-in.js"></script>
+<script type="text/javascript" src="/scripts/login.js"></script>
 <script type="text/javascript" src="/scripts/sha256.js"></script>
 
 <div id="dialog-sign-in" title="Sign In" style="display: none;">
