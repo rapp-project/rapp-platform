@@ -18,7 +18,7 @@ class FaceDetFunc(unittest.TestCase):
             FaceDetectionRosSrv)
         req = FaceDetectionRosSrvRequest()
         req.imageFilename = \
-            "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/FrontalFace2.jpg"
+            "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/Lenna.png"
         response = fd_service(req)
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1, "Face detection ok")

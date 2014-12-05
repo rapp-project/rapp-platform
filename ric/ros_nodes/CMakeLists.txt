@@ -7,6 +7,7 @@ project(ros_nodes)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
+  rostest
   rapp_platform_ros_communications
   cv_bridge
 )
@@ -16,6 +17,7 @@ catkin_package(
   CATKIN_DEPENDS
     roscpp
     rospy
+    rostest
     rapp_platform_ros_communications
     cv_bridge
   INCLUDE_DIRS 
