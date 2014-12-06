@@ -1,0 +1,3 @@
+<launch>
+  <node name="qr_detection_ros_node" pkg="ros_nodes" type="qr_detection_ros_node" />
+</launch>

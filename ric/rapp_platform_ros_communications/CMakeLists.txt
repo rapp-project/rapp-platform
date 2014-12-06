@@ -23,6 +23,7 @@ add_service_files(
   FILES
   DbWrapperSrv.srv
   FaceDetectionRosSrv.srv
+  QrDetectionRosSrv.srv
   SpeechToTextSrv.srv
   OntologySimpleQuerySrv.srv
 )

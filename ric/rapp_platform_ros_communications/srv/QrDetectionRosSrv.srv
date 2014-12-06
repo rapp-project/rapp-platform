@@ -1,0 +1,9 @@
+# Contains info about time and reference
+Header header
+# The image's filename to perform the detection
+string imageFilename
+---
+# Container for detected qr positions
+geometry_msgs/PointStamped[] qr_up_left_points
+geometry_msgs/PointStamped[] qr_down_right_points
+string[] qr_messages
