@@ -8,6 +8,14 @@
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+#include <zbar.h>
+
+struct QrCode
+{
+  cv::Point qrcode_center;
+  std::string qrcode_desc;
+};
+
 class QrDetector
 {
   public:
@@ -17,11 +25,19 @@ class QrDetector
 
     void findQrs(
       std::string file_name,
-      std::vector<cv::Rect> &qr_points,
+      std::vector<cv::Point> &qr_points,
       std::vector<std::string> &qr_messages
       );
 
+    ~QrDetector(){}
+
   private:
+
+    //!< QrCode scanner
+    zbar::ImageScanner scanner;
+    
+    //!< List of detected qrcodes
+    std::vector<QrCode> qrcode_list;
 
 };
 

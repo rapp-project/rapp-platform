@@ -4,6 +4,5 @@ Header header
 string imageFilename
 ---
 # Container for detected qr positions
-geometry_msgs/PointStamped[] qr_up_left_points
-geometry_msgs/PointStamped[] qr_down_right_points
+geometry_msgs/PointStamped[] qr_centers
 string[] qr_messages
