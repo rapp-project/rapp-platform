@@ -79,6 +79,7 @@ html {
     font-size: 100%; /* 1 */
     -ms-text-size-adjust: 100%; /* 2 */
     -webkit-text-size-adjust: 100%; /* 2 */
+    /*height: 100%;*/
 }
 
 /**
@@ -109,6 +110,7 @@ textarea {
 
 body {
     margin: 0;
+    /*height: 100%;*/
 }
 
 /* ==========================================================================
@@ -1317,6 +1319,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     padding: 5px 20px;
     text-decoration: none;
     white-space: nowrap;
+    
 }
 
 .pure-menu.pure-menu-horizontal > .pure-menu-heading {
@@ -1433,7 +1436,8 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     border: 1px solid transparent;
     border-left: none;
     border-right: none;
-
+    font-weight: bold;
+    font-family: "Montserrat", "Helvetica Neue", "Droid Sans", sans-serif;
 }
 
 .pure-menu a,
@@ -1479,7 +1483,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 .pure-menu .pure-menu-heading {
     color: #565d64;
     text-transform: uppercase;
-    font-size: 90%;
+    font-size: 100%;
     font-family: "Montserrat", "Helvetica Neue", "Droid Sans", sans-serif;
     margin-top: 0.5em;
     border-bottom-width: 1px;
@@ -1489,7 +1493,8 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 
 /* ACTIVE MENU ITEM */
 .pure-menu .pure-menu-selected a {
-    color: white;
+    color: black;
+    background: white;
     font-weight: bold;
 }
 

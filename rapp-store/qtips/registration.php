@@ -49,6 +49,6 @@ if ( isset( $_POST['key'] ) )
     }
 }
 else
-    echo "delegate.php error: no post key";
+    echo "/qtips/registration.php error: no post key";
 
 ?>

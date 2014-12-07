@@ -5,11 +5,11 @@
     <form class="pure-form pure-form-stacked" id="signin_form" method="post">
         <fieldset>
             <p>
-                <label for="Username">Username</label>
+                <label for="Username"><span class="oi oi-person"></span>  Username</label>
                 <input id="Username" type="email" name="username" placeholder="user@email.com">
             </p>
             <p>
-                <label for="Password">Password</label>
+                <label for="Password"><span class="oi oi-lock-locked"></span>  Password</label>
                 <input id="Password" type="password" name="password" placeholder="Password">
             </p>
             <p>

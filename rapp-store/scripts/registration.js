@@ -1,6 +1,6 @@
 
 /// Document Ready Functions
-$( document ).ready(function() 
+$( document ).ready(function()
 {
     /// Input field Tool-tips
     $("input").qtip({
@@ -58,6 +58,7 @@ $( document ).ready(function()
     
     /// Check if username is indeed unique when username input loses focus
     $( "#Username" ).focusout(function(){
+        console.log ( "checking username" );
         var username = $(this).val();
         //console.log( "#Username focusout, checking username: " + username );
         if ( username )

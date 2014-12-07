@@ -1,0 +1,15 @@
+I need to create some kind of file-management system, both on server and client side.
+
+For the Server-side, I can use h5ai (http://larsjung.de/h5ai/demo/), which can create a /username/tmpdir/ and allow browsing in it.
+User will be able to create (or upload) folders, headers, cpp files, scripts, other extra files.
+
+For the Client-side, I can use FileAPI (http://mailru.github.io/FileAPI/), which allows single, multiple uploads, drag&dropping,
+paraller uploading, etc.
+
+The trick is that I have to somehow merge the Server-side with the client-side using html5/php, into a single unit.
+
+The code should be robust, and tested against different browsers.
+
+Once I have a template working, I can use different versions for C++, H++, Javascript, Python, and other types of files.
+
+

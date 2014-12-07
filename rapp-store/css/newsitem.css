@@ -1,0 +1,9 @@
+.newsitem
+{
+   position: relative;
+   float: left;
+   left: 45px;
+   width: 502px;
+   height: 502px;
+   background-color: #828282
+}
