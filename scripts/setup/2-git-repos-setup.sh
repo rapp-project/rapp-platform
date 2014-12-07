@@ -25,5 +25,18 @@ git clone git@github.com:rapp-project/rapp-platform.git
 
 catkin_init_workspace
 
+echo "source ~/Desktop/rapp-platform-catkin-ws/devel/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+sudo apt-get install python-wstool
+mkdir -p ~/Desktop/rosjava
+wstool init -j4 ~/Desktop/rosjava/src https://raw.githubusercontent.com/yujinrobot/yujin_tools/master/rosinstalls/indigo/rosjava.rosinstall
+source /opt/ros/indigo/setup.bash
+cd ~/Desktop/rosjava
+rosdep update
+rosdep install --from-paths src -i -y
+catkin_make
+
+
 echo -e "\e[1m\e[103m\e[31m [RAPP] Step 2 finished. Now the HOP setup must be performed. \e[0m"
 
