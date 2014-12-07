@@ -11,7 +11,7 @@ The first step performs the initial system updates, installs ROS Indigo and
 the latest HOP distribution. You can execute it by:
 
 ```
-sudo sh 1-clean-install.sh
+sh 1-clean-install.sh
 ```
 
 Step 1.5 - Setup public key for Github
@@ -30,7 +30,7 @@ This step sets up the RAPP Github repositories destined for the platform. You
 can execute it by running:
 
 ```
-sudo sh 2-git-repos-setup.sh
+sh 2-git-repos-setup.sh
 ```
 
 Step 2.5 - Manual setup of HOP
@@ -39,7 +39,7 @@ Step 2.5 - Manual setup of HOP
 A manual setup of Hop must be performed through a web browser. You can do that 
 by executing
 ```
-hop
+sudo service hop start
 ```
 in a terminal and giving
 ```
