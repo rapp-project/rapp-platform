@@ -10,11 +10,11 @@
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initiating source lists \e[0m"
 # Refresh source lists
-apt-get -y update
+sudo apt-get update
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Upgrading packages \e[0m"
 # Upgrades the current packages
-apt-get -y upgrade
+sudo apt-get upgrade
 
 #-------------------------------- ROS setup ----------------------------------#
 
