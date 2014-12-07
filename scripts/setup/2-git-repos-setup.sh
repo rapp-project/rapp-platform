@@ -43,7 +43,7 @@ echo "export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jv
 source ~/.bashrc
 
 # Download and install KnowRob
-sudo apt-get install -y swi-prolog
+sudo apt-get install -y swi-prolog swi-prolog-java
 echo "export SWI_HOME_DIR=/usr/lib/swi-prolog" >> ~/.bashrc
 source ~/.bashrc
 cd ~/Desktop
