@@ -31,7 +31,7 @@ wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | \
 echo -e "\e[1m\e[103m\e[31m [RAPP] ROS - Installing \e[0m"
 # Installation
 sudo apt-get update
-sudo apt-get install ros-indigo-desktop
+sudo apt-get install -y ros-indigo-desktop
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] ROS - Initializing rosdep \e[0m"
 # Initialize rosdep
@@ -46,9 +46,9 @@ source ~/.bashrc
 #------------------------ Auxiliary packages install -------------------------#
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing auxiliary packages \e[0m"
-sudo apt-get install openssh-server
-sudo apt-get install vim
-sudo apt-get install git gitg
+sudo apt-get install -y openssh-server
+sudo apt-get install -y vim
+sudo apt-get install -y git gitg
 
 #----------------------------- System trimming -------------------------------#
 
@@ -64,7 +64,7 @@ sudo sh -c 'echo "deb ftp://ftp-sop.inria.fr/indes/rapp/UBUNTU lts hop" > \
   /etc/apt/sources.list'
   
 sudo apt-get update
-sudo apt-get install hop
+sudo apt-get install -y hop
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Step 1 complete. Now create the Github keys. \e[0m"
 
