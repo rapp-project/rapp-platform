@@ -9,7 +9,7 @@ function run () {
         tmp1 = value * value;
         return value * value;
       },
-      { host: "localhost",asynchronous: false, port: "9000" }
+      { host: "localhost",asynchronous: false, port: "9001" }
     );
     console.log ("tmp1: ", tmp1);
     return tt;
@@ -17,7 +17,4 @@ function run () {
 
 var t = run()
 console.log ("t: ", t);
-//timeout to let the slave worker some time to initiate
-
-//~ rapp +d0d8b7c7d5c993c02f6b87972f690c28
 
