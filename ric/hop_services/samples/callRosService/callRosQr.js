@@ -4,27 +4,23 @@
  * to run hop -v -p 9001 callRosQr.js
  * */
 
-
 var rosbridgeURL = 'ws://localhost:9090';
 var hop = require( "hop" );
 var rs = new WebSocket (rosbridgeURL);
 console.log ('ROSbridge connection opened');
-
 var sd1 = new Date().getTime();
-//var t1={"header":{"seq":"1","stamp":sd1,"frame_id":" "}};
 var t1={"seq":1,"stamp":sd1,"frame_id":" "};
-//var t2={"Header":t1};
 console.log(t1);
-
 var send =    //this message is a query that the dbWrapperHop service will pass to the db_wrapper ros node
-{       "op": "call_service",
-        "service":"/ric/ros_nodes/qr_detection_service",        
-        "args": {
-           "header": t1,
-           "imageFilename":"/home/thanos/Desktop/sample.png"}  //filenamePATH     
+{ 
+  "op": "call_service",
+  "service":"/ric/ros_nodes/qr_detection_service",        
+  "args": 
+  {
+    "header": t1,
+    "imageFilename":"/home/thanos/Desktop/sample.png" //filenamePATH    
+  }   
 }; 
-
-
 var flag=false;
 rs.send (JSON.stringify(send));
   var startDate = new Date().getTime();  
@@ -45,4 +41,4 @@ rs.send (JSON.stringify(send));
       break;
     }
   }
-  console.log(ret_message);
+console.log(ret_message);

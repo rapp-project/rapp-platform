@@ -10,12 +10,10 @@ var hop = require( "hop" );
 var rs = new WebSocket (rosbridgeURL);
 service dbService(message) {
   //on message receive, open websocket to rosbridge and pass the message.
-  
   console.log ('ROSbridge connection opened');
   console.log(message);
   console.log(message.args.req_data[0].s);
-  rs.send (JSON.stringify(message));
-  //var ret_message="old";   
+  rs.send (JSON.stringify(message)); 
   var flag = false;
     //improvised solution to the wait for websocket response problem.
   var startDate = new Date().getTime();  
@@ -26,10 +24,6 @@ service dbService(message) {
       var text = event.value;
       ret_message = JSON.parse (text);
       flag = true;
-      //console.log(ret_message.values.report.data);
-      //console.log(ret_message.values.res_data[0].s[0].data+" "+ret_message.values.res_data[0].s[1].data); //values.res_data[0]         
-      //console.log("returning "+ret_message);
-      //return ret_message;
     }   
     var endDate = new Date().getTime();  
     if((endDate-startDate)>1000)
@@ -39,7 +33,6 @@ service dbService(message) {
       break;
     }
   }
-  
   console.log("returning");
   console.log(ret_message);
   return ret_message;
