@@ -1,2 +1,4 @@
 to run, run run_all.js.
-hop -v -p 9001
+hop -v -p 9001 run_all.js
+
+initiates two services on the same port. Each service runs on a different worker. They communicate 
