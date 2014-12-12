@@ -1,4 +1,0 @@
-to run
-
-hop -v -p 9001 serveFile.js
-hop -v -p 9002 client.js (in a different terminal)
