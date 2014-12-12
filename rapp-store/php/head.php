@@ -33,6 +33,9 @@
     <link rel="stylesheet" href="/css/jquery-ui.structure.css">
     <link rel="stylesheet" href="/css/jquery.qtip.min.css">
     
+    <!-- file upload theme -->
+    <link rel="stylesheet" href="/css/uploadfile.css">
+    
     <!-- Page loader -->
     <link rel="stylesheet" href="/css/pace.loading.corner.css"/>
     
@@ -47,6 +50,9 @@
     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script> -->
     <script type="text/javascript" src="/scripts/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/scripts/jquery.qtip.min.js"></script>
+    
+    <!-- File Upload Script -->
+    <script type="text/javascript" src="/scripts/jquery.uploadfile.min.js"></script>
     
     <!-- Page Loader -->
     <script type="text/javascript" data-pace-options='{ "ajax": false }' src="/scripts/pace.min.js"></script>

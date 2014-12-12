@@ -101,6 +101,14 @@ p {
     padding: 20px;
 }
 
-.rapp-new-menu-icon {
+.rapp-new-main {
+    padding: 20px;
+}
+
+.rapp-line-table {
     
+}
+
+.rapp-line-table td { 
+    padding: 10px;
 }

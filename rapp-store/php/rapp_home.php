@@ -10,7 +10,13 @@ require_once( 'sign_in.php');
 <!-- Main RAPP Box -->
 <div id="layout" class="pure-g">
     
-    <?php require_once( 'rapp_sidebar.php' ); ?>
+    <?php
+        // Only load the sidebar if a user is logged in
+        if ( isset( $_SESSION['user'] ) )
+        {
+            require_once( 'rapp_sidebar.php' ); 
+        }
+    ?>
     
     <!-- 
         Include (PHP) a PHP/AJAX which loads a grid of RAPP Boxes
