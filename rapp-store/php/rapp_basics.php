@@ -24,7 +24,7 @@
             
             <div class="pure-control-group">
                 <p>
-                    <label for="version">Version</label>
+                    <label for="version">RAPP Version</label>
                     <select id="major_version">
                         <option value="0" selected="">0</option>
                         <option value="1">1</option>
@@ -54,7 +54,7 @@
         
             <div class="pure-control-group">
                 <p>
-                <label for="Language">Language</label>
+                <label for="Language">Programming Language</label>
                 <select id="Language">
                     <option selected disabled hidden value=''></option>
                     <option value="cpp">C++</option>
