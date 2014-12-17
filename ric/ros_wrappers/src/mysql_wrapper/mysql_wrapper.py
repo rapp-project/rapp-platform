@@ -58,23 +58,23 @@ class MySQLdbWrapper:
     self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRappWriteData', DbWrapperSrv, self.tblRappWriteDataHandler)
     self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRappDeleteData', DbWrapperSrv, self.tblRappDeleteDataHandler)
     self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRappUpdateData', DbWrapperSrv, self.tblRappUpdateDataHandler)
-    ##tblRobot services launch
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv, self.tblRobotFetchDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotWriteData', DbWrapperSrv, self.tblRobotWriteDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotDeleteData', DbWrapperSrv, self.tblRobotDeleteDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotUpdateData', DbWrapperSrv, self.tblRobotUpdateDataHandler)
-    ##tblAppsRobots services launch
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsFetchData', DbWrapperSrv, self.tblAppsRobotsFetchDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsWriteData', DbWrapperSrv, self.tblAppsRobotsWriteDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsDeleteData', DbWrapperSrv, self.tblAppsRobotsDeleteDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsUpdateData', DbWrapperSrv, self.tblAppsRobotsUpdateDataHandler)
-    ##tblUsersOntologyInstances services launch
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData', DbWrapperSrv, self.tblUsersOntologyInstancesFetchDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData', DbWrapperSrv, self.tblUsersOntologyInstancesWriteDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesDeleteData', DbWrapperSrv, self.tblUsersOntologyInstancesDeleteDataHandler)
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesUpdateData', DbWrapperSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
-    ##viewUsersRobotsApps services launch
-    #self.serv=rospy.Service('ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData', DbWrapperSrv, self.viewUsersRobotsAppsFetchDataHandler)
+    #tblRobot services launch
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv, self.tblRobotFetchDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotWriteData', DbWrapperSrv, self.tblRobotWriteDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotDeleteData', DbWrapperSrv, self.tblRobotDeleteDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotUpdateData', DbWrapperSrv, self.tblRobotUpdateDataHandler)
+    #tblAppsRobots services launch
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsFetchData', DbWrapperSrv, self.tblAppsRobotsFetchDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsWriteData', DbWrapperSrv, self.tblAppsRobotsWriteDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsDeleteData', DbWrapperSrv, self.tblAppsRobotsDeleteDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsUpdateData', DbWrapperSrv, self.tblAppsRobotsUpdateDataHandler)
+    #tblUsersOntologyInstances services launch
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData', DbWrapperSrv, self.tblUsersOntologyInstancesFetchDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData', DbWrapperSrv, self.tblUsersOntologyInstancesWriteDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesDeleteData', DbWrapperSrv, self.tblUsersOntologyInstancesDeleteDataHandler)
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesUpdateData', DbWrapperSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
+    #viewUsersRobotsApps services launch
+    self.serv=rospy.Service('ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData', DbWrapperSrv, self.viewUsersRobotsAppsFetchDataHandler)
                 
     
   
@@ -374,28 +374,56 @@ class MySQLdbWrapper:
   #end tblRapp callbacks  
   
   
+  #tblAppsRobots callbacks    
+  def tblAppsRobotsFetchDataHandler(self,req):     
+    res = DbWrapperSrvResponse()
+    res=self.fetchData(req,"tblappsrobots")
+    return res      
+
+  def tblAppsRobotsWriteDataHandler(self,req): 
+    res = DbWrapperSrvResponse()
+    res=self.writeData(req,"tblappsrobots")
+    return res  
+    
+  def tblAppsRobotsDeleteDataHandler(self,req):
+    res = DbWrapperSrvResponse()
+    res=self.deleteData(req,"tblappsrobots")
+    return res  
+    
+  def tblAppsRobotsUpdateDataHandler(self,req):
+    res = DbWrapperSrvResponse()
+    res=self.updateData(req,"tblappsrobots")
+    return res
+  #end tblAppsRobots callbacks  
   
+  #tblUsersOntologyInstances callbacks    
+  def tblUsersOntologyInstancesFetchDataHandler(self,req):     
+    res = DbWrapperSrvResponse()
+    res=self.fetchData(req,"tblusersontologyinstances")
+    return res      
+
+  def tblUsersOntologyInstancesWriteDataHandler(self,req): 
+    res = DbWrapperSrvResponse()
+    res=self.writeData(req,"tblusersontologyinstances")
+    return res  
+    
+  def tblUsersOntologyInstancesDeleteDataHandler(self,req):
+    res = DbWrapperSrvResponse()
+    res=self.deleteData(req,"tblusersontologyinstances")
+    return res  
+    
+  def tblUsersOntologyInstancesUpdateDataHandler(self,req):
+    res = DbWrapperSrvResponse()
+    res=self.updateData(req,"tblusersontologyinstances")
+    return res
+  #end tblAppsRobots callbacks    
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  #viewUsersRobotsApps callbacks    
+  def viewUsersRobotsAppsFetchDataHandler(self,req):     
+    res = DbWrapperSrvResponse()
+    res=self.fetchData(req,"usersrobotsapps")
+    return res  
+  #viewUsersRobotsApps
     
 if __name__ == "__main__": 
   rospy.init_node('MySQLWrapper')

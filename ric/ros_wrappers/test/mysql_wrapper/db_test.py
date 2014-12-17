@@ -312,7 +312,7 @@ class TestDbWrapper(unittest.TestCase):
     req.return_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
     req.return_cols=[String(data="id"),String(data="rapp"), String(data="version"),String(data="arch"), String(data="owner"),String(data="directory"), String(data="enabled"),String(data="timestamp")]
     entry1=StringArrayMsg()    
-    entry1=[String(data="'2'"),String(data="'uberApp1'"), String(data="'1.910000000'"),String(data="'15'"), String(data="'1'"),String(data="'homethanos'"), String(data="'0'"),String(data="'2014-11-23 09:04:13'")]
+    entry1=[String(data="'2'"),String(data="'uberApp4'"), String(data="'1.910000000'"),String(data="'15'"), String(data="'1'"),String(data="'homethanos'"), String(data="'0'"),String(data="'2014-11-23 09:04:13'")]
     entry2=StringArrayMsg()    
     entry2=[String(data="'3'"),String(data="'uberApp2'"), String(data="'1.810000000'"),String(data="'16'"), String(data="'1'"),String(data="'homethanos'"), String(data="'0'"),String(data="'2014-11-23 07:04:13'")]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
@@ -336,7 +336,7 @@ class TestDbWrapper(unittest.TestCase):
     db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRappUpdateData', DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="rapp='uberApp2'")]
-    entry1=[String(data="rapp"),String(data='uberApp1')]
+    entry1=[String(data="rapp"),String(data='uberApp4')]
     req.req_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.return_cols,req.req_data)
     self.assertEqual(response.report.data,"Success")
@@ -375,23 +375,127 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
 
+  #test tbRobot
+  def testTblRobotWriteReadDeleteCheck(self):
+    #Write
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotWriteData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotWriteData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
+    req.return_cols=[String(data="id"),String(data="macddr"), String(data="model"),String(data="owner"), String(data="timestamp")]
+    entry1=StringArrayMsg()    
+    entry1=[String(data="'3'"),String(data="'1800000'"), String(data="'1'"),String(data="'1'"), String(data="'2014-11-23 09:04:13'")]
+    entry2=StringArrayMsg()    
+    entry2=[String(data="'4'"),String(data="'1900000'"), String(data="'1'"),String(data="'1'"), String(data="'2014-11-23 07:04:13'")]
+    req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)    
+    #Read what was written
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotFetchData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="id"),String(data="macddr")]
+    entry1=[String(data="macddr"),String(data="1800000")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)    
+    self.assertEqual(response.res_data[0].s[0].data,"3")
+    #self.assertEqual(response.res_data[1].s[0].data,"extreme3")    
+    #Update written
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotUpdateData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotUpdateData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="timestamp='2014-11-23 09:04:13'")]
+    entry1=[String(data="macddr"),String(data='1900000')]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)       
+    #Read again
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotFetchData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="macddr"),String(data="model")]
+    entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)
+    self.assertEqual(response.res_data[0].s[0].data,"1800000")
+    self.assertEqual(response.res_data[1].s[0].data,"1900000")    
+    #Delete updated
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotDeleteData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotDeleteData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[]
+    entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)   
+    #Check if it was deleted
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotFetchData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="macddr"),String(data="model")]
+    entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)    
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)
+    self.assertTrue((len(response.res_data)<1))
     
     
+  #test tblAppsRobots
+  def testTblAppsRobotsRead(self):
+    #Read
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblAppsRobotsFetchData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblAppsRobotsFetchData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="app_id"),String(data="robot_id")]
+    entry1=[String(data="app_id"),String(data="1")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)    
+    self.assertEqual(response.res_data[0].s[0].data,"1")
+    self.assertEqual(response.res_data[0].s[1].data,"1")  
+    
+    
+  #test tblUsersOntologyInstances
+  def testTblUsersOntologyInstancesRead(self):
+    #Read
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="id"),String(data="ontology_class"),String(data="ontology_instance")]
+    entry1=[String(data="id"),String(data="1")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)    
+    self.assertEqual(response.res_data[0].s[1].data,"ontology_something")
+    self.assertEqual(response.res_data[0].s[2].data,"instance_something")  
+    
+  #test viewUsersRobotsApps
+  def testviewUsersRobotsAppsRead(self):
+    #Read
+    rospy.wait_for_service('ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData')
+    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData', DbWrapperSrv)
+    req = DbWrapperSrv()
+    req.return_cols=[String(data="owner"),String(data="id"),String(data="app_id")]
+    entry1=[String(data="id"),String(data="1")]
+    req.req_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.return_cols,req.req_data)
+    self.assertEqual(response.report.data,"Success")
+    self.assertTrue(response.success.data)    
+    self.assertEqual(response.res_data[0].s[1].data,"1")
+    self.assertEqual(response.res_data[0].s[2].data,"1")  
+    self.assertEqual(response.res_data[0].s[2].data,"1") 
+
 
 if __name__ == '__main__':
   import rosunit
   rosunit.unitrun(PKG, 'TestDbWrapper', TestDbWrapper)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
