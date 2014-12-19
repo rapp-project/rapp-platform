@@ -9,7 +9,6 @@
 
 
 /*######################-<Private Variables here>-#######################*/
-var total = 0; 
 var fs = require('fs');
 
 /*#######################################################################*/
@@ -18,10 +17,11 @@ var fs = require('fs');
  * @brief File Streaming Class/Object definition.
  */
 function fileStream(){
-  total++;
   this.kind = 'fileStream';
 
   /*-----Static methods goes here (this.getX = function(){})*/
+
+  /*--------------------------------------------------------*/
 };
 
 
@@ -81,9 +81,9 @@ fileStream.prototype.writeSync = function (_destPath, _data)
  * @return True if file existed and removed, false otherwise.
  */
 fileStream.prototype.rmSync = function (_filePath){
-  var _msg = new String("Successfully deleted file: ");
   if(fs.existsSync(_filePath)){
     fs.unlinkSync(_filePath);
+    console.log("Successfully deleted file: [%s]", _filePath);
     return true;
   }
   else{
@@ -96,3 +96,4 @@ fileStream.prototype.rmSync = function (_filePath){
 
 //exports the class as a module
 module.exports = fileStream; 
+
