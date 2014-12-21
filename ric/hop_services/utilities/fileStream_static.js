@@ -14,6 +14,14 @@ var fs = require('fs');
 
 /*#######################################################################*/
 
+/*######################-<Private Functions/Members here>-#######################*/
+
+function replace(string, find, replace){
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
+/*#######################################################################*/
+
 /*!
  * @brief File Streaming Class/Object definition.
  */
@@ -34,6 +42,7 @@ function fileStream(){
  * @return Returns data readen from file.
  */
 fileStream.readSync = function (_file){
+  var path =  this.resolvePath(_file);
   if(fs.existsSync(_file)){
     console.log("\033[01;33mReading requested file: %s", _file);
     return fs.readFileSync(_file);
@@ -46,37 +55,53 @@ fileStream.readSync = function (_file){
 
 /*!
  * @brief Wrapping Node.js writeFileSync function. Static member method.
- * @param _destPath File to write the data, specified by path.
+ * @param _dest Destination file to write the data, specified by path.
  * @param _data Data to be written.
  * @return Undefined.
  */
-fileStream.writeSync = function (_destPath, _data)
-{
-  if(fs.existsSync(_destPath)){
-    console.log("\033[01;34mFile [%s] allready exists. Overwriting...", _destPath);
+fileStream.writeSync = function (_dest, _data){
+  var path =  this.resolvePath(_dest);
+  if(fs.existsSync(path)){
+    console.log("\033[01;34mFile [%s] allready exists. Overwriting...", path);
   }
   else{
-    console.log("\033[01;34mWriting requested data @ [%s]", _destPath);
+    console.log("\033[01;34mWriting requested data @ [%s]", path);
   }
-  fs.writeFileSync(_destPath, _data);
+  fs.writeFileSync(path, _data);
 };
 
 /*!
  * @brief Wrapping Node.js unlinkSync function. Static member method.
- * @param _filePath File to be removed, specified by path.
+ * @param _file File to be removed, specified by path.
  * @return True if file existed and removed, false otherwise.
  */
-fileStream.rmSync = function (_filePath){
-  if(fs.existsSync(_filePath)){
-    fs.unlinkSync(_filePath);
-    console.log("Successfully deleted file: [%s]", _filePath);
+fileStream.rmSync = function (_file){
+  var path =  this.resolvePath(_file);
+  if(fs.existsSync(path)){
+    fs.unlinkSync(path);
+    console.log("Successfully deleted file: [%s]", path);
     return true;
   }
   else{
-    console.log("File [%s] does not exist!", _filePath);
+    console.log("File [%s] does not exist!", path);
     return false;
   }
 };
+
+fileStream.resolvePath = function(_path){
+  /*<Regular expression to match "~" from _path string>*/
+  var regexp = /~/g;
+  var newPath = '';
+  if ( _path.match(regexp) ){
+        /*<Get username of currently loged in user>*/
+    var user = process.env.LOGNAME;
+    newPath = _path.replace(regexp, '/home/' + user);
+  }
+  else{
+    newPath = fs.realpathSync(_path);
+  }
+  return newPath;
+}
 
 
 /*########################################################################*/

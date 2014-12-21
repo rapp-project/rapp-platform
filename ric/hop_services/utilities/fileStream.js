@@ -13,6 +13,15 @@ var fs = require('fs');
 
 /*#######################################################################*/
 
+
+/*######################-<Private Functions here>-#######################*/
+
+function replace(string, find, replace){
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
+/*#######################################################################*/
+
 /*!
  * @brief File Streaming Class/Object definition.
  */
@@ -91,6 +100,20 @@ fileStream.prototype.rmSync = function (_filePath){
     return false;
   }
 };
+
+fileStream.prototype.resolve = function(_path){
+  var _newPath = _path;  
+  /*<Regular expression to match "~" from _path string>*/
+  var regexp = /~/g;
+
+  if ( _path.match(regexp) ){
+        /*<Get username of currently loged in user>*/
+    var _user = process.env.LOGNAME;
+    var _newPath = _path.replace(regexp, '/home/' + _user);
+  }
+  return _newPath;
+}
+
 
 /*########################################################################*/
 
