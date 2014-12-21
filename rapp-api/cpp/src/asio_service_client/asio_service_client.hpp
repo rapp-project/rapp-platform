@@ -1,9 +1,11 @@
 #ifndef RAPP_ASIO_SERVICE_CLIENT
 #define RAPP_ASIO_SERVICE_CLIENT
 #include "Includes.ihh"
-using boost::asio::ip::tcp;
-namespace rapp {
-namespace services {
+
+namespace rapp
+{
+namespace services
+{
 
 /**
  * @class asio_service_client
@@ -12,8 +14,8 @@ namespace services {
  * @date 20-December-2014
  * @author Alex Gkiokas <a.gkiokas@ortelio.co.uk>
  * 
- * TODO: We Need POST Headers that send a JSON query
- * TODO: Enable Time-out timers for a client connection ?
+ * TODO: Enable Time-out timers for a client connection ???
+ * NOTE: This is subjective, some processing may take quite some time! It needs experimentation and a unique timeout per service
  * 
  * HTTP Protocol @see http://www.jmarshall.com/easy/http/#postmethod
  * Original Source @see http://www.boost.org/doc/libs/1_41_0/doc/html/boost_asio/example/http/client/async_client.cpp
@@ -28,67 +30,82 @@ class asio_service_client
 
     /**
      * Construct the client by passing:
-     * @param io_service a boost service ref object
-     * @param server the actual URL or IP address (we assume Unix: port 80)
-     * NOTE: We need to pass as an optional parameter the POST Data
+     * @param io_service a boost service Async IO scheduler
+     * @param query is a resolved URL using boost IP TCP resolution
+     * @param header is the actual HTTP Header crafted accordingly
+     * @param post is the actual $_POST field following the HTTP Header
      */
     asio_service_client ( 
                             boost::asio::io_service & io_service,
-                            const std::string & server, 
-                            const std::string & path
+                            boost::asio::ip::tcp::resolver::query & query,
+                            const std::string & header,
+                            const std::string & post
                         );
-    
+
+    // TODO
+    asio_service_client ( 
+                        boost::asio::io_service & io_service,
+                        boost::asio::ip::tcp::resolver::query & query,
+                        const std::string & header,
+                        const std::string & post,
+                        std::function<void( boost::asio::streambuf & )> callback
+                    );
+
     /**
-     * Handle a Reply - TODO call this at any moment an error is detected
-     * @note you may wanna override this method if not acquiring text
+     * Handle the Reply
+     * @note you have to override this method if inheriting
      */
-    virtual std::string reply_handler ( );
+    virtual void handle_reply ( );
     
     /**
-     * Handle an Error - TODO call this only once handle_read_content has finished.
+     * Handle an Error
      * @param error is the raised error from the client
      */
     virtual void error_handler ( const boost::system::error_code & error );
 
     /**
-     * Invalid Query Handler - this differs from Error Handler, as we receiveda response which states our query was invalid
-     * @param error is the message received from the service
+     * Invalid Query Handler - different from Error Handler, we have a response which states our query was invalid
+     * @param message is the message received from the service
      */
-    virtual void invalid_query ( std::string message );
+    virtual void invalid_request ( const std::string message );
 
+    /**
+     * Has this client completed its operation
+     * @return true or false
+     */
+    bool complete ( ) const;
+    
     
   private:
     
     /** 
      * Callback for Handling Address Resolution
      * @param err is a possible error
-     * @param endpoint_iterator is boost's address iterator
+     * @param endpoint_iterator is boost's hostname address handler
      */
     void handle_resolve ( 
                             const boost::system::error_code & err,
-                            tcp::resolver::iterator endpoint_iterator
+                            boost::asio::ip::tcp::resolver::iterator endpoint_iterator
                         );
 
     /**
      * Callback for Handling Connection Events
      * @param err is a possible error
-     * @param endpoint_iterator is boosts' address handler
+     * @param endpoint_iterator is boosts' hostname address handler
      */
     void handle_connect ( 
                             const boost::system::error_code & err,
-                            tcp::resolver::iterator endpoint_iterator
+                            boost::asio::ip::tcp::resolver::iterator endpoint_iterator
                         );
 
     /**
-     * Callback for handling request and waiting for response - Async Read Until "\r\n" 
-     * WARNING is this the delimiter we want?
+     * Callback for handling request and waiting for response
      * @param err is a possible error
      */
     void handle_write_request ( const boost::system::error_code & err );
     
     /**
      * Callback for handling Response Data
-     * TODO: Proper Error Handling?
      * @param err is a possible error message
      */
     void handle_read_status_line ( const boost::system::error_code & err );
@@ -96,7 +113,6 @@ class asio_service_client
     /**
      * Callback for Handling Headers
      * @param err is a possible error message
-     * NOTE: Do we really care about the Headers? - NO WE DO NOT unless there is an error in them
      */
     void handle_read_headers ( const boost::system::error_code & err );
     
@@ -109,16 +125,22 @@ class asio_service_client
     
     
     /// Resolves URL/URIs
-    tcp::resolver resolver_;
+    boost::asio::ip::tcp::resolver resolver_;
     
     /// Actual Socket
-    tcp::socket socket_;
+    boost::asio::ip::tcp::socket socket_;
     
     /// Request Container
     boost::asio::streambuf request_;
     
     /// Response Container
     boost::asio::streambuf response_;
+    
+    /// Operation complete?
+    bool complete_ = false;
+    
+    /// Optional Callback Handler
+    std::function<void( boost::asio::streambuf & )> callback_;
 };
 }
 }

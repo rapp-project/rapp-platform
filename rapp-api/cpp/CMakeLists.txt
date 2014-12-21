@@ -19,38 +19,38 @@ include_directories(SYSTEM ${INCLUDE_HEADERS})
 
 add_subdirectory(src)
 
-# Need Boost System for ASIO
 find_package( Boost 1.49 COMPONENTS system REQUIRED )
 
-enable_testing()
-# Test 
-add_executable ( async_client test.cpp
-                              src/asio_service_client.cpp)
+#enable_testing()
+
+# Tests used to evaluate the library
+add_executable ( async_client tests/async_client.cpp
+                              src/asio_service_client/asio_service_client.cpp
+                              src/service_controller/service_controller.cpp)
                        
-add_test ( TestAsyncClient async_client )
+#add_test ( TestAsyncClient async_client )
 
 # Build Libraries (both static and shared)
-set (SOURCES ${SOURCES} src/asio_service_client.cpp)
+#set (SOURCES ${SOURCES} src/asio_service_client/asio_service_client.cpp)
 
-add_library (lrapp OBJECT ${SOURCES})
+#add_library (lrapp OBJECT ${SOURCES})
 
-# There must be a better way to set the library version name
-add_library (rapp.0.1-static STATIC $<TARGET_OBJECTS:lrapp>)
-add_library (rapp.0.1 SHARED $<TARGET_OBJECTS:lrapp>)
+#add_library (rapp.0.1 SHARED $<TARGET_OBJECTS:lrapp>)
+#target_link_libraries(rapp.0.1 ${Boost_SYSTEM_LIBRARY} )
 
+#add_library (rapp.0.1-static STATIC $<TARGET_OBJECTS:lrapp>)
+#target_link_libraries(rapp.0.1-static ${Boost_SYSTEM_LIBRARY} )
 
-target_link_libraries(rapp.0.1-static ${Boost_SYSTEM_LIBRARY} )
-target_link_libraries(rapp.0.1 ${Boost_SYSTEM_LIBRARY} )
 target_link_libraries(async_client ${Boost_SYSTEM_LIBRARY} )
-
 
 set(CMAKE_COLOR_MAKEFILE on)
 set(CMAKE_VERBOSE_MAKEFILE on)
 
-
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug) #set only when coding/testing
 
+
+# NOTE: Do we need OSX/MAC Support for RAPP::API ???
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   
   # using Clang
@@ -71,6 +71,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
   set(BUILD_SHARED_LIBS OFF)
   message(STATUS "CXX Linker: " ${CMAKE_EXE_LINKER_FLAGS})
 
+# Linux should be the default OS/Platform for RAPP::API
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   
   # using GCC/Linux
@@ -92,9 +93,11 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set(BUILD_SHARED_LIBS OFF)
   message(STATUS "CXX Linker: " ${CMAKE_EXE_LINKER_FLAGS})
 
+# Intel Compiler May run on Linux - Maybe we should support it
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
     message (FATAL_ERROR "unsupported compiler")
-    
+
+# We cannot support Microsoft Visual Studio - We cannot support Win32 platforms
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
     message (FATAL_ERROR "unsupported compiler")
 endif()
@@ -102,8 +105,8 @@ endif()
 #set(MACOSX_RPATH ON)
 
 # Install stuff
-install (TARGETS rapp.0.1-static  DESTINATION /usr/local/lib/)
-install (TARGETS rapp.0.1 DESTINATION /usr/local/lib/)
-install (DIRECTORY src/ DESTINATION /usr/local/include/${PROJECT_NAME} FILES_MATCHING PATTERN "*.hpp" PATTERN "*.ihh")
+#install (TARGETS rapp.0.1-static  DESTINATION /usr/local/lib/)
+#install (TARGETS rapp.0.1 DESTINATION /usr/local/lib/)
+#install (DIRECTORY src/ DESTINATION /usr/local/include/${PROJECT_NAME} FILES_MATCHING PATTERN "*.hpp" PATTERN "*.ihh")
 
 #install (FILES includes/cgpp DESTINATION /usr/local/include/${PROJECT_NAME}) - NOTE: Use to install a global include header

@@ -1,28 +1,20 @@
 #include "asio_service_client.hpp"
 
-// TODO: We Need a Time-out if Server is Not responding
 namespace rapp {
 namespace services {
 
 asio_service_client::asio_service_client ( 
                                             boost::asio::io_service & io_service,
-                                            const std::string & server, 
-                                            const std::string & path
+                                            boost::asio::ip::tcp::resolver::query & query,
+                                            const std::string & header,
+                                            const std::string & post
                                         )
 : resolver_( io_service ), socket_( io_service )
 {        
-    std::ostream request_stream( &request_ );
-    
-    // WARNING: Path needs a trailing forwardslash, e.g.: "/service.php"
-    request_stream << "POST " << path << " HTTP/1.1\r\n";
-    request_stream << "Host: " << server << "\r\n";
-    request_stream << "Accept: */*\r\n";
-    request_stream << "User-Agent: RAPP-API\r\n";
-    request_stream << "Connection: close\r\n\r\n";
+    std::ostream request_stream ( &request_ );
+    request_stream << header << post << "\r\n";
+    //std::string raw ( ( std::istreambuf_iterator<char>( &request_ ) ), std::istreambuf_iterator<char>() );
 
-    // NOTE: using the same tcp::resolver::query may be an overkill if many service objects are used. 
-    // TODO: Maybe I should re-use it as a parameter to the constructor
-    tcp::resolver::query query ( server, "http", tcp::resolver::query::canonical_name );
     resolver_.async_resolve( query,
                              boost::bind( &asio_service_client::handle_resolve, 
                                           this,
@@ -30,32 +22,40 @@ asio_service_client::asio_service_client (
                                           boost::asio::placeholders::iterator ) );
 }
 
-std::string asio_service_client::reply_handler ( )
+asio_service_client::asio_service_client ( 
+                                            boost::asio::io_service & io_service,
+                                            boost::asio::ip::tcp::resolver::query & query,
+                                            const std::string & header,
+                                            const std::string & post,
+                                            std::function<void( boost::asio::streambuf & )> callback
+                                        )
+: resolver_( io_service ), socket_( io_service ), callback_ ( callback )
+{        
+    std::ostream request_stream ( &request_ );
+    request_stream << header << post << "\r\n";
+
+    resolver_.async_resolve( query,
+                             boost::bind( &asio_service_client::handle_resolve, 
+                                          this,
+                                          boost::asio::placeholders::error,
+                                          boost::asio::placeholders::iterator ) );
+}
+
+void asio_service_client::handle_reply ( )
 {
-    //std::string raw ( ( std::istreambuf_iterator<char>( &response_ ) ), std::istreambuf_iterator<char>() );
+    /*
     std::istream is ( &response_ ); 
     std::string line;
     std::string reply;
-    unsigned int i = 0;
     
     while ( std::getline( is, line ) )
-    {
-        if ( i > 5 )    // CAUTION WARNING - This assumes that up to line #5 we have header stuff
-        {
-           reply.append( line );
-        }
-        i++;
-        /* 
-         * NOTE: I could use REGEX to find specific Header keywords (Date, Server, Content-Length, Connection, Content-Type)
-         *       However, I don't really case, as this method should be overriden by each inheriting class.
-         * 
-         * NOTE: Another way, is to use std::search or other substring finding methods.
-         */
-    }
+        reply.append( line );
+
+    std::cout << reply << std::endl;
+    */
     
-    std::cout << "REPLY: " << reply << std::endl;
-    
-    return reply;
+    std::string raw ( ( std::istreambuf_iterator<char>( &response_ ) ), std::istreambuf_iterator<char>() );
+    std::cout << raw << std::endl;
 }
 
 void asio_service_client::error_handler ( const boost::system::error_code & error )
@@ -63,20 +63,20 @@ void asio_service_client::error_handler ( const boost::system::error_code & erro
     std::cerr << error.message() << std::endl;
 }
 
-void asio_service_client::invalid_query ( std::string message )
+void asio_service_client::invalid_request ( const std::string message )
 {
     std::cerr << message << std::endl;
 }
 
 void asio_service_client::handle_resolve ( 
                                             const boost::system::error_code & err,
-                                            tcp::resolver::iterator endpoint_iterator
+                                            boost::asio::ip::tcp::resolver::iterator endpoint_iterator
                                          )
 {
     if (!err)
     {
         // Attempt a connection to the first endpoint in the list. Each endpoint will be tried until we successfully establish a connection.
-        tcp::endpoint endpoint = * endpoint_iterator;
+        auto endpoint = * endpoint_iterator;
         
         // Try to connect
         socket_.async_connect ( endpoint,
@@ -90,7 +90,7 @@ void asio_service_client::handle_resolve (
 
 void asio_service_client::handle_connect ( 
                                             const boost::system::error_code & err,
-                                            tcp::resolver::iterator endpoint_iterator
+                                            boost::asio::ip::tcp::resolver::iterator endpoint_iterator
                                          )
 {
     if ( !err )
@@ -102,11 +102,13 @@ void asio_service_client::handle_connect (
                                                 this,
                                                 boost::asio::placeholders::error ) );
     }
-    else if ( endpoint_iterator != tcp::resolver::iterator() )
+    else if ( endpoint_iterator != boost::asio::ip::tcp::resolver::iterator() )
     {
         // The connection failed. Try the next endpoint in the list.
         socket_.close();
-        tcp::endpoint endpoint = *endpoint_iterator;
+        
+        auto endpoint = *endpoint_iterator;
+        
         socket_.async_connect( endpoint,
                                boost::bind ( &asio_service_client::handle_connect, 
                                              this,
@@ -146,16 +148,16 @@ void asio_service_client::handle_read_status_line ( const boost::system::error_c
         
         if ( !response_stream || http_version.substr(0, 5) != "HTTP/" )
         {
-            invalid_query( "Invalid response" );
+            invalid_request( "Invalid response" );
             return;
         }
         if ( status_code != 200 )
         {
-            invalid_query( std::to_string( status_code ) );
+            invalid_request( std::to_string( status_code ) );
             return;
         }
 
-        // Read the response headers, which are terminated by a blank line. This is HTTP Protocol
+        // Read the response headers, which are terminated by a blank line. This is HTTP Protocol 1.0 & 1.1
         boost::asio::async_read_until( socket_, 
                                        response_, 
                                        "\r\n\r\n",
@@ -178,8 +180,16 @@ void asio_service_client::handle_read_headers ( const boost::system::error_code 
                                                this,
                                                boost::asio::placeholders::error ) );
         
-        // Finally call the reply handler
-        reply_handler( );
+        // Set the operation as complete
+        complete_ = true;
+        
+        // If a Callback is set - call it now
+        if ( callback_ )
+            callback_( response_ );
+        
+        // Else call this class's reply handler
+        else
+            handle_reply();
     }
     else error_handler( err );
 }
@@ -188,7 +198,7 @@ void asio_service_client::handle_read_content ( const boost::system::error_code 
 {
     if ( !err )
     {
-        // Continue reading remaining data until EOF - WARNING is this the best way for fast reading ? NOTE It reccursively calls its self - NOTE: My guess is it uses the default async_read buffer length
+        // Continue reading remaining data until EOF - It reccursively calls its self - My guess is it uses the default async_read buffer length
         boost::asio::async_read ( socket_, 
                                   response_,
                                   boost::asio::transfer_at_least( 1 ),
