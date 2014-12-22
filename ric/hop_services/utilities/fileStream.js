@@ -8,17 +8,9 @@
  */
 
 
-/*######################-<Private Variables here>-#######################*/
-var fs = require('fs');
-
-/*#######################################################################*/
-
-
-/*######################-<Private Functions here>-#######################*/
-
-function replace(string, find, replace){
-  return str.replace(new RegExp(find, 'g'), replace);
-}
+/*######################-<Global Variables here>-#######################*/
+//var this.fsModule() = require('this.fsModule()');
+//var Path = require('path'); 
 
 /*#######################################################################*/
 
@@ -26,30 +18,56 @@ function replace(string, find, replace){
  * @brief File Streaming Class/Object definition.
  */
 function fileStream(){
-  this.kind = 'fileStream';
+  /*-----Private methods/properties goes here (var getX = {})----*/
+  var kind_ = 'fileStream';
+  var Path_ = require('path');
+  var Fs_ = require('fs');
 
-  /*-----Static methods goes here (this.getX = function(){})*/
+  var replace = function(string, find, replace){
+    return str.replace(new RegExp(find, 'g'), replace);
+  }
 
-  /*--------------------------------------------------------*/
+  /*-------------------------------------------------------------*/
+
+  /*---Privileged methods goes here (this.getX = function(){})---*/
+  
+  /*!
+   * @brief Prototype kind get(er).
+   * @return Prototype kind value ('fileStream').
+   */ 
+  this.getKind = function(){
+    return kind_;
+  } 
+
+  /*!
+   * @brief Access path module object.
+   * @return path module object variable.
+   */ 
+  this.pathModule = function(){
+    return Path_;
+  }
+
+  /*!
+   * @brief Access fs module object.
+   * @return fs module object variable.
+   */ 
+  this.fsModule = function(){
+    return Fs_;
+  }
+  /*-------------------------------------------------------------*/
 };
 
 
 /*#######################-<Prorotype Methods>-##########################*/
 
 /*!
- * @brief 
- */
-fileStream.prototype.getTotalObjects = function(){
-  return total;
-};
-
-/*!
  * @brief Prototype kind get(er)
  * @return Prototype kind.
  */
 fileStream.prototype.getKind = function() {
-  return this.kind;
+  return kind;
 };
+
 
 /*!
  * @brief Wrapping Node.js readFileSync function.
@@ -57,61 +75,75 @@ fileStream.prototype.getKind = function() {
  * @return Returns data readen from file.
  */
 fileStream.prototype.readSync = function (_file){
-  if(fs.existsSync(_file)){
-    console.log("\033[01;33mReading requested file: %s", _file);
-    return fs.readFileSync(_file);
+  var path =  this.resolvePath(_file);
+  if(this.fsModule().existsSync(path)){
+    console.log("\033[0;33mReading requested file: %s", path);
+    return this.fsModule().readFileSync(path);
   }
   else{
-    console.log("\033[01;31mCannot access the requested file. File does not exist.");
+    console.log("\033[0;31mCannot access the requested file. File does not exist.");
     return 0;
   }
 };
 
+
 /*!
  * @brief Wrapping Node.js writeFileSync function.
- * @param _destPath File to write the data, specified by path.
+ * @param _dest File to write the data, specified by path.
  * @param _data Data to be written.
  * @return Undefined.
  */
-fileStream.prototype.writeSync = function (_destPath, _data)
+fileStream.prototype.writeSync = function (_dest, _data)
 {
-  if(fs.existsSync(_destPath)){
-    console.log("\033[01;34mFile [%s] allready exists. Overwriting...", _destPath);
+  var path =  this.resolvePath(_dest);
+  if(this.fsModule().existsSync(path)){
+    console.log("\033[0;36mFile [%s] allready exists. Overwriting...", path);
   }
   else{
-    console.log("\033[01;34mWriting requested data @ [%s]", _destPath);
+    console.log("\033[0;36mWriting requested data @ [%s]", path);
   }
-  fs.writeFileSync(_destPath, _data);
+  this.fsModule().writeFileSync(path, _data);
 };
+
 
 /*!
  * @brief Wrapping Node.js unlinkSync function.
- * @param _filePath File to be removed, specified by path.
+ * @param _file File to be removed, specified by path.
  * @return True if file existed and removed, false otherwise.
  */
-fileStream.prototype.rmSync = function (_filePath){
-  if(fs.existsSync(_filePath)){
-    fs.unlinkSync(_filePath);
-    console.log("Successfully deleted file: [%s]", _filePath);
+fileStream.prototype.rmSync = function (_file){
+  var path =  this.resolvePath(_file);
+  if(this.fsModule().existsSync(path)){
+    this.fsModule().unlinkSync(path);
+    console.log("\033[0;35mSuccessfully deleted file: [%s]", path);
     return true;
   }
   else{
-    console.log("File [%s] does not exist!", _filePath);
+    console.log("\033[0;31mFile [%s] does not exist!", path);
     return false;
   }
 };
 
-fileStream.prototype.resolve = function(_path){
-  var _newPath = _path;  
+
+/*!
+ * @brief Resolve input path to absolute path.
+ * @param _path Path to be resolved to absolute.
+ * @return Resolved absolute path.
+ */
+fileStream.prototype.resolvePath = function(_path){
+  var newPath = '';  
   /*<Regular expression to match "~" from _path string>*/
   var regexp = /~/g;
 
   if ( _path.match(regexp) ){
-        /*<Get username of currently loged in user>*/
-    var _user = process.env.LOGNAME;
-    var _newPath = _path.replace(regexp, '/home/' + _user);
+    /*<Get username of currently loged in user>*/
+    var user = process.env.LOGNAME;
+    var newPath = _path.replace(regexp, '/home/' + user);
   }
-  return _newPath;
+  else{
+    newPath = this.pathModule().resolve(_path);
+  }
+  return newPath;
 }
 
 

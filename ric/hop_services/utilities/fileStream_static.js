@@ -8,33 +8,33 @@
  *
  */
 
+/*##########-<Global use variables>-################################*/
+var Fs = require('fs');
+var Path = require('path'); 
 
-/*######################-<Private Variables here>-#######################*/
-var fs = require('fs');
+/*##################################################################*/
 
-/*#######################################################################*/
-
-/*######################-<Private Functions/Members here>-#######################*/
-
-function replace(string, find, replace){
-  return str.replace(new RegExp(find, 'g'), replace);
-}
-
-/*#######################################################################*/
 
 /*!
  * @brief File Streaming Class/Object definition.
  */
 function fileStream(){
-  this.kind = 'fileStream';
+  /*-----Private methods/properties goes here (var getX = {})*/
+  var kind = 'fileStream_Static';
+  var replace = function(string, find, replace){
+    return str.replace(new RegExp(find, 'g'), replace);
+  }
+  /*--------------------------------------------------------*/
 
-  /*-----Static methods goes here (this.getX = function(){})*/
-
+  /*-----Privileged methods goes here (this.getX = function(){})*/
+  this.getKind = function(){
+    return kind;
+  }
   /*--------------------------------------------------------*/
 };
 
 
-/*#######################-<Static Methods/Members>-##########################*/
+/*###################-<Static Methods/Members>-####################*/
 
 /*!
  * @brief Wrapping Node.js readFileSync function. Static member method.
@@ -43,15 +43,16 @@ function fileStream(){
  */
 fileStream.readSync = function (_file){
   var path =  this.resolvePath(_file);
-  if(fs.existsSync(_file)){
-    console.log("\033[01;33mReading requested file: %s", _file);
-    return fs.readFileSync(_file);
+  if(Fs.existsSync(_file)){
+    console.log("\033[0;33mReading requested file: %s", _file);
+    return Fs.readFileSync(_file);
   }
   else{
-    console.log("\033[01;31mCannot access the requested file. File does not exist.");
+    console.log("\033[0;33mCannot access the requested file. File does not exist.");
     return 0;
   }
 };
+
 
 /*!
  * @brief Wrapping Node.js writeFileSync function. Static member method.
@@ -61,14 +62,15 @@ fileStream.readSync = function (_file){
  */
 fileStream.writeSync = function (_dest, _data){
   var path =  this.resolvePath(_dest);
-  if(fs.existsSync(path)){
-    console.log("\033[01;34mFile [%s] allready exists. Overwriting...", path);
+  if(Fs.existsSync(path)){
+    console.log("\033[0;36mFile [%s] allready exists. Overwriting...", path);
   }
   else{
-    console.log("\033[01;34mWriting requested data @ [%s]", path);
+    console.log("\033[0;36mWriting requested data @ [%s]", path);
   }
-  fs.writeFileSync(path, _data);
+  Fs.writeFileSync(path, _data);
 };
+
 
 /*!
  * @brief Wrapping Node.js unlinkSync function. Static member method.
@@ -77,17 +79,23 @@ fileStream.writeSync = function (_dest, _data){
  */
 fileStream.rmSync = function (_file){
   var path =  this.resolvePath(_file);
-  if(fs.existsSync(path)){
-    fs.unlinkSync(path);
+  if(Fs.existsSync(path)){
+    Fs.unlinkSync(path);
     console.log("Successfully deleted file: [%s]", path);
     return true;
   }
   else{
-    console.log("File [%s] does not exist!", path);
+    console.log("\033[0;31mFile [%s] does not exist!", path);
     return false;
   }
 };
 
+
+/*!
+ * @brief Resolve input path to absolute path.
+ * @param _path Path to be resolved to absolute.
+ * @return Resolved absolute path.
+ */
 fileStream.resolvePath = function(_path){
   /*<Regular expression to match "~" from _path string>*/
   var regexp = /~/g;
@@ -98,7 +106,7 @@ fileStream.resolvePath = function(_path){
     newPath = _path.replace(regexp, '/home/' + user);
   }
   else{
-    newPath = fs.realpathSync(_path);
+    newPath = require('path').resolve(_path);
   }
   return newPath;
 }
