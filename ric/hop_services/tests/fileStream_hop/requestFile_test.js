@@ -17,7 +17,6 @@ destPath = rapp_hop_path + "tests/auxiliary/Robot_Blue_copy.jpg";
 
 var data1 = rf.requestFile(file, true, params);
 
-fsbin.writeFileAsync(destPath, data1);
-
+fsbin.writeFileSync(destPath, data1);
 
 

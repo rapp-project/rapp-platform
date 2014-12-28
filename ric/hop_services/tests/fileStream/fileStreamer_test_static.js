@@ -4,7 +4,7 @@ var filePath = rapp_hop_path + "tests/auxiliary/Robot_Blue.jpg";
 var destFilePath = rapp_hop_path + "tests/auxiliary/Robot_Blue_copy.jpg";
 var destFilePath2 = "../../tests/auxiliary/Robot_Blue_copy2.jpg";
 
-var fs = require(rapp_hop_path + "utilities/./fileStream_static.js")
+var fs = require(rapp_hop_path + "utilities/old/./fileStream_static.js")
 
 var data = fs.readSync(filePath);
 fs.writeSync(destFilePath, data);
