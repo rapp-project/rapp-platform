@@ -1,7 +1,7 @@
 
 var version = "0.0.1"; //Current module version
 
-var Fs = require('fs');
+var fs = require('fs');
 var Path = require('path');
 
 /*!
@@ -45,10 +45,10 @@ function resolvePath(_path)
 function readFileSync(_file)
 {
   var path = resolvePath(_file);
-  if(Fs.existsSync(_file))
+  if(fs.existsSync(path))
   {
-    console.log("\033[0;33mReading requested file: [%s]\033[0;0m", _file);
-    return Fs.readFileSync(_file);
+    console.log("\033[0;33mReading requested file: [%s]\033[0;0m", path);
+    return fs.readFileSync(path);
   }
   else
   {
@@ -56,6 +56,29 @@ function readFileSync(_file)
     return 0;
   }
 };
+
+
+/*!
+ * @brief Reads the contents of a file and stores them in a binary format.
+ * @param _file File to be read, specified by path.
+ * @return Returns binary data readen from file.
+ */
+function readBinFileSync(_file)
+{
+  var path = resolvePath(_file);
+  if(fs.existsSync(path))
+  {
+    console.log("\033[0;33mReading requested file (binary encoding): [%s]\033[0;0m", path);
+    var dataBuffer = fs.readFileSync(path);
+    var dataBin = dataBuffer.toString('binary', 0, dataBuffer.length);
+    return dataBin;
+  }
+  else
+  {
+    console.log("\033[01;31mCannot access the requested file. File does not exist.\033[0;0m");
+    return 0;
+  }
+}
 
 
 /*!
@@ -67,16 +90,36 @@ function readFileSync(_file)
 function writeFileSync(_dest, _data)
 {
   var path =  resolvePath(_dest);
-  if(Fs.existsSync(path))
-  {
+  if(fs.existsSync(path)){
     console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
   }
-  else
-  {
+  else{
     console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
   }
-  Fs.writeFileSync(path, _data);
+  fs.writeFileSync(path, _data);
 };
+
+
+/*!
+ * @brief Writes binary data to a file. 
+ * @param _dest Destination file name to write the data, specified by path.
+ * @param _data Data to be written.
+ * @return Undefined.
+ */
+function writeBinFileSync( _dest, _data )
+{
+  var path =  resolvePath(_dest);
+  if(fs.existsSync(path)){
+    console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
+  }
+  else{
+    console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
+  }
+
+  var p = #:open-output-file( #:js-tostring( path, #:%this ) );
+  #:display( #:js-tostring( _data, #:%this ), p );
+  #:close-output-port( p );
+}
 
 
 /*!
@@ -87,9 +130,9 @@ function writeFileSync(_dest, _data)
 function rmFileSync(_file)
 {
   var path =  resolvePath(_file);
-  if(Fs.existsSync(path))
+  if(fs.existsSync(path))
   {
-    Fs.unlinkSync(path);
+    fs.unlinkSync(path);
     console.log("Successfully deleted file: [%s]", path);
     return true;
   }
@@ -102,12 +145,14 @@ function rmFileSync(_file)
 
 
 /*!
- * @brief fileUtils module exports
+ * @brief fileUtils module exports.
  */
 module.exports = {
   version: getVersion,
   resolvePath: resolvePath,
   readFileSync: readFileSync,
+  readBinFileSync: readBinFileSync,
   writeFileSync: writeFileSync,
+  writeBinFileSync: writeBinFileSync,
   rmFileSync: rmFileSync
 }
