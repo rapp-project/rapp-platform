@@ -144,6 +144,27 @@ function rmFileSync(_file)
 };
 
 
+function getFilesListSync(_dir)
+{
+  var fileList = [];
+  var dir = resolvePath( _dir );
+  var files = fs.readdirSync(dir);
+  for(var i in files)
+  {
+    var fullPath = dir + '/' + files[i];
+    if (fs.statSync(fullPath).isDirectory())
+    {
+      continue;
+    }
+    else{
+      fileList.push( files[i] );
+    }
+  }
+  return fileList;
+};
+
+
+
 /*!
  * @brief fileUtils module exports.
  */
@@ -154,5 +175,6 @@ module.exports = {
   readBinFileSync: readBinFileSync,
   writeFileSync: writeFileSync,
   writeBinFileSync: writeBinFileSync,
-  rmFileSync: rmFileSync
+  rmFileSync: rmFileSync,
+  getFilesListSync: getFilesListSync
 }
