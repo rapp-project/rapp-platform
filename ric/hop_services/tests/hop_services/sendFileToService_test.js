@@ -22,7 +22,7 @@ var ServerParams = require(rapp_hop_path + "utilities/./ServerParams.js");
 
 var params = new ServerParams(false, "localhost", 9001, "", "");
 var hsu = new HopUtils();
-hsu.init(serverParams);
+hsu.init(params);
 hsu.sendFile(filePath, destPath);
 
 
