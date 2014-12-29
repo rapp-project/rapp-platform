@@ -19,6 +19,9 @@ function serverParams(asynch, host, port, user, psswd) {
   this.port = port;
   this.userName = user;
   this.password = psswd;
+  this.fail = function(err){
+    console.log("\033[01;31m[ERROR] Connection refused: \033[0;0m", err);
+  }
 };
 
 /*###########-<Class Methods>-##########*/
