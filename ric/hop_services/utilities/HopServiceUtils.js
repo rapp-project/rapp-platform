@@ -86,12 +86,25 @@ HopServiceUtils.prototype.getFile = function (_filePath, _destPath)
     function(data)
     {
       console.log("Transmitting Requested file: \033[0;35m[%s]", filePath);
-      //return data;
+      return data;
     },
     this.getServerParams()
   );
   Fs.writeBinFileSync( _destPath, dataBin);
   return dataBin;
+}
+
+HopServiceUtils.prototype.qrNode = function (_qrImagePath)
+{
+  import service qrNode (_qrImage);
+  var qrData = Fs.readBinFileSync( _qrImagePath ); 
+  var retMessage = qrNode(qrData).post(
+    function(data){
+      return data;
+    },
+    this.getServerParams() 
+  );
+  return retMessage;
 }
 
 
