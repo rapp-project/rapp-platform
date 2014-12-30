@@ -4,39 +4,70 @@ var Fs = require('./fileUtils.js');
 
 function HopServiceUtils()
 {
-  var serverParams_ = {
-    asynchronous: false,
-    host: "",
-    port: 9001,
-    user: "",
-    password: "",
-    fail: function(err){
-      console.log("\033[01;31m[ERROR] Connection refused: ", err)
-    }
-  }
+  var serverParams_ = {};
 
+  /*!
+   * @brief Stored server params get(er).
+   * @return Server Parameters object literal.
+   */
   this.getServerParams = function(){
     return serverParams_;
   }
-  
-  this.setAsync = function(value){
+
+  /*!
+   * @brief Sets asynchronous value on server parameters object literal.
+   * @param value Asynchronous value (Boolean).
+   */
+  this.setAsync = function( value ){
     serverParams_.asynchronous = value;
   }
 
-  this.setHostName = function(hostName){
+  /*!
+   * @brief Sets Host value of server parameters object literal.
+   * @param hostName Host name value (String).
+   */
+  this.setHostName = function( hostName ){
     serverParams_.host = hostName;
   }
 
-  this.setPortNumber = function(portNumber){
+  /*!
+   * @brief Sets Port value of server parameters object literal.
+   * @param portNumber Port Number value.
+   */
+  this.setPortNumber = function( portNumber ){
     serverParams_.port = portNumber;
   }
 
-  this.setUserName = function(userName){
+  /*!
+   * @brief Sets User value of server parameters object literal.
+   * @param userName User name value (String). 
+   */
+  this.setUserName = function( userName ){
     serverParams_.user = userName;
   }
 
-  this.setPassword = function(passwd){
+  /*!
+   * @brief Sets Password value of server parameters object literal.
+   * @param passwd User password value (String). 
+   */
+  this.setPassword = function( passwd ){
     serverParams_.password = passwd;
+  }
+
+  /*!
+   * @brief Sets fail callback of server parameters object literal.
+   * @param fail Connection refused/fail callback function.
+   */
+  this.setFail = function( fail ){
+    serverParams_.fail = fail;
+  }
+
+  /*!
+   * @brief Sets server parameters object literal.
+   * @para serverParams ServerParameters Object.
+   */
+  this.setServerParams = function ( serverParams ){
+    serverParams_ = serverParams;
   }
   
 };
@@ -44,10 +75,12 @@ function HopServiceUtils()
 
 HopServiceUtils.prototype.init = function (_serverParams)
 {
-  this.setHostName(_serverParams.host);
-  this.setPortNumber(_serverParams.port);
-  this.setUserName(_serverParams.user);
-  this.setPassword(_serverParams.passwd);
+  this.setServerParams(_serverParams);
+  //this.setAsync(_serverParams.asynchronous);
+  //this.setHostName(_serverParams.hostName);
+  //this.setPortNumber(_serverParams.port);
+  //this.setUserName(_serverParams.userName);
+  //this.setPassword(_serverParams.password);
 };
 
 
@@ -98,12 +131,17 @@ HopServiceUtils.prototype.qrNode = function (_qrImagePath)
 {
   import service qrNode (_qrImage);
   var qrData = Fs.readBinFileSync( _qrImagePath ); 
+  var params = this.getServerParams();
+  console.log(params);
+  
+  /*-------Call QR_Node service-------*/
   var retMessage = qrNode(qrData).post(
     function(data){
       return data;
     },
-    this.getServerParams() 
+    this.getServerParams()
   );
+  /*----------------------------------*/
   return retMessage;
 }
 

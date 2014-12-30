@@ -15,9 +15,9 @@ var total = 0;
  */  
 function serverParams(asynch, host, port, user, psswd) {
   this.asynchronous = asynch;
-  this.hostName = host;
+  this.host = host;
   this.port = port;
-  this.userName = user;
+  this.user = user;
   this.password = psswd;
   this.fail = function(err){
     console.log("\033[01;31m[ERROR] Connection refused: \033[0;0m", err);
