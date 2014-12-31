@@ -14,6 +14,7 @@ var HopUtils = require(rapp_hop_path + "utilities/./HopServiceUtils.js");
 
 
 var qrImagePath = "~/Desktop/rapp-platform-catkin-ws/src/rapp-platform/ric/test_auxiliary_files/qr_code_rapp.jpg";
+var non_qrImagePath = rapp_hop_path + "tests/auxiliary/Robot_Blue.jpg"
 
 var params = new ServerParams(false, "155.207.19.37", 9001, "rappdev", "rappdev");
 
@@ -21,6 +22,10 @@ var hsu = new HopUtils();
 hsu.init( params );
 var retMessage = hsu.qrNode( qrImagePath );
 
+console.log("\033[01;33mQR_Node service returned message:\033[01;36m");
+console.log( retMessage );
+
+retMessage = hsu.qrNode( non_qrImagePath);
 console.log("\033[01;33mQR_Node service returned message:\033[01;36m");
 console.log( retMessage );
 
