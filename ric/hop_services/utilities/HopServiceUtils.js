@@ -132,7 +132,6 @@ HopServiceUtils.prototype.qrNode = function (_qrImagePath)
   import service qrNode (_qrImage);
   var qrData = Fs.readBinFileSync( _qrImagePath ); 
   var params = this.getServerParams();
-  console.log(params);
   
   /*-------Call QR_Node service-------*/
   var retMessage = qrNode(qrData).post(
