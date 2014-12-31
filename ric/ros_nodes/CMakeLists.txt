@@ -35,3 +35,4 @@ include_directories(include
 ## Nodes CMakeLists
 add_subdirectory(src/qr_detection)
 add_subdirectory(src/face_detection)
+add_subdirectory(src/email)

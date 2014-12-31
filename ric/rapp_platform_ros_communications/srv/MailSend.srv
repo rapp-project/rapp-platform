@@ -1,0 +1,11 @@
+# Server (e.g. 'smtp.gmail.com:587')
+std_msgs/String server
+std_msgs/String from_address
+std_msgs/String to_address
+std_msgs/String subject
+std_msgs/String body
+std_msgs/String attachment_file
+std_msgs/String username
+std_msgs/String password
+---
+std_msgs/String result

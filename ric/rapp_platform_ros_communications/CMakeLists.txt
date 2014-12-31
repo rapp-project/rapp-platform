@@ -26,6 +26,7 @@ add_service_files(
   QrDetectionRosSrv.srv
   SpeechToTextSrv.srv
   OntologySimpleQuerySrv.srv
+  MailSend.srv
 )
 
 ## Generate actions in the 'action' folder

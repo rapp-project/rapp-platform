@@ -1,0 +1,3 @@
+<launch>
+  <node name="email_node" pkg="ros_nodes" type="email.py" output="screen"/>
+</launch>
