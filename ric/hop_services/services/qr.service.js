@@ -47,9 +47,7 @@ function randomStringGen(_length, _charsArray) {
 service qrNode (_qrImage)
 {
 
-  var ros = new RosUtils();
-  ros.init_bridge('');
-  var randStr = "";
+    var randStr = "";
   cacheIdx = cacheIdx + 1;
   //randStr = randomStringGen(5);
   //while( cache[randStr] != undefined )
@@ -68,7 +66,7 @@ service qrNode (_qrImage)
   
    
   var qrImagePath = Fs.resolvePath( storePath + fileName );
-  var _args = {
+  var args = {
     //"header": header,
     "imageFilename": qrImagePath //filenamePATH    
   }; 
@@ -76,7 +74,9 @@ service qrNode (_qrImage)
   /*-----<Stores received image data>-----*/
   Fs.writeBinFileSync( qrImagePath, _qrImage );
   /*-----<Call QR ROS service through rosbridge>-----*/
-  var returnMessage = ros.callService(qrRosService, _args);
+  var ros = new RosUtils();
+  ros.init_bridge('');
+  var returnMessage = ros.callService( qrRosService, args );
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   
