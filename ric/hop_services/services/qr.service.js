@@ -13,6 +13,7 @@ var rapp_hop_path = "/home/" + user
 /*--------------Load required modules-----------*/
 var Fs = require( rapp_hop_path + "utilities/./fileUtils.js" );
 var RosUtils = require( rapp_hop_path + "utilities/./RosUtils.js" );
+var RandStringGen = require ( rapp_hop_path + "utilities/./randStringGen.js" );
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
@@ -25,20 +26,12 @@ var storePath = "/home/klpanagi/hop_temps/";
 //var ros = new RosUtils();
 //ros.init_bridge('');
 /*------------------------------------------------------*/
-var cache = new Object();
-var cacheIdx = -1;
 
-   
-function randomStringGen(_length, _charsArray) {
-  var chars = _charsArray || "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-  var string_length = _length || 5;
-  var randomString = "";
-  for (var i=0; i<string_length; i++) {
-    var rnum = Math.floor(Math.random() * chars.length);
-    randomString += chars.substring(rnum,rnum+1);
-  }
-  return randomString;
-}
+/*----<Random String Generator configurations---->*/
+var stringLength = 5;
+var randStrGen = new RandStringGen( stringLength );
+/*------------------------------------------------*/
+
 
 /*!
  * @brief QR Node HOP Service Core.
@@ -47,18 +40,7 @@ function randomStringGen(_length, _charsArray) {
 service qrNode (_qrImage)
 {
 
-    var randStr = "";
-  cacheIdx = cacheIdx + 1;
-  //randStr = randomStringGen(5);
-  //while( cache[randStr] != undefined )
-  do{
-    randStr = randomStringGen(5);
-
-  }
-  while ( cache[randStr.toString()] != undefined );
-  cache[randStr.toString()] = true; //true means exist.
-  console.log(cache);
-
+  var randStr = randStrGen.createUnique();
   var fileName = "qrImage-" + randStr + ".jpg";
   var qrFoundMessage = false;
 
@@ -80,7 +62,7 @@ service qrNode (_qrImage)
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   
-  delete cache[randStr.toString()];
+  randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
   return returnMessage; 
 }
