@@ -145,5 +145,23 @@ HopServiceUtils.prototype.qrNode = function (_qrImagePath)
 }
 
 
+HopServiceUtils.prototype.faceNode = function (_faceImagePath)
+{
+  import service faceNode (_faceImage);
+  var faceData = Fs.readBinFileSync( _faceImagePath ); 
+  var params = this.getServerParams();
+  
+  /*-------Call QR_Node service-------*/
+  var retMessage = faceNode(faceData).post(
+    function(data){
+      return data;
+    },
+    this.getServerParams()
+  );
+  /*----------------------------------*/
+  return retMessage;
+}
+
+
 /*Exporting the HopServiceUtils module*/
 module.exports = HopServiceUtils;
