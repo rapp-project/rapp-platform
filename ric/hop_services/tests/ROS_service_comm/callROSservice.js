@@ -21,7 +21,11 @@ var args = {
 
 ros.callService( serviceName, args );
 var msg = ros.getResponseMsg();
+console.log(msg);
 
+ros.init_bridge('');
+ros.callService( serviceName, args );
+var msg = ros.getResponseMsg();
 console.log(msg);
 
 //ros.closeSocket();
