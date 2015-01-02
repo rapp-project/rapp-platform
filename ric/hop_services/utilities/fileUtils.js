@@ -3,7 +3,6 @@ var version = "0.0.1"; //Current module version
 
 var fs = require('fs');
 var Path = require('path');
-
 /*!
  * @brief Returns module version number.
  * @return Module Version.
@@ -69,8 +68,8 @@ function readBinFileSync(_file)
   if(fs.existsSync(path))
   {
     console.log("\033[0;33mReading requested file (binary encoding): [%s]\033[0;0m", path);
-    var dataBuffer = fs.readFileSync(path);
-    var dataBin = dataBuffer.toString('binary', 0, dataBuffer.length);
+    var datadatafer = fs.readFileSync(path);
+    var dataBin = datadatafer.toString('binary', 0, datadatafer.length);
     return dataBin;
   }
   else
@@ -164,6 +163,43 @@ function getFilesListSync(_dir)
 };
 
 
+function text2File ( _data, _filePath ){
+  if ( Buffer.isBuffer( _data ) ){
+    var data = _data;
+  }
+  else if ( typeof _data == 'string' ){
+    var data = new Buffer( _data.length );
+    data.write( _data );
+  }
+  else{
+    console.log( "\033[01;31mInvalid Type of input parameter. Only String and datafer data are valid!\033[0;0m" );
+    return;
+  }
+
+  var fd = fs.openSync( _filePath, 'w' );
+  var numBytes = fs.writeSync( fd, data, 0, data.length, null );
+  fs.close(fd);
+};
+
+
+function writeLine ( _data, _filePath ){
+  if ( Buffer.isBuffer( _data ) ){
+    var data = new Buffer( _data.length + 1 );
+    data.write( _data.toString() + '\n' );
+
+  }
+  else if ( typeof _data == 'string' ){
+    var data = new Buffer( _data.length + 1 );
+    data.write( _data + '\n' );
+  }
+  else{
+    console.log( "\033[01;31mInvalid Type of input parameter. Only String and datafer data are valid!\033[0;0m" );
+    return;
+  }
+
+  var fd = fs.openSync( _filePath, 'a' );
+  var numBytes = fs.writeSync( fd, data, 0, data.length, null );
+}
 
 /*!
  * @brief fileUtils module exports.
@@ -176,5 +212,7 @@ module.exports = {
   writeFileSync: writeFileSync,
   writeBinFileSync: writeBinFileSync,
   rmFileSync: rmFileSync,
-  getFilesListSync: getFilesListSync
+  getFilesListSync: getFilesListSync,
+  text2File: text2File,
+  writeLine: writeLine
 }
