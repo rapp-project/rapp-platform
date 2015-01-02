@@ -68,8 +68,8 @@ function readBinFileSync(_file)
   if(fs.existsSync(path))
   {
     console.log("\033[0;33mReading requested file (binary encoding): [%s]\033[0;0m", path);
-    var datadatafer = fs.readFileSync(path);
-    var dataBin = datadatafer.toString('binary', 0, datadatafer.length);
+    var dataBuffer = fs.readFileSync(path);
+    var dataBin = dataBuffer.toString('binary', 0, dataBuffer.length);
     return dataBin;
   }
   else
@@ -172,13 +172,13 @@ function text2File ( _data, _filePath ){
     data.write( _data );
   }
   else{
-    console.log( "\033[01;31mInvalid Type of input parameter. Only String and datafer data are valid!\033[0;0m" );
+    console.log( "\033[01;31mInvalid Type of input parameter. Only String and Buffer data are valid!\033[0;0m" );
     return;
   }
 
   var fd = fs.openSync( _filePath, 'w' );
   var numBytes = fs.writeSync( fd, data, 0, data.length, null );
-  fs.close(fd);
+  fs.close( fd );
 };
 
 
@@ -193,12 +193,13 @@ function writeLine ( _data, _filePath ){
     data.write( _data + '\n' );
   }
   else{
-    console.log( "\033[01;31mInvalid Type of input parameter. Only String and datafer data are valid!\033[0;0m" );
+    console.log( "\033[01;31mInvalid Type of input parameter. Only String and Buffer data are valid!\033[0;0m" );
     return;
   }
 
   var fd = fs.openSync( _filePath, 'a' );
   var numBytes = fs.writeSync( fd, data, 0, data.length, null );
+  fs.close( fd );
 }
 
 /*!
