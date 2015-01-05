@@ -184,12 +184,7 @@ HopServiceUtils.prototype.uploadFile = function (
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   var localParams = _localServerParams || this.get_localServerParams(); 
 
-  /*-------------------Console Tracking-------------------------*/
-  console.log( '\nRequesting file \033[0;33m[%s]\033[0;0m' + 
-    'from remote hop server @\033[01;31m%s: %s\033[0;0m', 
-   _filePath, remoteParams.host, remoteParams.port );
-  /*------------------------------------------------------------*/
-
+  
   /*----<Call upload File hop service>----*/
   uploadFile( _filePath, _destPath, localParams ).post(
     function( data )

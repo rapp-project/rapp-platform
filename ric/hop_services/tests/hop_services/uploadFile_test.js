@@ -21,10 +21,10 @@ var startT, endT;
 
 var remoteServerParams = new ServerParams(
   false, "155.207.19.37", 9001, "rappdev", "rappdev");
-var localServerParams = new ServerParams( false, "155.207.33.185", 9001, "", "" );
+var localServerParams = new ServerParams( false, "155.207.33.185", 9001, "klpanagi", "peace" );
 
 var hsu = new HopUtils();
-hsu.init( localServerParams, remoteServerParams );
+//hsu.init( localServerParams, remoteServerParams );
 
 startT = new Date();
 hsu.uploadFile( file, destPath, localServerParams, remoteServerParams );
