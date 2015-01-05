@@ -9,11 +9,11 @@ var user = process.env.LOGNAME;
 var rapp_hop_path = "/home/" + user + 
   "/rapp_platform_catkin_ws/src/rapp-platform/ric/hop_services/";
 
-var Fs = require( rapp_hop_path + "utilities/./fileUtils.js" );
+var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
 //var fs = require( 'fs' );
 var Path = require('path');
 
-var fileList = Fs.getFilesListSync( rapp_hop_path + "services" );
+var fileList = Fs.getFilesListSync( /*rapp_hop_path +*/ "../services" );
 var Services = [];
 
 for (var i in fileList){

@@ -11,7 +11,7 @@ var rapp_hop_path = "/home/" + user
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
-var Fs = require( rapp_hop_path + "utilities/./fileUtils.js" );
+var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
 
 
 var Services = new Array();

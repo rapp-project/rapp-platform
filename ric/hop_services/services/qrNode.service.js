@@ -11,9 +11,9 @@ var rapp_hop_path = "/home/" + user
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
-var Fs = require( rapp_hop_path + "utilities/./fileUtils.js" );
-var RosUtils = require( rapp_hop_path + "utilities/./RosUtils.js" );
-var RandStringGen = require ( rapp_hop_path + "utilities/./randStringGen.js" );
+var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
+var RosUtils = require( /*rapp_hop_path +*/ "../utilities/./RosUtils.js" );
+var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.js" );
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
@@ -65,4 +65,45 @@ service qrNode (_qrImage)
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
   return returnMessage; 
+}
+
+
+service qrBrowser ( ){
+  
+  var title = "QR Service Tracking";
+  var currentTime = new Date( Date.now() ).toString();
+
+  return <HTML> 
+  {
+    <HEAD>{
+      include: "hop-font", "hop-color"
+    }
+    </HEAD>,
+    <P>{
+      style: "color:#6e00ff; text-align:center; font-family:Arial; font-size:2em", 
+      title 
+    }
+    </P>,
+    <P>{
+      style: "text-align:center; font-size:1em",
+      "Current Local Time: " + currentTime
+    }
+    </P>,
+    <FORM>{
+      "FilePath:",
+      <BR>{},
+      <INPUT>{
+        type:"text",
+        name:"filepath"
+      },
+      <BR>{},
+      "Name: ",
+      <BR>{},
+      <INPUT>{
+        type:"submit", 
+        value:"SUBMIT"
+      }
+    }
+    </FORM>
+  }
 }

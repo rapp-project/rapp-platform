@@ -11,9 +11,9 @@ var rapp_hop_path = "/home/" + user
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
-var Fs = require( rapp_hop_path + "utilities/./fileUtils.js" );
-var RosUtils = require( rapp_hop_path + "utilities/./RosUtils.js" );
-var RandStringGen = require ( rapp_hop_path + "utilities/./randStringGen.js" );
+var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
+var RosUtils = require( /*rapp_hop_path +*/ "../utilities/./RosUtils.js" );
+var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.js" );
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
