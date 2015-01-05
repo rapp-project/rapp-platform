@@ -4,14 +4,23 @@ var Fs = require('./fileUtils.js');
 
 function HopServiceUtils()
 {
-  var serverParams_ = {};
+  var remoteServerParams_ = {};
+  var localServerParams_ = {};
 
   /*!
-   * @brief Stored server params get(er).
-   * @return Server Parameters object literal.
+   * @brief Remote server params get(er).
+   * @return Remote Server Parameters object literal.
    */
-  this.getServerParams = function(){
-    return serverParams_;
+  this.get_remoteServerParams = function( ){
+    return remoteServerParams_;
+  }
+
+  /*!
+   * @brief Local server params get(er).
+   * @return Local Server Parameters object literal.
+   */
+  this.get_localServerParams = function( ){
+    return localServerParams_;
   }
 
   /*!
@@ -19,7 +28,7 @@ function HopServiceUtils()
    * @param value Asynchronous value (Boolean).
    */
   this.setAsync = function( value ){
-    serverParams_.asynchronous = value;
+    remoteServerParams_.asynchronous = value;
   }
 
   /*!
@@ -27,7 +36,7 @@ function HopServiceUtils()
    * @param hostName Host name value (String).
    */
   this.setHostName = function( hostName ){
-    serverParams_.host = hostName;
+    remoteServerParams_.host = hostName;
   }
 
   /*!
@@ -35,7 +44,7 @@ function HopServiceUtils()
    * @param portNumber Port Number value.
    */
   this.setPortNumber = function( portNumber ){
-    serverParams_.port = portNumber;
+    remoteServerParams_.port = portNumber;
   }
 
   /*!
@@ -43,7 +52,7 @@ function HopServiceUtils()
    * @param userName User name value (String). 
    */
   this.setUserName = function( userName ){
-    serverParams_.user = userName;
+    remoteServerParams_.user = userName;
   }
 
   /*!
@@ -51,7 +60,7 @@ function HopServiceUtils()
    * @param passwd User password value (String). 
    */
   this.setPassword = function( passwd ){
-    serverParams_.password = passwd;
+    remoteServerParams_.password = passwd;
   }
 
   /*!
@@ -59,108 +68,202 @@ function HopServiceUtils()
    * @param fail Connection refused/fail callback function.
    */
   this.setFail = function( fail ){
-    serverParams_.fail = fail;
+    remoteServerParams_.fail = fail;
   }
 
   /*!
-   * @brief Sets server parameters object literal.
+   * @brief Sets remote server parameters object literal.
    * @para serverParams ServerParameters Object.
    */
-  this.setServerParams = function ( serverParams ){
-    serverParams_ = serverParams;
+  this.set_remoteServerParams = function ( serverParams ){
+    remoteServerParams_ = serverParams;
   }
-  
+
+  /*!
+   * @brief Sets local server parameters object literal.
+   * @para serverParams ServerParameters Object.
+   */
+  this.set_localServerParams = function ( serverParams ){
+    localServerParams_ = serverParams;
+  } 
+
 };
 
 
-HopServiceUtils.prototype.init = function (_serverParams)
+HopServiceUtils.prototype.init = function ( _localServerParams, _remoteServerParams )
 {
-  this.setServerParams(_serverParams);
-  //this.setAsync(_serverParams.asynchronous);
-  //this.setHostName(_serverParams.hostName);
-  //this.setPortNumber(_serverParams.port);
-  //this.setUserName(_serverParams.userName);
-  //this.setPassword(_serverParams.password);
+  var remoteParams = _remoteServerParams || {};
+  var localParams = _localServerParams || {};
+
+  /*----<Set Remote and Local Server Parameters>---*/
+  this.set_remoteServerParams( remoteParams );
+  this.set_localServerParams( localParams );
+  /*-----------------------------------------------*/
+
+  console.log('\n\033[01;36mInitializing Remote Server Params:\033[0;0m');
+  console.log( this.get_remoteServerParams() );
+  console.log('\n\033[01;36mInitializing Local Server Params:\033[0;0m');
+  console.log( this.get_localServerParams() );
 };
 
 
-HopServiceUtils.prototype.sendFile = function (_filePath, _destPath)
+HopServiceUtils.prototype.sendFile = function ( _filePath, _destPath, _remoteServerParams )
 {
-  /*Call to read file in binary encoding so we can pass it 
-    as argument to the service*/
-  var dataBin = Fs.readBinFileSync(_filePath);
-  /*Resolves destination path to relative if possible*/
-  var destPath = Fs.resolvePath(_destPath);
-
   /*Importing the specific service*/
-  import service storeFile (_destPath, _data);
-  storeFile(destPath, dataBin).post(
-    function(returnMessage){
+  import service storeFile ( _destPath, _data );
+  /*----<Read binary data from requested file>----*/
+  var dataBin = Fs.readBinFileSync( _filePath );
+  /*----<Set parameters for Hop server>----*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  /*Resolves destination path to relative if possible*/
+  var destPath = Fs.resolvePath( _destPath );
+
+    var retMessage = storeFile( destPath, dataBin ).post(
+    function( returnMessage ){
       //if (returnMessage == true){
         //console.log("\033[0;33mFile data succesfully transfered");
       //}
       //else{
         //console.log("\033[01;31m[ERROR Transfering requested file data]");
       //}
+      return returnMessage;
     },
-    this.getServerParams()
+    remoteParams
   );
 
 };
 
 
-HopServiceUtils.prototype.getFile = function (_filePath, _destPath)
+HopServiceUtils.prototype.getFile = function ( _filePath, _destPath, _remoteServerParams )
 {
-  import service serveFile (_filePath);
-  /*Resolves from relative to absolute path (if).*/
-  var filePath = Fs.resolvePath(_filePath);
+  import service serveFile ( _filePath );
+  /*----<Set parameters for Hop server>----*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  
+  /*-------------------Console Tracking-------------------------*/
+  console.log( '\nRequesting file \033[0;33m[%s]\033[0;0m' + 
+    'from remote hop server @\033[01;31m%s: %s\033[0;0m', 
+   _filePath, remoteParams.host, remoteParams.port );
+  /*------------------------------------------------------------*/
 
-  var dataBin = serveFile( filePath ).post(
-    function(data)
+  /*----<Call serveFile hop service>----*/
+  var dataBin = serveFile( _filePath ).post(
+    function( data )
     {
-      console.log("Transmitting Requested file: \033[0;35m[%s]", filePath);
+      console.log('Transmited Requested file');
       return data;
     },
-    this.getServerParams()
+    remoteParams 
   );
-  Fs.writeBinFileSync( _destPath, dataBin);
+  /*----<Write the received "binary encoded" data in a file>----*/
+  Fs.writeBinFileSync( _destPath, dataBin );
   return dataBin;
 }
 
-HopServiceUtils.prototype.qrNode = function (_qrImagePath)
+
+/*!
+ * @brief Method to upload a file to the cloud.
+ *
+ * To make use of this method, the serveFile hop service must be up and running,
+ * and thats why we pass the _localServerParams.
+ *  
+ * Request to the cloud' s uploadFile service, where the client side serveFile
+ * hop service is called.
+ *
+ * @param _filePath Path of the file to be uploaded.
+ * @param _destPath Path to store the file (client-side);
+ * @param _localServerParams Object literal for client-side server parameters.
+ * @param _remoteServerParams Object literal for cloud-side server parameters.
+ * @return Undefined.
+ */
+HopServiceUtils.prototype.uploadFile = function ( 
+  _filePath, _destPath, _localServerParams, _remoteServerParams )
+{
+  import service uploadFile ( _filePath, _destPath, _clientParams );
+  /*----<Set parameters for Hop server>----*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  var localParams = _localServerParams || this.get_localServerParams(); 
+
+  /*-------------------Console Tracking-------------------------*/
+  console.log( '\nRequesting file \033[0;33m[%s]\033[0;0m' + 
+    'from remote hop server @\033[01;31m%s: %s\033[0;0m', 
+   _filePath, remoteParams.host, remoteParams.port );
+  /*------------------------------------------------------------*/
+
+  /*----<Call upload File hop service>----*/
+  uploadFile( _filePath, _destPath, localParams ).post(
+    function( data )
+    {
+      console.log('Transmited Requested file');
+      //return data;
+    },
+    remoteParams 
+  );
+}
+
+
+HopServiceUtils.prototype.qrNode = function ( _qrImagePathi, _remoteServerParams )
 {
   import service qrNode (_qrImage);
+  /*----<Set parameters of the hop server>---*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  /*----<Read data from file and store them in a stringified format>----*/
   var qrData = Fs.readBinFileSync( _qrImagePath ); 
-  var params = this.getServerParams();
   
   /*-------Call QR_Node service-------*/
-  var retMessage = qrNode(qrData).post(
-    function(data){
+  var retMessage = qrNode( qrData ).post(
+    function( data ){
       return data;
     },
-    this.getServerParams()
+    remoteParams
   );
   /*----------------------------------*/
   return retMessage;
 }
 
 
-HopServiceUtils.prototype.faceNode = function (_faceImagePath)
+HopServiceUtils.prototype.faceNode = function ( _faceImagePath, _remoteServerParams )
 {
   import service faceNode (_faceImage);
+  /*----<Set parameters of the hop server>---*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  /*----<Read data from file and store them in a stringified format>----*/
   var faceData = Fs.readBinFileSync( _faceImagePath ); 
-  var params = this.getServerParams();
   
-  /*-------Call QR_Node service-------*/
-  var retMessage = faceNode(faceData).post(
-    function(data){
+  /*-------Call face_Node service-------*/
+  var retMessage = faceNode( faceData ).post(
+    function( data ){
       return data;
     },
-    this.getServerParams()
+    remoteParams 
   );
   /*----------------------------------*/
   return retMessage;
 }
+
+HopServiceUtils.prototype.face_byPath = function ( _faceImagePath, _remoteServerParams, _localServerParams )
+{
+  /*----<Import service for face detection (input==filePath)>----*/
+  import service face_byPath ( _faceURL );
+  /*----<Set Remote parameters of the hop server>---*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  /*----<Set Local parameters of the hop server>---*/
+  var localParams = _localServerParams || this.get_localServerParams();
+
+  /*Resolves from relative to absolute path (if).*/
+  var filePath = Fs.resolvePath( _faceImagePath );
+
+  /*-------Call face_Node service-------*/
+  var retMessage = face_byPath( filePath, localParams ).post(
+    function( data ){
+      return data;
+    },
+    remoteParams
+  );
+  /*----------------------------------*/
+  return retMessage;
+}
+
 
 
 /*Exporting the HopServiceUtils module*/
