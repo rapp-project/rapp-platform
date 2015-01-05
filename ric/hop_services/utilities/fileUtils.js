@@ -58,9 +58,11 @@ function readFileSync(_file)
 
 
 /*!
- * @brief Reads the contents of a file and stores them in a binary format.
+ * @brief Reads the contents of a file and stores them 
+ * in a stringified binary format.
+ *
  * @param _file File to be read, specified by path.
- * @return Returns binary data readen from file.
+ * @return String in binary encoding format.
  */
 function readBinFileSync(_file)
 {
