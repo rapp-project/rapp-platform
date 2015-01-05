@@ -19,7 +19,8 @@ class UserSession
         require_once ( '../db.php' );
         $mysqli = new mysqli( db_host, db_user, db_pwd, db_name );
     
-        if ( mysqli_connect_errno() ) throw new Exception ( "UserSession::__construct Connect failed: " . mysqli_connect_error() );
+        if ( mysqli_connect_errno() ) 
+            throw new Exception ( "UserSession::__construct Connect failed: " . mysqli_connect_error() );
         
         // Query DB - check if user is enabled and check user's group
         if ( $stmt = $mysqli->prepare( "SELECT `usrgroup` FROM `tblUser` WHERE `username`=? AND `pwd`=?") )

@@ -10,47 +10,54 @@ namespace services
 /**
  * @class asio_service_client
  * @brief base class for asynchronous http websockets used for connecting to cloud services
- * @version 1
- * @date 20-December-2014
+ * @version 4
+ * @date 5-January-2015
  * @author Alex Gkiokas <a.gkiokas@ortelio.co.uk>
  * 
+ * @see http://www.jmarshall.com/easy/http/#postmethod for HTTP Protocol details
+ * @warning this class does not support SSL/TLS sockets
+ * 
  * TODO: Enable Time-out timers for a client connection ???
- * NOTE: This is subjective, some processing may take quite some time! It needs experimentation and a unique timeout per service
- * 
- * HTTP Protocol @see http://www.jmarshall.com/easy/http/#postmethod
- * Original Source @see http://www.boost.org/doc/libs/1_41_0/doc/html/boost_asio/example/http/client/async_client.cpp
- * 
- * @note this class will NOT Block the socket or process, and will not accept streams, only text data
- * @note this class will not work with SSL/TLS sockets
+ * NOTE: This is subjective, some processing may take quite some time! 
+ *       It needs experimentation and a unique timeout per service
  */
 class asio_service_client
 {
   public:
-    
 
     /**
-     * Construct the client by passing:
-     * @param io_service a boost service Async IO scheduler
-     * @param query is a resolved URL using boost IP TCP resolution
-     * @param header is the actual HTTP Header crafted accordingly
-     * @param post is the actual $_POST field following the HTTP Header
+     * Construct the async client. 
      */
-    asio_service_client ( 
-                            boost::asio::io_service & io_service,
-                            boost::asio::ip::tcp::resolver::query & query,
+    asio_service_client (
                             const std::string & header,
                             const std::string & post
                         );
+    
+    /**
+     * @param header is the actual HTTP Header crafted accordingly
+     * @param post is the actual $_POST field following the HTTP Header
+     * @param callback is a lamda or function pointer with the specific signature, that is invoked upon reply acquisition
+     */
+    asio_service_client (
+                           const std::string & header,
+                           const std::string & post,
+                           std::function<void( boost::asio::streambuf & )> callback
+                        );
 
-    // TODO
-    asio_service_client ( 
-                        boost::asio::io_service & io_service,
-                        boost::asio::ip::tcp::resolver::query & query,
-                        const std::string & header,
-                        const std::string & post,
-                        std::function<void( boost::asio::streambuf & )> callback
-                    );
-
+    /** 
+     * Schedule this client as a job for execution using
+     * @param query defines the actual URL/URI
+     * @param resolver is the URL/URI resolver reference
+     * @param io_service is the service queue on which this job will be scheduled to run
+     */
+    void Schedule ( 
+                    boost::asio::ip::tcp::resolver::query & query,
+                    boost::asio::ip::tcp::resolver & resolver,
+                    boost::asio::io_service & io_service
+                  );
+    
+  protected:  
+      
     /**
      * Handle the Reply
      * @note you have to override this method if inheriting
@@ -68,15 +75,6 @@ class asio_service_client
      * @param message is the message received from the service
      */
     virtual void invalid_request ( const std::string message );
-
-    /**
-     * Has this client completed its operation
-     * @return true or false
-     */
-    bool complete ( ) const;
-    
-    
-  private:
     
     /** 
      * Callback for Handling Address Resolution
@@ -122,13 +120,19 @@ class asio_service_client
      */
     void handle_read_content ( const boost::system::error_code & err );
     
+
     
+    /// Header that will be used
+    std::string header_;
     
-    /// Resolves URL/URIs
-    boost::asio::ip::tcp::resolver resolver_;
+    /// Actual post Data
+    std::string post_;
+    
+    /// Optional Callback Handler
+    std::function<void( boost::asio::streambuf & )> callback_;
     
     /// Actual Socket
-    boost::asio::ip::tcp::socket socket_;
+    std::unique_ptr<boost::asio::ip::tcp::socket> socket_;
     
     /// Request Container
     boost::asio::streambuf request_;
@@ -138,9 +142,6 @@ class asio_service_client
     
     /// Operation complete?
     bool complete_ = false;
-    
-    /// Optional Callback Handler
-    std::function<void( boost::asio::streambuf & )> callback_;
 };
 }
 }

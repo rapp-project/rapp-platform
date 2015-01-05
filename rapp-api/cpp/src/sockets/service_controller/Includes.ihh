@@ -1,1 +1,9 @@
+#include <thread>
+#include <functional>
+#include <vector>
+#include <memory>
+#include <mutex>
+
 #include <boost/asio.hpp>
+
+#include "../asio_service_client/asio_service_client.hpp"

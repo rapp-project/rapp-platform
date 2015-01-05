@@ -17,9 +17,11 @@ else
 <!-- Main RAPP Box -->
 <div id="layout" class="pure-g">
     
-    <?php require_once( 'rapp_sidebar.php' ); ?>
-    
     <?php
+        echo "<script type=\"text/javascript\">var username='".$_SESSION['username']."';</script>";
+    
+        require_once( 'rapp_sidebar.php' );
+    
         // TODO: Move all echoe'd stuff into respective PHP files
             
         /// NOTE: C/C++ Submission - hide this if user does not intend to upload/submit C/C++ code.
@@ -111,8 +113,12 @@ else
         switch( $step )
         {
             case 1:
-                require_once ( 'rapp_step1.php' );
-                break;
+            {
+                require_once ( 'uuid_v4.php' );
+                $_SESSION["rapp"] = array( "uuid" => uuidv4() );
+                require_once ( 'rapp_basics.php' );
+            }
+            break;
             
             case 2:
                 echo $step2_html;
@@ -142,73 +148,5 @@ else
         // TODO: Repeat the above switch-case for the main window html: the Forms, Upload Code, Dependencies, etc...
     ?>    
     </div>
-    
 </div>
 </body>
-
-
-<?
-/*
-<script>
-$(function() {
-    $( "#accordion" ).accordion();
-});
-</script>
-    
-<!-- RAPP Settings as a 2nd Side-bar ;-) -->
-<div class="mid-box" id="rapp_new_box">
-
-    <div id="accordion">
-    
-        <!-- Basic Stuff -->
-        <div class="rapp-new-menu-icon pure-u"><span class="oi oi-file"></span> Basic Settings</div>
-        <div>
-            <div class="content pure-u-1 pure-u-md-1-1">
-                <form id="basic-info" class="pure-form pure-form-stacked">
-                    <label for="Name">Name</label>
-                    <input id="Name" type="text" placeholder="Name">
-                    <label for="Version">Version</label>
-                    <input id="Version" type="text" placeholder="Version">
-                </form>
-            </div>
-        </div>
-        
-        <!-- C/C++ Source Control -->
-        <div class="rapp-new-menu-icon pure-u"><span class="oi oi-code"></span> Source Code</div>
-        <div>
-        </div>
-        
-        <!-- Scripts: Javascript -->
-        <div class="rapp-new-menu-icon pure-u"><span class="oi oi-script"></span> Scripts</div>
-        <div>
-        </div>
-        
-        <!-- Extra Files: Images, Databases, XML, JSON - NOTE: Exclude binary, scripts, etc. -->
-        <div class="rapp-new-menu-icon pure-u"><span class="oi oi-image"></span> Extras Files</span></div>
-        <div>
-        </div>
-        
-        <!-- Dependencies: Libraries and Headers -->
-        <div class="rapp-new-menu-icon pure-u"><span class="oi oi-list-rich"></span> Dependencies</div>
-        <div>
-        </div>
-        
-        <!-- Build: Compile and Link -->
-        <div class="rapp-new-menu-icon pure-u"><span class="oi oi-cog"></span> Build</span></div>
-        <div>
-        </div>
-        
-        <!-- RAPP Output
-        <div class="rapp-new-menu-icon pure-u"><span class="oi oi-terminal"></span> Output</span></div>
-        <div>
-        -->
-        
-        <!-- Distribute -->
-        <div class="rapp-new-menu-icon pure-u"><span class="octicon octicon-package"></span> Package and Distribute</span></div>
-        <div>
-        </div>
-        
-    </div>
-</div>
-*/
-?>

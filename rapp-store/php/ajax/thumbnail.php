@@ -1,12 +1,14 @@
 <?php
 
 header('Content-Type: text/plain; charset=utf-8');
+require_once( '../globals.php' );
+session_start();
 
-try 
+try
 {    
     // Undefined | Multiple Files | $_FILES Corruption Attack
     // If this request falls under any of them, treat it invalid.
-    if ( !isset($_FILES['upfile']['error']) || is_array($_FILES['upfile']['error'] ) ) 
+    if ( !isset ( $_FILES['upfile']['error']) || is_array($_FILES['upfile']['error'] ) ) 
         throw new RuntimeException('Invalid parameters.');
 
     // Check $_FILES['upfile']['error'] value.
@@ -42,18 +44,28 @@ try
     {
         throw new RuntimeException('Invalid file format.');
     }
-
-    // You should name it uniquely.
-    // DO NOT USE $_FILES['upfile']['name'] WITHOUT ANY VALIDATION !!
-    // On this example, obtain safe unique name from its binary data. - NOTE: I should use the RAPP Name here not a random name
-    if ( !move_uploaded_file( $_FILES['upfile']['tmp_name'], 
-                               sprintf('/home/alex/projects/rapp-platform/rapp-store/thumbnails/%s.%s', sha1_file($_FILES['upfile']['tmp_name']), $ext ) ) ) 
+    
+    if ( isset ( $_POST["name"] ) )
+        error_log ( "rename thumbnail to : " . $_POST["name"] );
+    
+    // Destination = directory + filename - extension is already given
+    $fullpath = thumbdir . $_FILES['upfile']['name'];
+    
+    // Try to move it
+    if ( !move_uploaded_file( $_FILES['upfile']['tmp_name'], $fullpath ) )
     {
-        throw new RuntimeException('Failed to move uploaded file.');
+        throw new RuntimeException ('Failed to move uploaded file.');
     }
-
-    echo 'File is uploaded successfully.';
-
+    else
+    {
+        $thumb = new Imagick( $fullpath );
+        $thumb->resizeImage( 128, 128, Imagick::FILTER_LANCZOS, 1 );
+        $thumb->writeImage( $fullpath );
+        $thumb->destroy();
+        echo basename( $fullpath );
+        
+        $_SESSION["rapp"]["thumbnail"] = $fullpath;
+    }
 } 
 catch (RuntimeException $e) 
 {

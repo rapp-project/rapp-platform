@@ -25,8 +25,8 @@ find_package( Boost 1.49 COMPONENTS system REQUIRED )
 
 # Tests used to evaluate the library
 add_executable ( async_client tests/async_client.cpp
-                              src/asio_service_client/asio_service_client.cpp
-                              src/service_controller/service_controller.cpp)
+                              src/sockets/asio_service_client/asio_service_client.cpp
+                              src/sockets/service_controller/service_controller.cpp)
                        
 #add_test ( TestAsyncClient async_client )
 

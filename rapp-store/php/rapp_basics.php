@@ -1,3 +1,4 @@
+
 <div class="pure-u pure-u-md-4-24">
     <div class="rapp-new-menu-item">
         <div class="rapp-new-menu-icon pure-u"><h2><span class="oi oi-file"></span></h2></div>
@@ -67,9 +68,9 @@
                 <p>
                     <table class="rapp-line-table"><tr>
                     <td><label for="cpuarch">CPU Architecture</label></td>
-                    <td><input type="checkbox" name="cpuarch[]" value="amd64"/><a cpuarch>  amd64</a></td></tr>
-                    <tr><td></td><td><input type="checkbox" name="cpuarch[]" value="i386"/><a cpuarch>  i386</a></td></tr>
-                    <tr><td></td><td><input type="checkbox" name="cpuarch[]" value="arm"/><a cpuarch>  arm</a></td></tr>
+                    <td><input type="checkbox" class="cpuarch" value="amd64"/><a cpuarch>  amd64</a></td></tr>
+                    <tr><td></td><td><input type="checkbox" class="cpuarch" value="i386"/><a cpuarch>  i386</a></td></tr>
+                    <tr><td></td><td><input type="checkbox" class="cpuarch" value="arm"/><a cpuarch>  arm</a></td></tr>
                     </table>
                 </p>
             </div>
@@ -78,8 +79,8 @@
                 <p>
                     <table class="rapp-line-table">
                     <tr><td><label for="RobotTypes">Robot platforms</label></td>
-                        <td><input type="checkbox" name="cpuarch[]" value="nao"/><a cpuarch>  NAO</a></td></tr>
-                    <tr><td></td><td><input type="checkbox" name="cpuarch[]" value="angmed"/><a cpuarch>  Ang-Med</a></td></tr>
+                        <td><input type="checkbox" class="robots" value="nao"/><a cpuarch>  NAO</a></td></tr>
+                    <tr><td></td><td><input type="checkbox" class="robots" value="angmed"/><a cpuarch>  Ang-Med</a></td></tr>
                     </table>
                 </p>
             </div>

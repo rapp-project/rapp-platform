@@ -38,7 +38,7 @@ if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) )
             require_once( '../user_session.php' );
             $obj = new UserSession( $_POST['username'], $_POST['password'] );
             $_SESSION['user'] = serialize( $obj );
-            
+            $_SESSION['username'] = $obj->usr;
             //var_dump( $obj );
             echo "OK";
         }

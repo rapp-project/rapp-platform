@@ -3,6 +3,8 @@
 #include <ostream>
 #include <string>
 #include <functional>
+#include <thread>
+
 
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>

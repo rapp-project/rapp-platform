@@ -5,23 +5,52 @@ namespace rapp
 namespace services
 {
 
+std::mutex service_controller::service_mtx_;
+
+    
 service_controller::service_controller ( )
-: __server( "localhost" ),
-  __io_service( ),
-  __query( __server, "http", boost::asio::ip::tcp::resolver::query::canonical_name )
+: server_ ( "localhost" ),      /// WARNING - This should be correctly pointing to http(s)://api.rapp.cloud
+  io_service_ ( ),
+  query_ ( server_, "http", boost::asio::ip::tcp::resolver::query::canonical_name ),
+  resolver_ ( io_service_ )
 {
+    //work_ = std::make_shared<boost::asio::io_service::work>( io_service_ );
 }
 
-boost::asio::io_service & service_controller::Scheduler ( )
+boost::asio::io_service & service_controller::queue ( )
 {
-    return __io_service;
+    return io_service_;
 }
 
-
-boost::asio::ip::tcp::resolver::query & service_controller::Resolver ( )
+void service_controller::runJob ( const std::shared_ptr<asio_service_client> job )
 {
-    return __query;
+    // WARNING : if synchronicity gives us problems here, then allocate a new io_service, and use it within scope
+    
+    if ( !job )
+        throw std::runtime_error ( "runJob: param job is null" );
+    
+    job->Schedule( query_, resolver_, io_service_ );
+    io_service_.run();
+    std::lock_guard<std::mutex> lock ( service_mtx_ );
+    io_service_.reset();
 }
+
+void service_controller::runJobs ( std::vector<std::shared_ptr<asio_service_client>> jobs )
+{
+    // WARNING : if synchronicity gives us problems here, then allocate a new io_service, and use it within scope
+    
+    for ( const auto & job : jobs )
+    {
+        if ( !job )
+            throw std::runtime_error ( "runJobs: job in vector is null" );
+        
+        job->Schedule( query_, resolver_, io_service_ );
+    }
+    io_service_.run();
+    std::lock_guard<std::mutex> lock ( service_mtx_ );
+    io_service_.reset();
+}
+
 
 }
 }
