@@ -236,20 +236,20 @@ HopServiceUtils.prototype.faceNode = function ( _faceImagePath, _remoteServerPar
   return retMessage;
 }
 
-HopServiceUtils.prototype.face_byPath = function ( _faceImagePath, _remoteServerParams, _localServerParams )
+HopServiceUtils.prototype.face_byPath = function ( _imagePath, _localServerParams, _remoteServerParams )
 {
   /*----<Import service for face detection (input==filePath)>----*/
-  import service face_byPath ( _faceURL );
+  import service face_byPath ( _imageURL, _clientParams );
   /*----<Set Remote parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Set Local parameters of the hop server>---*/
   var localParams = _localServerParams || this.get_localServerParams();
 
   /*Resolves from relative to absolute path (if).*/
-  var filePath = Fs.resolvePath( _faceImagePath );
+  //var filePath = Fs.resolvePath( _imagePath );
 
   /*-------Call face_Node service-------*/
-  var retMessage = face_byPath( filePath, localParams ).post(
+  var retMessage = face_byPath( _imagePath, localParams ).post(
     function( data ){
       return data;
     },
