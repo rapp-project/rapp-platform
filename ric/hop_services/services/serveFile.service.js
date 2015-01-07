@@ -19,10 +19,10 @@ var Fs = require( /*rapp_hop_path + */"../utilities/./fileUtils.js" );
  */
 service serveFile( _filePath ) 
 {  
-  var path = Fs.resolvePath( _filePath );
+  var fileURL = Fs.resolvePath( _filePath );
   //var file = serveFile.resource (_filePath);
-  console.log ( '\033[01;33m[ServeFile Service]\033[0;0m Serving file \033[0;31m%s\033[0;0m', _filePath );
+  console.log ( '\033[01;33m[ServeFile Service]\033[0;0m Serving file \033[0;31m%s\033[0;0m', fileURL );
   /* <Returns the requested file (data)> */
-  return hop.HTTPResponseFile ( _filePath );
+  return hop.HTTPResponseFile ( fileURL );
 }
 
