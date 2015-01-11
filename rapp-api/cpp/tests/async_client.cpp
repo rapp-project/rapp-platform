@@ -1,5 +1,5 @@
-#include "../src/sockets/asio_service_client/asio_service_client.hpp"
-#include "../src/sockets/service_controller/service_controller.hpp"
+#include "../src/cloud/asio_service_client/asio_service_client.hpp"
+#include "../src/cloud/service_controller/service_controller.hpp"
 #include <boost/lexical_cast.hpp>
 #include <thread>
 
@@ -44,12 +44,11 @@ int main ( int argc, char* argv[] )
         auto c1 = std::make_shared<rapp::services::asio_service_client>( header, post );
         auto c2 = std::make_shared<rapp::services::asio_service_client>( header, post );
         auto c3 = std::make_shared<rapp::services::asio_service_client>( header, post );
-        auto c4 = std::make_shared<rapp::services::asio_service_client>( header, post, 
-                                                                         [&]( boost::asio::streambuf & buffer )
-                                                                         { 
-                                                                            std::string raw ( ( std::istreambuf_iterator<char>( &buffer ) ), std::istreambuf_iterator<char>() );
-                                                                            std::cout << raw << std::endl;
-                                                                         } );
+        auto c4 = std::make_shared<rapp::services::asio_service_client>( header, post, [&]( boost::asio::streambuf & buffer )
+        {
+            std::string raw ( ( std::istreambuf_iterator<char>( &buffer ) ), std::istreambuf_iterator<char>() );
+            std::cout << raw << std::endl;
+        });
 
         /// Run all jobs together (asynchronous)
         auto jobs = { c1, c2, c3, c4 };

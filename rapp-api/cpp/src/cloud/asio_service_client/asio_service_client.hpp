@@ -29,8 +29,8 @@ class asio_service_client
      * Construct the async client. 
      */
     asio_service_client (
-                            const std::string & header,
-                            const std::string & post
+                          const std::string & header,
+                          const std::string & post
                         );
     
     /**

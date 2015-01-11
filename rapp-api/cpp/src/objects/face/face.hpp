@@ -4,7 +4,7 @@
 
 namespace rapp
 {
-namespace objects
+namespace object
 {
 
 /**

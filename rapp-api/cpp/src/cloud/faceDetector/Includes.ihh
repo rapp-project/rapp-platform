@@ -1,8 +1,17 @@
 #include <functional>
+#include <memory>
 
-#include <opencv2/core/mat.hpp>
+#include <opencv2/opencv.hpp>
 
-#include "../../sockets/asio_service_client/asio_service_client.hpp"
-#include "../../sockets/service_controller/service_controller.hpp"
+#include <boost/lexical_cast.hpp>
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+
+#include "../asio_service_client/asio_service_client.hpp"
+#include "../service_controller/service_controller.hpp"
+#include "../service/service.hpp"
+
+#include "../globals/globals.hpp"
+
 #include "../../objects/face/face.hpp"
 

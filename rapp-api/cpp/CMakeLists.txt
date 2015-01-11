@@ -20,28 +20,32 @@ include_directories(SYSTEM ${INCLUDE_HEADERS})
 add_subdirectory(src)
 
 find_package( Boost 1.49 COMPONENTS system REQUIRED )
-
-#enable_testing()
+find_package( OpenCV REQUIRED )
 
 # Tests used to evaluate the library
 add_executable ( async_client tests/async_client.cpp
-                              src/sockets/asio_service_client/asio_service_client.cpp
-                              src/sockets/service_controller/service_controller.cpp)
-                       
+                              src/cloud/asio_service_client/asio_service_client.cpp
+                              src/cloud/service_controller/service_controller.cpp)
+                              
+add_executable ( detect_face  tests/face_detect.cpp
+                              src/cloud/asio_service_client/asio_service_client.cpp
+                              src/cloud/service_controller/service_controller.cpp
+                              src/cloud/faceDetector/faceDetector.cpp)
+
+# If we want to create `tests`
+#enable_testing()
 #add_test ( TestAsyncClient async_client )
 
 # Build Libraries (both static and shared)
 #set (SOURCES ${SOURCES} src/asio_service_client/asio_service_client.cpp)
-
 #add_library (lrapp OBJECT ${SOURCES})
-
 #add_library (rapp.0.1 SHARED $<TARGET_OBJECTS:lrapp>)
 #target_link_libraries(rapp.0.1 ${Boost_SYSTEM_LIBRARY} )
-
 #add_library (rapp.0.1-static STATIC $<TARGET_OBJECTS:lrapp>)
 #target_link_libraries(rapp.0.1-static ${Boost_SYSTEM_LIBRARY} )
 
-target_link_libraries(async_client ${Boost_SYSTEM_LIBRARY} )
+target_link_libraries( async_client ${Boost_SYSTEM_LIBRARY} )
+target_link_libraries( detect_face ${Boost_SYSTEM_LIBRARY} ${OpenCV_LIBS} )
 
 set(CMAKE_COLOR_MAKEFILE on)
 set(CMAKE_VERBOSE_MAKEFILE on)

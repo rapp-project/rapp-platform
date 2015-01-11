@@ -27,7 +27,7 @@ void service_controller::runJob ( const std::shared_ptr<asio_service_client> job
     // WARNING : if synchronicity gives us problems here, then allocate a new io_service, and use it within scope
     
     if ( !job )
-        throw std::runtime_error ( "runJob: param job is null" );
+        throw std::runtime_error ( "service_controller::runJob => param job is null" );
     
     job->Schedule( query_, resolver_, io_service_ );
     io_service_.run();
@@ -42,7 +42,7 @@ void service_controller::runJobs ( std::vector<std::shared_ptr<asio_service_clie
     for ( const auto & job : jobs )
     {
         if ( !job )
-            throw std::runtime_error ( "runJobs: job in vector is null" );
+            throw std::runtime_error ( "service_controller::runJobs => job in vector is null" );
         
         job->Schedule( query_, resolver_, io_service_ );
     }
