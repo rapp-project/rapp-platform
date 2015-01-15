@@ -12,7 +12,7 @@ var rapp_hop_path = "/home/" + user
 
 /*--------------Load required modules-----------*/
 var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
-var ROSbridge = require("../utilities/./rosbridge.js");
+var RosUtils = require( /*rapp_hop_path +*/ "../utilities/./RosUtils.js" );
 var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.js" );
 /*----------------------------------------------*/
 
@@ -23,7 +23,7 @@ var faceRosService = "/ric/face_detection_service";
 var storePath = "/home/klpanagi/hop_temps/"; 
 
 /*---Initiatess Communication with RosBridge (Global)---*/
-var rosbridge = new ROSbridge();
+//var ros = new RosUtils();
 //ros.init_bridge('');
 /*------------------------------------------------------*/
 
@@ -34,40 +34,36 @@ var randStrGen = new RandStringGen( stringLength );
 
 
 /*!
- * @brief Face Detection HOP Service Core.
- *
+ * @brief QR Node HOP Service Core.
  * @param _data Image data in BINARY encoding/format.
- *
- * @return Message response from faceDetection ROS Node service.
  */
 service faceDetection ( _data )
 {
-  rosbridge.connect();
+
   var randStr = randStrGen.createUnique();
   var fileName = "faceImage-" + randStr + ".png";
 
-  console.log("[faceDetection] Client Request");
+  console.log("\033[01;36mRequest for faceDetection service\033[0;0m");
   
   var faceImagePath = Fs.resolvePath( storePath + fileName );
   var args = {
-    /* Image path to perform faceDetection, used as input to the 
-     *  Face Detection ROS Node Service
-     */
-    "imageFilename": faceImagePath
+    //"header": header,
+    "imageFilename": faceImagePath //filenamePATH    
   }; 
 
   /*-----<Stores received image data>-----*/
-  Fs.writeBinFileSync( faceImagePath, _data );
+  //Fs.writeBinFileSync( faceImagePath, _data );
 
-  /*-----<Call FaceDetection ROS service through rosbridge>-----*/
-  //var rosbridge = new ROSbridge();
-  //rosbridge.connect();
-  var returnMessage = rosbridge.callServiceSync( faceRosService, args );
-  rosbridge.close();
+  /*-----<Call QR ROS service through rosbridge>-----*/
+  //var ros = new RosUtils();
+  //ros.init_bridge('');
+  //var returnMessage = ros.callService( faceRosService, args );
+  var returnMessage = "I am a dummy message";
+
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
   return returnMessage; 
-};
+}

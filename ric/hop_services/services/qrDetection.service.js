@@ -1,6 +1,6 @@
 /*!
  * @file qr.service.js
- * @brief QR Detection Hop service running on Remote host.
+ * @brief QR service running on Remote host.
  *
  */
 
@@ -12,7 +12,7 @@ var rapp_hop_path = "/home/" + user
 
 /*--------------Load required modules-----------*/
 var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
-var ROSbridge = require( /*rapp_hop_path +*/ "../utilities/./rosbridge.js" );
+var RosUtils = require( /*rapp_hop_path +*/ "../utilities/./RosUtils.js" );
 var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.js" );
 /*----------------------------------------------*/
 
@@ -22,8 +22,9 @@ var qrRosService = "/ric/ros_nodes/qr_detection_service";
 /*--<Defines the directory where images received are stored>--*/
 var storePath = "/home/klpanagi/hop_temps/"; 
 
-/*---Create a RosBridge object to allow communication with rosbridge (Global)---*/
-var rosbridge = new ROSbridge();
+/*---Initiatess Communication with RosBridge (Global)---*/
+//var ros = new RosUtils();
+//ros.init_bridge('');
 /*------------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/
@@ -33,37 +34,33 @@ var randStrGen = new RandStringGen( stringLength );
 
 
 /*!
- * @brief QR_Detection HOP Service Core.
- *
- * @param _data Image data in BINARY encoding/format.
- *
- * @return Message response from qrDetection ROS Node service.
+ * @brief QR Node HOP Service Core.
+ * @param _qrImage Image data in BINARY encoding/format.
  */
-service qrDetection ( _data )
+service qrNode ( _data )
 {
-  rosbridge.connect(); //connect to rosbridge
+
   var randStr = randStrGen.createUnique();
   var fileName = "qrImage-" + randStr + ".jpg";
   var qrFoundMessage = false;
 
-  console.log("[QR-Detection] Client Request");
+  console.log("\033[01;36mRequest for qrDetection service\033[0;0m");
+  
    
   var qrImagePath = Fs.resolvePath( storePath + fileName );
   var args = {
-   /* Image path to perform QR Detection, used as input to the 
-     *  QR Detection ROS Node Service
-     */
-    "imageFilename": qrImagePath 
+    //"header": header,
+    "imageFilename": qrImagePath //filenamePATH    
   }; 
 
   /*-----<Stores received image data>-----*/
-  Fs.writeBinFileSync( qrImagePath, _data );
+  //Fs.writeBinFileSync( qrImagePath, _data );
 
-  /*-----<Call QR_Detection ROS service through rosbridge>-----*/
-  //var rosbridge = new ROSbridge();
-  //rosbridge.connect(); //connect to rosbridge
-  var returnMessage = rosbridge.callServiceSync( qrRosService, args );
-  rosbridge.close(); //disconnect from rosbridge
+  /*-----<Call QR ROS service through rosbridge>-----*/
+  //var ros = new RosUtils();
+  //ros.init_bridge('');
+  //var returnMessage = ros.callService( qrRosService, args );
+  var returnMessage = "I am a dummy message";
 
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
@@ -71,4 +68,4 @@ service qrDetection ( _data )
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
   return returnMessage; 
-};
+}
