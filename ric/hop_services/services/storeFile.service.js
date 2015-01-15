@@ -16,6 +16,9 @@ var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
 service storeFile ( _destPath, _data )
 {
   //var destPath = Fs.resolvePath(_destPath);
-  console.log("\033[01;36mReceived File in binary encoding\033[0;0m");
-  Fs.writeBinFileSync( _destPath, _data );
+  console.log("\033[0;32m[StoreFile] Client Request\033[0;0m");
+  console.log( typeof _data );
+  var dataSize = Fs.writeBinFileSync( _destPath, _data );
+
+  return dataSize;
 }

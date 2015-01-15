@@ -115,21 +115,15 @@ HopServiceUtils.prototype.sendFile = function ( _filePath, _destPath, _remoteSer
   var dataBin = Fs.readBinFileSync( _filePath );
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
-  /*Resolves destination path to relative if possible*/
-  var destPath = Fs.resolvePath( _destPath );
 
-    var retMessage = storeFile( destPath, dataBin ).post(
+  var retMessage = storeFile( _destPath, dataBin ).post(
     function( returnMessage ){
-      //if (returnMessage == true){
-        //console.log("\033[0;33mFile data succesfully transfered");
-      //}
-      //else{
-        //console.log("\033[01;31m[ERROR Transfering requested file data]");
-      //}
       return returnMessage;
     },
     remoteParams
   );
+
+  return retMessage;
 
 };
 
@@ -197,16 +191,16 @@ HopServiceUtils.prototype.uploadFile = function (
 }
 
 
-HopServiceUtils.prototype.qrNode = function ( _qrImagePathi, _remoteServerParams )
+HopServiceUtils.prototype.qrDetection = function ( _qrImagePath, _remoteServerParams )
 {
-  import service qrNode (_qrImage);
+  import service qrDetection ( _data );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
   var qrData = Fs.readBinFileSync( _qrImagePath ); 
   
   /*-------Call QR_Node service-------*/
-  var retMessage = qrNode( qrData ).post(
+  var retMessage = qrDetection( qrData ).post(
     function( data ){
       return data;
     },
@@ -217,22 +211,23 @@ HopServiceUtils.prototype.qrNode = function ( _qrImagePathi, _remoteServerParams
 }
 
 
-HopServiceUtils.prototype.faceNode = function ( _faceImagePath, _remoteServerParams )
+HopServiceUtils.prototype.faceDetection = function ( _faceImagePath, _remoteServerParams )
 {
-  import service faceNode (_faceImage);
+  import service faceDetection ( _data );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
   var faceData = Fs.readBinFileSync( _faceImagePath ); 
   
   /*-------Call face_Node service-------*/
-  var retMessage = faceNode( faceData ).post(
+  var retMessage = faceDetection( faceData ).post(
     function( data ){
       return data;
     },
     remoteParams 
   );
   /*----------------------------------*/
+
   return retMessage;
 }
 

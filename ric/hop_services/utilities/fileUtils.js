@@ -64,14 +64,16 @@ function readFileSync(_file)
  * @param _file File to be read, specified by path.
  * @return String in binary encoding format.
  */
-function readBinFileSync(_file)
+function readBinFileSync( _file )
 {
-  var path = resolvePath(_file);
-  if(fs.existsSync(path))
+  var path = resolvePath( _file );
+  if( fs.existsSync( path ) )
   {
-    console.log("\033[0;33mReading requested file (binary encoding): [%s]\033[0;0m", path);
-    var dataBuffer = fs.readFileSync(path);
-    var dataBin = dataBuffer.toString('binary', 0, dataBuffer.length);
+    var fileSize_bytes = getFilesizeInBytes( path );
+    console.log( "\033[0;33mReading requested file (binary encoding): [%s], size(bytes)==[%s]\033[0;0m",
+      path, fileSize_bytes.toString() );
+    var dataBuffer = fs.readFileSync( path );
+    var dataBin = dataBuffer.toString( 'binary', 0, dataBuffer.length );
     return dataBin;
   }
   else
@@ -97,7 +99,9 @@ function writeFileSync(_dest, _data)
   else{
     console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
   }
+
   fs.writeFileSync(path, _data);
+  console.log("\033[0;36mFinished writing requested data @ [%s]\033[0;0m", path);
 };
 
 
@@ -120,6 +124,11 @@ function writeBinFileSync( _dest, _data )
   var p = #:open-output-file( #:js-tostring( path, #:%this ) );
   #:display( #:js-tostring( _data, #:%this ), p );
   #:close-output-port( p );
+  var fileSize_bytes = getFilesizeInBytes( path );
+  console.log( "\033[0;36mFinished writing requested data @ [%s], size==[%s]\033[0;0m", 
+    path, fileSize_bytes.toString() );
+  return fileSize_bytes;
+
 }
 
 
@@ -174,7 +183,8 @@ function text2File ( _data, _filePath ){
     data.write( _data );
   }
   else{
-    console.log( "\033[01;31mInvalid Type of input parameter. Only String and Buffer data are valid!\033[0;0m" );
+    console.log( "\033[01;31mInvalid Type of input parameter." +
+      "Only String and Buffer data are valid!\033[0;0m" );
     return;
   }
 
@@ -204,6 +214,20 @@ function writeLine ( _data, _filePath ){
   fs.close( fd );
 }
 
+
+/*!
+ * @brief Getting File Size without Reading Entire File.
+ * @param _fileURL File System Url.
+ * @return Size of the file in bytes.
+ */
+function getFilesizeInBytes( _fileURL ) {
+  var path =  resolvePath( _fileURL );
+  var stats = fs.statSync( path );
+  var fileSizeInBytes = stats["size"];
+ return fileSizeInBytes;
+}
+
+
 /*!
  * @brief fileUtils module exports.
  */
@@ -217,5 +241,6 @@ module.exports = {
   rmFileSync: rmFileSync,
   getFilesListSync: getFilesListSync,
   text2File: text2File,
-  writeLine: writeLine
+  writeLine: writeLine,
+  getFilesizeInBytes: getFilesizeInBytes
 }
