@@ -110,7 +110,7 @@ HopServiceUtils.prototype.init = function ( _localServerParams, _remoteServerPar
 HopServiceUtils.prototype.sendFile = function ( _filePath, _destPath, _remoteServerParams )
 {
   /*Importing the specific service*/
-  import service storeFile ( );
+  import service storeFile ( _destPath, _data );
   /*----<Read binary data from requested file>----*/
   var dataBin = Fs.readBinFileSync( _filePath );
   /*----<Set parameters for Hop server>----*/
@@ -130,7 +130,7 @@ HopServiceUtils.prototype.sendFile = function ( _filePath, _destPath, _remoteSer
 
 HopServiceUtils.prototype.getFile = function ( _filePath, _destPath, _remoteServerParams )
 {
-  import service serveFile ( );
+  import service serveFile ( _filePath );
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   
@@ -173,7 +173,7 @@ HopServiceUtils.prototype.getFile = function ( _filePath, _destPath, _remoteServ
 HopServiceUtils.prototype.uploadFile = function ( 
   _filePath, _destPath, _localServerParams, _remoteServerParams )
 {
-  import service uploadFile ( );
+  import service uploadFile ( _filePath, _destPath, _clientParams );
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   var localParams = _localServerParams || this.get_localServerParams(); 
@@ -193,7 +193,7 @@ HopServiceUtils.prototype.uploadFile = function (
 
 HopServiceUtils.prototype.qrDetection = function ( _qrImagePath, _remoteServerParams )
 {
-  import service qrDetection ( );
+  import service qrDetection ( _data );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
@@ -213,7 +213,7 @@ HopServiceUtils.prototype.qrDetection = function ( _qrImagePath, _remoteServerPa
 
 HopServiceUtils.prototype.faceDetection = function ( _faceImagePath, _remoteServerParams )
 {
-  import service faceDetection ( );
+  import service faceDetection ( _data );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
@@ -231,28 +231,28 @@ HopServiceUtils.prototype.faceDetection = function ( _faceImagePath, _remoteServ
   return retMessage;
 }
 
-//HopServiceUtils.prototype.face_byPath = function ( _imagePath, _localServerParams, _remoteServerParams )
-//{
-  //[>----<Import service for face detection (input==filePath)>----<]
-  //import service face_byPath ( );
-  //[>----<Set Remote parameters of the hop server>---<]
-  //var remoteParams = _remoteServerParams || this.get_remoteServerParams();
-  //[>----<Set Local parameters of the hop server>---<]
-  //var localParams = _localServerParams || this.get_localServerParams();
+HopServiceUtils.prototype.face_byPath = function ( _imagePath, _localServerParams, _remoteServerParams )
+{
+  /*----<Import service for face detection (input==filePath)>----*/
+  import service face_byPath ( _imageURL, _clientParams );
+  /*----<Set Remote parameters of the hop server>---*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  /*----<Set Local parameters of the hop server>---*/
+  var localParams = _localServerParams || this.get_localServerParams();
 
-  //[>Resolves from relative to absolute path (if).<]
-  ////var filePath = Fs.resolvePath( _imagePath );
+  /*Resolves from relative to absolute path (if).*/
+  //var filePath = Fs.resolvePath( _imagePath );
 
-  //[>-------Call face_Node service-------<]
-  //var retMessage = face_byPath( _imagePath, localParams ).post(
-    //function( data ){
-      //return data;
-    //},
-    //remoteParams
-  //);
-  //[>----------------------------------<]
-  //return retMessage;
-//}
+  /*-------Call face_Node service-------*/
+  var retMessage = face_byPath( _imagePath, localParams ).post(
+    function( data ){
+      return data;
+    },
+    remoteParams
+  );
+  /*----------------------------------*/
+  return retMessage;
+}
 
 
 
