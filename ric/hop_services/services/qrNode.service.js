@@ -37,14 +37,14 @@ var randStrGen = new RandStringGen( stringLength );
  * @brief QR Node HOP Service Core.
  * @param _qrImage Image data in BINARY encoding/format.
  */
-service qrNode (_qrImage)
+service qrNode ( _data )
 {
 
   var randStr = randStrGen.createUnique();
   var fileName = "qrImage-" + randStr + ".jpg";
   var qrFoundMessage = false;
 
-  console.log("\033[01;36mRequest for qrNode service\033[0;0m");
+  console.log("\033[01;36mRequest for qrDetection service\033[0;0m");
   
    
   var qrImagePath = Fs.resolvePath( storePath + fileName );
@@ -54,56 +54,18 @@ service qrNode (_qrImage)
   }; 
 
   /*-----<Stores received image data>-----*/
-  Fs.writeBinFileSync( qrImagePath, _qrImage );
+  //Fs.writeBinFileSync( qrImagePath, _data );
+
   /*-----<Call QR ROS service through rosbridge>-----*/
-  var ros = new RosUtils();
-  ros.init_bridge('');
-  var returnMessage = ros.callService( qrRosService, args );
+  //var ros = new RosUtils();
+  //ros.init_bridge('');
+  //var returnMessage = ros.callService( qrRosService, args );
+  var returnMessage = "I am a dummy message";
+
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
   return returnMessage; 
-}
-
-
-service qrBrowser ( ){
-  
-  var title = "QR Service Tracking";
-  var currentTime = new Date( Date.now() ).toString();
-
-  return <HTML> 
-  {
-    <HEAD>{
-      include: "hop-font", "hop-color"
-    }
-    </HEAD>,
-    <P>{
-      style: "color:#6e00ff; text-align:center; font-family:Arial; font-size:2em", 
-      title 
-    }
-    </P>,
-    <P>{
-      style: "text-align:center; font-size:1em",
-      "Current Local Time: " + currentTime
-    }
-    </P>,
-    <FORM>{
-      "FilePath:",
-      <BR>{},
-      <INPUT>{
-        type:"text",
-        name:"filepath"
-      },
-      <BR>{},
-      "Name: ",
-      <BR>{},
-      <INPUT>{
-        type:"submit", 
-        value:"SUBMIT"
-      }
-    }
-    </FORM>
-  }
 }
