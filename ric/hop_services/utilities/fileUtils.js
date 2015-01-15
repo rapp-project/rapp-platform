@@ -154,7 +154,12 @@ function rmFileSync(_file)
 };
 
 
-function getFilesListSync(_dir)
+/*!
+ * @brief Reads the contents of a given directory path.
+ * @param _dir Directory path. Works both with relative and absolute paths.
+ * @return List of the contents of the specific directory (Array).
+ */
+function getFilesListSync( _dir )
 {
   var fileList = [];
   var dir = resolvePath( _dir );
@@ -174,6 +179,12 @@ function getFilesListSync(_dir)
 };
 
 
+/*!
+ * @brief Writes ascii encoded strings in a give file.
+ * @param _data Data to be written. Can be both a buffer or string.
+ * @param _filePath Destination file path.
+ * @return Undefined.
+ */
 function text2File ( _data, _filePath ){
   if ( Buffer.isBuffer( _data ) ){
     var data = _data;
@@ -194,6 +205,13 @@ function text2File ( _data, _filePath ){
 };
 
 
+/*!
+ * @brief Writes ascii encoded strings in a give file 
+ *  with a newLine character at the end of the given string (\n).
+ * @param _data Data to be written. Can be both a buffer or string.
+ * @param _filePath Destination file path.
+ * @return Undefined.
+ */
 function writeLine ( _data, _filePath ){
   if ( Buffer.isBuffer( _data ) ){
     var data = new Buffer( _data.length + 1 );
@@ -205,7 +223,8 @@ function writeLine ( _data, _filePath ){
     data.write( _data + '\n' );
   }
   else{
-    console.log( "\033[01;31mInvalid Type of input parameter. Only String and Buffer data are valid!\033[0;0m" );
+    console.log( "\033[01;31mInvalid Type of input parameter." + 
+     " Only String and Buffer data are valid!\033[0;0m" );
     return;
   }
 

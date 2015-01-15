@@ -44,7 +44,7 @@ service qrDetection ( _data )
   var fileName = "qrImage-" + randStr + ".jpg";
   var qrFoundMessage = false;
 
-  console.log("\033[01;36m[faceDetection] Client Request\033[0;0m");
+  console.log("\033[01;36m[QR-Detection] Client Request\033[0;0m");
    
   var qrImagePath = Fs.resolvePath( storePath + fileName );
   var args = {

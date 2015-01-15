@@ -60,10 +60,9 @@ service faceDetection_byPath ( _imageURL, _clientParams )
   hsu.getFile( _imageURL, imageStorePath, _clientParams );
 
   /*-----<Call QR ROS service through rosbridge>-----*/
-  //var ros = new RosUtils();
-  //ros.init_bridge('');
-  //var returnMessage = ros.callService( faceRosService, args );
-  var returnMessage = "I am a dummy message";
+  var ros = new RosUtils();
+  ros.init_bridge('');
+  var returnMessage = ros.callService( faceRosService, args );
 
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
