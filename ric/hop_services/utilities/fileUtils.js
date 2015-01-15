@@ -113,7 +113,7 @@ function writeFileSync(_dest, _data)
  */
 function writeBinFileSync( _dest, _data )
 {
-  var path =  resolvePath(_dest);
+  var path =  resolvePath( _dest );
   if(fs.existsSync(path)){
     console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
   }
