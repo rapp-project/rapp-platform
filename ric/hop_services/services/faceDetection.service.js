@@ -43,7 +43,7 @@ service faceDetection ( _data )
   var randStr = randStrGen.createUnique();
   var fileName = "faceImage-" + randStr + ".png";
 
-  console.log("\033[01;36mRequest for faceDetection service\033[0;0m");
+  console.log("\033[01;36m[faceDetection] Client Request\033[0;0m");
   
   var faceImagePath = Fs.resolvePath( storePath + fileName );
   var args = {
@@ -52,13 +52,12 @@ service faceDetection ( _data )
   }; 
 
   /*-----<Stores received image data>-----*/
-  //Fs.writeBinFileSync( faceImagePath, _data );
+  Fs.writeBinFileSync( faceImagePath, _data );
 
   /*-----<Call QR ROS service through rosbridge>-----*/
-  //var ros = new RosUtils();
-  //ros.init_bridge('');
-  //var returnMessage = ros.callService( faceRosService, args );
-  var returnMessage = "I am a dummy message";
+  var ros = new RosUtils();
+  ros.init_bridge('');
+  var returnMessage = ros.callService( faceRosService, args );
 
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );

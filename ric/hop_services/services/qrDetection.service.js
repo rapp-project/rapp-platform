@@ -44,8 +44,7 @@ service qrDetection ( _data )
   var fileName = "qrImage-" + randStr + ".jpg";
   var qrFoundMessage = false;
 
-  console.log("\033[01;36mRequest for qrDetection service\033[0;0m");
-  
+  console.log("\033[01;36m[faceDetection] Client Request\033[0;0m");
    
   var qrImagePath = Fs.resolvePath( storePath + fileName );
   var args = {
@@ -54,13 +53,12 @@ service qrDetection ( _data )
   }; 
 
   /*-----<Stores received image data>-----*/
-  //Fs.writeBinFileSync( qrImagePath, _data );
+  Fs.writeBinFileSync( qrImagePath, _data );
 
   /*-----<Call QR ROS service through rosbridge>-----*/
-  //var ros = new RosUtils();
-  //ros.init_bridge('');
-  //var returnMessage = ros.callService( qrRosService, args );
-  var returnMessage = "I am a dummy message";
+  var ros = new RosUtils();
+  ros.init_bridge('');
+  var returnMessage = ros.callService( qrRosService, args );
 
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
