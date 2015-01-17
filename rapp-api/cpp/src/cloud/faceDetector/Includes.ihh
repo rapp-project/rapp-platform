@@ -1,6 +1,8 @@
 #include <functional>
 #include <memory>
 
+#include <b64/encode.h>
+
 #include <opencv2/opencv.hpp>
 
 #include <boost/lexical_cast.hpp>

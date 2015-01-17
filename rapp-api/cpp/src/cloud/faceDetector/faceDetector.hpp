@@ -45,9 +45,11 @@ class faceDetector : public service
       /// Parse @param buffer received from the socket, into a vector of faces
       void handle ( boost::asio::streambuf & buffer );
       
-      /// Encode into base64 regardless of endianess @param image
-      std::string encode__ ( const cv::Mat & image );
+      /// Pre-Process @param image
+      std::string preprocess__ ( const cv::Mat & image );
       
+      ///
+      std::string base64_encode ( unsigned char const * bytes_to_encode, unsigned int in_len );
       
       
       /// The callback called upon completion of receiving the detected faces

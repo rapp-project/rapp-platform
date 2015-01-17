@@ -3,11 +3,9 @@
 /**
  * Define the RAPPServices object, which needs a username and password
  */
-function RAPPServices ( usr, pwd )
+function RAPPServices ( )
 {
-    this.cloud_url = "http://api.rapp.cloud";
-    this.user = usr;
-    this.pwd = pwd;
+    this.cloud_url = "http://localhost:8080/hop";
 }
 
 /**
@@ -15,19 +13,23 @@ function RAPPServices ( usr, pwd )
  */
 RAPPServices.prototype = 
 {
-    /// WARNING: Hardcoding Paths May be BAD Practice - MAYBE, Delegate all Service Calls to a Single Point?
-    Service: function ( parameter, callback )
+    /// Adder Call
+    Adder: function ( x, y, callback )
     {
-        var request = require('request');        
-        request( "http://localhost/service.php", 
-                 function ( error, response, body ) 
+        var request = require('request');
+        request.post({
+            headers: {'content-type' : 'application/x-www-form-urlencoded'},
+            url: this.cloud_url + "/adder",
+            body: "{'x':'" + x + "','y':'" + y + "'}"
+        },
+        function ( error, response, body ) 
         {
             if ( !error && response.statusCode == 200)
                 callback( body );
             else if ( error )
-                console.log ( error );
+                console.log ( "Error: " + error );
             else if ( response.statusCode != 200 )
-                console.log ( response.statusCode );
+                console.log ( "Error: " + response.statusCode );
         })
     }
 }

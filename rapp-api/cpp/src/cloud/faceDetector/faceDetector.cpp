@@ -12,18 +12,9 @@ faceDetector::faceDetector (
                               std::function< void( std::vector<rapp::object::face> objects ) > callback
                            )
 :  callback__ ( callback )
-{      
-    // TODO, This must be somehow global, not parametrised or hard-coded
-    std::string post =  "user=alex&pwd=qwepoi";
-    
-    /*
-     * NOTE: We will be sending the image to the Cloud/Service
-     * 
-     *       We can baseEncode64 the raw image into the POST Data, and the service will have to decode it before processing it.
-     *       Alternatively, we may transfer it via some other way.
-     *       However, bear in mind that we cannot always assume the same memory model, memory size, or endianess.
-     */
-    post += "&image=" + encode__ ( image );
+{          
+    // Serialise and base encode the image
+    std::string post = preprocess__ ( image );
     
     // Craft the actual header
     std::string header = "POST " + std::string( rapp::services::cloud::face_detect_uri ) + " HTTP/1.1\r\n";
@@ -32,6 +23,8 @@ faceDetector::faceDetector (
     
     // Adjust the Content-length, this is needed for a correct Header!
     header += "Content-Length: " + boost::lexical_cast<std::string>( post.length() ) + "\r\n";
+    
+    std::cout << post << std::endl;
     
     // Close connection after receiving and responding
     header += "Connection: close\r\n\r\n";
@@ -51,13 +44,6 @@ faceDetector::faceDetector (
 std::shared_ptr<rapp::services::asio_service_client> faceDetector::Job ( ) const
 {
     return client__;
-}
-
-std::string faceDetector::encode__ ( const cv::Mat & image )
-{
-    // TODO: base encode 64 the image regardless of endianess or CPU arch.
-    // SEE: http://www.cryptopp.com/docs/ref/class_base64_encoder.html
-    return "TODO";
 }
 
 void faceDetector::handle ( boost::asio::streambuf & buffer )
@@ -88,6 +74,28 @@ void faceDetector::handle ( boost::asio::streambuf & buffer )
     
     // call the user defined callback
     callback__( faces );
+}
+
+std::string faceDetector::preprocess__ ( const cv::Mat & image )
+{   
+    // TODO: Find out exactly how I can convert the cv::Mat to a stream, for base64 encoding
+    const auto * input = ( const unsigned char * )( image.data );
+    
+    /*
+    for ( int j = 0; j < image.rows; j++ )
+    {
+        for ( int i = 0; i < image.cols; i++ )
+        {
+            unsigned char b = input [ image.step * j + i ] ;
+            unsigned char g = input [ image.step * j + i + 1 ];
+            unsigned char r = input [ image.step * j + i + 2 ];
+        }
+    }
+    base64::encoder E;
+    E.encode(std::cin, std::cout);
+    */
+    
+    return "TODO";
 }
 
 

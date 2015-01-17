@@ -19,9 +19,6 @@ include_directories(SYSTEM ${INCLUDE_HEADERS})
 
 add_subdirectory(src)
 
-find_package( Boost 1.49 COMPONENTS system REQUIRED )
-find_package( OpenCV REQUIRED )
-
 # Tests used to evaluate the library
 add_executable ( async_client tests/async_client.cpp
                               src/cloud/asio_service_client/asio_service_client.cpp
@@ -32,9 +29,20 @@ add_executable ( detect_face  tests/face_detect.cpp
                               src/cloud/service_controller/service_controller.cpp
                               src/cloud/faceDetector/faceDetector.cpp)
 
-# If we want to create `tests`
-#enable_testing()
-#add_test ( TestAsyncClient async_client )
+# Find Libaries for which Cmake already has a meta-package
+find_package( Threads REQUIRED )
+find_package( Boost 1.49 COMPONENTS system thread REQUIRED )
+find_package( OpenCV REQUIRED )
+
+# Find Libraries the hard way
+find_library( LIBB64 NAMES libb64.a)
+if (LIBB64)
+  message(STATUS ${LIBB64})
+  target_link_libraries(async_client ${LIBB64})
+  target_link_libraries(detect_face ${LIBB64})
+else (!LIBB64)
+  message(FATAL_ERROR "ERROR: missing libb64")
+endif(LIBB64)
 
 # Build Libraries (both static and shared)
 #set (SOURCES ${SOURCES} src/asio_service_client/asio_service_client.cpp)
@@ -44,8 +52,8 @@ add_executable ( detect_face  tests/face_detect.cpp
 #add_library (rapp.0.1-static STATIC $<TARGET_OBJECTS:lrapp>)
 #target_link_libraries(rapp.0.1-static ${Boost_SYSTEM_LIBRARY} )
 
-target_link_libraries( async_client ${Boost_SYSTEM_LIBRARY} )
-target_link_libraries( detect_face ${Boost_SYSTEM_LIBRARY} ${OpenCV_LIBS} )
+target_link_libraries( async_client ${CMAKE_THREAD_LIBS_INIT} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY}  )
+target_link_libraries( detect_face ${CMAKE_THREAD_LIBS_INIT} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${OpenCV_LIBS} )
 
 set(CMAKE_COLOR_MAKEFILE on)
 set(CMAKE_VERBOSE_MAKEFILE on)
@@ -81,7 +89,7 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   # using GCC/Linux
   message (STATUS "GCC/Linux" )
   execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-  
+  add_definitions(-DBOOST_THREAD_USE_LIB)
   if (GCC_VERSION VERSION_GREATER 4.7 OR GCC_VERSION VERSION_EQUAL 4.7)
     message(STATUS "Info: g++ version >= 4.7 using C++11")
   

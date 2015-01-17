@@ -19,7 +19,7 @@ namespace cloud
 constexpr char server_address[] = "127.0.0.1";
 
 /// This assumes PHP - Not HOP ! @NOTE: this is used only for testing, FIX
-constexpr char face_detect_uri[] = "/service.php";
+constexpr char face_detect_uri[] = "/hop/faceDetection";
 
 }
 }

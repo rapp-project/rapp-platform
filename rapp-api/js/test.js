@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-// Import the RAPP JS API
+// Import the RAPP JS API & Init the Object
 var rapp = require('./RAPP.js');
-
-// Init services
-var services = new rapp.RAPPServices( "alex", "qwepoi" );
+var services = new rapp.RAPPServices( );
 
 /** 
  * This is the method that will handle the reply by services.Service
@@ -12,9 +10,8 @@ var services = new rapp.RAPPServices( "alex", "qwepoi" );
  */
 function handler ( data )
 {
-    console.log ( data );
+    console.log ( "Reply: " + data );
 }
 
-services.Service( "foo", handler );
-
-// TODO: We Need a List of RAPP services
+// Call Adder
+services.Adder( 5, 6, handler );
