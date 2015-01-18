@@ -1,6 +1,6 @@
 /*!
  * @file qrService_test.js
- * @brief Test for qrNode service call.
+ * @brief Test for faceDetection hop-service call.
  *
  */
 
@@ -15,22 +15,13 @@ var Fs = require(rapp_hop_path + "utilities/./fileUtils.js");
 var HopUtils = require(rapp_hop_path + "utilities/./HopServiceUtils.js");
 
 
-var qrImagePath = "~/Desktop/rapp-platform-catkin-ws/src/rapp-platform/ric/test_auxiliary_files/qr_code_rapp.jpg";
+var faceImagePath = "~/Desktop/rapp-platform-catkin-ws/src/rapp-platform/ric/test_auxiliary_files/Lenna.png";
 
-//var qrData = Fs.readBinFileSync( qrImagePath ); 
-//import service qrNode (_qrImage);
-
-//var retMessage = qrNode(qrData).post(
-  //function(data){
-    //return data;
-  //},
-  //params 
-//);
 
 var hsu = new HopUtils();
-hsu.init( params );
-var retMessage = hsu.qrNode( qrImagePath );
+hsu.init( params, params );
+var retMessage = hsu.faceDetection( faceImagePath );
 
-console.log("\033[01;33mQR_Node service returned message:\033[01;36m");
+console.log("\033[01;33mFaceDetection service returned message:\033[01;36m");
 console.log( retMessage );
-
+process.exit(0);
