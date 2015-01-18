@@ -24,7 +24,7 @@ add_executable ( async_client tests/async_client.cpp
                               src/cloud/asio_service_client/asio_service_client.cpp
                               src/cloud/service_controller/service_controller.cpp)
                               
-add_executable ( detect_face  tests/face_detect.cpp
+add_executable ( face_detect  tests/face_detect.cpp
                               src/cloud/asio_service_client/asio_service_client.cpp
                               src/cloud/service_controller/service_controller.cpp
                               src/cloud/faceDetector/faceDetector.cpp)
@@ -32,14 +32,14 @@ add_executable ( detect_face  tests/face_detect.cpp
 # Find Libaries for which Cmake already has a meta-package
 find_package( Threads REQUIRED )
 find_package( Boost 1.49 COMPONENTS system thread REQUIRED )
-find_package( OpenCV REQUIRED )
 
-# Find Libraries the hard way
+#find_package( OpenCV REQUIRED )
+
+# Find Lib Base64 - NOTE: I may replace this with Crypt++/OpenSSL or other Libraries if needed
 find_library( LIBB64 NAMES libb64.a)
 if (LIBB64)
   message(STATUS ${LIBB64})
-  target_link_libraries(async_client ${LIBB64})
-  target_link_libraries(detect_face ${LIBB64})
+  target_link_libraries(face_detect ${LIBB64})
 else (!LIBB64)
   message(FATAL_ERROR "ERROR: missing libb64")
 endif(LIBB64)
@@ -53,7 +53,7 @@ endif(LIBB64)
 #target_link_libraries(rapp.0.1-static ${Boost_SYSTEM_LIBRARY} )
 
 target_link_libraries( async_client ${CMAKE_THREAD_LIBS_INIT} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY}  )
-target_link_libraries( detect_face ${CMAKE_THREAD_LIBS_INIT} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${OpenCV_LIBS} )
+target_link_libraries( face_detect ${CMAKE_THREAD_LIBS_INIT} ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ) # ${OpenCV_LIBS}
 
 set(CMAKE_COLOR_MAKEFILE on)
 set(CMAKE_VERBOSE_MAKEFILE on)
@@ -89,13 +89,16 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   # using GCC/Linux
   message (STATUS "GCC/Linux" )
   execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-  add_definitions(-DBOOST_THREAD_USE_LIB)
+  
   if (GCC_VERSION VERSION_GREATER 4.7 OR GCC_VERSION VERSION_EQUAL 4.7)
     message(STATUS "Info: g++ version >= 4.7 using C++11")
   
   elseif ()
     message (FATAL_ERROR "g++ version >= 4.7 is required")
   endif()
+  
+  # Do I need this ?
+  #add_definitions(-DBOOST_THREAD_USE_LIB)
   
   # NOTE: gnu++11 enables GNU's violating options, whereas c++11 is strictly only the new version
   set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=gnu++11 -Wall -fPIC")

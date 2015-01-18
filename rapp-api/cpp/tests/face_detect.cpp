@@ -2,38 +2,49 @@
 #include "../src/cloud/faceDetector/faceDetector.hpp"
 
 #include <opencv2/opencv.hpp>
+#include <b64/encode.h>
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
 
 using namespace cv;
 
 int main ( int argc, char* argv[] )
 {
-    // First, Instantiate a Service Controller
     rapp::services::service_controller ctrl;
-    
-    /* Second, Load an Image (either from file, or from Camera - up to you
+
+    /**
+     * @date 18-January-2015
+     * @author Alex Gkiokas
      * 
-     * NOTE: You may load an image from a RAW buffer in memory, using: cv::imdecode
-     *       You may also, load an image from file, or somehow allocate from a live video feed (camera?)   
+     * One way of loading an image, is by getting it from the disk. We don't currently know how NAO acquires pictures, so this is tricky.
+     * For that reason, class faceDetector has two constructors, one which takes as argument the input stream of the picture bytes,
+     * and a second which takes as argument a vector<char>, where char is a byte.
+     * We cannot use classes or structures such as cv::Mat, it makes no sense, as the cloud will need to deserialise the cv::Mat structure.
+     * Instead, we can either send RAW BYTES, or BASE64 encoded Pictures.
+     * Base64 is always larger than the actual picture, so it may NOT be ideal.
+     * 
+     * If NAO can obtain an image as an array of bytes (char * bytes = new char [size]) or as a vector of bytes (std::vector<char>),
+     * then we can POST that data to the service.
      */
-    Mat image;
-    image = imread( "picture.jpg", CV_LOAD_IMAGE_COLOR );   // Read the file
-
-
-    if( !image.data )                                       // Check for invalid input
+    
+    std::ifstream image;
+    image.open ( "picture.jpg", std::ios_base::in | std::ios_base::binary | std::ios::ate );
+    
+    if ( image.is_open() )
     {
-        std::cout <<  "Could not open or find the image" << std::endl ;
-        return -1;
+        // Create detect object
+        auto fdetect = std::make_shared<rapp::services::cloud::faceDetector>( image, 
+                                                                            [&]( std::vector<std::pair<float,float>> faces )
+                                                                            {
+                                                                                std::cout << "found " << faces.size() << " faces!" << std::endl;
+                                                                            });
+        // Last, request from service controller to run this job
+        ctrl.runJob ( fdetect->Job() );
     }
-    
-    // Third, allocate a new faceDecector object
-    auto fdetect = std::make_shared<rapp::services::cloud::faceDetector>( image, 
-                                                                          [&]( std::vector<rapp::object::face> objects )
-                                                                          {
-                                                                            std::cout << "found " << objects.size() << " faces!" << std::endl;
-                                                                          } );
-    
-    // Last, request from service controller to run this job
-    ctrl.runJob ( fdetect->Job() );
+    else
+        std::cerr << "Error loading image" << std::endl;
 
     return 0;
 }
