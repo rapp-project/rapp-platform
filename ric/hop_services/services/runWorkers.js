@@ -41,4 +41,5 @@ for (var i in Services){
   var regexp = /.service.js/g;
   var str = Services[i].toString().replace( regexp, '' );
   Fs.writeLine ( str,  "availableServices.txt" );  
-}
+};
+

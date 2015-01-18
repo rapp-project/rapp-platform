@@ -21,7 +21,7 @@ service serveFile( _filePath )
 {  
   var fileURL = Fs.resolvePath( _filePath );
   //var file = serveFile.resource (_filePath);
-  console.log ( '\033[01;33m[ServeFile Service]\033[0;0m Serving file \033[0;31m%s\033[0;0m', fileURL );
+  console.log ( '[ServeFile Service]: Serving file [%s]', fileURL );
   /* <Returns the requested file (data)> */
   return hop.HTTPResponseFile ( fileURL );
 }
