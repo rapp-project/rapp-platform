@@ -16,7 +16,7 @@ var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
 service storeFile ( _destPath, _data )
 {
   //var destPath = Fs.resolvePath(_destPath);
-  console.log("\033[0;32m[StoreFile] Client Request\033[0;0m");
+  console.log("[StoreFile] Client Request");
   var dataSize = Fs.writeBinFileSync( _destPath, _data );
 
   return dataSize;
