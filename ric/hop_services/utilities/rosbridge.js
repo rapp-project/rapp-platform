@@ -208,23 +208,23 @@ function rosbridge( ){
    * @param[in] _msg Message to be sent.
    */
   this.send_message = function ( _msg, _callID ){
+    var _this = this;
     /*--<Clear msg response flag of this service call>--*/
     this.clear_responseFlag( _callID );
     console.log( "\033[01;32m[ROS-bridge]:\033[0;0m Sending message" );
     this.rosWS_.send( JSON.stringify( _msg ) ); //sends the message.   
+    this.rosWS_.onmessage = function (event){
+      console.log( "[ROS-bridge]: Received message" );
+      var received = event.value;
+      var msg = JSON.parse( received );
+      var callID = msg.id;
+      _this.add_receivedMsg( msg, callID );
+      _this.set_responseFlag( callID );
+    };
+
   };
 
-  //this.onmesssage_handler = function ( _callID ){
-    //var _this = this;
-
-    //this.rosWS_.onmessage = function (event){
-      //var received = event.value;
-      //_this.add_receivedMsg( JSON.parse (received) );
-      //_this.set_responseFlag( _callID );
-
-    //};
-  //};
-  /*---------------------------*/
+   /*---------------------------*/
 
   
 };
@@ -261,16 +261,6 @@ rosbridge.prototype.connect = function( rosbridgeURL ){
     console.log( '\033[01;32m[ROS-bridge]:\033[0;0m Websocket error: ' + error );
   };
 
-  var _this = this;
-
-  /*--<Websocket onmessage callback handler>--*/
-  this.rosWS_.onmessage = function (event){
-    var received = event.value;
-    var msg = JSON.parse( received );
-    var callID = msg.id
-    _this.add_receivedMsg( msg, callID );
-    _this.set_responseFlag( callID );
-  };
 };
 
 
