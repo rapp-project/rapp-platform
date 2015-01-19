@@ -229,31 +229,27 @@ HopServiceUtils.prototype.faceDetection = function ( _faceImagePath, _remoteServ
   /*----------------------------------*/
 
   return retMessage;
-}
+};
 
-//HopServiceUtils.prototype.face_byPath = function ( _imagePath, _localServerParams, _remoteServerParams )
-//{
-  //[>----<Import service for face detection (input==filePath)>----<]
-  //import service face_byPath ( );
-  //[>----<Set Remote parameters of the hop server>---<]
-  //var remoteParams = _remoteServerParams || this.get_remoteServerParams();
-  //[>----<Set Local parameters of the hop server>---<]
-  //var localParams = _localServerParams || this.get_localServerParams();
+HopServiceUtils.prototype.speech2Text = function ( _audioFileUrl, _remoteServerParams )
+{
+  import service speech2Text ( );
+  /*----<Set parameters of the hop server>---*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  /*----<Read data from file and store them in a stringified format>----*/
+  var audioData = Fs.readBinFileSync( _audioFileUrl ); 
+  
+  /*-------Call face_Node service-------*/
+  var retMessage = speech2Text( audioData ).post(
+    function( data ){
+      return data;
+    },
+    remoteParams 
+  );
+  /*----------------------------------*/
 
-  //[>Resolves from relative to absolute path (if).<]
-  ////var filePath = Fs.resolvePath( _imagePath );
-
-  //[>-------Call face_Node service-------<]
-  //var retMessage = face_byPath( _imagePath, localParams ).post(
-    //function( data ){
-      //return data;
-    //},
-    //remoteParams
-  //);
-  //[>----------------------------------<]
-  //return retMessage;
-//}
-
+  return retMessage;
+};
 
 
 /*Exporting the HopServiceUtils module*/
