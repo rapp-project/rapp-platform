@@ -12,7 +12,7 @@ var ServerParams = require(rapp_hop_path + "utilities/./ServerParams.js");
 var params = new ServerParams(false, "localhost", 9001, "", "");
 
 var Fs = require(rapp_hop_path + "utilities/./fileUtils.js");
-var HopUtils = require(rapp_hop_path + "utilities/./HopServiceUtils.js");
+var HopUtils = require(rapp_hop_path + "utilities/./hopServices.js");
 
 
 var qrImagePath = "~/Desktop/rapp-platform-catkin-ws/src/rapp-platform/ric/test_auxiliary_files/qr_code_rapp.jpg";
