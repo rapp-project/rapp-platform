@@ -7,33 +7,36 @@ function randStringGen ( _length, _charsArray ) {
 
   this.setCharsArray = function ( _charsArray ){
     charsArray_ = _charsArray || charsArray_;
-  }
+  };
 
   this.setLength = function ( _length ){
     stringLength_ = _length || stringLength_;
-  }
+  };
 
   this.getCharsArray = function ( ){
     return charsArray_;
-  }
+  };
 
   this.getLength = function ( ){
     return stringLength_;
-  }
+  };
 
   this.addCached = function ( _key ){
     cache_[ _key.toString() ] = true; //true means current string key exists.
     console.log( '\033[01;32mString [\033[01;31m %s \033[01;32m] added into cached unique strings\033[0;0m', _key);
-  }
+  };
 
-  this.removeCached = function ( _key ){
-    delete cache_[ _key.toString() ]; //remove string "_key" from cached random strings.
-    console.log( '\033[01;32mString [\033[01;31m %s \033[01;32m] removed from cached unique strings\033[0;0m', _key);
-  }
+  this.removeCached = function ( _key )
+  {
+    if( cache_[ _key.toString() ] !== undefined ){
+      delete cache_[ _key.toString() ]; //remove string "_key" from cached random strings.
+      console.log( '\033[01;32mString [\033[01;31m %s \033[01;32m] removed from cached unique strings\033[0;0m', _key);
+    }
+  };
 
   this.getCache = function ( ){
     return cache_;
-  }
+  };
 
   this.isUnique = function ( _key ){
     if ( cache_[ _key.toString() ] == undefined ){
@@ -42,7 +45,7 @@ function randStringGen ( _length, _charsArray ) {
     else{
       return false;
     }
-  }
+  };
 
 };
 

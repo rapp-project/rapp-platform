@@ -22,9 +22,11 @@ function rosbridge( ){
   /*---<Private Members>---*/
   var url_ = undefined;
 
-  var responseFlag_ = {};
+  //var responseFlag_ = {};
+  var responseFlag_ = false;
   var serviceCalls_ = {};
-  var receivedMsg_ = {};
+  //var receivedMsg_ = {};
+  var receivedMsg_ = undefined;
 
   var timeoutValue_ = 10000; // rosbridge connection timeout value.
   var randStrGen_ = new RandStringGen( 5 );
@@ -77,8 +79,8 @@ function rosbridge( ){
    *
    * @return True if a msg arrived. False otherwise.
    */
-  this.msgReceived = function ( _callID  ){
-    if ( responseFlag_[ _callID ] == true ){
+  this.msgReceived = function ( /*_callID*/  ){
+    if ( responseFlag_/*[ _callID ]*/ == true ){
       return true;
     }
     else{
@@ -92,17 +94,16 @@ function rosbridge( ){
    *
    * @param[in] Message to store.
    */
-  this.add_receivedMsg = function ( _msg, _callID ){
-    receivedMsg_[ _callID ] = _msg;
-    console.log( "\033[01;32m[ROS-bridge]:\033[0;0m Storing msg of callID: [%s]", _callID );
+  this.add_receivedMsg = function ( _msg/*, _callID*/ ){
+    receivedMsg_/*[ _callID ]*/ = _msg;
   };
 
 
   /*!
    * @brief Returns received from WebSocket, message.
    */
-  this.get_receivedMsg = function ( _callID ){
-    return receivedMsg_[ _callID ];
+  this.get_receivedMsg = function ( /*_callID*/ ){
+    return receivedMsg_/*[ _callID ]*/;
   };
 
 
@@ -120,8 +121,8 @@ function rosbridge( ){
    *
    * @param[in] _id Service unique ID.
    */ 
-  this.set_responseFlag = function ( _callID ){
-    responseFlag_[ _callID ] = true;
+  this.set_responseFlag = function ( /*_callID*/ ){
+    responseFlag_/*[ _callID ]*/ = true;
   };
 
 
@@ -131,8 +132,8 @@ function rosbridge( ){
    *
    * @param[in] _id Service unique ID.
    */ 
-  this.clear_responseFlag = function ( _callID ){
-    responseFlag_[ _callID ] = false;
+  this.clear_responseFlag = function ( /*_callID*/ ){
+    responseFlag_/*[ _callID ]*/ = false;
   };
 
 
@@ -202,28 +203,6 @@ function rosbridge( ){
   };
 
 
-  /*!
-   * @brief Sends a message to ROS-bridge using Websocket.
-   *
-   * @param[in] _msg Message to be sent.
-   */
-  this.send_message = function ( _msg, _callID ){
-    var _this = this;
-    /*--<Clear msg response flag of this service call>--*/
-    this.clear_responseFlag( _callID );
-    console.log( "\033[01;32m[ROS-bridge]:\033[0;0m Sending message" );
-    this.rosWS_.send( JSON.stringify( _msg ) ); //sends the message.   
-    this.rosWS_.onmessage = function (event){
-      console.log( "[ROS-bridge]: Received message" );
-      var received = event.value;
-      var msg = JSON.parse( received );
-      var callID = msg.id;
-      _this.add_receivedMsg( msg, callID );
-      _this.set_responseFlag( callID );
-    };
-
-  };
-
    /*---------------------------*/
 
   
@@ -248,18 +227,18 @@ rosbridge.prototype.connect = function( rosbridgeURL ){
   this.rosWS_ = new WebSocket( _rosbridgeURL );
   /*--<WebSocket onopen callback handler>--*/
   this.rosWS_.onopen = function (event) {
-    console.log('\033[01;32m[ROS-bridge]:\033[0;0m Connection opened');
+    console.log("[ROS-bridge]: Connection opened");
   };
 
   /*--<WebSocket onclose callback handler>--*/
-  this.rosWS_.onclose = function (event) {
-    console.log('\033[01;32m[ROS-bridge]:\033[0;0m Connection closed');
-  };
+  //this.rosWS_.onclose = function (event) {
+    //console.log("[ROS-bridge]: Connection closed");
+  //};
 
-  /*--<WebSocket onerror callback handler>--*/
-  this.rosWS_.onerror = function( error ){
-    console.log( '\033[01;32m[ROS-bridge]:\033[0;0m Websocket error: ' + error );
-  };
+  //[>--<WebSocket onerror callback handler>--<]
+  //this.rosWS_.onerror = function( error ){
+    //console.log( '\033[01;32m[ROS-bridge]:\033[0;0m Websocket error: ' + error );
+  //};
 
 };
 
@@ -271,6 +250,7 @@ rosbridge.prototype.connect = function( rosbridgeURL ){
  */
 rosbridge.prototype.close = function( ){
   this.rosWS_.close();
+  console.log( "[ROS-bridge]Closed Connection to rosbridge" )
 };
 
 
@@ -286,7 +266,7 @@ rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
   /*--<Get current time>--*/
   var currentTime = new Date().getTime();
 
-  this.inc_serviceCalls( _serviceName );
+  //this.inc_serviceCalls( _serviceName );
   /*--<Unique service ID for this service call>--*/
   var serviceCallID = _serviceName + "-" +
     this.genUniqueID( _serviceName );
@@ -318,9 +298,23 @@ rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
   var startT = new Date( ).getTime( );
   var endT;
   /*--------------------------------------------------*/
-  this.send_message( msg, serviceCallID );
+  /*--<Clear msg response flag of this service call>--*/
+  this.clear_responseFlag( /*_callID*/ );
+  console.log( "\033[01;32m[ROS-bridge]:\033[0;0m Sending message" );
+  this.rosWS_.send( JSON.stringify( msg ) ); //sends the message.   
 
-  while( this.msgReceived( serviceCallID ) == false )
+  var _this = this;
+  this.rosWS_.onmessage = function (event){
+    console.log( "[ROS-bridge]: Received message" );
+    var received = event.value;
+    var msg = JSON.parse( received );
+    //var callID = msg.id;
+    _this.add_receivedMsg( msg );
+    _this.set_responseFlag( );
+  };
+
+
+  while( this.msgReceived( /*serviceCallID*/ ) == false )
   {
     endT = new Date().getTime();
     if( (endT - startT) > this.get_timeoutValue( ) )
@@ -333,13 +327,13 @@ rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
   }
 
   /*--<Get received message addressed for the specific serviceCallID>--*/
-  var retMsg = this.get_receivedMsg( serviceCallID );
+  var retMsg = this.get_receivedMsg( /*serviceCallID*/ );
   /*--<Remove Cached values addressed for the specific serviceCallID>--*/
-  this.rm_serviceCall_all( serviceCallID );
+  //this.rm_serviceCall_all( serviceCallID );
   /*--<Remove cached uniqueID created from randomStringGenerator>--*/
-  this.rm_uniqueID( serviceCallID );
+  //this.rm_uniqueID( serviceCallID );
   /*--<Decrement the number of calls to the specific ROS service>--*/
-  this.dec_serviceCalls( _serviceName ); 
+  //this.dec_serviceCalls( _serviceName ); 
   return retMsg;
 };
 
