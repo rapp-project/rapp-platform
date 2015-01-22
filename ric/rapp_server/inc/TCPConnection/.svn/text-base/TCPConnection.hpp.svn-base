@@ -1,0 +1,186 @@
+/**
+ *
+ * ██╗ ██████╗ █████╗ ██████╗ ██╗   ██╗███████╗    ██████╗ ██████╗  ██████╗      ██╗███████╗ ██████╗████████╗
+ * ██║██╔════╝██╔══██╗██╔══██╗██║   ██║██╔════╝    ██╔══██╗██╔══██╗██╔═══██╗     ██║██╔════╝██╔════╝╚══██╔══╝
+ * ██║██║     ███████║██████╔╝██║   ██║███████╗    ██████╔╝██████╔╝██║   ██║     ██║█████╗  ██║        ██║
+ * ██║██║     ██╔══██║██╔══██╗██║   ██║╚════██║    ██╔═══╝ ██╔══██╗██║   ██║██   ██║██╔══╝  ██║        ██║
+ * ██║╚██████╗██║  ██║██║  ██║╚██████╔╝███████║    ██║     ██║  ██║╚██████╔╝╚█████╔╝███████╗╚██████╗   ██║
+ * ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝    ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚════╝ ╚══════╝ ╚═════╝   ╚═╝
+ *
+ *
+ * @brief TCP Connection Handling class
+ * @class TCPConnection
+ *
+ * Handles incoming TCP Connections in an asynchronous manner.
+ * It will parse raw text into XML messages, create a downcasted Message object pointer, 
+ * and then invoke the main AI Controller Singleton to process it. Will wait for a reply, which will be sent back to client.
+ *
+ * @version 4
+ * @date 8-October-2014
+ * @author Alexandros Gkiokas <a.gkiokas@warwick.ac.uk>
+ * @copyright University of Warwick
+ */
+
+#ifndef _ICARUS_TCPConnection_HPP_
+#define _ICARUS_TCPConnection_HPP_
+#pragma once
+#include "Includes.hxx"
+
+class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
+{
+  public:
+
+    /// Create a new TCP Connection
+    static boost::shared_ptr<TCPConnection> create ( boost::asio::io_service & io_service )
+    {
+        return boost::shared_ptr<TCPConnection>( new TCPConnection ( io_service ) );
+    }
+
+
+    tcp::socket& socket()
+    {
+        return socket_;
+    }
+
+    /// Start Reading Async Until </message> is encountered
+    void start ( )
+    {
+        boost::asio::async_read_until( socket_,
+                                        _in_buffer,
+                                        "</message>",
+                                        boost::bind( &TCPConnection::handle_read,
+                                                     shared_from_this(),
+                                                     boost::asio::placeholders::error,
+                                                     boost::asio::placeholders::bytes_transferred
+                                                    ) );
+    }
+
+    /**
+     * Invoke a response from the Controller (AI Engine)
+     * @param str is the actual string recovered from the socket.
+     */
+    void respond ( const std::string str )
+    {
+        //std::cout << "received: " << _message << std::endl;
+        std::string xml_reply = "<?xml version=\"1.0\"?>";
+
+        /*
+         * WARNING We instantiate the Singleton - or get a reference to it.
+         *         After that, we process within a single thread, the message (see Controller)
+         *         During that time, ***I think***, no other process can take place!
+         */
+        Controller & controller = Controller::Singleton();
+
+        if ( auto message = _xmlHandler->ParseMessage ( str ) )
+        {
+            /*
+             * NOTE: This operation could be threaded - and given as a callback, the async_write function
+             *       Which would enable multiple parsing from many sockets/addresses
+             *
+             * NOTE: Even more interestingly, we could pass to Controller::Process, as a parameter, the
+             *       async_write function, so that the process will be able to write many times, instead of once
+             *       as in the case of Training or Testing, where we may wanna keep the socket open
+             */
+            auto reply = controller.Process( message );
+
+            if ( !reply.empty() )
+                xml_reply.append( reply );
+
+            else
+                std::cerr << "TCPConnection: Controller Process returned empty reply" << std::endl;
+        }
+        else
+            xml_reply.append ( "<Error/>" );
+
+        _reply = xml_reply;
+
+        // write back the response asynchronously - WARNING upon writtint the response, socket is CLOSED
+        boost::asio::async_write( socket_,
+                                  boost::asio::buffer( _reply ),
+                                  boost::bind (
+                                               &TCPConnection::handle_write,
+                                               shared_from_this(),
+                                               boost::asio::placeholders::error,
+                                               boost::asio::placeholders::bytes_transferred
+                                              ) );
+    }
+
+  protected:
+
+
+    /// Protected Constructor
+    TCPConnection ( boost::asio::io_service& io_service ) : socket_( io_service )
+    {
+        _message = "";
+        _reply = "";
+        _bytes_sent = 0;
+        _xmlHandler = std::unique_ptr<XMLHandler>( new XMLHandler );
+    }
+
+    // Handle asynchronous read events
+    void handle_read (
+                        const boost::system::error_code & error,
+                        size_t bytes_transferred
+                     )
+    {
+        if ( error )
+        {
+            std::cerr << "TCPConnection handle_read: Error: " << error.message() << std::endl;
+            std::cerr << "TCPConnection handle_write: Bytes read: " << bytes_transferred << std::endl;
+        }
+        else if ( !error )
+        {
+            std::istream str( &_in_buffer );
+            std::string s;
+
+            while ( std::getline(str, s) ) _message += s;
+
+            // NOTE: We process the actual text in the response method
+            respond( _message );
+        }
+    }
+
+    // Handle asynchronous write events
+    void handle_write (
+                        const boost::system::error_code & error,
+                        size_t bytes_transferred
+                      )
+    {
+        if ( error )
+            std::cerr << "TCPConnection handle_write: " << error.message() << std::endl;
+
+        else
+            _bytes_sent += bytes_transferred;
+
+        // Close the socket once we've written back a reply
+        if ( !error && _bytes_sent == _reply.size() )
+            socket_.close();
+
+        /*
+         * NOTE: Instead of closing down the socket, we can look for another way to find if we will close the socket?
+         * TODO: Scan _reply, for a closing </message> Tag, if its found, then close the socket, otherwise, keep it open.
+         */
+    }
+
+
+
+    /// Connecting Socket
+    tcp::socket socket_;
+
+    /// Stringified Message
+    std::string _message;
+
+    /// Incoming Message Buffer
+    boost::asio::streambuf _in_buffer;
+
+    /// Reply to Client
+    std::string _reply;
+
+    /// Bytes Sent to Client
+    std::size_t _bytes_sent = 0;
+
+    /// XML Handler - See Class XMLHandler - @note this is a unique object!
+    std::unique_ptr<XMLHandler> _xmlHandler = nullptr;
+};
+
+#endif
