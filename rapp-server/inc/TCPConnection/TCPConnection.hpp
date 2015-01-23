@@ -49,15 +49,54 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
      *        messages to ROS.
      */
     void respond ( )
-    {
-        // I am storing the messages in a bytearray on purpose! We do not know if its string, image or audio
-        for ( const auto & byte : bytearray_ ) std::cout << byte;
-        std::cout << std::endl;
-
+    {   
+        /*
+         * NOTE - Ideally, at this point, you want some kind of handler, to check the HTTP Header,
+         *        and see what kind of file we've just received. Is it Content-type: image/jpg, or something else?
+         * 
+         * BUG - Something is wrong, because there are way more bytes than there should be.
+         *       I count 38119 bytes in the copy_of_picture, whilst the original one is only 21173 bytes.
+         */
+        
+        std::vector<byte> imagebytes;
+        
+        // Search for the `<IMG!>` delimiter - then copy from that position, and up to the position of <EOF!>
+        for ( unsigned int i = 0; i < bytearray_.size(); i++ )
+        {
+            if ( (i + 5) < (bytearray_.size()-7) )
+            {
+                if ( std::string( &bytearray_[i], 5 ) == "<IMG>" )
+                {
+                    std::copy( bytearray_.begin() + i + 5,
+                               bytearray_.end() - 7,
+                               std::back_inserter( imagebytes) );
+                }
+            }   
+        }
+        
+        std::cout << "Image bytes: " << imagebytes.size() << std::endl;
+        std::ofstream os ( "copy_of_picture.jpg", std::ios::out | std::ofstream::binary );
+        std::copy( imagebytes.begin(), imagebytes.end(), std::ostreambuf_iterator<char>( os ) );
+        
+        
+        /*
+         * If you want to extract the binary data, then you have to remove the HTTP Header and the two returns \r\n
+         * Alternatively, you can use a starting TAG, such as <IMG!> to find where the binary data starts.
+         * DO NOT CAST the bytearray into a std::string if you're manipulating images or audio, this will not work,
+         * unless the data is base64 encoded.
+         * 
+         * From there, you simply iterate until you find the <EOF!>
+         * 
+         * If you do not like the Delimiter approach, then you can read the Header, using boost::asio::async_read
+         * This uses the MTU of the socket (in UNIX its 1500) so, you can read the header and some more.
+         * From there, calculate how many bytes you have to read, and how many you currently have read,
+         * and you keepr reading until you have the bytes you want.
+         */
+        
         // NOTE: We are replying with HTTP, thus we need a header.
         reply_ = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 8\r\nConnection: close\r\n\r\nBye!\r\n";
          
-        std::cout << reply_ << std::endl;
+        //std::cout << reply_ << std::endl;
 
         // write back the response - WARNING upon replying, socket is CLOSED
         boost::asio::async_write( socket_,
@@ -98,11 +137,12 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         else if ( !error )
         {
             std::istream is ( &buffer_ );
-            byte temp;
             
-            while ( is >> temp )
-                bytearray_.push_back( temp );
-
+            std::copy(  std::istreambuf_iterator<byte>( is ),
+                        std::istreambuf_iterator<byte>(),
+                        std::back_inserter( bytearray_ ) );
+            
+            std::cout << "Bytes read: " << bytes_transferred << std::endl;
             // Delegate response
             respond ( );
         }

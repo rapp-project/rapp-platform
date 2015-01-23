@@ -14,4 +14,9 @@ function handler ( data )
 }
 
 // Call Adder
-services.Adder( 5, 6, handler );
+//services.Adder( 5, 6, handler );
+
+// Call the TextFile Sender
+//services.SendTextFile( "README.first", handler );
+
+services.SendImageFile( "picture.jpg", handler );
