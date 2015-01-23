@@ -2,6 +2,7 @@
 #define _RAPP_TCPConnection_
 #include "Includes.hxx"
 
+/// TODO: Make this a polymorphic class, and then use inherited classes for handling "respond"
 class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
 {
   public:
@@ -30,6 +31,7 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
      */
     void start ( )
     {
+        /// WARNING - Enable time-outs, we don't want to wait on hang-ups, time-outs or errors
         boost::asio::async_read_until( socket_,
                                        buffer_,
                                        "</EOF!>",
@@ -70,6 +72,7 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
                     std::copy( bytearray_.begin() + i + 5,
                                bytearray_.end() - 7,
                                std::back_inserter( imagebytes) );
+                    break;
                 }
             }   
         }
@@ -94,11 +97,13 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
          */
         
         // NOTE: We are replying with HTTP, thus we need a header.
-        reply_ = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 8\r\nConnection: close\r\n\r\nBye!\r\n";
+        //reply_ = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 8\r\nConnection: close\r\n\r\nBye!\r\n";
+
+        reply_ = "OK, Thanks! Bye</EOF!>";
          
         //std::cout << reply_ << std::endl;
 
-        // write back the response - WARNING upon replying, socket is CLOSED
+        // write back the response - WARNING upon replying, socket is CLOSED - WARNING Force Timeout
         boost::asio::async_write( socket_,
                                   boost::asio::buffer( reply_ ),
                                   boost::bind (
@@ -136,13 +141,15 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         }
         else if ( !error )
         {
+            std::cout << "Processing bytes in buffer" << std::endl;
             std::istream is ( &buffer_ );
             
             std::copy(  std::istreambuf_iterator<byte>( is ),
                         std::istreambuf_iterator<byte>(),
                         std::back_inserter( bytearray_ ) );
             
-            std::cout << "Bytes read: " << bytes_transferred << std::endl;
+            //std::cout << "Bytes read: " << bytes_transferred << std::endl;
+            
             // Delegate response
             respond ( );
         }

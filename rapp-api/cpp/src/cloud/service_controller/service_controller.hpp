@@ -42,7 +42,7 @@ class service_controller
      * @note upon completion, the object's handler will be invoked
      * @note this method will block, until job is finished
      */
-    void runJob ( const std::shared_ptr<asio_service_client> job );
+    void runJob ( const std::shared_ptr<asio_socket> job );
         
     /**
      * Run asynchronously, a group of client jobs
@@ -51,7 +51,7 @@ class service_controller
      * @note upon completion, the each object's handler will be invoked
      * @warning upon completion, the queue schedule will be reset.
      */
-    void runJobs ( std::vector<std::shared_ptr<asio_service_client>> jobs );
+    void runJobs ( std::vector<std::shared_ptr<asio_socket>> jobs );
         
 
   private:

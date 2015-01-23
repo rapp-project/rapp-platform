@@ -1,0 +1,13 @@
+#include <iostream>
+#include <istream>
+#include <ostream>
+#include <fstream>
+#include <string>
+#include <functional>
+#include <thread>
+
+
+#include <boost/asio.hpp>
+#include <boost/bind.hpp>
+
+#include "../asio_socket/asio_socket.hpp"

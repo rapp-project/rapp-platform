@@ -5,7 +5,7 @@
  */
 function RAPPServices ( )
 {
-    this.cloud_url = "http://localhost:9001";
+    this.cloud_url = "http://localhost:8080";
 }
 
 /**
@@ -30,7 +30,7 @@ RAPPServices.prototype =
             else if ( error )
                 console.log (  error );
             else if ( response.statusCode != 200 )
-                console.log ( response.statusCode );
+                console.log ( "Error: " + response.statusCode );
         })
     },
     

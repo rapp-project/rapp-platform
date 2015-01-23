@@ -66,19 +66,13 @@ class faceDetector : public service
        * Get the async_client as a Job for the service scheduler
        * @warning You have to schedule the execution, it is not done automatically!
        */
-      std::shared_ptr<rapp::services::asio_service_client> Job ( ) const;
+      std::shared_ptr<rapp::services::asio_socket> Job ( ) const;
       
   private:
             
       /// Parse @param buffer received from the socket, into a vector of faces
       void handle ( boost::asio::streambuf & buffer );
-      
-      /// Pre-Process @param image when it is an std::ifstream
-      std::string base64__ ( std::ifstream & image );
-      
-      /// Pre-Process @param image when it is an std::vector<char>
-      std::string base64__ ( std::vector<char> & image );
-      
+            
       
       
       /// The callback called upon completion of receiving the detected faces
@@ -86,7 +80,7 @@ class faceDetector : public service
       std::function< void( std::vector<std::pair<float,float>> faces) > callback__;
       
       /// The ASIO Client Socket used internally
-      std::shared_ptr<rapp::services::asio_service_client> client__;
+      std::shared_ptr<rapp::services::asio_service_raw> client__;
 };
 
 }

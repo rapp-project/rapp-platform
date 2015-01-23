@@ -21,28 +21,17 @@ add_subdirectory(src)
 
 # Tests used to evaluate the library
 add_executable ( async_client tests/async_client.cpp
-                              src/cloud/asio_service_client/asio_service_client.cpp
+                              src/cloud/asio_service_http/asio_service_http.cpp
                               src/cloud/service_controller/service_controller.cpp)
                               
 add_executable ( face_detect  tests/face_detect.cpp
-                              src/cloud/asio_service_client/asio_service_client.cpp
+                              src/cloud/asio_service_raw/asio_service_raw.cpp
                               src/cloud/service_controller/service_controller.cpp
                               src/cloud/faceDetector/faceDetector.cpp)
 
 # Find Libaries for which Cmake already has a meta-package
 find_package( Threads REQUIRED )
 find_package( Boost 1.49 COMPONENTS system thread REQUIRED )
-
-#find_package( OpenCV REQUIRED )
-
-# Find Lib Base64 - NOTE: I may replace this with Crypt++/OpenSSL or other Libraries if needed
-find_library( LIBB64 NAMES libb64.a)
-if (LIBB64)
-  message(STATUS ${LIBB64})
-  target_link_libraries(face_detect ${LIBB64})
-else (!LIBB64)
-  message(FATAL_ERROR "ERROR: missing libb64")
-endif(LIBB64)
 
 # Build Libraries (both static and shared)
 #set (SOURCES ${SOURCES} src/asio_service_client/asio_service_client.cpp)

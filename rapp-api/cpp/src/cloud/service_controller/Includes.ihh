@@ -6,4 +6,4 @@
 
 #include <boost/asio.hpp>
 
-#include "../asio_service_client/asio_service_client.hpp"
+#include "../asio_socket/asio_socket.hpp"

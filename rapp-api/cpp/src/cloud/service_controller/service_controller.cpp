@@ -22,7 +22,7 @@ boost::asio::io_service & service_controller::queue ( )
     return io_service_;
 }
 
-void service_controller::runJob ( const std::shared_ptr<asio_service_client> job )
+void service_controller::runJob ( const std::shared_ptr<asio_socket> job )
 {
     // WARNING : if synchronicity gives us problems here, then allocate a new io_service, and use it within scope
     
@@ -35,7 +35,7 @@ void service_controller::runJob ( const std::shared_ptr<asio_service_client> job
     io_service_.reset();
 }
 
-void service_controller::runJobs ( std::vector<std::shared_ptr<asio_service_client>> jobs )
+void service_controller::runJobs ( std::vector<std::shared_ptr<asio_socket>> jobs )
 {
     // WARNING : if synchronicity gives us problems here, then allocate a new io_service, and use it within scope
     

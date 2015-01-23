@@ -19,8 +19,8 @@ class service
 {
   public:
       
-      /// @return an ASIO Service Client, which will be scheduled as a single Job, or Part of a Job Group
-      virtual std::shared_ptr<rapp::services::asio_service_client> Job ( ) const = 0;
+      /// @return an ASIO Service ABC socket, which will be scheduled as a single Job, or Part of a Job Group
+      virtual std::shared_ptr<rapp::services::asio_socket> Job ( ) const = 0;
       
       /// Handle the obtained raw data from the TCP buffer
       virtual void handle ( boost::asio::streambuf & ) = 0;

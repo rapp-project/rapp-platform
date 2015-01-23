@@ -31,8 +31,26 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
+
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  # using Clang
+  message (STATUS "Clang/OSX" )
+  execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
+  if (CLANG_VERSION_MAJOR VERSION_GREATER 3 OR CLANG_VERSION_MAJOR VERSION_EQUAL 3)
+    message(STATUS "Info: Clang >= 3.0 using C++11")
+  elseif ()
+    message(FATAL_ERROR "Clang version >= 3.0 is required")
+  endif()
+  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Wall") # --verbose
+  message(STATUS "CXX Flags: " ${CMAKE_CXX_FLAGS})
+  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mtune=native -march=native")
+  set(BUILD_SHARED_LIBS OFF)
+  message(STATUS "CXX Linker: " ${CMAKE_EXE_LINKER_FLAGS})
+
+
 # Linux should be the default OS/Platform for RAPP::API
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   
   # using GCC/Linux
   message (STATUS "GCC/Linux" )
