@@ -2,7 +2,6 @@
 #define _RAPP_TCPConnection_
 #include "Includes.hxx"
 
-/// TODO: Make this a polymorphic class, and then use inherited classes for handling "respond"
 class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
 {
   public:
@@ -16,7 +15,7 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         return boost::shared_ptr<TCPConnection>( new TCPConnection ( io_service ) );
     }
 
-    
+    /// @Return socket
     tcp::socket& socket()
     {
         return socket_;
@@ -24,14 +23,16 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
     
     /** 
      * Start Reading Async Until </EOF!> is encountered
-     * 
      * @warning This is a delimiter based transmission.
      *          Alternatively, we can read the HEADER Content-Length,
      *          and instead of async_read_until, try async_read_some ( bytes )
      */
     void start ( )
     {
-        /// WARNING - Enable time-outs, we don't want to wait on hang-ups, time-outs or errors
+        // 5 second time-out
+        timer_.expires_from_now( boost::posix_time::seconds( 5 ) );
+
+        // WARNING - Enable time-outs, we don't want to wait on hang-ups, time-outs or errors
         boost::asio::async_read_until( socket_,
                                        buffer_,
                                        "</EOF!>",
@@ -42,7 +43,6 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
                                                   ) );
     }
     
-
     /**
      * NOTE - This is where you can delegate Message processing
      *        You can do this, either by creating a singleton class which handles the data in here
@@ -50,16 +50,8 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
      *        Ideally, you may want a threaded or multi process (fork+exec) handler here which will send
      *        messages to ROS.
      */
-    void respond ( )
-    {   
-        /*
-         * NOTE - Ideally, at this point, you want some kind of handler, to check the HTTP Header,
-         *        and see what kind of file we've just received. Is it Content-type: image/jpg, or something else?
-         * 
-         * BUG - Something is wrong, because there are way more bytes than there should be.
-         *       I count 38119 bytes in the copy_of_picture, whilst the original one is only 21173 bytes.
-         */
-        
+    virtual void process ( )
+    {           
         std::vector<byte> imagebytes;
         
         // Search for the `<IMG!>` delimiter - then copy from that position, and up to the position of <EOF!>
@@ -67,43 +59,31 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         {
             if ( (i + 5) < (bytearray_.size()-7) )
             {
-                if ( std::string( &bytearray_[i], 5 ) == "<IMG>" )
+                // NOTE: In order to avoid copying 5 bytes into string, maybe test first char is `<`
+                if ( std::string( &bytearray_[i], 5 ) == "<DAT>" )
                 {
                     std::copy( bytearray_.begin() + i + 5,
                                bytearray_.end() - 7,
                                std::back_inserter( imagebytes) );
-                    break;
+                    break; // We got what we wanted, break out of the loop
                 }
             }   
         }
         
+        // Copy Image Bytes to a file on Disk
         std::cout << "Image bytes: " << imagebytes.size() << std::endl;
         std::ofstream os ( "copy_of_picture.jpg", std::ios::out | std::ofstream::binary );
         std::copy( imagebytes.begin(), imagebytes.end(), std::ostreambuf_iterator<char>( os ) );
-        
-        
-        /*
-         * If you want to extract the binary data, then you have to remove the HTTP Header and the two returns \r\n
-         * Alternatively, you can use a starting TAG, such as <IMG!> to find where the binary data starts.
-         * DO NOT CAST the bytearray into a std::string if you're manipulating images or audio, this will not work,
-         * unless the data is base64 encoded.
-         * 
-         * From there, you simply iterate until you find the <EOF!>
-         * 
-         * If you do not like the Delimiter approach, then you can read the Header, using boost::asio::async_read
-         * This uses the MTU of the socket (in UNIX its 1500) so, you can read the header and some more.
-         * From there, calculate how many bytes you have to read, and how many you currently have read,
-         * and you keepr reading until you have the bytes you want.
-         */
-        
-        // NOTE: We are replying with HTTP, thus we need a header.
+                
+        // Always reply with an </EOF!> because the C++ client side expects this delimiter
         //reply_ = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 8\r\nConnection: close\r\n\r\nBye!\r\n";
-
-        reply_ = "OK, Thanks! Bye</EOF!>";
-         
+        reply_ = "Bye</EOF!>";
         //std::cout << reply_ << std::endl;
 
-        // write back the response - WARNING upon replying, socket is CLOSED - WARNING Force Timeout
+        // 5 second time-out 
+        timer_.expires_from_now( boost::posix_time::seconds( 5 ) );
+
+        // write back the response - socket closes - timeout applied
         boost::asio::async_write( socket_,
                                   boost::asio::buffer( reply_ ),
                                   boost::bind (
@@ -118,7 +98,9 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
 
 
     /// Protected Constructor
-    TCPConnection ( boost::asio::io_service& io_service ) : socket_( io_service )
+    TCPConnection ( boost::asio::io_service& io_service ) 
+    : socket_ ( io_service ),
+      timer_ ( io_service )
     {
         reply_ = "";
         bytes_sent_ = 0;
@@ -141,17 +123,14 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         }
         else if ( !error )
         {
-            std::cout << "Processing bytes in buffer" << std::endl;
             std::istream is ( &buffer_ );
             
             std::copy(  std::istreambuf_iterator<byte>( is ),
                         std::istreambuf_iterator<byte>(),
                         std::back_inserter( bytearray_ ) );
             
-            //std::cout << "Bytes read: " << bytes_transferred << std::endl;
-            
-            // Delegate response
-            respond ( );
+            // Delegate buffer processing
+            process ( );
         }
     }
 
@@ -169,19 +148,28 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
 
         // Close the socket once we've written back a reply
         if ( !error && bytes_sent_ == reply_.size() )
+        {
             socket_.close();
+            std::cout << "Connection closed" << std::endl;
+        }
     }
 
 
 
     /// Connecting Socket
-    tcp::socket socket_;
+    boost::asio::ip::tcp::socket socket_;
+
+    /// Incoming Message Buffer
+    boost::asio::streambuf buffer_;
+
+    /// Timer for forcing timeouts
+    boost::asio::deadline_timer timer_;
 
     /// Received Data
     std::vector<byte> bytearray_;
 
-    /// Incoming Message Buffer
-    boost::asio::streambuf buffer_;
+    /// Connection was stopped
+    bool stopped_ = false;
 
     /// Reply to Client
     std::string reply_;

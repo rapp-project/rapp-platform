@@ -37,10 +37,12 @@ void asio_service_raw::Schedule (
     socket_ = std::unique_ptr<boost::asio::ip::tcp::socket>( new boost::asio::ip::tcp::socket( io_service ) );
     std::ostream request_stream ( &request_ );
     
-    request_stream << "<IMG>";
+    // Starting Delimiter is DAT
+    request_stream << "<DAT>";
     for ( const auto & byte : bytes_ )
         request_stream << byte;
     request_stream << "</EOF!>";
+    // Ending Delimiter is /EOF!
         
     //std::string raw ( ( std::istreambuf_iterator<char>( &request_ ) ), std::istreambuf_iterator<char>() );
     //std::cout << raw << std::endl;
