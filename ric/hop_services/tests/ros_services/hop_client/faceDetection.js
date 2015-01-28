@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 
 var user = process.env.LOGNAME;
 var rapp_hop_path = "/home/" + user + "/Desktop/rapp-platform-catkin-ws/src/rapp-platform/ric/hop_services/";
@@ -16,24 +14,9 @@ var args = {
     "imageFilename": faceImage
 };  
 
-
-ros.callServiceAsync( serviceName, args )
-//ros.close();
-//process.exit(0);
-
-function handle(data, flags) {
-    console.log( data );
-    this.close();
-}
-
-
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
-
+ros.connect(); //connects to rosbridge
+// Call speech2text ROS service and return message from rosbridge
+var msg = ros.callServiceSync( serviceName, args ); 
+console.log( msg );
+ros.close(); // Closes connection to rosbridge.
+process.exit(0) // Kills the current process and exits.
