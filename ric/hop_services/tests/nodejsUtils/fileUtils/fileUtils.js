@@ -100,7 +100,7 @@ function readFileSync( _fileUrl, _encoding )
         file.datatype = "buffer/raw_binary";
         break;
       default:
-        console.log( '\033[0;31mGiven encoding is not supported!!\033[0;0m' );
+        console.log( '\033[0;31mGiven encoding is not supported\033[0;0m' );
     }
   }
   else{

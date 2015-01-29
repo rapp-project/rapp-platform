@@ -30,11 +30,12 @@ var randStrGen = new RandStringGen( stringLength );
 /*!
  * @brief QR_Detection HOP Service Core.
  *
- * @param _data Image data in BINARY encoding/format.
+ * @param _file An Object literral that specifies a "data"
+ *  property. Data must be raw_binary from buffer.
  *
  * @return Message response from qrDetection ROS Node service.
  */
-service qrDetection ( _data )
+service qrDetection ( _file )
 {
   rosbridge.connect(); //connect to rosbridge
   var randStr = randStrGen.createUnique();
@@ -51,7 +52,7 @@ service qrDetection ( _data )
   }; 
 
   /*-----<Stores received image data>-----*/
-  Fs.writeFileSync( qrImagePath, _data.data );
+  Fs.writeFileSync( qrImagePath, _file.data );
   /*-----<Call QR_Detection ROS service through rosbridge>-----*/
   //var rosbridge = new ROSbridge();
   //rosbridge.connect(); //connect to rosbridge

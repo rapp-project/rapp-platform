@@ -31,11 +31,12 @@ var randStrGen = new RandStringGen( stringLength );
 /*!
  * @brief Speech2Text HOP Service Core.
  *
- * @param _data Audio data in BINARY encoding/format.
+ * @param _file An Object literral that specifies a "data"
+ *  property. Data must be raw_binary from buffer.
  *
  * @return Message response from speech2Text ROS Node service.
  */
-service speech2Text ( _data )
+service speech2Text ( _file )
 {
   rosbridge.connect();
   var randStr = randStrGen.createUnique();
@@ -45,7 +46,7 @@ service speech2Text ( _data )
   var audioFileUrl = Fs.resolvePath( storePath + fileName );
   var args = createServiceArgs( audioFileUrl );
   /*-----<Stores received image data>-----*/
-  Fs.writeFileSync( audioFileUrl, _data.data );
+  Fs.writeFileSync( audioFileUrl, _file.data );
   /*-----<Call FaceDetection ROS service through rosbridge>-----*/
   //var rosbridge = new ROSbridge();
   //rosbridge.connect();

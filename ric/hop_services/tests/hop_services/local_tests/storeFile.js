@@ -17,3 +17,4 @@ var params = new ServerParams(false, "localhost", 9001, "", "");
 var hop = new hopServices();
 //hsu.init(params);
 hop.sendFile( filePath, destPath, params );
+process.exit(0);

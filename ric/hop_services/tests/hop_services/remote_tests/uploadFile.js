@@ -12,7 +12,7 @@ var user = process.env.LOGNAME;
 var rapp_hop_path = "/home/" + user + 
   "/Desktop/rapp-platform-catkin-ws/src/rapp-platform/ric/hop_services/";
 
-var HopUtils = require(rapp_hop_path + "utilities/./hopServices.js");
+var hopServices = require(rapp_hop_path + "utilities/./hopServices.js");
 var ServerParams = require(rapp_hop_path + "utilities/./ServerParams.js");
 
 var file = rapp_hop_path + "../test_auxiliary_files/Lenna.png";
@@ -23,11 +23,11 @@ var remoteServerParams = new ServerParams(
   false, "155.207.19.37", 9001, "rappdev", "rappdev");
 var localServerParams = new ServerParams( false, "155.207.33.185", 9001, "klpanagi", "peace" );
 
-var hsu = new HopUtils();
+var hop = new hopServices();
 //hsu.init( localServerParams, remoteServerParams );
 
 startT = new Date();
-hsu.uploadFile( file, destPath, localServerParams, remoteServerParams );
+hop.uploadFile( file, destPath, localServerParams, remoteServerParams );
 endT = new Date();
 
 console.log('Uploading file Operation took ' +

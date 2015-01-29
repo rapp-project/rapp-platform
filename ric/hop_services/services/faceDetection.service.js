@@ -36,11 +36,12 @@ var randStrGen = new RandStringGen( stringLength );
 /*!
  * @brief Face Detection HOP Service Core.
  *
- * @param _data Image data in BINARY encoding/format.
+ * @param _file An Object literral that specifies a "data"
+ * property. Data must be raw_binary from buffer.
  *
  * @return Message response from faceDetection ROS Node service.
  */
-service faceDetection ( _data )
+service faceDetection ( _file )
 {
   rosbridge.connect();
   var randStr = randStrGen.createUnique();
@@ -55,7 +56,7 @@ service faceDetection ( _data )
     "imageFilename": faceImagePath
   }; 
   /*-----<Stores received image data>-----*/
-  Fs.writeFileSync( faceImagePath, _data.data );
+  Fs.writeFileSync( faceImagePath, _file.data );
   /*-----<Call FaceDetection ROS service through rosbridge>-----*/
   //var rosbridge = new ROSbridge();
   //rosbridge.connect();
