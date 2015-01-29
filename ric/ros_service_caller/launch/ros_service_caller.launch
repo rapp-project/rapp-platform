@@ -1,3 +1,3 @@
 <launch>
-	<node type="ros_service_caller" name="rrc_node" pkg="ros_service_caller"/>
+  <node type="ros_service_caller_tester" name="rrct_node" pkg="ros_service_caller" output="screen"/>
 </launch>

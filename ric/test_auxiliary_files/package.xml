@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package>
+  <name>rapp_auxiliary_files</name>
+  <version>0.0.1</version>
+  <description>The auxiliary files package</description>
+
+  <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>
