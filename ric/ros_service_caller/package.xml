@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>ros_service_caller</name>
+  <version>0.0.1</version>
+  <description>The ros-service-caller package</description>
+
+  <maintainer email="etsardou@eng.auth.gr">Emmanouil Tsardoulias</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+
+  <export>
+  </export>
+</package>
