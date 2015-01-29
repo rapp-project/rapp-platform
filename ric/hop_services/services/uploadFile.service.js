@@ -11,9 +11,9 @@ var rapp_hop_path = "/home/" + user +
 var hop = require ( 'hop' );
 /*<Require File Utilities module>*/
 var Fs = require( /*rapp_hop_path + */"../utilities/./fileUtils.js" );
-var HopUtils = require( '../utilities/./HopServiceUtils.js' ); 
+var hopServices = require( '../utilities/./hopServices.js' ); 
 
-var hsu = new HopUtils();
+var hop = new hopServices();
 
 var startT, endT;
 
@@ -30,14 +30,12 @@ var startT, endT;
  */
 service uploadFile( _filePath, _destPath, _clientParams ) 
 {  
-  /*----<Resolves the path where the file will be stored>----*/
+  /*---<Resolves the path where the file will be stored>---*/
   //var destpath = Fs.resolvePath( _destPath );
   //var file = uploadFile.resource (_filePath);
-
   startT = new Date();
-  hsu.getFile( _filePath, _destPath, _clientParams );
+  hop.serveFile( _filePath, _destPath, _clientParams );
   endT = new Date();
- 
 }
 
 

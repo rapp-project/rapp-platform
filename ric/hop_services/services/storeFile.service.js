@@ -17,7 +17,7 @@ service storeFile ( _destPath, _data )
 {
   //var destPath = Fs.resolvePath(_destPath);
   console.log("[StoreFile] Client Request");
-  var dataSize = Fs.writeBinFileSync( _destPath, _data );
-
-  return dataSize;
+  console.log( _data );
+  var filesize = Fs.writeFileSync( _destPath, _data.data );
+  //return filesize;
 }

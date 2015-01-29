@@ -42,37 +42,20 @@ var randStrGen = new RandStringGen( stringLength );
  */
 service faceDetection ( _data )
 {
-  /*#######################################*/
-  //rosbridge.connect();
-  //var args = {
-    /* Image path to perform faceDetection, used as input to the 
-     *  Face Detection ROS Node Service
-     */
-    //"imageFilename": "/home/klpanagi/Desktop/rapp-platform-catkin-ws" + 
-      //"/src/rapp-platform/ric/test_auxiliary_files/Lenna.png" 
-  //}; 
-  //var returnMessage = rosbridge.callServiceSync( faceRosService, args );
-  //rosbridge.close();
-  //return "FUCK OFF!!!";
-
-  /*#######################################*/
   rosbridge.connect();
   var randStr = randStrGen.createUnique();
   var fileName = "faceImage-" + randStr + ".png";
+  console.log("[faceDetection] Client Request");
 
-  console.log("[Face-Detection] Client Request");
-  
   var faceImagePath = Fs.resolvePath( storePath + fileName );
   var args = {
     /* Image path to perform faceDetection, used as input to the 
      *  Face Detection ROS Node Service
      */
-    "imageFilename": faceImagePath 
+    "imageFilename": faceImagePath
   }; 
-
   /*-----<Stores received image data>-----*/
-  Fs.writeBinFileSync( faceImagePath, _data );
-
+  Fs.writeFileSync( faceImagePath, _data.data );
   /*-----<Call FaceDetection ROS service through rosbridge>-----*/
   //var rosbridge = new ROSbridge();
   //rosbridge.connect();
@@ -80,11 +63,7 @@ service faceDetection ( _data )
   rosbridge.close();
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
-  
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
-  //console.log("[Face-Detection]: Returning request to client");
-  console.log( returnMessage );
   return returnMessage; 
-  //return "dummy";
 };

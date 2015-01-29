@@ -10,7 +10,6 @@ var rapp_hop_path = "/home/" + user +
   "/rapp_platform_catkin_ws/src/rapp-platform/ric/hop_services/";
 
 var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
-//var fs = require( 'fs' );
 var Path = require('path');
 
 var fileList = Fs.getFilesListSync( /*rapp_hop_path +*/ "../services" );
@@ -20,9 +19,9 @@ for (var i in fileList){
   //console.log( fileList[i] );
   if ( Path.extname( fileList[i] ) == '.js' ){
     console.log("Found js extension file: [%s]", fileList[i]);
-    var regexp = /.service/g;
+    var regexp = /.service.js/g;
     if ( fileList[i].match(regexp) ){
-      Services.push( fileList[i] );
+      Services.push( fileList[i].replace( regexp, '' ) );
     } 
   }
 }
@@ -34,8 +33,9 @@ var Workers = new Array();
 Fs.rmFileSync( 'availableServices.txt' );
 
 for (var i in Services){
-  Workers.push( new Worker ( "./" + Services[i] ) );
-  console.log( "\033[01;35mCreated worker for service: [%s]\033[0;0m", Services[i] );
+  Workers.push( new Worker ( "./" + Services[i] + '.service.js' ) );
+  console.log( "Created worker for service:" +
+    "\033[0;32m[%s]\033[0;0m", Services[i] );
 
   /*-----<Store available uprunning services on a txt file>-----*/
   var regexp = /.service.js/g;
