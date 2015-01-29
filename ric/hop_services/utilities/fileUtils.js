@@ -18,19 +18,19 @@ function getVersion()
  * @param _path Path to be resolved to absolute.
  * @return Resolved absolute path.
  */
-function resolvePath(_path)
+function resolvePath( _path )
 {
   var regexp = /~/g;
   var newPath = '';
-  if ( _path.match(regexp) )
+  if ( _path.match( regexp ) )
   {
     var user = process.env.LOGNAME;
     /*<Replaces "~" with "/home/user">*/
-    newPath = _path.replace(regexp, '/home/' + user);
+    newPath = _path.replace( regexp, '/home/' + user );
   }
   else
   {
-    newPath = Path.resolve(_path);
+    newPath = Path.resolve( _path );
   }
   return newPath;
 };
@@ -39,49 +39,75 @@ function resolvePath(_path)
 /*!
  * @brief Wrapping Node.js readFileSync function.
  * @param _file File to be read, specified by path.
+ * @param _encoding Encoding type of returned data
+ *  readen from the specified file. Can be one of the following:
+ *  1) "buffer" OR undefined Raw data from buffer.
+ *  2) "string/ascii" Ascii encoded string.
+ *  3) "string/binary" Binary encoded string.??
+ *  4) "string/utf8" Utf8 encoded string. Currently not working with HOP!!
+ *
  * @return Returns data readen from file.
  */
-function readFileSync(_file)
+function readFileSync( _fileUrl, _encoding )
 {
-  var path = resolvePath(_file);
-  if(fs.existsSync(path))
-  {
-    console.log("\033[0;33mReading requested file: [%s]\033[0;0m", path);
-    return fs.readFileSync(path);
+  var file = {
+    data: undefined,
+    datatype: undefined,
+    fileEncoding: undefined,
+    absoluteUrl: undefined,
+    size: {
+      bytes: undefined,
+      kilobytes: undefined,
+      string: undefined
+    }
   }
-  else
-  {
-    console.log("\033[01;31mCannot access the requested file. File does not exist.\033[0;0m");
-    return 0;
-  }
-};
-
-
-/*!
- * @brief Reads the contents of a file and stores them 
- * in a stringified binary format.
- *
- * @param _file File to be read, specified by path.
- * @return String in binary encoding format.
- */
-function readBinFileSync( _file )
-{
-  var path = resolvePath( _file );
+  var path = resolvePath( _fileUrl );
+  file.absoluteUrl = path;
   if( fs.existsSync( path ) )
   {
-    var fileSize_bytes = getFilesizeInBytes( path );
-    console.log( "\033[0;33mReading requested file (binary encoding): [%s], size(bytes)==[%s]\033[0;0m",
-      path, fileSize_bytes.toString() );
     var dataBuffer = fs.readFileSync( path );
-    var dataBin = dataBuffer.toString( 'binary', 0, dataBuffer.length );
-    return dataBin;
+    file.size['bytes'] = dataBuffer.length;
+    file.size['kilobytes'] = file.size['bytes'] / 1024;
+    console.log("\033[0;33mReading requested file:" + 
+      "[%s] , filesize: [%s]\033[0;0m", path, file.size['bytes']); 
+    encoding = _encoding || "none";
+    switch ( encoding )
+    {
+      case "buffer":
+        file.data = dataBuffer;
+        file.datatype = "buffer/raw_binary";
+        break;
+      case "string/ascii":
+        var str = dataBuffer.toString( 'ascii' );
+        file.data = str;
+        file.datatype = "string/ascii";
+        file.size['string'] = str.length;
+        break;
+      case "string/utf8":
+        var str = dataBuffer.toString( 'utf8' );
+        file.data = str;
+        file.datatype = "string/utf8";
+        file.size['string'] = str.length;
+        break;
+      case "string/binary":
+        var str = dataBuffer.toString( 'binary' );
+        file.data = str;
+        file.datatype = "string/binary";
+        file.size['string'] = dataBuffer.length;
+        break;
+      case "none":
+        file.data = dataBuffer;
+        file.datatype = "buffer/raw_binary";
+        break;
+      default:
+        console.log( '\033[0;31mGiven encoding is not supported\033[0;0m' );
+    }
   }
-  else
-  {
+  else{
     console.log("\033[01;31mCannot access the requested file. File does not exist.\033[0;0m");
-    return 0;
   }
-}
+  return file;
+};
 
 
 /*!
@@ -90,46 +116,21 @@ function readBinFileSync( _file )
  * @param _data Data to be written.
  * @return Undefined.
  */
-function writeFileSync(_dest, _data)
+function writeFileSync( _destUrl, _data )
 {
-  var path =  resolvePath(_dest);
-  if(fs.existsSync(path)){
+  var path =  resolvePath( _destUrl );
+  if( fs.existsSync( path ) ){
     console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
   }
   else{
     console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
   }
 
-  fs.writeFileSync(path, _data);
-  console.log("\033[0;36mFinished writing requested data @ [%s]\033[0;0m", path);
+  fs.writeFileSync( path, _data );
+  var filesize = read_filesize( path );
+  console.log("\033[0;36mFinished writing requested data" + 
+    "@ [%s] , filesize: [%s]\033[0;0m", path, filesize);
 };
-
-
-/*!
- * @brief Writes binary data to a file. 
- * @param _dest Destination file name to write the data, specified by path.
- * @param _data Data to be written.
- * @return Undefined.
- */
-function writeBinFileSync( _dest, _data )
-{
-  var path =  resolvePath( _dest );
-  if(fs.existsSync(path)){
-    console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
-  }
-  else{
-    console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
-  }
-
-  var p = #:open-output-file( #:js-tostring( path, #:%this ) );
-  #:display( #:js-tostring( _data, #:%this ), p );
-  #:close-output-port( p );
-  var fileSize_bytes = getFilesizeInBytes( path );
-  console.log( "\033[0;36mFinished writing requested data @ [%s], size==[%s]\033[0;0m", 
-    path, fileSize_bytes.toString() );
-  return fileSize_bytes;
-
-}
 
 
 /*!
@@ -239,11 +240,11 @@ function writeLine ( _data, _filePath ){
  * @param _fileURL File System Url.
  * @return Size of the file in bytes.
  */
-function getFilesizeInBytes( _fileURL ) {
+function read_filesize( _fileURL ) {
   var path =  resolvePath( _fileURL );
   var stats = fs.statSync( path );
-  var fileSizeInBytes = stats["size"];
- return fileSizeInBytes;
+  var filesize_bytes = stats["size"];
+ return filesize_bytes;
 }
 
 
@@ -254,12 +255,10 @@ module.exports = {
   version: getVersion,
   resolvePath: resolvePath,
   readFileSync: readFileSync,
-  readBinFileSync: readBinFileSync,
   writeFileSync: writeFileSync,
-  writeBinFileSync: writeBinFileSync,
   rmFileSync: rmFileSync,
   getFilesListSync: getFilesListSync,
   text2File: text2File,
   writeLine: writeLine,
-  getFilesizeInBytes: getFilesizeInBytes
+  read_filesize: read_filesize
 }

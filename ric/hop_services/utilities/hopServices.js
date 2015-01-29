@@ -86,20 +86,18 @@ function HopServices()
   this.set_localServerParams = function ( serverParams ){
     localServerParams_ = serverParams;
   } 
-
 };
 
 
-HopServices.prototype.init = function ( _localServerParams, _remoteServerParams )
+HopServices.prototype.init = function ( 
+  _localServerParams, _remoteServerParams )
 {
   var remoteParams = _remoteServerParams || {};
   var localParams = _localServerParams || {};
-
   /*----<Set Remote and Local Server Parameters>---*/
   this.set_remoteServerParams( remoteParams );
   this.set_localServerParams( localParams );
   /*-----------------------------------------------*/
-
   console.log('\n\033[01;36mInitializing Remote Server Params:\033[0;0m');
   console.log( this.get_remoteServerParams() );
   console.log('\n\033[01;36mInitializing Local Server Params:\033[0;0m');
@@ -107,39 +105,38 @@ HopServices.prototype.init = function ( _localServerParams, _remoteServerParams 
 };
 
 
-HopServices.prototype.sendFile = function ( _filePath, _destPath, _remoteServerParams )
+HopServices.prototype.sendFile = function ( 
+  _filePath, _destPath, _remoteServerParams )
 {
   /*Importing the specific service*/
   import service storeFile ( );
-  /*----<Read binary data from requested file>----*/
-  var dataBin = Fs.readBinFileSync( _filePath );
+  /*  <Read binary data from requested file>
+   ****HOP can receive buffer data. 
+   ****HOP handles encoding/decoding**********/
+  var file = Fs.readFileSync( _filePath );
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
-
-  var retMessage = storeFile( _destPath, dataBin ).post(
-    function( returnMessage ){
-      return returnMessage;
+  var retMsg = storeFile( _destPath, file ).post(
+    function( msg ){
+      return msg;
     },
     remoteParams
   );
-
-  return retMessage;
-
+  return retMsg;
 };
 
 
-HopServices.prototype.getFile = function ( _filePath, _destPath, _remoteServerParams )
+HopServices.prototype.serveFile = function ( 
+  _filePath, _destPath, _remoteServerParams )
 {
   import service serveFile ( );
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
-  
   /*-------------------Console Tracking-------------------------*/
   console.log( '\nRequesting file \033[0;33m[%s]\033[0;0m' + 
     'from remote hop server @\033[01;31m%s: %s\033[0;0m', 
    _filePath, remoteParams.host, remoteParams.port );
   /*------------------------------------------------------------*/
-
   /*----<Call serveFile hop service>----*/
   var dataBin = serveFile( _filePath ).post(
     function( data )
@@ -150,7 +147,7 @@ HopServices.prototype.getFile = function ( _filePath, _destPath, _remoteServerPa
     remoteParams 
   );
   /*----<Write the received "binary encoded" data in a file>----*/
-  Fs.writeBinFileSync( _destPath, dataBin );
+  Fs.writeFileSync( _destPath, dataBin );
   return dataBin;
 }
 
@@ -177,8 +174,6 @@ HopServices.prototype.uploadFile = function (
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   var localParams = _localServerParams || this.get_localServerParams(); 
-
-  
   /*----<Call upload File hop service>----*/
   uploadFile( _filePath, _destPath, localParams ).post(
     function( data )
@@ -191,64 +186,62 @@ HopServices.prototype.uploadFile = function (
 }
 
 
-HopServices.prototype.qrDetection = function ( _qrImagePath, _remoteServerParams )
+HopServices.prototype.qrDetection = function ( 
+  _qrImagePath, _remoteServerParams )
 {
   import service qrDetection ( );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
-  var qrData = Fs.readBinFileSync( _qrImagePath ); 
-  
+  var qrData = Fs.readFileSync( _qrImagePath ); 
   /*-------Call QR_Node service-------*/
-  var retMessage = qrDetection( qrData ).post(
+  var retMsg = qrDetection( qrData ).post(
     function( data ){
       return data;
     },
     remoteParams
   );
   /*----------------------------------*/
-  return retMessage;
+  return retMsg;
 }
 
 
-HopServices.prototype.faceDetection = function ( _faceImagePath, _remoteServerParams )
+HopServices.prototype.faceDetection = function ( 
+  _faceImagePath, _remoteServerParams )
 {
   import service faceDetection ( );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
-  var faceData = Fs.readBinFileSync( _faceImagePath ); 
-  
+  var file = Fs.readFileSync( _faceImagePath ); 
   /*-------Call face_Node service-------*/
-  var retMessage = faceDetection( faceData ).post(
+  var retMsg = faceDetection( file ).post(
     function( data ){
       return data;
     },
     remoteParams 
   );
   /*----------------------------------*/
-
-  return retMessage;
+  return retMsg;
 };
 
-HopServices.prototype.speech2Text = function ( _audioFileUrl, _remoteServerParams )
+HopServices.prototype.speech2Text = function ( 
+  _audioFileUrl, _remoteServerParams )
 {
   import service speech2Text ( );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
-  var audioData = Fs.readBinFileSync( _audioFileUrl ); 
-  
+  var audioData = Fs.readFileSync( _audioFileUrl ); 
   /*-------Call face_Node service-------*/
-  var retMessage = speech2Text( audioData ).post(
+  var retMsg= speech2Text( audioData ).post(
     function( data ){
       return data;
     },
     remoteParams 
   );
   /*----------------------------------*/
-
-  return retMessage;
+  return retMsg;
 };
 
 
