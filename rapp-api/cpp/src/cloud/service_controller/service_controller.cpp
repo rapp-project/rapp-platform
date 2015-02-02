@@ -11,7 +11,7 @@ std::mutex service_controller::service_mtx_;
 service_controller::service_controller ( )
 : server_ ( "localhost" ),      /// WARNING - This should be correctly pointing to http(s)://api.rapp.cloud
   io_service_ ( ),
-  query_ ( server_, "8080" ), // "http"
+  query_ ( server_, "9001" ), // "http"
   resolver_ ( io_service_ )
 {
     //work_ = std::make_shared<boost::asio::io_service::work>( io_service_ );

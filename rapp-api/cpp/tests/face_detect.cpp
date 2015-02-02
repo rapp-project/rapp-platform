@@ -29,7 +29,7 @@ int main ( int argc, char* argv[] )
 
     std::ifstream image;
     // NOTE: We need std::ios::ate to find the filestream buffer size in faceDetector. This is why we should encapsulate Images within a class
-    image.open ( "picture.jpg", std::ios::in | std::ios::binary | std::ios::ate );
+    image.open ( argv[1], std::ios::in | std::ios::binary | std::ios::ate );
     
     if ( image.is_open() )
     {

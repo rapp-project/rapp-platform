@@ -13,6 +13,7 @@ bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Request& req,
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)
 {
+  ROS_ERROR("%s", req.imageFilename.c_str());
   std::vector<cv::Rect> faces = face_detector_.findFaces(req.imageFilename);
   for(unsigned int i = 0 ; i < faces.size() ; i++)
   {

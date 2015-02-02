@@ -2,6 +2,7 @@
 #define _RAPP_TCPConnection_
 #include <rapp_server/TCPConnection/Includes.hxx>
 
+
 class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
 {
   public:
@@ -72,11 +73,24 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         
         // Copy Image Bytes to a file on Disk
         std::cout << "Image bytes: " << imagebytes.size() << std::endl;
-        std::ofstream os ( "copy_of_picture.jpg", std::ios::out | std::ofstream::binary );
+        std::ofstream os ( "/home/etsardou/copy_of_picture.png", std::ios::out | std::ofstream::binary );
         std::copy( imagebytes.begin(), imagebytes.end(), std::ostreambuf_iterator<char>( os ) );
                 
         // Always reply with an </EOF!> because the C++ client side expects this delimiter
         //reply_ = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 8\r\nConnection: close\r\n\r\nBye!\r\n";
+
+        //------------------INVOKER TEST---------------------//
+        
+        #define SETUP std::string, FaceDetectionStrategies
+        IRosServiceInvoker<SETUP>* t = 
+          RosInvokerFactory::getInvoker<SETUP>(FACE_DETECTION);
+        t->set_strategy(STRING_IMAGE_URL);
+        t->setup("/home/etsardou/copy_of_picture.png");
+        std::string response = t->call_service();
+        delete t;
+        ROS_ERROR("%s", response.c_str());
+
+        //---------------------------------------------------//
         reply_ = "Bye</EOF!>";
         //std::cout << reply_ << std::endl;
 

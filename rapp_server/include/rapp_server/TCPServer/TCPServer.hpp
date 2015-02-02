@@ -9,7 +9,7 @@ class TCPServer
 
     /// Create a TCPServer by passing as @param io_service
     TCPServer ( boost::asio::io_service & io_service )
-    : acceptor_( io_service, tcp::endpoint( tcp::v4(), 8080 ) )
+    : acceptor_( io_service, tcp::endpoint( tcp::v4(), 9001 ) )
     {
         start_accept();
     }

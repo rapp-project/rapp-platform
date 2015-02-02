@@ -2,10 +2,11 @@
 
 boost::asio::io_service io_service;
 
-int main ( )
+int main (int argc, char** argv)
 {
-    TCPServer server( io_service );
-    io_service.run();
+  ros::init(argc, argv, "rapp_server_node");
+  TCPServer server( io_service );
+  io_service.run();
 
-    return 0;
+  return 0;
 }
