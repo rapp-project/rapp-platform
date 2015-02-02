@@ -1,6 +1,6 @@
 #ifndef _RAPP_TCPConnection_
 #define _RAPP_TCPConnection_
-#include "Includes.hxx"
+#include <rapp_server/TCPConnection/Includes.hxx>
 
 class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
 {
