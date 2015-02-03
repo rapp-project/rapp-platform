@@ -96,9 +96,9 @@ class MySQLdbWrapper:
         else:
           values=values+",("+self.constructCommaColumns(req.req_data[i].s)+")"
       
-      print values      
+      #print values      
       query="Insert into "+tblName+" "+ returncols+" values "+values
-      print query      
+      #print query      
       cur.execute("LOCK TABLES "+tblName+" WRITE")
       cur.execute(query)
       cur.execute("UNLOCK TABLES")

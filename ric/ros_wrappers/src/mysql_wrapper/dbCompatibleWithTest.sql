@@ -87,7 +87,7 @@ CREATE TABLE `tblmodel` (
   `picture` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uid` (`model_str`,`manufacturer`,`version`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `tblrapp` (
   KEY `fk_owner` (`owner`),
   KEY `id_2` (`id`),
   CONSTRAINT `tblrapp_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tbluser` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +153,7 @@ CREATE TABLE `tblrobot` (
   KEY `fk_model` (`model`),
   CONSTRAINT `tblrobot_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tbluser` (`id`),
   CONSTRAINT `tblrobot_ibfk_2` FOREIGN KEY (`model`) REFERENCES `tblmodel` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +190,7 @@ CREATE TABLE `tbluser` (
   UNIQUE KEY `username` (`username`),
   KEY `tbluser_ibfk_1` (`email_id`),
   CONSTRAINT `tbluser_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `tblemail` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,7 +250,7 @@ CREATE TABLE `tblusersontologyinstances` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `tblusersontologyinstances_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbluser` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -259,7 +259,7 @@ CREATE TABLE `tblusersontologyinstances` (
 
 LOCK TABLES `tblusersontologyinstances` WRITE;
 /*!40000 ALTER TABLE `tblusersontologyinstances` DISABLE KEYS */;
-INSERT INTO `tblusersontologyinstances` VALUES (1,1,'ontology_something','instance_something','/home/smthing','akraio','2014-11-15 16:01:34','2014-11-15 17:01:34');
+INSERT INTO `tblusersontologyinstances` VALUES (1,1,'ontology_something','instance_something','/home/smthing','akraio','2014-11-15 16:01:34','2014-11-15 17:01:34'),(2,2,'FoodOrDrink','FoodOrDrink_kakaka','url_something','nothing','2015-01-29 22:00:00','2015-01-29 22:00:00'),(3,7,'FoodOrDrink','FoodOrDrink_aaaa','url_something','nothing','2015-01-29 22:00:00','2015-01-29 22:00:00');
 /*!40000 ALTER TABLE `tblusersontologyinstances` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,4 +306,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-29 19:21:34
+-- Dump completed on 2015-01-30 18:05:58

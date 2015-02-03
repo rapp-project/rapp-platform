@@ -1,8 +1,10 @@
 #include <knowrob_wrapper/knowrob_wrapper_communications.h>
 
+
 KnowrobWrapperCommunications::KnowrobWrapperCommunications()
 {
   ros::service::waitForService("json_prolog/query", -1);
+  //ros::service::waitForService("json_prolog/query", -1);  for DB service
   
 
   subclassesOfServiceTopic_ = "ric/knowrob/subclasses_of";
@@ -13,12 +15,21 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications()
   superclassesOfService_ = nh_.advertiseService(superclassesOfServiceTopic_,
     &KnowrobWrapperCommunications::superclassesOfCallback, this);    
     
-  instanceFromClassServiceTopic_ = "ric/knowrob/instanceFromClass";
-  instanceFromClassService_ = nh_.advertiseService(instanceFromClassServiceTopic_,
-    &KnowrobWrapperCommunications::instanceFromClassCallback, this);    
+  createInstanceServiceTopic_ = "ric/knowrob/createInstance";
+  createInstanceService_ = nh_.advertiseService(createInstanceServiceTopic_,
+    &KnowrobWrapperCommunications::createInstanceCallback, this);    
     
+  dumpOntologyServiceTopic_ = "ric/knowrob/dumpOntology";
+  dumpOntologyService_ = nh_.advertiseService(dumpOntologyServiceTopic_,
+    &KnowrobWrapperCommunications::dumpOntologyCallback, this);    
     
-    
+  loadOntologyServiceTopic_ = "ric/knowrob/loadOntology";
+  loadOntologyService_ = nh_.advertiseService(loadOntologyServiceTopic_,
+    &KnowrobWrapperCommunications::loadOntologyCallback, this);  
+
+  userInstancesFromClassServiceTopic_ = "ric/knowrob/userInstancesFromClass";
+  userInstancesFromClassService_ = nh_.advertiseService(userInstancesFromClassServiceTopic_,
+    &KnowrobWrapperCommunications::userInstancesFromClassCallback, this);  
     
     
 
@@ -55,17 +66,64 @@ bool KnowrobWrapperCommunications::superclassesOfCallback(
   return true;
 }
 
-bool KnowrobWrapperCommunications::instanceFromClassCallback(
+bool KnowrobWrapperCommunications::createInstanceCallback(
   rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
   rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
 {
   std::vector<std::string> res_ = 
-    knowrob_wrapper.instanceFromClassQuery(req.query_term.data);
+    knowrob_wrapper.createInstanceQuery(req.query_term.data);
   for(unsigned int i = 0 ; i < res_.size() ; i++)
   {
     std_msgs::String s;
     s.data = res_[i];
     res.results.push_back(s);
   }
+  return true;
+}
+
+bool KnowrobWrapperCommunications::dumpOntologyCallback(
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+{
+  std::vector<std::string> res_ = 
+    knowrob_wrapper.dumpOntologyQuery(req.query_term.data);
+  for(unsigned int i = 0 ; i < res_.size() ; i++)
+  {
+    std_msgs::String s;
+    s.data = res_[i];
+    res.results.push_back(s);
+  }
+  return true;
+}
+
+bool KnowrobWrapperCommunications::loadOntologyCallback(
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+{
+  std::vector<std::string> res_ = 
+    knowrob_wrapper.loadOntologyQuery(req.query_term.data);
+  for(unsigned int i = 0 ; i < res_.size() ; i++)
+  {
+    std_msgs::String s;
+    s.data = res_[i];
+    res.results.push_back(s);
+  }
+  return true;
+}
+
+bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+{
+  //std::cout<<req.return_cols[0].data;
+  std::vector<std::string> res_ = 
+    knowrob_wrapper.userInstancesFromClassQuery(req.query_term.data);
+  for(unsigned int i = 0 ; i < res_.size() ; i++)
+  {
+    std_msgs::String s;
+    s.data = res_[i];
+    res.results.push_back(s);
+  }
+  
   return true;
 }

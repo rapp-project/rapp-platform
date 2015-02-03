@@ -3,6 +3,10 @@
 
 #include <json_prolog/prolog.h>
 
+#include <rapp_platform_ros_communications/DbWrapperSrv.h>
+
+#include <rapp_platform_ros_communications/StringArrayMsg.h>
+
 class KnowrobWrapper
 {
   private:
@@ -14,5 +18,8 @@ class KnowrobWrapper
 
     std::vector<std::string> subclassesOfQuery(std::string ontology_class);
     std::vector<std::string> superclassesOfQuery(std::string ontology_class);
-    std::vector<std::string> instanceFromClassQuery(std::string ontology_class);
+    std::vector<std::string> createInstanceQuery(std::string caller_arguments);
+    std::vector<std::string> dumpOntologyQuery(std::string path);
+    std::vector<std::string> loadOntologyQuery(std::string path);  
+    std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
 };
