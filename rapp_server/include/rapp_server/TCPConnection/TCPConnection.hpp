@@ -75,12 +75,12 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         std::cout << "Image bytes: " << imagebytes.size() << std::endl;
         std::ofstream os ( "/home/etsardou/copy_of_picture.png", std::ios::out | std::ofstream::binary );
         std::copy( imagebytes.begin(), imagebytes.end(), std::ostreambuf_iterator<char>( os ) );
-                
+        os.close();        
         // Always reply with an </EOF!> because the C++ client side expects this delimiter
         //reply_ = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 8\r\nConnection: close\r\n\r\nBye!\r\n";
 
         //------------------INVOKER TEST---------------------//
-        
+       
         #define SETUP std::string, FaceDetectionStrategies
         IRosServiceInvoker<SETUP>* t = 
           RosInvokerFactory::getInvoker<SETUP>(FACE_DETECTION);
@@ -88,10 +88,11 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
         t->setup("/home/etsardou/copy_of_picture.png");
         std::string response = t->call_service();
         delete t;
+        std::cout << "Response: " << response << std::endl;
         ROS_ERROR("%s", response.c_str());
 
         //---------------------------------------------------//
-        reply_ = "Bye</EOF!>";
+        reply_ = response + std::string("</EOF!>");
         //std::cout << reply_ << std::endl;
 
         // 5 second time-out 

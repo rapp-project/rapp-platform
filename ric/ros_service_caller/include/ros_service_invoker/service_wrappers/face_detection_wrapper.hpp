@@ -69,7 +69,6 @@ class FaceDetectionWrapper : public IRosServiceInvoker<T, S>
           face_detection_service_url.c_str());
       }
 
-      ROS_ERROR("Invoker sending image :%s", srv.request.imageFilename.c_str());
       // Calls the ROS face detection service
       if(ros::service::call(face_detection_service_url, srv))
       {
