@@ -11,6 +11,6 @@ Run exec.sh (./exec.sh) with 2 parameters:
 
 Example of use:
 
-``./exec.sh faceDetection.js`` 
-10 will execute faceDetection.js 10 times in series.
+``./exec.sh faceDetection.js10``
+will execute faceDetection.js 10 times in series.
 

@@ -1,7 +1,0 @@
-serveFile
-uploadFile
-faceDetection
-speech2Text
-storeFile
-upServices
-qrDetection

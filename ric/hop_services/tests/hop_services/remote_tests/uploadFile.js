@@ -21,6 +21,7 @@ var startT, endT;
 
 var remoteServerParams = new ServerParams(
   false, "155.207.19.37", 9001, "rappdev", "rappdev");
+//Must define the local host Public Ip address
 var localServerParams = new ServerParams( false, "155.207.33.185", 9001, "klpanagi", "peace" );
 
 var hop = new hopServices();

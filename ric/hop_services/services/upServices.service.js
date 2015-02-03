@@ -15,8 +15,8 @@ var Services = new Array();
 
 
 service upServices ( ){
- var data = Fs.readFileSync( 'availableServices.txt' );
- var services = data.toString().split("\n");
+ var file = Fs.readFileSync( 'availableServices.txt' );
+ var services = file.data.toString().split("\n");
  services.pop(); //Get rid of EOF character.
  console.log( services );
  return services;

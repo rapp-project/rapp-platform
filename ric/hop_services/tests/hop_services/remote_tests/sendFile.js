@@ -1,5 +1,5 @@
 /*!
- * @file storeFile_test.js
+ * @file sendFile.js
  * @brief Test filetransfer methods from local to host.
  */
 
