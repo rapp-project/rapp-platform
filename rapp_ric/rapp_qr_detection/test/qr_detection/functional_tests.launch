@@ -1,0 +1,5 @@
+<launch> 
+   <node type="qr_detection_ros_node" pkg="rapp_qr_detection" name="rapp_qr_detection"/> 
+   <test time-limit="10" test-name="qr_detection_functional" pkg="rapp_qr_detection" type="functional_tests.py"/> 
+ </launch> 
+ 

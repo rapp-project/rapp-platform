@@ -1,5 +1,0 @@
-<launch> 
-   <node type="qr_detection_ros_node" pkg="ros_nodes" name="ros_nodes"/> 
-   <test time-limit="10" test-name="qr_detection_functional" pkg="ros_nodes" type="functional_tests.py"/> 
- </launch> 
- 

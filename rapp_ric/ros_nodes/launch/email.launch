@@ -1,3 +1,0 @@
-<launch>
-  <node name="email_node" pkg="ros_nodes" type="rapp_mail.py" output="screen"/>
-</launch>
