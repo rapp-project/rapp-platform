@@ -22,10 +22,5 @@ If you want to add rapp-platform to an already existent system (Ubuntu 14.04) yo
 - To compile ```RIC / ros_wrappers``` you must setup the following catkin_workspaces:
  - ```https://github.com/rosjava/rosjava```
  - ```https://github.com/knowrob/knowrob/tree/indigo-devel```
- - If you dont want interaction with the ontology, alter the following files:
-     - ```https://github.com/rapp-project/rapp-platform/blob/master/ric/ros_wrappers/CMakeLists.txt``` and comment the lines concerning
-         - ```json_prolog```
-         - ```add_subdirectory(src/knowrob_wrapper)```
-     - ```https://github.com/rapp-project/rapp-platform/blob/master/ric/ros_wrappers/package.xml``` and comment out
-         - ```<build_depend>json_prolog</build_depend>```
-         - ```<run_depend>json_prolog</run_depend>```
+ - If you dont want interaction with the ontology, add an empty ```CATKIN_IGNORE``` file in the ```rapp-platform/rapp_ric/rapp_knowrob_wrapper/``` folder
+
