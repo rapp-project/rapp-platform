@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>rapp_face_detection</name>
+  <version>0.0.1</version>
+  <description>The rapp_face_detection package</description>
+
+  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
+  <!-- Example:  -->
+  <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
+  <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
+
+  <license>MIT</license>
+
+  <test_depend>unittest</test_depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>rostest</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>rapp_platform_ros_communications</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>rostest</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>rapp_platform_ros_communications</run_depend>
+</package>
