@@ -1,0 +1,5 @@
+<launch> 
+   <node type="speech_recognition_google.py" pkg="rapp_speech_recognition_google" name="rapp_speech_recognition_google"/> 
+   <test time-limit="10" test-name="speech_to_text_functional" pkg="rapp_speech_recognition_google" type="functional_tests.py" /> 
+ </launch> 
+ 

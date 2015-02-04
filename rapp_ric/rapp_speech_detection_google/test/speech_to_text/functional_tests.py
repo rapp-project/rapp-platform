@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-PKG='ros_nodes'
+PKG='rapp_speech_recognition_google'
 
 import sys
 import unittest

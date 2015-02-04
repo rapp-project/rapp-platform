@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>rapp_knowrob_wrapper</name>
+  <version>0.0.1</version>
+  <description>The auxiliary rapp_knowrob_wrapper package</description>
+
+  <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>rapp_platform_ros_communications</build_depend>
+  <build_depend>json_prolog</build_depend>
+
+  <run_depend>roscpp</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>rapp_platform_ros_communications</run_depend>
+  <run_depend>json_prolog</run_depend>
+
+</package>

@@ -1,0 +1,3 @@
+<launch>
+  <node name="speech_recognition_node" pkg="rapp_speech_detection_google" type="speech_recognition_google.py" output="screen"/>
+</launch>

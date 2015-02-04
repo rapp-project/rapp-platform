@@ -1,15 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ros_wrappers)
+project(rapp_speech_detection_google)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
   rospy
   std_msgs
-  json_prolog
   rostest 
   rapp_platform_ros_communications
-  message_generation
 )
 
 ###################################
@@ -23,22 +20,18 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   CATKIN_DEPENDS
-    roscpp
-    json_prolog
+    rospy
     rapp_platform_ros_communications
   INCLUDE_DIRS
-    include
 )
 
 include_directories(
-  include
   ${catkin_INCLUDE_DIRS}  
 )
 
 ###########
 ## Build ##
 ###########
-add_subdirectory(src/mysql_wrapper)
-add_subdirectory(src/knowrob_wrapper)
-add_subdirectory(src/speech_rec_google)
-
+if (CATKIN_ENABLE_TESTING)
+  add_rostest(test/speech_to_text/functional_tests.launch)
+endif()
