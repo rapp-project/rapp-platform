@@ -18,9 +18,9 @@ If you want to add rapp-platform to an already existent system (Ubuntu 14.04) yo
 
 #####NOTES:
 
-- To compile ```RIC / ros_nodes``` you must install the ```libzbar``` library
-- To compile ```RIC / ros_wrappers``` you must setup the following catkin_workspaces:
+- To compile ```rapp_ric/rapp_qr_detection``` you must install the ```libzbar``` library
+- To compile ```rapp_ric/rapp_knowrob_wrapper``` you must setup the following catkin_workspaces:
  - ```https://github.com/rosjava/rosjava```
  - ```https://github.com/knowrob/knowrob/tree/indigo-devel```
- - If you dont want interaction with the ontology, add an empty ```CATKIN_IGNORE``` file in the ```rapp-platform/rapp_ric/rapp_knowrob_wrapper/``` folder
+ - **If you dont want interaction with the ontology, add an empty ```CATKIN_IGNORE``` file in the ```rapp-platform/rapp_ric/rapp_knowrob_wrapper/``` folder**
 
