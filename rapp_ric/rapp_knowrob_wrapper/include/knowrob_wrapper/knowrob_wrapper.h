@@ -22,4 +22,6 @@ class KnowrobWrapper
     std::vector<std::string> dumpOntologyQuery(std::string path);
     std::vector<std::string> loadOntologyQuery(std::string path);  
     std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
+    std::vector<std::string> checkIfClassExists(std::string classValue);
+    std::vector<std::string> checkIfAttributeAllowed(std::string subjectClass, std::string predicate, std::string objectClass);
 };

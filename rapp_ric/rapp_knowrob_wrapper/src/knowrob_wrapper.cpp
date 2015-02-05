@@ -18,6 +18,135 @@ std::vector<std::string> split(std::string str, std::string sep){
     return arr;
 }
 
+std::vector<std::string> KnowrobWrapper::checkIfClassExists(std::string classValue) //checked
+{
+  std::string query = std::string("owl_direct_subclass_of(knowrob:'") + 
+  classValue + std::string("',A)");
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+
+  std::vector<std::string> report;
+
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    report.push_back(bdg["A"]);
+  }
+  
+  if(report.size()==0)
+  {
+    report.clear();
+    report.push_back(std::string("Class entered: ") + classValue + std::string("  Either class does not exist or you used the Thing class which is not allowed"));
+    return report;
+  }
+  else
+  {
+    report.clear();
+    report.push_back(std::string("True"));
+  }
+  return report;
+  
+}
+
+//check if instance exists
+
+
+std::vector<std::string> KnowrobWrapper::checkIfAttributeAllowed(std::string subject, std::string predicate, std::string object) //checked
+{
+  std::vector<std::string> report;
+  std::string check=std::string("not ok");
+  //check if subject exists
+  //check if object exists
+  std::vector<std::string> tempSplit;
+  tempSplit=split(subject,"_");
+  std::string subjectClass=tempSplit[0];
+  tempSplit=split(object,"_");
+  std::string objectClass=tempSplit[0];
+  
+  
+  std::string query = std::string("rdf_has(knowrob:'") + 
+  predicate + std::string("',rdfs:domain,A)");
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+
+  //std::vector<std::string> ret;
+
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    //ret.push_back(bdg["A"]);
+    std::string temp1 = bdg["A"];
+    tempSplit=split(temp1,"#");
+    if(tempSplit.size()>1)
+    {
+      report.push_back(tempSplit[1]);
+      if(tempSplit[1]==subjectClass)
+      {
+        check=std::string("Ok");        
+      }        
+    }    
+  }  
+  if(report.size()==0)
+  {
+    //report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
+    report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY subject (domains) "));
+    return report;
+  }  
+  else if(check!=std::string("Ok"))
+  {
+    report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject+ std::string("  ...possible subjects are listed below..."));
+    return report;
+  }
+  
+  report.clear();
+  check=std::string("not ok");
+  
+  query = std::string("rdf_has(knowrob:'") + 
+  predicate + std::string("',rdfs:range,A)");
+  results = pl.query(query.c_str());
+
+  //std::vector<std::string> ret;
+
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    //ret.push_back(bdg["A"]);
+    std::string temp1 = bdg["A"];
+    tempSplit=split(temp1,"#");
+    if(tempSplit.size()>1)
+    {
+      report.push_back(tempSplit[1]);
+      if(tempSplit[1]==objectClass)
+      {
+        check=std::string("Ok");        
+      }        
+    }    
+  }
+  if(report.size()==0)
+  {
+    //report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
+    report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY object (range)"));
+    return report;
+  }  
+  else if(check!=std::string("Ok"))
+  {
+    report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for object (range) : ") +object+ std::string("  ...possible subjects are listed below..."));
+    return report;
+  }
+  
+  report.clear();
+  report.push_back("True");
+  return report;
+  
+}
+
+
+
+
+
+
+
 std::vector<std::string> KnowrobWrapper::subclassesOfQuery(std::string ontology_class)
 {
   std::string query = std::string("owl_subclass_of(A, knowrob:'") + 
@@ -60,101 +189,93 @@ std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_
   
   std::vector<std::string> args;
   args=split(caller_arguments,",");
-  
-  
-    std::string query = std::string("owl_direct_subclass_of(knowrob:'") + 
-    args[1] + std::string("',A)");
-  json_prolog::PrologQueryProxy results = pl.query(query.c_str());  
-  
-  
-  //std::string query = std::string("rdf_instance_from_class(knowrob:'") + 
-    //ontology_class + std::string("',A)");
-  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-
   std::vector<std::string> ret;
-
-  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    it != results.end() ; it++)
+  if(args.size()<3)
   {
-    json_prolog::PrologBindings bdg = *it;
-    ret.push_back(bdg["A"]);
+    int Number = args.size();//number to convert int a string
+    std::string tempResult;//string which will contain the result
+    std::stringstream convert; // stringstream used for the conversion
+    convert << Number;//add the value of Number to the characters in the stream
+    tempResult = convert.str();
+    ret.push_back("Error, invalid number of arguments.. minimum required 3. You supplied: "+tempResult);
+    return ret;
   }
-  if(ret.size()==0)
+  
+  std::string query = std::string("owl_direct_subclass_of(knowrob:'") + 
+  args[1] + std::string("',A)");
+  
+  //ret=checkIfClassExists(args[0]);
+  //if(ret[0]!=std::string("True"))
+  //{
+    //return ret;
+  //}  
+  
+  ret=checkIfAttributeAllowed(args[0],args[1],args[2]);  
+  if(ret[0]!=std::string("True"))
   {
-    ret.push_back("Class entered :" + args[1] + "  Either class does not exist or you used the Thing class which is not allowed");
     return ret;
   }
   ret.clear();
+  ret.push_back(std::string("all ok for now"));
   
-  query = std::string("rdf_instance_from_class(knowrob:'") + 
-  args[1] + std::string("',A)");
-  results = pl.query(query.c_str());
-  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-  it != results.end() ; it++)
-  {
-    json_prolog::PrologBindings bdg = *it;
-    ret.push_back(bdg["A"]);
-  }
-  
-  std::vector<std::string> instanceName;
-  instanceName=split(ret[0],"#");
-  ret.clear();
-  
-  rapp_platform_ros_communications::DbWrapperSrv srv;
-  std_msgs::String s;
-
-  s.data="user_id";
-  srv.request.return_cols.push_back(s);
-  s.data="ontology_class";
-  srv.request.return_cols.push_back(s);
-  s.data="ontology_instance";
-  srv.request.return_cols.push_back(s);
-  s.data="file_url";
-  srv.request.return_cols.push_back(s);
-  s.data="comments";
-  srv.request.return_cols.push_back(s);
-  s.data="created_timestamp";
-  srv.request.return_cols.push_back(s);
-  s.data="updated_timestamp";
-  srv.request.return_cols.push_back(s);
-  
-  std_msgs::String s1;
-  rapp_platform_ros_communications::StringArrayMsg t1;
-  s1.data="'"+args[0]+"'";  
-  t1.s.push_back(s1);
-  s1.data="'"+args[1]+"'";  
-  t1.s.push_back(s1);
-  s1.data="'"+instanceName[1]+"'";  
-  t1.s.push_back(s1);
-  s1.data="'url_something'";  
-  t1.s.push_back(s1);
-  s1.data="'comments_something'";  
-  t1.s.push_back(s1);
-  s1.data="curdate()";  
-  t1.s.push_back(s1);
-  s1.data="curdate()";  
-  t1.s.push_back(s1);
-   
-  srv.request.req_data.push_back(t1);
-  
-  
-  ros::NodeHandle n;
-  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
-  ros::ServiceClient client = n.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
- 
-  client.call(srv);
-  
-  ret.push_back("Write to DB report: "+srv.response.report.data);
-  
-  for(unsigned int i = 2 ; i < args.size() ; i=i+2)
-  {
-    //rdf_assert(knowrob:'Person_qdaDeDZn',knowrob:worksAtFacility,knowrob:'HumanOccupationConstruct_pQmhNKHv')
-    query = std::string("rdf_assert(knowrob:'") +     instanceName[1] + std::string("',knowrob:") +args[i] +  
-    std::string(",knowrob:'") + args[i+1] +  std::string("'")  ;
-    results = pl.query(query.c_str());
-  }
-
   return ret;
+
+  
+  //rapp_platform_ros_communications::DbWrapperSrv srv;
+  //std_msgs::String s;
+
+  //s.data="user_id";
+  //srv.request.return_cols.push_back(s);
+  //s.data="ontology_class";
+  //srv.request.return_cols.push_back(s);
+  //s.data="ontology_instance";
+  //srv.request.return_cols.push_back(s);
+  //s.data="file_url";
+  //srv.request.return_cols.push_back(s);
+  //s.data="comments";
+  //srv.request.return_cols.push_back(s);
+  //s.data="created_timestamp";
+  //srv.request.return_cols.push_back(s);
+  //s.data="updated_timestamp";
+  //srv.request.return_cols.push_back(s);
+  
+  //std_msgs::String s1;
+  //rapp_platform_ros_communications::StringArrayMsg t1;
+  //s1.data="'"+args[0]+"'";  
+  //t1.s.push_back(s1);
+  //s1.data="'"+args[1]+"'";  
+  //t1.s.push_back(s1);
+  //s1.data="'"+instanceName[1]+"'";  
+  //t1.s.push_back(s1);
+  //s1.data="'url_something'";  
+  //t1.s.push_back(s1);
+  //s1.data="'comments_something'";  
+  //t1.s.push_back(s1);
+  //s1.data="curdate()";  
+  //t1.s.push_back(s1);
+  //s1.data="curdate()";  
+  //t1.s.push_back(s1);
+   
+  //srv.request.req_data.push_back(t1);
+  
+  
+  //ros::NodeHandle n;
+  //ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
+  //ros::ServiceClient client = n.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
+ 
+  //client.call(srv);
+  
+  //ret.push_back("Write to DB report: "+srv.response.report.data);
+  
+  //for(unsigned int i = 2 ; i < args.size() ; i=i+2)
+  //{
+    ////rdf_assert(knowrob:'Person_qdaDeDZn',knowrob:worksAtFacility,knowrob:'HumanOccupationConstruct_pQmhNKHv')
+    //query = std::string("rdf_assert(knowrob:'") +     instanceName[1] + std::string("',knowrob:") +args[i] +  
+    //std::string(",knowrob:'") + args[i+1] +  std::string("'")  ;
+    //results = pl.query(query.c_str());
+  //}
+
+  //return ret;
 }
 
 std::vector<std::string> KnowrobWrapper::dumpOntologyQuery(std::string path)
