@@ -201,23 +201,19 @@ std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_
     return ret;
   }
   
-  std::string query = std::string("owl_direct_subclass_of(knowrob:'") + 
-  args[1] + std::string("',A)");
-  
-  //ret=checkIfClassExists(args[0]);
-  //if(ret[0]!=std::string("True"))
-  //{
-    //return ret;
-  //}  
-  
-  ret=checkIfAttributeAllowed(args[0],args[1],args[2]);  
-  if(ret[0]!=std::string("True"))
+  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
+    args[0] + std::string("',B)");
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+
+  //std::vector<std::string> ret;
+
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
   {
-    return ret;
+    json_prolog::PrologBindings bdg = *it;
+    ret.push_back(bdg["A"]);
   }
-  ret.clear();
-  ret.push_back(std::string("all ok for now"));
-  
+  json_prolog::PrologQueryProxy::iterator it2 =results.end();
   return ret;
 
   

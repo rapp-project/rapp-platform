@@ -10,7 +10,7 @@
 class KnowrobWrapper
 {
   private:
-    json_prolog::Prolog pl;
+    json_prolog::Prolog pl;    
   
   public:
   
