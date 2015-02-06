@@ -49,17 +49,17 @@ class Sphinx4Wrapper:
     #p = subprocess.Popen(["java", "-cp", "/home/thanos/NetBeansProjects/MyClass/dist/MyClass.jar"], stdin=subprocess.PIPE)
     #p = subprocess.Popen(['java', '/home/thanos/NetBeansProjects/MyClass/build/classes//myclass.MyClass'], stdin=subprocess.PIPE)
     #p = subprocess.Popen(["java","-cp", "/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src/","MyClass"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    p = subprocess.Popen(["java","-cp", ".:/home/thanos/NetBeansProjects/Sphinx4Maven/target/classes/sphinx4-core-1.0-SNAPSHOT.jar:/home/thanos/NetBeansProjects/Sphinx4Maven/target/classes/sphinx4-data-1.0-SNAPSHOT.jar:/home/thanos/NetBeansProjects/Sphinx4Maven/target/classes/","Sphinx4"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    #p.stdin.write("First line\r\n")
-    #p.stdin.write("Second line\r\n")
+    p = subprocess.Popen(["java","-cp", ".:/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src/sphinx4-core-1.0-SNAPSHOT.jar:/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src/sphinx4-data-1.0-SNAPSHOT.jar:/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src","Sphinx4"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    p.stdin.write("start\r\n")
+    p.stdin.write(req.path.data+"\r\n")
     #p.stdin.write("x\r\n") # this line will not be printed into the file
     print("out")
     line = p.stdout.readline()
-    while(line != "x\n"):
-      print line
+    while(line[0] != "#"):
+      #print line
       line = p.stdout.readline()
-
-    res.words.data="return nothing"
+    #print line
+    res.words.data=line
     return res;  
   #viewUsersRobotsApps
     
