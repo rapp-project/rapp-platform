@@ -26,6 +26,7 @@
 import rospy
 import sys
 import subprocess
+import time
 
 from rapp_platform_ros_communications.srv import (
   Sphinx4WrapperSrv,
@@ -54,12 +55,22 @@ class Sphinx4Wrapper:
     p.stdin.write(req.path.data+"\r\n")
     #p.stdin.write("x\r\n") # this line will not be printed into the file
     print("out")
+    start_time = time.time()
     line = p.stdout.readline()
-    while(line[0] != "#"):
-      #print line
+    
+    while(True):
       line = p.stdout.readline()
+      if(len(line)>0):
+        if(line[0]=="#"):
+          res.words.data=line
+          break
+      if (time.time() - start_time > 10):
+        res.words.data="Time out error"
+        break
+      
+      
     #print line
-    res.words.data=line
+    #res.words.data=line
     return res;  
   #viewUsersRobotsApps
     

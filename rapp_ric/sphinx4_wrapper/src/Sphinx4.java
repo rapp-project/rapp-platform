@@ -2,6 +2,7 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -96,18 +97,19 @@ public class Sphinx4 {
          System.out.println("done");
          }
          */
-        try {
-            BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-            //
-            StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
-            while (true) {
+        //try {
+        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+        //
+        StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
+        while (true) {
+            try {
                 String s = bufferRead.readLine();
                 while (!s.contains("home")) {
                     s = bufferRead.readLine();
                 }
                 //s = bufferRead.readLine();
                 String path = s;
-
+                File test;
                 recognizer.startRecognition(new FileInputStream(path));
                 SpeechResult result;// = recognizer.getResult();
                 while ((result = recognizer.getResult()) != null) {
@@ -115,9 +117,11 @@ public class Sphinx4 {
                 }
                 recognizer.stopRecognition();
                 System.out.println("stopPython");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("#"+e);
+                System.out.println("stopPython");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
