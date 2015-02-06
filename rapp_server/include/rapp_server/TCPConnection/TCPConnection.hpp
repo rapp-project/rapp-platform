@@ -1,13 +1,23 @@
 #ifndef _RAPP_TCPConnection_
 #define _RAPP_TCPConnection_
 
-#include <rapp_server/TCPConnection/rapp_service_processors/processor_factory.hpp>
+#include <rapp_server/TCPConnection/Includes.hxx>
 
+/**
+ * @brief TCPConnection handles all incoming TCP socket connections
+ * @version 2
+ * @date 6-February-2015
+ * @author Alex Gkiokas <a.gkiokas@ortelio.co.uk>
+ * 
+ * @see TCPServer
+ */
+
+namespace rapp {
+namespace cloud {
 
 class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
 {
   public:
-    
     
     typedef char byte;
 
@@ -47,26 +57,41 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
     
     /**
      * NOTE - This is where you can delegate Message processing
-     *        You can do this, either by creating a singleton class which handles the data in here
-     *        Or, you can create a class handler, which is unique to each message, and construct the message in here
-     *        Ideally, you may want a threaded or multi process (fork+exec) handler here which will send
-     *        messages to ROS.
+     *        If you decide you want a seperate TCPServer per Service/Node (IMHO the best implementation style)
+     *        Then simply create a class which inherits from TCPConnection, and implements this method.
+     * 
+     *        Else, if you want only one TCPServer, and only one TCPConnection, run an if-else statement with
+     *        the TAG types in here. We don't really need the ABC, unless we start mix-and-matching (e.g., many faceDetectors, etc)
+     * 
+     *        This is the C++ (OOP) way of doing this, but it is totally fine if you want to do it proceduraly with a namespace method
+     *        In which case remove the classes, and just make an inline method for each operation (e.g., rapp::cloud::processFaces )
+     *        Remember to make it inline so that it can be imported multiple times.
      */
     virtual void process ( )
-    {           
-        std::string response;
+    {
+        std::string tag ( &bytearray_[0], 5 );
         
-        BaseRappConnectionProcessor* p; 
-        
-        // TODO: Check what processor we need! -----------------------
-        p = RappProcessorFactory::getProcessor(FACE_DETECTION_PROC);
-        //-------------------------------------------------------------
-
-        p->process(bytearray_, response);
-        delete p;
-
-        reply_ = response + std::string("</EOF!>");
-        //std::cout << reply_ << std::endl;
+        if ( tag == "<IMG>" )
+        {
+            auto handler = std::unique_ptr<rapp::cloud::faceDetector>( new rapp::cloud::faceDetector );
+            reply_ = handler->process( bytearray_ );
+        }        
+        /*
+        else if ( tag == "<WAV>" )
+        {
+            auto handler = std::unique_ptr<rapp::cloud::speechDetector>( new rapp::cloud::speechDetector );
+            reply_ = handler->process( bytearray_ );
+        }
+        else if ( tag == "<QRC>" )
+        {
+            auto handler = std::unique_ptr<rapp::cloud::qrDetector>( new rapp::cloud::qrDetector );
+            reply_ = handler->process( bytearray_ );
+        }
+        // etc...
+        */
+        // No TAG, or Unknown Tag
+        else
+            reply_ = "Uknown Tag or No Tag ERROR</EOF!>";
 
         // 5 second time-out 
         timer_.expires_from_now( boost::posix_time::seconds( 5 ) );
@@ -154,7 +179,7 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
     boost::asio::deadline_timer timer_;
 
     /// Received Data
-    std::vector<byte> bytearray_;
+    std::vector<byte> bytearray_;    
 
     /// Connection was stopped
     bool stopped_ = false;
@@ -166,4 +191,6 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
     std::size_t bytes_sent_ = 0;
 };
 
+}
+}
 #endif

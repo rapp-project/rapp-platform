@@ -2,6 +2,13 @@
 #define _RAPP_TCPServer_
 #include <rapp_server/TCPServer/Includes.hxx>
 
+/**
+ * 
+ * 
+ */
+
+namespace rapp {
+namespace cloud {
 
 class TCPServer
 {
@@ -59,6 +66,7 @@ class TCPServer
     boost::asio::ip::tcp::acceptor acceptor_;
 };
 
-
+}
+}
 
 #endif
