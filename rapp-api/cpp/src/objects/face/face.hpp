@@ -2,11 +2,6 @@
 #define RAPP_OBJECT_FACE
 #include "Includes.ihh"
 
-namespace rapp
-{
-namespace object
-{
-
 /**
  * @class face
  * @brief class which should somehow encapsulate a face (as polygons or image or wtv)
@@ -21,6 +16,9 @@ namespace object
  *       Using some kind of string
  *       etc...
  */
+
+namespace rapp {
+namespace object {
 
 class face
 {

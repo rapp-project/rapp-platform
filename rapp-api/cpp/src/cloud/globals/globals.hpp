@@ -10,8 +10,8 @@ namespace cloud
 
 /**
  * A few global strings needed internally
- * @version 1
- * @date 10-January-2015
+ * @version 2
+ * @date 6-February-2015
  * @author Alex Gkiokas <a.gkiokas@ortelio.co.uk>
  */
 
@@ -23,5 +23,14 @@ constexpr char face_detect_uri[] = "/hop/faceDetection";
 
 }
 }
+
+namespace types
+{
+    
+/// 
+typedef char byte;
+
+}
+
 }
 #endif

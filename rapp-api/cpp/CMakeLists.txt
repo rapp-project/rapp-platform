@@ -27,13 +27,14 @@ add_executable ( async_client tests/async_client.cpp
 add_executable ( face_detect  tests/face_detect.cpp
                               src/cloud/asio_service_raw/asio_service_raw.cpp
                               src/cloud/service_controller/service_controller.cpp
-                              src/cloud/faceDetector/faceDetector.cpp)
+                              src/cloud/faceDetector/faceDetector.cpp
+                              src/objects/picture/picture.cpp)
 
 # Find Libaries for which Cmake already has a meta-package
 find_package( Threads REQUIRED )
 find_package( Boost 1.49 COMPONENTS system thread REQUIRED )
 
-# Build Libraries (both static and shared)
+# Build Libraries (both static and shared) TODO Later
 #set (SOURCES ${SOURCES} src/asio_service_client/asio_service_client.cpp)
 #add_library (lrapp OBJECT ${SOURCES})
 #add_library (rapp.0.1 SHARED $<TARGET_OBJECTS:lrapp>)
@@ -50,30 +51,8 @@ set(CMAKE_VERBOSE_MAKEFILE on)
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug) #set only when coding/testing
 
-
-# NOTE: Do we need OSX/MAC Support for RAPP::API ???
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  
-  # using Clang
-  message (STATUS "Clang/OSX" )
-  execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-  
-  if (CLANG_VERSION_MAJOR VERSION_GREATER 3 OR CLANG_VERSION_MAJOR VERSION_EQUAL 3)
-    message(STATUS "Info: Clang >= 3.0 using C++11")
-  
-  elseif ()
-    message(FATAL_ERROR "Clang version >= 3.0 is required")
-  endif()
-  
-  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Wall")
-  message(STATUS "CXX Flags: " ${CMAKE_CXX_FLAGS})
-  set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
-  set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mtune=native -march=native")
-  set(BUILD_SHARED_LIBS OFF)
-  message(STATUS "CXX Linker: " ${CMAKE_EXE_LINKER_FLAGS})
-
 # Linux should be the default OS/Platform for RAPP::API
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   
   # using GCC/Linux
   message (STATUS "GCC/Linux" )

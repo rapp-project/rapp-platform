@@ -2,41 +2,35 @@
 #define RAPP_ASIO_SERVICE_RAW
 #include "Includes.ihh"
 
-namespace rapp
-{
-namespace services
-{
+namespace rapp {
+namespace services {
 
 /**
  * @class asio_service_raw
  * @brief base class for asynchronous sockets used for connecting to cloud services
- * @version 1
- * @date 23-January-2015
+ * @version 2
+ * @date 6-February-2015
  * @author Alex Gkiokas <a.gkiokas@ortelio.co.uk>
  * 
- * @see http://www.jmarshall.com/easy/http/#postmethod for HTTP Protocol details
  * @warning this class does not support SSL/TLS sockets
- * 
- * TODO: Enable Time-out timers for a client connection ???
- * NOTE: This is subjective, some processing may take quite some time! 
- *       It needs experimentation and a unique timeout per service
  */
 class asio_service_raw : public asio_socket
 {
   public:
-
+      
     /**
-     * Construct the async client. 
+     * @brief Construct an Asynchronous Socket Client without HTTP stuff, only XML delimiters
+     * @param bytearray is a vector which contains raw byte (char) values
      */
-    asio_service_raw ( std::ifstream & bytestream );
+    asio_service_raw ( const std::vector<rapp::types::byte> & bytearray );
     
     /**
-     * @param header is the actual HTTP Header crafted accordingly
-     * @param post is the actual $_POST field following the HTTP Header
+     * @brief Construct an Asynchronous Socket Client without HTTP stuff, only XML delimiters
+     * @param bytearray is a vector which contains raw byte (char) values
      * @param callback is a lamda or function pointer with the specific signature, that is invoked upon reply acquisition
      */
     asio_service_raw (
-                       std::ifstream & bytestream,
+                       const std::vector<rapp::types::byte> & bytearray,
                        std::function<void( boost::asio::streambuf & )> callback
                      );
 
@@ -100,7 +94,7 @@ class asio_service_raw : public asio_socket
 
 
     /// Actual bytestream that will be sent over the socket - @note: be careful not to consume it prematurely!
-    std::vector<char> bytes_; 
+    std::vector<rapp::types::byte> bytes_; 
     
     /// Optional Callback Handler
     std::function<void( boost::asio::streambuf & )> callback_;

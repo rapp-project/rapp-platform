@@ -3,3 +3,7 @@
 #include <ostream>
 #include <fstream>
 #include <vector> 
+#include <stdexcept>
+        
+
+#include "../../cloud/globals/globals.hpp"

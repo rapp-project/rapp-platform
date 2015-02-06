@@ -8,8 +8,8 @@ namespace object {
 /**
  * @class picture
  * @brief class which wraps around raw bytes of a picture
- * @version 1
- * @date 25-January-2015
+ * @version 2
+ * @date 6-February-2015
  * @author Alex Gkiokas <a.gkiokas@ortelio.co.uk>
  * 
  */
@@ -17,8 +17,6 @@ namespace object {
 class picture
 {
   public:
-
-    typedef char byte;
     
     picture ( ) = delete;
 
@@ -29,7 +27,7 @@ class picture
     picture ( std::ifstream & bytestream );
 
     /// Construct using raw byte array
-    picture ( std::vector<byte> bytearray );
+    picture ( std::vector<rapp::types::byte> bytearray );
 
     /// Copy constructor
     picture ( const picture & ) = default;
@@ -38,7 +36,7 @@ class picture
     ~picture ( );
 
     /// Get picture as array of bytes
-    std::vector<byte> bytearray ( ) const;
+    std::vector<rapp::types::byte> bytearray ( ) const;
 
     /// Are pictures same ?
     bool operator== ( const picture & ) const;
@@ -60,7 +58,7 @@ class picture
 
     std::ifstream bytestream_;
     
-    std::vector<byte> bytearray_;
+    std::vector<rapp::types::byte> bytearray_;
 };
 
 }

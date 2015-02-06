@@ -12,4 +12,5 @@
 #include "../globals/globals.hpp"
 
 #include "../../objects/face/face.hpp"
+#include "../../objects/picture/picture.hpp"
 

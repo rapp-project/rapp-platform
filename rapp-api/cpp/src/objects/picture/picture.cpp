@@ -14,14 +14,14 @@ picture::picture ( const std::string filepath )
 
 picture::picture ( std::ifstream & bytestream )
 {
-    bytestream_.copyfmt( bytestream );                                  // copy stream members
-    bytestream_.clear( bytestream.rdstate() );                          // copy state of stream
-    bytestream_.basic_ios<byte>::rdbuf( bytestream.rdbuf() );           // copy contents
+    bytestream_.copyfmt( bytestream );                                          // copy stream members
+    bytestream_.clear( bytestream.rdstate() );                                  // copy state of stream
+    bytestream_.basic_ios<rapp::types::byte>::rdbuf( bytestream.rdbuf() );      // copy contents
 
     picture::openCopy_ ( );
 }
 
-picture::picture ( std::vector<byte> bytearray )
+picture::picture ( std::vector<rapp::types::byte> bytearray )
 {
     bytearray_ = bytearray;
 }
@@ -32,7 +32,7 @@ picture::~picture ( )
         bytestream_.close();
 }
 
-std::vector<picture::byte> picture::bytearray ( ) const
+std::vector<rapp::types::byte> picture::bytearray ( ) const
 {
     return bytearray_;
 }
@@ -42,7 +42,7 @@ bool picture::save ( const std::string filepath )
     std::ofstream os ( filepath, std::ios::out | std::ofstream::binary );
     if ( os.is_open() )
     {
-        std::copy( bytearray_.begin(), bytearray_.end(), std::ostreambuf_iterator<byte>( os ) );
+        std::copy( bytearray_.begin(), bytearray_.end(), std::ostreambuf_iterator<rapp::types::byte>( os ) );
         os.close();
         return true;
     }

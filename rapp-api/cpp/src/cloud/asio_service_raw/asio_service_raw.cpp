@@ -4,27 +4,18 @@ namespace rapp {
 namespace services {
 
 
-asio_service_raw::asio_service_raw ( std::ifstream & bytestream )
+asio_service_raw::asio_service_raw ( const std::vector<rapp::types::byte> & bytearray )
 {
-    bytestream.seekg( 0, std::ios_base::end);
-    std::streampos fileSize = bytestream.tellg();
-    bytes_.resize( fileSize );
-    bytestream.seekg( 0, std::ios_base::beg );
-    bytestream.read( &bytes_[0], fileSize );
+    bytes_ = bytearray;
 }
     
 asio_service_raw::asio_service_raw (
-                                      std::ifstream & bytestream,
+                                      const std::vector<rapp::types::byte> & bytearray,
                                       std::function<void( boost::asio::streambuf & )> callback
                                    )
 : callback_ ( callback )
 {
-    bytestream.seekg( 0, std::ios_base::end);
-    std::streampos fileSize = bytestream.tellg();
-    bytes_.resize( fileSize );
-    bytestream.seekg( 0, std::ios_base::beg );
-    bytestream.read( &bytes_[0], fileSize );
-
+    bytes_ = bytearray;
 }
 
 void asio_service_raw::Schedule (
@@ -38,9 +29,11 @@ void asio_service_raw::Schedule (
     std::ostream request_stream ( &request_ );
     
     // Starting Delimiter is DAT
-    request_stream << "<DAT>";
+    // request_stream << "<DAT>"; - DEPRECATED
+    
     for ( const auto & byte : bytes_ )
         request_stream << byte;
+    
     request_stream << "</EOF!>";
     // Ending Delimiter is /EOF!
         
