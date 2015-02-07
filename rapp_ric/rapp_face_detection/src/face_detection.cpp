@@ -2,7 +2,11 @@
 
 FaceDetection::FaceDetection(void)
 {
-  faceDetectionTopic_ = "ric/face_detection_service";
+
+  if(!nh_.getParam("/face_detection_topic", faceDetectionTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }
 
   // Creating the service server concerning the face detection functionality
   faceDetectionService_ = nh_.advertiseService(faceDetectionTopic_, 
