@@ -2,7 +2,10 @@
 
 QrDetection::QrDetection(void)
 {
-  qrDetectionTopic_ = "ric/ros_nodes/qr_detection_service";
+  if(!nh_.getParam("/qr_detection_topic", qrDetectionTopic_))
+  {
+    ROS_ERROR("Qr detection topic param does not exist");
+  }
 
   // Creating the service server concerning the face detection functionality
   qrDetectionService_ = nh_.advertiseService(qrDetectionTopic_, 
