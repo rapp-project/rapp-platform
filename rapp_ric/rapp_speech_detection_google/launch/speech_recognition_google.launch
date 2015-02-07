@@ -1,3 +1,6 @@
 <launch>
   <node name="speech_recognition_node" pkg="rapp_speech_detection_google" type="speech_recognition_google.py" output="screen"/>
+  <rosparam file="$(find rapp_speech_detection_google)/cfg/rapp_speech_detection_google_params.yaml" 
+    command="load" />
+
 </launch>
