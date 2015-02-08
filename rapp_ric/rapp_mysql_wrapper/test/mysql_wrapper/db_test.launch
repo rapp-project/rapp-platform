@@ -1,5 +1,7 @@
 <launch> 
-   <node name="server_db_test" pkg="ros_wrappers" type="mysql_wrapper.py" /> 
-   <test time-limit="10" test-name="db_test" pkg="ros_wrappers" type="db_test.py" /> 
+   <node name="server_db_test" pkg="rapp_mysql_wrapper" type="mysql_wrapper.py" /> 
+   <test time-limit="10" test-name="db_test" pkg="rapp_mysql_wrapper" type="db_test.py" /> 
+   <rosparam file="$(find rapp_mysql_wrapper)/cfg/rapp_mysql_wrapper_params.yaml" 
+    command="load" />
  </launch> 
  

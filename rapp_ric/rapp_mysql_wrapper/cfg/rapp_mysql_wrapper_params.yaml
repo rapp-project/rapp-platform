@@ -28,4 +28,5 @@ mysql_wrapper_users_ontology_instances_write_data_topic: /ric/db/mysql_wrapper_s
 mysql_wrapper_users_ontology_instances_delete_data_topic: /ric/db/mysql_wrapper_service/tblUsersOntologyInstancesDeleteData
 mysql_wrapper_users_ontology_instances_update_data_topic: /ric/db/mysql_wrapper_service/tblUsersOntologyInstancesUpdateData
 
+viewUsersRobotsApps_topic: /ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData
 

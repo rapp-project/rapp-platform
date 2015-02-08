@@ -46,37 +46,112 @@ class MySQLdbWrapper:
   
   def __init__(self):   
     #tblUser services launch
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv, self.tblUserFetchDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUserWriteData', DbWrapperSrv, self.tblUserWriteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUserDeleteData', DbWrapperSrv, self.tblUserDeleteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUserUpdateData', DbWrapperSrv, self.tblUserUpdateDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserFetchDataHandler)    
+    self.serv_topic = rospy.get_param("mysql_wrapper_user_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")    
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserWriteDataHandler)      
+    self.serv_topic = rospy.get_param("mysql_wrapper_user_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")            
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserDeleteDataHandler)     
+    self.serv_topic = rospy.get_param("mysql_wrapper_user_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserUpdateDataHandler)
     #tblModel services launch
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblModelFetchData', DbWrapperSrv, self.tblModelFetchDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblModelWriteData', DbWrapperSrv, self.tblModelWriteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblModelDeleteData', DbWrapperSrv, self.tblModelDeleteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblModelUpdateData', DbWrapperSrv, self.tblModelUpdateDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_model_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelFetchDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_model_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")      
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelWriteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_model_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")       
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelDeleteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_model_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelUpdateDataHandler)
     #tblRapp services launch
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRappFetchData', DbWrapperSrv, self.tblRappFetchDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRappWriteData', DbWrapperSrv, self.tblRappWriteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRappDeleteData', DbWrapperSrv, self.tblRappDeleteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRappUpdateData', DbWrapperSrv, self.tblRappUpdateDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")       
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappFetchDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")      
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappWriteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")      
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappDeleteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappUpdateDataHandler)
     #tblRobot services launch
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv, self.tblRobotFetchDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotWriteData', DbWrapperSrv, self.tblRobotWriteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotDeleteData', DbWrapperSrv, self.tblRobotDeleteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblRobotUpdateData', DbWrapperSrv, self.tblRobotUpdateDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_robot_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")       
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotFetchDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_robot_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")       
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotWriteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_robot_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotDeleteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_robot_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")      
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotUpdateDataHandler)
     #tblAppsRobots services launch
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsFetchData', DbWrapperSrv, self.tblAppsRobotsFetchDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsWriteData', DbWrapperSrv, self.tblAppsRobotsWriteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsDeleteData', DbWrapperSrv, self.tblAppsRobotsDeleteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblAppsRobotsUpdateData', DbWrapperSrv, self.tblAppsRobotsUpdateDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")       
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsFetchDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")         
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsWriteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")       
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsDeleteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")      
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsUpdateDataHandler)
     #tblUsersOntologyInstances services launch
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData', DbWrapperSrv, self.tblUsersOntologyInstancesFetchDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData', DbWrapperSrv, self.tblUsersOntologyInstancesWriteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesDeleteData', DbWrapperSrv, self.tblUsersOntologyInstancesDeleteDataHandler)
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesUpdateData', DbWrapperSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesFetchDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found") 
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesWriteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesDeleteDataHandler)
+    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")       
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
     #viewUsersRobotsApps services launch
-    self.serv=rospy.Service('ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData', DbWrapperSrv, self.viewUsersRobotsAppsFetchDataHandler)
+    self.serv_topic = rospy.get_param("viewUsersRobotsApps_topic")
+    if(not self.serv_topic):
+      rospy.logerror("Speech detection topic param not found")     
+    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.viewUsersRobotsAppsFetchDataHandler)
                 
     
   

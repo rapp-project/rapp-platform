@@ -1,0 +1,6 @@
+<launch>
+  <node name="speech_recognition_sphinx4_node" pkg="sphinx4_wrapper" type="sphinx4_wrapper.py" output="screen"/>
+  <rosparam file="$(find sphinx4_wrapper)/cfg/sphinx4_wrapper_params.yaml" 
+    command="load" />
+
+</launch>

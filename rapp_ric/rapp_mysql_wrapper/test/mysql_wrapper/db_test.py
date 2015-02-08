@@ -25,7 +25,7 @@
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
 
-PKG='auxiliary_ros_wrappers'
+PKG='test_rapp_mysql_wrapper'
 import sys
 import unittest
 import rospy
@@ -47,8 +47,11 @@ from std_msgs.msg import (
 class TestDbWrapper(unittest.TestCase):      
 
   def testSubmitCorrectQuery(self):
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="email_id")]
     #req.return_cols=[String(data="*")]
@@ -79,8 +82,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[3].data,"0")
   
   def testSubmitIncompleteQuery(self):
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]#[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]
     entry1=StringArrayMsg() 
@@ -94,8 +100,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
 
   def testSubmitWrongQuery(self):
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)    
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]    
     entry1=StringArrayMsg()    
@@ -110,8 +119,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(errorStart,"Database Error")
     
   def testSubmitCorrectReturnAllColumnQuery(self):
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()    
     req.return_cols=[String(data="*")]
     entry1=StringArrayMsg()    
@@ -147,8 +159,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"1")
     
   def testSubmitMoreLinesQuery(self):
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()    
     req.return_cols=[String(data="*")]
     entry1=StringArrayMsg()    
@@ -165,8 +180,11 @@ class TestDbWrapper(unittest.TestCase):
   #test TblUser
   def testTblUserWriteReadDeleteCheck(self):
     #Write
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserWriteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserWriteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_write_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
     req.return_cols=[String(data="id"),String(data="username"), String(data="firstname"),String(data="lastname"), String(data="email_id"),String(data="pwd"), String(data="usrgroup"),String(data="created"), String(data="accessed"),String(data="enabled"), String(data="activation")]
@@ -179,8 +197,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)    
     #Read what was written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="firstname"),String(data="lastname")]
     entry1=[String(data="firstname"),String(data="Alex2")]
@@ -191,8 +212,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[1].data,"Marko2")
     self.assertEqual(response.res_data[1].s[1].data,"Marko3")    
     #Update written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserUpdateData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserUpdateData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_update_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="firstname='Alex3'")]
     entry1=[String(data="firstname"),String(data='Alex2')]
@@ -201,8 +225,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)       
     #Read again
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="firstname"),String(data="lastname")]
     entry1=[String(data="firstname"),String(data="Alex3")]
@@ -213,8 +240,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"Alex3")
     self.assertEqual(response.res_data[1].s[0].data,"Alex3")    
     #Delete updated
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserDeleteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserDeleteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_delete_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]
     entry1=[String(data="firstname"),String(data="Alex3")]
@@ -223,8 +253,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)   
     #Check if it was deleted
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUserFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUserFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="firstname"),String(data="lastname")]
     entry1=[String(data="firstname"),String(data="Alex3")]
@@ -237,8 +270,11 @@ class TestDbWrapper(unittest.TestCase):
   #test tblModel  
   def testTblModelWriteReadDeleteCheck(self):
     #Write
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblModelWriteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblModelWriteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_model_write_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
     req.return_cols=[String(data="id"),String(data="model_str"), String(data="manufacturer"),String(data="version"), String(data="arch"),String(data="os"), String(data="picture")]
@@ -251,8 +287,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)    
     #Read what was written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblModelFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblModelFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_model_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="model_str"),String(data="manufacturer")]
     entry1=[String(data="manufacturer"),String(data="antaIndustries")]
@@ -263,8 +302,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"extreme2")
     self.assertEqual(response.res_data[1].s[0].data,"extreme3")    
     #Update written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblModelUpdateData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblModelUpdateData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_model_update_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="model_str='extreme3'")]
     entry1=[String(data="model_str"),String(data='extreme2')]
@@ -273,8 +315,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)       
     #Read again
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblModelFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblModelFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_model_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="model_str"),String(data="manufacturer")]
     entry1=[String(data="model_str"),String(data="extreme3")]
@@ -285,8 +330,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"extreme3")
     self.assertEqual(response.res_data[1].s[0].data,"extreme3")    
     #Delete updated
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblModelDeleteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblModelDeleteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_model_delete_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]
     entry1=[String(data="model_str"),String(data="extreme3")]
@@ -295,8 +343,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)   
     #Check if it was deleted
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblModelFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblModelFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_model_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="model_str"),String(data="manufacturer")]
     entry1=[String(data="model_str"),String(data="extreme3")]
@@ -309,8 +360,11 @@ class TestDbWrapper(unittest.TestCase):
   #test tbRapp  
   def testTblRappWriteReadDeleteCheck(self):
     #Write
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRappWriteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRappWriteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_rapp_write_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
     req.return_cols=[String(data="id"),String(data="rapp"), String(data="version"),String(data="arch"), String(data="owner"),String(data="directory"), String(data="enabled"),String(data="timestamp")]
@@ -323,8 +377,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)    
     #Read what was written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRappFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRappFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_rapp_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="rapp"),String(data="version")]
     entry1=[String(data="rapp"),String(data="uberApp1")]
@@ -335,8 +392,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"uberApp1")
     #self.assertEqual(response.res_data[1].s[0].data,"extreme3")    
     #Update written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRappUpdateData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRappUpdateData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_rapp_update_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="rapp='uberApp2'")]
     entry1=[String(data="rapp"),String(data='uberApp4')]
@@ -345,8 +405,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)       
     #Read again
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRappFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRappFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_rapp_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="rapp"),String(data="version")]
     entry1=[String(data="rapp"),String(data="uberApp2")]
@@ -357,8 +420,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"uberApp2")
     self.assertEqual(response.res_data[1].s[0].data,"uberApp2")    
     #Delete updated
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRappDeleteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRappDeleteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_rapp_delete_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]
     entry1=[String(data="rapp"),String(data="uberApp2")]
@@ -367,8 +433,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)   
     #Check if it was deleted
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRappFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRappFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_rapp_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="rapp"),String(data="version")]
     entry1=[String(data="rapp"),String(data="uberApp2")]
@@ -381,8 +450,11 @@ class TestDbWrapper(unittest.TestCase):
   #test tbRobot
   def testTblRobotWriteReadDeleteCheck(self):
     #Write
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotWriteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotWriteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_robot_write_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
     req.return_cols=[String(data="id"),String(data="macddr"), String(data="model"),String(data="owner"), String(data="timestamp")]
@@ -395,8 +467,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)    
     #Read what was written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_robot_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="id"),String(data="macddr")]
     entry1=[String(data="macddr"),String(data="1800000")]
@@ -407,8 +482,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"3")
     #self.assertEqual(response.res_data[1].s[0].data,"extreme3")    
     #Update written
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotUpdateData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotUpdateData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_robot_update_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="timestamp='2014-11-23 09:04:13'")]
     entry1=[String(data="macddr"),String(data='1900000')]
@@ -417,8 +495,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)       
     #Read again
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_robot_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="macddr"),String(data="model")]
     entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
@@ -429,8 +510,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0].data,"1800000")
     self.assertEqual(response.res_data[1].s[0].data,"1900000")    
     #Delete updated
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotDeleteData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotDeleteData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_robot_delete_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[]
     entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
@@ -439,8 +523,11 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.report.data,"Success")
     self.assertTrue(response.success.data)   
     #Check if it was deleted
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblRobotFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblRobotFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_robot_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="macddr"),String(data="model")]
     entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
@@ -454,8 +541,11 @@ class TestDbWrapper(unittest.TestCase):
   #test tblAppsRobots
   def testTblAppsRobotsRead(self):
     #Read
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblAppsRobotsFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblAppsRobotsFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_apps_robots_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="app_id"),String(data="robot_id")]
     entry1=[String(data="app_id"),String(data="1")]
@@ -470,8 +560,11 @@ class TestDbWrapper(unittest.TestCase):
   #test tblUsersOntologyInstances
   def testTblUsersOntologyInstancesRead(self):
     #Read
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('mysql_wrapper_users_ontology_instances_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="id"),String(data="ontology_class"),String(data="ontology_instance")]
     entry1=[String(data="id"),String(data="1")]
@@ -485,8 +578,11 @@ class TestDbWrapper(unittest.TestCase):
   #test viewUsersRobotsApps
   def testviewUsersRobotsAppsRead(self):
     #Read
-    rospy.wait_for_service('ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData')
-    db_service = rospy.ServiceProxy('ric/db/mysql_wrapper_service/viewUsersRobotsAppsFetchData', DbWrapperSrv)
+    serv_topic = rospy.get_param('viewUsersRobotsApps_topic')
+    if(not serv_topic):
+      rospy.logerror("Speech detection topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     req = DbWrapperSrv()
     req.return_cols=[String(data="owner"),String(data="id"),String(data="app_id")]
     entry1=[String(data="id"),String(data="1")]
