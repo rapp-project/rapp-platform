@@ -44,7 +44,10 @@ class SpeechToTextGoogle:
 
   def __init__(self):
     # Speech recognition service published
-    self.serv = rospy.Service('ric/speech_to_text_service', \
+    self.serv_topic = rospy.get_param("rapp_speech_detection_google_topic")
+    if(not self.serv_topic):
+        rospy.logerror("Speech detection topic param not found")
+    self.serv = rospy.Service(self.serv_topic, \
         SpeechToTextSrv, self.speech_to_text_callback)
 
   # The service callback  
