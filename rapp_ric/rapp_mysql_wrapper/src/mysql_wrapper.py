@@ -22,6 +22,8 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
+# Author: Athanassios Kintsakis
+# contact: akintsakis@issel.ee.auth.gr
 
 import rospy
 import MySQLdb as mdb

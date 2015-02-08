@@ -22,6 +22,9 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
+# Author: Athanassios Kintsakis
+# contact: akintsakis@issel.ee.auth.gr
+
 PKG='auxiliary_ros_wrappers'
 import sys
 import unittest
