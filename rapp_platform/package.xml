@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <name>rapp_platform</name>
+  <version>0.0.1</version>
+  <description>The rapp-platform metapackage</description>
+
+  <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>rapp_server</run_depend>
+  <run_depend>rapp_email</run_depend>
+  <run_depend>rapp_face_detection</run_depend>
+  <run_depend>rapp_knowrob_wrapper</run_depend>
+  <run_depend>rapp_mysql_wrapper</run_depend>
+  <run_depend>rapp_platform_ros_communications</run_depend>
+  <run_depend>rapp_qr_detection</run_depend>
+  <run_depend>rapp_speech_detection_google</run_depend>
+  <run_depend>ros_service_caller</run_depend>
+  <run_depend>test_auxiliary_files</run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
