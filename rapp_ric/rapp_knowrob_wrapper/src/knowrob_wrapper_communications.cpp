@@ -5,28 +5,46 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications()
 {
   ros::service::waitForService("json_prolog/query", -1);
   //ros::service::waitForService("json_prolog/query", -1);  for DB service
-  
 
-  subclassesOfServiceTopic_ = "ric/knowrob/subclasses_of";
+  if(!nh_.getParam("/ontology_subclass_of_topic", subclassesOfServiceTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }
   subclassesOfService_ = nh_.advertiseService(subclassesOfServiceTopic_,
     &KnowrobWrapperCommunications::subclassesOfCallback, this);
-    
-  superclassesOfServiceTopic_ = "ric/knowrob/superclasses_of";
+
+  if(!nh_.getParam("/ontology_superclass_of_topic", superclassesOfServiceTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }      
   superclassesOfService_ = nh_.advertiseService(superclassesOfServiceTopic_,
-    &KnowrobWrapperCommunications::superclassesOfCallback, this);    
+    &KnowrobWrapperCommunications::superclassesOfCallback, this);
     
-  createInstanceServiceTopic_ = "ric/knowrob/createInstance";
+  if(!nh_.getParam("/ontology_create_instance_topic", createInstanceServiceTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }      
   createInstanceService_ = nh_.advertiseService(createInstanceServiceTopic_,
     &KnowrobWrapperCommunications::createInstanceCallback, this);    
-    
-  dumpOntologyServiceTopic_ = "ric/knowrob/dumpOntology";
+
+  if(!nh_.getParam("/ontology_dump_ontology_topic", dumpOntologyServiceTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }         
   dumpOntologyService_ = nh_.advertiseService(dumpOntologyServiceTopic_,
     &KnowrobWrapperCommunications::dumpOntologyCallback, this);    
-    
-  loadOntologyServiceTopic_ = "ric/knowrob/loadOntology";
+
+  if(!nh_.getParam("/ontology_load_ontology_topic", loadOntologyServiceTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }  
   loadOntologyService_ = nh_.advertiseService(loadOntologyServiceTopic_,
     &KnowrobWrapperCommunications::loadOntologyCallback, this);  
 
+  if(!nh_.getParam("/ontology_user_instances_from_class_topic", userInstancesFromClassServiceTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }   
   userInstancesFromClassServiceTopic_ = "ric/knowrob/userInstancesFromClass";
   userInstancesFromClassService_ = nh_.advertiseService(userInstancesFromClassServiceTopic_,
     &KnowrobWrapperCommunications::userInstancesFromClassCallback, this);  
