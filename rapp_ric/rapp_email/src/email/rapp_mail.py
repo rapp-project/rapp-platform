@@ -47,7 +47,11 @@ from rapp_platform_ros_communications.srv import (
 class Email:
 
     def __init__(self):
-        self.mailSendSrv = rospy.Service("ric/mail/send", MailSend, \
+        self.serv_topic = rospy.get_param("rapp_email_send_topic")
+        if(not self.serv_topic):
+            rospy.logerror("Email send topic param not found")
+
+        self.mailSendSrv = rospy.Service(self.serv_topic, MailSend, \
                                          self.mailSendCallback)
 
     def mailSendCallback(self, req):
