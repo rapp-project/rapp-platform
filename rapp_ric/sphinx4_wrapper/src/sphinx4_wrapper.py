@@ -69,7 +69,10 @@ class Sphinx4Wrapper:
       line = p.stdout.readline()
       if(len(line)>0):
         if(line[0]=="#"):
-          res.words.data=line
+          res.words.data=res.words.data+"\n"+line
+          #break
+        if(line=="stopPython\n"):
+          #res.words.data=line
           break
       if (time.time() - start_time > 10):
         res.words.data="Time out error"

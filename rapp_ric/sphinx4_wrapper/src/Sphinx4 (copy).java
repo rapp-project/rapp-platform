@@ -1,10 +1,6 @@
 import edu.cmu.sphinx.api.Configuration;
-import edu.cmu.sphinx.api.Context;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
-import edu.cmu.sphinx.linguist.flat.FlatLinguist;
-import edu.cmu.sphinx.recognizer.Recognizer;
-import edu.cmu.sphinx.util.props.ConfigurationManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,8 +9,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -70,15 +64,7 @@ public class Sphinx4 {
             System.out.println(url.getFile());
         }
         Configuration configuration = new Configuration();
-        //Context ct = new Context("//",configuration);
-        ConfigurationManager cm;
-        cm = new ConfigurationManager("/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/train/default.config.xml");
-        //Recognizer rec = cm.lookup("recognizer");
-        //rec.allocate();
-        Map<String, String> properties = new HashMap();
-        properties=cm.getGlobalProperties();
-        System.out.println("# "+properties.get("oogProbability"));
-        
+
 // Set path to acoustic model.
         //configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
         configuration.setAcousticModelPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/en-us");
@@ -86,12 +72,9 @@ public class Sphinx4 {
         System.out.println(configuration.getAcousticModelPath());
 
 //set grammar
-          configuration.setUseGrammar(true);
-          configuration.setGrammarName("hello");
-          //configuration.setGrammarPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/");
-          configuration.setGrammarPath("/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/train/");
-          //FlatLinguist t = new FlatLinguist();
-          
+        //  configuration.setUseGrammar(true);
+        //  configuration.setGrammarName("hello");
+        //  configuration.setGrammarPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/");
 // Set path to dictionary.
         //configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
         configuration.setDictionaryPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");

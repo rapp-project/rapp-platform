@@ -179,6 +179,7 @@ std::vector<std::string> KnowrobWrapper::superclassesOfQuery(std::string ontolog
     it != results.end() ; it++)
   {
     json_prolog::PrologBindings bdg = *it;
+    
     ret.push_back(bdg["A"]);
   }
   return ret;
@@ -201,19 +202,29 @@ std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_
     return ret;
   }
   
-  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
-    args[0] + std::string("',B)");
+  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") +   //instanceFromClass_withCheck
+    args[0] + std::string("',A)");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  
+  
 
   //std::vector<std::string> ret;
-
+  ret.clear();
+  json_prolog::PrologQueryProxy::iterator it;
+  //it.requestNextSolution();
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
     it != results.end() ; it++)
   {
+    //json_prolog::PrologNextSolutionResponse resp; 
+    json_prolog::PrologQueryProxy::iterator::requestNextSolution();
+    //it::requestNextSolution();
     json_prolog::PrologBindings bdg = *it;
-    ret.push_back(bdg["A"]);
+    //it.
+    //it.requestNextSolution();
+    ret.push_back(bdg["L"]);
   }
-  json_prolog::PrologQueryProxy::iterator it2 =results.end();
+  
+  //json_prolog::PrologQueryProxy::iterator it2 =results.end();
   return ret;
 
   
