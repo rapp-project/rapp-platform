@@ -51,95 +51,95 @@ std::vector<std::string> KnowrobWrapper::checkIfClassExists(std::string classVal
 //check if instance exists
 
 
-std::vector<std::string> KnowrobWrapper::checkIfAttributeAllowed(std::string subject, std::string predicate, std::string object) //checked
-{
-  std::vector<std::string> report;
-  std::string check=std::string("not ok");
-  //check if subject exists
-  //check if object exists
-  std::vector<std::string> tempSplit;
-  tempSplit=split(subject,"_");
-  std::string subjectClass=tempSplit[0];
-  tempSplit=split(object,"_");
-  std::string objectClass=tempSplit[0];
+//std::vector<std::string> KnowrobWrapper::checkIfAttributeAllowed(std::string subject, std::string predicate, std::string object) //checked
+//{
+  //std::vector<std::string> report;
+  //std::string check=std::string("not ok");
+  ////check if subject exists
+  ////check if object exists
+  //std::vector<std::string> tempSplit;
+  //tempSplit=split(subject,"_");
+  //std::string subjectClass=tempSplit[0];
+  //tempSplit=split(object,"_");
+  //std::string objectClass=tempSplit[0];
   
   
-  std::string query = std::string("rdf_has(knowrob:'") + 
-  predicate + std::string("',rdfs:domain,A)");
-  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  //std::string query = std::string("rdf_has(knowrob:'") + 
+  //predicate + std::string("',rdfs:domain,A)");
+  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
-  //std::vector<std::string> ret;
+  ////std::vector<std::string> ret;
 
-  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    it != results.end() ; it++)
-  {
-    json_prolog::PrologBindings bdg = *it;
-    //ret.push_back(bdg["A"]);
-    std::string temp1 = bdg["A"];
-    tempSplit=split(temp1,"#");
-    if(tempSplit.size()>1)
-    {
-      report.push_back(tempSplit[1]);
-      if(tempSplit[1]==subjectClass)
-      {
-        check=std::string("Ok");        
-      }        
-    }    
-  }  
-  if(report.size()==0)
-  {
-    //report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
-    report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY subject (domains) "));
-    return report;
-  }  
-  else if(check!=std::string("Ok"))
-  {
-    report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject+ std::string("  ...possible subjects are listed below..."));
-    return report;
-  }
+  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    //it != results.end() ; it++)
+  //{
+    //json_prolog::PrologBindings bdg = *it;
+    ////ret.push_back(bdg["A"]);
+    //std::string temp1 = bdg["A"];
+    //tempSplit=split(temp1,"#");
+    //if(tempSplit.size()>1)
+    //{
+      //report.push_back(tempSplit[1]);
+      //if(tempSplit[1]==subjectClass)
+      //{
+        //check=std::string("Ok");        
+      //}        
+    //}    
+  //}  
+  //if(report.size()==0)
+  //{
+    ////report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
+    //report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY subject (domains) "));
+    //return report;
+  //}  
+  //else if(check!=std::string("Ok"))
+  //{
+    //report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject+ std::string("  ...possible subjects are listed below..."));
+    //return report;
+  //}
   
-  report.clear();
-  check=std::string("not ok");
+  //report.clear();
+  //check=std::string("not ok");
   
-  query = std::string("rdf_has(knowrob:'") + 
-  predicate + std::string("',rdfs:range,A)");
-  results = pl.query(query.c_str());
+  //query = std::string("rdf_has(knowrob:'") + 
+  //predicate + std::string("',rdfs:range,A)");
+  //results = pl.query(query.c_str());
 
-  //std::vector<std::string> ret;
+  ////std::vector<std::string> ret;
 
-  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    it != results.end() ; it++)
-  {
-    json_prolog::PrologBindings bdg = *it;
-    //ret.push_back(bdg["A"]);
-    std::string temp1 = bdg["A"];
-    tempSplit=split(temp1,"#");
-    if(tempSplit.size()>1)
-    {
-      report.push_back(tempSplit[1]);
-      if(tempSplit[1]==objectClass)
-      {
-        check=std::string("Ok");        
-      }        
-    }    
-  }
-  if(report.size()==0)
-  {
-    //report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
-    report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY object (range)"));
-    return report;
-  }  
-  else if(check!=std::string("Ok"))
-  {
-    report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for object (range) : ") +object+ std::string("  ...possible subjects are listed below..."));
-    return report;
-  }
+  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    //it != results.end() ; it++)
+  //{
+    //json_prolog::PrologBindings bdg = *it;
+    ////ret.push_back(bdg["A"]);
+    //std::string temp1 = bdg["A"];
+    //tempSplit=split(temp1,"#");
+    //if(tempSplit.size()>1)
+    //{
+      //report.push_back(tempSplit[1]);
+      //if(tempSplit[1]==objectClass)
+      //{
+        //check=std::string("Ok");        
+      //}        
+    //}    
+  //}
+  //if(report.size()==0)
+  //{
+    ////report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
+    //report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY object (range)"));
+    //return report;
+  //}  
+  //else if(check!=std::string("Ok"))
+  //{
+    //report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for object (range) : ") +object+ std::string("  ...possible subjects are listed below..."));
+    //return report;
+  //}
   
-  report.clear();
-  report.push_back("True");
-  return report;
+  //report.clear();
+  //report.push_back("True");
+  //return report;
   
-}
+//}
 
 
 
@@ -153,6 +153,8 @@ std::vector<std::string> KnowrobWrapper::subclassesOfQuery(std::string ontology_
     ontology_class + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
+  char status = results.getStatus();
+  ROS_ERROR("Status %d", status);
   std::vector<std::string> ret;
 
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
@@ -185,7 +187,33 @@ std::vector<std::string> KnowrobWrapper::superclassesOfQuery(std::string ontolog
   return ret;
 }
 
-std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_arguments)
+std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string ontology_class)
+{
+  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
+    ontology_class + std::string("',A)");
+  std::vector<std::string> args;
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  std::vector<std::string> ret;
+  char status = results.getStatus();
+  if(status==0)
+  {
+    ret.push_back(std::string("Class: ")+ontology_class+std::string(" does not exist"));
+  }
+  else if(status==3)
+  {
+    ret.push_back(std::string("Success"));
+  }
+    
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    
+    ret.push_back(bdg["A"]);
+  }
+  return ret;
+}
+std::vector<std::string> KnowrobWrapper::assignAttributeValueQuery(std::string caller_arguments)
 {
   
   std::vector<std::string> args;
@@ -201,28 +229,44 @@ std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_
     ret.push_back("Error, invalid number of arguments.. minimum required 3. You supplied: "+tempResult);
     return ret;
   }
-  
-  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") +   //instanceFromClass_withCheck
-    args[0] + std::string("',A)");
+  //ROS_WARN("Knowdfsdfsdlized");
+  std::string query = std::string("valueToAttribute_withCheck(knowrob:'") +   //instanceFromClass_withCheck
+    args[0] + std::string("',knowrob:'")+args[1]+std::string("',knowrob:'")+args[2]+std::string("')");
+  ret.push_back(query);
+ // return ret;
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   
   
 
   //std::vector<std::string> ret;
   ret.clear();
-  json_prolog::PrologQueryProxy::iterator it;
+  //json_prolog::PrologQueryProxy thj;
+
+  //results.finish();
+  //json_prolog::PrologQueryProxy::iterator it;
   //it.requestNextSolution();
-  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    it != results.end() ; it++)
+  char status = results.getStatus();
+  if(status==0)
   {
-    //json_prolog::PrologNextSolutionResponse resp; 
-    json_prolog::PrologQueryProxy::iterator::requestNextSolution();
-    //it::requestNextSolution();
-    json_prolog::PrologBindings bdg = *it;
-    //it.
-    //it.requestNextSolution();
-    ret.push_back(bdg["L"]);
+    ret.push_back(std::string("Assign Value Failed, you either supplied non existant instances, or wrong attribute for the instances"));
   }
+  else if(status==3)
+  {
+    ret.push_back(std::string("Success"));
+  }  
+  //ROS_ERROR("Status %d", status);
+  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    //it != results.end() ; it++)
+  //{
+    ////json_prolog::PrologNextSolutionResponse resp; 
+    ////json_prolog::PrologQueryProxy::iterator::requestNextSolution();
+    ////it::requestNextSolution();
+    //json_prolog::PrologBindings bdg = *it;
+    ////it.
+    ////it.requestNextSolution();
+    
+    //ret.push_back(bdg["A"]);
+  //}
   
   //json_prolog::PrologQueryProxy::iterator it2 =results.end();
   return ret;

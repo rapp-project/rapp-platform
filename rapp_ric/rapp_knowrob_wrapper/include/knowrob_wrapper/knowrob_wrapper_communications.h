@@ -30,7 +30,10 @@ class KnowrobWrapperCommunications
     std::string loadOntologyServiceTopic_;
     
     ros::ServiceServer userInstancesFromClassService_;    
-    std::string userInstancesFromClassServiceTopic_;    
+    std::string userInstancesFromClassServiceTopic_;   
+    
+    ros::ServiceServer assignAttributeValueService_;    
+    std::string assignAttributeValueServiceTopic_;       
     //ros::ServiceServer instanceFromClassService_;    
     //std::string instanceFromClassServiceTopic_;
     
@@ -63,4 +66,10 @@ class KnowrobWrapperCommunications
     bool userInstancesFromClassCallback(
       rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
       rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+      
+    bool assignAttributeValueCallback(
+      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+      
+      
 };

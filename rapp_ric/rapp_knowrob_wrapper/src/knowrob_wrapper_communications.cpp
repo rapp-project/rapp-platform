@@ -45,9 +45,17 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications()
   {
     ROS_ERROR("Face detection topic param does not exist");
   }   
-  userInstancesFromClassServiceTopic_ = "ric/knowrob/userInstancesFromClass";
+  
   userInstancesFromClassService_ = nh_.advertiseService(userInstancesFromClassServiceTopic_,
     &KnowrobWrapperCommunications::userInstancesFromClassCallback, this);  
+    
+  if(!nh_.getParam("/ontology_assign_attribute_value", assignAttributeValueServiceTopic_))
+  {
+    ROS_ERROR("Face detection topic param does not exist");
+  }   
+  
+  assignAttributeValueService_ = nh_.advertiseService(assignAttributeValueServiceTopic_,
+    &KnowrobWrapperCommunications::assignAttributeValueCallback, this);
     
     
 
@@ -136,6 +144,23 @@ bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
   //std::cout<<req.return_cols[0].data;
   std::vector<std::string> res_ = 
     knowrob_wrapper.userInstancesFromClassQuery(req.query_term.data);
+  for(unsigned int i = 0 ; i < res_.size() ; i++)
+  {
+    std_msgs::String s;
+    s.data = res_[i];
+    res.results.push_back(s);
+  }
+  
+  return true;
+}
+
+bool KnowrobWrapperCommunications::assignAttributeValueCallback(
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+{
+  //std::cout<<req.return_cols[0].data;
+  std::vector<std::string> res_ = 
+    knowrob_wrapper.assignAttributeValueQuery(req.query_term.data);
   for(unsigned int i = 0 ; i < res_.size() ; i++)
   {
     std_msgs::String s;
