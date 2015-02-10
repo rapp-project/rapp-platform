@@ -12,6 +12,7 @@
 #include <boost/asio/deadline_timer.hpp>
 
 #include <rapp_server/faceDetector/faceDetector.hpp>
+#include <rapp_server/qrDetector/qrDetector.hpp>
 
 using boost::asio::ip::tcp;
 using boost::asio::deadline_timer;

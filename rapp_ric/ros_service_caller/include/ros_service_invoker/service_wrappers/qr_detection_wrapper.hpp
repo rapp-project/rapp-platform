@@ -123,9 +123,9 @@ void QrDetectionWrapper<QR_STR_SETUP>::setup(std::string s)
   switch(get_strategy())
   {
     case QrDetectionStrategies::STRING_IMAGE_URL:
+    default:
       setup_url(s);
       break;
-    default: ;
       // Throw exception
   }
 }

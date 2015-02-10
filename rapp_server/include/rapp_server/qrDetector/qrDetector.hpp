@@ -1,12 +1,12 @@
-#ifndef _RAPP_FACE_DETECTOR_
-#define _RAPP_FACE_DETECTOR_
+#ifndef _RAPP_QR_DETECTOR_
+#define _RAPP_QR_DETECTOR_
 
-#include <rapp_server/faceDetector/Includes.hxx>
+#include <rapp_server/qrDetector/Includes.hxx>
 
 namespace rapp {
 namespace cloud {
 
-class faceDetector: public serviceHandler
+class qrDetector: public serviceHandler
 {
   public:
     
@@ -45,8 +45,8 @@ class faceDetector: public serviceHandler
        * If that is the case, then the method faceDetector::process, should be in a thread?
        */
       
-      #define SETUP std::string, FaceDetectionStrategies
-      IRosServiceInvoker<SETUP>* t =  RosInvokerFactory::getInvoker<SETUP>( FACE_DETECTION );
+      #define SETUP std::string, QrDetectionStrategies
+      IRosServiceInvoker<SETUP>* t =  RosInvokerFactory::getInvoker<SETUP>( QR_DETECTION );
       #undef SETUP 
       /* NOTE:
        * I haven't changed this - We can use a RAMDISK for faster copy-write, 
