@@ -17,7 +17,7 @@ int main (int argc, char** argv){
     RosInvokerFactory::getInvoker<SETUP>(FACE_DETECTION); 
  
   // Selecting the image URL strategy
-  t->set_strategy(STRING_IMAGE_URL);
+  t->set_strategy(FaceDetectionStrategies::STRING_IMAGE_URL);
  
   // Sets up the service message
   t->setup(auxiliary_package + std::string("/Lenna.png"));

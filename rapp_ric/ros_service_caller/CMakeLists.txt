@@ -20,6 +20,8 @@ catkin_package(
     rapp_platform_ros_communications
 )
 
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Wall") # --verbose
+
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}

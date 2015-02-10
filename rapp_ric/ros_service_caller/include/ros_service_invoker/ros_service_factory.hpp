@@ -2,6 +2,7 @@
 #define ROS_SERVICE_FACTORY_HPP
 
 #include <ros_service_invoker/service_wrappers/face_detection_wrapper.hpp>
+#include <ros_service_invoker/service_wrappers/qr_detection_wrapper.hpp>
 
 /**
  * @enum ServiceTypes
@@ -10,7 +11,8 @@
  */
 enum ServiceTypes
 {
-  FACE_DETECTION
+  FACE_DETECTION,
+  QR_DETECTION
 };
 
 /**
@@ -39,6 +41,11 @@ class RosInvokerFactory
         case FACE_DETECTION: // Face Detection case
           return new FaceDetectionWrapper<T,S>();
           break;
+        case QR_DETECTION:
+          return new QrDetectionWrapper<T,S>();
+          break;
+        default: ;
+          // Throw exception
       }
     }
 };

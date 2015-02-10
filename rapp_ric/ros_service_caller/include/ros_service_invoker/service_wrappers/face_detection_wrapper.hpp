@@ -20,10 +20,9 @@
  * invokation via an std::string in two ways: the string can contain the
  * images URL or a JSON containing the image's URL.
  */
-enum FaceDetectionStrategies
+enum class FaceDetectionStrategies
 {
-  STRING_IMAGE_URL,
-  STRING_JSON
+  STRING_IMAGE_URL
 };
 
 /**
@@ -46,14 +45,14 @@ class FaceDetectionWrapper : public IRosServiceInvoker<T, S>
   public:
     // Constructor setting up the face detection service URL
     FaceDetectionWrapper(){
+      // Must take this from rosparam
       face_detection_service_url = "/ric/face_detection_service";
     }
 
     // The virtual function's implementation
-    void setup(T s);
-    // Two implementations with std::string, having different strategies
+    void setup(T s){}
+    // One implementation with std::string, having different strategies
     void setup_url(std::string s);
-    void setup_json(std::string s);
     
     /**
      * @brief The service caller function. This must be called AFTER the 
@@ -116,15 +115,6 @@ void FaceDetectionWrapper<FACED_STR_SETUP>::setup_url(std::string s)
   srv.request.imageFilename = s;
 }
 
-/**
- * @brief Template specialization for the JSON strategy
- * NOTE: Not implemented yet
- */
-template<>
-void FaceDetectionWrapper<FACED_STR_SETUP>::setup_json(std::string s)
-{
-  std::cout << "Called JSON\n";
-}
 
 /**
  * @brief Template specialization for the std::string type
@@ -135,14 +125,11 @@ void FaceDetectionWrapper<FACED_STR_SETUP>::setup(std::string s)
   // Here the strategy is checked and the appropriate setup function is called.
   switch(get_strategy())
   {
-    case STRING_IMAGE_URL:
+    case FaceDetectionStrategies::STRING_IMAGE_URL:
+    default:
       setup_url(s);
       break;
-    case STRING_JSON:
-      setup_json(s);
-      break;
-    default: ;
-      // Throw exception
+      // Throw exception?
   }
 }
 
