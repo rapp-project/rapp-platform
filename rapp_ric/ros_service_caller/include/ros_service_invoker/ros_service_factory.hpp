@@ -4,6 +4,7 @@
 #include <ros_service_invoker/service_wrappers/face_detection_wrapper.hpp>
 #include <ros_service_invoker/service_wrappers/qr_detection_wrapper.hpp>
 #include <ros_service_invoker/service_wrappers/speech_detection_google_wrapper.hpp>
+#include <ros_service_invoker/service_wrappers/ontology_get_subclass_of_wrapper.hpp>
 
 /**
  * @enum ServiceTypes
@@ -14,7 +15,8 @@ enum ServiceTypes
 {
   FACE_DETECTION,
   QR_DETECTION,
-  SPEECH_DETECTION_GOOGLE
+  SPEECH_DETECTION_GOOGLE,
+  ONTOLOGY_SUBCLASS_OF
 };
 
 /**
@@ -49,6 +51,10 @@ class RosInvokerFactory
         case SPEECH_DETECTION_GOOGLE:
           return new SpeechDetectionGoogleWrapper<T,S>();
           break;
+        case ONTOLOGY_SUBCLASS_OF:
+          return new OntologySubclassOfWrapper<T,S>();
+          break;
+
         default: ;
           // Throw exception
       }

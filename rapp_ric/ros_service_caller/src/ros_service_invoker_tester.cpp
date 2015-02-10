@@ -10,17 +10,17 @@ int main (int argc, char** argv){
   ros::spinOnce();
 
   //------------------------- The invoker code ------------------------------//
-  #define SETUP std::string, FaceDetectionStrategies
+  #define SETUP std::string, OntologySubclassOfStrategies
   // Getting the face detection invoker using string as setup and declaring the
   // enum containing the strategies
   IRosServiceInvoker<SETUP>* t = 
-    RosInvokerFactory::getInvoker<SETUP>(FACE_DETECTION); 
+    RosInvokerFactory::getInvoker<SETUP>(ONTOLOGY_SUBCLASS_OF); 
  
   // Selecting the image URL strategy
-  t->set_strategy(FaceDetectionStrategies::STRING_IMAGE_URL);
+  //t->set_strategy(FaceDetectionStrategies::STRING_IMAGE_URL);
  
   // Sets up the service message
-  t->setup(auxiliary_package + std::string("/Lenna.png"));
+  t->setup("Food");
  
   // Calls the message and gets the response
   // TODO: Template the response as well
@@ -30,7 +30,7 @@ int main (int argc, char** argv){
   delete t;
   //-------------------------------------------------------------------------//
   
-  std::cout << "Face detection responded :" << response << "\n";
+  std::cout << "Invoker responded :" << response << "\n";
 
   return 0;
 }
