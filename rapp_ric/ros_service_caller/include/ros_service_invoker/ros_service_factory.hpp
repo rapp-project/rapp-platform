@@ -3,6 +3,7 @@
 
 #include <ros_service_invoker/service_wrappers/face_detection_wrapper.hpp>
 #include <ros_service_invoker/service_wrappers/qr_detection_wrapper.hpp>
+#include <ros_service_invoker/service_wrappers/speech_detection_google_wrapper.hpp>
 
 /**
  * @enum ServiceTypes
@@ -12,7 +13,8 @@
 enum ServiceTypes
 {
   FACE_DETECTION,
-  QR_DETECTION
+  QR_DETECTION,
+  SPEECH_DETECTION_GOOGLE
 };
 
 /**
@@ -43,6 +45,9 @@ class RosInvokerFactory
           break;
         case QR_DETECTION:
           return new QrDetectionWrapper<T,S>();
+          break;
+        case SPEECH_DETECTION_GOOGLE:
+          return new SpeechDetectionGoogleWrapper<T,S>();
           break;
         default: ;
           // Throw exception
