@@ -14,10 +14,11 @@ class speechDetectionGoogle: public serviceHandler
     typedef rapp_platform_ros_communications::SpeechToTextSrv Srv; 
     Srv srv; // The ROS service object
     std::string service_url; // The ROS service URL
+    ros::NodeHandle nh_; // The ROS node handle
 
     /**
      * @brief The service caller function
-     * @param img_url [std::string] The image for which the face detection
+     * @param img_url [std::string] The audio file for which the speech detection
      * algorithm will be deployed
      * @return std::string JSON string with the results
      */
@@ -85,7 +86,10 @@ class speechDetectionGoogle: public serviceHandler
 
     speechDetectionGoogle(void)
     {
-      service_url = "/ric/speech_to_text_service";
+      if(!nh_.getParam("/rapp_speech_detection_google_topic", service_url))
+      {
+        ROS_ERROR("Speech detection service parameter not found");
+      }
     }
     
     typedef char byte;

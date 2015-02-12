@@ -14,11 +14,12 @@ class ontologySubclassOf: public serviceHandler
     typedef rapp_platform_ros_communications::OntologySimpleQuerySrv Srv; 
     Srv srv; // The ROS service object
     std::string service_url; // The ROS service URL
+    ros::NodeHandle nh_; // The ROS node handle
 
     /**
      * @brief The service caller function
-     * @param img_url [std::string] The image for which the face detection
-     * algorithm will be deployed
+     * @param ontology_class [std::string] The ontology class for which the 
+     * subclasses of will be found
      * @return std::string JSON string with the results
      */
     std::string invoke_ros_service(std::string ontology_class)
@@ -66,7 +67,10 @@ class ontologySubclassOf: public serviceHandler
 
     ontologySubclassOf(void)
     {
-      service_url = "/ric/knowrob/subclasses_of";
+      if(!nh_.getParam("/ontology_subclass_of_topic", service_url))
+      {
+        ROS_ERROR("Ontology subclass of service parameter not found");
+      }
     }
     
     typedef char byte;

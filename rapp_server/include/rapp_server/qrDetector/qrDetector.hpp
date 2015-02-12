@@ -14,10 +14,11 @@ class qrDetector: public serviceHandler
     typedef rapp_platform_ros_communications::QrDetectionRosSrv Srv; 
     Srv srv; // The ROS service object
     std::string service_url; // The ROS service URL
+    ros::NodeHandle nh_; // The ROS node handle
 
     /**
      * @brief The service caller function
-     * @param img_url [std::string] The image for which the face detection
+     * @param img_url [std::string] The image for which the qr detection
      * algorithm will be deployed
      * @return std::string JSON string with the results
      */
@@ -72,7 +73,10 @@ class qrDetector: public serviceHandler
 
     qrDetector(void)
     {
-      service_url = "/ric/qr_detection_service";
+      if(!nh_.getParam("/qr_detection_topic", service_url))
+      {
+        ROS_ERROR("QR detection service parameter not found");
+      }
     }
     
     typedef char byte;

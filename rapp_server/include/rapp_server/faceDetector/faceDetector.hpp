@@ -14,6 +14,7 @@ class faceDetector: public serviceHandler
     typedef rapp_platform_ros_communications::FaceDetectionRosSrv Srv; 
     Srv srv; // The ROS service object
     std::string service_url; // The ROS service URL
+    ros::NodeHandle nh_; // The ROS node handle
 
     /**
      * @brief The service caller function
@@ -74,7 +75,10 @@ class faceDetector: public serviceHandler
 
     faceDetector(void)
     {
-      service_url = "/ric/face_detection_service";
+      if(!nh_.getParam("/face_detection_topic", service_url))
+      {
+        ROS_ERROR("Face detection service parameter not found");
+      }
     }
     
     typedef char byte;
