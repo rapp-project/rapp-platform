@@ -6,5 +6,4 @@
   <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
   <include file="$(find rapp_speech_detection_google)/launch/speech_recognition_google.launch" />
   <include file="$(find rapp_face_detection)/launch/face_detection.launch" />
-  <include file="$(find ros_service_caller)/launch/ros_service_caller.launch" />
 </launch>
