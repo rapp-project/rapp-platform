@@ -1,5 +1,4 @@
 #include <rapp_server/TCPServer/TCPServer.hpp>
-#include <ros_service_invoker/ros_service_factory.hpp>
 
 boost::asio::io_service io_service;
 

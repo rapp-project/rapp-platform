@@ -6,7 +6,6 @@ project(rapp_server)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  ros_service_caller
   rapp_platform_ros_communications
 )
 
@@ -18,7 +17,6 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -Wall") # --verbose
 catkin_package(
   CATKIN_DEPENDS
     roscpp
-    ros_service_caller
     rapp_platform_ros_communications
   INCLUDE_DIRS 
     include
@@ -39,7 +37,6 @@ add_dependencies( rapp_server_node
   ${catkin_EXPORTED_TARGETS}
 )
 target_link_libraries( rapp_server_node
-  ros_service_caller_lib
   ${catkin_LIBRARIES}
 )
 

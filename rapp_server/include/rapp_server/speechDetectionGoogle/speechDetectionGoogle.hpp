@@ -93,7 +93,6 @@ class speechDetectionGoogle: public serviceHandler
     std::string process ( const std::vector<byte> & bytearray )
     {
       std::vector<byte> filebytes;
-      std::string response;
 
       // Search for the `<IMG!>` delimiter - then copy from that position, 
       // and up to the position of <EOF!>
