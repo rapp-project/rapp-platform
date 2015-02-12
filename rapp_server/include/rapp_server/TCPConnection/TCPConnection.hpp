@@ -71,6 +71,10 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
     {
         std::string tag ( &bytearray_[0], 5 );
         
+        /**
+         * Manos NOTE: Check for service tag to decide on which handler you
+         * will call. E.g. face and qr detection will both have <IMG>
+         */
         if ( tag == "<IMG>" )
         {
             auto handler = std::unique_ptr<rapp::cloud::faceDetector>( new rapp::cloud::faceDetector );

@@ -4,4 +4,12 @@
 
 #include <rapp_server/serviceHandler/serviceHandler.hpp>
 
-#include <ros_service_invoker/ros_service_factory.hpp>
+#include <rapp_platform_ros_communications/QrDetectionRosSrv.h>
+
+#include "ros/ros.h"
+#include "ros/package.h"
+
+// Number to string - easy and nasty
+#define TOSTR( x ) static_cast< std::ostringstream & >( \
+  ( std::ostringstream() << std::dec << x ) ).str()
+
