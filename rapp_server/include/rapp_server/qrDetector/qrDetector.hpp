@@ -106,7 +106,7 @@ class qrDetector: public serviceHandler
       // Copy Image Bytes to a file on Disk
       std::cout << "Image bytes: " << imagebytes.size() << std::endl;
       
-      std::ofstream os ( "/home/etsardou/copy_of_picture.png", 
+      std::ofstream os ( "/home/alex/copy_of_picture.png", 
         std::ios::out | std::ofstream::binary );
       
       std::copy( imagebytes.begin(), imagebytes.end(), 
@@ -114,14 +114,19 @@ class qrDetector: public serviceHandler
       
       os.close();        
 
-      /* NOTE: 
+      /* 
        * I am assuming this is a blocking call here ?
        * If that is the case, then the method faceDetector::process, should be 
        * in a thread?
+       * 
        * Manos: yes, thats blocking. A non blocking version exists that uses
        * a callback. The thread solution can work too.
+       * 
+       * WARNING -
+       * If this is blocking, then either the rapp_server must become threaded, or we have to use a non-blocking call here.
+       * Otherwise, the server will be able to process only one request at a time!
        */
-      return invoke_ros_service("/home/etsardou/copy_of_picture.png") ;
+      return invoke_ros_service("/home/alex/copy_of_picture.png") ;
     } 
 };
 
