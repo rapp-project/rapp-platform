@@ -24,59 +24,52 @@ class qrDetector: public serviceHandler
      */
     std::string invoke_ros_service(std::string img_url)
     {
-      srv.request.imageFilename = img_url;
+        std::cout << "invoking ros qr detector" << std::endl;
+        srv.request.imageFilename = img_url;
+        std::string ret;
+        
+        // Check for the ROS service's existence
+        if( !ros::service::exists(service_url, true) )
+            ROS_ERROR("Service %s does not exist", service_url.c_str());
 
-      std::string ret;
-      // Check for the ROS service's existence
-      if(!ros::service::exists(service_url, true)){
-        // Throw exception
-        ROS_ERROR("Service %s does not exist", service_url.c_str());
-      }
-
-      // Calls the ROS service
-      if(ros::service::call(service_url, srv))
-      {
-        // Prepares the response
-        int n = 0;
-        n = srv.response.qr_centers.size();
-        if(n > 0)
+        // Calls the ROS service
+        if( ros::service::call ( service_url, srv ) )
         {
-          // Prepare the JSON response
-          ret += "{\"qrs\":[";
-          for(unsigned int i = 0 ; i < n ; i++)
-          {
-            ret += "{\"qr_center_x\":\"";
-            ret += TOSTR(srv.response.qr_centers[i].point.x);
-            ret += "\",\"qr_center_y\":\"";
-            ret += TOSTR(srv.response.qr_centers[i].point.y);
-            ret += "\",\"qr_message\":\"";
-            ret += TOSTR(srv.response.qr_messages[i]);
-            ret += "\"},";
-          }
-          ret.erase(ret.size() - 1);
-          ret += "]}";
+            // Prepares the response
+            int n = 0;
+            n = srv.response.qr_centers.size();
+            if ( n > 0 )
+            {
+                // Prepare the JSON response
+                ret += "{\"qrs\":[";
+                for ( int i = 0 ; i < n ; i++ )
+                {
+                    ret += "{\"qr_center_x\":\"";
+                    ret += TOSTR(srv.response.qr_centers[i].point.x);
+                    ret += "\",\"qr_center_y\":\"";
+                    ret += TOSTR(srv.response.qr_centers[i].point.y);
+                    ret += "\",\"qr_message\":\"";
+                    ret += TOSTR(srv.response.qr_messages[i]);
+                    ret += "\"},";
+                }
+                ret.erase(ret.size() - 1);
+                ret += "]}</EOF!>";
+            }
+            else
+                return "{\"qrs\":[]}</EOF!>";
         }
         else
-        {
-          return "{\"qrs\":[]}";
-        }
-      }
-      else
-      {
-        // Throw exception
-      }
-      return ret;
+            std::cerr << "ros::service::call failure" << std::endl;
 
+        return ret;
     }
 
   public:
 
     qrDetector(void)
     {
-      if(!nh_.getParam("/qr_detection_topic", service_url))
-      {
-        ROS_ERROR("QR detection service parameter not found");
-      }
+        if( !nh_.getParam("/qr_detection_topic", service_url) )
+            ROS_ERROR("QR detection service parameter not found");
     }
     
     typedef char byte;
@@ -93,9 +86,9 @@ class qrDetector: public serviceHandler
         {
           // NOTE: In order to avoid copying 5 bytes into string, maybe test  
           // first char is `<`?
-          if ( std::string( &bytearray[i], 5 ) == "<IMG>" )    // Find <IMG>
+          if ( std::string( &bytearray[i], 5 ) == "<QRC>" ) // Find <QRC>
           {
-            std::copy ( bytearray.begin() + i + 5,          // length of <IMG>
+            std::copy ( bytearray.begin() + i + 5,          // length of <QRC>
                         bytearray.end() - 7,                // length of </EOF!>
                         std::back_inserter( imagebytes ) );
             break;
@@ -104,14 +97,10 @@ class qrDetector: public serviceHandler
       }
 
       // Copy Image Bytes to a file on Disk
-      std::cout << "Image bytes: " << imagebytes.size() << std::endl;
+      std::cout << "QR Image bytes: " << imagebytes.size() << std::endl;
       
-      std::ofstream os ( "/home/alex/copy_of_picture.png", 
-        std::ios::out | std::ofstream::binary );
-      
-      std::copy( imagebytes.begin(), imagebytes.end(), 
-        std::ostreambuf_iterator<byte>( os ) );
-      
+      std::ofstream os ( "/home/alex/copy_of_picture.png",  std::ios::out | std::ofstream::binary );
+      std::copy( imagebytes.begin(), imagebytes.end(), std::ostreambuf_iterator<byte>( os ) );
       os.close();        
 
       /* 

@@ -71,31 +71,28 @@ class TCPConnection : public boost::enable_shared_from_this<TCPConnection>
     {
         std::string tag ( &bytearray_[0], 5 );
         
-        /**
-         * Manos NOTE: Check for service tag to decide on which handler you
-         * will call. E.g. face and qr detection will both have <IMG>
-         */
-        if ( tag == "<IMG>" )
+        /// Check for service tag to decide on which handler you will call - DANGER Only 5 chars in TAG, including `<` and `>`
+        if ( tag == "<FCE>" )
         {
             auto handler = std::unique_ptr<rapp::cloud::faceDetector>( new rapp::cloud::faceDetector );
             reply_ = handler->process( bytearray_ );
-        }        
+        } 
+        else if ( tag == "<QRC>" )
+        {
+            auto handler = std::unique_ptr<rapp::cloud::qrDetector>( new rapp::cloud::qrDetector );
+            reply_ = handler->process( bytearray_ );
+        }
         /*
         else if ( tag == "<WAV>" )
         {
             auto handler = std::unique_ptr<rapp::cloud::speechDetector>( new rapp::cloud::speechDetector );
             reply_ = handler->process( bytearray_ );
         }
-        else if ( tag == "<QRC>" )
-        {
-            auto handler = std::unique_ptr<rapp::cloud::qrDetector>( new rapp::cloud::qrDetector );
-            reply_ = handler->process( bytearray_ );
-        }
         // etc...
         */
         // No TAG, or Unknown Tag
         else
-            reply_ = "Uknown Tag or No Tag ERROR</EOF!>";
+            reply_ = "Uknown Tag or No Tag</EOF!>";
 
         // 5 second time-out 
         timer_.expires_from_now( boost::posix_time::seconds( 5 ) );
