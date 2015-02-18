@@ -187,17 +187,32 @@ std::vector<std::string> KnowrobWrapper::superclassesOfQuery(std::string ontolog
   return ret;
 }
 
-std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string ontology_class)
+std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_arguments)
 {
-  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
-    ontology_class + std::string("',A)");
   std::vector<std::string> args;
-  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  args=split(caller_arguments,",");
   std::vector<std::string> ret;
+  std::vector<std::string> instance_name;
+  if(args.size()<2)
+  {
+    int Number = args.size();//number to convert int a string
+    std::string tempResult;//string which will contain the result
+    std::stringstream convert; // stringstream used for the conversion
+    convert << Number;//add the value of Number to the characters in the stream
+    tempResult = convert.str();
+    ret.push_back("Error, invalid number of arguments.. minimum required 2. You supplied: "+tempResult);
+    return ret;
+  }
+  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
+    args[0] + std::string("',A)");
+  std::vector<std::string> instanceName;
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  
   char status = results.getStatus();
   if(status==0)
   {
-    ret.push_back(std::string("Class: ")+ontology_class+std::string(" does not exist"));
+    ret.push_back(std::string("Class: ")+args[0]+std::string(" does not exist"));
+    return ret;
   }
   else if(status==3)
   {
@@ -209,10 +224,105 @@ std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string ontolog
   {
     json_prolog::PrologBindings bdg = *it;
     
-    ret.push_back(bdg["A"]);
+    instance_name.push_back(bdg["A"]);
+    //ret.push_back(bdg["A"]);
   }
-  return ret;
+  //std::vector<std::string> splitted_instance_name;
+  
+  if(instance_name.size()==1)
+  {
+    instance_name=split(instance_name[0],"#");
+  }
+  else
+  {
+    ret.push_back(std::string("Fatal Error, instance name cannot be passed to DB, retrieval error"));
+    return ret;
+  }
+  if(instance_name.size()==2)
+  {
+    ret.push_back(std::string("Created instance name is: ")+instance_name[1]);
+  }
+  else
+  {
+    ret.push_back(std::string("Fatal Error, instance name cannot be passed to DB, split to # error"));
+    return ret;
+  }
+  rapp_platform_ros_communications::DbWrapperSrv srv;
+  std_msgs::String temp_string;
+
+  temp_string.data="user_id";
+  srv.request.return_cols.push_back(temp_string);
+  temp_string.data="ontology_class";
+  srv.request.return_cols.push_back(temp_string);
+  temp_string.data="ontology_instance";
+  srv.request.return_cols.push_back(temp_string);
+  temp_string.data="file_url";
+  srv.request.return_cols.push_back(temp_string);
+  temp_string.data="comments";
+  srv.request.return_cols.push_back(temp_string);
+  temp_string.data="created_timestamp";
+  srv.request.return_cols.push_back(temp_string);
+  temp_string.data="updated_timestamp";
+  srv.request.return_cols.push_back(temp_string);  
+  
+  rapp_platform_ros_communications::StringArrayMsg temp_string_array;
+  temp_string.data="'"+args[1]+"'";  
+  temp_string_array.s.push_back(temp_string);
+  temp_string.data="'"+args[0]+"'";  
+  temp_string_array.s.push_back(temp_string);
+  temp_string.data="'"+instance_name[1]+"'";  
+  temp_string_array.s.push_back(temp_string);
+  temp_string.data="'url_something'";  
+  temp_string_array.s.push_back(temp_string);
+  temp_string.data="'comments_something'";  
+  temp_string_array.s.push_back(temp_string);
+  temp_string.data="curdate()";  
+  temp_string_array.s.push_back(temp_string);
+  temp_string.data="curdate()";  
+  temp_string_array.s.push_back(temp_string);
+   
+  srv.request.req_data.push_back(temp_string_array);
+    
+  ros::NodeHandle n;
+  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
+  ros::ServiceClient client = n.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
+  client.call(srv);  
+  ret.push_back(std::string("Write to DB report: ")+srv.response.report.data);
+  
+  if(srv.response.report.data!=std::string("Success"))
+  {
+    return ret;
+  }
+  else
+  {
+    //rdf_retractall(knowrob:'FoodOrDrink_vUXiHMJy',rdf:type,knowrob:'FoodOrDrink').
+    //json_prolog::PrologQueryProxy 
+    ret.push_back(std::string("DB operation failed, attempting to remove instance from ontology"));
+    query = std::string("rdf_retractall(knowrob:'") + 
+    instance_name[1] + std::string("',rdf:type,knowrob:',knowrob:')")+args[0]+std::string("')");
+    results = pl.query(query.c_str());
+    char status = results.getStatus();
+    if(status==0)
+    {
+      ret.push_back(std::string("Remove success"));
+      return ret;
+    }
+    else if(status==3)
+    {
+      ret.push_back(std::string("Error, remove failed"));
+    }
+      
+  }
+  
+  
+  
+  
+  
+  
 }
+
+
+
 std::vector<std::string> KnowrobWrapper::assignAttributeValueQuery(std::string caller_arguments)
 {
   
@@ -271,52 +381,6 @@ std::vector<std::string> KnowrobWrapper::assignAttributeValueQuery(std::string c
   //json_prolog::PrologQueryProxy::iterator it2 =results.end();
   return ret;
 
-  
-  //rapp_platform_ros_communications::DbWrapperSrv srv;
-  //std_msgs::String s;
-
-  //s.data="user_id";
-  //srv.request.return_cols.push_back(s);
-  //s.data="ontology_class";
-  //srv.request.return_cols.push_back(s);
-  //s.data="ontology_instance";
-  //srv.request.return_cols.push_back(s);
-  //s.data="file_url";
-  //srv.request.return_cols.push_back(s);
-  //s.data="comments";
-  //srv.request.return_cols.push_back(s);
-  //s.data="created_timestamp";
-  //srv.request.return_cols.push_back(s);
-  //s.data="updated_timestamp";
-  //srv.request.return_cols.push_back(s);
-  
-  //std_msgs::String s1;
-  //rapp_platform_ros_communications::StringArrayMsg t1;
-  //s1.data="'"+args[0]+"'";  
-  //t1.s.push_back(s1);
-  //s1.data="'"+args[1]+"'";  
-  //t1.s.push_back(s1);
-  //s1.data="'"+instanceName[1]+"'";  
-  //t1.s.push_back(s1);
-  //s1.data="'url_something'";  
-  //t1.s.push_back(s1);
-  //s1.data="'comments_something'";  
-  //t1.s.push_back(s1);
-  //s1.data="curdate()";  
-  //t1.s.push_back(s1);
-  //s1.data="curdate()";  
-  //t1.s.push_back(s1);
-   
-  //srv.request.req_data.push_back(t1);
-  
-  
-  //ros::NodeHandle n;
-  //ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
-  //ros::ServiceClient client = n.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
- 
-  //client.call(srv);
-  
-  //ret.push_back("Write to DB report: "+srv.response.report.data);
   
   //for(unsigned int i = 2 ; i < args.size() ; i=i+2)
   //{
