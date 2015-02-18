@@ -1,13 +1,36 @@
+/**
+MIT License (MIT)
+
+Copyright (c) <2014> <Rapp Project EU>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Author: Athanassios Kintsakis
+contact: akintsakis@issel.ee.auth.gr
+**/
 #include <knowrob_wrapper/knowrob_wrapper_communications.h>
 
-
-KnowrobWrapperCommunications::KnowrobWrapperCommunications()
+KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_)
 {
   ros::service::waitForService("json_prolog/query", -1);
   ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
   ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData", -1);
-  mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
-  mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData");
   //ros::service::waitForService("json_prolog/query", -1);  for DB service
 
   if(!nh_.getParam("/ontology_subclass_of_topic", subclassesOfServiceTopic_))
@@ -100,14 +123,15 @@ bool KnowrobWrapperCommunications::createInstanceCallback(
   rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
   rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
 {
-  std::vector<std::string> res_ = 
-    knowrob_wrapper.createInstanceQuery(req.query_term.data);
-  for(unsigned int i = 0 ; i < res_.size() ; i++)
-  {
-    std_msgs::String s;
-    s.data = res_[i];
-    res.results.push_back(s);
-  }
+  //std::vector<std::string> res_ = 
+    //knowrob_wrapper.createInstanceQuery(req.query_term.data);
+  //for(unsigned int i = 0 ; i < res_.size() ; i++)
+  //{
+    //std_msgs::String s;
+    //s.data = res_[i];
+    //res.results.push_back(s);
+  //}
+  res.success = true;
   return true;
 }
 

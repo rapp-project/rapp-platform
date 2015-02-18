@@ -21,13 +21,14 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
   FILES
-  DbWrapperSrv.srv
+  /DbWrapper/DbWrapperSrv.srv
+  /DbWrapper/fetchDataSrv.srv
   FaceDetectionRosSrv.srv
   QrDetectionRosSrv.srv
   SpeechToTextSrv.srv
-  OntologySimpleQuerySrv.srv
+  /OntologyWrapper/OntologySimpleQuerySrv.srv
   MailSend.srv
-  Sphinx4WrapperSrv.srv
+  /SpeechDetectionSphinx4Wrapper/Sphinx4WrapperSrv.srv
 )
 
 ## Generate actions in the 'action' folder

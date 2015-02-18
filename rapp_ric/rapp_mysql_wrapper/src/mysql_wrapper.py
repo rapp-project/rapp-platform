@@ -30,6 +30,8 @@ import MySQLdb as mdb
 import sys
 
 from rapp_platform_ros_communications.srv import (
+  fetchDataSrv,
+  fetchDataSrvResponse,
   DbWrapperSrv,
   DbWrapperSrvResponse
   )
@@ -49,7 +51,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserFetchDataHandler)    
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblUserFetchDataHandler)    
     self.serv_topic = rospy.get_param("mysql_wrapper_user_write_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")    
@@ -66,7 +68,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("mysql_wrapper_model_fetch_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelFetchDataHandler)
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblModelFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_model_write_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")      
@@ -83,7 +85,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("mysql_wrapper_rapp_fetch_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")       
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappFetchDataHandler)
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblRappFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_rapp_write_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")      
@@ -100,7 +102,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("mysql_wrapper_robot_fetch_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")       
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotFetchDataHandler)
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblRobotFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_robot_write_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")       
@@ -117,7 +119,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_fetch_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")       
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsFetchDataHandler)
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblAppsRobotsFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_write_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")         
@@ -134,7 +136,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_fetch_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesFetchDataHandler)
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblUsersOntologyInstancesFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_write_data_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found") 
@@ -151,7 +153,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("viewUsersRobotsApps_topic")
     if(not self.serv_topic):
       rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.viewUsersRobotsAppsFetchDataHandler)
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.viewUsersRobotsAppsFetchDataHandler)
                 
     
   
@@ -253,11 +255,11 @@ class MySQLdbWrapper:
   def fetchData(self,req,tblName):
     #generic db read function
     try:
-      res = DbWrapperSrvResponse()
+      res = fetchDataSrvResponse()
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      returncols=self.constructCommaColumns(req.return_cols)
+      returncols=self.constructCommaColumns(req.req_cols)
       #print returncols            
       where=self.constructAndQuery(req.req_data)          
       #print where
@@ -276,20 +278,21 @@ class MySQLdbWrapper:
       if (returncols=="*"):
         res.res_cols=self.getTableColumnNames(tblName)
       else:
-        res.res_cols=req.return_cols
+        res.res_cols=req.req_cols
       res.success.data=True
-      res.report.data="Success"
+      res.trace.append("Success")
     except mdb.Error, e:
-      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.trace.append("Database Error %d: %s" % (e.args[0],e.args[1]))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success.data=False
-    except IOError:
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+    except IOError:       
+      res.success.data=False
+      res.trace.append("Error: can\'t find login file or read data")
       print "Error: can\'t find login file or read data" 
-      res.success.data=False
-      res.report.data="Error: can\'t find login file or read data" 
     return res
     
   def constructCommaColumns(self,cols):
@@ -364,7 +367,7 @@ class MySQLdbWrapper:
   
   #tblUser callbacks    
   def tblUserFetchDataHandler(self,req):     
-    res = DbWrapperSrvResponse()
+    res = fetchDataSrvResponse()
     res=self.fetchData(req,"tbluser")
     return res      
 
@@ -386,7 +389,7 @@ class MySQLdbWrapper:
   
   #tblModel callbacks    
   def tblModelFetchDataHandler(self,req):     
-    res = DbWrapperSrvResponse()
+    res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblmodel")
     return res      
 
@@ -408,7 +411,7 @@ class MySQLdbWrapper:
   
   #tblRapp callbacks    
   def tblRappFetchDataHandler(self,req):     
-    res = DbWrapperSrvResponse()
+    res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblrapp")
     return res      
 
@@ -430,7 +433,7 @@ class MySQLdbWrapper:
   
   #tblRobot callbacks    
   def tblRobotFetchDataHandler(self,req):     
-    res = DbWrapperSrvResponse()
+    res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblrobot")
     return res      
 
@@ -453,7 +456,7 @@ class MySQLdbWrapper:
   
   #tblAppsRobots callbacks    
   def tblAppsRobotsFetchDataHandler(self,req):     
-    res = DbWrapperSrvResponse()
+    res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblappsrobots")
     return res      
 
@@ -475,7 +478,7 @@ class MySQLdbWrapper:
   
   #tblUsersOntologyInstances callbacks    
   def tblUsersOntologyInstancesFetchDataHandler(self,req):     
-    res = DbWrapperSrvResponse()
+    res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblusersontologyinstances")
     return res      
 
@@ -497,7 +500,7 @@ class MySQLdbWrapper:
   
   #viewUsersRobotsApps callbacks    
   def viewUsersRobotsAppsFetchDataHandler(self,req):     
-    res = DbWrapperSrvResponse()
+    res = fetchDataSrvResponse()
     res=self.fetchData(req,"usersrobotsapps")
     return res  
   #viewUsersRobotsApps

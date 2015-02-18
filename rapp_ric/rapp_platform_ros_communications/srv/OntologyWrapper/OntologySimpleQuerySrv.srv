@@ -5,3 +5,5 @@ std_msgs/String query_term
 ---
 # The results of the query
 std_msgs/String[] results 
+std_msgs/String[] trace
+bool success 
