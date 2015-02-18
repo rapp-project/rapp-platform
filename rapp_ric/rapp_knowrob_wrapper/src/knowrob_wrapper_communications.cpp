@@ -4,6 +4,10 @@
 KnowrobWrapperCommunications::KnowrobWrapperCommunications()
 {
   ros::service::waitForService("json_prolog/query", -1);
+  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
+  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData", -1);
+  mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
+  mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData");
   //ros::service::waitForService("json_prolog/query", -1);  for DB service
 
   if(!nh_.getParam("/ontology_subclass_of_topic", subclassesOfServiceTopic_))

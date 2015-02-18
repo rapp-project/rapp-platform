@@ -1,4 +1,5 @@
-#include <knowrob_wrapper/knowrob_wrapper.h>
+//#include <knowrob_wrapper/knowrob_wrapper.h>
+#include <knowrob_wrapper/knowrob_wrapper_communications.h>
 
 
 KnowrobWrapper::KnowrobWrapper()
@@ -232,21 +233,22 @@ std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_
   if(instance_name.size()==1)
   {
     instance_name=split(instance_name[0],"#");
+      if(instance_name.size()==2)
+      {
+        ret.push_back(std::string("Created instance name is: ")+instance_name[1]);
+      }
+      else
+      {
+        ret.push_back(std::string("Fatal Error, instance name cannot be passed to DB, split to # error"));
+        return ret;
+      }
   }
   else
   {
     ret.push_back(std::string("Fatal Error, instance name cannot be passed to DB, retrieval error"));
     return ret;
   }
-  if(instance_name.size()==2)
-  {
-    ret.push_back(std::string("Created instance name is: ")+instance_name[1]);
-  }
-  else
-  {
-    ret.push_back(std::string("Fatal Error, instance name cannot be passed to DB, split to # error"));
-    return ret;
-  }
+
   rapp_platform_ros_communications::DbWrapperSrv srv;
   std_msgs::String temp_string;
 
@@ -283,10 +285,14 @@ std::vector<std::string> KnowrobWrapper::createInstanceQuery(std::string caller_
    
   srv.request.req_data.push_back(temp_string_array);
     
-  ros::NodeHandle n;
-  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
-  ros::ServiceClient client = n.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
-  client.call(srv);  
+  //ros::NodeHandle n;
+  //ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
+  //ros::ServiceClient client = nh_.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
+  //ros::ServiceClient mysql_write_client;
+  
+  KnowrobWrapperCommunications::mysql_write_client.call(srv);  
+  //KnowrobWrapperCommunications::mysql_write_client;// = KnowrobWrapperCommunications::nh_.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
+  
   ret.push_back(std::string("Write to DB report: ")+srv.response.report.data);
   
   if(srv.response.report.data!=std::string("Success"))
@@ -462,11 +468,11 @@ std::vector<std::string> KnowrobWrapper::userInstancesFromClassQuery(std::string
   srv.request.req_data.push_back(t1);
   srv.request.req_data.push_back(t2);
   
-  ros::NodeHandle n;
-  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData", -1);
-  ros::ServiceClient client = n.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData");
+  //ros::NodeHandle n;
+  //ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData", -1);
+  //ros::ServiceClient mysql_fetch_client = n.serviceClient<rapp_platform_ros_communications::DbWrapperSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData");
  
-  client.call(srv);
+  //client.call(mysql_fetch_client);
   for(unsigned int i = 0 ; i < srv.response.res_data.size() ; i++)
   {
     std::string sss;

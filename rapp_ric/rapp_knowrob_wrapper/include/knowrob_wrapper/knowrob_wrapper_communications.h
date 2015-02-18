@@ -13,6 +13,8 @@ class KnowrobWrapperCommunications
   private:
     ros::NodeHandle nh_;    
     KnowrobWrapper knowrob_wrapper;
+    ros::ServiceClient mysql_write_client;
+    ros::ServiceClient mysql_fetch_client;
     
     ros::ServiceServer subclassesOfService_;    
     std::string subclassesOfServiceTopic_;
