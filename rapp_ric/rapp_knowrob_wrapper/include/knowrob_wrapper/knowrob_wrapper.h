@@ -28,9 +28,15 @@ contact: akintsakis@issel.ee.auth.gr
 #include <string>
 #include <iostream>
 #include <json_prolog/prolog.h>
-#include <rapp_platform_ros_communications/DbWrapperSrv.h>
+#include <rapp_platform_ros_communications/fetchDataSrv.h>
+#include <rapp_platform_ros_communications/writeDataSrv.h>
+
 #include <rapp_platform_ros_communications/StringArrayMsg.h>
-#include <rapp_platform_ros_communications/OntologySimpleQuerySrv.h>
+
+#include <rapp_platform_ros_communications/createInstanceSrv.h>
+#include <rapp_platform_ros_communications/ontologyInstancesOfSrv.h>
+#include <rapp_platform_ros_communications/ontologyLoadDumpSrv.h>
+#include <rapp_platform_ros_communications/ontologySubSuperClassesOfSrv.h>
 
 
 
@@ -49,10 +55,10 @@ class KnowrobWrapper
     std::vector<std::string> subclassesOfQuery(std::string ontology_class);
     std::vector<std::string> superclassesOfQuery(std::string ontology_class);
     //std::vector<std::string> createInstanceQuery(std::string caller_arguments);
-    rapp_platform_ros_communications::OntologySimpleQuerySrv::Response createInstanceQuery(std::string caller_arguments);
+    rapp_platform_ros_communications::createInstanceSrv::Response createInstanceQuery(std::string caller_arguments);
     std::vector<std::string> dumpOntologyQuery(std::string path);
     std::vector<std::string> loadOntologyQuery(std::string path);  
-    std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
-    std::vector<std::string> checkIfClassExists(std::string classValue);
-    std::vector<std::string> assignAttributeValueQuery(std::string caller_arguments);
+    //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
+    //std::vector<std::string> checkIfClassExists(std::string classValue);
+    //std::vector<std::string> assignAttributeValueQuery(std::string caller_arguments);
 };

@@ -524,7 +524,8 @@ class TestDbWrapper(unittest.TestCase):
     req = deleteDataSrv()
     
     entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
-    req.where_data=[StringArrayMsg(s=entry1)]
+    entry2=[String(data="model"),String(data="1")]
+    req.where_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     response = db_service(req.where_data)
     self.assertEqual(response.trace[0].data,"Success")
     self.assertTrue(response.success.data)   

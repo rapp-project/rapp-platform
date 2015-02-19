@@ -240,7 +240,7 @@ DROP TABLE IF EXISTS `tblusersontologyinstances`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tblusersontologyinstances` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
-  `user_id` int(12) NOT NULL,
+  `user_id` varchar(32) NOT NULL,
   `ontology_class` varchar(50) NOT NULL,
   `ontology_instance` varchar(50) NOT NULL,
   `file_url` varchar(50) NOT NULL,
@@ -249,7 +249,7 @@ CREATE TABLE `tblusersontologyinstances` (
   `updated_timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `tblusersontologyinstances_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbluser` (`id`)
+  CONSTRAINT `tblusersontologyinstances_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbluser` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -259,7 +259,7 @@ CREATE TABLE `tblusersontologyinstances` (
 
 LOCK TABLES `tblusersontologyinstances` WRITE;
 /*!40000 ALTER TABLE `tblusersontologyinstances` DISABLE KEYS */;
-INSERT INTO `tblusersontologyinstances` VALUES (1,1,'ontology_something','instance_something','/home/smthing','akraio','2014-11-15 16:01:34','2014-11-15 17:01:34');
+INSERT INTO `tblusersontologyinstances` VALUES (1,'admin','ontology_something','instance_something','/home/smthing','akraio','2014-11-15 16:01:34','2014-11-15 17:01:34');
 /*!40000 ALTER TABLE `tblusersontologyinstances` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -35,54 +35,54 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
 
   if(!nh_.getParam("/ontology_subclass_of_topic", subclassesOfServiceTopic_))
   {
-    ROS_ERROR("Face detection topic param does not exist");
+    ROS_ERROR("ontology_subclass_of_topic");
   }
   subclassesOfService_ = nh_.advertiseService(subclassesOfServiceTopic_,
     &KnowrobWrapperCommunications::subclassesOfCallback, this);
 
   if(!nh_.getParam("/ontology_superclass_of_topic", superclassesOfServiceTopic_))
   {
-    ROS_ERROR("Face detection topic param does not exist");
+    ROS_ERROR("ontology_superclass_of_topic");
   }      
   superclassesOfService_ = nh_.advertiseService(superclassesOfServiceTopic_,
     &KnowrobWrapperCommunications::superclassesOfCallback, this);
     
   if(!nh_.getParam("/ontology_create_instance_topic", createInstanceServiceTopic_))
   {
-    ROS_ERROR("Face detection topic param does not exist");
+    ROS_ERROR("ontology_create_instance_topic");
   }      
   createInstanceService_ = nh_.advertiseService(createInstanceServiceTopic_,
     &KnowrobWrapperCommunications::createInstanceCallback, this);    
 
   if(!nh_.getParam("/ontology_dump_ontology_topic", dumpOntologyServiceTopic_))
   {
-    ROS_ERROR("Face detection topic param does not exist");
+    ROS_ERROR("ontology_dump_ontology_topic");
   }         
   dumpOntologyService_ = nh_.advertiseService(dumpOntologyServiceTopic_,
     &KnowrobWrapperCommunications::dumpOntologyCallback, this);    
 
   if(!nh_.getParam("/ontology_load_ontology_topic", loadOntologyServiceTopic_))
   {
-    ROS_ERROR("Face detection topic param does not exist");
+    ROS_ERROR("ontology_load_ontology_topic");
   }  
   loadOntologyService_ = nh_.advertiseService(loadOntologyServiceTopic_,
     &KnowrobWrapperCommunications::loadOntologyCallback, this);  
 
-  if(!nh_.getParam("/ontology_user_instances_from_class_topic", userInstancesFromClassServiceTopic_))
-  {
-    ROS_ERROR("Face detection topic param does not exist");
-  }   
+  //if(!nh_.getParam("/ontology_user_instances_from_class_topic", userInstancesFromClassServiceTopic_))
+  //{
+    //ROS_ERROR("ontology_user_instances_from_class_topic");
+  //}   
   
-  userInstancesFromClassService_ = nh_.advertiseService(userInstancesFromClassServiceTopic_,
-    &KnowrobWrapperCommunications::userInstancesFromClassCallback, this);  
+  //userInstancesFromClassService_ = nh_.advertiseService(userInstancesFromClassServiceTopic_,
+    //&KnowrobWrapperCommunications::userInstancesFromClassCallback, this);  
     
-  if(!nh_.getParam("/ontology_assign_attribute_value", assignAttributeValueServiceTopic_))
-  {
-    ROS_ERROR("Face detection topic param does not exist");
-  }   
+  //if(!nh_.getParam("/ontology_assign_attribute_value", assignAttributeValueServiceTopic_))
+  //{
+    //ROS_ERROR("ontology_assign_attribute_value");
+  //}   
   
-  assignAttributeValueService_ = nh_.advertiseService(assignAttributeValueServiceTopic_,
-    &KnowrobWrapperCommunications::assignAttributeValueCallback, this);
+  //assignAttributeValueService_ = nh_.advertiseService(assignAttributeValueServiceTopic_,
+    //&KnowrobWrapperCommunications::assignAttributeValueCallback, this);
     
     
 
@@ -90,8 +90,8 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
 }
 
 bool KnowrobWrapperCommunications::subclassesOfCallback(
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+  rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
+  rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
 {
   std::vector<std::string> res_ = 
     knowrob_wrapper.subclassesOfQuery(req.query_term.data);
@@ -105,8 +105,8 @@ bool KnowrobWrapperCommunications::subclassesOfCallback(
 }
 
 bool KnowrobWrapperCommunications::superclassesOfCallback(
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+  rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
+  rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
 {
   std::vector<std::string> res_ = 
     knowrob_wrapper.superclassesOfQuery(req.query_term.data);
@@ -120,8 +120,8 @@ bool KnowrobWrapperCommunications::superclassesOfCallback(
 }
 
 bool KnowrobWrapperCommunications::createInstanceCallback(
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+  rapp_platform_ros_communications::createInstanceSrv::Request& req,
+  rapp_platform_ros_communications::createInstanceSrv::Response& res)
 {
   //std::vector<std::string> res_ = 
     //knowrob_wrapper.createInstanceQuery(req.query_term.data);
@@ -136,8 +136,8 @@ bool KnowrobWrapperCommunications::createInstanceCallback(
 }
 
 bool KnowrobWrapperCommunications::dumpOntologyCallback(
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res)
 {
   std::vector<std::string> res_ = 
     knowrob_wrapper.dumpOntologyQuery(req.query_term.data);
@@ -151,8 +151,8 @@ bool KnowrobWrapperCommunications::dumpOntologyCallback(
 }
 
 bool KnowrobWrapperCommunications::loadOntologyCallback(
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res)
 {
   std::vector<std::string> res_ = 
     knowrob_wrapper.loadOntologyQuery(req.query_term.data);
@@ -165,36 +165,36 @@ bool KnowrobWrapperCommunications::loadOntologyCallback(
   return true;
 }
 
-bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
-{
-  //std::cout<<req.return_cols[0].data;
-  std::vector<std::string> res_ = 
-    knowrob_wrapper.userInstancesFromClassQuery(req.query_term.data);
-  for(unsigned int i = 0 ; i < res_.size() ; i++)
-  {
-    std_msgs::String s;
-    s.data = res_[i];
-    res.results.push_back(s);
-  }
+//bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
+  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+//{
+  ////std::cout<<req.return_cols[0].data;
+  //std::vector<std::string> res_ = 
+    //knowrob_wrapper.userInstancesFromClassQuery(req.query_term.data);
+  //for(unsigned int i = 0 ; i < res_.size() ; i++)
+  //{
+    //std_msgs::String s;
+    //s.data = res_[i];
+    //res.results.push_back(s);
+  //}
   
-  return true;
-}
+  //return true;
+//}
 
-bool KnowrobWrapperCommunications::assignAttributeValueCallback(
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
-{
-  //std::cout<<req.return_cols[0].data;
-  std::vector<std::string> res_ = 
-    knowrob_wrapper.assignAttributeValueQuery(req.query_term.data);
-  for(unsigned int i = 0 ; i < res_.size() ; i++)
-  {
-    std_msgs::String s;
-    s.data = res_[i];
-    res.results.push_back(s);
-  }
+//bool KnowrobWrapperCommunications::assignAttributeValueCallback(
+  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
+//{
+  ////std::cout<<req.return_cols[0].data;
+  //std::vector<std::string> res_ = 
+    //knowrob_wrapper.assignAttributeValueQuery(req.query_term.data);
+  //for(unsigned int i = 0 ; i < res_.size() ; i++)
+  //{
+    //std_msgs::String s;
+    //s.data = res_[i];
+    //res.results.push_back(s);
+  //}
   
-  return true;
-}
+  //return true;
+//}

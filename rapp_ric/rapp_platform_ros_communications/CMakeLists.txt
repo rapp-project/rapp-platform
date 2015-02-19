@@ -26,10 +26,13 @@ add_service_files(
   /DbWrapper/updateDataSrv.srv
   /DbWrapper/writeDataSrv.srv
   /DbWrapper/deleteDataSrv.srv
+  /OntologyWrapper/createInstanceSrv.srv
+  /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
+  /OntologyWrapper/ontologyLoadDumpSrv.srv
+  /OntologyWrapper/ontologyInstancesOfSrv.srv 
   FaceDetectionRosSrv.srv
   QrDetectionRosSrv.srv
-  SpeechToTextSrv.srv
-  /OntologyWrapper/OntologySimpleQuerySrv.srv
+  SpeechToTextSrv.srv  
   MailSend.srv
   /SpeechDetectionSphinx4Wrapper/Sphinx4WrapperSrv.srv
 )

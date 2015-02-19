@@ -26,9 +26,9 @@ contact: akintsakis@issel.ee.auth.gr
 **/
 
 #include <knowrob_wrapper/knowrob_wrapper.h>
-#include <rapp_platform_ros_communications/OntologySimpleQuerySrv.h>
-#include <rapp_platform_ros_communications/DbWrapperSrv.h>
-#include <rapp_platform_ros_communications/StringArrayMsg.h>
+//#include <rapp_platform_ros_communications/OntologySimpleQuerySrv.h>
+//#include <rapp_platform_ros_communications/DbWrapperSrv.h>
+//#include <rapp_platform_ros_communications/StringArrayMsg.h>
 #include <ros/ros.h>
 
 class KnowrobWrapperCommunications
@@ -53,11 +53,11 @@ class KnowrobWrapperCommunications
     ros::ServiceServer loadOntologyService_;    
     std::string loadOntologyServiceTopic_;
     
-    ros::ServiceServer userInstancesFromClassService_;    
-    std::string userInstancesFromClassServiceTopic_;   
+    //ros::ServiceServer userInstancesFromClassService_;    
+    //std::string userInstancesFromClassServiceTopic_;   
     
-    ros::ServiceServer assignAttributeValueService_;    
-    std::string assignAttributeValueServiceTopic_;       
+    //ros::ServiceServer assignAttributeValueService_;    
+    //std::string assignAttributeValueServiceTopic_;       
     //ros::ServiceServer instanceFromClassService_;    
     //std::string instanceFromClassServiceTopic_;
     
@@ -68,32 +68,32 @@ class KnowrobWrapperCommunications
     KnowrobWrapperCommunications();
 
     bool subclassesOfCallback(
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+      rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
+      rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res);
       
     bool superclassesOfCallback(
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+      rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
+      rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res);
       
     bool createInstanceCallback(
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+      rapp_platform_ros_communications::createInstanceSrv::Request& req,
+      rapp_platform_ros_communications::createInstanceSrv::Response& res);
       
     bool dumpOntologyCallback(
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+      rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
+      rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res);
       
     bool loadOntologyCallback(
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+      rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
+      rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res);
       
-    bool userInstancesFromClassCallback(
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+    //bool userInstancesFromClassCallback(
+      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
       
-    bool assignAttributeValueCallback(
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+    //bool assignAttributeValueCallback(
+      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
+      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
       
       
 };
