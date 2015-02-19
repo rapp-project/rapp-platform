@@ -481,8 +481,8 @@ class TestDbWrapper(unittest.TestCase):
     req = fetchDataSrv()
     req.req_cols=[String(data="id"),String(data="macddr")]
     entry1=[String(data="macddr"),String(data="1800000")]
-    req.req_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.req_data)
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0].data,"Success")
     self.assertTrue(response.success.data)    
     self.assertEqual(response.res_data[0].s[0].data,"3")
@@ -494,10 +494,10 @@ class TestDbWrapper(unittest.TestCase):
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
     req = updateDataSrv()
-    req.req_cols=[String(data="timestamp='2014-11-23 09:04:13'")]
+    req.set_cols=[String(data="timestamp='2014-11-23 09:04:13'")]
     entry1=[String(data="macddr"),String(data='1900000')]
-    req.req_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.req_data)
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.set_cols,req.where_data)
     self.assertEqual(response.trace[0].data,"Success")
     self.assertTrue(response.success.data)       
     #Read again
@@ -509,8 +509,8 @@ class TestDbWrapper(unittest.TestCase):
     req = fetchDataSrv()
     req.req_cols=[String(data="macddr"),String(data="model")]
     entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
-    req.req_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.req_data)
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0].data,"Success")
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0].data,"1800000")
@@ -524,8 +524,8 @@ class TestDbWrapper(unittest.TestCase):
     req = deleteDataSrv()
     
     entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
-    req.req_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_data)
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.where_data)
     self.assertEqual(response.trace[0].data,"Success")
     self.assertTrue(response.success.data)   
     #Check if it was deleted
@@ -537,8 +537,8 @@ class TestDbWrapper(unittest.TestCase):
     req = fetchDataSrv()
     req.req_cols=[String(data="macddr"),String(data="model")]
     entry1=[String(data="timestamp"),String(data="2014-11-23 09:04:13")]
-    req.req_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.req_data)    
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)    
     self.assertEqual(response.trace[0].data,"Success")
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
@@ -555,8 +555,8 @@ class TestDbWrapper(unittest.TestCase):
     req = fetchDataSrv()
     req.req_cols=[String(data="app_id"),String(data="robot_id")]
     entry1=[String(data="app_id"),String(data="1")]
-    req.req_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.req_data)
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0].data,"Success")
     self.assertTrue(response.success.data)    
     self.assertEqual(response.res_data[0].s[0].data,"1")

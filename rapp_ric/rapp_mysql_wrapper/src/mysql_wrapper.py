@@ -208,7 +208,7 @@ class MySQLdbWrapper:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      where=self.constructAndQuery(req.req_data)
+      where=self.constructAndQuery(req.where_data)
       query="Delete from "+tblName+where
       cur.execute("LOCK TABLES "+tblName+" WRITE")
       cur.execute(query)
@@ -236,8 +236,8 @@ class MySQLdbWrapper:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      returncols=self.constructCommaColumns(req.req_cols)
-      where=self.constructAndQuery(req.req_data)
+      returncols=self.constructCommaColumns(req.set_cols)
+      where=self.constructAndQuery(req.where_data)
       query="Update "+tblName+" SET "+returncols+where
       print query
       cur.execute("LOCK TABLES "+tblName+" WRITE")
@@ -268,7 +268,7 @@ class MySQLdbWrapper:
       cur = con.cursor()
       returncols=self.constructCommaColumns(req.req_cols)
       #print returncols            
-      where=self.constructAndQuery(req.req_data)          
+      where=self.constructAndQuery(req.where_data)          
       #print where
       query="SELECT "+returncols+" FROM "+tblName+where
       #print query

@@ -1,4 +1,4 @@
-rapp_platform_ros_communications/StringArrayMsg[] req_data
+rapp_platform_ros_communications/StringArrayMsg[] where_data
 ---
 std_msgs/Bool success
 std_msgs/String[] trace
