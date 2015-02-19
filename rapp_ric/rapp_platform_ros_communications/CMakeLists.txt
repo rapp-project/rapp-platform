@@ -23,6 +23,9 @@ add_service_files(
   FILES
   /DbWrapper/DbWrapperSrv.srv
   /DbWrapper/fetchDataSrv.srv
+  /DbWrapper/updateDataSrv.srv
+  /DbWrapper/writeDataSrv.srv
+  /DbWrapper/deleteDataSrv.srv
   FaceDetectionRosSrv.srv
   QrDetectionRosSrv.srv
   SpeechToTextSrv.srv

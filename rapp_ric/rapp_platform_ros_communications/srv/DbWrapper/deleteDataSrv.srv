@@ -1,0 +1,4 @@
+rapp_platform_ros_communications/StringArrayMsg[] req_data
+---
+std_msgs/Bool success
+std_msgs/String[] trace

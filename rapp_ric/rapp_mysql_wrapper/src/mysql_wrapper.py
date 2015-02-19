@@ -32,8 +32,12 @@ import sys
 from rapp_platform_ros_communications.srv import (
   fetchDataSrv,
   fetchDataSrvResponse,
-  DbWrapperSrv,
-  DbWrapperSrvResponse
+  writeDataSrv,
+  writeDataSrvResponse,
+  deleteDataSrv,
+  deleteDataSrvResponse,
+  updateDataSrv,
+  updateDataSrvResponse
   )
   
 from rapp_platform_ros_communications.msg import ( 
@@ -50,109 +54,109 @@ class MySQLdbWrapper:
     #tblUser services launch
     self.serv_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")
+      rospy.logerror("mysql_wrapper_user_fetch_data_topic")
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblUserFetchDataHandler)    
     self.serv_topic = rospy.get_param("mysql_wrapper_user_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")    
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserWriteDataHandler)      
+      rospy.logerror("mysql_wrapper_user_write_data_topic")    
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblUserWriteDataHandler)      
     self.serv_topic = rospy.get_param("mysql_wrapper_user_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")            
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserDeleteDataHandler)     
+      rospy.logerror("mysql_wrapper_user_delete_data_topic")            
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblUserDeleteDataHandler)     
     self.serv_topic = rospy.get_param("mysql_wrapper_user_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUserUpdateDataHandler)
+      rospy.logerror("mysql_wrapper_user_update_data_topic")     
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblUserUpdateDataHandler)
     #tblModel services launch
     self.serv_topic = rospy.get_param("mysql_wrapper_model_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
+      rospy.logerror("mysql_wrapper_model_fetch_data_topic")     
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblModelFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_model_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")      
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelWriteDataHandler)
+      rospy.logerror("mysql_wrapper_model_write_data_topic")      
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblModelWriteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_model_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")       
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelDeleteDataHandler)
+      rospy.logerror("mysql_wrapper_model_delete_data_topic")       
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblModelDeleteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_model_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblModelUpdateDataHandler)
+      rospy.logerror("mysql_wrapper_model_update_data_topic")     
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblModelUpdateDataHandler)
     #tblRapp services launch
     self.serv_topic = rospy.get_param("mysql_wrapper_rapp_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")       
+      rospy.logerror("mysql_wrapper_rapp_fetch_data_topic")       
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblRappFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_rapp_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")      
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappWriteDataHandler)
+      rospy.logerror("mysql_wrapper_rapp_write_data_topic")      
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblRappWriteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_rapp_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")      
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappDeleteDataHandler)
+      rospy.logerror("mysql_wrapper_rapp_delete_data_topic")      
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblRappDeleteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_rapp_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRappUpdateDataHandler)
+      rospy.logerror("mysql_wrapper_rapp_update_data_topic")     
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblRappUpdateDataHandler)
     #tblRobot services launch
     self.serv_topic = rospy.get_param("mysql_wrapper_robot_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")       
+      rospy.logerror("mysql_wrapper_robot_fetch_data_topic")       
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblRobotFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_robot_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")       
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotWriteDataHandler)
+      rospy.logerror("mysql_wrapper_robot_write_data_topic")       
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblRobotWriteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_robot_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotDeleteDataHandler)
+      rospy.logerror("mysql_wrapper_robot_delete_data_topic")     
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblRobotDeleteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_robot_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")      
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblRobotUpdateDataHandler)
+      rospy.logerror("mysql_wrapper_robot_update_data_topic")      
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblRobotUpdateDataHandler)
     #tblAppsRobots services launch
     self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")       
+      rospy.logerror("mysql_wrapper_apps_robots_fetch_data_topic")       
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblAppsRobotsFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")         
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsWriteDataHandler)
+      rospy.logerror("mysql_wrapper_apps_robots_write_data_topic")         
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblAppsRobotsWriteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")       
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsDeleteDataHandler)
+      rospy.logerror("mysql_wrapper_apps_robots_delete_data_topic")       
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblAppsRobotsDeleteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")      
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblAppsRobotsUpdateDataHandler)
+      rospy.logerror("mysql_wrapper_apps_robots_update_data_topic")      
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblAppsRobotsUpdateDataHandler)
     #tblUsersOntologyInstances services launch
     self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
+      rospy.logerror("mysql_wrapper_users_ontology_instances_fetch_data_topic")     
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblUsersOntologyInstancesFetchDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found") 
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesWriteDataHandler)
+      rospy.logerror("mysql_wrapper_users_ontology_instances_write_data_topic") 
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblUsersOntologyInstancesWriteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesDeleteDataHandler)
+      rospy.logerror("mysql_wrapper_users_ontology_instances_delete_data_topic")     
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblUsersOntologyInstancesDeleteDataHandler)
     self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")       
-    self.serv=rospy.Service(self.serv_topic, DbWrapperSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
+      rospy.logerror("mysql_wrapper_users_ontology_instances_update_data_topic")       
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
     #viewUsersRobotsApps services launch
     self.serv_topic = rospy.get_param("viewUsersRobotsApps_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")     
+      rospy.logerror("viewUsersRobotsApps_topic")     
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.viewUsersRobotsAppsFetchDataHandler)
                 
     
@@ -160,11 +164,11 @@ class MySQLdbWrapper:
   def writeData(self,req,tblName):
     #generic db write function
     try:
-      res = DbWrapperSrvResponse()
+      res = writeDataSrvResponse()
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      returncols=self.constructCommaColumns(req.return_cols)
+      returncols=self.constructCommaColumns(req.req_cols)
       if (len(returncols)>1):
         returncols="("+returncols+")"
       print returncols
@@ -182,24 +186,25 @@ class MySQLdbWrapper:
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
       res.success.data=True
-      res.report.data="Success"
+      res.trace.append(String(data=str("Success")))
     except mdb.Error, e:
-      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")))
       res.success.data=False
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
       print "Error: can\'t find login file or read data" 
       res.success.data=False
-      res.report.data="Error: can\'t find login file or read data" 
+      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
     return res
       
   def deleteData(self,req,tblName):
     #generic db delete function
     try:
-      res = DbWrapperSrvResponse()
+      res = deleteDataSrvResponse()
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
@@ -209,28 +214,29 @@ class MySQLdbWrapper:
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
       res.success.data=True
-      res.report.data="Success"
+      res.trace.append(String(data=str("Success")))
     except mdb.Error, e:
-      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))     
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")))
       res.success.data=False
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
       print "Error: can\'t find login file or read data" 
       res.success.data=False
-      res.report.data="Error: can\'t find login file or read data" 
+      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
     return res
     
   def updateData(self,req,tblName):
     #generic db update function
     try:
-      res = DbWrapperSrvResponse()
+      res = updateDataSrvResponse()
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');            
       cur = con.cursor()
-      returncols=self.constructCommaColumns(req.return_cols)
+      returncols=self.constructCommaColumns(req.req_cols)
       where=self.constructAndQuery(req.req_data)
       query="Update "+tblName+" SET "+returncols+where
       print query
@@ -238,18 +244,19 @@ class MySQLdbWrapper:
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
       res.success.data=True
-      res.report.data="Success"
+      res.trace.append(String(data=str("Success")))
     except mdb.Error, e:
-      res.report.data= "Database Error %d: %s" % (e.args[0],e.args[1])
+      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.report.data= "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")))
       res.success.data=False
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
       print "Error: can\'t find login file or read data" 
       res.success.data=False
-      res.report.data="Error: can\'t find login file or read data" 
+      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
     return res
     
   def fetchData(self,req,tblName):
@@ -280,18 +287,18 @@ class MySQLdbWrapper:
       else:
         res.res_cols=req.req_cols
       res.success.data=True
-      res.trace.append("Success")
+      res.trace.append(String(data=str("Success")))     
     except mdb.Error, e:
-      res.trace.append("Database Error %d: %s" % (e.args[0],e.args[1]))
+      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"))) 
       res.success.data=False
       print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:       
       res.success.data=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
       print "Error: can\'t find login file or read data" 
     return res
     
@@ -372,17 +379,17 @@ class MySQLdbWrapper:
     return res      
 
   def tblUserWriteDataHandler(self,req): 
-    res = DbWrapperSrvResponse()
+    res = writeDataSrvResponse()
     res=self.writeData(req,"tbluser")
     return res  
     
   def tblUserDeleteDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = deleteDataSrvResponse()
     res=self.deleteData(req,"tbluser")
     return res  
     
   def tblUserUpdateDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = updateDataSrvResponse()
     res=self.updateData(req,"tbluser")
     return res
   #end tblUser callbacks
@@ -394,17 +401,17 @@ class MySQLdbWrapper:
     return res      
 
   def tblModelWriteDataHandler(self,req): 
-    res = DbWrapperSrvResponse()
+    res = writeDataSrvResponse()
     res=self.writeData(req,"tblmodel")
     return res  
     
   def tblModelDeleteDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblmodel")
     return res  
     
   def tblModelUpdateDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = updateDataSrvResponse()
     res=self.updateData(req,"tblmodel")
     return res
   #end tblModel callbacks
@@ -416,17 +423,17 @@ class MySQLdbWrapper:
     return res      
 
   def tblRappWriteDataHandler(self,req): 
-    res = DbWrapperSrvResponse()
+    res = writeDataSrvResponse()
     res=self.writeData(req,"tblrapp")
     return res  
     
   def tblRappDeleteDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblrapp")
     return res  
     
   def tblRappUpdateDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = updateDataSrvResponse()
     res=self.updateData(req,"tblrapp")
     return res
   #end tblRapp callbacks
@@ -438,17 +445,17 @@ class MySQLdbWrapper:
     return res      
 
   def tblRobotWriteDataHandler(self,req): 
-    res = DbWrapperSrvResponse()
+    res = writeDataSrvResponse()
     res=self.writeData(req,"tblrobot")
     return res  
     
   def tblRobotDeleteDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblrobot")
     return res  
     
   def tblRobotUpdateDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = updateDataSrvResponse()
     res=self.updateData(req,"tblrobot")
     return res
   #end tblRapp callbacks  
@@ -461,17 +468,17 @@ class MySQLdbWrapper:
     return res      
 
   def tblAppsRobotsWriteDataHandler(self,req): 
-    res = DbWrapperSrvResponse()
+    res = writeDataSrvResponse()
     res=self.writeData(req,"tblappsrobots")
     return res  
     
   def tblAppsRobotsDeleteDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblappsrobots")
     return res  
     
   def tblAppsRobotsUpdateDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = updateDataSrvResponse()
     res=self.updateData(req,"tblappsrobots")
     return res
   #end tblAppsRobots callbacks  
@@ -483,17 +490,17 @@ class MySQLdbWrapper:
     return res      
 
   def tblUsersOntologyInstancesWriteDataHandler(self,req): 
-    res = DbWrapperSrvResponse()
+    res = writeDataSrvResponse()
     res=self.writeData(req,"tblusersontologyinstances")
     return res  
     
   def tblUsersOntologyInstancesDeleteDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = deleteSrvResponse()
     res=self.deleteData(req,"tblusersontologyinstances")
     return res  
     
   def tblUsersOntologyInstancesUpdateDataHandler(self,req):
-    res = DbWrapperSrvResponse()
+    res = updateDataSrvResponse()
     res=self.updateData(req,"tblusersontologyinstances")
     return res
   #end tblAppsRobots callbacks    
