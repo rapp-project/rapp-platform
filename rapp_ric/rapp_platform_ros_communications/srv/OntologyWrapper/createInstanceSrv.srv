@@ -4,11 +4,7 @@ Header header
 std_msgs/String username
 std_msgs/String ontology_class
 std_msgs/String file_url
-std_msgs/String comments
-
-std_msgs/String[] attribute_name
-std_msgs/String[] attribute_value
- 
+std_msgs/String comments 
 ---
 # The results of the query
 std_msgs/String instance_name

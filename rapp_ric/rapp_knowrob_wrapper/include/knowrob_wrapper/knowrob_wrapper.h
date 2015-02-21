@@ -52,12 +52,13 @@ class KnowrobWrapper
   
     KnowrobWrapper(ros::NodeHandle nh);
 
-    std::vector<std::string> subclassesOfQuery(std::string ontology_class);
-    std::vector<std::string> superclassesOfQuery(std::string ontology_class);
+    
+    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
+    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
     //std::vector<std::string> createInstanceQuery(std::string caller_arguments);
-    rapp_platform_ros_communications::createInstanceSrv::Response createInstanceQuery(std::string caller_arguments);
-    std::vector<std::string> dumpOntologyQuery(std::string path);
-    std::vector<std::string> loadOntologyQuery(std::string path);  
+    rapp_platform_ros_communications::createInstanceSrv::Response createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req);
+    rapp_platform_ros_communications::ontologyLoadDumpSrv::Response dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);
+    rapp_platform_ros_communications::ontologyLoadDumpSrv::Response loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);  
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
     //std::vector<std::string> checkIfClassExists(std::string classValue);
     //std::vector<std::string> assignAttributeValueQuery(std::string caller_arguments);

@@ -93,14 +93,15 @@ bool KnowrobWrapperCommunications::subclassesOfCallback(
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
 {
-  std::vector<std::string> res_ = 
-    knowrob_wrapper.subclassesOfQuery(req.query_term.data);
-  for(unsigned int i = 0 ; i < res_.size() ; i++)
-  {
-    std_msgs::String s;
-    s.data = res_[i];
-    res.results.push_back(s);
-  }
+  //std::vector<std::string> res_ = 
+    //knowrob_wrapper.subclassesOfQuery(req.query_term.data);
+  //for(unsigned int i = 0 ; i < res_.size() ; i++)
+  //{
+    //std_msgs::String s;
+    //s.data = res_[i];
+    //res.results.push_back(s);
+  //}
+  res=knowrob_wrapper.subclassesOfQuery(req);
   return true;
 }
 
@@ -108,14 +109,15 @@ bool KnowrobWrapperCommunications::superclassesOfCallback(
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
 {
-  std::vector<std::string> res_ = 
-    knowrob_wrapper.superclassesOfQuery(req.query_term.data);
-  for(unsigned int i = 0 ; i < res_.size() ; i++)
-  {
-    std_msgs::String s;
-    s.data = res_[i];
-    res.results.push_back(s);
-  }
+  //std::vector<std::string> res_ = 
+    //knowrob_wrapper.superclassesOfQuery(req.query_term.data);
+  //for(unsigned int i = 0 ; i < res_.size() ; i++)
+  //{
+    //std_msgs::String s;
+    //s.data = res_[i];
+    //res.results.push_back(s);
+  //}
+  res=knowrob_wrapper.superclassesOfQuery(req);
   return true;
 }
 
@@ -124,14 +126,14 @@ bool KnowrobWrapperCommunications::createInstanceCallback(
   rapp_platform_ros_communications::createInstanceSrv::Response& res)
 {
   //std::vector<std::string> res_ = 
-    //knowrob_wrapper.createInstanceQuery(req.query_term.data);
+    res=knowrob_wrapper.createInstanceQuery(req);
   //for(unsigned int i = 0 ; i < res_.size() ; i++)
   //{
     //std_msgs::String s;
     //s.data = res_[i];
     //res.results.push_back(s);
   //}
-  res.success = true;
+  //res.success = true;
   return true;
 }
 
@@ -139,14 +141,15 @@ bool KnowrobWrapperCommunications::dumpOntologyCallback(
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res)
 {
-  std::vector<std::string> res_ = 
-    knowrob_wrapper.dumpOntologyQuery(req.query_term.data);
-  for(unsigned int i = 0 ; i < res_.size() ; i++)
-  {
-    std_msgs::String s;
-    s.data = res_[i];
-    res.results.push_back(s);
-  }
+  //std::vector<std::string> res_ = 
+    //knowrob_wrapper.dumpOntologyQuery(req.query_term.data);
+  //for(unsigned int i = 0 ; i < res_.size() ; i++)
+  //{
+    //std_msgs::String s;
+    //s.data = res_[i];
+    //res.results.push_back(s);
+  //}
+  res=knowrob_wrapper.dumpOntologyQuery(req);
   return true;
 }
 
@@ -154,14 +157,15 @@ bool KnowrobWrapperCommunications::loadOntologyCallback(
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res)
 {
-  std::vector<std::string> res_ = 
-    knowrob_wrapper.loadOntologyQuery(req.query_term.data);
-  for(unsigned int i = 0 ; i < res_.size() ; i++)
-  {
-    std_msgs::String s;
-    s.data = res_[i];
-    res.results.push_back(s);
-  }
+  //std::vector<std::string> res_ = 
+    //knowrob_wrapper.loadOntologyQuery(req.query_term.data);
+  //for(unsigned int i = 0 ; i < res_.size() ; i++)
+  //{
+    //std_msgs::String s;
+    //s.data = res_[i];
+    //res.results.push_back(s);
+  //}
+  res=knowrob_wrapper.loadOntologyQuery(req);
   return true;
 }
 
