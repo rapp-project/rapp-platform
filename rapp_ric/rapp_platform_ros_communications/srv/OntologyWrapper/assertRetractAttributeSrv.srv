@@ -1,8 +1,11 @@
 # Contains info about time and reference
 Header header
 # General string for simple queries
-std_msgs/String file_url 
+std_msgs/String instance_name
+std_msgs/String[] attribute_names
+std_msgs/String[] attribute_values
 ---
 # The results of the query
 std_msgs/String[] trace
+std_msgs/String[] confirmation
 bool success 

@@ -37,6 +37,8 @@ contact: akintsakis@issel.ee.auth.gr
 #include <rapp_platform_ros_communications/ontologyInstancesOfSrv.h>
 #include <rapp_platform_ros_communications/ontologyLoadDumpSrv.h>
 #include <rapp_platform_ros_communications/ontologySubSuperClassesOfSrv.h>
+#include <rapp_platform_ros_communications/assertRetractAttributeSrv.h>
+
 
 
 
@@ -59,7 +61,8 @@ class KnowrobWrapper
     rapp_platform_ros_communications::createInstanceSrv::Response createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req);
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);  
+    rapp_platform_ros_communications::assertRetractAttributeSrv::Response assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req);
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
     //std::vector<std::string> checkIfClassExists(std::string classValue);
-    //std::vector<std::string> assignAttributeValueQuery(std::string caller_arguments);
+    //
 };

@@ -30,6 +30,7 @@ add_service_files(
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
   /OntologyWrapper/ontologyLoadDumpSrv.srv
   /OntologyWrapper/ontologyInstancesOfSrv.srv 
+  /OntologyWrapper/assertRetractAttributeSrv.srv
   FaceDetectionRosSrv.srv
   QrDetectionRosSrv.srv
   SpeechToTextSrv.srv  
