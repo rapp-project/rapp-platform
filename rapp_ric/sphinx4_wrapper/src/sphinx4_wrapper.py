@@ -46,7 +46,7 @@ class Sphinx4Wrapper:
     #self.serv=rospy.Service('ric/sphinx4_wrapper', Sphinx4WrapperSrv, self.sphinx4DataHandler)
     self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
     if(not self.serv_topic):
-      rospy.logerror("Speech detection topic param not found")
+      rospy.logerror("Sphinx4 Speech detection topic param not found")
     self.serv = rospy.Service(self.serv_topic, Sphinx4WrapperSrv, self.sphinx4DataHandler)
                 
       

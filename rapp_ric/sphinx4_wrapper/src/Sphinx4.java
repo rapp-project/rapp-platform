@@ -62,19 +62,32 @@ public class Sphinx4 {
 //
 //        }
 
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
-
-        URL[] urls = ((URLClassLoader) cl).getURLs();
-
-        for (URL url : urls) {
-            System.out.println(url.getFile());
-        }
+//        ClassLoader cl = ClassLoader.getSystemClassLoader();
+//
+//        URL[] urls = ((URLClassLoader) cl).getURLs();
+//
+//        for (URL url : urls) {
+//            System.out.println(url.getFile());
+//        }
         Configuration configuration = new Configuration();
+        String dictionaryPath="/home/thanos/rapp/speachRecognition/newLanguage/LanguageModelBuilder/custom.dict";
+        String languageModelPath="/home/thanos/rapp/speachRecognition/newLanguage/LanguageModelBuilder/sentences.lm.dmp";
+        File t1 = new File(dictionaryPath);
+        if(!t1.exists())
+        {
+            System.out.println("Fatal error, dictionary file does not exist");
+        }
+        File t2 = new File(languageModelPath);
+        if(!t2.exists())
+        {
+            System.out.println("Fatal error, Language model file does not exist");
+        }
         //Context ct = new Context("//",configuration);
         ConfigurationManager cm;
         cm = new ConfigurationManager("/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/train/default.config.xml");
         //Recognizer rec = cm.lookup("recognizer");
         //rec.allocate();
+        
         Map<String, String> properties = new HashMap();
         properties=cm.getGlobalProperties();
         System.out.println("# "+properties.get("oogProbability"));
@@ -88,19 +101,20 @@ public class Sphinx4 {
 //set grammar
           configuration.setUseGrammar(true);
           configuration.setGrammarName("hello");
-          //configuration.setGrammarPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/");
-          configuration.setGrammarPath("/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/train/");
+          configuration.setGrammarPath("/home/thanos/rapp/speachRecognition/newLanguage/LanguageModelBuilder/");
+         // configuration.setGrammarPath("/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/train/");
           //FlatLinguist t = new FlatLinguist();
           
 // Set path to dictionary.
         //configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
-        configuration.setDictionaryPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
+        //configuration.setDictionaryPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
+       configuration.setDictionaryPath(dictionaryPath);
         System.out.println(configuration.getDictionaryPath());
 
 // Set language model.
         //configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.dmp");
-        configuration.setLanguageModelPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/en-us.lm.dmp");
-
+        //configuration.setLanguageModelPath("/home/thanos/rapp/speachRecognition/cmuSphinx/sphinx4-5prealpha-src/sphinx4-data/src/main/resources/edu/cmu/sphinx/models/en-us/en-us.lm.dmp");
+        configuration.setLanguageModelPath(languageModelPath);
         System.out.println("done!");
         System.out.println("mark01");
         /*
