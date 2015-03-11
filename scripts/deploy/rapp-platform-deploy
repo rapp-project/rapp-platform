@@ -1,0 +1,19 @@
+#!/bin/bash
+source /opt/ros/indigo/setup.bash
+source /home/etsardou/rapp_platform_catkin_ws/devel/setup.bash --extend
+source /home/etsardou/knowrob_catkin_ws/devel/setup.bash --extend
+source /home/etsardou/rosjava/devel/setup.bash --extend
+
+export JAVA_HOME=/usr/lib/jvm/default-java
+export SWI_HOME_DIR=/usr/lib/swi-prolog
+export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/amd64/server:$LD_LIBRARY_PATH
+
+do_start()
+{
+  roslaunch rapp_platform_launchers rapp_platform_launch.launch
+}
+
+do_stop()
+{
+  killall roslaunch roscore rosmaster
+}
