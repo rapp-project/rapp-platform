@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  // Connecting to ROS
+  // -----------------
+
+  var ros = new ROSLIB.Ros({
+    url : 'ws://localhost:9090'
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+  
+  ros.getNodes(function(nodes){
+    nodes_literal = '<h2 align=\'center\'><span class="label label-default">ROS Nodes</span></h2><br/><ul>';
+    var index;
+    for(index = 0 ; index < nodes.length ; index++)
+    {
+      nodes_literal += '<li>' + nodes[index] + '</li>';
+    }
+    nodes_literal += '</ul>';
+    document.getElementById("nodes_div").innerHTML = nodes_literal;
+  });
+  ros.getTopics(function(topics){
+    topics_literal = '<h2 align="center"><span class="label label-default">ROS Topics</span></h2><br/><ul>';
+    var index;
+    for(index = 0 ; index < topics.length ; index++)
+    {
+      topics_literal += '<li>' + topics[index] + '</li>';
+    }
+    topics_literal += '</ul>';
+    document.getElementById("topics_div").innerHTML = topics_literal;
+  });
+  ros.getServices(function(services){
+    services_literal = '<h2 align="center"><span class="label label-default">ROS Services</span></h2><br/><ul>';
+    var index;
+    for(index = 0 ; index < services.length ; index++)
+    {
+      services_literal += "<li>" + services[index] + '</li>';
+    }
+    services_literal += '</ul>';
+    document.getElementById("services_div").innerHTML = services_literal;
+  });
+ </script>
+</head>
+
+<body>
+  <div class='jumbotron' align='center'>
+    <h1>RAPP Platform information</h1>
+    <div>
+      To work, roscore and rosbridge_websocket must be executed
+    </div>
+  </div>
+  <div class='container'>
+    <div class='row-fluid'>
+      <div class='col-md-4' style='word-wrap:break-word;'>
+        <div id="nodes_div" class='panel panel-default'>  </div>
+      </div>
+      <div class='col-md-4' style='word-wrap:break-word;'>
+        <div id="topics_div" class="panel panel-default">  </div>
+      </div>
+      <div class='col-md-4' style='word-wrap:break-word;'>
+        <div id="services_div" class="panel panel-default">  </div>
+      </div>
+      <!--<div class='col-md-3' style='word-wrap:break-word;'>-->
+        <!--<div id="rapp_services_div" class="panel panel-default">  </div>-->
+      <!--</div>-->
+    </div>
+  </div>
+
+</body>
+</html>
