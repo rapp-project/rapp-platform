@@ -1,3 +1,0 @@
-javac -cp ".:sphinx4-core-1.0-SNAPSHOT.jar:sphinx4-data-1.0-SNAPSHIOT.jar" Sphinx4.java
-java -cp .:/home/thanos/NetBeansProjects/Sphinx4Maven/target/classes/sphinx4-core-1.0-SNAPSHOT.jar:/home/thanos/NetBeansProjects/Sphinx4Maven/target/classes/sphinx4-data-1.0-SNAPSHOT.jar:/home/thanos/NetBeansProjects/Sphinx4Maven/target/classes/  Sphinx4
-

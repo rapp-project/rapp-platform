@@ -30,6 +30,7 @@ import rospy
 import sys
 import subprocess
 import time
+import rospkg
 
 from rapp_platform_ros_communications.srv import (
   Sphinx4WrapperSrv,
@@ -48,25 +49,52 @@ class Sphinx4Wrapper:
     if(not self.serv_topic):
       rospy.logerror("Sphinx4 Speech detection topic param not found")
     self.serv = rospy.Service(self.serv_topic, Sphinx4WrapperSrv, self.sphinx4DataHandler)
-                
-      
-  #viewUsersRobotsApps callbacks    
+    rospack = rospkg.RosPack()
+    self.sphinx4_jars = rospack.get_path('rapp_sphinx4_java_libraries')   
+    self.sphinx4_class_path = rospack.get_path('sphinx4_wrapper')   
+    total_path = ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
+            + self.sphinx4_class_path + "/src"
+    self.p = subprocess.Popen(["java", "-cp", total_path, "Sphinx4"], \
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+
+    self.p.stdin.write("configurationPath#"+self.sphinx4_jars+"/greekPack/default.config.xml\r\n")
+    line = self.p.stdout.readline()
+    print line
+    
+    self.p.stdin.write("acousticModel#"+self.sphinx4_jars+"/acoustic_model\r\n")
+    line = self.p.stdout.readline()
+    print line
+
+    self.p.stdin.write("grammarName#hello#"+self.sphinx4_jars+"/greekPack/\r\n")
+    line = self.p.stdout.readline()
+    print line
+
+    self.p.stdin.write("dictionary#" + self.sphinx4_jars + "/greekPack/custom.dict\r\n")
+    print "dictionary#" + self.sphinx4_jars + "/greekPack/custom.dict"
+    line = self.p.stdout.readline()
+    print line
+    
+    self.p.stdin.write("languageModel#"+self.sphinx4_jars+"/greekPack/sentences.lm.dmp\r\n")
+    line = self.p.stdout.readline()
+    print line
+ 
+ #viewUsersRobotsApps callbacks    
   def sphinx4DataHandler(self,req):     
     res = Sphinx4WrapperSrvResponse()
     #res=self.fetchData(req,"usersrobotsapps")    
     #p = subprocess.Popen(["java", "-cp", "/home/thanos/NetBeansProjects/MyClass/dist/MyClass.jar"], stdin=subprocess.PIPE)
     #p = subprocess.Popen(['java', '/home/thanos/NetBeansProjects/MyClass/build/classes//myclass.MyClass'], stdin=subprocess.PIPE)
     #p = subprocess.Popen(["java","-cp", "/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src/","MyClass"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    p = subprocess.Popen(["java","-cp", ".:/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src/sphinx4-core-1.0-SNAPSHOT.jar:/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src/sphinx4-data-1.0-SNAPSHOT.jar:/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/src","Sphinx4"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    p.stdin.write("start\r\n")
-    p.stdin.write(req.path.data+"\r\n")
+    
+    self.p.stdin.write("start\r\n")
+    self.p.stdin.write("audioInput#" + req.path.data + "\r\n")
     #p.stdin.write("x\r\n") # this line will not be printed into the file
     print("out")
     start_time = time.time()
-    line = p.stdout.readline()
+    line = self.p.stdout.readline()
     
     while(True):
-      line = p.stdout.readline()
+      line = self.p.stdout.readline()
       if(len(line)>0):
         if(line[0]=="#"):
           res.words.data=res.words.data+"\n"+line
@@ -74,6 +102,7 @@ class Sphinx4Wrapper:
         if(line=="stopPython\n"):
           #res.words.data=line
           break
+        print line  
       if (time.time() - start_time > 10):
         res.words.data="Time out error"
         break
