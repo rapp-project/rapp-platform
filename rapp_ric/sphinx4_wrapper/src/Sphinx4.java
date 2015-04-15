@@ -70,8 +70,8 @@ public class Sphinx4 {
 //            System.out.println(url.getFile());
 //        }
         Configuration configuration = new Configuration();
-        String dictionaryPath="/home/thanos/rapp/speachRecognition/newLanguage/LanguageModelBuilder/custom.dict";
-        String languageModelPath="/home/thanos/rapp/speachRecognition/newLanguage/LanguageModelBuilder/sentences.lm.dmp";
+        String dictionaryPath="/home/thanos/rapp/speachRecognition/greekPack/custom.dict";
+        String languageModelPath="/home/thanos/rapp/speachRecognition/greekPack/sentences.lm.dmp";
         File t1 = new File(dictionaryPath);
         if(!t1.exists())
         {
@@ -101,7 +101,7 @@ public class Sphinx4 {
 //set grammar
           configuration.setUseGrammar(true);
           configuration.setGrammarName("hello");
-          configuration.setGrammarPath("/home/thanos/rapp/speachRecognition/newLanguage/LanguageModelBuilder/");
+          configuration.setGrammarPath("/home/thanos/rapp/speachRecognition/greekPack/");
          // configuration.setGrammarPath("/home/thanos/local_catkin_workspaces/catkin_ws/src/rapp-platform/rapp_ric/sphinx4_wrapper/train/");
           //FlatLinguist t = new FlatLinguist();
           
