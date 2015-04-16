@@ -43,6 +43,9 @@ public class Sphinx4 {
   public static ConfigurationManager cm;
   public static StreamSpeechRecognizer recognizer;
 
+  public static boolean grammar_enabled = false;
+  public static boolean grammar_enabled_prev = false;
+
   public static void updateConfiguration() throws IOException{
     boolean new_info = false;
     if(dictionary_path != dictionary_path_prev){
@@ -73,6 +76,11 @@ public class Sphinx4 {
     if(configuration_model_path != configuration_model_path_prev){
       configuration_model_path_prev = configuration_model_path;
       cm = new ConfigurationManager(configuration_model_path);
+      new_info = true;
+    }
+    if(grammar_enabled != grammar_enabled_prev){
+      grammar_enabled_prev = grammar_enabled;
+      configuration.setUseGrammar(grammar_enabled);
       new_info = true;
     }
     
@@ -109,7 +117,6 @@ public class Sphinx4 {
           }
           else
           {
-            //configuration.setDictionaryPath(tmp[1]);
             dictionary_path = tmp[1];
             System.out.println("Dictionary set");
           }
@@ -123,9 +130,7 @@ public class Sphinx4 {
           }
           else
           {
-            //configuration.setLanguageModelPath(tmp[1]);
             language_path = tmp[1];
-
             System.out.println("Language model set");
           }
         }
@@ -136,9 +141,6 @@ public class Sphinx4 {
         }
         // Grammar file and folder setup
         else if(tmp[0].contains("grammarName")){
-          configuration.setUseGrammar(true); //!< NOTE: Check this!
-          //configuration.setGrammarName(tmp[1]); // Grammar file name
-          //configuration.setGrammarPath(tmp[2]); // Grammar folder url
           grammar_model_file_path = tmp[1];
           grammar_model_folder_path = tmp[2];
           System.out.println("Grammar model set");
@@ -152,10 +154,24 @@ public class Sphinx4 {
           }
           else
           {
-            //cm = new ConfigurationManager(tmp[1]);
             configuration_model_path = tmp[1];
             System.out.println("Configuration path set");
           }
+        }
+        // Perform forced configuration
+        else if(tmp[0].contains("forceConfiguration")){
+          updateConfiguration();
+          System.out.println("Configuration performed");
+        }
+        // Enable grammar
+        else if(tmp[0].contains("enableGrammar")){
+          grammar_enabled = true;    
+          System.out.println("Grammar enabled"); 
+        }
+        // Disable grammar
+        else if(tmp[0].contains("disableGrammar")){
+          grammar_enabled = false;
+          System.out.println("Grammar disabled"); 
         }
         // Perform audio recognition
         else if (tmp[0].contains("audioInput")) {
@@ -170,7 +186,7 @@ public class Sphinx4 {
           else
           {
             recognizer.startRecognition(new FileInputStream(tmp[1]));
-            SpeechResult result;// = recognizer.getResult();
+            SpeechResult result;
             while ((result = recognizer.getResult()) != null) {
               System.out.println("#" + result.getHypothesis());
             }

@@ -42,7 +42,15 @@ from std_msgs.msg import (
   ) 
 
 class Sphinx4Wrapper: 
-  
+ 
+  # Helper function for getting input from Sphinx
+  def readLine(self, print_line = False):
+    line = self.p.stdout.readline()
+    if print_line:
+      print line
+    return line
+
+  # Constructor performing initializations
   def __init__(self):       
     self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
     
@@ -63,37 +71,37 @@ class Sphinx4Wrapper:
             stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
     self.p.stdin.write("configurationPath#"+self.sphinx4_jars+"/greekPack/default.config.xml\r\n")
-    line = self.p.stdout.readline()
-    print line
+    self.readLine(True)
     
     self.p.stdin.write("acousticModel#"+self.sphinx4_jars+"/acoustic_model\r\n")
-    line = self.p.stdout.readline()
-    print line
+    self.readLine(True)
 
     self.p.stdin.write("grammarName#hello#"+self.sphinx4_jars+"/greekPack/\r\n")
-    line = self.p.stdout.readline()
-    print line
+    self.readLine(True)
 
     self.p.stdin.write("dictionary#" + self.sphinx4_jars + "/greekPack/custom.dict\r\n")
-    line = self.p.stdout.readline()
-    print line
+    self.readLine(True)
     
     self.p.stdin.write("languageModel#"+self.sphinx4_jars+"/greekPack/sentences.lm.dmp\r\n")
-    line = self.p.stdout.readline()
-    print line
+    self.readLine(True)
+
+    self.p.stdin.write("disableGrammar#\r\n")
+    self.readLine(True)
+
+    self.p.stdin.write("forceConfiguration#\r\n")
+    self.readLine(True)
  
- #viewUsersRobotsApps callbacks    
+  # Service callback for handling speech recognition
   def sphinx4DataHandler(self,req):     
     res = Sphinx4WrapperSrvResponse()
    
     self.p.stdin.write("start\r\n")
     self.p.stdin.write("audioInput#" + req.path.data + "\r\n")
-    print("out")
     start_time = time.time()
-    line = self.p.stdout.readline()
+    self.readLine()
     
     while(True):
-      line = self.p.stdout.readline()
+      line = self.readLine()
       if(len(line)>0):
         if(line[0]=="#"):
           res.words.data=res.words.data+"\n"+line
@@ -101,13 +109,13 @@ class Sphinx4Wrapper:
         if(line=="stopPython\n"):
           #res.words.data=line
           break
-        print line  
       if (time.time() - start_time > 10):
         res.words.data="Time out error"
         break
     
     return res;  
-    
+
+# Main function
 if __name__ == "__main__": 
   rospy.init_node('Sphinx4Wrapper')
   Sphinx4WrapperNode = Sphinx4Wrapper() 
