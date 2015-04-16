@@ -32,6 +32,8 @@ import subprocess
 import time
 import rospkg
 
+from greek_transliteration import *
+
 from rapp_platform_ros_communications.srv import (
   Sphinx4WrapperSrv,
   Sphinx4WrapperSrvResponse
@@ -51,7 +53,9 @@ class Sphinx4Wrapper:
     return line
 
   # Constructor performing initializations
-  def __init__(self):       
+  def __init__(self):    
+
+    GreekTransliteration.test()
     self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
     
     if(not self.serv_topic):
