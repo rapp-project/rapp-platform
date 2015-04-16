@@ -75,7 +75,6 @@ class Sphinx4Wrapper:
     print line
 
     self.p.stdin.write("dictionary#" + self.sphinx4_jars + "/greekPack/custom.dict\r\n")
-    print "dictionary#" + self.sphinx4_jars + "/greekPack/custom.dict"
     line = self.p.stdout.readline()
     print line
     

@@ -21,10 +21,75 @@ import java.util.Map;
  * Authors: Thanos Kintsakis, Manos Tsardoulias
  */
 public class Sphinx4 {
+
+  public static String dictionary_path = "";
+  public static String dictionary_path_prev = "";
+
+  public static String language_path = "";
+  public static String language_path_prev = "";
+
+  public static String acoustic_model_path = "";
+  public static String acoustic_model_path_prev = "";
+
+  public static String grammar_model_file_path = "";
+  public static String grammar_model_file_path_prev = "";
+  public static String grammar_model_folder_path = "";
+  public static String grammar_model_folder_path_prev = "";
+  
+  public static String configuration_model_path = "";
+  public static String configuration_model_path_prev = "";
+
+  public static Configuration configuration = new Configuration();
+  public static ConfigurationManager cm;
+  public static StreamSpeechRecognizer recognizer;
+
+  public static void updateConfiguration() throws IOException{
+    boolean new_info = false;
+    if(dictionary_path != dictionary_path_prev){
+      dictionary_path_prev = dictionary_path;
+      configuration.setDictionaryPath(dictionary_path);
+      new_info = true;
+    }
+    if(language_path != language_path_prev){
+      language_path_prev = language_path;
+      configuration.setLanguageModelPath(language_path);
+      new_info = true;
+    }
+    if(acoustic_model_path != acoustic_model_path_prev){
+      acoustic_model_path_prev = acoustic_model_path;
+      configuration.setAcousticModelPath(acoustic_model_path);
+      new_info = true;
+    }
+    if(grammar_model_file_path != grammar_model_file_path_prev){
+      grammar_model_file_path_prev = grammar_model_file_path;
+      configuration.setGrammarName(grammar_model_file_path);
+      new_info = true;
+    }
+    if(grammar_model_folder_path != grammar_model_folder_path_prev){
+      grammar_model_folder_path_prev = grammar_model_folder_path;
+      configuration.setGrammarPath(grammar_model_folder_path);
+      new_info = true;
+    }
+    if(configuration_model_path != configuration_model_path_prev){
+      configuration_model_path_prev = configuration_model_path;
+      cm = new ConfigurationManager(configuration_model_path);
+      new_info = true;
+    }
+    
+    if(new_info == true){
+      try{
+        recognizer = new StreamSpeechRecognizer(configuration);
+      }
+      catch (IOException e) {
+        e.printStackTrace();
+        System.out.println("#"+e);
+        System.out.println("stopPython");
+      }
+    }
+  } 
+
   public static void main(String[] args) throws IOException {
 
-    Configuration configuration = new Configuration();
-    ConfigurationManager cm;
     BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 
     String[] tmp;
@@ -44,7 +109,8 @@ public class Sphinx4 {
           }
           else
           {
-            configuration.setDictionaryPath(tmp[1]);
+            //configuration.setDictionaryPath(tmp[1]);
+            dictionary_path = tmp[1];
             System.out.println("Dictionary set");
           }
         }
@@ -57,7 +123,8 @@ public class Sphinx4 {
           }
           else
           {
-            configuration.setLanguageModelPath(tmp[1]);
+            //configuration.setLanguageModelPath(tmp[1]);
+            language_path = tmp[1];
 
             System.out.println("Language model set");
           }
@@ -69,10 +136,11 @@ public class Sphinx4 {
         }
         // Grammar file and folder setup
         else if(tmp[0].contains("grammarName")){
-          configuration.setUseGrammar(true);
-          configuration.setGrammarName(tmp[1]); // Grammar file name
-          configuration.setGrammarPath(tmp[2]); // Grammar folder url
-
+          configuration.setUseGrammar(true); //!< NOTE: Check this!
+          //configuration.setGrammarName(tmp[1]); // Grammar file name
+          //configuration.setGrammarPath(tmp[2]); // Grammar folder url
+          grammar_model_file_path = tmp[1];
+          grammar_model_folder_path = tmp[2];
           System.out.println("Grammar model set");
         }
         // Configuration file path set
@@ -84,21 +152,23 @@ public class Sphinx4 {
           }
           else
           {
-            cm = new ConfigurationManager(tmp[1]);
-
+            //cm = new ConfigurationManager(tmp[1]);
+            configuration_model_path = tmp[1];
             System.out.println("Configuration path set");
           }
         }
         // Perform audio recognition
         else if (tmp[0].contains("audioInput")) {
+          updateConfiguration();
           test_file = new File(tmp[1]);
+          System.out.println(tmp[1]); // Check why these are needed!
+          System.out.println(tmp[1]);
           if(!test_file.exists())
           {
             System.out.println("Fatal error, audio file does not exist");
           }
           else
           {
-            StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
             recognizer.startRecognition(new FileInputStream(tmp[1]));
             SpeechResult result;// = recognizer.getResult();
             while ((result = recognizer.getResult()) != null) {
