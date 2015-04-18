@@ -30,7 +30,7 @@ import rospy
 import sys
 import rospkg
 
-class GreekTransliteration:
+class LimitedVocabularyCreator:
 
   def __init__(self):
     self.sphinx_configuration = { \
@@ -44,7 +44,13 @@ class GreekTransliteration:
       'grammar_disabled' : True
       }
 
-
-  def createConfigurationFiles(self, greek_words):
-    for word in greek_words:
+  # Creates temporary configuration files for the input limited vocabulary
+  # The 'words' input argument is of the form:
+  # words = {
+  #           'word1_en_chars': [phonem1, phonem2,...],
+  #           'word2_en_chars': [phonem1, phonem2,...]
+  #           ...
+  #         }
+  def createConfigurationFiles(self, words):
+    for word in words:
       print word

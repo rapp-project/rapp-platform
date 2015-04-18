@@ -25,19 +25,21 @@
 # Authors: Athanassios Kintsakis, Manos Tsardoulias
 # contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
 
-
 import rospy
 import sys
 import subprocess
 import time
 import rospkg
 
-from greek_transliteration import *
+from greek_support import *
+from english_support import *
 from sphinx4_wrapper import *
 
 from rapp_platform_ros_communications.srv import (
-  Sphinx4WrapperSrv,
-  Sphinx4WrapperSrvResponse
+  SpeechRecognitionSphinx4Srv,
+  SpeechRecognitionSphinx4SrvResponse,
+  SpeechRecognitionSphinx4ConfigureSrv,
+  SpeechRecognitionSphinx4ConfigureSrvResponse,
   )
     
 from std_msgs.msg import ( 
@@ -50,15 +52,27 @@ class SpeechRecognitionSphinx4:
   def __init__(self):    
 
     self.sphinx4 = Sphinx4Wrapper()
-    self.greek = GreekTransliteration()
+    self.greek_support = GreekSupport()
+    self.english_support = EnglishSupport()
     
+    self.language = 'gr'
+    self.words = []
+
     self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
+    self.serv_configuration_topic = \
+        rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
     
     if(not self.serv_topic):
       rospy.logerror("Sphinx4 Speech detection topic param not found")
-    
-    self.serv = rospy.Service(self.serv_topic, Sphinx4WrapperSrv, self.sphinx4DataHandler)
-    
+    if(not self.serv_configuration_topic):
+      rospy.logerror("Sphinx4 Speech detection configuration topic param not found")
+   
+    self.speech_recognition_service = rospy.Service(self.serv_topic, \
+        SpeechRecognitionSphinx4Srv, self.speechRecognition)
+    self.speech_recognition_configuration_service = rospy.Service( \
+        self.serv_configuration_topic, SpeechRecognitionSphinx4ConfigureSrv, \
+        self.configureSpeechRecognition)
+   
     rospack = rospkg.RosPack()
 
     self.sphinx4_jars = rospack.get_path('rapp_sphinx4_java_libraries')   
@@ -80,14 +94,46 @@ class SpeechRecognitionSphinx4:
     self.sphinx4.initializeSphinx(self.sphinx_configuration)
  
   # Service callback for handling speech recognition
-  def sphinx4DataHandler(self,req):     
-    res = Sphinx4WrapperSrvResponse()
+  def speechRecognition(self, req):     
+    res = SpeechRecognitionSphinx4SrvResponse()
     words = self.sphinx4.performSpeechRecognition(req.path.data)   
     
     for word in words:
       res.words.append(word)
    
     return res;  
+
+  # Service callback dedicated for Sphinx4 configuration
+  def configureSpeechRecognition(self, req):
+    res = SpeechRecognitionSphinx4ConfigureSrvResponse()
+    reconfigure = False
+    if self.language != req.language:
+      reconfigure = True
+    if self.words != req.words:
+      reconfigure = True
+    self.language = req.language
+    self.words = req.words
+    
+    if self.language == 'en':
+      print "Language set to English"
+      if len(self.words) == 0:
+        print "Generic model used"
+        # TODO: Give the correct configuration
+      else:
+        print "Words to be recognized:"
+        print self.words
+        # TODO: Give the correct configuration
+    elif self.language == "gr":
+      print "Language set to Greek"
+      if len(self.words) == 0:
+        print "Generic model used"
+        # TODO: Fix generic model
+      else:
+        print "Words to be recognized:"
+        print self.words
+        # TODO: Give correct configuration
+    
+    return res
 
 # Main function
 if __name__ == "__main__": 
