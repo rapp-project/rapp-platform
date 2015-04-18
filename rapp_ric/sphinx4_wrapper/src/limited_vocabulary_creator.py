@@ -52,5 +52,4 @@ class LimitedVocabularyCreator:
   #           ...
   #         }
   def createConfigurationFiles(self, words):
-    for word in words:
-      print word
+    print words

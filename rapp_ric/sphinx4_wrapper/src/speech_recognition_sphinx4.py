@@ -114,25 +114,35 @@ class SpeechRecognitionSphinx4:
     self.language = req.language
     self.words = req.words
     
+    conf = '' # Dummy initialization
+
+    # English language
     if self.language == 'en':
       print "Language set to English"
-      if len(self.words) == 0:
+      # Whole dictionary utilization
+      if len(self.words) == 0: 
         print "Generic model used"
-        # TODO: Give the correct configuration
-      else:
-        print "Words to be recognized:"
+        conf = self.nglish_support.getGenericConfiguration()
+      # Limited dictionary utilization
+      else:   
+        print "Words to be recognized (" + str(len(self.words)) + "):"
         print self.words
-        # TODO: Give the correct configuration
+        conf = self.english_support.getLimitedVocebularyConfiguration(self.words)
+    # Greek language
     elif self.language == "gr":
       print "Language set to Greek"
+      # Whole dictionary utilization
       if len(self.words) == 0:
         print "Generic model used"
-        # TODO: Fix generic model
+        # TODO
+      # Limited dictionary utilization
       else:
-        print "Words to be recognized:"
+        print "Words to be recognized (" + str(len(self.words)) + "):"
         print self.words
-        # TODO: Give correct configuration
+        # TODO
     
+    # Actual sphinx4 configuration
+    self.sphinx4.configureSphinx(conf)
     return res
 
 # Main function

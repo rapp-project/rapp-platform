@@ -67,6 +67,24 @@ class Sphinx4Wrapper:
     self.p.stdin.write("forceConfiguration#\r\n")
     self.readLine(True)
 
+  def configureSphinx(self, conf):
+    self.p.stdin.write("configurationPath#" + conf['configuration_path'])
+    self.readLine(True)
+    self.p.stdin.write("acousticModel#" + conf['acoustic_model'])
+    self.readLine(True)
+    self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
+            conf['grammar_folder']) 
+    self.readLine(True)
+    self.p.stdin.write("dictionary#" + conf['dictionary'])
+    self.readLine(True)
+    self.p.stdin.write("languageModel#" + conf['language_model'])
+    self.readLine(True)
+    self.p.stdin.write("disableGrammar#\r\n")
+    self.readLine(conf['grammar_disabled'])
+    self.p.stdin.write("forceConfiguration#\r\n")
+    self.readLine(True)
+
+
   # Performs the speech recognition and returns a list of words
   def performSpeechRecognition(self, audio_file):
     self.p.stdin.write("start\r\n")
