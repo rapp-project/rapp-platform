@@ -25,23 +25,9 @@
 # Authors: Athanassios Kintsakis, Manos Tsardoulias
 # contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
 
-
-import rospy
 import sys
 import subprocess
 import time
-import rospkg
-
-from greek_transliteration import *
-
-from rapp_platform_ros_communications.srv import (
-  Sphinx4WrapperSrv,
-  Sphinx4WrapperSrvResponse
-  )
-    
-from std_msgs.msg import ( 
-  String 
-  ) 
 
 class Sphinx4Wrapper: 
  
@@ -52,41 +38,34 @@ class Sphinx4Wrapper:
       print line
     return line
 
-  # Constructor performing initializations
-  def __init__(self):    
+  # Perform Sphinx4 initialization. For now it is initialized with the 
+  # reduced Greek model
+  def initializeSphinx(self, \
+      jar_path, \
+      configuration_path, \
+      acoustic_model, \
+      grammar_name, \
+      grammar_folder, \
+      dictionary, \
+      language_model, \
+      grammar_enabled):
 
-    GreekTransliteration.test()
-    self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
-    
-    if(not self.serv_topic):
-      rospy.logerror("Sphinx4 Speech detection topic param not found")
-    
-    self.serv = rospy.Service(self.serv_topic, Sphinx4WrapperSrv, self.sphinx4DataHandler)
-    
-    rospack = rospkg.RosPack()
+    self.p = subprocess.Popen(["java", "-cp", jar_path, "Sphinx4"], \
+            stdin = subprocess.PIPE, stdout = subprocess.PIPE)
 
-    self.sphinx4_jars = rospack.get_path('rapp_sphinx4_java_libraries')   
-    self.sphinx4_class_path = rospack.get_path('sphinx4_wrapper')   
-    
-    total_path = ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
-            + self.sphinx4_class_path + "/src"
-
-    self.p = subprocess.Popen(["java", "-cp", total_path, "Sphinx4"], \
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-
-    self.p.stdin.write("configurationPath#"+self.sphinx4_jars+"/greekPack/default.config.xml\r\n")
+    self.p.stdin.write("configurationPath#" + configuration_path)
     self.readLine(True)
     
-    self.p.stdin.write("acousticModel#"+self.sphinx4_jars+"/acoustic_model\r\n")
+    self.p.stdin.write("acousticModel#" + acoustic_model)
     self.readLine(True)
 
-    self.p.stdin.write("grammarName#hello#"+self.sphinx4_jars+"/greekPack/\r\n")
+    self.p.stdin.write("grammarName#" + grammar_name + "#" + grammar_folder) 
     self.readLine(True)
 
-    self.p.stdin.write("dictionary#" + self.sphinx4_jars + "/greekPack/custom.dict\r\n")
+    self.p.stdin.write("dictionary#" + dictionary)
     self.readLine(True)
     
-    self.p.stdin.write("languageModel#"+self.sphinx4_jars+"/greekPack/sentences.lm.dmp\r\n")
+    self.p.stdin.write("languageModel#" + language_model)
     self.readLine(True)
 
     self.p.stdin.write("disableGrammar#\r\n")
@@ -94,33 +73,26 @@ class Sphinx4Wrapper:
 
     self.p.stdin.write("forceConfiguration#\r\n")
     self.readLine(True)
- 
-  # Service callback for handling speech recognition
-  def sphinx4DataHandler(self,req):     
-    res = Sphinx4WrapperSrvResponse()
-   
+
+  # Performs the speech recognition and returns a list of words
+  def performSpeechRecognition(self, audio_file):
     self.p.stdin.write("start\r\n")
-    self.p.stdin.write("audioInput#" + req.path.data + "\r\n")
+    self.p.stdin.write("audioInput#" + audio_file + "\r\n")
     start_time = time.time()
     self.readLine()
-    
+    words = []
     while(True):
       line = self.readLine()
       if(len(line)>0):
         if(line[0]=="#"):
-          res.words.data=res.words.data+"\n"+line
-          #break
+          stripped_down_line = line[1:-1].split(" ")
+          for word in stripped_down_line:
+            words.append(word)
         if(line=="stopPython\n"):
-          #res.words.data=line
           break
       if (time.time() - start_time > 10):
-        res.words.data="Time out error"
+        words.append("Time out error")
         break
     
-    return res;  
+    return words
 
-# Main function
-if __name__ == "__main__": 
-  rospy.init_node('Sphinx4Wrapper')
-  Sphinx4WrapperNode = Sphinx4Wrapper() 
-  rospy.spin()

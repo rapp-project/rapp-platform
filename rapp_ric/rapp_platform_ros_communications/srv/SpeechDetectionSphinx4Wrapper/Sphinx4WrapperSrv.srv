@@ -1,5 +1,5 @@
 std_msgs/String path
 ---
-std_msgs/String words
+string[] words
 
 

@@ -32,6 +32,5 @@ import rospkg
 
 class GreekTransliteration:
 
-  @staticmethod
   def test():
     print "aaaaa"
