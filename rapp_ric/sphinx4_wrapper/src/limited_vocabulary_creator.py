@@ -29,6 +29,7 @@
 import rospy
 import sys
 import rospkg
+import os
 
 class LimitedVocabularyCreator:
 
@@ -44,6 +45,13 @@ class LimitedVocabularyCreator:
       'grammar_disabled' : True
       }
 
+    rospack = rospkg.RosPack()
+    self.languages_package = rospack.get_path('rapp_sphinx4_java_libraries')   
+    self.languages_package += "/tmp_language_pack/"
+    if not os.path.exists(self.languages_package):
+      os.makedirs(self.languages_package)
+
+
   # Creates temporary configuration files for the input limited vocabulary
   # The 'words' input argument is of the form:
   # words = {
@@ -52,4 +60,14 @@ class LimitedVocabularyCreator:
   #           ...
   #         }
   def createConfigurationFiles(self, words):
+    
+    # Create custom dictionary file
+    self.sphinx_configuration['dictionary'] = self.languages_package + 'custom.dict'
+    custom_dict = open(self.sphinx_configuration['dictionary'], 'w')
+    for word in words:
+      tmp_line = word
+      for phoneme in words[word]:
+        tmp_line += " " + phoneme
+      custom_dict.write(tmp_line + '\n')
+    custom_dict.close()
     print words

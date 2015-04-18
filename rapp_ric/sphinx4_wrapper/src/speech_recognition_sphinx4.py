@@ -125,8 +125,7 @@ class SpeechRecognitionSphinx4:
         conf = self.nglish_support.getGenericConfiguration()
       # Limited dictionary utilization
       else:   
-        print "Words to be recognized (" + str(len(self.words)) + "):"
-        print self.words
+        print "Limited model used"
         conf = self.english_support.getLimitedVocebularyConfiguration(self.words)
     # Greek language
     elif self.language == "gr":
