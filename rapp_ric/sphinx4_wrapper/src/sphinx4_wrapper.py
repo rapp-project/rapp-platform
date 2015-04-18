@@ -40,36 +40,29 @@ class Sphinx4Wrapper:
 
   # Perform Sphinx4 initialization. For now it is initialized with the 
   # reduced Greek model
-  def initializeSphinx(self, \
-      jar_path, \
-      configuration_path, \
-      acoustic_model, \
-      grammar_name, \
-      grammar_folder, \
-      dictionary, \
-      language_model, \
-      grammar_enabled):
+  def initializeSphinx(self, conf):
 
-    self.p = subprocess.Popen(["java", "-cp", jar_path, "Sphinx4"], \
-            stdin = subprocess.PIPE, stdout = subprocess.PIPE)
+    self.p = subprocess.Popen(["java", "-cp", conf['jar_path'], \
+            "Sphinx4"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
 
-    self.p.stdin.write("configurationPath#" + configuration_path)
+    self.p.stdin.write("configurationPath#" + conf['configuration_path'])
     self.readLine(True)
     
-    self.p.stdin.write("acousticModel#" + acoustic_model)
+    self.p.stdin.write("acousticModel#" + conf['acoustic_model'])
     self.readLine(True)
 
-    self.p.stdin.write("grammarName#" + grammar_name + "#" + grammar_folder) 
+    self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
+            conf['grammar_folder']) 
     self.readLine(True)
 
-    self.p.stdin.write("dictionary#" + dictionary)
+    self.p.stdin.write("dictionary#" + conf['dictionary'])
     self.readLine(True)
     
-    self.p.stdin.write("languageModel#" + language_model)
+    self.p.stdin.write("languageModel#" + conf['language_model'])
     self.readLine(True)
 
     self.p.stdin.write("disableGrammar#\r\n")
-    self.readLine(True)
+    self.readLine(conf['grammar_disabled'])
 
     self.p.stdin.write("forceConfiguration#\r\n")
     self.readLine(True)

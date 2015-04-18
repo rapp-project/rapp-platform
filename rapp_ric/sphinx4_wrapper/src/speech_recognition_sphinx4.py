@@ -67,15 +67,17 @@ class SpeechRecognitionSphinx4:
     total_path = ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx4_class_path + "/src"
 
-    self.sphinx4.initializeSphinx(\
-            total_path,\
-            self.sphinx4_jars+"/greekPack/default.config.xml\r\n",\
-            self.sphinx4_jars+"/acoustic_model\r\n",\
-            "hello",\
-            self.sphinx4_jars+"/greekPack/\r\n",\
-            self.sphinx4_jars + "/greekPack/custom.dict\r\n",\
-            self.sphinx4_jars+"/greekPack/sentences.lm.dmp\r\n",\
-            False)
+    self.sphinx_configuration = { \
+      'jar_path' : total_path, \
+      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml\r\n", \
+      'acoustic_model' : self.sphinx4_jars+"/acoustic_model\r\n", \
+      'grammar_name' : 'hello', \
+      'grammar_folder' : self.sphinx4_jars+"/greekPack/\r\n", \
+      'dictionary' : self.sphinx4_jars + "/greekPack/custom.dict\r\n", \
+      'language_model' : self.sphinx4_jars+"/greekPack/sentences.lm.dmp\r\n", \
+      'grammar_disabled' : True
+      }
+    self.sphinx4.initializeSphinx(self.sphinx_configuration)
  
   # Service callback for handling speech recognition
   def sphinx4DataHandler(self,req):     

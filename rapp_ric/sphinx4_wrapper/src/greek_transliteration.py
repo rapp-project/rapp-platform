@@ -32,5 +32,19 @@ import rospkg
 
 class GreekTransliteration:
 
-  def test():
-    print "aaaaa"
+  def __init__(self):
+    self.sphinx_configuration = { \
+      'jar_path' : '', \
+      'configuration_path' : '', \
+      'acoustic_model' : '', \
+      'grammar_name' : '', \
+      'grammar_folder' : '', \
+      'dictionary' : '', \
+      'language_model' : '', \
+      'grammar_disabled' : True
+      }
+
+
+  def createConfigurationFiles(self, greek_words):
+    for word in greek_words:
+      print word
