@@ -1,4 +1,6 @@
 string language
 string[] words
+string[] grammar
+string[] sentences
 ---
 
