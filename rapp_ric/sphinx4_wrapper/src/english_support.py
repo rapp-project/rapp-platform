@@ -67,7 +67,7 @@ class EnglishSupport:
         access = mmap.ACCESS_READ)
 
 
-  def getLimitedVocebularyConfiguration(self, words):
+  def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     enhanced_words = {}
     for word in words:
       index = self.english_dict_mapping.find("\n" + word + " ") 
@@ -83,8 +83,8 @@ class EnglishSupport:
           enhanced_words[split_line[0]].append(split_line[i])
 
     self.limited_sphinx_configuration = \
-        self.vocabulary.createConfigurationFiles(enhanced_words)
-    
+        self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
+
     return self.limited_sphinx_configuration
   
   def getGenericConfiguration(self):

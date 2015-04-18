@@ -31,25 +31,31 @@ import sys
 import rospkg
 import os
 
+
 class LimitedVocabularyCreator:
 
   def __init__(self):
+
+    rospack = rospkg.RosPack()
+    self.languages_package = rospack.get_path('rapp_sphinx4_java_libraries')   
+    self.sphinx4_jars = self.languages_package
+    self.languages_package += "/tmp_language_pack/"
+    self.sphinx4_class_path = rospack.get_path('sphinx4_wrapper')   
+    
+    if not os.path.exists(self.languages_package):
+      os.makedirs(self.languages_package)
+ 
     self.sphinx_configuration = { \
-      'jar_path' : '', \
-      'configuration_path' : '', \
-      'acoustic_model' : '', \
+      'jar_path' : ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
+            + self.sphinx4_class_path + "/src", \
+      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml\r\n", \
+      'acoustic_model' : self.sphinx4_jars+"/acoustic_model\r\n", \
       'grammar_name' : '', \
       'grammar_folder' : '', \
       'dictionary' : '', \
       'language_model' : '', \
       'grammar_disabled' : True
       }
-
-    rospack = rospkg.RosPack()
-    self.languages_package = rospack.get_path('rapp_sphinx4_java_libraries')   
-    self.languages_package += "/tmp_language_pack/"
-    if not os.path.exists(self.languages_package):
-      os.makedirs(self.languages_package)
 
 
   # Creates temporary configuration files for the input limited vocabulary
@@ -59,7 +65,7 @@ class LimitedVocabularyCreator:
   #           'word2_en_chars': [phonem1, phonem2,...]
   #           ...
   #         }
-  def createConfigurationFiles(self, words):
+  def createConfigurationFiles(self, words, grammar, sentences):
     
     # Create custom dictionary file
     self.sphinx_configuration['dictionary'] = self.languages_package + 'custom.dict'
@@ -70,4 +76,38 @@ class LimitedVocabularyCreator:
         tmp_line += " " + phoneme
       custom_dict.write(tmp_line + '\n')
     custom_dict.close()
-    print words
+
+    # Check grammar
+    if len(grammar) == 0:
+      self.sphinx_configuration['grammar_disabled'] = False
+    self.sphinx_configuration['grammar_name'] = 'custom'
+    self.sphinx_configuration['grammar_folder'] = self.languages_package
+    custom_grammar = open(self.sphinx_configuration['grammar_folder'] +
+        self.sphinx_configuration['grammar_name'] + '.gram', 'w')
+    custom_grammar.write('#JSGF V1.0;\n')
+    custom_grammar.write("grammar " + self.sphinx_configuration['grammar_name'] + ';\n')
+    counter = 1
+    for gram in grammar:
+      custom_grammar.write("public <cmd" + str(counter) + ">=" + gram + ";\n")
+      counter += 1
+    custom_grammar.close()
+
+    # Fix sentences / language model
+    self.sphinx_configuration['language_model'] = self.languages_package + \
+      "sentences.lm.dmp"
+    custom_sentences = open(self.languages_package + 'sentences.txt', 'w')
+    if len(sentences) != 0:
+      for sent in sentences:
+        custom_sentences.write("<s> " + sent + " </s>\n")
+    else:
+      for word in words:
+        custom_sentences.write("<s> " + word + " </s>\n")
+    custom_sentences.close()
+
+    # Run script to fix the language model
+    bash_file = self.sphinx4_jars + "/greekPack/run.sh"
+    bash_command = "cp " + bash_file + " " + self.languages_package + \
+        " && bash " + self.languages_package + "run.sh"
+    os.system(bash_command)
+
+    return self.sphinx_configuration

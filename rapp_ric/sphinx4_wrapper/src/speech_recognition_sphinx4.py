@@ -57,6 +57,8 @@ class SpeechRecognitionSphinx4:
     
     self.language = 'gr'
     self.words = []
+    self.grammar = []
+    self.sentences = []
 
     self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
     self.serv_configuration_topic = \
@@ -111,8 +113,14 @@ class SpeechRecognitionSphinx4:
       reconfigure = True
     if self.words != req.words:
       reconfigure = True
+    if self.grammar != req.grammar:
+      reconfigure = True
+    if self.sentences != req.sentences:
+      reconfigure = True
     self.language = req.language
     self.words = req.words
+    self.grammar = req.grammar
+    self.sentences = req.sentences
     
     conf = '' # Dummy initialization
 
@@ -122,11 +130,13 @@ class SpeechRecognitionSphinx4:
       # Whole dictionary utilization
       if len(self.words) == 0: 
         print "Generic model used"
-        conf = self.nglish_support.getGenericConfiguration()
+        conf = self.english_support.getGenericConfiguration()
       # Limited dictionary utilization
       else:   
         print "Limited model used"
-        conf = self.english_support.getLimitedVocebularyConfiguration(self.words)
+        conf = self.english_support.getLimitedVocebularyConfiguration(\
+            self.words, self.grammar, self.sentences)
+
     # Greek language
     elif self.language == "gr":
       print "Language set to Greek"
@@ -141,6 +151,8 @@ class SpeechRecognitionSphinx4:
         # TODO
     
     # Actual sphinx4 configuration
+    print "Configuration: \n"
+    print conf
     self.sphinx4.configureSphinx(conf)
     return res
 
