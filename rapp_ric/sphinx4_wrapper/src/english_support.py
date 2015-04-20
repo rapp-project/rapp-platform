@@ -36,16 +36,8 @@ from limited_vocabulary_creator import *
 class EnglishSupport:
 
   def __init__(self):
-    self.generic_sphinx_configuration = { \
-      'jar_path' : '', \
-      'configuration_path' : '', \
-      'acoustic_model' : '', \
-      'grammar_name' : '', \
-      'grammar_folder' : '', \
-      'dictionary' : '', \
-      'language_model' : '', \
-      'grammar_disabled' : True
-      }
+    
+    self.generic_sphinx_configuration = {}
     self.limited_sphinx_configuration = {}
 
     self.vocabulary = LimitedVocabularyCreator()
@@ -55,8 +47,25 @@ class EnglishSupport:
     self.english_dictionary = rospack.get_path('rapp_sphinx4_java_libraries')   
     self.english_dictionary = self.english_dictionary + \
         "/englishPack/cmudict-en-us.dict"
+    
+    self.sphinx4_jars = rospack.get_path('rapp_sphinx4_java_libraries')   
+    self.sphinx4_class_path = rospack.get_path('sphinx4_wrapper')   
+    
+    jar_path = ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
+            + self.sphinx4_class_path + "/src"
 
-    print self.english_dictionary
+    # Grammar is dummy here..
+    self.generic_sphinx_configuration = { \
+      'jar_path' : jar_path, \
+      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml", \
+      'acoustic_model' : self.sphinx4_jars + "/englishPack/en-us/", \
+      'grammar_name' : 'hello', \
+      'grammar_folder' : self.sphinx4_jars+"/greekPack/", \
+      'dictionary' : self.sphinx4_jars + "/englishPack/cmudict-en-us.dict", \
+      'language_model' : self.sphinx4_jars + "/englishPack/en-us.lm.dmp", \
+      'grammar_disabled' : True
+      }
+    
     # Open the generic english dictionary file
     try:
       self.english_dict_file = open(self.english_dictionary, 'r')
