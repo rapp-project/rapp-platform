@@ -85,12 +85,12 @@ class SpeechRecognitionSphinx4:
 
     self.sphinx_configuration = { \
       'jar_path' : total_path, \
-      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml\r\n", \
-      'acoustic_model' : self.sphinx4_jars+"/acoustic_model\r\n", \
+      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml", \
+      'acoustic_model' : self.sphinx4_jars+"/acoustic_model", \
       'grammar_name' : 'hello', \
-      'grammar_folder' : self.sphinx4_jars+"/greekPack/\r\n", \
-      'dictionary' : self.sphinx4_jars + "/greekPack/custom.dict\r\n", \
-      'language_model' : self.sphinx4_jars+"/greekPack/sentences.lm.dmp\r\n", \
+      'grammar_folder' : self.sphinx4_jars+"/greekPack/", \
+      'dictionary' : self.sphinx4_jars + "/greekPack/custom.dict", \
+      'language_model' : self.sphinx4_jars+"/greekPack/sentences.lm.dmp", \
       'grammar_disabled' : True
       }
     self.sphinx4.initializeSphinx(self.sphinx_configuration)
@@ -122,7 +122,7 @@ class SpeechRecognitionSphinx4:
     self.grammar = req.grammar
     self.sentences = req.sentences
     
-    conf = '' # Dummy initialization
+    conf = {} # Dummy initialization
 
     # English language
     if self.language == 'en':

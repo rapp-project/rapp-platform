@@ -48,8 +48,8 @@ class LimitedVocabularyCreator:
     self.sphinx_configuration = { \
       'jar_path' : ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx4_class_path + "/src", \
-      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml\r\n", \
-      'acoustic_model' : self.sphinx4_jars+"/acoustic_model\r\n", \
+      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml", \
+      'acoustic_model' : self.sphinx4_jars+"/acoustic_model", \
       'grammar_name' : '', \
       'grammar_folder' : '', \
       'dictionary' : '', \
@@ -107,7 +107,7 @@ class LimitedVocabularyCreator:
     # Run script to fix the language model
     bash_file = self.sphinx4_jars + "/greekPack/run.sh"
     bash_command = "cp " + bash_file + " " + self.languages_package + \
-        " && bash " + self.languages_package + "run.sh"
+        " && cd " + self.languages_package + " && bash run.sh"
     os.system(bash_command)
 
     return self.sphinx_configuration

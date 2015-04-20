@@ -45,42 +45,48 @@ class Sphinx4Wrapper:
     self.p = subprocess.Popen(["java", "-cp", conf['jar_path'], \
             "Sphinx4"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
 
-    self.p.stdin.write("configurationPath#" + conf['configuration_path'])
+    self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
     self.readLine(True)
     
-    self.p.stdin.write("acousticModel#" + conf['acoustic_model'])
+    self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
     self.readLine(True)
 
     self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
-            conf['grammar_folder']) 
+            conf['grammar_folder'] + '\r\n') 
     self.readLine(True)
 
-    self.p.stdin.write("dictionary#" + conf['dictionary'])
+    self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
     self.readLine(True)
     
-    self.p.stdin.write("languageModel#" + conf['language_model'])
+    self.p.stdin.write("languageModel#" + conf['language_model'] + '\r\n')
     self.readLine(True)
 
-    self.p.stdin.write("disableGrammar#\r\n")
-    self.readLine(conf['grammar_disabled'])
+    if(conf['grammar_disabled']):
+      self.p.stdin.write("disableGrammar#\r\n")
+    else:
+      self.p.stdin.write("enableGrammar#\r\n")
+    self.readLine(True)
 
     self.p.stdin.write("forceConfiguration#\r\n")
     self.readLine(True)
 
   def configureSphinx(self, conf):
-    self.p.stdin.write("configurationPath#" + conf['configuration_path'])
+    self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
     self.readLine(True)
-    self.p.stdin.write("acousticModel#" + conf['acoustic_model'])
+    self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
     self.readLine(True)
     self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
-            conf['grammar_folder']) 
+            conf['grammar_folder'] + '\r\n') 
     self.readLine(True)
-    self.p.stdin.write("dictionary#" + conf['dictionary'])
+    self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
     self.readLine(True)
-    self.p.stdin.write("languageModel#" + conf['language_model'])
+    self.p.stdin.write("languageModel#" + conf['language_model'] + '\r\n')
     self.readLine(True)
-    self.p.stdin.write("disableGrammar#\r\n")
-    self.readLine(conf['grammar_disabled'])
+    if(conf['grammar_disabled']):
+      self.p.stdin.write("disableGrammar#\r\n")
+    else:
+      self.p.stdin.write("enableGrammar#\r\n")
+    self.readLine(True)
     self.p.stdin.write("forceConfiguration#\r\n")
     self.readLine(True)
 
