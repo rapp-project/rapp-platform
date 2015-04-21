@@ -147,8 +147,8 @@ class SpeechRecognitionSphinx4:
       # Limited dictionary utilization
       else:
         print "Words to be recognized (" + str(len(self.words)) + "):"
-        print self.words
-        # TODO
+        conf = self.greek_support.getLimitedVocebularyConfiguration(\
+            self.words, self.grammar, self.sentences)
     
     # Actual sphinx4 configuration
     print "Configuration: \n"
