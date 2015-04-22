@@ -100,7 +100,7 @@ class Sphinx4Wrapper:
     # If it is an .ogg file (from NAO) recode it into .wav
     if audio_file.endswith(".ogg"):
       audio_file_base = os.path.basename(audio_file)
-      new_audio_file_base = audio_file_base[:audio_file_base.find('.') - 1] +\
+      new_audio_file_base = audio_file_base[:audio_file_base.find('.')] +\
           ".wav"
       bash_command = "cd " + os.path.dirname(audio_file) + " && "\
           "oggdec -o " + os.path.dirname(audio_file) + "/" + new_audio_file_base + " "\
