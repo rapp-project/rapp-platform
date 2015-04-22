@@ -103,7 +103,7 @@ class SpeechRecognitionTester:
     conf_sp_ser = rospy.ServiceProxy(\
         '/ric/speech_detection_sphinx4',\
         SpeechRecognitionSphinx4Srv)
-    reqspeak.path.data = "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform-supplementary-material/rapp_sphinx4_java_libraries/recordings/test_manos.wav"
+    reqspeak.path.data = "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform-supplementary-material/rapp_sphinx4_java_libraries/recordings/all_words.ogg"
     res = conf_sp_ser(reqspeak)
     print res
 

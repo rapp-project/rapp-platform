@@ -29,6 +29,7 @@
 import sys
 import subprocess
 import time
+import os
 
 class Sphinx4Wrapper: 
  
@@ -94,8 +95,22 @@ class Sphinx4Wrapper:
 
   # Performs the speech recognition and returns a list of words
   def performSpeechRecognition(self, audio_file):
+    # NOTE: Check if file exists here!
+    
+    # If it is an .ogg file (from NAO) recode it into .wav
+    if audio_file.endswith(".ogg"):
+      audio_file_base = os.path.basename(audio_file)
+      new_audio_file_base = audio_file_base[:audio_file_base.find('.') - 1] +\
+          ".wav"
+      bash_command = "cd " + os.path.dirname(audio_file) + " && "\
+          "oggdec -o " + os.path.dirname(audio_file) + "/" + new_audio_file_base + " "\
+          + os.path.dirname(audio_file) + "/" + audio_file_base
+      print "####### " + bash_command
+      os.system(bash_command)
+
     self.p.stdin.write("start\r\n")
-    self.p.stdin.write("audioInput#" + audio_file + "\r\n")
+    self.p.stdin.write("audioInput#" + os.path.dirname(audio_file) + "/" +\
+        new_audio_file_base + "\r\n")
     start_time = time.time()
     self.readLine()
     words = []
