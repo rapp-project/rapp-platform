@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- encode: utf-8 -*-
 
 #MIT License (MIT)
 
@@ -99,7 +100,6 @@ class SpeechRecognitionSphinx4:
   def speechRecognition(self, req):     
     res = SpeechRecognitionSphinx4SrvResponse()
     words = self.sphinx4.performSpeechRecognition(req.path.data)   
-    
     for word in words:
       res.words.append(word)
    

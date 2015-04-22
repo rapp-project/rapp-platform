@@ -105,6 +105,7 @@ class LimitedVocabularyCreator:
     custom_sentences.close()
 
     # Run script to fix the language model
+    print "Sphinx: Creating language model files\n"
     bash_file = self.sphinx4_jars + "/greekPack/run.sh"
     bash_command = "cp " + bash_file + " " + self.languages_package + \
         " && cd " + self.languages_package + " && bash run.sh"

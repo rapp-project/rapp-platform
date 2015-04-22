@@ -82,89 +82,187 @@ class GreekSupport:
     self.configureLetters()
 
   def configureLetters(self):
+
+    self.capital_letters = {}
+    self.capital_letters[(u'Α').encode('utf-8')] = (u'α').encode('utf-8')
+    self.capital_letters[(u'Ά').encode('utf-8')] = (u'ά').encode('utf-8')
+    self.capital_letters[(u'Β').encode('utf-8')] = (u'β').encode('utf-8')
+    self.capital_letters[(u'Γ').encode('utf-8')] = (u'γ').encode('utf-8')
+    self.capital_letters[(u'Δ').encode('utf-8')] = (u'δ').encode('utf-8')
+    self.capital_letters[(u'Ε').encode('utf-8')] = (u'ε').encode('utf-8')
+    self.capital_letters[(u'Έ').encode('utf-8')] = (u'έ').encode('utf-8')
+    self.capital_letters[(u'Ζ').encode('utf-8')] = (u'ζ').encode('utf-8')
+    self.capital_letters[(u'Η').encode('utf-8')] = (u'η').encode('utf-8')
+    self.capital_letters[(u'Ή').encode('utf-8')] = (u'ή').encode('utf-8')
+    self.capital_letters[(u'Θ').encode('utf-8')] = (u'θ').encode('utf-8')
+    self.capital_letters[(u'Ι').encode('utf-8')] = (u'ι').encode('utf-8')
+    self.capital_letters[(u'Ί').encode('utf-8')] = (u'ί').encode('utf-8')
+    self.capital_letters[(u'Ϊ').encode('utf-8')] = (u'ϊ').encode('utf-8')
+    self.capital_letters[(u'Κ').encode('utf-8')] = (u'κ').encode('utf-8')
+    self.capital_letters[(u'Λ').encode('utf-8')] = (u'λ').encode('utf-8')
+    self.capital_letters[(u'Μ').encode('utf-8')] = (u'μ').encode('utf-8')
+    self.capital_letters[(u'Ν').encode('utf-8')] = (u'ν').encode('utf-8')
+    self.capital_letters[(u'Ξ').encode('utf-8')] = (u'ξ').encode('utf-8')
+    self.capital_letters[(u'Ο').encode('utf-8')] = (u'ο').encode('utf-8')
+    self.capital_letters[(u'Ό').encode('utf-8')] = (u'ό').encode('utf-8')
+    self.capital_letters[(u'Π').encode('utf-8')] = (u'π').encode('utf-8')
+    self.capital_letters[(u'Ρ').encode('utf-8')] = (u'ρ').encode('utf-8')
+    self.capital_letters[(u'Σ').encode('utf-8')] = (u'σ').encode('utf-8')
+    self.capital_letters[(u'Τ').encode('utf-8')] = (u'τ').encode('utf-8')
+    self.capital_letters[(u'Υ').encode('utf-8')] = (u'γ').encode('utf-8')
+    self.capital_letters[(u'Ύ').encode('utf-8')] = (u'ύ').encode('utf-8')
+    self.capital_letters[(u'Ϋ').encode('utf-8')] = (u'ϋ').encode('utf-8')
+    self.capital_letters[(u'Φ').encode('utf-8')] = (u'φ').encode('utf-8')
+    self.capital_letters[(u'Χ').encode('utf-8')] = (u'χ').encode('utf-8')
+    self.capital_letters[(u'Ψ').encode('utf-8')] = (u'ψ').encode('utf-8')
+    self.capital_letters[(u'Ω').encode('utf-8')] = (u'ω').encode('utf-8')
+    self.capital_letters[(u'Ώ').encode('utf-8')] = (u'ώ').encode('utf-8')
+
     self.phonems = {}
-    self.phonems[u'ου'] = 'UW '
-    self.phonems[u'ού'] = 'UW '
-    self.phonems[u'μπ'] = 'B '
-    self.phonems[u'ντ'] = 'D '
-    self.phonems[u'γκ'] = 'G ' #?
-    self.phonems[u'γγ'] = 'G ' #?
-    self.phonems[u'τσ'] = 'CH ' #?
-    self.phonems[u'τζ'] = 'JH ' #?
+    self.phonems[(u'ου').encode('utf-8')] = 'UW '
+    self.phonems[(u'ού').encode('utf-8')] = 'UW '
+    self.phonems[(u'μπ').encode('utf-8')] = 'B '
+    self.phonems[(u'ντ').encode('utf-8')] = 'D '
+    self.phonems[(u'γκ').encode('utf-8')] = 'G ' #?
+    self.phonems[(u'γγ').encode('utf-8')] = 'G ' #?
+    self.phonems[(u'τσ').encode('utf-8')] = 'CH ' #?
+    self.phonems[(u'τζ').encode('utf-8')] = 'JH ' #?
     
     self.two_digit_letters = {}
-    self.two_digit_letters[u'αι'] = 'EH '
-    self.two_digit_letters[u'αί'] = 'EH '
-    self.two_digit_letters[u'ει'] = 'IH '
-    self.two_digit_letters[u'εί'] = 'IH '
-    self.two_digit_letters[u'οι'] = 'IH '
-    self.two_digit_letters[u'οί'] = 'IH '
-    self.two_digit_letters[u'υι'] = 'IH '
-    self.two_digit_letters[u'υί'] = 'IH '
+    self.two_digit_letters[(u'αι').encode('utf-8')] = 'EH '
+    self.two_digit_letters[(u'αί').encode('utf-8')] = 'EH '
+    self.two_digit_letters[(u'ει').encode('utf-8')] = 'IH '
+    self.two_digit_letters[(u'εί').encode('utf-8')] = 'IH '
+    self.two_digit_letters[(u'οι').encode('utf-8')] = 'IH '
+    self.two_digit_letters[(u'οί').encode('utf-8')] = 'IH '
+    self.two_digit_letters[(u'υι').encode('utf-8')] = 'IH '
+    self.two_digit_letters[(u'υί').encode('utf-8')] = 'IH '
 
     self.s_specific_rules = {}
-    self.s_specific_rules[u'σγ'] = 'Z W '
-    self.s_specific_rules[u'σβ'] = 'Z V '
-    self.s_specific_rules[u'σδ'] = 'Z DH '
+    self.s_specific_rules[(u'σγ').encode('utf-8')] = 'Z W '
+    self.s_specific_rules[(u'σβ').encode('utf-8')] = 'Z V '
+    self.s_specific_rules[(u'σδ').encode('utf-8')] = 'Z DH '
 
     self.letters = {}
-    self.letters[u'α'] = 'AA ' # when AE?
-    self.letters[u'ά'] = 'AA '
-    self.letters[u'β'] = 'V '
-    self.letters[u'γ'] = 'W '
-    self.letters[u'δ'] = 'DH '
-    self.letters[u'ε'] = 'EH '
-    self.letters[u'έ'] = 'EH '
-    self.letters[u'ζ'] = 'Z '
-    self.letters[u'η'] = 'IH '
-    self.letters[u'θ'] = 'TH '
-    self.letters[u'ι'] = 'IH '
-    self.letters[u'ί'] = 'IH '
-    self.letters[u'ϊ'] = 'IH '
-    self.letters[u'ΐ'] = 'IH '
-    self.letters[u'κ'] = 'K '
-    self.letters[u'λ'] = 'L '
-    self.letters[u'μ'] = 'M '
-    self.letters[u'ν'] = 'N '
-    self.letters[u'ξ'] = 'K S '
-    self.letters[u'ο'] = 'OW '
-    self.letters[u'ό'] = 'OW '
-    self.letters[u'π'] = 'P '
-    self.letters[u'ρ'] = 'R '
-    self.letters[u'σ'] = 'S '
-    self.letters[u'τ'] = 'T '
-    self.letters[u'υ'] = 'IH '
-    self.letters[u'ύ'] = 'IH '
-    self.letters[u'ϋ'] = 'IH ' 
-    self.letters[u'ΰ'] = 'IH '
-    self.letters[u'φ'] = 'F '
-    self.letters[u'χ'] = 'HH '
-    self.letters[u'ψ'] = 'P S '
-    self.letters[u'ω'] = 'OW '
-    self.letters[u'ώ'] = 'OW '
+    self.letters[(u'α').encode('utf-8')] = 'AA ' # when AE?
+    self.letters[(u'ά').encode('utf-8')] = 'AA '
+    self.letters[(u'β').encode('utf-8')] = 'V '
+    self.letters[(u'γ').encode('utf-8')] = 'W '
+    self.letters[(u'δ').encode('utf-8')] = 'DH '
+    self.letters[(u'ε').encode('utf-8')] = 'EH '
+    self.letters[(u'έ').encode('utf-8')] = 'EH '
+    self.letters[(u'ζ').encode('utf-8')] = 'Z '
+    self.letters[(u'η').encode('utf-8')] = 'IH '
+    self.letters[(u'ή').encode('utf-8')] = 'IH '
+    self.letters[(u'θ').encode('utf-8')] = 'TH '
+    self.letters[(u'ι').encode('utf-8')] = 'IH '
+    self.letters[(u'ί').encode('utf-8')] = 'IH '
+    self.letters[(u'ϊ').encode('utf-8')] = 'IH '
+    self.letters[(u'ΐ').encode('utf-8')] = 'IH '
+    self.letters[(u'κ').encode('utf-8')] = 'K '
+    self.letters[(u'λ').encode('utf-8')] = 'L '
+    self.letters[(u'μ').encode('utf-8')] = 'M '
+    self.letters[(u'ν').encode('utf-8')] = 'N '
+    self.letters[(u'ξ').encode('utf-8')] = 'K S '
+    self.letters[(u'ο').encode('utf-8')] = 'OW '
+    self.letters[(u'ό').encode('utf-8')] = 'OW '
+    self.letters[(u'π').encode('utf-8')] = 'P '
+    self.letters[(u'ρ').encode('utf-8')] = 'R '
+    self.letters[(u'σ').encode('utf-8')] = 'S '
+    self.letters[(u'τ').encode('utf-8')] = 'T '
+    self.letters[(u'υ').encode('utf-8')] = 'IH '
+    self.letters[(u'ύ').encode('utf-8')] = 'IH '
+    self.letters[(u'ϋ').encode('utf-8')] = 'IH ' 
+    self.letters[(u'ΰ').encode('utf-8')] = 'IH '
+    self.letters[(u'φ').encode('utf-8')] = 'F '
+    self.letters[(u'χ').encode('utf-8')] = 'HH '
+    self.letters[(u'ψ').encode('utf-8')] = 'P S '
+    self.letters[(u'ω').encode('utf-8')] = 'OW '
+    self.letters[(u'ώ').encode('utf-8')] = 'OW '
+    self.letters[(u'ς').encode('utf-8')] = 'S '
+
+    self.literal_letters = {}
+    self.literal_letters[(u'α').encode('utf-8')] = 'a' # when AE?
+    self.literal_letters[(u'ά').encode('utf-8')] = 'a'
+    self.literal_letters[(u'β').encode('utf-8')] = 'v'
+    self.literal_letters[(u'γ').encode('utf-8')] = 'g'
+    self.literal_letters[(u'δ').encode('utf-8')] = 'd'
+    self.literal_letters[(u'ε').encode('utf-8')] = 'e'
+    self.literal_letters[(u'έ').encode('utf-8')] = 'e'
+    self.literal_letters[(u'ζ').encode('utf-8')] = 'z'
+    self.literal_letters[(u'η').encode('utf-8')] = 'i'
+    self.literal_letters[(u'ή').encode('utf-8')] = 'i'
+    self.literal_letters[(u'θ').encode('utf-8')] = 'th'
+    self.literal_letters[(u'ι').encode('utf-8')] = 'i'
+    self.literal_letters[(u'ί').encode('utf-8')] = 'i'
+    self.literal_letters[(u'ϊ').encode('utf-8')] = 'i'
+    self.literal_letters[(u'ΐ').encode('utf-8')] = 'i'
+    self.literal_letters[(u'κ').encode('utf-8')] = 'k'
+    self.literal_letters[(u'λ').encode('utf-8')] = 'l'
+    self.literal_letters[(u'μ').encode('utf-8')] = 'm'
+    self.literal_letters[(u'ν').encode('utf-8')] = 'n'
+    self.literal_letters[(u'ξ').encode('utf-8')] = 'ks'
+    self.literal_letters[(u'ο').encode('utf-8')] = 'o'
+    self.literal_letters[(u'ό').encode('utf-8')] = 'o'
+    self.literal_letters[(u'π').encode('utf-8')] = 'p'
+    self.literal_letters[(u'ρ').encode('utf-8')] = 'r'
+    self.literal_letters[(u'σ').encode('utf-8')] = 's'
+    self.literal_letters[(u'ς').encode('utf-8')] = 's'
+    self.literal_letters[(u'τ').encode('utf-8')] = 't'
+    self.literal_letters[(u'υ').encode('utf-8')] = 'i'
+    self.literal_letters[(u'ύ').encode('utf-8')] = 'i'
+    self.literal_letters[(u'ϋ').encode('utf-8')] = 'i' 
+    self.literal_letters[(u'ΰ').encode('utf-8')] = 'i'
+    self.literal_letters[(u'φ').encode('utf-8')] = 'f'
+    self.literal_letters[(u'χ').encode('utf-8')] = 'x'
+    self.literal_letters[(u'ψ').encode('utf-8')] = 'ps'
+    self.literal_letters[(u'ω').encode('utf-8')] = 'o'
+    self.literal_letters[(u'ώ').encode('utf-8')] = 'o'
+
 
   def transformWords(self, words):
     enhanced_words = {}
-    print self.letters
+    englified_words = {}
     for word in words:
       initial_word = word
-      enhanced_words[word] = []
-      
+      # transform capital letters
+      for cap in self.capital_letters:
+        initial_word = initial_word.replace(cap, self.capital_letters[cap])
+      # fix english version of letters
+      eng_w = initial_word
+      for lit in self.literal_letters:
+        eng_w = eng_w.replace(lit, self.literal_letters[lit])
+      englified_words[eng_w] = word
       # check phonems
       for ph in self.phonems:
-        initial_word.replace(ph.encode('utf-8'), self.phonems[ph])
+        initial_word = initial_word.replace(ph, self.phonems[ph])
       # check two-digit letters
       for let in self.two_digit_letters:
-        initial_word.replace(let.encode('utf-8'), self.two_digit_letters[let])
+        initial_word = initial_word.replace(let, self.two_digit_letters[let])
       # check specific rules
       for sr in self.s_specific_rules:
-        initial_word.replace(sr.encode('utf-8'), self.s_specific_rules[sr])
+        initial_word = initial_word.replace(sr, self.s_specific_rules[sr])
       # check the rest of the letters
       for l in self.letters:
-        initial_word.replace(l.encode('utf-8'), self.letters[l])
+        initial_word = initial_word.replace(l, self.letters[l])
       
-      enhanced_words[word] = initial_word.split(' ')
-    return enhanced_words
+      enhanced_words[eng_w] = []
+      temp = initial_word.split(' ')
+      if len(temp) > 0:
+        temp = temp[:-1]
+      enhanced_words[eng_w] = temp
+    
+    return [enhanced_words, englified_words]
+
+  def englify_words(self, words):
+    englified_words = []
+    for word in words:
+      eng_w = word
+      for lit in self.literal_letters:
+        eng_w = eng_w.replace(lit, self.literal_letters[lit])
+      englified_words.append(eng_w)
+    return englified_words
+
 
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     enhanced_words = {}
@@ -182,12 +280,19 @@ class GreekSupport:
         #for i in range(1, len(split_line)):
           #enhanced_words[split_line[0]].append(split_line[i])
 
-    print self.transformWords(words)
-    blah = blah
-    
+    [tr_words, englified] = self.transformWords(words)
+    #for w in tr_words:
+      #print w + " = "
+      #for p in tr_words[w]:
+        #print p + ' '
+      #print "\n"
+    #for en in englified:
+      #print en + " " + englified[en] + '\n'
+    englified_grammar = self.englify_words(grammar)    
+    englified_sentences = self.englify_words(sentences)    
     self.limited_sphinx_configuration = \
-        self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
-
+        self.vocabulary.createConfigurationFiles(tr_words, englified_grammar , \
+        englified_sentences)
     return self.limited_sphinx_configuration
   
   def getGenericConfiguration(self):
