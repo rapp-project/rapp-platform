@@ -103,8 +103,8 @@ class Sphinx4Wrapper:
       new_audio_file_base = audio_file_base[:audio_file_base.find('.')] +\
           ".wav"
       bash_command = "cd " + os.path.dirname(audio_file) + " && "\
-          "oggdec -o " + os.path.dirname(audio_file) + "/" + new_audio_file_base + " "\
-          + os.path.dirname(audio_file) + "/" + audio_file_base
+          "sox " + os.path.dirname(audio_file) + "/" + audio_file_base + " "\
+          + os.path.dirname(audio_file) + "/" + new_audio_file_base
       print "####### " + bash_command
       os.system(bash_command)
 
@@ -116,6 +116,7 @@ class Sphinx4Wrapper:
     words = []
     while(True):
       line = self.readLine()
+      print line
       if(len(line)>0):
         if(line[0]=="#"):
           stripped_down_line = line[1:-1].split(" ")
