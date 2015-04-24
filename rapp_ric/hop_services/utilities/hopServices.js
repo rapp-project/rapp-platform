@@ -244,6 +244,22 @@ HopServices.prototype.speech2Text = function (
   return retMsg;
 };
 
+HopServices.prototype.ontology_subclassesOf = function ( 
+  queryString, _remoteServerParams )
+{
+  import service ontology_subclassesOf ( queryString );
+  /*----<Set parameters of the hop server>---*/
+  var remoteParams = _remoteServerParams || this.get_remoteServerParams();
+  /*-------Call face_Node service-------*/
+  var retMsg= ontology_subclassesOf( queryString ).post(
+    function( data ){
+      return data;
+    },
+    remoteParams 
+  );
+  /*----------------------------------*/
+  return retMsg;
+};
 
 /*Exporting the HopServices module*/
 module.exports = HopServices;

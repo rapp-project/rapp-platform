@@ -77,3 +77,6 @@ core
 *~
 *ignore_thanos*
 .ropeproject/
+
+# Hop services specific
+availableServices.txt
