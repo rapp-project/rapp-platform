@@ -10,7 +10,7 @@
  * directory
  */
 var user = process.env.LOGNAME;
-var rapp_hop_path = "/home/" + user + "/rapp_platform_catkin_ws/src/rapp-platform/rapp_ric/hop_services/";
+var rapp_hop_path = "/home/" + user + "/Desktop/rapp-platform-catkin-ws/src/rapp-platform/rapp_ric/hop_services/";
 
 /*-------------------< Import required modules >------------------*/
 var ServerParams = require(rapp_hop_path + "utilities/./ServerParams.js");
