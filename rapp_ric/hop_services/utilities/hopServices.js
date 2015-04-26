@@ -2,6 +2,15 @@
 
 var Fs = require('./fileUtils.js');
 
+import service speech2Text ( );
+import service faceDetection ( );
+import service qrDetection ( );
+import service uploadFile ( );
+import service storeFile ( );
+import service serveFile ( );
+import service ontology_subclassesOf ( );
+
+
 function HopServices()
 {
   var remoteServerParams_ = {};
@@ -108,8 +117,6 @@ HopServices.prototype.init = function (
 HopServices.prototype.sendFile = function ( 
   _filePath, _destPath, _remoteServerParams )
 {
-  /*Importing the specific service*/
-  import service storeFile ( );
   /*  <Read binary data from requested file>
    ****HOP can receive buffer data. 
    ****HOP handles encoding/decoding**********/
@@ -129,7 +136,6 @@ HopServices.prototype.sendFile = function (
 HopServices.prototype.serveFile = function ( 
   _filePath, _destPath, _remoteServerParams )
 {
-  import service serveFile ( );
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*-------------------Console Tracking-------------------------*/
@@ -170,7 +176,6 @@ HopServices.prototype.serveFile = function (
 HopServices.prototype.uploadFile = function ( 
   _filePath, _destPath, _localServerParams, _remoteServerParams )
 {
-  import service uploadFile ( );
   /*----<Set parameters for Hop server>----*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   var localParams = _localServerParams || this.get_localServerParams(); 
@@ -189,7 +194,6 @@ HopServices.prototype.uploadFile = function (
 HopServices.prototype.qrDetection = function ( 
   _qrImagePath, _remoteServerParams )
 {
-  import service qrDetection ( );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
@@ -209,7 +213,6 @@ HopServices.prototype.qrDetection = function (
 HopServices.prototype.faceDetection = function ( 
   _faceImagePath, _remoteServerParams )
 {
-  import service faceDetection ( );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
@@ -225,10 +228,10 @@ HopServices.prototype.faceDetection = function (
   return retMsg;
 };
 
+
 HopServices.prototype.speech2Text = function ( 
   _audioFileUrl, _remoteServerParams )
 {
-  import service speech2Text ( );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*----<Read data from file and store them in a stringified format>----*/
@@ -247,11 +250,10 @@ HopServices.prototype.speech2Text = function (
 HopServices.prototype.ontology_subclassesOf = function ( 
   queryString, _remoteServerParams )
 {
-  import service ontology_subclassesOf ( queryString );
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*-------Call face_Node service-------*/
-  var retMsg= ontology_subclassesOf( queryString ).post(
+  var retMsg= ontology_subclassesOf( {queryStr:queryString} ).post(
     function( data ){
       return data;
     },

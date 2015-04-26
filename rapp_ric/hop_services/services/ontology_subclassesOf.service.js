@@ -16,7 +16,7 @@ var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.
 var subclassesOf_rosService = "/ric/knowrob/subclasses_of";
 /*---Initiatess Communication with RosBridge (Global)---*/
 var rosbridge = new ROSbridge();
-rosbridge.connect();
+//rosbridge.connect();
 /*------------------------------------------------------*/
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -30,15 +30,15 @@ var randStrGen = new RandStringGen( stringLength );
  * @param queryString Ontology query given in a string format
  * @return Message response from speech2Text ROS Node service. --JSON--
  */
-service ontology_subclassesOf ( queryString )
+service ontology_subclassesOf ( {queryStr:""} )
 {
   console.log("[SubclassesOf]: Client Request");
-  //rosbridge.connect();
+  rosbridge.connect();
   
-  var args = createServiceArgs( queryString );
+  var args = createServiceArgs( queryStr );
   /*-----<Call subclassesOf ROS service through rosbridge>-----*/
   var returnMessage = rosbridge.callServiceSync( subclassesOf_rosService, args );
-  //rosbridge.close();
+  rosbridge.close();
   /*--<Returned message from qr ROS service>--*/
   return  JSON.stringify( returnMessage.values.results )// JSON msg
 };
