@@ -94,7 +94,7 @@ function rosbridge( ){
    */
   this.add_receivedMsg = function ( _msg, _callID ){
     receivedMsg_[ _callID ] = _msg;
-    console.log( "\033[01;32m[ROS-bridge]:\033[0;0m Storing msg of callID: [%s]", _callID );
+    console.log( "[ROS-bridge]: Storing msg of callID: [%s]", _callID );
   };
 
 
@@ -211,7 +211,7 @@ function rosbridge( ){
     var _this = this;
     /*--<Clear msg response flag of this service call>--*/
     this.clear_responseFlag( _callID );
-    console.log( "\033[01;32m[ROS-bridge]:\033[0;0m Sending message" );
+    console.log( "[ROS-bridge]: Sending message" );
     this.rosWS_.send( JSON.stringify( _msg ) ); //sends the message.   
     this.rosWS_.onmessage = function (event){
       console.log( "[ROS-bridge]: Received message" );
@@ -248,17 +248,17 @@ rosbridge.prototype.connect = function( rosbridgeURL ){
   this.rosWS_ = new WebSocket( _rosbridgeURL );
   /*--<WebSocket onopen callback handler>--*/
   this.rosWS_.onopen = function (event) {
-    console.log('\033[01;32m[ROS-bridge]:\033[0;0m Connection opened');
+    console.log('[ROS-bridge]: Connection opened');
   };
 
   /*--<WebSocket onclose callback handler>--*/
-  //this.rosWS_.onclose = function (event) {
-    //console.log('\033[01;32m[ROS-bridge]:\033[0;0m Connection closed');
-  //};
+  this.rosWS_.onclose = function (event) {
+    console.log('[ROS-bridge]: Connection closed');
+  };
 
   /*--<WebSocket onerror callback handler>--*/
   //this.rosWS_.onerror = function( error ){
-    //console.log( '\033[01;32m[ROS-bridge]:\033[0;0m Websocket error: ' + error );
+    //console.log( '[ROS-bridge]: Websocket error: ' + error );
   //};
 
 };
@@ -271,7 +271,8 @@ rosbridge.prototype.connect = function( rosbridgeURL ){
  */
 rosbridge.prototype.close = function( ){
   this.rosWS_.close();
-  console.log('\033[01;32m[ROS-bridge]:\033[0;0m Connection closed');
+  //this.rosWS_ = undefined;
+  //console.log('[ROS-bridge]: Connection closed');
 };
 
 
@@ -293,13 +294,15 @@ rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
     this.genUniqueID( _serviceName );
   /*---------------------------------------------*/
    
-  /*Add user specified arguments needed (except header.)*/
+  /*--<Create service message header>--*/
   var header = {
     "seq": 1,
     "stamp": currentTime,
     "frame_id": " "
   };
+  /*-----------------------------------*/
 
+  /*Add service specified message arguments*/
   var args = {};
   args[ "header" ] = header;
 
@@ -319,6 +322,7 @@ rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
   var startT = new Date( ).getTime( );
   var endT;
   /*--------------------------------------------------*/
+
   this.send_message( msg, serviceCallID );
 
   while( this.msgReceived( serviceCallID ) == false )
@@ -326,8 +330,8 @@ rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
     endT = new Date().getTime();
     if( (endT - startT) > this.get_timeoutValue( ) )
     {
-      console.log("\033[01;32m[ROS-bridge]: \033[01;31m" + 
-        "ROS SERVICE COMMUNICATION TIMED OUT!\033[0;0m");
+      console.log("[ROS-bridge]: " + 
+        "ROS SERVICE COMMUNICATION TIMED OUT!");
       this.add_receivedMsg( "ROS RESPONSE TIMEOUT!" );
       break;
     }
