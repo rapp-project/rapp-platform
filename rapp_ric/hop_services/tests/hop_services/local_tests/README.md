@@ -13,7 +13,8 @@ Current test implementations:
 ---------------------------------------------------------
 Run exec.sh (./exec.sh) with 2 parameters:
 - $1 : test to run (e.g faceDetection.js).
-- $2 : Number of calls.
+- $2 : Service listening port number (e.g. 9004)
+- $3 : Number of calls.
 
 Example of use:
 
