@@ -79,6 +79,8 @@ class LimitedVocabularyCreator:
 
     # Check grammar
     if len(grammar) == 0:
+      self.sphinx_configuration['grammar_disabled'] = True
+    else:
       self.sphinx_configuration['grammar_disabled'] = False
     self.sphinx_configuration['grammar_name'] = 'custom'
     self.sphinx_configuration['grammar_folder'] = self.languages_package

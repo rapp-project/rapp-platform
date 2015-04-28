@@ -108,7 +108,10 @@ class SpeechRecognitionSphinx4:
   # Service callback dedicated for Sphinx4 configuration
   def configureSpeechRecognition(self, req):
     res = SpeechRecognitionSphinx4ConfigureSrvResponse()
+ 
+    conf = {} # Dummy initialization
     reconfigure = False
+    
     if self.language != req.language:
       reconfigure = True
     if self.words != req.words:
@@ -121,8 +124,9 @@ class SpeechRecognitionSphinx4:
     self.words = req.words
     self.grammar = req.grammar
     self.sentences = req.sentences
-    
-    conf = {} # Dummy initialization
+
+    if reconfigure == False:
+      return res
 
     # English language
     if self.language == 'en':

@@ -98,6 +98,7 @@ class Sphinx4Wrapper:
     # NOTE: Check if file exists here!
     
     # If it is an .ogg file (from NAO) recode it into .wav
+    new_audio_file = audio_file
     if audio_file.endswith(".ogg"):
       audio_file_base = os.path.basename(audio_file)
       new_audio_file_base = audio_file_base[:audio_file_base.find('.')] +\
@@ -107,10 +108,10 @@ class Sphinx4Wrapper:
           + os.path.dirname(audio_file) + "/" + new_audio_file_base
       print "####### " + bash_command
       os.system(bash_command)
+      new_audio_file = os.path.dirname(audio_file) + "/" + new_audio_file_base
 
     self.p.stdin.write("start\r\n")
-    self.p.stdin.write("audioInput#" + os.path.dirname(audio_file) + "/" +\
-        new_audio_file_base + "\r\n")
+    self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
     start_time = time.time()
     self.readLine()
     words = []
