@@ -434,70 +434,70 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
 }
 
 
-rapp_platform_ros_communications::assertRetractAttributeSrv::Response KnowrobWrapper::assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req)
-{
+//rapp_platform_ros_communications::assertRetractAttributeSrv::Response KnowrobWrapper::assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req)
+//{
   
-  rapp_platform_ros_communications::assertRetractAttributeSrv::Response res; 
-  if(res.attribute_names.size()!=res.attribute_values.size())
-  {
-      res.success=false;
-      s.data=std::string("Error, attribute_names and attribute_values sizes are not equal");
-      res.trace.push_back(s);
-      return res;
-  }
-  //ROS_WARN("Knowdfsdfsdlized");
-  std::string query = std::string("valueToAttribute_withCheck(knowrob:'") +   //instanceFromClass_withCheck
-    args[0] + std::string("',knowrob:'")+args[1]+std::string("',knowrob:'")+args[2]+std::string("')");
-  ret.push_back(query);
- // return ret;
-  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-  
-  
-
-  //std::vector<std::string> ret;
-  ret.clear();
-  //json_prolog::PrologQueryProxy thj;
-
-  //results.finish();
-  //json_prolog::PrologQueryProxy::iterator it;
-  //it.requestNextSolution();
-  char status = results.getStatus();
-  if(status==0)
-  {
-    ret.push_back(std::string("Assign Value Failed, you either supplied non existant instances, or wrong attribute for the instances"));
-  }
-  else if(status==3)
-  {
-    ret.push_back(std::string("Success"));
-  }  
-  //ROS_ERROR("Status %d", status);
-  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    //it != results.end() ; it++)
+  //rapp_platform_ros_communications::assertRetractAttributeSrv::Response res; 
+  //if(res.attribute_names.size()!=res.attribute_values.size())
   //{
-    ////json_prolog::PrologNextSolutionResponse resp; 
-    ////json_prolog::PrologQueryProxy::iterator::requestNextSolution();
-    ////it::requestNextSolution();
-    //json_prolog::PrologBindings bdg = *it;
-    ////it.
-    ////it.requestNextSolution();
+      //res.success=false;
+      //s.data=std::string("Error, attribute_names and attribute_values sizes are not equal");
+      //res.trace.push_back(s);
+      //return res;
+  //}
+  ////ROS_WARN("Knowdfsdfsdlized");
+  //std::string query = std::string("valueToAttribute_withCheck(knowrob:'") +   //instanceFromClass_withCheck
+    //args[0] + std::string("',knowrob:'")+args[1]+std::string("',knowrob:'")+args[2]+std::string("')");
+  //ret.push_back(query);
+ //// return ret;
+  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  
+  
+
+  ////std::vector<std::string> ret;
+  //ret.clear();
+  ////json_prolog::PrologQueryProxy thj;
+
+  ////results.finish();
+  ////json_prolog::PrologQueryProxy::iterator it;
+  ////it.requestNextSolution();
+  //char status = results.getStatus();
+  //if(status==0)
+  //{
+    //ret.push_back(std::string("Assign Value Failed, you either supplied non existant instances, or wrong attribute for the instances"));
+  //}
+  //else if(status==3)
+  //{
+    //ret.push_back(std::string("Success"));
+  //}  
+  ////ROS_ERROR("Status %d", status);
+  ////for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    ////it != results.end() ; it++)
+  ////{
+    //////json_prolog::PrologNextSolutionResponse resp; 
+    //////json_prolog::PrologQueryProxy::iterator::requestNextSolution();
+    //////it::requestNextSolution();
+    ////json_prolog::PrologBindings bdg = *it;
+    //////it.
+    //////it.requestNextSolution();
     
-    //ret.push_back(bdg["A"]);
-  //}
+    ////ret.push_back(bdg["A"]);
+  ////}
   
-  //json_prolog::PrologQueryProxy::iterator it2 =results.end();
-  return ret;
-
-  
-  //for(unsigned int i = 2 ; i < args.size() ; i=i+2)
-  //{
-    ////rdf_assert(knowrob:'Person_qdaDeDZn',knowrob:worksAtFacility,knowrob:'HumanOccupationConstruct_pQmhNKHv')
-    //query = std::string("rdf_assert(knowrob:'") +     instanceName[1] + std::string("',knowrob:") +args[i] +  
-    //std::string(",knowrob:'") + args[i+1] +  std::string("'")  ;
-    //results = pl.query(query.c_str());
-  //}
-
+  ////json_prolog::PrologQueryProxy::iterator it2 =results.end();
   //return ret;
-}
+
+  
+  ////for(unsigned int i = 2 ; i < args.size() ; i=i+2)
+  ////{
+    //////rdf_assert(knowrob:'Person_qdaDeDZn',knowrob:worksAtFacility,knowrob:'HumanOccupationConstruct_pQmhNKHv')
+    ////query = std::string("rdf_assert(knowrob:'") +     instanceName[1] + std::string("',knowrob:") +args[i] +  
+    ////std::string(",knowrob:'") + args[i+1] +  std::string("'")  ;
+    ////results = pl.query(query.c_str());
+  ////}
+
+  ////return ret;
+//}
 
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)
 {
