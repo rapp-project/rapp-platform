@@ -28,5 +28,5 @@ var ontologyQuery = "Oven"
 //Call faceDetection hop service
 var retMessage = hop.ontology_subclassesOf( ontologyQuery );
 console.log("\033[01;33mOntology SubclassOf service returned message:\033[01;36m");
-console.log( retMessage );
+console.log( JSON.parse(retMessage) );
 process.exit(0); //kill the current process (Exits).

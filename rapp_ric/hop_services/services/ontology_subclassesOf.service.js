@@ -35,15 +35,21 @@ service ontology_subclassesOf ( {queryStr:""} )
   console.log("[SubclassesOf]: Client Request");
   rosbridge.connect();
   
-  var args = createServiceArgs( queryStr );
+  var args = createServiceArgs( JSON.parse(queryStr).toString() );
   /*-----<Call subclassesOf ROS service through rosbridge>-----*/
   var returnMessage = rosbridge.callServiceSync( subclassesOf_rosService, args );
   rosbridge.close();
+  queryRet = craftRetMsg(returnMessage);
   /*--<Returned message from qr ROS service>--*/
-  return  JSON.stringify( returnMessage.values.results )// JSON msg
+  return queryRet 
 };
 
 
+/*!
+ * @brief Crafts the ROS-Service call form
+ * @param queryString The query to db (String)
+ * @return Ros-Service call form
+ */
 function createServiceArgs( queryString )
 {
   var query_term = {
@@ -53,4 +59,22 @@ function createServiceArgs( queryString )
   args[ "query_term" ] = query_term;
 
   return args;
+};
+
+
+/*!
+ * @brief Crafts the form/format for the message to be returned
+ * from the ontology_subclassesOf hop-service.
+ * @param srvMsg Return message from ROS Service.
+ * return String vector that contains answers from knowrob db query
+ */
+function craftRetMsg( srvMsg )
+{
+  queryAns = srvMsg.values.results;
+  var craftedMsg = [];
+  for (var ii = 0; ii < queryAns.length; ii++)
+  {
+    craftedMsg.push(queryAns[ii].data);
+  }
+  return JSON.stringify(craftedMsg)
 };

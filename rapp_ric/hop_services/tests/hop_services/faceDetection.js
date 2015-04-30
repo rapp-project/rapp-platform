@@ -11,7 +11,7 @@
  */
 var user = process.env.LOGNAME;
 var rapp_hop_path = "/home/" + user +
-  "/Desktop/rapp-platform-catkin-ws/src/rapp-platform/ric/hop_services/";
+  "/Desktop/rapp-platform-catkin-ws/src/rapp-platform/rapp_ric/hop_services/";
 
 /*-------------------< Import required modules >------------------*/
 var ServerParams = require(rapp_hop_path + "utilities/./ServerParams.js");
@@ -27,5 +27,5 @@ hsu.init( params, params ); //set local and remote parameters.
 //Call faceDetection hop service
 var retMessage = hsu.faceDetection( faceImagePath ); 
 console.log("\033[01;33mFaceDetection service returned message:\033[01;36m");
-console.log( retMessage ); //Output faceDetection results.
+console.log( JSON.parse(retMessage) ); //Output faceDetection results.
 process.exit(0); //kill the current process (Exits).

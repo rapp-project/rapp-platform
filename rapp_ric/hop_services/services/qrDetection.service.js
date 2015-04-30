@@ -35,7 +35,7 @@ var randStrGen = new RandStringGen( stringLength );
  *
  * @return Message response from qrDetection ROS Node service.
  */
-service qrDetection ( _file )
+service qrDetection ( {fileData:""} )
 {
   rosbridge.connect(); //connect to rosbridge
   var randStr = randStrGen.createUnique();
@@ -52,15 +52,30 @@ service qrDetection ( _file )
   }; 
 
   /*-----<Stores received image data>-----*/
-  Fs.writeFileSync( qrImagePath, _file.data );
+  Fs.writeFileSync( qrImagePath, fileData );
   /*-----<Call QR_Detection ROS service through rosbridge>-----*/
-  //var rosbridge = new ROSbridge();
-  //rosbridge.connect(); //connect to rosbridge
   var returnMessage = rosbridge.callServiceSync( qrRosService, args );
   rosbridge.close(); //disconnect from rosbridge
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
-  return returnMessage; 
+  var qrCenters = craftRetMsg(returnMessage)
+
+  //return qrCenters
+  return qrCenters //JSON string 
 };
+
+function craftRetMsg(srvMsg)
+{
+  var qrCenters = srvMsg.values.qr_centers;
+  var craftedMsg = [];
+  for (var ii = 0; ii < qrCenters.length; ii++)
+  {
+    craftedMsg.push(qrCenters[ii].point);
+  }
+  return JSON.stringify(craftedMsg)
+  /* Return JSON representation:
+   *  { y:(int), x:(int), z(int) }
+   */
+}

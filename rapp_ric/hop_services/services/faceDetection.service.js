@@ -41,7 +41,7 @@ var randStrGen = new RandStringGen( stringLength );
  *
  * @return Message response from faceDetection ROS Node service.
  */
-service faceDetection ( _file )
+service faceDetection ( {fileData:""} )
 {
   rosbridge.connect();
   var randStr = randStrGen.createUnique();
@@ -56,7 +56,7 @@ service faceDetection ( _file )
     "imageFilename": faceImagePath
   }; 
   /*-----<Stores received image data>-----*/
-  Fs.writeFileSync( faceImagePath, _file.data );
+  Fs.writeFileSync( faceImagePath, fileData );
   /*-----<Call FaceDetection ROS service through rosbridge>-----*/
   //var rosbridge = new ROSbridge();
   //rosbridge.connect();
@@ -66,5 +66,35 @@ service faceDetection ( _file )
   Fs.rmFileSync( storePath + fileName );
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
-  return returnMessage; 
+  var faces = craftRetMsg(returnMessage);
+  return faces; 
 };
+
+
+/*!
+ * @brief Crafts the form/format for the message to be returned
+ * from the faceDetection hop-service.
+ * @param srvMsg Return message from ROS Service.
+ * return Message to be returned from the hop-service
+ */
+function craftRetMsg(srvMsg)
+{
+  faces = srvMsg.values;
+
+  var craftedMsg = { faces_up_left:[], faces_down_right:[] };
+  for (var ii = 0; ii < faces.faces_up_left.length; ii++)
+  {
+    craftedMsg.faces_up_left.push( faces.faces_up_left[ii].point )
+  }
+  for (var ii = 0; ii < faces.faces_down_right.length; ii++)
+  {
+    craftedMsg.faces_down_right.push( faces.faces_down_right[ii].point )
+  }
+
+  return JSON.stringify(craftedMsg)
+  /* Return JSON representation:
+   *{ faces_up_left: [ { y:155, x:145, z:0} ],
+   *   faces_down_right: [ { y:155, x:145, z:0} ] }
+   */
+};
+
