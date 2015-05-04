@@ -284,7 +284,7 @@ rosbridge.prototype.close = function( ){
  *
  * @return ROS service returned message.
  */
-rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
+rosbridge.prototype.callServiceSync = function( _serviceName, _args, headerOn ){
   /*--<Get current time>--*/
   var currentTime = new Date().getTime();
 
@@ -293,19 +293,21 @@ rosbridge.prototype.callServiceSync = function( _serviceName, _args ){
   var serviceCallID = _serviceName + "-" +
     this.genUniqueID( _serviceName );
   /*---------------------------------------------*/
-   
-  /*--<Create service message header>--*/
-  var header = {
-    "seq": 1,
-    "stamp": currentTime,
-    "frame_id": " "
-  };
-  /*-----------------------------------*/
 
-  /*Add service specified message arguments*/
   var args = {};
-  args[ "header" ] = header;
+  if (headerOn)
+  {
+    /*--<Create service message header>--*/
+    var header = {
+      "seq": 1,
+      "stamp": currentTime,
+      "frame_id": " "
+    };
+    /*-----------------------------------*/
 
+    /*Add service specified message arguments*/
+    args[ "header" ] = header;
+  }
   for ( var key in _args ){
     args[ key.toString() ] = _args[ key ];
   }

@@ -18,7 +18,7 @@ var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.
 var speech2TextRosService = "/ric/speech_detection_sphinx4";
 var speech2TextConfigRosService = "/ric/speech_detection_sphinx4_configure";
 /*--<Defines the directory where images received are stored>--*/
-var storePath = "/home/klpanagi/hop_temps/"; 
+var storePath = "/home/" + user + "/hop_temps/"; 
 /*---Initiatess Communication with RosBridge (Global)---*/
 var rosbridge = new ROSbridge();
 //ros.init_bridge('');
@@ -50,31 +50,32 @@ service speech2Text ( fileData )
   Fs.writeFileSync( audioFileUrl, fileData );
   var args = createServiceArgs( audioFileUrl );
 
-  var vocabulary = ['yes', 'no'];
-  var sentences = ['yes', 'no'];
+  var vocabulary = ['ναι', 'όχι', 'ίσως'];
+  var sentences = ['ναι', 'όχι', 'ίσως'];
   var grammar = [];
   var confArgs = craft_s2tConfig_args('', vocabulary, grammar, sentences);
   /*-----<Call FaceDetection ROS service through rosbridge>-----*/
   var returnMessage = rosbridge.callServiceSync( speech2TextConfigRosService, confArgs, 0 );
   console.log(returnMessage);
   returnMessage = rosbridge.callServiceSync( speech2TextRosService, args, 0 );
-  console.log(returnMessage.values);
+  console.log(returnMessage.values.words);
   rosbridge.close();
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
-  console.log(returnMessage);
-  return returnMessage; 
-  //return returnMessage;
+  var wordsFound = returnMessage.values.words;
+  return JSON.stringify(wordsFound); 
 };
 
 function craft_s2tConfig_args( language, words, grammar, sentences )
 {
   var args = {};
   args[ 'words' ] = words;
+  args[ 'language' ] = "gr";
   args[ 'grammar' ] = grammar;
   args[ 'sentences' ] = sentences;
+  return args
 }
 
 function createServiceArgs( _audioFileUrl )

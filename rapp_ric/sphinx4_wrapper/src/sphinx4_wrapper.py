@@ -104,7 +104,7 @@ class Sphinx4Wrapper:
 
     #if audio_file.endswith(".ogg"):
     audio_file_base = os.path.basename(audio_file)
-    new_audio_file_base = audio_file_base[:audio_file_base.find('.')] + ".wav"
+    new_audio_file_base = "new_" + audio_file_base[:audio_file_base.find('.')] + ".wav"
     # NOTE: Using global command for now
     bash_command = "cd " + os.path.dirname(audio_file) + " && "\
         "sox " + os.path.dirname(audio_file) + "/" + audio_file_base + " "\

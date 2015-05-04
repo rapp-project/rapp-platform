@@ -153,6 +153,10 @@ class SpeechRecognitionSphinx4:
         print "Words to be recognized (" + str(len(self.words)) + "):"
         conf = self.greek_support.getLimitedVocebularyConfiguration(\
             self.words, self.grammar, self.sentences)
+   
+    else:
+      res.error = "Wrong language"
+      return res
     
     # Actual sphinx4 configuration
     print "Configuration: \n"

@@ -1,3 +1,0 @@
-<launch>
-  <node type="rapp_server_node" name="rapp_serv_node" pkg="rapp_server" output="screen"/>
-</launch>
