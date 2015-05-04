@@ -145,7 +145,7 @@ class Sphinx4Wrapper:
       nao_wav_noise_profile += "noise_profiles/noise_profile_nao_wav"
       next_audio_file = "denoised_" + prev_audio_file 
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
-          + nao_ogg_noise_profile + " 0.1"
+          + nao_wav_noise_profile + " 0.1"
       print command
       os.system("cd " + audio_file_folder + " && " + command)
 
