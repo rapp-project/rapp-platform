@@ -46,7 +46,6 @@ service speech2Text ( fileData )
   
   var audioFileUrl = Fs.resolvePath( storePath + fileName );
   /*-----<Stores received image data>-----*/
-  console.log("Is Buffer?: ", typeof fileData);
   Fs.writeFileSync( audioFileUrl, fileData );
   var args = createServiceArgs( audioFileUrl );
 
@@ -54,12 +53,13 @@ service speech2Text ( fileData )
   var sentences = ['ναι', 'όχι', 'ίσως'];
   var grammar = [];
   var confArgs = craft_s2tConfig_args('', vocabulary, grammar, sentences);
-  /*-----<Call FaceDetection ROS service through rosbridge>-----*/
+
   var returnMessage = rosbridge.callServiceSync( speech2TextConfigRosService, confArgs, 0 );
   console.log(returnMessage);
   returnMessage = rosbridge.callServiceSync( speech2TextRosService, args, 0 );
-  console.log(returnMessage.values.words);
   rosbridge.close();
+  console.log('[ROS-service]:', returnMessage);
+
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   randStrGen.removeCached( randStr );
@@ -85,5 +85,6 @@ function createServiceArgs( _audioFileUrl )
   };
   var args = {};
   args[ "path" ] = filename;
+  args[ 'audio_source' ] = 'nao_wav_1_ch';
   return args;
 };
