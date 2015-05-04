@@ -79,7 +79,7 @@ class SpeechRecognitionSphinx4:
     rospack = rospkg.RosPack()
 
     self.sphinx4_jars = rospack.get_path('rapp_sphinx4_java_libraries')   
-    self.sphinx4_class_path = rospack.get_path('sphinx4_wrapper')   
+    self.sphinx4_class_path = rospack.get_path('rapp_speech_detection_sphinx4')   
     
     total_path = ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx4_class_path + "/src"

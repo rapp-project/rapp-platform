@@ -40,7 +40,7 @@ class LimitedVocabularyCreator:
     self.languages_package = rospack.get_path('rapp_sphinx4_java_libraries')   
     self.sphinx4_jars = self.languages_package
     self.languages_package += "/tmp_language_pack/"
-    self.sphinx4_class_path = rospack.get_path('sphinx4_wrapper')   
+    self.sphinx4_class_path = rospack.get_path('rapp_speech_detection_sphinx4')   
     
     if not os.path.exists(self.languages_package):
       os.makedirs(self.languages_package)

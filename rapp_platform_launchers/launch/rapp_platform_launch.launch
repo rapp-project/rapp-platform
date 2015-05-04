@@ -1,9 +1,8 @@
 <launch>
-  <include file="$(find rapp_server)/launch/rapp_server.launch" />
   <include file="$(find rapp_knowrob_wrapper)/launch/knowrob_wrapper.launch" />
   <include file="$(find rapp_qr_detection)/launch/qr_detection.launch" />
   <include file="$(find rapp_email)/launch/email.launch" />
   <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
-  <include file="$(find rapp_speech_detection_google)/launch/speech_recognition_google.launch" />
+  <include file="$(find rapp_speech_detection_sphinx4)/launch/speech_detection_sphinx4.launch" />
   <include file="$(find rapp_face_detection)/launch/face_detection.launch" />
 </launch>

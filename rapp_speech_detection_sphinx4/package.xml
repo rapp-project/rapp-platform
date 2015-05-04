@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>sphinx4_wrapper</name>
+  <name>rapp_speech_detection_sphinx4</name>
   <version>0.0.0</version>
-  <description>The sphinx4_wrapper package</description>
+  <description>The rapp_speech_detection_sphinx4 package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
