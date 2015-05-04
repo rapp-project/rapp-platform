@@ -35,7 +35,7 @@ var randStrGen = new RandStringGen( stringLength );
  *
  * @return Message response from qrDetection ROS Node service.
  */
-service qrDetection ( {fileData:""} )
+service qrDetection ( fileData )
 {
   rosbridge.connect(); //connect to rosbridge
   var randStr = randStrGen.createUnique();

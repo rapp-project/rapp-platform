@@ -15,7 +15,8 @@ var ROSbridge = require(/*rapp_hop_path +*/"../utilities/./rosbridge.js");
 var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.js" );
 /*----------------------------------------------*/
 /*-----<Defined Name of QR Node ROS service>----*/
-var speech2TextRosService = "/ric/speech_to_text_service";
+var speech2TextRosService = "/ric/speech_detection_sphinx4";
+var speech2TextConfigRosService = "/ric/speech_detection_sphinx4_configure";
 /*--<Defines the directory where images received are stored>--*/
 var storePath = "/home/klpanagi/hop_temps/"; 
 /*---Initiatess Communication with RosBridge (Global)---*/
@@ -36,29 +37,45 @@ var randStrGen = new RandStringGen( stringLength );
  *
  * @return Message response from speech2Text ROS Node service.
  */
-service speech2Text ( _file )
+service speech2Text ( fileData )
 {
   rosbridge.connect();
   var randStr = randStrGen.createUnique();
-  var fileName = "speech-" + randStr + ".flac";
+  var fileName = "speech-" + randStr + ".wav";
   console.log("[Speech2Text] Client Request");
   
   var audioFileUrl = Fs.resolvePath( storePath + fileName );
-  var args = createServiceArgs( audioFileUrl );
   /*-----<Stores received image data>-----*/
-  Fs.writeFileSync( audioFileUrl, _file.data );
+  console.log("Is Buffer?: ", typeof fileData);
+  Fs.writeFileSync( audioFileUrl, fileData );
+  var args = createServiceArgs( audioFileUrl );
+
+  var vocabulary = ['yes', 'no'];
+  var sentences = ['yes', 'no'];
+  var grammar = [];
+  var confArgs = craft_s2tConfig_args('', vocabulary, grammar, sentences);
   /*-----<Call FaceDetection ROS service through rosbridge>-----*/
-  //var rosbridge = new ROSbridge();
-  //rosbridge.connect();
-  var returnMessage = rosbridge.callServiceSync( speech2TextRosService, args );
+  var returnMessage = rosbridge.callServiceSync( speech2TextConfigRosService, confArgs, 0 );
+  console.log(returnMessage);
+  returnMessage = rosbridge.callServiceSync( speech2TextRosService, args, 0 );
+  console.log(returnMessage.values);
   rosbridge.close();
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
+  console.log(returnMessage);
   return returnMessage; 
+  //return returnMessage;
 };
 
+function craft_s2tConfig_args( language, words, grammar, sentences )
+{
+  var args = {};
+  args[ 'words' ] = words;
+  args[ 'grammar' ] = grammar;
+  args[ 'sentences' ] = sentences;
+}
 
 function createServiceArgs( _audioFileUrl )
 {
@@ -66,7 +83,6 @@ function createServiceArgs( _audioFileUrl )
     "data": _audioFileUrl
   };
   var args = {};
-  args[ "filename" ] = filename;
-
+  args[ "path" ] = filename;
   return args;
 };

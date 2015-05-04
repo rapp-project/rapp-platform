@@ -41,12 +41,14 @@ var randStrGen = new RandStringGen( stringLength );
  *
  * @return Message response from faceDetection ROS Node service.
  */
-service faceDetection ( {fileData:""} )
+service faceDetection ( fileData )
 {
   rosbridge.connect();
   var randStr = randStrGen.createUnique();
   var fileName = "faceImage-" + randStr + ".png";
   console.log("[faceDetection] Client Request");
+  console.log('Is buffer?: ', Buffer.isBuffer(fileData));
+  console.log("TypeOfData: ", typeof fileData);
 
   var faceImagePath = Fs.resolvePath( storePath + fileName );
   var args = {
@@ -60,7 +62,7 @@ service faceDetection ( {fileData:""} )
   /*-----<Call FaceDetection ROS service through rosbridge>-----*/
   //var rosbridge = new ROSbridge();
   //rosbridge.connect();
-  var returnMessage = rosbridge.callServiceSync( faceRosService, args );
+  var returnMessage = rosbridge.callServiceSync( faceRosService, args, 1 );
   rosbridge.close();
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );

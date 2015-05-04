@@ -195,7 +195,7 @@ HopServices.prototype.qrDetection = function (
   /*----<Read data from file and store them in a stringified format>----*/
   var file = Fs.readFileSync( _qrImagePath ); 
   /*-------Call QR_Node service-------*/
-  var retMsg = qrDetection( {fileData:file.data} ).post(
+  var retMsg = qrDetection( file.data ).post(
     function( data ){
       return data;
     },
@@ -215,7 +215,7 @@ HopServices.prototype.faceDetection = function (
   /*----<Read data from file and store them in a stringified format>----*/
   var file = Fs.readFileSync( _faceImagePath ); 
   /*-------Call face_Node service-------*/
-  var retMsg = faceDetection( {fileData:file.data} ).post(
+  var retMsg = faceDetection( file.data ).post(
     function( data ){
       return data;
     },
@@ -226,7 +226,7 @@ HopServices.prototype.faceDetection = function (
 };
 
 HopServices.prototype.speech2Text = function ( 
-  _audioFileUrl, _remoteServerParams )
+  _audioFileUrl, vocabulary, sentences, grammar, _remoteServerParams )
 {
   import service speech2Text ( );
   /*----<Set parameters of the hop server>---*/
@@ -251,7 +251,7 @@ HopServices.prototype.ontology_subclassesOf = function (
   /*----<Set parameters of the hop server>---*/
   var remoteParams = _remoteServerParams || this.get_remoteServerParams();
   /*-------Call face_Node service-------*/
-  var retMsg= ontology_subclassesOf( {queryStr:JSON.stringify(queryString)} ).post(
+  var retMsg= ontology_subclassesOf( JSON.stringify(queryString) ).post(
     function( data ){
       return data;
     },

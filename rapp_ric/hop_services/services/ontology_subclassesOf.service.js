@@ -30,7 +30,7 @@ var randStrGen = new RandStringGen( stringLength );
  * @param queryString Ontology query given in a string format
  * @return Message response from speech2Text ROS Node service. --JSON--
  */
-service ontology_subclassesOf ( {queryStr:""} )
+service ontology_subclassesOf ( queryStr )
 {
   console.log("[SubclassesOf]: Client Request");
   rosbridge.connect();
