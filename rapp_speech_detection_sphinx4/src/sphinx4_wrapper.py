@@ -30,9 +30,13 @@ import sys
 import subprocess
 import time
 import os
+import rospkg
 
 class Sphinx4Wrapper: 
  
+  def __init__(self):
+    self.rospack = rospkg.RosPack()
+
   # Helper function for getting input from Sphinx
   def readLine(self, print_line = False):
     line = self.p.stdout.readline()
@@ -94,33 +98,56 @@ class Sphinx4Wrapper:
 
 
   # Performs the speech recognition and returns a list of words
-  def performSpeechRecognition(self, audio_file):
-    # NOTE: Check if file exists here!
+  def performSpeechRecognition(self, audio_file, audio_source):
+    # Check if path exists
+    if os.path.isfile(audio_file) == False:
+      return ["Error: Something went wrong with the local audio storage"]
     
     # If it is an .ogg file (from NAO) recode it into .wav
-    new_audio_file = audio_file
+    next_audio_file = audio_file
+    prev_audio_file = next_audio_file
 
-    # TODO: Check for channels / ending
+    audio_file_folder = os.path.dirname(audio_file)
+    next_audio_file = os.path.basename(prev_audio_file)
 
-    #if audio_file.endswith(".ogg"):
-    audio_file_base = os.path.basename(audio_file)
-    new_audio_file_base = "new_" + audio_file_base[:audio_file_base.find('.')] + ".wav"
-    # NOTE: Using global command for now
-    bash_command = "cd " + os.path.dirname(audio_file) + " && "\
-        "sox " + os.path.dirname(audio_file) + "/" + audio_file_base + " "\
-        "-r 16000 -c 1 " +\
-        os.path.dirname(audio_file) + "/" + new_audio_file_base
-    print "####### " + bash_command
-    os.system(bash_command)
-    bash_command = "cd " + os.path.dirname(audio_file) + " && "\
-        "sox " + os.path.dirname(audio_file) + "/" + new_audio_file_base + \
-        " " + os.path.dirname(audio_file) + "/final_" + new_audio_file_base + \
-        " noisered " + "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform-supplementary-material/rapp_sphinx4_java_libraries/recordings/nao_noise_prof" + " 0.1"
-    print '############## ' + bash_command
-    os.system(bash_command)
+    # Check that the audio_source is legit
+    if audio_source not in ["headset", "nao_ogg", "nao_wav_4_ch", "nao_wav_1_ch"]:
+      return ["Error: Audio source unrecognized"]
 
-    new_audio_file = os.path.dirname(audio_file) + "/final_" + new_audio_file_base
+    # Transform audio to 16kHz, mono if needed
+    
+    if audio_source == "nao_ogg": # Needs only ogg->wav & denoising
+      print "Audio source = NAO ogg"
+      next_audio_file += ".wav"
+      command = "sox " + prev_audio_file + " " + next_audio_file
+      print command
+      os.system(command)      
+    elif audio_source == "nao_wav_4_ch": # Needs conversion to mono + 16KHz
+      print "Audio source = NAO wav 4 channels"
+      next_audio_file = "mono_" + next_audio_file
+      command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
+      print command
+      os.system(command)
 
+    # Check if denoising is needed
+    if audio_source == "nao_ogg":
+      nao_ogg_noise_profile = self.rospack.get_path("rapp_sphinx4_java_libraries")
+      nao_ogg_noise_profile += "noise_profiles/noise_profile_nao_ogg"
+      next_audio_file = prev_audio_file + ".wav"
+      command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
+          + nao_ogg_noise_profile + " 0.1"
+      print command
+      os.system(command)
+    elif audio_source == "nao_wav_4_ch" or audio_source == "nao_wav_1_ch":
+      nao_wav_noise_profile = self.rospack.get_path("rapp_sphinx4_java_libraries")
+      nao_wav_noise_profile += "noise_profiles/noise_profile_nao_wav"
+      next_audio_file = prev_audio_file + ".wav"
+      command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
+          + nao_ogg_noise_profile + " 0.1"
+      print command
+      os.system(command)
+
+    new_audio_file = next_audio_file
     self.p.stdin.write("start\r\n")
     self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
     start_time = time.time()
