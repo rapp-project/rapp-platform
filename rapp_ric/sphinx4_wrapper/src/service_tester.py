@@ -27,6 +27,7 @@
 # contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
 
 import rospy
+from denoiser import Denoiser
 
 from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4Srv,
@@ -209,7 +210,9 @@ class SpeechRecognitionTester:
   def perform_experiment(self, file_path, int_words, grammar, experiments_number):
     reqspeak = SpeechRecognitionSphinx4SrvRequest()
     mean = 0.0
+
     for i in range(0, experiments_number):
+      self.counter += 1
       reqspeak.path.data = self.base_path + file_path   
       res = self.conf_sp_ser(reqspeak)
       exp_res = []
@@ -219,15 +222,17 @@ class SpeechRecognitionTester:
         exp_res = self.six_words_res
       elif int_words == 50:
         exp_res = self.fifty_words_res
-      self.overall_score[file_path + "_" + grammar + "_" + str(i)] =\
-              self.lcs_length(res.words, exp_res) / (1.0 * len(exp_res))
+      #self.overall_score[file_path + "_" + grammar + "_" + str(i)] =\
+              #self.lcs_length(res.words, exp_res) / (1.0 * len(exp_res))
       mean += self.lcs_length(res.words, exp_res) / (1.0 * len(exp_res))
+      self.total_mean += self.lcs_length(res.words, exp_res) / (1.0 * len(exp_res))
       print file_path + "_" + grammar
       print res
       print exp_res
-      print "Score: " + str(self.overall_score[file_path + "_" + grammar + "_" + str(i)])
+      print "Score: " + str(self.lcs_length(res.words, exp_res) / (1.0 * len(exp_res)))
+      print "overall up to now: " + str(self.total_mean / self.counter * 100.0) + "%"
       print "-------------------------------------------------"
-    mean /= 5.0
+    mean /= experiments_number * 1.0
     self.overall_score[file_path + "_" + grammar + "_mean"] = mean
     print ">>>>> Mean Score: " + str(self.overall_score[file_path + "_" + grammar + "_mean"])
     print "-------------------------------------------------"
@@ -270,195 +275,28 @@ class SpeechRecognitionTester:
     self.base_path = "/home/etsardou/benchmark_recordings/"
     self.overall_score = {}
 
-    # Two words, no grammar
-    spreq = self.setup_two_words_voc()
-    spreq.grammar = []
-    res = configure_service(spreq)
-    
-    self.perform_experiment("headset/headset_audio_1.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc05.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc10.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc15.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc20.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc25.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc05.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc10.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc15.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc20.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc25.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc05_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc10_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc15_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc20_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc25_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc05_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc10_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc15_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc20_mono.wav", 2, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc25_mono.wav", 2, "no_gr",5)
-    
-    # Two words + grammar
-    spreq = self.setup_two_words_voc()
-    #spreq.grammar = []
-    res = configure_service(spreq)
-
-    self.perform_experiment("headset/headset_audio_1.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc05.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc10.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc15.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc20.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a1_nc25.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc05.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc10.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc15.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc20.wav", 2, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a1_nc25.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc05_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc10_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc15_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc20_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a1_nc25_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc05_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc10_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc15_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc20_mono.wav", 2, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a1_nc25_mono.wav", 2, "gr",5)
-
-    # Six words, no grammar
-    spreq = self.setup_six_words_voc()
-    spreq.grammar = []
-    res = configure_service(spreq)
-
-    self.perform_experiment("headset/headset_audio_2.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc05.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc10.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc15.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc20.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc25.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc05.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc10.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc15.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc20.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc25.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc05_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc10_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc15_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc20_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc25_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc05_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc10_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc15_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc20_mono.wav", 6, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc25_mono.wav", 6, "no_gr",5)
-
-    # Six words, with grammar
-    spreq = self.setup_six_words_voc()
-    #spreq.grammar = []
-    res = configure_service(spreq)
-
-    self.perform_experiment("headset/headset_audio_2.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc05.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc10.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc15.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc20.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a2_nc25.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc05.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc10.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc15.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc20.wav", 6, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a2_nc25.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc05_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc10_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc15_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc20_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a2_nc25_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc05_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc10_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc15_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc20_mono.wav", 6, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a2_nc25_mono.wav", 6, "gr",5)
+    self.total_mean = 0.0
+    self.counter = 0
+   
+    noftests = 20
 
     # Fifty words, no grammar
     spreq = self.setup_fifty_words_voc()
     spreq.grammar = []
     res = configure_service(spreq)
 
-    self.perform_experiment("headset/headset_audio_3.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc05.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc10.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc15.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc20.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc25.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc05.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc10.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc15.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc20.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc25.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc05_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc10_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc15_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc20_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc25_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc05_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc10_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc15_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc20_mono.wav", 50, "no_gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc25_mono.wav", 50, "no_gr",5)
-
-    # Six words, with grammar
+    self.perform_experiment("denoised.wav", 50, "no_gr",noftests)
+  
+    # Fifty words, with grammar
     spreq = self.setup_fifty_words_voc()
     #spreq.grammar = []
     res = configure_service(spreq)
 
-    self.perform_experiment("headset/headset_audio_3.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc05.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc10.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc15.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc20.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d05_a3_nc25.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc05.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc10.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc15.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc20.wav", 50, "gr",5)
-    self.perform_experiment("nao_ogg/nao_ogg_d10_a3_nc25.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc05_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc10_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc15_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc20_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d05_a3_nc25_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc05_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc10_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc15_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc20_mono.wav", 50, "gr",5)
-    self.perform_experiment("nao_wav/nao_wav_d10_a3_nc25_mono.wav", 50, "gr",5)
-
+    self.perform_experiment("denoised.wav", 50, "gr",noftests)
+   
     for el in self.overall_score:
-      print el + str(self.overall_score[el])
-
+      print el + " : " + str(self.overall_score[el]*100.0) + " %"
+    print "Final overall: " + str(self.total_mean / self.counter * 100.0) + "%"
 
 # Main function
 if __name__ == "__main__": 

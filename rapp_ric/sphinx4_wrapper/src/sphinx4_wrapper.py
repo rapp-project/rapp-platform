@@ -99,16 +99,27 @@ class Sphinx4Wrapper:
     
     # If it is an .ogg file (from NAO) recode it into .wav
     new_audio_file = audio_file
-    if audio_file.endswith(".ogg"):
-      audio_file_base = os.path.basename(audio_file)
-      new_audio_file_base = audio_file_base[:audio_file_base.find('.')] +\
-          ".wav"
-      bash_command = "cd " + os.path.dirname(audio_file) + " && "\
-          "sox " + os.path.dirname(audio_file) + "/" + audio_file_base + " "\
-          + os.path.dirname(audio_file) + "/" + new_audio_file_base
-      print "####### " + bash_command
-      os.system(bash_command)
-      new_audio_file = os.path.dirname(audio_file) + "/" + new_audio_file_base
+
+    # TODO: Check for channels / ending
+
+    #if audio_file.endswith(".ogg"):
+    audio_file_base = os.path.basename(audio_file)
+    new_audio_file_base = audio_file_base[:audio_file_base.find('.')] + ".wav"
+    # NOTE: Using global command for now
+    bash_command = "cd " + os.path.dirname(audio_file) + " && "\
+        "sox " + os.path.dirname(audio_file) + "/" + audio_file_base + " "\
+        "-r 16000 -c 1 " +\
+        os.path.dirname(audio_file) + "/" + new_audio_file_base
+    print "####### " + bash_command
+    os.system(bash_command)
+    bash_command = "cd " + os.path.dirname(audio_file) + " && "\
+        "sox " + os.path.dirname(audio_file) + "/" + new_audio_file_base + \
+        " " + os.path.dirname(audio_file) + "/final_" + new_audio_file_base + \
+        " noisered " + "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform-supplementary-material/rapp_sphinx4_java_libraries/recordings/nao_noise_prof" + " 0.1"
+    print '############## ' + bash_command
+    os.system(bash_command)
+
+    new_audio_file = os.path.dirname(audio_file) + "/final_" + new_audio_file_base
 
     self.p.stdin.write("start\r\n")
     self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
