@@ -126,7 +126,7 @@ class Sphinx4Wrapper:
       os.system("cd " + audio_file_folder + " && " + command)      
     elif audio_source == "nao_wav_4_ch": # Needs conversion to mono + 16KHz
       print "Audio source = NAO wav 4 channels"
-      next_audio_file = "mono_" + next_audio_file
+      next_audio_file = next_audio_file + "_mono.wav"
       command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
       print command
       os.system("cd " + audio_file_folder + " && " + command)
@@ -134,22 +134,22 @@ class Sphinx4Wrapper:
     # Check if denoising is needed
     if audio_source == "nao_ogg":
       nao_ogg_noise_profile = self.rospack.get_path("rapp_sphinx4_java_libraries")
-      nao_ogg_noise_profile += "noise_profiles/noise_profile_nao_ogg"
-      next_audio_file = "denoised_" + prev_audio_file
+      nao_ogg_noise_profile += "/noise_profiles/noise_profile_nao_ogg"
+      next_audio_file = prev_audio_file + "_denoised.wav"
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
           + nao_ogg_noise_profile + " 0.1"
       print command
       os.system("cd " + audio_file_folder + " && " + command)
     elif audio_source == "nao_wav_4_ch" or audio_source == "nao_wav_1_ch":
       nao_wav_noise_profile = self.rospack.get_path("rapp_sphinx4_java_libraries")
-      nao_wav_noise_profile += "noise_profiles/noise_profile_nao_wav"
-      next_audio_file = "denoised_" + prev_audio_file 
+      nao_wav_noise_profile += "/noise_profiles/noise_profile_nao_wav"
+      next_audio_file = prev_audio_file + "_denoised.wav" 
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
           + nao_wav_noise_profile + " 0.1"
       print command
       os.system("cd " + audio_file_folder + " && " + command)
 
-    new_audio_file = audio_file_folder + next_audio_file
+    new_audio_file = next_audio_file
     self.p.stdin.write("start\r\n")
     self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
     start_time = time.time()
