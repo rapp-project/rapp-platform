@@ -101,8 +101,13 @@ class Sphinx4Wrapper:
   def performSpeechRecognition(self, audio_file, audio_source):
     # Check if path exists
     if os.path.isfile(audio_file) == False:
-      return ["Error: Something went wrong with the local audio storage"]
+      return ["Error: Something went wrong with the local audio storage",\
+              "Requested path: " + audio_file]
+
     
+    # Keep extra audio files that need erasing
+    audio_to_be_erased = []
+
     # If it is an .ogg file (from NAO) recode it into .wav
     next_audio_file = audio_file
     prev_audio_file = next_audio_file
@@ -110,7 +115,6 @@ class Sphinx4Wrapper:
     audio_file_folder = os.path.dirname(audio_file)
     if audio_file_folder[-1] != "/":
       audio_file_folder += "/"
-    next_audio_file = os.path.basename(prev_audio_file)
 
     # Check that the audio_source is legit
     if audio_source not in ["headset", "nao_ogg", "nao_wav_4_ch", "nao_wav_1_ch"]:
@@ -122,14 +126,16 @@ class Sphinx4Wrapper:
       print "Audio source = NAO ogg"
       next_audio_file += ".wav"
       command = "sox " + prev_audio_file + " " + next_audio_file
-      print command
-      os.system("cd " + audio_file_folder + " && " + command)      
+      print "RAPP: " + command
+      os.system(command)      
+      audio_to_be_erased.append(next_audio_file)
     elif audio_source == "nao_wav_4_ch": # Needs conversion to mono + 16KHz
       print "Audio source = NAO wav 4 channels"
       next_audio_file = next_audio_file + "_mono.wav"
       command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
-      print command
-      os.system("cd " + audio_file_folder + " && " + command)
+      print "RAPP: " + command
+      os.system(command)
+      audio_to_be_erased.append(next_audio_file)
 
     # Check if denoising is needed
     if audio_source == "nao_ogg":
@@ -138,16 +144,18 @@ class Sphinx4Wrapper:
       next_audio_file = prev_audio_file + "_denoised.wav"
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
           + nao_ogg_noise_profile + " 0.1"
-      print command
-      os.system("cd " + audio_file_folder + " && " + command)
+      print "RAPP " + command
+      os.system(command)
+      audio_to_be_erased.append(next_audio_file)
     elif audio_source == "nao_wav_4_ch" or audio_source == "nao_wav_1_ch":
       nao_wav_noise_profile = self.rospack.get_path("rapp_sphinx4_java_libraries")
       nao_wav_noise_profile += "/noise_profiles/noise_profile_nao_wav"
       next_audio_file = prev_audio_file + "_denoised.wav" 
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
           + nao_wav_noise_profile + " 0.1"
-      print command
-      os.system("cd " + audio_file_folder + " && " + command)
+      print "RAPP " + command
+      os.system(command)
+      audio_to_be_erased.append(next_audio_file)
 
     new_audio_file = next_audio_file
     self.p.stdin.write("start\r\n")
@@ -169,5 +177,10 @@ class Sphinx4Wrapper:
         words.append("Time out error")
         break
     
+    for f in audio_to_be_erased:
+      command = "rm " + f
+      print command
+      os.system(command)
+
     return words
 

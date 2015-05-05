@@ -99,7 +99,7 @@ class SpeechRecognitionSphinx4:
   # Service callback for handling speech recognition
   def speechRecognition(self, req):     
     res = SpeechRecognitionSphinx4SrvResponse()
-    words = self.sphinx4.performSpeechRecognition(req.path.data, req.audio_source)   
+    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source)   
     for word in words:
       res.words.append(word)
    

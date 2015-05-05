@@ -1,4 +1,4 @@
-std_msgs/String path
+string path
 string audio_source
 ---
 string[] words

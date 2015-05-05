@@ -44,6 +44,7 @@ add_service_files(
   
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4Srv.srv
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4ConfigureSrv.srv
+  /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4TotalSrv.srv
 )
 
 ## Generate actions in the 'action' folder

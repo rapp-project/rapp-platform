@@ -1,0 +1,9 @@
+string language
+string[] words
+string[] grammar
+string[] sentences
+string path
+string audio_source
+---
+string error
+string[] words
