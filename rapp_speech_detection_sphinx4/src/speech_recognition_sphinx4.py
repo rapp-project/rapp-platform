@@ -40,8 +40,12 @@ from global_parameters import GlobalParams
 from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4Srv,
   SpeechRecognitionSphinx4SrvResponse,
+  SpeechRecognitionSphinx4SrvRequest,
   SpeechRecognitionSphinx4ConfigureSrv,
   SpeechRecognitionSphinx4ConfigureSrvResponse,
+  SpeechRecognitionSphinx4ConfigureSrvRequest,
+  SpeechRecognitionSphinx4TotalSrv,
+  SpeechRecognitionSphinx4TotalSrvResponse
   )
     
 from std_msgs.msg import ( 
@@ -66,18 +70,25 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
     self.serv_configuration_topic = \
         rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
-    
+    self.serv_batch_topic = \
+        rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
+   
     if(not self.serv_topic):
       rospy.logerror("Sphinx4 Speech detection topic param not found")
     if(not self.serv_configuration_topic):
       rospy.logerror("Sphinx4 Speech detection configuration topic param not found")
-   
+    if(not self.serv_batch_topic):
+      rospy.logerror("Sphinx4 Speech detection batch topic param not found")
+
     self.speech_recognition_service = rospy.Service(self.serv_topic, \
         SpeechRecognitionSphinx4Srv, self.speechRecognition)
     self.speech_recognition_configuration_service = rospy.Service( \
         self.serv_configuration_topic, SpeechRecognitionSphinx4ConfigureSrv, \
         self.configureSpeechRecognition)
-   
+    self.speech_recognition_batch_service = rospy.Service( \
+        self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
+        self.speechRecognitionBatch)
+
     total_path = ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx_package_url + "/src"
 
@@ -93,6 +104,30 @@ class SpeechRecognitionSphinx4(GlobalParams):
       }
     self.sphinx4.initializeSphinx(self.sphinx_configuration)
  
+  # Service callback for handling sphinx4 configuration AND speech recognition
+  def speechRecognitionBatch(self, req):
+    total_res = SpeechRecognitionSphinx4TotalSrvResponse()
+      
+    conf_req = SpeechRecognitionSphinx4ConfigureSrvRequest()
+    spee_req = SpeechRecognitionSphinx4SrvRequest()
+
+    conf_req.language = req.language
+    conf_req.words = req.words
+    conf_req.grammar = req.grammar
+    conf_req.sentences = req.sentences
+
+    conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
+    conf_res = self.configureSpeechRecognition(conf_req)
+    total_res.error = conf_res.error
+    if total_res.error != "":
+        return total_res
+
+    spee_req.path = req.path
+    spee_req.audio_source = req.audio_source
+    spee_res = self.speechRecognition(spee_req)
+    total_res.words = spee_res.words
+    return total_res
+
   # Service callback for handling speech recognition
   def speechRecognition(self, req):     
     res = SpeechRecognitionSphinx4SrvResponse()

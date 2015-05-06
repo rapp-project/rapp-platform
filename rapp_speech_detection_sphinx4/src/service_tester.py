@@ -34,7 +34,10 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4SrvRequest,
   SpeechRecognitionSphinx4ConfigureSrv,
   SpeechRecognitionSphinx4ConfigureSrvResponse,
-  SpeechRecognitionSphinx4ConfigureSrvRequest
+  SpeechRecognitionSphinx4ConfigureSrvRequest,
+  SpeechRecognitionSphinx4TotalSrv,
+  SpeechRecognitionSphinx4TotalSrvResponse,
+  SpeechRecognitionSphinx4TotalSrvRequest
   )
 
 class SpeechRecognitionTester: 
@@ -208,14 +211,29 @@ class SpeechRecognitionTester:
 
   def perform_experiment(self, file_path, int_words, grammar,\
       experiments_number, audio_source):
-    reqspeak = SpeechRecognitionSphinx4SrvRequest()
+
+    spreq = ""
+    if int_words == 2:
+      spreq = self.setup_two_words_voc()
+    elif int_words == 6:
+      spreq = self.setup_six_words_voc()
+    elif int_words == 50:
+      spreq = self.setup_fifty_words_voc()
+
+    spee_req = SpeechRecognitionSphinx4TotalSrvRequest()
+    spee_req.language = spreq.language
+    spee_req.words = spreq.words
+    spee_req.grammar = spreq.grammar
+    if grammar == "no_gr":
+      spee_req.grammar = []
+    spee_req.sentences = spreq.sentences
     mean = 0.0
 
     for i in range(0, experiments_number):
       self.counter += 1
-      reqspeak.path = file_path   
-      reqspeak.audio_source = audio_source
-      res = self.conf_sp_ser(reqspeak)
+      spee_req.path = file_path   
+      spee_req.audio_source = audio_source
+      res = self.conf_sp_ser(spee_req)
       exp_res = []
       if int_words == 2:
         exp_res = self.two_words_res
@@ -267,14 +285,9 @@ class SpeechRecognitionTester:
 
   def __init__(self):    
      
-    configure_service = rospy.ServiceProxy(\
-        '/ric/speech_detection_sphinx4_configure',\
-        SpeechRecognitionSphinx4ConfigureSrv)
-    print "Configuration done!\n"
-
     self.conf_sp_ser = rospy.ServiceProxy(\
-        '/ric/speech_detection_sphinx4',\
-        SpeechRecognitionSphinx4Srv)
+        '/ric/speech_detection_sphinx4_batch',\
+        SpeechRecognitionSphinx4TotalSrv)
     
     self.two_words_res = ['nai', 'oxi', 'nai']
     self.six_words_res = ['nai', 'mporei', 'de', 'ksero', 'isos', 'oxi']
@@ -288,11 +301,7 @@ class SpeechRecognitionTester:
    
     noftests = 1
 
-    # Fifty words, no grammar
-    spreq = self.setup_fifty_words_voc()
-    spreq.grammar = []
-    res = configure_service(spreq)
-
+    # Must add grammar in the arguments
     filename = "/home/etsardou/recordings/benchmark_recordings/nao_ogg/original_ogg/nao_ogg_d05_a3.ogg"
     self.perform_experiment(filename, 50, "no_gr", noftests, "nao_ogg")
   
