@@ -27,7 +27,6 @@
 # contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
 
 import rospy
-from denoiser import Denoiser
 
 from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4Srv,
@@ -214,7 +213,7 @@ class SpeechRecognitionTester:
 
     for i in range(0, experiments_number):
       self.counter += 1
-      reqspeak.path = self.base_path + file_path   
+      reqspeak.path = file_path   
       reqspeak.audio_source = audio_source
       res = self.conf_sp_ser(reqspeak)
       exp_res = []
@@ -282,7 +281,6 @@ class SpeechRecognitionTester:
     self.fifty_words_res = ['pos', 'se', 'lene', 'de', 'thumamai', 'poios', 'eisai',\
             'thelo', 'ta', 'xapia', 'pou', 'einai', 'to', 'potiri']
 
-    self.base_path = "/home/etsardou/recordings/benchmark_recordings/nao_ogg/original_ogg/"
     self.overall_score = {}
 
     self.total_mean = 0.0
@@ -295,14 +293,12 @@ class SpeechRecognitionTester:
     spreq.grammar = []
     res = configure_service(spreq)
 
-    self.perform_experiment("nao_ogg_d05_a2.ogg", 50, "no_gr",noftests, "nao_ogg")
+    filename = "/home/etsardou/recordings/benchmark_recordings/nao_ogg/original_ogg/nao_ogg_d05_a3.ogg"
+    self.perform_experiment(filename, 50, "no_gr", noftests, "nao_ogg")
   
-    # Fifty words, with grammar
-    #spreq = self.setup_fifty_words_voc()
-    #res = configure_service(spreq)
-
-    #self.perform_experiment("nao_ogg_d05_a2.ogg", 50, "gr",noftests)
-   
+    filename = "/home/etsardou/recordings/benchmark_recordings/nao_wav/original_4_ch_48kHz/nao_wav_d05_a3.wav"
+    self.perform_experiment(filename, 50, "no_gr", noftests, "nao_wav_4_ch")
+    
     for el in self.overall_score:
       print el + " : " + str(self.overall_score[el]*100.0) + " %"
     print "Final overall: " + str(self.total_mean / self.counter * 100.0) + "%"

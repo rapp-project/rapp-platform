@@ -30,12 +30,12 @@ import sys
 import subprocess
 import time
 import os
-import rospkg
+from global_parameters import GlobalParams
 
-class Sphinx4Wrapper: 
+class Sphinx4Wrapper(GlobalParams): 
  
   def __init__(self):
-    self.rospack = rospkg.RosPack()
+    GlobalParams.__init__(self)
 
   # Helper function for getting input from Sphinx
   def readLine(self, print_line = False):
@@ -129,6 +129,7 @@ class Sphinx4Wrapper:
       print "RAPP: " + command
       os.system(command)      
       audio_to_be_erased.append(next_audio_file)
+      prev_audio_file = next_audio_file
     elif audio_source == "nao_wav_4_ch": # Needs conversion to mono + 16KHz
       print "Audio source = NAO wav 4 channels"
       next_audio_file = next_audio_file + "_mono.wav"
@@ -136,11 +137,12 @@ class Sphinx4Wrapper:
       print "RAPP: " + command
       os.system(command)
       audio_to_be_erased.append(next_audio_file)
+      prev_audio_file = next_audio_file
 
     # Check if denoising is needed
     if audio_source == "nao_ogg":
-      nao_ogg_noise_profile = self.rospack.get_path("rapp_sphinx4_java_libraries")
-      nao_ogg_noise_profile += "/noise_profiles/noise_profile_nao_ogg"
+      nao_ogg_noise_profile = self.rospack.get_path("rapp_sphinx4_noise_profiles")
+      nao_ogg_noise_profile += "/noise_profile_nao_ogg"
       next_audio_file = prev_audio_file + "_denoised.wav"
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
           + nao_ogg_noise_profile + " 0.1"
@@ -148,8 +150,8 @@ class Sphinx4Wrapper:
       os.system(command)
       audio_to_be_erased.append(next_audio_file)
     elif audio_source == "nao_wav_4_ch" or audio_source == "nao_wav_1_ch":
-      nao_wav_noise_profile = self.rospack.get_path("rapp_sphinx4_java_libraries")
-      nao_wav_noise_profile += "/noise_profiles/noise_profile_nao_wav"
+      nao_wav_noise_profile = self.rospack.get_path("rapp_sphinx4_noise_profiles")
+      nao_wav_noise_profile += "/noise_profile_nao_wav"
       next_audio_file = prev_audio_file + "_denoised.wav" 
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
           + nao_wav_noise_profile + " 0.1"

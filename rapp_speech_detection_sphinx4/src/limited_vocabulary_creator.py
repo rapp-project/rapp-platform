@@ -28,28 +28,25 @@
 
 import rospy
 import sys
-import rospkg
 import os
 
+from global_parameters import GlobalParams
 
-class LimitedVocabularyCreator:
+class LimitedVocabularyCreator(GlobalParams):
 
   def __init__(self):
+    GlobalParams.__init__(self)
 
-    rospack = rospkg.RosPack()
-    self.languages_package = rospack.get_path('rapp_sphinx4_java_libraries')   
-    self.sphinx4_jars = self.languages_package
-    self.languages_package += "/tmp_language_pack/"
-    self.sphinx4_class_path = rospack.get_path('rapp_speech_detection_sphinx4')   
+    self.languages_package = self.language_models_url + "/tmp_language_pack/"
     
     if not os.path.exists(self.languages_package):
       os.makedirs(self.languages_package)
  
     self.sphinx_configuration = { \
-      'jar_path' : ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
-            + self.sphinx4_class_path + "/src", \
-      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml", \
-      'acoustic_model' : self.sphinx4_jars+"/acoustic_model", \
+      'jar_path' : ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
+            + self.sphinx_package_url + "/src", \
+      'configuration_path' : self.language_models_url + "/greekPack/default.config.xml", \
+      'acoustic_model' : self.acoustic_models_url, \
       'grammar_name' : '', \
       'grammar_folder' : '', \
       'dictionary' : '', \
@@ -108,7 +105,7 @@ class LimitedVocabularyCreator:
 
     # Run script to fix the language model
     print "Sphinx: Creating language model files\n"
-    bash_file = self.sphinx4_jars + "/greekPack/run.sh"
+    bash_file = self.language_models_url + "/greekPack/run.sh"
     bash_command = "cp " + bash_file + " " + self.languages_package + \
         " && cd " + self.languages_package + " && bash run.sh"
     os.system(bash_command)

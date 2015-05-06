@@ -29,43 +29,39 @@
 
 import rospy
 import sys
-import rospkg
 import mmap
+from global_parameters import GlobalParams
 
 from limited_vocabulary_creator import *
 
-class GreekSupport:
+class GreekSupport(GlobalParams):
 
   def __init__(self):
-    
+    GlobalParams.__init__(self)
+
     self.generic_sphinx_configuration = {}
     self.limited_sphinx_configuration = {}
 
     self.vocabulary = LimitedVocabularyCreator()
-    rospack = rospkg.RosPack()
     # TODO: Split the rapp_sphinx4_java_libraries package into libraries and
     # language models
-    self.greek_dictionary = rospack.get_path('rapp_sphinx4_java_libraries')   
     # NOTE: This does not exist yet
-    self.greek_dictionary = self.greek_dictionary + \
+    self.greek_dictionary = self.language_models_url + \
         "/englishPack/cmudict-en-us.dict"
     
-    self.sphinx4_jars = rospack.get_path('rapp_sphinx4_java_libraries')   
-    self.sphinx4_class_path = rospack.get_path('rapp_speech_detection_sphinx4')   
-    
-    jar_path = ".:" + self.sphinx4_jars + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
-            + self.sphinx4_class_path + "/src"
+    jar_path = ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
+            + self.sphinx_package_url + "/src"
 
     # Grammar is dummy here..
     # NOTE: Fix this according to the generic Greek model
     self.generic_sphinx_configuration = { \
       'jar_path' : jar_path, \
-      'configuration_path' : self.sphinx4_jars+"/greekPack/default.config.xml", \
-      'acoustic_model' : self.sphinx4_jars + "/englishPack/en-us/", \
+      'configuration_path' : self.language_models_url + "/greekPack/default.config.xml", \
+      'acoustic_model' : self.acoustic_models_url + "/acoustic_model/", \
       'grammar_name' : 'hello', \
-      'grammar_folder' : self.sphinx4_jars+"/greekPack/", \
-      'dictionary' : self.sphinx4_jars + "/englishPack/cmudict-en-us.dict", \
-      'language_model' : self.sphinx4_jars + "/englishPack/en-us.lm.dmp", \
+      'grammar_folder' : self.language_models_url + "/greekPack/", \
+      'dictionary' : self.language_models_url +  "/englishPack/cmudict-en-us.dict", \
+      'language_model' : self.language_models_url + "/englishPack/en-us.lm.dmp", \
       'grammar_disabled' : True
       }
     
