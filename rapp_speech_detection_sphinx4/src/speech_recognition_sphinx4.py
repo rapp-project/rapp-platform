@@ -61,6 +61,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self.sphinx4 = Sphinx4Wrapper()
     self.greek_support = GreekSupport()
     self.english_support = EnglishSupport()
+    self.word_mapping = {}
     
     self.language = 'gr'
     self.words = []
@@ -133,8 +134,8 @@ class SpeechRecognitionSphinx4(GlobalParams):
     res = SpeechRecognitionSphinx4SrvResponse()
     words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source)   
     for word in words:
-      res.words.append(word)
-   
+      res.words.append(self.word_mapping[word])
+    
     return res;  
 
   # Service callback dedicated for Sphinx4 configuration
@@ -183,8 +184,11 @@ class SpeechRecognitionSphinx4(GlobalParams):
       # Limited dictionary utilization
       else:
         print "Words to be recognized (" + str(len(self.words)) + "):"
-        conf = self.greek_support.getLimitedVocebularyConfiguration(\
+        [conf, eng_w] = self.greek_support.getLimitedVocebularyConfiguration(\
             self.words, self.grammar, self.sentences)
+        for ew in eng_w:
+          self.word_mapping[ew] = eng_w[ew]
+        print self.word_mapping
    
     else:
       res.error = "Wrong language"

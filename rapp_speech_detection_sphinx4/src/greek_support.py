@@ -179,41 +179,41 @@ class GreekSupport(GlobalParams):
 
     self.literal_letters = {}
     self.literal_letters[(u'α').encode('utf-8')] = 'a' # when AE?
-    self.literal_letters[(u'ά').encode('utf-8')] = 'a'
-    self.literal_letters[(u'β').encode('utf-8')] = 'v'
+    self.literal_letters[(u'ά').encode('utf-8')] = 'a\''
+    self.literal_letters[(u'β').encode('utf-8')] = 'b'
     self.literal_letters[(u'γ').encode('utf-8')] = 'g'
     self.literal_letters[(u'δ').encode('utf-8')] = 'd'
     self.literal_letters[(u'ε').encode('utf-8')] = 'e'
-    self.literal_letters[(u'έ').encode('utf-8')] = 'e'
+    self.literal_letters[(u'έ').encode('utf-8')] = 'e\''
     self.literal_letters[(u'ζ').encode('utf-8')] = 'z'
-    self.literal_letters[(u'η').encode('utf-8')] = 'i'
-    self.literal_letters[(u'ή').encode('utf-8')] = 'i'
+    self.literal_letters[(u'η').encode('utf-8')] = 'h'
+    self.literal_letters[(u'ή').encode('utf-8')] = 'h\''
     self.literal_letters[(u'θ').encode('utf-8')] = 'th'
     self.literal_letters[(u'ι').encode('utf-8')] = 'i'
-    self.literal_letters[(u'ί').encode('utf-8')] = 'i'
-    self.literal_letters[(u'ϊ').encode('utf-8')] = 'i'
-    self.literal_letters[(u'ΐ').encode('utf-8')] = 'i'
+    self.literal_letters[(u'ί').encode('utf-8')] = 'i\''
+    self.literal_letters[(u'ϊ').encode('utf-8')] = 'i:'
+    self.literal_letters[(u'ΐ').encode('utf-8')] = 'i\':'
     self.literal_letters[(u'κ').encode('utf-8')] = 'k'
     self.literal_letters[(u'λ').encode('utf-8')] = 'l'
     self.literal_letters[(u'μ').encode('utf-8')] = 'm'
     self.literal_letters[(u'ν').encode('utf-8')] = 'n'
     self.literal_letters[(u'ξ').encode('utf-8')] = 'ks'
     self.literal_letters[(u'ο').encode('utf-8')] = 'o'
-    self.literal_letters[(u'ό').encode('utf-8')] = 'o'
+    self.literal_letters[(u'ό').encode('utf-8')] = 'o\''
     self.literal_letters[(u'π').encode('utf-8')] = 'p'
     self.literal_letters[(u'ρ').encode('utf-8')] = 'r'
     self.literal_letters[(u'σ').encode('utf-8')] = 's'
-    self.literal_letters[(u'ς').encode('utf-8')] = 's'
+    self.literal_letters[(u'ς').encode('utf-8')] = 's\''
     self.literal_letters[(u'τ').encode('utf-8')] = 't'
     self.literal_letters[(u'υ').encode('utf-8')] = 'u'
-    self.literal_letters[(u'ύ').encode('utf-8')] = 'u'
-    self.literal_letters[(u'ϋ').encode('utf-8')] = 'u' 
-    self.literal_letters[(u'ΰ').encode('utf-8')] = 'u'
+    self.literal_letters[(u'ύ').encode('utf-8')] = 'u\''
+    self.literal_letters[(u'ϋ').encode('utf-8')] = 'u:' 
+    self.literal_letters[(u'ΰ').encode('utf-8')] = 'u\':'
     self.literal_letters[(u'φ').encode('utf-8')] = 'f'
     self.literal_letters[(u'χ').encode('utf-8')] = 'x'
     self.literal_letters[(u'ψ').encode('utf-8')] = 'ps'
-    self.literal_letters[(u'ω').encode('utf-8')] = 'o'
-    self.literal_letters[(u'ώ').encode('utf-8')] = 'o'
+    self.literal_letters[(u'ω').encode('utf-8')] = 'w'
+    self.literal_letters[(u'ώ').encode('utf-8')] = 'w\''
 
 
   def transformWords(self, words):
@@ -289,7 +289,7 @@ class GreekSupport(GlobalParams):
     self.limited_sphinx_configuration = \
         self.vocabulary.createConfigurationFiles(tr_words, englified_grammar , \
         englified_sentences)
-    return self.limited_sphinx_configuration
+    return [self.limited_sphinx_configuration, englified]
   
   def getGenericConfiguration(self):
     return self.generic_sphinx_configuration

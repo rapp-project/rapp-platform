@@ -95,6 +95,7 @@ class SpeechRecognitionTester:
     spreq.words.append(u'πριν')
     spreq.words.append(u'χτές')
     spreq.words.append(u'αύριο')
+    spreq.words.append(u'ο')
  
     spreq.sentences = []
     spreq.sentences.append(u'όχι δε θυμάμαι')
@@ -250,7 +251,8 @@ class SpeechRecognitionTester:
         mean += self.lcs_length(res.words, exp_res) / (1.0 * len(exp_res))
         self.total_mean += self.lcs_length(res.words, exp_res) / (1.0 * len(exp_res))
       print file_path + "_" + grammar
-      print res
+      for w in res.words:
+          print w
       print exp_res
       if len(exp_res) != 0:
         print "Score: " + str(self.lcs_length(res.words, exp_res) / \
@@ -289,10 +291,10 @@ class SpeechRecognitionTester:
         '/ric/speech_detection_sphinx4_batch',\
         SpeechRecognitionSphinx4TotalSrv)
     
-    self.two_words_res = ['nai', 'oxi', 'nai']
-    self.six_words_res = ['nai', 'mporei', 'de', 'ksero', 'isos', 'oxi']
-    self.fifty_words_res = ['pos', 'se', 'lene', 'de', 'thumamai', 'poios', 'eisai',\
-            'thelo', 'ta', 'xapia', 'pou', 'einai', 'to', 'potiri']
+    self.two_words_res = [u'ναι', u'όχι', u'ναι']
+    self.six_words_res = [u'ναι', u'μπορεί', u'δε', u'ξέρω', u'ίσως', u'όχι']
+    self.fifty_words_res = ['πώς', 'σε', 'λένε', 'δε', 'θυμάμαι', 'ποιός', 'είσαι',\
+            'θέλω', 'τα', 'χάπια', 'που', 'είναι', 'το', 'ποτήρι']
 
     self.overall_score = {}
 
