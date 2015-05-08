@@ -17,6 +17,9 @@ var RandStringGen = require ( /*rapp_hop_path +*/ "../utilities/./randStringGen.
 /*-----<Defined Name of QR Node ROS service>----*/
 var speech2TextRosService = "/ric/speech_detection_sphinx4";
 var speech2TextConfigRosService = "/ric/speech_detection_sphinx4_configure";
+var speech2TextService_batch = "/ric/speech_detection_sphinx4_batch";
+
+
 /*--<Defines the directory where images received are stored>--*/
 var storePath = "/home/" + user + "/hop_temps/"; 
 /*---Initiatess Communication with RosBridge (Global)---*/
@@ -47,36 +50,50 @@ service speech2Text ( fileData )
   var audioFileUrl = Fs.resolvePath( storePath + fileName );
   /*-----<Stores received image data>-----*/
   Fs.writeFileSync( audioFileUrl, fileData );
-  var args = createServiceArgs( audioFileUrl );
+  //var args = createServiceArgs( audioFileUrl );
 
-  var vocabulary = ['ναι', 'όχι', 'ίσως'];
-  var sentences = ['ναι', 'όχι', 'ίσως'];
+  var vocabulary = ['yes', 'no'];
+  var sentences = ['yes', 'no'];
   var grammar = [];
-  var confArgs = craft_s2tConfig_args('', vocabulary, grammar, sentences);
+  /* -- ------temp-----------------*/
+  var audio_source = "nao_wav_1_ch";
 
-  var returnMessage = rosbridge.callServiceSync( speech2TextConfigRosService, confArgs, 0 );
+  var confArgs = craft_s2tConfig_args('en', vocabulary, grammar, sentences, audio_source, audioFileUrl);
+  
+  var recognizedWords = undefined;
+
+  console.log(confArgs);
+  var returnMessage = rosbridge.callServiceSync( speech2TextService_batch, confArgs, 0 );
   console.log(returnMessage);
-  returnMessage = rosbridge.callServiceSync( speech2TextRosService, args, 0 );
   rosbridge.close();
-  console.log('[ROS-service]:', returnMessage);
 
   /*--<Removes the file after return status from rosbridge>--*/
   Fs.rmFileSync( storePath + fileName );
   randStrGen.removeCached( randStr );
   /*--<Returned message from qr ROS service>--*/
-  var wordsFound = returnMessage.values.words;
-  return JSON.stringify(wordsFound); 
+  if (returnMessage.result == true){
+    recognizedWords = returnMessage.values.words;
+  }
+  else{
+    recognizedWords = 'Speech2Text Ros node returned undefined!!';
+    console.log('Ros service [%s] returned error!!', speech2TextRosService);
+  }
+  //return JSON.stringify(recognizedWords); 
 };
 
-function craft_s2tConfig_args( language, words, grammar, sentences )
+
+function craft_s2tConfig_args( language, words, grammar, sentences, audio_source, audioFilePath )
 {
   var args = {};
   args[ 'words' ] = words;
-  args[ 'language' ] = "gr";
+  args[ 'language' ] = language;
   args[ 'grammar' ] = grammar;
   args[ 'sentences' ] = sentences;
-  return args
-}
+  args[ 'audio_source' ] = audio_source;
+  args[ 'path' ] = audioFile_path
+  return args;
+};
+
 
 function createServiceArgs( _audioFileUrl )
 {
@@ -85,6 +102,7 @@ function createServiceArgs( _audioFileUrl )
   };
   var args = {};
   args[ "path" ] = filename;
-  args[ 'audio_source' ] = 'nao_wav_1_ch';
+  args[ 'audio_source' ] = 'nao_wav_1_ch';// 'nao_ogg' || 'nao_wav_1_ch'
   return args;
 };
+

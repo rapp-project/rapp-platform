@@ -252,9 +252,9 @@ rosbridge.prototype.connect = function( rosbridgeURL ){
   };
 
   /*--<WebSocket onclose callback handler>--*/
-  this.rosWS_.onclose = function (event) {
-    console.log('[ROS-bridge]: Connection closed');
-  };
+  //this.rosWS_.onclose = function (event) {
+    //console.log('[ROS-bridge]: Connection closed');
+  //};
 
   /*--<WebSocket onerror callback handler>--*/
   //this.rosWS_.onerror = function( error ){
