@@ -98,7 +98,7 @@ class Sphinx4Wrapper(GlobalParams):
 
 
   # Performs the speech recognition and returns a list of words
-  def performSpeechRecognition(self, audio_file, audio_source):
+  def performSpeechRecognition(self, audio_file, audio_source, user):
     # Check if path exists
     if os.path.isfile(audio_file) == False:
       return ["Error: Something went wrong with the local audio storage",\
@@ -179,6 +179,13 @@ class Sphinx4Wrapper(GlobalParams):
         words.append("Time out error")
         break
     
+    directory = "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/" + user
+    if not os.path.isdir(directory):
+      os.makedirs(directory)
+    clean_file = audio_to_be_erased[-1].split("/")[-1]
+
+    os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/" + clean_file)
+
     for f in audio_to_be_erased:
       command = "rm " + f
       print command

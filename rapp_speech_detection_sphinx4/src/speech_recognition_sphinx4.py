@@ -159,6 +159,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
 
     spee_req.path = req.path
     spee_req.audio_source = req.audio_source
+    spee_req.user = req.user
     spee_res = self.speechRecognition(spee_req)
     total_res.words = spee_res.words
     return total_res
@@ -166,7 +167,8 @@ class SpeechRecognitionSphinx4(GlobalParams):
   # Service callback for handling speech recognition
   def speechRecognition(self, req):     
     res = SpeechRecognitionSphinx4SrvResponse()
-    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source)   
+    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source,\
+            req.user)   
     for word in words:
       if self.language != "en":
         res.words.append(self.word_mapping[word])

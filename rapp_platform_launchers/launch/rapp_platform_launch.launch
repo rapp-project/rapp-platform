@@ -4,4 +4,5 @@
   <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
   <include file="$(find rapp_speech_detection_sphinx4)/launch/speech_detection_sphinx4.launch" />
   <include file="$(find rapp_face_detection)/launch/face_detection.launch" />
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
 </launch>
