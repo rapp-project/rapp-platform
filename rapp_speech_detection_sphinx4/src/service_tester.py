@@ -225,6 +225,7 @@ class SpeechRecognitionTester:
     spee_req.language = spreq.language
     spee_req.words = spreq.words
     spee_req.grammar = spreq.grammar
+    spee_req.user = 'etsardou'
     if grammar == "no_gr":
       spee_req.grammar = []
     spee_req.sentences = spreq.sentences
@@ -235,6 +236,7 @@ class SpeechRecognitionTester:
       spee_req.path = file_path   
       spee_req.audio_source = audio_source
       res = self.conf_sp_ser(spee_req)
+      print res
       exp_res = []
       if int_words == 2:
         exp_res = self.two_words_res
@@ -307,8 +309,8 @@ class SpeechRecognitionTester:
     filename = "/home/etsardou/recordings/benchmark_recordings/nao_ogg/original_ogg/nao_ogg_d05_a3.ogg"
     self.perform_experiment(filename, 50, "no_gr", noftests, "nao_ogg")
   
-    filename = "/home/etsardou/recordings/benchmark_recordings/nao_wav/original_4_ch_48kHz/nao_wav_d05_a3.wav"
-    self.perform_experiment(filename, 50, "no_gr", noftests, "nao_wav_4_ch")
+    #filename = "/home/etsardou/recordings/benchmark_recordings/nao_wav/original_4_ch_48kHz/nao_wav_d05_a3.wav"
+    #self.perform_experiment(filename, 50, "no_gr", noftests, "nao_wav_4_ch")
     
     for el in self.overall_score:
       print el + " : " + str(self.overall_score[el]*100.0) + " %"

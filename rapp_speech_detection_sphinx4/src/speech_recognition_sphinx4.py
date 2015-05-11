@@ -90,7 +90,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     if self.use_db_authentication == True:
       self.serv_db_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
       self.authentication_service = rospy.ServiceProxy(\
-              self.serv_db_topic, fetchDataSrv.srv)
+              self.serv_db_topic, fetchDataSrv)
 
     if(not self.serv_topic):
       rospy.logerror("Sphinx4 Speech detection topic param not found")
@@ -128,21 +128,21 @@ class SpeechRecognitionSphinx4(GlobalParams):
   # Service callback for handling sphinx4 configuration AND speech recognition
   def speechRecognitionBatch(self, req):
 
+    total_res = SpeechRecognitionSphinx4TotalSrvResponse()
+
     #-------------------------Check with database-------------------------#
     if self.use_db_authentication == True:
-      req_cols_r = ['username']
-      where_data_r = []
-      temp = StringArrayMsg()
-      temp.s = []
-      temp_str = String()
-      temp_str.data = req.user # The user from the speech rec. request
-      temp.s.append(temp_str)
-      where_data_r.append(temp)
-      resp = self.authentication_service(req_cols=req_cols_r, where_data=where_data_r)
-      # TODO:Continue here!
-      
-    total_res = SpeechRecognitionSphinx4TotalSrvResponse()
-      
+      req_db = fetchDataSrv()
+      req_db.req_cols=[String(data="username")]
+      entry1=[String(data="username"),String(data=req.user)]
+      req_db.where_data=[StringArrayMsg(s=entry1)]
+
+      resp = self.authentication_service(req_db.req_cols, req_db.where_data)
+      print resp
+      if resp.success.data != True or len(resp.res_data) == 0: 
+        total_res.error = "Non authenticated user"
+        return total_res
+          
     conf_req = SpeechRecognitionSphinx4ConfigureSrvRequest()
     spee_req = SpeechRecognitionSphinx4SrvRequest()
 
