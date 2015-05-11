@@ -151,10 +151,10 @@ class Sphinx4Wrapper(GlobalParams):
       audio_to_be_erased.append(next_audio_file)
     elif audio_source == "nao_wav_4_ch" or audio_source == "nao_wav_1_ch":
       nao_wav_noise_profile = self.rospack.get_path("rapp_sphinx4_noise_profiles")
-      nao_wav_noise_profile += "/noise_profile_nao_wav"
+      nao_wav_noise_profile += "/noise_profile"
       next_audio_file = prev_audio_file + "_denoised.wav" 
       command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
-          + nao_wav_noise_profile + " 0.1"
+          + nao_wav_noise_profile + " 0.15"
       print "RAPP " + command
       os.system(command)
       audio_to_be_erased.append(next_audio_file)
@@ -183,8 +183,10 @@ class Sphinx4Wrapper(GlobalParams):
     if not os.path.isdir(directory):
       os.makedirs(directory)
     clean_file = audio_to_be_erased[-1].split("/")[-1]
+    clean_file_or = audio_to_be_erased[0].split("/")[-1]
 
     os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/" + clean_file)
+    os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/original_" + clean_file)
 
     for f in audio_to_be_erased:
       command = "rm " + f

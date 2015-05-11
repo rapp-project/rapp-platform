@@ -38,12 +38,13 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
       //var fileName = "speech-" + "bitch" + ".wav";
       //var audioFileUrl = Fs.resolvePath( storePath + fileName );
       //Fs.writeFileSync( audioFileUrl, fileData );
+      console.log(typeof words)
       var args = {
         'path': /*audioFileUrl*/fileUri_new,
         'audio_source': audio_source,
-        'words': ['ναι', 'οχι'],
-        'sentences': ['ναι', 'οχι'],
-        'grammar': [],
+        'words': JSON.parse(words),
+        'sentences': JSON.parse(sentences),
+        'grammar': JSON.parse(grammar),
         'language': language,
         'user': user
       };
@@ -73,6 +74,14 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
         rosWS = undefined;
         randStrGen.removeCached( uniqueID );
       }
+      
+      setTimeout( function(){
+        if (rosWS != undefined ){
+          console.log('Connection timed out!');
+          sendResponse('false');
+          rosWS.close();
+        }
+      }, 10000);
 
     }, this ); // do not forget the <this> argument of hop.HTTResponseAsync 
 }

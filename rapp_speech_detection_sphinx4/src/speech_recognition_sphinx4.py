@@ -167,10 +167,12 @@ class SpeechRecognitionSphinx4(GlobalParams):
   # Service callback for handling speech recognition
   def speechRecognition(self, req):     
     res = SpeechRecognitionSphinx4SrvResponse()
-    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source,\
-            req.user)   
+    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user)   
     for word in words:
       if self.language != "en":
+        print "Word: #" + word + "#"
+        if word == "":
+          continue
         res.words.append(self.word_mapping[word])
       else:
         res.words.append(word)
