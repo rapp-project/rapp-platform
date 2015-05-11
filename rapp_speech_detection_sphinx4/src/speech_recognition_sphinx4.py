@@ -47,6 +47,15 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4TotalSrv,
   SpeechRecognitionSphinx4TotalSrvResponse
   )
+
+from rapp_platform_ros_communications.srv import (
+  fetchDataSrv,
+  fetchDataSrvRequest
+  )
+
+from rapp_platform_ros_communications.msg import (
+  StringArrayMsg
+  )
     
 from std_msgs.msg import ( 
   String 
@@ -73,13 +82,24 @@ class SpeechRecognitionSphinx4(GlobalParams):
         rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
     self.serv_batch_topic = \
         rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
+
+    self.use_db_authentication = rospy.get_param(\
+        "rapp_speech_detection_sphinx4_use_db_authentication")
    
+    #---------------------------Check db authentication------------------------#
+    if self.use_db_authentication == True:
+      self.serv_db_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
+      self.authentication_service = rospy.ServiceProxy(\
+              self.serv_db_topic, fetchDataSrv.srv)
+
     if(not self.serv_topic):
       rospy.logerror("Sphinx4 Speech detection topic param not found")
     if(not self.serv_configuration_topic):
       rospy.logerror("Sphinx4 Speech detection configuration topic param not found")
     if(not self.serv_batch_topic):
       rospy.logerror("Sphinx4 Speech detection batch topic param not found")
+    if(not self.use_db_authentication):
+      rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
 
     self.speech_recognition_service = rospy.Service(self.serv_topic, \
         SpeechRecognitionSphinx4Srv, self.speechRecognition)
@@ -89,7 +109,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self.speech_recognition_batch_service = rospy.Service( \
         self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
         self.speechRecognitionBatch)
-
+    
     total_path = ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx_package_url + "/src"
 
@@ -107,6 +127,20 @@ class SpeechRecognitionSphinx4(GlobalParams):
  
   # Service callback for handling sphinx4 configuration AND speech recognition
   def speechRecognitionBatch(self, req):
+
+    #-------------------------Check with database-------------------------#
+    if self.use_db_authentication == True:
+      req_cols_r = ['username']
+      where_data_r = []
+      temp = StringArrayMsg()
+      temp.s = []
+      temp_str = String()
+      temp_str.data = req.user # The user from the speech rec. request
+      temp.s.append(temp_str)
+      where_data_r.append(temp)
+      resp = self.authentication_service(req_cols=req_cols_r, where_data=where_data_r)
+      # TODO:Continue here!
+      
     total_res = SpeechRecognitionSphinx4TotalSrvResponse()
       
     conf_req = SpeechRecognitionSphinx4ConfigureSrvRequest()
@@ -134,14 +168,17 @@ class SpeechRecognitionSphinx4(GlobalParams):
     res = SpeechRecognitionSphinx4SrvResponse()
     words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source)   
     for word in words:
-      res.words.append(self.word_mapping[word])
+      if self.language != "en":
+        res.words.append(self.word_mapping[word])
+      else:
+        res.words.append(word)
     
     return res;  
 
   # Service callback dedicated for Sphinx4 configuration
   def configureSpeechRecognition(self, req):
     res = SpeechRecognitionSphinx4ConfigureSrvResponse()
- 
+    
     conf = {} # Dummy initialization
     reconfigure = False
     

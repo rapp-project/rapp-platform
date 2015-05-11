@@ -1,3 +1,5 @@
 rapp_speech_detection_sphinx4_topic: /ric/speech_detection_sphinx4
 rapp_speech_detection_sphinx4_configuration_topic: /ric/speech_detection_sphinx4_configure
 rapp_speech_detection_sphinx4_total_topic: /ric/speech_detection_sphinx4_batch
+
+rapp_speech_detection_sphinx4_use_db_authentication: true
