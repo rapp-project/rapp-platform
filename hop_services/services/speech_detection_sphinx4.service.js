@@ -1,11 +1,14 @@
 hop = require('hop');
 //Fs = require('./fileUtils.js');
 
+console.log(hop.hostname);
+console.log(hop.port);
+
 var user = process.env.LOGNAME;
 var storePath = "/home/" + user + "/hop_temps/"; 
 var rosService = "/ric/speech_detection_sphinx4_batch";
 
-service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', words: [], sentences: [], grammar: []} ){
+service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''} ){
   console.log('Service invocation. Preparing response');
   console.log('Audio source file stored at:', fileUrl);
   console.log('Words to search for:', words);
@@ -24,7 +27,8 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
         'words': ['ναι', 'οχι'],
         'sentences': ['ναι', 'οχι'],
         'grammar': [],
-        'language': language
+        'language': language,
+        'user': user
       };
 
       var ros_srv_call = {
@@ -46,6 +50,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
         console.log('Received message from rosbridge');
         var resp_msg = event.value;
         sendResponse( resp_msg );
+        console.log(resp_msg);
         this.close();
         rosWS = undefined;
       }
