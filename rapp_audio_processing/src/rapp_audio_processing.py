@@ -73,17 +73,16 @@ class AudioProcessing:
 
     cleanup = []
     #-------------------------Check with database-------------------------#
-    if self.use_db_authentication == True:
-      req_db = fetchDataSrv()
-      req_db.req_cols=[String(data="username")]
-      entry1=[String(data="username"),String(data=req.user)]
-      req_db.where_data=[StringArrayMsg(s=entry1)]
+    req_db = fetchDataSrv()
+    req_db.req_cols=[String(data="username")]
+    entry1=[String(data="username"),String(data=req.user)]
+    req_db.where_data=[StringArrayMsg(s=entry1)]
 
-      resp = self.authentication_service(req_db.req_cols, req_db.where_data)
-      print resp
-      if resp.success.data != True or len(resp.res_data) == 0: 
-        res.success = "Non authenticated user"
-        return total_res
+    resp = self.authentication_service(req_db.req_cols, req_db.where_data)
+    print resp
+    if resp.success.data != True or len(resp.res_data) == 0: 
+      res.success = "Non authenticated user"
+      return total_res
 
     directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
     if not os.path.isdir(directory):
