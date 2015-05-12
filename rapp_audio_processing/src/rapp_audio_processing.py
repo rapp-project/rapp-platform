@@ -124,6 +124,7 @@ class AudioProcessing:
             + noise_profile_uri)
 
     res.success = "true"
+    os.system("chmod -R 777 /tmp/rapp_platform_files/")
     self.cleanup(cleanup)
     return res
 
