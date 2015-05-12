@@ -31,11 +31,24 @@ import subprocess
 import time
 import os
 from global_parameters import GlobalParams
+import rospy
+
+from rapp_platform_ros_communications.srv import(
+    AudioProcessingDenoiseSrv,
+    AudioProcessingDenoiseSrvRequest
+    )
 
 class Sphinx4Wrapper(GlobalParams): 
  
   def __init__(self):
     GlobalParams.__init__(self)
+    self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
+    if(not self.denoise_topic):
+      rospy.logerror("Audio processing topic param not found")
+
+    self.denoise_service = rospy.ServiceProxy(\
+              self.denoise_topic, AudioProcessingDenoiseSrv)
+
 
   # Helper function for getting input from Sphinx
   def readLine(self, print_line = False):
@@ -140,23 +153,20 @@ class Sphinx4Wrapper(GlobalParams):
       prev_audio_file = next_audio_file
 
     # Check if denoising is needed
-    if audio_source == "nao_ogg":
-      nao_ogg_noise_profile = self.rospack.get_path("rapp_sphinx4_noise_profiles")
-      nao_ogg_noise_profile += "/noise_profile_nao_ogg"
+    if audio_source == "nao_ogg" or \
+        audio_source == "nao_wav_1_ch" or\
+        audio_source == "nao_wav_4_ch":
+
       next_audio_file = prev_audio_file + "_denoised.wav"
-      command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
-          + nao_ogg_noise_profile + " 0.1"
-      print "RAPP " + command
-      os.system(command)
-      audio_to_be_erased.append(next_audio_file)
-    elif audio_source == "nao_wav_4_ch" or audio_source == "nao_wav_1_ch":
-      nao_wav_noise_profile = self.rospack.get_path("rapp_sphinx4_noise_profiles")
-      nao_wav_noise_profile += "/noise_profile"
-      next_audio_file = prev_audio_file + "_denoised.wav" 
-      command = "sox " + prev_audio_file + " " + next_audio_file + " noisered "\
-          + nao_wav_noise_profile + " 0.15"
-      print "RAPP " + command
-      os.system(command)
+      den_request = AudioProcessingDenoiseSrvRequest()
+      den_request.audio_file = prev_audio_file
+      den_request.denoised_audio_file = next_audio_file
+      den_request.audio_type = audio_source
+      den_request.user = user
+      den_request.scale = 0.15
+      den_response = self.denoise_service(den_request)
+      if den_response.success != "true":
+        return [den_response.success]
       audio_to_be_erased.append(next_audio_file)
 
     new_audio_file = next_audio_file
