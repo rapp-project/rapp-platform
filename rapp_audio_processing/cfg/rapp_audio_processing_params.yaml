@@ -1,0 +1,2 @@
+rapp_audio_processing_set_noise_profile_topic: /ric/audio_processing/set_noise_profile
+rapp_audio_processing_denoise_topic: /ric/audio_processing/denoise

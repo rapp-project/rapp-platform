@@ -1,0 +1,11 @@
+# Noise audio file must contain silence for at least 3 seconds
+# Audio file types can be (for now)
+#   nao_ogg
+#   nao_wav_1_ch
+#   nao_wav_4_ch
+
+string noise_audio_file
+string audio_file_type
+string user
+---
+string success

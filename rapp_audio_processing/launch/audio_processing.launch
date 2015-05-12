@@ -1,0 +1,5 @@
+<launch>
+  <node name="rapp_audio_processing_node" pkg="rapp_audio_processing" type="rapp_audio_processing.py" output="screen"/>
+  <rosparam file="$(find rapp_audio_processing)/cfg/rapp_audio_processing_params.yaml" 
+    command="load" />
+</launch>
