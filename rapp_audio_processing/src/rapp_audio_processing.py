@@ -95,7 +95,8 @@ class AudioProcessing:
     directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
     if not os.path.isdir(directory):
       os.makedirs(directory)
-      directory += "/noise_profile/"
+    directory += "/noise_profile/"
+    if not os.path.isdir(directory):
       os.makedirs(directory)
 
     noise_profile_file = directory
