@@ -117,7 +117,7 @@ class AudioProcessing:
       self.cleanup(cleanup)
       return total_res
 
-    noise_profile_uri = directory + "noise_profile_" + req.audio_file_type
+    noise_profile_uri = directory + "/noise_profile_" + req.audio_file_type
     # Extract noise_profile
     os.system("sox " + new_audio + " -t null /dev/null trim 0.5 2.5 noiseprof "\
             + noise_profile_uri)
