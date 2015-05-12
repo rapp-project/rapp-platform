@@ -95,9 +95,11 @@ class AudioProcessing:
     directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
     if not os.path.isdir(directory):
       os.makedirs(directory)
+      os.system("chmod 777 " + directory)
     directory += "/noise_profile/"
     if not os.path.isdir(directory):
       os.makedirs(directory)
+      os.system("chmod 777 " + directory)
 
     noise_profile_file = directory
     new_audio = req.noise_audio_file
@@ -122,9 +124,9 @@ class AudioProcessing:
     # Extract noise_profile
     os.system("sox " + new_audio + " -t null /dev/null trim 0.5 2.5 noiseprof "\
             + noise_profile_uri)
+    os.system("chmod 777 " + noise_profile_uri)
 
     res.success = "true"
-    os.system("chmod -R 777 /tmp/rapp_platform_files/")
     self.cleanup(cleanup)
     return res
 
