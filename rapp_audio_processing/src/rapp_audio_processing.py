@@ -135,15 +135,15 @@ class AudioProcessing:
     res = AudioProcessingDenoiseSrvResponse()
     directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
     
-    if  audio_type != "nao_ogg" and\
-        audio_type != "nao_wav_1_ch" and\
-        audio_type != "nao_wav_4_ch":
+    if  req.audio_type != "nao_ogg" and\
+        req.audio_type != "nao_wav_1_ch" and\
+        req.audio_type != "nao_wav_4_ch":
       res.success = "Wrong audio type"
       return res
     
-    noise_profile = directory + "/noise_profile/noise_profile_" + audio_type
+    noise_profile = directory + "/noise_profile/noise_profile_" + req.audio_type
     if not os.path.isfile(noise_profile):
-      res.success = "No noise profile for the " + audio_type + " type exists"
+      res.success = "No noise profile for the " + req.audio_type + " type exists"
       return res
     
     command = "sox " + req.audio_file + " " + req.denoised_audio_file +\
