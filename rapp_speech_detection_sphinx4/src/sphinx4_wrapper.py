@@ -166,7 +166,7 @@ class Sphinx4Wrapper(GlobalParams):
       den_request.scale = 0.15
       den_response = self.denoise_service(den_request)
       if den_response.success != "true":
-        return ["Error" + den_response.success]
+        return ["Error:" + den_response.success]
       audio_to_be_erased.append(next_audio_file)
 
     new_audio_file = next_audio_file
