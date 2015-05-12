@@ -166,7 +166,7 @@ class Sphinx4Wrapper(GlobalParams):
       den_request.scale = 0.15
       den_response = self.denoise_service(den_request)
       if den_response.success != "true":
-        return [den_response.success]
+        return ["Error" + den_response.success]
       audio_to_be_erased.append(next_audio_file)
 
     new_audio_file = next_audio_file
@@ -186,7 +186,7 @@ class Sphinx4Wrapper(GlobalParams):
         if(line=="stopPython\n"):
           break
       if (time.time() - start_time > 10):
-        words.append("Time out error")
+        words.append("Error: Time out error")
         break
     
     directory = "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/" + user
