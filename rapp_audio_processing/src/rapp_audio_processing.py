@@ -42,6 +42,10 @@ from rapp_platform_ros_communications.srv import (
   fetchDataSrvRequest
   )
 
+from rapp_platform_ros_communications.msg import (
+  StringArrayMsg
+  )
+
 from std_msgs.msg import ( 
   String 
   ) 
