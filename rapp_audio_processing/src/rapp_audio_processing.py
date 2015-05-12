@@ -147,7 +147,7 @@ class AudioProcessing:
       return res
     
     command = "sox " + req.audio_file + " " + req.denoised_audio_file +\
-            " noisered " + noise_profile + " " + str(scale)
+            " noisered " + noise_profile + " " + str(req.scale)
     os.system(command)
     res.success = "true"
     return res
