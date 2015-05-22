@@ -3,11 +3,8 @@
  * the onmessage event calls
  */
 
-//hop = require('hop');
+hop = require('hop');
 fs = require('fs');
-
-console.log(hop.hostname);
-console.log(hop.port);
 
 var user = process.env.LOGNAME;
 var storePath = "/home/" + user + "/hop_temps/"; 
@@ -82,7 +79,6 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
 
       function asyncWrap(){
         setTimeout( function(){
-          console.log('Connection timed out!');
           if (respFlag != true){
             console.log('Connection timed out! rosWs = undefined');
             //sendResponse('Timeout');
@@ -116,7 +112,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
             /*--------------------------------------------------------*/
             asyncWrap();
           }
-        }, 6000); //Timeout value is set at 10 seconds
+        }, 8000); //Timeout value is set at 10 seconds
       }
       asyncWrap();
 

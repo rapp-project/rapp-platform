@@ -2,7 +2,7 @@
  * the onmessage event calls
  */
 
-//hop = require('hop');
+hop = require('hop');
 fs = require('fs');
 
 var user = process.env.LOGNAME;
@@ -71,7 +71,6 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
       {
         setTimeout( function()
         {
-          console.log('Connection timed out!');
           if (respFlag != true)
           {
             console.log('Connection timed out! rosWs = undefined');
