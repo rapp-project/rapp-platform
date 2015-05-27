@@ -192,11 +192,13 @@ class Sphinx4Wrapper(GlobalParams):
     directory = "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/" + user
     if not os.path.isdir(directory):
       os.makedirs(directory)
-    clean_file = audio_to_be_erased[-1].split("/")[-1]
-    clean_file_or = audio_to_be_erased[0].split("/")[-1]
 
-    os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/" + clean_file)
-    os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/original_" + clean_file)
+    if len(audio_to_be_erased) != 0:
+      clean_file = audio_to_be_erased[-1].split("/")[-1]
+      clean_file_or = audio_to_be_erased[0].split("/")[-1]
+
+      os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/" + clean_file)
+      os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/original_" + clean_file)
 
     for f in audio_to_be_erased:
       command = "rm " + f
