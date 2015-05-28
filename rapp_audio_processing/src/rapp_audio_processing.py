@@ -30,6 +30,8 @@ import rospy
 import sys
 import time
 import os
+from pylab import *
+from scipy.io import wavfile
 
 from rapp_platform_ros_communications.srv import (  
   AudioProcessingDenoiseSrv, 
@@ -60,17 +62,25 @@ class AudioProcessing:
             "rapp_audio_processing_set_noise_profile_topic")
     self.denoise_topic = \
         rospy.get_param("rapp_audio_processing_denoise_topic")
- 
+    self.energy_denoise_topic = \
+        rospy.get_param("rapp_audio_processing_energy_denoise_topic")
+
     if(not self.set_noise_profile_topic):
       rospy.logerror("Audio processing noise profiling topic param not found")
     if(not self.denoise_topic):
       rospy.logerror("Audio processing denoise topic param not found")
+    if(not self.energy_denoise_topic):
+      rospy.logerror("Audio processing energy denoise topic param not found")
  
     self.set_noise_profile_service = rospy.Service(self.set_noise_profile_topic, \
         AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
     self.denoise_service = rospy.Service( \
         self.denoise_topic, AudioProcessingDenoiseSrv, \
         self.denoise)
+    self.energy_denoise_service = rospy.Service( \
+        self.energy_denoise_topic, AudioProcessingDenoiseSrv, \
+        self.energy_denoise)
+
     self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
     self.authentication_service = rospy.ServiceProxy(\
         self.serv_db_topic, fetchDataSrv)
@@ -151,6 +161,27 @@ class AudioProcessing:
     os.system(command)
     res.success = "true"
     return res
+
+  # Service callback for handling denoising
+  def energy_denoise(self, req):     
+    res = AudioProcessingDenoiseSrvResponse()
+    directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
+    
+    samp_freq, signal = wavfile.read(req.audio_file)
+    sq_signal = signal*1.0
+    for i in range(0, len(sq_signal)):
+      sq_signal[i] *= sq_signal[i]
+    mean_sq = mean(sq_signal)
+
+    for i in range(0, len(sq_signal)):
+      if sq_signal[i] < mean_sq:
+        signal[i] = 0
+
+    wavfile.write(req.denoised_audio_file, samp_freq, signal)
+
+    res.success = "true"
+    return res
+
 
   # Cleanup method
   def cleanup(self, clean):

@@ -1,2 +1,3 @@
 rapp_audio_processing_set_noise_profile_topic: /rapp/rapp_audio_processing/set_noise_profile
 rapp_audio_processing_denoise_topic: /rapp/rapp_audio_processing/denoise
+rapp_audio_processing_energy_denoise_topic: /rapp/rapp_audio_processing/energy_denoise
