@@ -1,1 +1,1 @@
-rapp_speech_detection_google_topic: /ric/speech_to_text_service
+rapp_speech_detection_google_detect_speech_topic: /rapp/rapp_speech_detection_google/speech_to_text

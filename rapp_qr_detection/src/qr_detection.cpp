@@ -2,7 +2,7 @@
 
 QrDetection::QrDetection(void)
 {
-  if(!nh_.getParam("/qr_detection_topic", qrDetectionTopic_))
+  if(!nh_.getParam("/rapp_qr_detection_detect_qrs_topic", qrDetectionTopic_))
   {
     ROS_ERROR("Qr detection topic param does not exist");
   }

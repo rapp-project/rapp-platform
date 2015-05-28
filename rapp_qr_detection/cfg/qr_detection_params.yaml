@@ -1,1 +1,1 @@
-qr_detection_topic: /ric/ros_nodes/qr_detection_service
+rapp_qr_detection_detect_qrs_topic: /rapp/rapp_qr_detection/detect_qrs

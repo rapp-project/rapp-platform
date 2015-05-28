@@ -49,13 +49,16 @@
   });
   ros.getServices(function(services){
     services_literal = '<h2 align="center"><span class="label label-default">ROS Services</span></h2><br/><ul>';
+    rapp_services_literal = '<h2 align="center"><span class="label label-default">ROS Services</span></h2><br/><ul>';
     var index;
     for(index = 0 ; index < services.length ; index++)
     {
       services_literal += "<li>" + services[index] + '</li>';
     }
     services_literal += '</ul>';
+    rapp_services_literal += '</ul>';
     document.getElementById("services_div").innerHTML = services_literal;
+    document.getElementById("rapp_services_div").innerHTML = rapp_services_literal;
   });
  </script>
 </head>
@@ -69,18 +72,18 @@
   </div>
   <div class='container'>
     <div class='row-fluid'>
-      <div class='col-md-4' style='word-wrap:break-word;'>
+      <div class='col-md-3' style='word-wrap:break-word;'>
         <div id="nodes_div" class='panel panel-default'>  </div>
       </div>
-      <div class='col-md-4' style='word-wrap:break-word;'>
+      <div class='col-md-3' style='word-wrap:break-word;'>
         <div id="topics_div" class="panel panel-default">  </div>
       </div>
-      <div class='col-md-4' style='word-wrap:break-word;'>
+      <div class='col-md-3' style='word-wrap:break-word;'>
         <div id="services_div" class="panel panel-default">  </div>
       </div>
-      <!--<div class='col-md-3' style='word-wrap:break-word;'>-->
-        <!--<div id="rapp_services_div" class="panel panel-default">  </div>-->
-      <!--</div>-->
+      <div class='col-md-3' style='word-wrap:break-word;'>
+        <div id="rapp_services_div" class="panel panel-default">  </div>
+      </div>
     </div>
   </div>
 

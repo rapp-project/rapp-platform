@@ -71,7 +71,7 @@ class AudioProcessing:
     self.denoise_service = rospy.Service( \
         self.denoise_topic, AudioProcessingDenoiseSrv, \
         self.denoise)
-    self.serv_db_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
+    self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
     self.authentication_service = rospy.ServiceProxy(\
         self.serv_db_topic, fetchDataSrv)
  

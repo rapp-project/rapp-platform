@@ -1,1 +1,1 @@
-face_detection_topic: /ric/face_detection_service
+rapp_face_detection_detect_faces_topic: /rapp/rapp_face_detection/detect_faces

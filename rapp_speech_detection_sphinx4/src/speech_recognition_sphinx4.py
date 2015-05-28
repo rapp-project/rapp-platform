@@ -77,7 +77,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self.grammar = []
     self.sentences = []
 
-    self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_topic")
+    self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_detect_speech_topic")
     self.serv_configuration_topic = \
         rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
     self.serv_batch_topic = \
@@ -88,7 +88,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
    
     #---------------------------Check db authentication------------------------#
     if self.use_db_authentication == True:
-      self.serv_db_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
+      self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
       self.authentication_service = rospy.ServiceProxy(\
               self.serv_db_topic, fetchDataSrv)
 

@@ -1,5 +1,5 @@
 <launch>
-  <node name="mysql_db_wrapper" pkg="rapp_mysql_wrapper" type="mysql_wrapper.py" />
+  <node name="rapp_mysql_wrapper_node" pkg="rapp_mysql_wrapper" type="mysql_wrapper.py" />
   <rosparam file="$(find rapp_mysql_wrapper)/cfg/rapp_mysql_wrapper_params.yaml" 
     command="load" />
 </launch>

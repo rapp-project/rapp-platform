@@ -52,111 +52,111 @@ class MySQLdbWrapper:
   
   def __init__(self):   
     #tblUser services launch
-    self.serv_topic = rospy.get_param("mysql_wrapper_user_fetch_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_user_fetch_data_topic")
+      rospy.logerror("rapp_mysql_wrapper_user_fetch_data_topic")
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblUserFetchDataHandler)    
-    self.serv_topic = rospy.get_param("mysql_wrapper_user_write_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_user_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_user_write_data_topic")    
+      rospy.logerror("rapp_mysql_wrapper_user_write_data_topic")    
     self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblUserWriteDataHandler)      
-    self.serv_topic = rospy.get_param("mysql_wrapper_user_delete_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_user_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_user_delete_data_topic")            
+      rospy.logerror("rapp_mysql_wrapper_user_delete_data_topic")            
     self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblUserDeleteDataHandler)     
-    self.serv_topic = rospy.get_param("mysql_wrapper_user_update_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_user_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_user_update_data_topic")     
+      rospy.logerror("rapp_mysql_wrapper_user_update_data_topic")     
     self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblUserUpdateDataHandler)
     #tblModel services launch
-    self.serv_topic = rospy.get_param("mysql_wrapper_model_fetch_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_model_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_model_fetch_data_topic")     
+      rospy.logerror("rapp_mysql_wrapper_model_fetch_data_topic")     
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblModelFetchDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_model_write_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_model_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_model_write_data_topic")      
+      rospy.logerror("rapp_mysql_wrapper_model_write_data_topic")      
     self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblModelWriteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_model_delete_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_model_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_model_delete_data_topic")       
+      rospy.logerror("rapp_mysql_wrapper_model_delete_data_topic")       
     self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblModelDeleteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_model_update_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_model_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_model_update_data_topic")     
+      rospy.logerror("rapp_mysql_wrapper_model_update_data_topic")     
     self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblModelUpdateDataHandler)
     #tblRapp services launch
-    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_fetch_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_rapp_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_fetch_data_topic")       
+      rospy.logerror("rapp_mysql_wrapper_rapp_fetch_data_topic")       
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblRappFetchDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_write_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_rapp_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_write_data_topic")      
+      rospy.logerror("rapp_mysql_wrapper_rapp_write_data_topic")      
     self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblRappWriteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_delete_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_rapp_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_delete_data_topic")      
+      rospy.logerror("rapp_mysql_wrapper_rapp_delete_data_topic")      
     self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblRappDeleteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_rapp_update_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_rapp_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_update_data_topic")     
+      rospy.logerror("rapp_mysql_wrapper_rapp_update_data_topic")     
     self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblRappUpdateDataHandler)
     #tblRobot services launch
-    self.serv_topic = rospy.get_param("mysql_wrapper_robot_fetch_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_robot_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_robot_fetch_data_topic")       
+      rospy.logerror("rapp_mysql_wrapper_robot_fetch_data_topic")       
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblRobotFetchDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_robot_write_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_robot_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_robot_write_data_topic")       
+      rospy.logerror("rapp_mysql_wrapper_robot_write_data_topic")       
     self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblRobotWriteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_robot_delete_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_robot_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_robot_delete_data_topic")     
+      rospy.logerror("rapp_mysql_wrapper_robot_delete_data_topic")     
     self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblRobotDeleteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_robot_update_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_robot_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_robot_update_data_topic")      
+      rospy.logerror("rapp_mysql_wrapper_robot_update_data_topic")      
     self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblRobotUpdateDataHandler)
     #tblAppsRobots services launch
-    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_fetch_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_apps_robots_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_apps_robots_fetch_data_topic")       
+      rospy.logerror("rapp_mysql_wrapper_apps_robots_fetch_data_topic")       
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblAppsRobotsFetchDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_write_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_apps_robots_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_apps_robots_write_data_topic")         
+      rospy.logerror("rapp_mysql_wrapper_apps_robots_write_data_topic")         
     self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblAppsRobotsWriteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_delete_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_apps_robots_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_apps_robots_delete_data_topic")       
+      rospy.logerror("rapp_mysql_wrapper_apps_robots_delete_data_topic")       
     self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblAppsRobotsDeleteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_apps_robots_update_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_apps_robots_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_apps_robots_update_data_topic")      
+      rospy.logerror("rapp_mysql_wrapper_apps_robots_update_data_topic")      
     self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblAppsRobotsUpdateDataHandler)
     #tblUsersOntologyInstances services launch
-    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_fetch_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_users_ontology_instances_fetch_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_users_ontology_instances_fetch_data_topic")     
+      rospy.logerror("rapp_mysql_wrapper_users_ontology_instances_fetch_data_topic")     
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblUsersOntologyInstancesFetchDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_write_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_users_ontology_instances_write_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_users_ontology_instances_write_data_topic") 
+      rospy.logerror("rapp_mysql_wrapper_users_ontology_instances_write_data_topic") 
     self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblUsersOntologyInstancesWriteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_delete_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_users_ontology_instances_delete_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_users_ontology_instances_delete_data_topic")     
+      rospy.logerror("rapp_mysql_wrapper_users_ontology_instances_delete_data_topic")     
     self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblUsersOntologyInstancesDeleteDataHandler)
-    self.serv_topic = rospy.get_param("mysql_wrapper_users_ontology_instances_update_data_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_users_ontology_instances_update_data_topic")
     if(not self.serv_topic):
-      rospy.logerror("mysql_wrapper_users_ontology_instances_update_data_topic")       
+      rospy.logerror("rapp_mysql_wrapper_users_ontology_instances_update_data_topic")       
     self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
     #viewUsersRobotsApps services launch
-    self.serv_topic = rospy.get_param("viewUsersRobotsApps_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_view_users_robots_apps_topic")
     if(not self.serv_topic):
-      rospy.logerror("viewUsersRobotsApps_topic")     
+      rospy.logerror("rapp_mysql_wrapper_view_users_robots_apps_topic")     
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.viewUsersRobotsAppsFetchDataHandler)
                 
     

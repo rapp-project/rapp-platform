@@ -3,7 +3,7 @@
 FaceDetection::FaceDetection(void)
 {
 
-  if(!nh_.getParam("/face_detection_topic", faceDetectionTopic_))
+  if(!nh_.getParam("/rapp_face_detection_detect_faces_topic", faceDetectionTopic_))
   {
     ROS_ERROR("Face detection topic param does not exist");
   }

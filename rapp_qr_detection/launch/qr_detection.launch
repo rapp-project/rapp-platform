@@ -1,5 +1,5 @@
 <launch>
-  <node name="qr_detection_ros_node" pkg="rapp_qr_detection" type="qr_detection_ros_node" />
+  <node name="rapp_qr_detection_node" pkg="rapp_qr_detection" type="qr_detection_ros_node" />
   <rosparam file="$(find rapp_qr_detection)/cfg/qr_detection_params.yaml" 
     command="load" />
 </launch>

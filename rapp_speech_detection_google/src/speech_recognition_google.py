@@ -44,7 +44,7 @@ class SpeechToTextGoogle:
 
   def __init__(self):
     # Speech recognition service published
-    self.serv_topic = rospy.get_param("rapp_speech_detection_google_topic")
+    self.serv_topic = rospy.get_param("rapp_speech_detection_google_detect_speech_topic")
     if(not self.serv_topic):
         rospy.logerror("Speech detection topic param not found")
     self.serv = rospy.Service(self.serv_topic, \

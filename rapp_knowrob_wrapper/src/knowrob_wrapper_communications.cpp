@@ -29,41 +29,41 @@ contact: akintsakis@issel.ee.auth.gr
 KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_)
 {
   ros::service::waitForService("json_prolog/query", -1);
-  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData", -1);
-  ros::service::waitForService("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData", -1);
+  ros::service::waitForService("rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_write_data", -1);
+  ros::service::waitForService("rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_fetch_data", -1);
   //ros::service::waitForService("json_prolog/query", -1);  for DB service
 
-  if(!nh_.getParam("/ontology_subclass_of_topic", subclassesOfServiceTopic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_subclass_of_topic", subclassesOfServiceTopic_))
   {
-    ROS_ERROR("ontology_subclass_of_topic");
+    ROS_ERROR("rapp_knowrob_wrapper_subclass_of_topic not found");
   }
   subclassesOfService_ = nh_.advertiseService(subclassesOfServiceTopic_,
     &KnowrobWrapperCommunications::subclassesOfCallback, this);
 
-  if(!nh_.getParam("/ontology_superclass_of_topic", superclassesOfServiceTopic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_superclass_of_topic", superclassesOfServiceTopic_))
   {
-    ROS_ERROR("ontology_superclass_of_topic");
+    ROS_ERROR("rapp_knowrob_wrapper_superclass_of_topic not found");
   }      
   superclassesOfService_ = nh_.advertiseService(superclassesOfServiceTopic_,
     &KnowrobWrapperCommunications::superclassesOfCallback, this);
     
-  if(!nh_.getParam("/ontology_create_instance_topic", createInstanceServiceTopic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_create_instance_topic", createInstanceServiceTopic_))
   {
-    ROS_ERROR("ontology_create_instance_topic");
+    ROS_ERROR("rapp_knowrob_wrapper_create_instance_topic not found");
   }      
   createInstanceService_ = nh_.advertiseService(createInstanceServiceTopic_,
     &KnowrobWrapperCommunications::createInstanceCallback, this);    
 
-  if(!nh_.getParam("/ontology_dump_ontology_topic", dumpOntologyServiceTopic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_dump_ontology_topic", dumpOntologyServiceTopic_))
   {
-    ROS_ERROR("ontology_dump_ontology_topic");
+    ROS_ERROR("rapp_knowrob_wrapper_dump_ontology_topic not found");
   }         
   dumpOntologyService_ = nh_.advertiseService(dumpOntologyServiceTopic_,
     &KnowrobWrapperCommunications::dumpOntologyCallback, this);    
 
-  if(!nh_.getParam("/ontology_load_ontology_topic", loadOntologyServiceTopic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_load_ontology_topic", loadOntologyServiceTopic_))
   {
-    ROS_ERROR("ontology_load_ontology_topic");
+    ROS_ERROR("ontology_load_ontology_topic not found");
   }  
   loadOntologyService_ = nh_.advertiseService(loadOntologyServiceTopic_,
     &KnowrobWrapperCommunications::loadOntologyCallback, this);  
@@ -86,7 +86,7 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
     
     
 
-  ROS_WARN("KnowRob ROS wrapper initialized");
+  ROS_INFO("KnowRob ROS wrapper initialized");
 }
 
 bool KnowrobWrapperCommunications::subclassesOfCallback(

@@ -1,7 +1,7 @@
-ontology_subclass_of_topic: /ric/knowrob/subclasses_of
-ontology_superclass_of_topic: /ric/knowrob/superclasses_of 
-ontology_create_instance_topic: /ric/knowrob/createInstance
-ontology_dump_ontology_topic: /ric/knowrob/dumpOntology
-ontology_load_ontology_topic: /ric/knowrob/loadOntology
-ontology_user_instances_from_class_topic: /ric/knowrob/userInstancesFromClass
-ontology_assign_attribute_value: /ric/knowrob/assignAttributeValue
+rapp_knowrob_wrapper_subclass_of_topic: /rapp/rapp_knowrob_wrapper/subclasses_of
+rapp_knowrob_wrapper_superclass_of_topic: /rapp/rapp_knowrob_wrapper/superclasses_of 
+rapp_knowrob_wrapper_create_instance_topic: /rapp/rapp_knowrob_wrapper/create_instance
+rapp_knowrob_wrapper_dump_ontology_topic: /rapp/rapp_knowrob_wrapper/dump_ontology
+rapp_knowrob_wrapper_load_ontology_topic: /rapp/rapp_knowrob_wrapper/load_ontology
+rapp_knowrob_wrapper_user_instances_from_class_topic: /rapp/rapp_knowrob_wrapper/user_instances_from_class
+rapp_knowrob_wrapper_assign_attribute_value: /rapp/rapp_knowrob_wrapper/assign_attribute_value

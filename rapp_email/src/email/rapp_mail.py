@@ -47,7 +47,7 @@ from rapp_platform_ros_communications.srv import (
 class Email:
 
     def __init__(self):
-        self.serv_topic = rospy.get_param("rapp_email_send_topic")
+        self.serv_topic = rospy.get_param("rapp_email_send_mail_topic")
         if(not self.serv_topic):
             rospy.logerror("Email send topic param not found")
 

@@ -1,5 +1,5 @@
 <launch>
-  <node name="face_detection_ros_node" pkg="rapp_face_detection" 
+  <node name="rapp_face_detection_node" pkg="rapp_face_detection" 
     type="face_detection_ros_node" output="screen" />
   <rosparam file="$(find rapp_face_detection)/cfg/face_detection_params.yaml" 
     command="load" />
