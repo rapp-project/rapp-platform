@@ -60,8 +60,12 @@ class SpeechRecognitionTester:
     return spreq
 
   def __init__(self):    
+    
+    self.conf_sp_ser_top = \
+        rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
+
     self.conf_sp_ser = rospy.ServiceProxy(\
-        '/ric/speech_detection_sphinx4_batch',\
+        self.conf_sp_ser_top,\
         SpeechRecognitionSphinx4TotalSrv)
     
     spreq = ""
@@ -116,6 +120,7 @@ class SpeechRecognitionTester:
           success += 1
 
       print str(success*1.0/total*100.0) + "%"
+      #break
       
 
 # Main function
