@@ -3,7 +3,7 @@
 # Download and install rosjava for KnowRob to work
 sudo apt-get install python-wstool
 mkdir -p ~/rosjava
-wstool init -j4 ~/rosjava/src https://raw.githubusercontent.com/yujinrobot/yujin_tools/master/rosinstalls/indigo/rosjava.rosinstall
+wstool init -j4 ~/rosjava/src rosjava.rosinstall # Check here for path!
 source /opt/ros/indigo/setup.bash
 cd ~/rosjava
 rosdep update
