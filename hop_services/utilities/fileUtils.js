@@ -160,7 +160,7 @@ function rmFileSync(_file)
  * @param _dir Directory path. Works both with relative and absolute paths.
  * @return List of the contents of the specific directory (Array).
  */
-function getFilesListSync( _dir )
+function ls_sync( _dir )
 {
   var fileList = [];
   var dir = resolvePath( _dir );
@@ -245,11 +245,35 @@ function read_filesize( _fileURL ) {
   var stats = fs.statSync( path );
   var filesize_bytes = stats["size"];
  return filesize_bytes;
-}
+};
+
 
 
 /*!
- * @brief fileUtils module exports.
+ * @brief A method to load json data from a file
+ * @param fileName.
+ * @param encoding Encoding definition.
+ */
+function loadJSONfile (filename, encoding) {
+  try {
+    // default moduleencoding is utf8
+    if (typeof (encoding) == 'undefined') encoding = 'utf8';
+    // read file synchroneously
+    var contents = fs.readFileSync(filename, encoding);
+    //
+    // parse contents as JSON
+    return JSON.parse(contents);
+    //
+    };
+  catch (err) {
+  // an error occurred
+    throw err;
+  }
+};
+
+
+/*!
+ * @briUef fileUtils module exports.
  */
 module.exports = {
   version: getVersion,
@@ -257,7 +281,7 @@ module.exports = {
   readFileSync: readFileSync,
   writeFileSync: writeFileSync,
   rmFileSync: rmFileSync,
-  getFilesListSync: getFilesListSync,
+  ls_sync: ls_sync,
   text2File: text2File,
   writeLine: writeLine,
   read_filesize: read_filesize
