@@ -30,6 +30,7 @@ import rospy
 import sys
 from os import listdir
 from os.path import isfile, join
+import os
 
 from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4Srv,
@@ -40,7 +41,11 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4ConfigureSrvRequest,
   SpeechRecognitionSphinx4TotalSrv,
   SpeechRecognitionSphinx4TotalSrvResponse,
-  SpeechRecognitionSphinx4TotalSrvRequest
+  SpeechRecognitionSphinx4TotalSrvRequest,
+  
+  AudioProcessingDenoiseSrv,
+  AudioProcessingDenoiseSrvResponse,
+  AudioProcessingDenoiseSrvRequest
   )
 
 class SpeechRecognitionTester: 
@@ -59,15 +64,22 @@ class SpeechRecognitionTester:
     spreq.grammar.append(u'(ναι)')
     return spreq
 
-  def __init__(self):    
+  def __init__(self):   
+
+    tberased = []
     
     self.conf_sp_ser_top = \
         rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
+    self.denoising_service = \
+        rospy.get_param("rapp_audio_processing_energy_denoise_topic")
 
     self.conf_sp_ser = rospy.ServiceProxy(\
         self.conf_sp_ser_top,\
         SpeechRecognitionSphinx4TotalSrv)
-    
+    self.denoising = rospy.ServiceProxy(\
+        self.denoising_service,\
+        AudioProcessingDenoiseSrv)
+
     spreq = ""
     spreq = self.setup_two_words_voc()
     spreq.grammar = []
@@ -83,15 +95,23 @@ class SpeechRecognitionTester:
     
     success = 0
     total = 0
+    didnt_recognize = 0
+    total_recognize = 0
+
+    failed = []
+    not_recognized = []
+    response = []
 
     for f in files:
-      response = ""
+      response = []
       if not (("nai_" in f) or ("oxi_" in f)):
-        continue;
+        continue
+      #if "hard" in f:
+        #continue
       if "nai_" in f:
-        response = u'ναι'
+        response.append( (u'ναι').encode('utf-8') )
       else:
-        response = u'όχι'
+        response.append( (u'όχι').encode('utf-8') )
            
       spee_req.language = spreq.language
       spee_req.words = spreq.words
@@ -100,7 +120,18 @@ class SpeechRecognitionTester:
       spee_req.sentences = spreq.sentences
       spee_req.path = folder + f
       spee_req.audio_source = 'headset' # The samples are already denoised
+
+      # Perform power denoising
+      denoise_req = AudioProcessingDenoiseSrvRequest()
+      denoise_req.audio_file = spee_req.path
+      denoise_req.denoised_audio_file = spee_req.path + "denoised.wav"
+      spee_req.path = spee_req.path + "denoised.wav"
+      tberased.append(denoise_req.denoised_audio_file)
+      res = self.denoising(denoise_req)
+      #########################
+    
       res = self.conf_sp_ser(spee_req)
+
       print spee_req.path + " : ",
       for word in res.words:
         print word,
@@ -116,11 +147,30 @@ class SpeechRecognitionTester:
         
       total += 1
       if len(res.words) == 1:
-        if res.words[0] == response.encode('utf-8'):
+        total_recognize += 1
+        if res.words[0] in response:
           success += 1
-
-      print str(success*1.0/total*100.0) + "%"
+        else:
+          failed.append(f)
+      else:
+        didnt_recognize += 1
+        not_recognized.append(f)
+      
+      if total_recognize != 0:
+        print " / " + str(success * 1.0 / total_recognize * 100.0) + "%",
+      print " / " + str(didnt_recognize*1.0 / total * 100.0) + "%"
       #break
+    
+    for f in tberased:
+      command = "rm " + f
+      os.system(command)
+
+    print "Not recognized:"
+    for f in not_recognized:
+      print f
+    print "\nError:"
+    for f in failed:
+      print f
       
 
 # Main function

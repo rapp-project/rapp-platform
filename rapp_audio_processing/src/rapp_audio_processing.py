@@ -168,13 +168,13 @@ class AudioProcessing:
     directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
     
     samp_freq, signal = wavfile.read(req.audio_file)
-    sq_signal = signal*1.0
+    sq_signal = signal * 1.0
     for i in range(0, len(sq_signal)):
       sq_signal[i] *= sq_signal[i]
     mean_sq = mean(sq_signal)
 
     for i in range(0, len(sq_signal)):
-      if sq_signal[i] < mean_sq:
+      if sq_signal[i] < 0.125 * mean_sq:
         signal[i] = 0
 
     wavfile.write(req.denoised_audio_file, samp_freq, signal)
