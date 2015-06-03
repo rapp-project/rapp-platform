@@ -1,8 +1,16 @@
+/*!
+ * @file face_detection.service.js
+ * @brief face_detection platform-side front-end hop service.
+ * @author Konstantinos Panayiotou
+ */
+
 
 var version = "0.0.1"; //Current module version
 
 var fs = require('fs');
 var Path = require('path');
+
+
 /*!
  * @brief Returns module version number.
  * @return Module Version.
@@ -18,7 +26,7 @@ function getVersion()
  * @param _path Path to be resolved to absolute.
  * @return Resolved absolute path.
  */
-function resolvePath( _path )
+function resolve_path( _path )
 {
   var regexp = /~/g;
   var newPath = '';
@@ -37,7 +45,7 @@ function resolvePath( _path )
 
 
 /*!
- * @brief Wrapping Node.js readFileSync function.
+ * @brief Wrapping Node.js read_file_sync function.
  * @param _file File to be read, specified by path.
  * @param _encoding Encoding type of returned data
  *  readen from the specified file. Can be one of the following:
@@ -48,7 +56,7 @@ function resolvePath( _path )
  *
  * @return Returns data readen from file.
  */
-function readFileSync( _fileUrl, _encoding )
+function read_file_sync( _fileUrl, _encoding )
 {
   var file = {
     data: undefined,
@@ -61,7 +69,7 @@ function readFileSync( _fileUrl, _encoding )
       string: undefined
     }
   }
-  var path = resolvePath( _fileUrl );
+  var path = resolve_path( _fileUrl );
   file.absoluteUrl = path;
   if( fs.existsSync( path ) )
   {
@@ -111,14 +119,14 @@ function readFileSync( _fileUrl, _encoding )
 
 
 /*!
- * @brief Wrapping Node.js writeFileSync function
+ * @brief Wrapping Node.js write_file_sync function
  * @param _dest Destination file name to write the data, specified by path.
  * @param _data Data to be written.
  * @return Undefined.
  */
-function writeFileSync( _destUrl, _data )
+function write_file_sync( _destUrl, _data )
 {
-  var path =  resolvePath( _destUrl );
+  var path =  resolve_path( _destUrl );
   if( fs.existsSync( path ) ){
     console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
   }
@@ -138,9 +146,9 @@ function writeFileSync( _destUrl, _data )
  * @param _file File to be removed, specified by path.
  * @return True if file existed and removed, false otherwise.
  */
-function rmFileSync(_file)
+function rm_file_sync(_file)
 {
-  var path =  resolvePath(_file);
+  var path =  resolve_path(_file);
   if(fs.existsSync(path))
   {
     fs.unlinkSync(path);
@@ -163,7 +171,7 @@ function rmFileSync(_file)
 function ls_sync( _dir )
 {
   var fileList = [];
-  var dir = resolvePath( _dir );
+  var dir = resolve_path( _dir );
   var files = fs.readdirSync(dir);
   for(var i in files)
   {
@@ -241,7 +249,7 @@ function writeLine ( _data, _filePath ){
  * @return Size of the file in bytes.
  */
 function read_filesize( _fileURL ) {
-  var path =  resolvePath( _fileURL );
+  var path =  resolve_path( _fileURL );
   var stats = fs.statSync( path );
   var filesize_bytes = stats["size"];
  return filesize_bytes;
@@ -250,21 +258,20 @@ function read_filesize( _fileURL ) {
 
 
 /*!
- * @brief A method to load json data from a file
+ * @brief Load json file
  * @param fileName.
  * @param encoding Encoding definition.
  */
-function loadJSONfile (filename, encoding) {
+function load_json_file(filename, encoding) {
   try {
     // default moduleencoding is utf8
     if (typeof (encoding) == 'undefined') encoding = 'utf8';
-    // read file synchroneously
-    var contents = fs.readFileSync(filename, encoding);
-    //
+    // read file sync
+    var contents = fs.read_file_sync(filename, encoding);
     // parse contents as JSON
     return JSON.parse(contents);
     //
-    };
+    }
   catch (err) {
   // an error occurred
     throw err;
@@ -273,16 +280,35 @@ function loadJSONfile (filename, encoding) {
 
 
 /*!
+ * @brief Rename file. Can also be used as a funcitonality to copy files.
+ * @param fileOld Source file path.
+ * @param fileNew Destination file path.
+ */
+function rename_file_sync(fileOld, fileNew){
+  var res_fileOld = resolve_path(fileOld);
+  var res_fileNew = resolve_path(fileNew);
+  if (res_fileOld == res_fileNew){
+    // Nothing to do here other that return an index 
+    return 0;
+  }
+  fs.renameSync(res_fileOld, res_fileNew);
+  return 1;
+}
+
+
+/*!
  * @briUef fileUtils module exports.
  */
 module.exports = {
   version: getVersion,
-  resolvePath: resolvePath,
-  readFileSync: readFileSync,
-  writeFileSync: writeFileSync,
-  rmFileSync: rmFileSync,
+  resolve_path: resolve_path,
+  read_file_sync: read_file_sync,
+  write_file_sync: write_file_sync,
+  rm_file_sync: rm_file_sync,
   ls_sync: ls_sync,
   text2File: text2File,
   writeLine: writeLine,
-  read_filesize: read_filesize
+  read_filesize: read_filesize,
+  load_json_file: load_json_file,
+  rename_file_sync: rename_file_sync
 }

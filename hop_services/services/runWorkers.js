@@ -7,12 +7,12 @@
 
 var user = process.env.LOGNAME;
 var rapp_hop_path = "/home/" + user + 
-  "/rapp_platform_catkin_ws/src/rapp-platform/ric/hop_services/";
+  "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
 
-var Fs = require( /*rapp_hop_path +*/ "../utilities/./fileUtils.js" );
+var Fs = require( rapp_hop_path + "utilities/fileUtils.js" );
 var Path = require('path');
 
-var fileList = Fs.getFilesListSync( /*rapp_hop_path +*/ "../services" );
+var fileList = Fs.ls_sync( rapp_hop_path + "services/" );
 var Services = [];
 
 for (var i in fileList){
@@ -30,7 +30,7 @@ console.log("\033[0;36mService js files found:\n\033[0;0m", Services);
         
 var Workers = new Array();
 
-Fs.rmFileSync( 'availableServices.txt' );
+Fs.rm_file_sync( 'availableServices.txt' );
 
 for (var i in Services){
   Workers.push( new Worker ( "./" + Services[i] + '.service.js' ) );
