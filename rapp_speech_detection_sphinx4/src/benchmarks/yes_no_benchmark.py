@@ -122,12 +122,12 @@ class SpeechRecognitionTester:
       spee_req.audio_source = 'headset' # The samples are already denoised
 
       # Perform power denoising
-      denoise_req = AudioProcessingDenoiseSrvRequest()
-      denoise_req.audio_file = spee_req.path
-      denoise_req.denoised_audio_file = spee_req.path + "denoised.wav"
-      spee_req.path = spee_req.path + "denoised.wav"
-      tberased.append(denoise_req.denoised_audio_file)
-      res = self.denoising(denoise_req)
+      #denoise_req = AudioProcessingDenoiseSrvRequest()
+      #denoise_req.audio_file = spee_req.path
+      #denoise_req.denoised_audio_file = spee_req.path + "denoised.wav"
+      #spee_req.path = spee_req.path + "denoised.wav"
+      #tberased.append(denoise_req.denoised_audio_file)
+      #res = self.denoising(denoise_req)
       #########################
     
       res = self.conf_sp_ser(spee_req)

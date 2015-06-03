@@ -43,11 +43,19 @@ class Sphinx4Wrapper(GlobalParams):
   def __init__(self):
     GlobalParams.__init__(self)
     self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
+    self.energy_denoise_topic = \
+        rospy.get_param("rapp_audio_processing_energy_denoise_topic")
+    
     if(not self.denoise_topic):
-      rospy.logerror("Audio processing topic param not found")
+      rospy.logerror("Audio processing topic denoise topic not found")
+    if(not self.energy_denoise_topic):
+      rospy.logerror("Audio processing topic energy denoise topic not found")
 
     self.denoise_service = rospy.ServiceProxy(\
               self.denoise_topic, AudioProcessingDenoiseSrv)
+
+    self.energy_denoise_service = rospy.ServiceProxy(\
+              self.energy_denoise_topic, AudioProcessingDenoiseSrv)
 
 
   # Helper function for getting input from Sphinx
@@ -168,6 +176,17 @@ class Sphinx4Wrapper(GlobalParams):
       if den_response.success != "true":
         return ["Error:" + den_response.success]
       audio_to_be_erased.append(next_audio_file)
+
+    # Perform energy denoising as well
+    energy_denoise_req = AudioProcessingDenoiseSrvRequest()
+    energy_next_audio_file = prev_audio_file + "_energy_denoised.wav"
+    energy_denoise_req.audio_file = prev_audio_file
+    energy_denoise_req.denoised_audio_file = next_audio_file
+    audio_to_be_erased.append(next_audio_file)
+    energy_denoise_res = self.energy_denoise_service(energy_denoise_req)
+    if energy_denoise_res.success != "true":
+      return ["Error:" + energy_denoise_res.success]
+    audio_to_be_erased.append(next_audio_file)
 
     new_audio_file = next_audio_file
     self.p.stdin.write("start\r\n")
