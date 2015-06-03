@@ -1,8 +1,11 @@
 /*!
  * @file ontology_subclassesOf.service.js
  * @brief Ontology query "Subclasses Of" hop service.
+ * @bug Currently NOT Operational!!
  *
  */
+
+// TODO -- Get ontology_subclassesOf rosservice name
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
@@ -12,7 +15,7 @@ var rapp_hop_path = "/home/" + user
 var RandStringGen = require ( rapp_hop_path + "utilities/randStringGen.js" );
 /*----------------------------------------------*/
 /*-----<Defined Name of QR Node ROS service>----*/
-var rosService = "/ric/knowrob/subclasses_of";
+var rosService = "/json_prolog/simple_query";
 var hop = require('hop');
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -61,9 +64,9 @@ service ontology_subclassesOf ( {queryStr:''} )
      }
      rosWS.onmessage = function(event){
        console.log('[Ontology-subclassesOf]: Received message from rosbridge');
+       console.log(event.value);
        var resp_msg = event.value;
        sendResponse( resp_msg );
-       //console.log(resp_msg);
        this.close();
        rosWS = undefined;
        respFlag = true;
@@ -129,3 +132,15 @@ function craft_srv_msg( queryString )
 
   return args;
 };
+
+
+/*!
+ * @brief Crafts the form/format for the message to be returned
+ * from the faceDetection hop-service.
+ * @param srvMsg Return message from ROS Service.
+ * return Message to be returned from the hop-service
+ */
+function craft_response(srvMsg)
+{
+  // TODO --Implement
+}
