@@ -1,5 +1,7 @@
-/* @bug Sometimes the websocket implementation from hop gets undefined before
- * the onmessage event calls
+/*!
+ * @file set_denoise_profile.service.js
+ * @brief Set-Denoise-Profile hop front-end service.
+ *
  */
 
 "use strict";
@@ -33,6 +35,12 @@ var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
 
+/*!
+ * @brief Set denoise profile (per-user) hop front-end service
+ * @param noise_audio_fileUri
+ * @param audio_file_type
+ * @param user
+ */
 service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:''}  )
 {
   console.log('[set-denoise-profile]: Service invocation. Preparing response');
@@ -80,7 +88,7 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
       };
       rosWS.onmessage = function(event){
         console.log('[set-denoise-profile]: Received message from rosbridge');
-        console.log(event.value)
+        //console.log(event.value)
         var resp_msg = craft_response(event.value);
         sendResponse( resp_msg );
         this.close();
@@ -113,7 +121,7 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
             }
             rosWS.onmessage = function(event){
               console.log('[set-denoise-profile]: Received message from rosbridge');
-              console.log(event.value);
+              //console.log(event.value);
               var resp_msg = craft_response(event.value); 
               sendResponse( resp_msg ); //Return response to client
               this.close(); // Close the connection to the websocket
