@@ -1,47 +1,59 @@
 
-/* @bug Sometimes the websocket implementation from hop gets undefined before
- * the onmessage event calls
+/*!
+ * @file speech_detection_sphinx4.service.js
+ * @brief Speech-Detection hop front-end service.
+ *
+ * @bug Sometimes the websocket implementation from hop gets undefined before
+ *   the onmessage event calls
  */
 
-console.log('\033[0;32mInitiating Speech Detection service\033[0m');
+"use strict";
+
+console.log('Initiated Speech Detection front-end service');
+
 
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
 
-//var contents = require('../utilities/parameters.json');
-hop = require('hop');
-fs = require('fs');
 
-
+/*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
+var rapp_hop_path = "/home/" + user
+  + "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
+/*----------------------------------------------*/
 
-/* --< Store path is no longer required. Hop front-end handles storing 
- * files transfered in a multipart/form-data post. > */ 
+/*--------------Load required modules-----------*/
+//var contents = require('../utilities/parameters.json');
+var hop = require('hop');
+var Fs = require( rapp_hop_path + "utilities/fileUtils.js" );
+var RandStringGen = require ( rapp_hop_path + "utilities/randStringGen.js" );
+/*----------------------------------------------*/
 
-//var storePath = "/home/" + user + "/hop_temps/"; 
+/*-----<Defined Name of QR Node ROS service>----*/
 var rosService = "/ric/speech_detection_sphinx4_batch";
-var randStringGen = require('../utilities/randStringGen.js');
+/*------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
-var randStrGen = new randStringGen( stringLength );
+var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
 
 service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''} ){
-  console.log('Service invocation. Preparing response');
-  //console.log('Audio source file stored at:', fileUrl);
+  console.log('[speech-detection]: Service invocation. Preparing response');
+  console.log('[speech-detection]: Audio source file stored at:', fileUrl);
   //console.log('Words to search for:', words);
   //console.log('Sentences:', sentences);
   //console.log('Grammar:', grammar);
 
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
+  /* --< Perform renaming on the received file. Add uniqueId value> --- */
   var unqExt = randStrGen.createUnique();
   randStrGen.removeCached(unqExt);
   var file = fileUrl.split('.');
-  var fileUri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2]
-    fs.renameSync(fileUrl, fileUri_new);
+  var fileUri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
+  Fs.rename_file_sync(fileUrl, fileUri_new);
   /*----------------------------------------------------------------- */
+
   var respFlag = false;
   return hop.HTTPResponseAsync(
     function( sendResponse ) { 
@@ -67,17 +79,17 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
 
       var rosWS = new WebSocket('ws://localhost:9090');
       rosWS.onopen = function(){
-        console.log('Connection to rosbridge established');
+        console.log('[speech-detection]: Connection to rosbridge established');
         this.send(JSON.stringify(ros_srv_call));
       }
       rosWS.onclose = function(){
-        console.log('Connection to rosbridge closed');
+        console.log('[speech-detection]: Connection to rosbridge closed');
       }
       rosWS.onmessage = function(event){
-        console.log('Received message from rosbridge');
-        var resp_msg = event.value;
+        console.log('[speech-detection]: Received message from rosbridge');
+        console.log(event.value);
+        var resp_msg = craft_response(event.value);
         sendResponse( resp_msg );
-        console.log(resp_msg);
         this.close();
         rosWS = undefined;
         respFlag = true;
@@ -87,7 +99,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
       function asyncWrap(){
         setTimeout( function(){
           if (respFlag != true){
-            console.log('Connection timed out! rosWs = undefined');
+            console.warn('[speech-detection]: Connection timed out! rosWs = undefined');
             //sendResponse('Timeout');
             if (rosWS != undefined)
             {
@@ -98,19 +110,19 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
             rosWS = new WebSocket('ws://localhost:9090');
             /* -----------< Redefine WebSocket callbacks >----------- */
             rosWS.onopen = function(){
-              console.log('Connection to rosbridge established');
+              console.log('[speech-detection]: Connection to rosbridge established');
               this.send(JSON.stringify(ros_srv_call));
             }
 
             rosWS.onclose = function(){
-              console.log('Connection to rosbridge closed');
+              console.log('[speech-detection]: Connection to rosbridge closed');
             }
 
             rosWS.onmessage = function(event){
-              console.log('Received message from rosbridge');
-              var resp_msg = event.value; 
+              console.log('[speech-detection]: Received message from rosbridge');
+              //console.log(event.value);
+              var resp_msg = craft_response(event.value); 
               sendResponse( resp_msg ); //Return response to client
-              console.log(resp_msg);
               this.close(); // Close the connection to the websocket
               rosWS = undefined; // Decostruct the websocket object
               respFlag = true;
@@ -119,10 +131,41 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
             /*--------------------------------------------------------*/
             asyncWrap();
           }
-        }, 8000); //Timeout value is set at 10 seconds
+        }, 8000); //Timeout value is set at 8 seconds
       }
       asyncWrap();
 
-    }, this ); // do not forget the <this> argument of hop.HTTResponseAsync 
-}
+    }, this ); 
+};
 
+
+/*!
+ * @brief Crafts the form/format for the message to be returned
+ * from the faceDetection hop-service.
+ * @param srvMsg Return message from ROS Service.
+ * return Message to be returned from the hop-service
+ */
+function craft_response(srvMsg)
+{
+  var words = JSON.parse(srvMsg).values.words;
+  var result = JSON.parse(srvMsg).result;
+
+  var craftedMsg = { words: [], error: '' };
+  
+  if (result == true)
+  {
+    for (var ii = 0; ii < words.length; ii++)
+    {
+      craftedMsg.words.push( words[ii] )
+    }
+      craftedMsg.error = '0'; 
+  }
+  else
+  { 
+    // Return error index!
+    craftedMsg.error = '1';
+  }
+
+  return JSON.stringify(craftedMsg)
+  //return craftedMsg;
+};

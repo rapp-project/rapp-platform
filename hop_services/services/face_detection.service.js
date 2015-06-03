@@ -1,8 +1,17 @@
 /*!
  * @file faceNode.service.js
- * @brief Face detection service running on Remote host.
+ * @brief Face detection hop front-end service.
  *
  */
+
+"use strict";
+
+
+console.log('Initiated Face Detection front-end service');
+
+// TODO -- Load PLATFORM parameters from JSON file
+// TODO -- Load ROS-Topics/Services names from parameter server (ROS)
+
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
@@ -12,14 +21,11 @@ var rapp_hop_path = "/home/" + user
 
 /*--------------Load required modules-----------*/
 var Fs = require( rapp_hop_path + "utilities/fileUtils.js" );
-var fs = require('fs');
-//var ROSbridge = require("../utilities/./rosbridge.js");
 var hop = require('hop');
-//console.log(hop);
 var RandStringGen = require ( rapp_hop_path +"utilities/randStringGen.js" );
 /*----------------------------------------------*/
 
-/*-----<Defined Name of QR Node ROS service>----*/
+/*-----<Define face-detection ROS service name>----*/
 var rosService = "/ric/face_detection_service";
 /*------------------------------------------------------*/
 
@@ -32,13 +38,10 @@ var randStrGen = new RandStringGen( stringLength );
 /*!
  * @brief Face Detection HOP Service Core.
  *
- * @param _file An Object literral that specifies a "data"
- * property. Data must be raw_binary from buffer.
- *
+ * @param fileUrl Path of uploaded image file. Returned by hop front-end
  * @return Message response from faceDetection ROS Node service.
  *
  */
-
 service face_detection ( {fileUrl:''} )
 {
   var randStr = randStrGen.createUnique();
@@ -94,43 +97,43 @@ service face_detection ( {fileUrl:''} )
      function asyncWrap(){
        setTimeout( function(){
          if (respFlag != true){
-           console.log('[face-detection]: Connection timed out! rosWs = undefined');
+           console.warn('[face-detection]: Connection timed out! rosWs = undefined');
            //sendResponse('Timeout');
            if (rosWS != undefined)
-       {
-         rosWS.close();
-       }
-       rosWS = undefined;
-       /* --< Re-open connection to the WebSocket >--*/
-       rosWS = new WebSocket('ws://localhost:9090');
-       /* -----------< Redefine WebSocket callbacks >----------- */
-       rosWS.onopen = function(){
-         console.log('[face-detection]: Connection to rosbridge established');
-         this.send(JSON.stringify(ros_srv_call));
-       }
+           {
+             rosWS.close();
+           }
+           rosWS = undefined;
+           /* --< Re-open connection to the WebSocket >--*/
+           rosWS = new WebSocket('ws://localhost:9090');
+           /* -----------< Redefine WebSocket callbacks >----------- */
+           rosWS.onopen = function(){
+             console.log('[face-detection]: Connection to rosbridge established');
+             this.send(JSON.stringify(ros_srv_call));
+           }
 
-       rosWS.onclose = function(){
-         console.log('[face-detection]: Connection to rosbridge closed');
-       }
+           rosWS.onclose = function(){
+             console.log('[face-detection]: Connection to rosbridge closed');
+           }
 
-       rosWS.onmessage = function(event){
-         console.log('[face-detection]: Received message from rosbridge');
-         var resp_msg = craft_response( event.value ); 
-         //console.log(resp_msg);
-         sendResponse( resp_msg ); //Return response to client
-         this.close(); // Close the connection to the websocket
-         rosWS = undefined; // Decostruct the websocket object
-         respFlag = true;
-         randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
-       }
-       /*--------------------------------------------------------*/
-       asyncWrap();
+           rosWS.onmessage = function(event){
+             console.log('[face-detection]: Received message from rosbridge');
+             var resp_msg = craft_response( event.value ); 
+             //console.log(resp_msg);
+             sendResponse( resp_msg ); //Return response to client
+             this.close(); // Close the connection to the websocket
+             rosWS = undefined; // Decostruct the websocket object
+             respFlag = true;
+             randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
+           }
+           /*--------------------------------------------------------*/
+           asyncWrap();
          }
-       }, 8000); //Timeout value is set at 10 seconds
+       }, 8000); //Timeout value is set at 8 seconds
      }
      asyncWrap();
 
-   }, this ); // do not forget the <this> argument of hop.HTTResponseAsync 
+   }, this ); 
 };
 
 
@@ -142,8 +145,8 @@ service face_detection ( {fileUrl:''} )
  */
 function craft_response(srvMsg)
 {
-  faces = JSON.parse(srvMsg).values;
-  result = JSON.parse(srvMsg).result;
+  var faces = JSON.parse(srvMsg).values;
+  var result = JSON.parse(srvMsg).result;
 
 
   var craftedMsg = { faces_up_left:[], faces_down_right:[], error: '' };

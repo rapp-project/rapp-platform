@@ -2,31 +2,52 @@
  * the onmessage event calls
  */
 
-hop = require('hop');
-fs = require('fs');
+"use strict";
 
+console.log('Initiated Set-Denoise_profile front-end service')
+
+
+// TODO -- Load PLATFORM parameters from JSON file
+// TODO -- Load ROS-Topics/Services names from parameter server (ROS)
+
+
+/*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
-var storePath = "/home/" + user + "/hop_temps/"; 
+var rapp_hop_path = "/home/" + user
+  + "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
+/*----------------------------------------------*/
+
+/*--------------Load required modules-----------*/
+var hop = require('hop');
+var Fs = require( rapp_hop_path + "utilities/fileUtils.js" );
+var RandStringGen = require( rapp_hop_path + 'utilities/randStringGen.js');
+/*----------------------------------------------*/
 
 /*----<Load modules used by the service>----*/
 var rosService = "/ric/audio_processing/set_noise_profile";
-var randStringGen = require('../utilities/./randStringGen.js');
+/*----------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
-var randStrGen = new randStringGen( stringLength );
+var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
 
 service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:''}  )
 {
+  console.log('[set-denoise-profile]: Service invocation. Preparing response');
+  console.log('[set-denoise-profile]: Audio source file stored at:', noise_audio_fileUri);
+
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqExt = randStrGen.createUnique();
   randStrGen.removeCached(unqExt);
   var file = noise_audio_fileUri.split('.');
   var fileUri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2]
-    fs.renameSync(noise_audio_fileUri, fileUri_new);
+  Fs.rename_file_sync(noise_audio_fileUri, fileUri_new);
   /*----------------------------------------------------------------- */
+
+  var respFlag = false;
+
   return hop.HTTPResponseAsync(
     function( sendResponse ) 
     { 
@@ -51,19 +72,20 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
 
       var rosWS = new WebSocket('ws://localhost:9090');
       rosWS.onopen = function(){
-        console.log('Connection to rosbridge established');
+        console.log('[set-denoise-profile]: Connection to rosbridge established');
         this.send(JSON.stringify(ros_srv_call));
       };
       rosWS.onclose = function(){
-        console.log('Connection to rosbridge closed');
+        console.log('[set-denoise-profile]: Connection to rosbridge closed');
       };
       rosWS.onmessage = function(event){
-        console.log('Received message from rosbridge');
-        var resp_msg = event.value;
+        console.log('[set-denoise-profile]: Received message from rosbridge');
+        console.log(event.value)
+        var resp_msg = craft_response(event.value);
         sendResponse( resp_msg );
-        console.log(resp_msg);
         this.close();
         rosWS = undefined;
+        respFlag = true;
         randStrGen.removeCached( uniqueID );
       };
 
@@ -73,7 +95,7 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
         {
           if (respFlag != true)
           {
-            console.log('Connection timed out! rosWs = undefined');
+            console.log('[set-denoise-profile]: Connection timed out! rosWs = undefined');
             if (rosWS != undefined)
             {
               rosWS.close();
@@ -83,17 +105,17 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
             rosWS = new WebSocket('ws://localhost:9090');
             /* -----------< Redefine WebSocket callbacks >----------- */
             rosWS.onopen = function(){
-              console.log('Connection to rosbridge established');
+              console.log('[set-denoise-profile]: Connection to rosbridge established');
               this.send(JSON.stringify(ros_srv_call));
             }
             rosWS.onclose = function(){
-              console.log('Connection to rosbridge closed');
+              console.log('[set-denoise-profile]: Connection to rosbridge closed');
             }
             rosWS.onmessage = function(event){
-              console.log('Received message from rosbridge');
-              var resp_msg = event.value; 
+              console.log('[set-denoise-profile]: Received message from rosbridge');
+              console.log(event.value);
+              var resp_msg = craft_response(event.value); 
               sendResponse( resp_msg ); //Return response to client
-              console.log(resp_msg);
               this.close(); // Close the connection to the websocket
               rosWS = undefined; // Decostruct the websocket object
               respFlag = true;
@@ -106,6 +128,33 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
       }
       asyncWrap();
     }, this ); // do not forget the <this> argument of hop.HTTResponseAsync 
-}
+};
 
+
+/*!
+ * @brief Crafts the form/format for the message to be returned
+ * from set_denoise_profile hop-service.
+ * @param srvMsg Return message from ROS Service.
+ * return Message to be returned from the hop-service
+ */
+function craft_response(srvMsg)
+{
+  // Service invocation success index
+  var result = JSON.parse(srvMsg).result;
+
+  var craftedMsg = { error: '' };
+  
+  if (result == true)
+  {
+    craftedMsg.error = '0'; 
+  }
+  else
+  { 
+    // Return error index!
+    craftedMsg.error = '1';
+  }
+
+  return JSON.stringify(craftedMsg)
+  //return craftedMsg;
+}
 
