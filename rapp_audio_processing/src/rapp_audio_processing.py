@@ -36,8 +36,12 @@ from scipy.io import wavfile
 from rapp_platform_ros_communications.srv import (  
   AudioProcessingDenoiseSrv, 
   AudioProcessingDenoiseSrvResponse,
+  
   AudioProcessingSetNoiseProfileSrv,
-  AudioProcessingSetNoiseProfileSrvResponse
+  AudioProcessingSetNoiseProfileSrvResponse,
+
+  AudioProcessingDetectSilenceSrv,
+  AudioProcessingDetectSilenceSrvResponse
   )
 
 from rapp_platform_ros_communications.srv import (
@@ -64,6 +68,8 @@ class AudioProcessing:
         rospy.get_param("rapp_audio_processing_denoise_topic")
     self.energy_denoise_topic = \
         rospy.get_param("rapp_audio_processing_energy_denoise_topic")
+    self.detect_silence_topic = \
+        rospy.get_param("rapp_audio_processing_detect_silence_topic")
 
     if(not self.set_noise_profile_topic):
       rospy.logerror("Audio processing noise profiling topic param not found")
@@ -71,7 +77,9 @@ class AudioProcessing:
       rospy.logerror("Audio processing denoise topic param not found")
     if(not self.energy_denoise_topic):
       rospy.logerror("Audio processing energy denoise topic param not found")
- 
+    if(not self.detect_silence_topic):
+      rospy.logerror("Audio processing detect silence topic param not found")
+
     self.set_noise_profile_service = rospy.Service(self.set_noise_profile_topic, \
         AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
     self.denoise_service = rospy.Service( \
@@ -80,6 +88,9 @@ class AudioProcessing:
     self.energy_denoise_service = rospy.Service( \
         self.energy_denoise_topic, AudioProcessingDenoiseSrv, \
         self.energy_denoise)
+    self.detect_silence_service = rospy.Service( \
+        self.detect_silence_topic, AudioProcessingDetectSilenceSrv, \
+        self.detect_silence)
 
     self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
     self.authentication_service = rospy.ServiceProxy(\
@@ -163,9 +174,23 @@ class AudioProcessing:
     return res
 
   # Service callback for handling denoising
+  def detect_silence(self, req):     
+    res = AudioProcessingDetectSilenceSrvResponse()
+    
+    samp_freq, signal = wavfile.read(req.audio_file)
+    sq_signal = signal * 1.0
+    for i in range(0, len(sq_signal)):
+      sq_signal[i] *= sq_signal[i]
+    mean_sq = mean(sq_signal)
+    std_sq = std(sq_signal)
+    rsd_sq = std_sq / mean_sq
+ 
+    res.silence = str(rsd_sq)
+    return res
+
+  # Service callback for detecting silence
   def energy_denoise(self, req):     
     res = AudioProcessingDenoiseSrvResponse()
-    directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
     
     samp_freq, signal = wavfile.read(req.audio_file)
     sq_signal = signal * 1.0
@@ -178,7 +203,6 @@ class AudioProcessing:
         signal[i] = 0
 
     wavfile.write(req.denoised_audio_file, samp_freq, signal)
-
     res.success = "true"
     return res
 

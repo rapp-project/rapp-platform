@@ -179,10 +179,9 @@ class Sphinx4Wrapper(GlobalParams):
 
     # Perform energy denoising as well
     energy_denoise_req = AudioProcessingDenoiseSrvRequest()
-    energy_next_audio_file = prev_audio_file + "_energy_denoised.wav"
+    next_audio_file = prev_audio_file + "_energy_denoised.wav"
     energy_denoise_req.audio_file = prev_audio_file
     energy_denoise_req.denoised_audio_file = next_audio_file
-    audio_to_be_erased.append(next_audio_file)
     energy_denoise_res = self.energy_denoise_service(energy_denoise_req)
     if energy_denoise_res.success != "true":
       return ["Error:" + energy_denoise_res.success]
@@ -215,13 +214,14 @@ class Sphinx4Wrapper(GlobalParams):
     if len(audio_to_be_erased) != 0:
       clean_file = audio_to_be_erased[-1].split("/")[-1]
       clean_file_or = audio_to_be_erased[0].split("/")[-1]
-
-      os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/" + clean_file)
-      os.system("cp " + audio_to_be_erased[-1] + " " + directory + "/original_" + clean_file)
+      command = "cp " + audio_to_be_erased[-1] + " " + directory + "/" + clean_file
+      os.system(command)
+      command = "cp " + audio_to_be_erased[-1] + " " + directory + "/original_" + clean_file
+      os.system(command)
 
     for f in audio_to_be_erased:
       command = "rm " + f
-      print command
+      print "------------------" + command
       os.system(command)
 
     return words
