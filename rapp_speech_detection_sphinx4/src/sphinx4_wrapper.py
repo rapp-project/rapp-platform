@@ -35,7 +35,9 @@ import rospy
 
 from rapp_platform_ros_communications.srv import(
     AudioProcessingDenoiseSrv,
-    AudioProcessingDenoiseSrvRequest
+    AudioProcessingDenoiseSrvRequest,
+    AudioProcessingDetectSilenceSrv,
+    AudioProcessingDetectSilenceSrvRequest
     )
 
 class Sphinx4Wrapper(GlobalParams): 
@@ -45,17 +47,23 @@ class Sphinx4Wrapper(GlobalParams):
     self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
     self.energy_denoise_topic = \
         rospy.get_param("rapp_audio_processing_energy_denoise_topic")
-    
+    self.detect_silence_topic = \
+        rospy.get_param("rapp_audio_processing_detect_silence_topic")
+
+
     if(not self.denoise_topic):
-      rospy.logerror("Audio processing topic denoise topic not found")
+      rospy.logerror("Audio processing denoise topic not found")
     if(not self.energy_denoise_topic):
-      rospy.logerror("Audio processing topic energy denoise topic not found")
+      rospy.logerror("Audio processing energy denoise topic not found")
+    if(not self.detect_silence_topic):
+      rospy.logerror("Audio processing detect silence topic not found")
 
     self.denoise_service = rospy.ServiceProxy(\
               self.denoise_topic, AudioProcessingDenoiseSrv)
-
     self.energy_denoise_service = rospy.ServiceProxy(\
               self.energy_denoise_topic, AudioProcessingDenoiseSrv)
+    self.detect_silence_service = rospy.ServiceProxy(\
+              self.detect_silence_topic, AudioProcessingDetectSilenceSrv)
 
 
   # Helper function for getting input from Sphinx
@@ -176,6 +184,13 @@ class Sphinx4Wrapper(GlobalParams):
       if den_response.success != "true":
         return ["Error:" + den_response.success]
       audio_to_be_erased.append(next_audio_file)
+
+    # Detect silence
+    silence_req = AudioProcessingDetectSilenceSrvRequest()
+    silence_req.audio_file = prev_audio_file
+    silence_res = self.detect_silence_service(silence_req)
+    if silence_res.silence == "true":
+      return ["Error: No speech detected. RSD = " + str(silence_res.level)]
 
     # Perform energy denoising as well
     energy_denoise_req = AudioProcessingDenoiseSrvRequest()
