@@ -25,7 +25,7 @@ var RandStringGen = require ( rapp_hop_path + "utilities/randStringGen.js" );
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
-var rosService = "/ric/ros_nodes/qr_detection_service";
+var rosService = "/rapp/rapp_qr_detection/detect_qrs";
 /*------------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/

@@ -30,7 +30,7 @@ var RandStringGen = require ( rapp_hop_path + "utilities/randStringGen.js" );
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
-var rosService = "/ric/speech_detection_sphinx4_batch";
+var rosService = "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text";
 /*------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/

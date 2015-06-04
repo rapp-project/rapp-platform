@@ -26,7 +26,7 @@ var RandStringGen = require( rapp_hop_path + 'utilities/randStringGen.js');
 /*----------------------------------------------*/
 
 /*----<Load modules used by the service>----*/
-var rosService = "/ric/audio_processing/set_noise_profile";
+var rosService = "/rapp/rapp_audio_processing/set_noise_profile";
 /*----------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/

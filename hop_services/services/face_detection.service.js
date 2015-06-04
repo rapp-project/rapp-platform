@@ -26,7 +26,7 @@ var RandStringGen = require ( rapp_hop_path +"utilities/randStringGen.js" );
 /*----------------------------------------------*/
 
 /*-----<Define face-detection ROS service name>----*/
-var rosService = "/ric/face_detection_service";
+var rosService = "/rapp/rapp_face_detection/detect_faces";
 /*------------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/

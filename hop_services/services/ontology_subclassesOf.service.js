@@ -15,7 +15,7 @@ var rapp_hop_path = "/home/" + user
 var RandStringGen = require ( rapp_hop_path + "utilities/randStringGen.js" );
 /*----------------------------------------------*/
 /*-----<Defined Name of QR Node ROS service>----*/
-var rosService = "/json_prolog/simple_query";
+var rosService = "/rapp/rapp_knowrob_wrapper/subclasses_of";
 var hop = require('hop');
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
