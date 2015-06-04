@@ -193,13 +193,10 @@ class Sphinx4Wrapper(GlobalParams):
       return ["Error: No speech detected. RSD = " + str(silence_res.level)]
 
     # Perform energy denoising as well
-    energy_denoise_req = AudioProcessingDenoiseSrvRequest()
     next_audio_file = prev_audio_file + "_energy_denoised.wav"
-    energy_denoise_req.audio_file = prev_audio_file
-    energy_denoise_req.denoised_audio_file = next_audio_file
-    energy_denoise_res = self.energy_denoise_service(energy_denoise_req)
-    if energy_denoise_res.success != "true":
-      return ["Error:" + energy_denoise_res.success]
+    dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, 0.125)
+    if dres != "true":
+      return ["Error:" + dres]
     audio_to_be_erased.append(next_audio_file)
 
     new_audio_file = next_audio_file
@@ -221,6 +218,13 @@ class Sphinx4Wrapper(GlobalParams):
       if (time.time() - start_time > 10):
         words.append("Error: Time out error")
         break
+
+    if len(words) == 0:
+     next_audio_file = prev_audio_file + "_energy_denoised.wav"
+     dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, 0.25)
+     if dres != "true":
+       return ["Error:" + dres]
+     audio_to_be_erased.append(next_audio_file)
     
     directory = "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/" + user
     if not os.path.isdir(directory):
@@ -240,4 +244,12 @@ class Sphinx4Wrapper(GlobalParams):
       os.system(command)
 
     return words
+
+  def performEnergyDenoising(self, next_audio_file, prev_audio_file, scale):
+    energy_denoise_req = AudioProcessingDenoiseSrvRequest()
+    energy_denoise_req.audio_file = prev_audio_file
+    energy_denoise_req.denoised_audio_file = next_audio_file
+    energy_denoise_req.scale = scale
+    energy_denoise_res = self.energy_denoise_service(energy_denoise_req)
+    return energy_denoise_res.success
 

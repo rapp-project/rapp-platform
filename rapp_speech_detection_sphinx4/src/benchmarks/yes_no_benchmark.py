@@ -48,6 +48,16 @@ from rapp_platform_ros_communications.srv import (
   AudioProcessingDenoiseSrvRequest
   )
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 class SpeechRecognitionTester: 
 
   def setup_two_words_voc(self):
@@ -85,13 +95,16 @@ class SpeechRecognitionTester:
     spreq.grammar = []
     spee_req = SpeechRecognitionSphinx4TotalSrvRequest()
    
-    if len(sys.argv) != 2:
+    if not (len(sys.argv) == 2 or len(sys.argv) == 3):
       print "Invalid number of arguments"
       return
 
-    folder = sys.argv[1]
-    
-    files = [ f for f in listdir(folder) if isfile(join(folder, f)) ]
+    if len(sys.argv) == 2:
+      folder = sys.argv[1]
+      files = [ f for f in listdir(folder) if isfile(join(folder, f)) ]
+    else:
+      folder = sys.argv[1]
+      files = [sys.argv[2]]
     
     success = 0
     total = 0
@@ -103,6 +116,9 @@ class SpeechRecognitionTester:
     response = []
 
     for f in files:
+      
+      toprint = ""
+
       response = []
       if not (("nai_" in f) or ("oxi_" in f)):
         continue
@@ -132,9 +148,9 @@ class SpeechRecognitionTester:
     
       res = self.conf_sp_ser(spee_req)
 
-      print spee_req.path + " : ",
+      toprint += os.path.basename(spee_req.path) + " : "
       for word in res.words:
-        print word,
+        toprint += word + " "
       
       ok = False
       while not ok:
@@ -150,15 +166,21 @@ class SpeechRecognitionTester:
         total_recognize += 1
         if res.words[0] in response:
           success += 1
+          toprint = bcolors.OKGREEN + toprint + bcolors.ENDC
         else:
           failed.append(f)
+          toprint = bcolors.FAIL + toprint + bcolors.ENDC
       else:
         didnt_recognize += 1
+        toprint = bcolors.WARNING + toprint + bcolors.ENDC
         not_recognized.append(f)
       
+      print toprint,
       if total_recognize != 0:
         print " / " + str(success * 1.0 / total_recognize * 100.0) + "%",
       print " / " + str(didnt_recognize*1.0 / total * 100.0) + "%"
+      
+      # For debugging purposes
       #break
     
     for f in tberased:

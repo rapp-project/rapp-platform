@@ -80,6 +80,14 @@ class AudioProcessing:
     if(not self.detect_silence_topic):
       rospy.logerror("Audio processing detect silence topic param not found")
 
+    self.energy_denoising_debug = False
+    self.energy_denoising_debug = \
+        rospy.get_param("rapp_audio_processing_energy_denoising_debug")
+    if not self.energy_denoising_debug:
+      self.energy_denoising_debug = False
+    else:
+      self.energy_denoising_debug = True
+
     self.set_noise_profile_service = rospy.Service(self.set_noise_profile_topic, \
         AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
     self.denoise_service = rospy.Service( \
@@ -196,14 +204,33 @@ class AudioProcessing:
     res = AudioProcessingDenoiseSrvResponse()
     
     samp_freq, signal = wavfile.read(req.audio_file)
+    samples = signal.shape[0]
     sq_signal = signal * 1.0
+    
+    if self.energy_denoising_debug:
+      timearray = arange(0, samples*1.0, 1)
+      timearray /= samp_freq 
+      timearray *= 1000.0
+      subplot(3,1,1)
+      plot(timearray, signal, color = 'k')
+
     for i in range(0, len(sq_signal)):
       sq_signal[i] *= sq_signal[i]
     mean_sq = mean(sq_signal)
 
     for i in range(0, len(sq_signal)):
-      if sq_signal[i] < 0.125 * mean_sq:
+      if sq_signal[i] < req.scale * mean_sq:
         signal[i] = 0
+
+    if self.energy_denoising_debug:
+      timearray = arange(0, samples*1.0, 1)
+      timearray /= samp_freq 
+      timearray *= 1000.0
+      subplot(3,1,2)
+      plot(timearray, signal, color = 'k')
+
+    if self.energy_denoising_debug:
+      show()
 
     wavfile.write(req.denoised_audio_file, samp_freq, signal)
     res.success = "true"

@@ -2,3 +2,5 @@ rapp_audio_processing_set_noise_profile_topic: /rapp/rapp_audio_processing/set_n
 rapp_audio_processing_denoise_topic: /rapp/rapp_audio_processing/denoise
 rapp_audio_processing_energy_denoise_topic: /rapp/rapp_audio_processing/energy_denoise
 rapp_audio_processing_detect_silence_topic: /rapp/rapp_audio_processing/detect_silence
+
+rapp_audio_processing_energy_denoising_debug: false
