@@ -193,7 +193,7 @@ class AudioProcessing:
     std_sq = std(sq_signal)
     rsd_sq = std_sq / mean_sq
     res.level = rsd_sq
-    if rsd_sq > 3.0:
+    if rsd_sq > 2.0:
         res.silence = "false" 
     else:
         res.silence = "true"

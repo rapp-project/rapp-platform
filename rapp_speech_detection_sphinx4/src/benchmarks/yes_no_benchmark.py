@@ -76,8 +76,6 @@ class SpeechRecognitionTester:
 
   def __init__(self):   
 
-    tberased = []
-    
     self.conf_sp_ser_top = \
         rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
     self.denoising_service = \
@@ -90,12 +88,12 @@ class SpeechRecognitionTester:
         self.denoising_service,\
         AudioProcessingDenoiseSrv)
 
-    spreq = ""
-    spreq = self.setup_two_words_voc()
-    spreq.grammar = []
-    spee_req = SpeechRecognitionSphinx4TotalSrvRequest()
+    self.spreq = ""
+    self.spreq = self.setup_two_words_voc()
+    self.spreq.grammar = []
+    self.spee_req = SpeechRecognitionSphinx4TotalSrvRequest()
    
-    if not (len(sys.argv) == 2 or len(sys.argv) == 3):
+    if not (len(sys.argv) == 2 or len(sys.argv) == 4):
       print "Invalid number of arguments"
       return
 
@@ -105,7 +103,15 @@ class SpeechRecognitionTester:
     else:
       folder = sys.argv[1]
       files = [sys.argv[2]]
+
+    replays = 1
+    if len(sys.argv) == 4:
+      replays = int(sys.argv[3])
+    for i in range(0, replays):
+      [notrec, failed ] = self.run(files, folder)
+      self.run(notrec + failed, folder)
     
+  def run(self, files, folder):
     success = 0
     total = 0
     didnt_recognize = 0
@@ -129,28 +135,19 @@ class SpeechRecognitionTester:
       else:
         response.append( (u'όχι').encode('utf-8') )
            
-      spee_req.language = spreq.language
-      spee_req.words = spreq.words
-      spee_req.grammar = spreq.grammar
-      spee_req.user = 'etsardou'
-      spee_req.sentences = spreq.sentences
-      spee_req.path = folder + f
-      spee_req.audio_source = 'headset' # The samples are already denoised
-
-      # Perform power denoising
-      #denoise_req = AudioProcessingDenoiseSrvRequest()
-      #denoise_req.audio_file = spee_req.path
-      #denoise_req.denoised_audio_file = spee_req.path + "denoised.wav"
-      #spee_req.path = spee_req.path + "denoised.wav"
-      #tberased.append(denoise_req.denoised_audio_file)
-      #res = self.denoising(denoise_req)
-      #########################
+      self.spee_req.language = self.spreq.language
+      self.spee_req.words = self.spreq.words
+      self.spee_req.grammar = self.spreq.grammar
+      self.spee_req.user = 'etsardou'
+      self.spee_req.sentences = self.spreq.sentences
+      self.spee_req.path = folder + f
+      self.spee_req.audio_source = 'headset' # The samples are already denoised
     
-      res = self.conf_sp_ser(spee_req)
+      res = self.conf_sp_ser(self.spee_req)
 
-      toprint += os.path.basename(spee_req.path) + " : "
+      toprint += os.path.basename(self.spee_req.path) + " : "
       for word in res.words:
-        toprint += word + " "
+        toprint +="'" + word + "' "
       
       ok = False
       while not ok:
@@ -182,10 +179,6 @@ class SpeechRecognitionTester:
       
       # For debugging purposes
       #break
-    
-    for f in tberased:
-      command = "rm " + f
-      os.system(command)
 
     print "Not recognized:"
     for f in not_recognized:
@@ -193,6 +186,8 @@ class SpeechRecognitionTester:
     print "\nError:"
     for f in failed:
       print f
+
+    return [not_recognized, failed]
       
 
 # Main function

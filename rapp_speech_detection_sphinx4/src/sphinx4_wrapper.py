@@ -192,39 +192,23 @@ class Sphinx4Wrapper(GlobalParams):
     if silence_res.silence == "true":
       return ["Error: No speech detected. RSD = " + str(silence_res.level)]
 
-    # Perform energy denoising as well
-    next_audio_file = prev_audio_file + "_energy_denoised.wav"
-    dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, 0.125)
-    if dres != "true":
-      return ["Error:" + dres]
-    audio_to_be_erased.append(next_audio_file)
+    tries = 1
+    while tries < 5:
+        # Perform energy denoising as well
+        next_audio_file = prev_audio_file + "_energy_denoised.wav"
+        dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, \
+                0.125 * tries / 2.5)
+        if dres != "true":
+            return ["Error:" + dres]
+        audio_to_be_erased.append(next_audio_file)
 
-    new_audio_file = next_audio_file
-    self.p.stdin.write("start\r\n")
-    self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
-    start_time = time.time()
-    self.readLine()
-    words = []
-    while(True):
-      line = self.readLine()
-      print line
-      if(len(line)>0):
-        if(line[0]=="#"):
-          stripped_down_line = line[1:-1].split(" ")
-          for word in stripped_down_line:
-            words.append(word)
-        if(line=="stopPython\n"):
-          break
-      if (time.time() - start_time > 10):
-        words.append("Error: Time out error")
-        break
+        new_audio_file = next_audio_file
+        words = self.callSphinxJava(new_audio_file)
 
-    if len(words) == 0:
-     next_audio_file = prev_audio_file + "_energy_denoised.wav"
-     dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, 0.25)
-     if dres != "true":
-       return ["Error:" + dres]
-     audio_to_be_erased.append(next_audio_file)
+        if len(words) == 0 or (len(words) == 1 and words[0] == ""):
+            tries += 1
+        else:
+            break
     
     directory = "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/" + user
     if not os.path.isdir(directory):
@@ -252,4 +236,25 @@ class Sphinx4Wrapper(GlobalParams):
     energy_denoise_req.scale = scale
     energy_denoise_res = self.energy_denoise_service(energy_denoise_req)
     return energy_denoise_res.success
+
+  def callSphinxJava(self,new_audio_file): 
+    self.p.stdin.write("start\r\n")
+    self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
+    start_time = time.time()
+    self.readLine()
+    words = []
+    while(True):
+      line = self.readLine()
+      print line
+      if(len(line)>0):
+        if(line[0]=="#"):
+          stripped_down_line = line[1:-1].split(" ")
+          for word in stripped_down_line:
+            words.append(word)
+        if(line=="stopPython\n"):
+          break
+      if (time.time() - start_time > 10):
+        words.append("Error: Time out error")
+        break
+    return words
 
