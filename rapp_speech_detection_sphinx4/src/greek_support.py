@@ -79,6 +79,18 @@ class GreekSupport(GlobalParams):
 
   def configureLetters(self):
 
+    self.f_base_pre = [u'π', u'τ', u'κ', u'θ', u'χ', u'σ', u'ξ', u'ψ'] 
+    self.f_base = []
+    for l in self.f_base_pre:
+      self.f_base.append(l.encode('utf-8'))
+
+    self.v_base_pre = [u'δ', u'γ', u'ζ', u'λ', u'ρ', u'μ', u'ν', u'α', u'ά', u'ε',\
+        u'έ', u'η', u'ή', u'ι', u'ί', u'ϊ', u'ΐ', u'ο', u'ό', u'υ', u'ύ', u'ϋ'\
+        u'ΰ', u'ω', u'ώ'] 
+    self.v_base = []
+    for l in self.v_base_pre:
+      self.v_base.append(l.encode('utf-8'))
+
     self.capital_letters = {}
     self.capital_letters[(u'Α').encode('utf-8')] = (u'α').encode('utf-8')
     self.capital_letters[(u'Ά').encode('utf-8')] = (u'ά').encode('utf-8')
@@ -123,6 +135,8 @@ class GreekSupport(GlobalParams):
     self.phonems[(u'γγ').encode('utf-8')] = 'G ' #?
     self.phonems[(u'τσ').encode('utf-8')] = 'CH ' #?
     self.phonems[(u'τζ').encode('utf-8')] = 'JH ' #?
+    self.phonems[(u'σσ').encode('utf-8')] = 'S ' #?
+    self.phonems[(u'κκ').encode('utf-8')] = 'K '
     
     self.two_digit_letters = {}
     self.two_digit_letters[(u'αι').encode('utf-8')] = 'EH '
@@ -133,6 +147,32 @@ class GreekSupport(GlobalParams):
     self.two_digit_letters[(u'οί').encode('utf-8')] = 'IH '
     self.two_digit_letters[(u'υι').encode('utf-8')] = 'IH '
     self.two_digit_letters[(u'υί').encode('utf-8')] = 'IH '
+
+    self.special_two_digit_letters = []
+    self.special_two_digit_letters.append((u'αυ').encode('utf-8'))
+    self.special_two_digit_letters.append((u'αύ').encode('utf-8'))
+    self.special_two_digit_letters.append((u'ευ').encode('utf-8'))
+    self.special_two_digit_letters.append((u'εύ').encode('utf-8'))
+    self.special_two_digit_letters_v = {}
+    self.special_two_digit_letters_v[(u'αυ').encode('utf-8')] = (u'αβ').encode('utf-8')
+    self.special_two_digit_letters_v[(u'αύ').encode('utf-8')] = (u'άβ').encode('utf-8')
+    self.special_two_digit_letters_v[(u'ευ').encode('utf-8')] = (u'εβ').encode('utf-8')
+    self.special_two_digit_letters_v[(u'εύ').encode('utf-8')] = (u'έβ').encode('utf-8')
+    self.special_two_digit_letters_f = {}
+    self.special_two_digit_letters_f[(u'αυ').encode('utf-8')] = (u'αφ').encode('utf-8')
+    self.special_two_digit_letters_f[(u'αύ').encode('utf-8')] = (u'άφ').encode('utf-8')
+    self.special_two_digit_letters_f[(u'ευ').encode('utf-8')] = (u'εφ').encode('utf-8')
+    self.special_two_digit_letters_f[(u'εύ').encode('utf-8')] = (u'έφ').encode('utf-8')
+
+    self.all_special_two_digit_letters = {}
+    for tdl in self.special_two_digit_letters:
+      for fb in self.f_base:
+        self.all_special_two_digit_letters[tdl + fb] = \
+            self.special_two_digit_letters_f[tdl] + fb
+    for tdl in self.special_two_digit_letters:
+      for vb in self.v_base:
+        self.all_special_two_digit_letters[tdl + vb] = \
+            self.special_two_digit_letters_v[tdl] + vb
 
     self.s_specific_rules = {}
     self.s_specific_rules[(u'σγ').encode('utf-8')] = 'Z W '
@@ -232,6 +272,10 @@ class GreekSupport(GlobalParams):
       # check phonems
       for ph in self.phonems:
         initial_word = initial_word.replace(ph, self.phonems[ph])
+      # check special two digit letters
+      for stdl in self.all_special_two_digit_letters:
+        initial_word = initial_word.replace(stdl, \
+            self.all_special_two_digit_letters[stdl])
       # check two-digit letters
       for let in self.two_digit_letters:
         initial_word = initial_word.replace(let, self.two_digit_letters[let])
