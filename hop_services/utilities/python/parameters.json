@@ -1,0 +1,20 @@
+{
+  "platform": {
+    "host_ip": "155.207.19.229",
+    "port": "6622",
+    "user": "klpanagi",
+    "path": "~/rapp_platform_catkin_ws/src/rapp_platform/",
+    "services": {
+      "name": [
+        "speech_detection_sphinx4",
+        "set_denoise_profile",
+        "face_detection",
+        "qr_detection",
+        "ontology_subclassesOf"
+      ],
+      "port": 9001
+    }
+  }
+
+}
+  
