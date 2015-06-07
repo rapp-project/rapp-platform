@@ -10,7 +10,7 @@ class RappCloud:
 
     def __init__(self):
         self.serviceUrl = {}
-        self.serviceUrl['speech_detection'] = 'http://155.207.19.37:9001/hop/speech_detection_sphinx4'
+        self.serviceUrl['speech_detection'] = 'http://155.207.19.13:9001/hop/speech_detection_sphinx4'
         self.user = 'klpanagi'
 
     def call_speech_detection(self, language, audio_source, words, sentences, grammar, fileUri): 
