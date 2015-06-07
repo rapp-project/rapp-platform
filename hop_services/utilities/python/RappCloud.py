@@ -40,7 +40,9 @@ class RappCloud:
             data = json.load(json_file)
         return data
 
-    def call_service(self, service_name):
+    ## @brief Call different services throught a single method
+    #   @TODO Implement!!!
+    def call_service(self, service_name, args):
         print '[%s] service request' % service_name    
         # --- Validate existence for the requested service. --- #
         if service_name in self.services_:
@@ -54,23 +56,23 @@ class RappCloud:
     def get_platform_services(self):
         return self.services_
 
-    def speech_detection(self, language, audio_source, words, sentences, grammar, fileUri): 
+    def speech_detection_sphinx4(self, language, audio_source, words, sentences, grammar, fileUri, user): 
 
         # -- Craft the data payload for the post request
         payload = {'language':language, 'audio_source':audio_source, \
                 'words':json.dumps(words), 'sentences':json.dumps(sentences), \
-                'grammar':json.dumps(grammar), 'user': self.user}
+                'grammar':json.dumps(grammar), 'user': user}
 
         # -- Files to be added into to poset request
         files = {'fileUrl': open(fileUri, 'rb')}
 
         # -- Post-Request!
-        url = self.serviceUrl_['speech_detection']
+        url = self.serviceUrl_['speech_detection_sphinx4']
         r = requests.post(url, data=payload, files=files, auth=HTTPBasicAuth('rappdev', \
             'rappdev'))
 
         resp_msg = json.loads(r.text)
-        print '\033[1;33m' + str(resp_msg) + '\033[0m'
+        #print '\033[1;33m' + str(resp_msg) + '\033[0m'
         return resp_msg
     #===========================================================================================
 
@@ -89,7 +91,7 @@ class RappCloud:
             'rappdev'))
 
         resp_msg = json.loads(r.text)
-        print  resp_msg
+        #print  resp_msg
         return resp_msg 
     #===========================================================================================
 
@@ -105,7 +107,7 @@ class RappCloud:
         #r = requests.post(url, files=files)
 
         resp_msg = json.loads(r.text)
-        print '\033[1;33m' + str(resp_msg) + '\033[0m'
+        #print '\033[1;33m' + str(resp_msg) + '\033[0m'
         return resp_msg
     #===========================================================================================
 
