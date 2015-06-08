@@ -142,7 +142,7 @@ service face_detection ( {fileUrl:''} )
            }
            catch(e){
              console.log('[Error]: Cannot open websocket to rosbridge --> [ws//localhost:9090]' );
-             console.log(etoString());
+             console.log(e);
              var resp_msg = {faces_up_left: [], faces_down_right: [],  error: 'Platform is down!'};
              sendResponse( JSON.stringify(resp_msg) ); 
            }
