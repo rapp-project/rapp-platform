@@ -43,8 +43,15 @@ def test_face_detection(rappCloud):
         print "\033[0;33mface-detection service returned without error\033[0m: [%s]" % error
         if valid_faces_up_left == faces_up_left:
             print "\033[0;34mValid faces_up_left result: \033[0m [%s]" % faces_up_left
+        else:
+            print "\033[1;31mInalid faces_up_left result: \033[0m [%s]" % faces_up_left
+
         if valid_faces_down_right == faces_down_right:
             print "\033[0;34mValid faces_down_right result: \033[0m [%s]" % faces_down_right
+        else:
+            print "\033[1;31mInalid faces_down_right result: \033[0m [%s]" % faces_up_left
+    else:
+        print "\033[1;31m[ERROR] ---------> %s\033[0m" % error
     # -------------------------- #
     return elapsedT
 
@@ -74,6 +81,8 @@ def test_qr_detection(rappCloud):
             print "\033[0;34mValid qr_centers result: \033[0m [%s]" % qr_centers
         else:
             print "\033[0;34mInvalid qr_centers result: \033[0m [%s]" % qr_centers
+    else:
+        print "\033[1;31m[ERROR] ---------> %s\033[0m" % error
     # -------------------------- #
     return elapsedT
  
@@ -97,7 +106,7 @@ def test_set_denoise_profile(rappCloud):
     if error == '0':
         print "\033[0;33mSet-Denoise-Profile service returned without error\033[0m: [%s]" % error
     else:
-        print "\033[0;33mSet-Denoise-Profile service call failed to configure profile\033[0m"
+        print "\033[1;31m[ERROR] ---------> %s\033[0m" % error
     # -------------------------- #
     return elapsedT
 
@@ -135,11 +144,11 @@ def test_speech_detection_sphinx4(rappCloud):
             print "\033[0;34mValid words_found result: \033[0m [%s]" % words_found
         else:
             print "\033[0;34mInvalid words_found result: \033[0m [%s]" % words_found
-
     else:
-        print "\033[0;33m[Speech-Detection-Sphix4\033[0m] service returned error: [%s]" % error
+        print "\033[1;31m[ERROR] ---------> %s\033[0m" % error
     # -------------------------- #
     return elapsedT
+
 
 def line_seperator(symbol, length, color):
     line = color
