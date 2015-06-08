@@ -17,16 +17,17 @@ console.log('Initiated Face Detection front-end service');
 var user = process.env.LOGNAME;
 var rapp_hop_path = "/home/" + user
   + "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
+var module_path = rapp_hop_path + 'utilities/js/'
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
-var Fs = require( rapp_hop_path + "utilities/fileUtils.js" );
+var Fs = require( module_path + 'fileUtils.js' );
 var hop = require('hop');
-var RandStringGen = require ( rapp_hop_path +"utilities/randStringGen.js" );
+var RandStringGen = require ( module_path + 'randStringGen.js' );
 /*----------------------------------------------*/
 
 /*-----<Define face-detection ROS service name>----*/
-var rosService = "/rapp/rapp_face_detection/detect_faces";
+var rosService = '/rapp/rapp_face_detection/detect_faces';
 /*------------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/
@@ -74,25 +75,36 @@ service face_detection ( {fileUrl:''} )
         'args': args,
         'id': uniqueID
      };
-
-     var rosWS = new WebSocket('ws://localhost:9090');
-     rosWS.onopen = function(){
-       console.log('[face-detection]: Connection to rosbridge established');
-       this.send(JSON.stringify(ros_srv_call));
+ 
+     /* ------ Catch exception while open websocket communication ------- */
+     try{
+       var rosWS = new WebSocket('ws://localhost:9090');
+     
+       rosWS.onopen = function(){
+         console.log('[face-detection]: Connection to rosbridge established');
+         this.send(JSON.stringify(ros_srv_call));
+       }
+       rosWS.onclose = function(){
+         console.log('[face-detection]: Connection to rosbridge closed');
+       }
+       rosWS.onmessage = function(event){
+         console.log('[face-detection]: Received message from rosbridge');
+         //console.log(event.value);
+         var resp_msg = craft_response( event.value );
+         this.close();
+         rosWS = undefined;
+         respFlag = true;
+         randStrGen.removeCached( uniqueID );
+         sendResponse( resp_msg );
+       }
      }
-     rosWS.onclose = function(){
-       console.log('[face-detection]: Connection to rosbridge closed');
+     catch(e){
+       console.log('[Error]: Cannot open websocket to rosbridge --> [ws//localhost:9090]' );
+       console.log(e);
+       var resp_msg = {faces_up_left: [], faces_down_right: [], error: "Platform is down!"};
+       sendResponse( JSON.stringify(resp_msg) ); 
      }
-     rosWS.onmessage = function(event){
-       console.log('[face-detection]: Received message from rosbridge');
-       //console.log(event.value);
-       var resp_msg = craft_response( event.value );
-       sendResponse( resp_msg );
-       this.close();
-       rosWS = undefined;
-       respFlag = true;
-       randStrGen.removeCached( uniqueID );
-     }
+     /*------------------------------------------------------------------ */
 
      function asyncWrap(){
        setTimeout( function(){
@@ -105,31 +117,40 @@ service face_detection ( {fileUrl:''} )
            }
            rosWS = undefined;
            /* --< Re-open connection to the WebSocket >--*/
-           rosWS = new WebSocket('ws://localhost:9090');
-           /* -----------< Redefine WebSocket callbacks >----------- */
-           rosWS.onopen = function(){
-             console.log('[face-detection]: Connection to rosbridge established');
-             this.send(JSON.stringify(ros_srv_call));
-           }
+           try{
+             rosWS = new WebSocket('ws://localhost:9090');
+             /* -----------< Redefine WebSocket callbacks >----------- */
+             rosWS.onopen = function(){
+               console.log('[face-detection]: Connection to rosbridge established');
+               this.send(JSON.stringify(ros_srv_call));
+             }
 
-           rosWS.onclose = function(){
-             console.log('[face-detection]: Connection to rosbridge closed');
-           }
+             rosWS.onclose = function(){
+               console.log('[face-detection]: Connection to rosbridge closed');
+             }
 
-           rosWS.onmessage = function(event){
-             console.log('[face-detection]: Received message from rosbridge');
-             var resp_msg = craft_response( event.value ); 
-             //console.log(resp_msg);
-             sendResponse( resp_msg ); //Return response to client
-             this.close(); // Close the connection to the websocket
-             rosWS = undefined; // Decostruct the websocket object
-             respFlag = true;
-             randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
+             rosWS.onmessage = function(event){
+               console.log('[face-detection]: Received message from rosbridge');
+               var resp_msg = craft_response( event.value ); 
+               //console.log(resp_msg);
+               this.close(); // Close the connection to the websocket
+               rosWS = undefined; // Decostruct the websocket object
+               respFlag = true;
+               randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
+               sendResponse( resp_msg ); //Return response to client
+             }
            }
+           catch(e){
+             console.log('[Error]: Cannot open websocket to rosbridge --> [ws//localhost:9090]' );
+             console.log(etoString());
+             var resp_msg = {faces_up_left: [], faces_down_right: [],  error: 'Platform is down!'};
+             sendResponse( JSON.stringify(resp_msg) ); 
+           }
+           
            /*--------------------------------------------------------*/
            asyncWrap();
          }
-       }, 8000); //Timeout value is set at 8 seconds
+       }, 3000); //Timeout value is set at 8 seconds
      }
      asyncWrap();
 

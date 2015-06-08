@@ -4,14 +4,15 @@
  * A client-side serveFile service must be up and running!!!!
  *
  */
-var user = "klpanagi";
-var rapp_hop_path = "/home/" + user + 
-  "/rapp_platform_catkin_ws/src/rapp-platform/ric/hop_services/";
+var user = process.env.LOGNAME;
+var rapp_hop_path = "/home/" + user
+  + "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
+var module_path = rapp_hop_path +  'utilities/js/'
 
 var hop = require ( 'hop' );
 /*<Require File Utilities module>*/
-var Fs = require( /*rapp_hop_path + */"../utilities/./fileUtils.js" );
-var hopServices = require( '../utilities/./hopServices.js' ); 
+var Fs = require( module_path + 'fileUtils.js' );
+var hopServices = require( module_path + 'hopServices.js' ); 
 
 var hop = new hopServices();
 

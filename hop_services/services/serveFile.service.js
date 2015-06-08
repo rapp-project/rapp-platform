@@ -1,13 +1,15 @@
 /**
  * This service is used to serve files under request.
  */
-var user = "klpanagi";
-var rapp_hop_path = "/home/" + user + 
-  "/rapp_platform_catkin_ws/src/rapp-platform/ric/hop_services/";
+
+var user = process.env.LOGNAME;
+var rapp_hop_path = "/home/" + user
+  + "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
+var module_path = rapp_hop_path +  'utilities/js/'
 
 var hop = require ( 'hop' );
 /*<Require File Utilities module>*/
-var Fs = require( /*rapp_hop_path + */"../utilities/./fileUtils.js" );
+var Fs = require( module_path + 'fileUtils.js' );
 
 /*!
  * @brief Service under file requests.
