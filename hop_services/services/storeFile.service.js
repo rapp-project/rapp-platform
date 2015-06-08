@@ -1,8 +1,6 @@
 
 var user = process.env.LOGNAME;
-var rapp_hop_path = "/home/" + user 
-  + "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
-var module_path = rapp_hop_path +  'utilities/js/'
+var module_path = '../utilities/js/'
 
 /*Require File Utilities module => make use of writeBinFileSync function*/
 var Fs = require( module_path + 'fileUtils.js' );

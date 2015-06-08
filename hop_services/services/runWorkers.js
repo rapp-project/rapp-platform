@@ -6,14 +6,12 @@
 
 
 var user = process.env.LOGNAME;
-var rapp_hop_path = "/home/" + user + 
-  "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
-var module_path = rapp_hop_path + 'utilities/js/'
+var module_path = '../utilities/js/'
 
 var Fs = require( module_path + 'fileUtils.js' );
 var Path = require('path');
 
-var fileList = Fs.ls_sync( rapp_hop_path + "services/" );
+var fileList = Fs.ls_sync( __dirname );
 var Services = [];
 
 for (var i in fileList){

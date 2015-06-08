@@ -9,9 +9,7 @@
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
-var rapp_hop_path = "/home/" + user
-  + "/rapp_platform_catkin_ws/src/rapp-platform/hop_services/";
-var module_path = rapp_hop_path +  'utilities/js/'
+var module_path = '../utilities/js/'
 /*----------------------------------------------*/
 var RandStringGen = require ( module_path + 'randStringGen.js' );
 /*----------------------------------------------*/
