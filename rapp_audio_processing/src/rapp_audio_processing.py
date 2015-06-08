@@ -181,10 +181,15 @@ class AudioProcessing:
     res.success = "true"
     return res
 
-  # Service callback for handling denoising
+  # Service callback for detecting silence
   def detect_silence(self, req):     
     res = AudioProcessingDetectSilenceSrvResponse()
     
+    if req.audio_type == "headset":
+      res.silence = "false"
+      res.level = 0.0
+      return res
+
     samp_freq, signal = wavfile.read(req.audio_file)
     sq_signal = signal * 1.0
     for i in range(0, len(sq_signal)):
@@ -199,7 +204,7 @@ class AudioProcessing:
         res.silence = "true"
     return res
 
-  # Service callback for detecting silence
+  # Service callback for energy denoising
   def energy_denoise(self, req):     
     res = AudioProcessingDenoiseSrvResponse()
     

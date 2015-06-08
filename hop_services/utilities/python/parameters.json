@@ -1,9 +1,7 @@
 {
   "platform": {
-    "host_ip": "155.207.19.229",
-    "port": "6622",
+    "host_ip": "155.207.19.13",
     "user": "klpanagi",
-    "path": "~/rapp_platform_catkin_ws/src/rapp_platform/",
     "services": {
       "name": [
         "speech_detection_sphinx4",

@@ -1,4 +1,5 @@
 string audio_file
+string audio_type
 ---
 string silence
 float32 level
