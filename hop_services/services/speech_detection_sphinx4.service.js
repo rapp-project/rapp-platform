@@ -164,6 +164,7 @@ function craft_response(srvMsg)
 {
   var words = JSON.parse(srvMsg).values.words;
   var result = JSON.parse(srvMsg).result;
+  var error = JSON.parse(srvMsg).values.error;
 
   var craftedMsg = { words: [], error: '' };
   
@@ -173,14 +174,13 @@ function craft_response(srvMsg)
     {
       craftedMsg.words.push( words[ii] )
     }
-      craftedMsg.error = ''; 
+    craftedMsg.error = error; 
   }
   else
   { 
     // Return error index!
-    craftedMsg.error = '1';
+    craftedMsg.error = error;
   }
-
   return JSON.stringify(craftedMsg)
   //return craftedMsg;
 };

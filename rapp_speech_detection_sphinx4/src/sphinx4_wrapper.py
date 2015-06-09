@@ -239,7 +239,7 @@ class Sphinx4Wrapper(GlobalParams):
         return ["Error: No speech detected. RSD = " + str(silence_res.level)]
 
     tries = 0
-    while tries < 5:
+    while tries < 2:
         # Perform energy denoising as well
         if profile['energy_denoising'] == True:
           next_audio_file = prev_audio_file + "_energy_denoised.wav"

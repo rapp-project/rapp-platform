@@ -138,7 +138,6 @@ class SpeechRecognitionSphinx4(GlobalParams):
       req_db.where_data=[StringArrayMsg(s=entry1)]
 
       resp = self.authentication_service(req_db.req_cols, req_db.where_data)
-      print resp
       if resp.success.data != True or len(resp.res_data) == 0: 
         total_res.error = "Non authenticated user"
         return total_res
@@ -162,16 +161,18 @@ class SpeechRecognitionSphinx4(GlobalParams):
     spee_req.user = req.user
     spee_res = self.speechRecognition(spee_req)
     total_res.words = spee_res.words
+    total_res.error = spee_res.error
     return total_res
 
   # Service callback for handling speech recognition
   def speechRecognition(self, req):     
     res = SpeechRecognitionSphinx4SrvResponse()
     words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user) 
-    
+    print words
     # Error handling - Must be implemented with exceptions
     if len(words) == 1 and "Error:" in words[0]:
-      res.words.append(words[0])
+      res.error = words[0]
+      res.words = []
       return res
 
     for word in words:
