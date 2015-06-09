@@ -33,6 +33,7 @@ import argparse
 from os import listdir
 from os.path import isfile, join
 import importlib
+from threading import Thread, Lock
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -40,6 +41,8 @@ __path__ = os.path.dirname(os.path.realpath(__file__))
 module_path = __path__ + '/../python'
 sys.path.append(module_path)
 ## ------------------------------------------------##
+
+mutex = Lock()
 
 class bcolors:
     HEADER = '\033[95m'
@@ -51,26 +54,57 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+def execute(module):
+  tmp = module.RappInterfaceTest()
+  [error_code, time] = tmp.execute()
+  print module.__name__,
+
+  mutex.acquire(True)
+  if error_code != True:
+    print bcolors.FAIL + "FAIL [" + error_code + "]" + bcolors.ENDC + " " + str(time)
+  else:
+    print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC + " " + str(time)
+  mutex.release()
+
+
 def main(): 
   folder = __path__ + "/python_tests"
   sys.path.append(folder)
-  if len(sys.argv) != 1:
-    files = sys.argv[1:]
-  else:
+
+  parser = argparse.ArgumentParser(description='RAPP Platform front-end hop-service invocation tests')
+  parser.add_argument('-i','--name', help='Test File Name to execute. \033[1;34mall==all\033[0m',\
+    dest='fileName', action='store', nargs='+', type=str)
+  parser.add_argument('-n', '--', dest='numCalls', action='store', \
+    nargs=1, help='Number of times to run the test')
+  args =  parser.parse_args( ) # Parse the given arguments
+
+
+  if args.fileName == None:
     files = [ f for f in listdir(folder) if isfile(join(folder, f)) ]
+  else:
+    files = args.fileName
   for f in files:
     clean_file = f.split(".")
     if clean_file[1] != "py" or clean_file[0] == "template":
       continue
     module = importlib.import_module(clean_file[0])
-    tmp = module.RappInterfaceTest()
-    [error_code, time] = tmp.execute()
-    print module.__name__,
-    if error_code != True:
-      print bcolors.FAIL + "FAIL [" + error_code + "]" + bcolors.ENDC + " " + str(time)
-    else:
-      print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC + " " + str(time)
 
+    if args.numCalls == None:
+      numCalls = 1
+    else:
+      numCalls = int(args.numCalls[0])
+  
+    threads = []
+
+    for i in range(0, numCalls):
+      thread = Thread(target=execute, args=(module, ))
+      thread.start()
+      threads.append(thread)
+
+    # Wait for all threads to complete
+    for t in threads:
+      t.join()
+    
 if __name__ == "__main__":
   main()
 
