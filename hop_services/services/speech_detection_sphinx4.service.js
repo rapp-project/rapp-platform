@@ -173,7 +173,7 @@ function craft_response(srvMsg)
     {
       craftedMsg.words.push( words[ii] )
     }
-      craftedMsg.error = '0'; 
+      craftedMsg.error = ''; 
   }
   else
   { 

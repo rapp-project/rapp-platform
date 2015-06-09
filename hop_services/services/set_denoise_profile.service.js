@@ -169,7 +169,7 @@ function craft_response(srvMsg)
   
   if (result == true)
   {
-    craftedMsg.error = '0'; 
+    craftedMsg.error = ''; 
   }
   else
   { 

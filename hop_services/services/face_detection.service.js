@@ -181,7 +181,7 @@ function craft_response(srvMsg)
     {
       craftedMsg.faces_down_right.push( faces.faces_down_right[ii].point )
     }   
-    craftedMsg.error = '0'; 
+    craftedMsg.error = ''; 
   }
   else{
     craftedMsg.error = '1';

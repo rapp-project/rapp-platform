@@ -175,7 +175,7 @@ function craft_response(srvMsg)
     {
       craftedMsg.qr_centers.push(qrCenters[ii].point);
     }
-    craftedMsg.error = '0';
+    craftedMsg.error = '';
   }
   else
   {
