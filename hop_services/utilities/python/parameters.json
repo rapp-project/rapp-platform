@@ -1,6 +1,6 @@
 {
   "platform": {
-    "host_ip": "155.207.19.13",
+    "host_ip": "155.207.19.229",
     "user": "klpanagi",
     "services": {
       "name": [
@@ -8,7 +8,8 @@
         "set_denoise_profile",
         "face_detection",
         "qr_detection",
-        "ontology_subclassesOf"
+        "ontology_subclassesOf",
+        "ontology_superclassesOf"
       ],
       "port": 9001
     }
