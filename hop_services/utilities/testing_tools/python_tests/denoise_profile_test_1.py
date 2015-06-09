@@ -59,7 +59,7 @@ class RappInterfaceTest:
        
     error = response['error']
 
-    if error != "0":
+    if error != "":
       return [error, self.elapsed_time]
     if True:
       return [True, self.elapsed_time]

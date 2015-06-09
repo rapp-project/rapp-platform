@@ -71,7 +71,7 @@ class RappInterfaceTest:
     
     return_data = response['words']
     error = response['error']
-    if error != "0":
+    if error != "":
       return [error, self.elapsed_time]
     if self.valid_words_found == return_data:
       return [True, self.elapsed_time]

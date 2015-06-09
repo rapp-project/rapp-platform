@@ -60,7 +60,7 @@ class RappInterfaceTest:
     faces_down_right = response['faces_down_right']
     error = response['error']
 
-    if error != "0":
+    if error != "":
       return [error, self.elapsed_time]
     if self.valid_faces_up_left == faces_up_left and \
         self.valid_faces_down_right == faces_down_right:

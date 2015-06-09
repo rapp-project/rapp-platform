@@ -62,7 +62,7 @@ class RappInterfaceTest:
     # Get the returned data
     return_data = response['qr_centers']
     error = response['error']
-    if error != "0":
+    if error != "":
       return [error, self.elapsed_time]
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
