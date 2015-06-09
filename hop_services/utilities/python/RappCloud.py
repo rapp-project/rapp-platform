@@ -130,10 +130,10 @@ class RappCloud:
 
 
     #===========================================================================================
-    def ontology_subclassesOf(self, query):
+    def ontology_subclasses_of(self, query):
         payload = {'queryStr': query}
         url = self.serviceUrl_['ontology_subclassesOf']
-        r = request.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
+        r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
         resp_msg = json.loads(r.text)
         return resp_msg
     #===========================================================================================

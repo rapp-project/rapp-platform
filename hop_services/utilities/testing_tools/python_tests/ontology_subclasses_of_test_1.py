@@ -43,23 +43,26 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/../test_data/qr_code_rapp.jpg'
-    self.valid_results = [ {'y': 165.0, 'x': 165.0, 'z': 0.0} ]
+    self.ontology_class = "Oven"
+    # Set the valid results
+    self.valid_results = 0
 
   def execute(self):
 
     start_time = timeit.default_timer()
-    response = self.rappCloud.qr_detection(self.file_uri)
+    # Call the Python RappCloud service
+    response = self.rappCloud.ontology_subclasses_of(self.ontology_class)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
   def validate(self, response):
-    
-    return_data = response['qr_centers']
+    # Get the returned data
+    return_data = response['results']
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
+    # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]
     else:

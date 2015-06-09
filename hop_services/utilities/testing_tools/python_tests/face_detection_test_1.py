@@ -55,7 +55,6 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-    
     faces_up_left = response['faces_up_left']
     faces_down_right = response['faces_down_right']
     error = response['error']
@@ -66,5 +65,5 @@ class RappInterfaceTest:
         self.valid_faces_down_right == faces_down_right:
       return [True, self.elapsed_time]
     else:
-      return ["Unexpected result", self.elapsed_time]
+      return ["Unexpected result : " + str(response), self.elapsed_time]
 

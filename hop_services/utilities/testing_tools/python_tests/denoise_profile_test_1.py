@@ -64,5 +64,5 @@ class RappInterfaceTest:
     if True:
       return [True, self.elapsed_time]
     else:
-      return ["Unexpected result", self.elapsed_time]
+      return ["Unexpected result : " + str(response), self.elapsed_time]
 
