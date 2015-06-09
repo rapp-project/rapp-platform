@@ -10,3 +10,4 @@ string user
 float32 scale
 ---
 string success
+string error

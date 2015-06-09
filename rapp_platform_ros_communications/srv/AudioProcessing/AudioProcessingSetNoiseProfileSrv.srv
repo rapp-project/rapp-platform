@@ -9,3 +9,4 @@ string audio_file_type
 string user
 ---
 string success
+string error
