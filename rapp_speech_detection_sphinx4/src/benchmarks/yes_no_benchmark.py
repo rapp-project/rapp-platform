@@ -109,7 +109,7 @@ class SpeechRecognitionTester:
       replays = int(sys.argv[3])
     for i in range(0, replays):
       [notrec, failed ] = self.run(files, folder)
-      self.run(notrec + failed, folder)
+      #self.run(notrec + failed, folder)
     
   def run(self, files, folder):
     success = 0
@@ -141,7 +141,7 @@ class SpeechRecognitionTester:
       self.spee_req.user = 'etsardou'
       self.spee_req.sentences = self.spreq.sentences
       self.spee_req.path = folder + f
-      self.spee_req.audio_source = 'headset' # The samples are already denoised
+      self.spee_req.audio_source = 'nao_wav_1_ch_denoised' # The samples are already denoised
     
       res = self.conf_sp_ser(self.spee_req)
 

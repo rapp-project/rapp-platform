@@ -50,6 +50,7 @@ class Sphinx4Wrapper(GlobalParams):
     self.detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
 
+    self.print_sphinx_debug_lines = False
 
     if(not self.denoise_topic):
       rospy.logerror("Audio processing denoise topic not found")
@@ -67,9 +68,9 @@ class Sphinx4Wrapper(GlobalParams):
 
 
   # Helper function for getting input from Sphinx
-  def readLine(self, print_line = False):
+  def readLine(self):
     line = self.p.stdout.readline()
-    if print_line:
+    if self.print_sphinx_debug_lines == True:
       print line
     return line
 
@@ -81,49 +82,94 @@ class Sphinx4Wrapper(GlobalParams):
             "Sphinx4"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
 
     self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
     
     self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
 
     self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
             conf['grammar_folder'] + '\r\n') 
-    self.readLine(True)
+    self.readLine()
 
     self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
     
     self.p.stdin.write("languageModel#" + conf['language_model'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
 
     if(conf['grammar_disabled']):
       self.p.stdin.write("disableGrammar#\r\n")
     else:
       self.p.stdin.write("enableGrammar#\r\n")
-    self.readLine(True)
+    self.readLine()
 
     self.p.stdin.write("forceConfiguration#\r\n")
-    self.readLine(True)
+    self.readLine()
 
   def configureSphinx(self, conf):
     self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
     self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
     self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
             conf['grammar_folder'] + '\r\n') 
-    self.readLine(True)
+    self.readLine()
     self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
     self.p.stdin.write("languageModel#" + conf['language_model'] + '\r\n')
-    self.readLine(True)
+    self.readLine()
     if(conf['grammar_disabled']):
       self.p.stdin.write("disableGrammar#\r\n")
     else:
       self.p.stdin.write("enableGrammar#\r\n")
-    self.readLine(True)
+    self.readLine()
     self.p.stdin.write("forceConfiguration#\r\n")
-    self.readLine(True)
+    self.readLine()
+
+  def createProcessingProfile(self, audio_type):
+    manipulation = {}
+    manipulation['sox_transform'] = False
+    manipulation['sox_channels_and_rate'] = False
+    manipulation['sox_denoising'] = False
+    manipulation['sox_denoising_scale'] = 0.0
+    manipulation['detect_silence'] = False
+    manipulation['detect_silence_threshold'] = 0.0
+    manipulation['energy_denoising'] = False
+    manipulation['energy_denoising_init_scale'] = 0.0
+
+    if audio_type == "headset":
+      pass
+    elif audio_type == "nao_ogg":
+      manipulation['sox_transform'] = True
+      manipulation['sox_denoising'] = True
+      manipulation['sox_denoising_scale'] = 0.15
+      manipulation['detect_silence'] = True
+      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['energy_denoising'] = True
+      manipulation['energy_denoising_init_scale'] = 0.125
+    elif audio_type == "nao_wav_4_ch":
+      manipulation['sox_channels_and_rate'] = True
+      manipulation['sox_denoising'] = True
+      manipulation['sox_denoising_scale'] = 0.15
+      manipulation['detect_silence'] = True
+      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['energy_denoising'] = True
+      manipulation['energy_denoising_init_scale'] = 0.125
+    elif audio_type == "nao_wav_1_ch":
+      manipulation['sox_denoising'] = True
+      manipulation['sox_denoising_scale'] = 0.15
+      manipulation['detect_silence'] = True
+      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['energy_denoising'] = True
+      manipulation['energy_denoising_init_scale'] = 0.125
+    elif audio_type == "nao_wav_1_ch_denoised":
+      manipulation['detect_silence'] = True
+      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['energy_denoising'] = True
+      manipulation['energy_denoising_init_scale'] = 0.125
+
+
+    return manipulation
 
 
   # Performs the speech recognition and returns a list of words
@@ -133,7 +179,6 @@ class Sphinx4Wrapper(GlobalParams):
       return ["Error: Something went wrong with the local audio storage",\
               "Requested path: " + audio_file]
 
-    
     # Keep extra audio files that need erasing
     audio_to_be_erased = []
 
@@ -146,61 +191,60 @@ class Sphinx4Wrapper(GlobalParams):
       audio_file_folder += "/"
 
     # Check that the audio_source is legit
-    if audio_source not in ["headset", "nao_ogg", "nao_wav_4_ch", "nao_wav_1_ch"]:
+    if audio_source not in \
+        ["headset", "nao_ogg", "nao_wav_4_ch", "nao_wav_1_ch",\
+        "nao_wav_1_ch_denoised"]:
       return ["Error: Audio source unrecognized"]
 
-    # Transform audio to 16kHz, mono if needed
-    
-    if audio_source == "nao_ogg": # Needs only ogg->wav & denoising
-      print "Audio source = NAO ogg"
-      next_audio_file += ".wav"
+    # Get processing profile
+    profile = self.createProcessingProfile(audio_source)
+
+    # Check if sox_transform is needed
+    if profile['sox_transform'] == True:
+      next_audio_file += "_transformed.wav"
       command = "sox " + prev_audio_file + " " + next_audio_file
-      print "RAPP: " + command
-      os.system(command)      
-      audio_to_be_erased.append(next_audio_file)
-      prev_audio_file = next_audio_file
-    elif audio_source == "nao_wav_4_ch": # Needs conversion to mono + 16KHz
-      print "Audio source = NAO wav 4 channels"
-      next_audio_file = next_audio_file + "_mono.wav"
-      command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
-      print "RAPP: " + command
       os.system(command)
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
-
-    # Check if denoising is needed
-    if audio_source == "nao_ogg" or \
-        audio_source == "nao_wav_1_ch" or\
-        audio_source == "nao_wav_4_ch":
-
+    if profile['sox_channels_and_rate'] == True:
+      next_audio_file += "_mono16k.wav"
+      command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
+      os.system(command)
+      audio_to_be_erased.append(next_audio_file)
+      prev_audio_file = next_audio_file
+    if profile['sox_denoising'] == True:
       next_audio_file = prev_audio_file + "_denoised.wav"
       den_request = AudioProcessingDenoiseSrvRequest()
       den_request.audio_file = prev_audio_file
       den_request.denoised_audio_file = next_audio_file
       den_request.audio_type = audio_source
       den_request.user = user
-      den_request.scale = 0.15
+      den_request.scale = profile['sox_denoising_scale']
       den_response = self.denoise_service(den_request)
       if den_response.success != "true":
         return ["Error:" + den_response.success]
       audio_to_be_erased.append(next_audio_file)
+      prev_audio_file = next_audio_file
+    if profile['detect_silence'] == True:
+      # Detect silence
+      silence_req = AudioProcessingDetectSilenceSrvRequest()
+      silence_req.audio_file = prev_audio_file
+      silence_req.threshold = profile['detect_silence_threshold']
+      silence_res = self.detect_silence_service(silence_req)
+      if silence_res.silence == "true":
+        return ["Error: No speech detected. RSD = " + str(silence_res.level)]
 
-    # Detect silence
-    silence_req = AudioProcessingDetectSilenceSrvRequest()
-    silence_req.audio_file = prev_audio_file
-    silence_res = self.detect_silence_service(silence_req)
-    if silence_res.silence == "true":
-      return ["Error: No speech detected. RSD = " + str(silence_res.level)]
-
-    tries = 1
+    tries = 0
     while tries < 5:
         # Perform energy denoising as well
-        next_audio_file = prev_audio_file + "_energy_denoised.wav"
-        dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, \
-                0.125 * tries / 2.5)
-        if dres != "true":
+        if profile['energy_denoising'] == True:
+          next_audio_file = prev_audio_file + "_energy_denoised.wav"
+          dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, \
+                  profile['energy_denoising_init_scale'] + tries * 0.125)
+          if dres != "true":
             return ["Error:" + dres]
-        audio_to_be_erased.append(next_audio_file)
+          audio_to_be_erased.append(next_audio_file)
+          prev_audio_file = next_audio_file
 
         new_audio_file = next_audio_file
         words = self.callSphinxJava(new_audio_file)
@@ -210,21 +254,25 @@ class Sphinx4Wrapper(GlobalParams):
         else:
             break
     
-    directory = "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/" + user
-    if not os.path.isdir(directory):
-      os.makedirs(directory)
+    backup_directory = \
+        "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/"\
+        + user
+    if not os.path.isdir(backup_directory):
+      os.makedirs(backup_directory)
 
-    if len(audio_to_be_erased) != 0:
-      clean_file = audio_to_be_erased[-1].split("/")[-1]
-      clean_file_or = audio_to_be_erased[0].split("/")[-1]
-      command = "cp " + audio_to_be_erased[-1] + " " + directory + "/" + clean_file
-      os.system(command)
-      command = "cp " + audio_to_be_erased[-1] + " " + directory + "/original_" + clean_file
+    # Keep the original file:
+    command = "cp " + audio_file + " " + backup_directory + "/" + \
+            audio_file.split("/")[-1]
+    os.system(command)
+
+    for f in audio_to_be_erased:
+      clean_file = f.split("/")[-1]
+      command = "cp " + f + " " + backup_directory + \
+          "/" + clean_file
       os.system(command)
 
     for f in audio_to_be_erased:
       command = "rm " + f
-      print "------------------" + command
       os.system(command)
 
     return words
@@ -245,7 +293,6 @@ class Sphinx4Wrapper(GlobalParams):
     words = []
     while(True):
       line = self.readLine()
-      print line
       if(len(line)>0):
         if(line[0]=="#"):
           stripped_down_line = line[1:-1].split(" ")

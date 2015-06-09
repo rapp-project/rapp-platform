@@ -1,11 +1,5 @@
-# Audio file types can be (for now)
-#   nao_ogg
-#   nao_wav_1_ch
-#   nao_wav_4_ch
-
 string audio_file
 string denoised_audio_file
-string audio_type
 string user
 float32 scale
 ---

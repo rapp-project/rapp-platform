@@ -108,7 +108,7 @@ class SpeechRecognitionTester:
     self.spee_req.audio_source = 'headset' # The samples are already denoised
     res = self.conf_sp_ser(self.spee_req)
     for word in res.words:
-      toprint +="'" + word + "' "
+      toprint += "'" + word + "' "
     print toprint
 
 # Main function

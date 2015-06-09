@@ -163,13 +163,6 @@ class AudioProcessing:
   def denoise(self, req):     
     res = AudioProcessingDenoiseSrvResponse()
     directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
-    
-    if  req.audio_type != "nao_ogg" and\
-        req.audio_type != "nao_wav_1_ch" and\
-        req.audio_type != "nao_wav_4_ch":
-      res.success = "Wrong audio type"
-      return res
-    
     noise_profile = directory + "/noise_profile/noise_profile_" + req.audio_type
     if not os.path.isfile(noise_profile):
       res.success = "No noise profile for the " + req.audio_type + " type exists"
@@ -184,12 +177,6 @@ class AudioProcessing:
   # Service callback for detecting silence
   def detect_silence(self, req):     
     res = AudioProcessingDetectSilenceSrvResponse()
-    
-    if req.audio_type == "headset":
-      res.silence = "false"
-      res.level = 0.0
-      return res
-
     samp_freq, signal = wavfile.read(req.audio_file)
     sq_signal = signal * 1.0
     for i in range(0, len(sq_signal)):
@@ -198,7 +185,7 @@ class AudioProcessing:
     std_sq = std(sq_signal)
     rsd_sq = std_sq / mean_sq
     res.level = rsd_sq
-    if rsd_sq > 2.0:
+    if rsd_sq > req.threshold:
         res.silence = "false" 
     else:
         res.silence = "true"

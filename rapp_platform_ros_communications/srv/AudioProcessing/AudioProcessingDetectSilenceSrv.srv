@@ -1,5 +1,5 @@
 string audio_file
-string audio_type
+float32 threshold
 ---
 string silence
 float32 level
