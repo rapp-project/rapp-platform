@@ -139,4 +139,11 @@ class RappCloud:
     #===========================================================================================
 
     
+    def ontology_superclasses_of(self, query):
+        payload = {'queryStr': query}
+        url = self.serviceUrl_['ontology_superclassesOf']
+        r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
+        resp_msg = json.loads(r.text)
+        return resp_msg
+    #===========================================================================================
 
