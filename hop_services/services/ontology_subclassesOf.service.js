@@ -5,6 +5,8 @@
  *
  */
 
+console.log("Initiated Ontology-SubclassesOf front-end service");
+
 // TODO -- Get ontology_subclassesOf rosservice name
 
 /*---------Sets required file Paths-------------*/
@@ -63,13 +65,13 @@ service ontology_subclassesOf ( {queryStr:''} )
      }
      rosWS.onmessage = function(event){
        console.log('[Ontology-subclassesOf]: Received message from rosbridge');
-       console.log(event.value);
-       var resp_msg = event.value;
-       sendResponse( resp_msg );
+       //console.log(event.value);
+       var resp_msg = craft_response(event.value);
        this.close();
        rosWS = undefined;
        respFlag = true;
        randStrGen.removeCached( uniqueID );
+       sendResponse( resp_msg );
      }
 
      function asyncWrap(){
@@ -96,13 +98,13 @@ service ontology_subclassesOf ( {queryStr:''} )
 
        rosWS.onmessage = function(event){
          console.log('[Ontology-subclassesOf]: Received message from rosbridge');
-         var resp_msg = event.value; 
-         sendResponse( resp_msg ); //Return response to client
-         console.log(resp_msg);
+         var resp_msg = craft_response(event.value);
+         //console.log(resp_msg);
          this.close(); // Close the connection to the websocket
          rosWS = undefined; // Decostruct the websocket object
          respFlag = true;
          randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
+         sendResponse( resp_msg ); //Return response to client
        }
        /*--------------------------------------------------------*/
        asyncWrap();
@@ -142,4 +144,22 @@ function craft_srv_msg( queryString )
 function craft_response(srvMsg)
 {
   // TODO --Implement
+  var results = JSON.parse(srvMsg).values.results;
+  var trace = JSON.parse(srvMsg).values.trace;
+  var success = JSON.parse(srvMsg).values.success;
+  var error = JSON.parse(srvMsg).values.error;
+  var call_result = JSON.parse(srvMsg).result;
+
+  var craftedMsg = {results: [], trace: [], error: ''};
+
+  for (var ii = 0; ii < results.length; ii++)
+  {
+    craftedMsg.results.push(results[ii].data);
+  }
+  for (var ii = 0; ii < trace.length; ii++)
+  {
+    craftedMsg.trace.push(trace[ii].data);
+  }
+  craftedMsg.error = error
+  return JSON.stringify(craftedMsg);
 }

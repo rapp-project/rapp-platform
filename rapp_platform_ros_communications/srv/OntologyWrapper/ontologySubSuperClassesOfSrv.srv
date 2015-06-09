@@ -7,3 +7,4 @@ std_msgs/String ontology_class
 std_msgs/String[] results 
 std_msgs/String[] trace
 bool success 
+string error
