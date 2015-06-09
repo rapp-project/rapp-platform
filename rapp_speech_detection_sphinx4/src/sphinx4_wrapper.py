@@ -203,13 +203,17 @@ class Sphinx4Wrapper(GlobalParams):
     if profile['sox_transform'] == True:
       next_audio_file += "_transformed.wav"
       command = "sox " + prev_audio_file + " " + next_audio_file
-      os.system(command)
+      com_res = os.system(command)
+      if com_res != 0:
+        return ["Error: sox malfunctioned"]
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
     if profile['sox_channels_and_rate'] == True:
       next_audio_file += "_mono16k.wav"
       command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
-      os.system(command)
+      com_res = os.system(command)
+      if com_res != 0:
+        return ["Error: sox malfunctioned"]
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
     if profile['sox_denoising'] == True:
@@ -263,17 +267,24 @@ class Sphinx4Wrapper(GlobalParams):
     # Keep the original file:
     command = "cp " + audio_file + " " + backup_directory + "/" + \
             audio_file.split("/")[-1]
-    os.system(command)
+    com_res = os.system(command)
+    if com_res != 0:
+      return ["Error: Server cp malfunctioned"]
 
     for f in audio_to_be_erased:
       clean_file = f.split("/")[-1]
       command = "cp " + f + " " + backup_directory + \
           "/" + clean_file
       os.system(command)
+      if com_res != 0:
+        return ["Error: Server cp malfunctioned"]
 
     for f in audio_to_be_erased:
       command = "rm " + f
       os.system(command)
+      if com_res != 0:
+        return ["Error: Server rm malfunctioned"]
+
 
     return words
 

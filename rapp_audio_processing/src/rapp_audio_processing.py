@@ -124,11 +124,18 @@ class AudioProcessing:
     directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
     if not os.path.isdir(directory):
       os.makedirs(directory)
-      os.system("chmod 777 " + directory)
+      com_res = os.system("chmod 777 " + directory)
+      if com_res != 0:
+        res.success = "Error: Server chmod malfunctioned"
+        return res
+
     directory += "/noise_profile/"
     if not os.path.isdir(directory):
       os.makedirs(directory)
-      os.system("chmod 777 " + directory)
+      com_res = os.system("chmod 777 " + directory)
+      if com_res != 0:
+        res.success = "Error: Server chmod malfunctioned"
+        return res
 
     noise_profile_file = directory
     new_audio = req.noise_audio_file
@@ -136,27 +143,47 @@ class AudioProcessing:
     # Making audio compatible to sphinx4
     if req.audio_file_type == 'nao_ogg':
       new_audio += ".wav"
-      os.system("sox " + req.noise_audio_file + " " + new_audio)
+      com_res = os.system("sox " + req.noise_audio_file + " " + new_audio)
+      if com_res != 0:
+        res.success = "Error: Server sox malfunctioned"
+        return res
       cleanup.append(new_audio)
     elif req.audio_file_type == "nao_wav_1_ch":
       pass
     elif req.audio_file_type == "nao_wav_4_ch":
       new_audio += "_1ch.wav"
-      os.system("sox " + req.noise_audio_file + " -c 1 -r 16000 " + new_audio)
+      com_res = os.system("sox " + req.noise_audio_file + " -c 1 -r 16000 " + \
+          new_audio)
+      if com_res != 0:
+        res.success = "Error: Server sox malfunctioned"
+        return res
+
       cleanup.append(new_audio)
     else:
       res.success = "Non valid noise audio type"
-      self.cleanup(cleanup)
+      status = self.cleanup(cleanup)
+      if status != True:
+        res.success += " " + status
       return total_res
 
     noise_profile_uri = directory + "/noise_profile_" + req.audio_file_type
     # Extract noise_profile
-    os.system("sox " + new_audio + " -t null /dev/null trim 0.5 2.5 noiseprof "\
+    com_res = os.system("sox " + new_audio + " -t null /dev/null trim 0.5 2.5 noiseprof "\
             + noise_profile_uri)
-    os.system("chmod 777 " + noise_profile_uri)
+    if com_res != 0:
+      res.success = "Error: Server sox malfunctioned"
+      return res
 
-    res.success = "true"
-    self.cleanup(cleanup)
+    com_res = os.system("chmod 777 " + noise_profile_uri)
+    if com_res != 0:
+      res.success = "Error: Server chmod malfunctioned"
+      return res
+
+    status = self.cleanup(cleanup)
+    if status != True:
+      res.success = status
+    else:
+      res.success = "true"
     return res
 
   # Service callback for handling denoising
@@ -170,8 +197,11 @@ class AudioProcessing:
     
     command = "sox " + req.audio_file + " " + req.denoised_audio_file +\
             " noisered " + noise_profile + " " + str(req.scale)
-    os.system(command)
-    res.success = "true"
+    com_res = os.system(command)
+    if com_res != 0:
+      res.success = "System sox malfunctioned"
+    else:
+      res.success = "true"
     return res
 
   # Service callback for detecting silence
@@ -233,7 +263,11 @@ class AudioProcessing:
   def cleanup(self, clean):
     for f in clean:
       command = "rm " + f
-      os.system(command)
+      com_res = os.system(command)
+      if com_res != 0:
+        return "Error: Server rm malfunctioned"
+    return True
+
 
 # Main function
 if __name__ == "__main__": 
