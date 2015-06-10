@@ -23,14 +23,14 @@ function randStringGen ( _length, _charsArray ) {
 
   this.addCached = function ( _key ){
     cache_[ _key.toString() ] = true; //true means current string key exists.
-    console.log( 'String [%s] added into cached unique strings', _key);
+    //console.log( 'String [%s] added into cached unique strings', _key);
   };
 
   this.removeCached = function ( _key )
   {
     if( cache_[ _key.toString() ] !== undefined ){
       delete cache_[ _key.toString() ]; //remove string "_key" from cached random strings.
-      console.log( 'String [%s] removed from cached unique strings', _key);
+      //console.log( 'String [%s] removed from cached unique strings', _key);
     }
   };
 
