@@ -291,7 +291,13 @@ function rename_file_sync(fileOld, fileNew){
     // Nothing to do here other that return an index 
     return 0;
   }
-  fs.renameSync(res_fileOld, res_fileNew);
+  try{
+    fs.renameSync(res_fileOld, res_fileNew);
+  }
+  catch(e){
+    console.error("Failed to rename single file: [%s], ErrorCode: [%s]", res_fileOld, e);
+    return 0;
+  }
   return 1;
 }
 
