@@ -90,10 +90,11 @@ class SpeechRecognitionTester:
     cwd = os.getcwd() + "/"
     wav_file = cwd + "temp.wav"
     print "CWD = " + cwd
-    cmd = "arecord -r 16000 -d " + str(seconds) + " temp.wav"
+    cmd = "rec -r 16000 -e signed-integer -b 16 -c 1 temp.wav trim 0 " +\
+            str(seconds)
     os.system(cmd)
     self.run(wav_file)
-    #os.system("rm " + wav_file)
+    os.system("rm " + wav_file)
     
   def run(self, wav_file):
       
@@ -106,6 +107,7 @@ class SpeechRecognitionTester:
     self.spee_req.sentences = self.spreq.sentences
     self.spee_req.path = wav_file
     self.spee_req.audio_source = 'headset' # The samples are already denoised
+
     res = self.conf_sp_ser(self.spee_req)
     for word in res.words:
       toprint += "'" + word + "' "
