@@ -58,8 +58,8 @@ var max_tries = 2
  */
 service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''} ){
 
-  console.log('[speech-detection]: Service invocation');
-  console.log('[speech-detection]: Audio source file stored at:', fileUrl);
+  console.log('[speech-detection-sphinx4]: Service invocation');
+  console.log('[speech-detection-sphinx4]: Audio source file stored at:', fileUrl);
   //console.log('Words to search for:', words);
   //console.log('Sentences:', sentences);
   //console.log('Grammar:', grammar);
@@ -74,7 +74,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var resp_msg = craft_error_response(); 
-    console.log("[face-detection]: Returning to client");
+    console.log("[speech-detection-sphinx4]: Returning to client");
     return JSON.stringify(resp_msg); 
   }
   /*-------------------------------------------------------------------------*/
