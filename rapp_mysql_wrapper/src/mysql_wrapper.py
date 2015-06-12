@@ -186,19 +186,19 @@ class MySQLdbWrapper:
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
       res.success.data=True
-      res.trace.append(String(data=str("Success")))
+      res.trace.append("Success")
     except mdb.Error, e:
-      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")))
+      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success.data=False
       print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
       print "Error: can\'t find login file or read data" 
       res.success.data=False
-      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
+      res.trace.append("Error: can\'t find login file or read data")
     return res
       
   def deleteData(self,req,tblName):
@@ -214,19 +214,19 @@ class MySQLdbWrapper:
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
       res.success.data=True
-      res.trace.append(String(data=str("Success")))
+      res.trace.append("Success")
     except mdb.Error, e:
-      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))     
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")))
+      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success.data=False
       print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
       print "Error: can\'t find login file or read data" 
       res.success.data=False
-      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
+      res.trace.append("Error: can\'t find login file or read data")
     return res
     
   def updateData(self,req,tblName):
@@ -244,19 +244,19 @@ class MySQLdbWrapper:
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
       res.success.data=True
-      res.trace.append(String(data=str("Success")))
+      res.trace.append("Success")
     except mdb.Error, e:
-      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")))
+      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success.data=False
       print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
       print "Error: can\'t find login file or read data" 
       res.success.data=False
-      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
+      res.trace.append("Error: can\'t find login file or read data")
     return res
     
   def fetchData(self,req,tblName):
@@ -278,7 +278,7 @@ class MySQLdbWrapper:
         line=StringArrayMsg()       
         for j in range(len(result_set[i])):
           temp_s=String(result_set[i][j])          
-          line.s.append(String(data=str(result_set[i][j])))#=line.s+[String(data=temp_s)]
+          line.s.append((str(result_set[i][j])))#=line.s+[String(data=temp_s)]
         res.res_data.append(line)
    
       con.close()
@@ -287,19 +287,19 @@ class MySQLdbWrapper:
       else:
         res.res_cols=req.req_cols
       res.success.data=True
-      res.trace.append(String(data=str("Success")))     
+      res.trace.append("Success")
     except mdb.Error, e:
-      res.trace.append(String(data=("Database Error %d: %s" % (e.args[0],e.args[1]))))
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
       print "Error %d: %s" % (e.args[0],e.args[1]) 
     except IndexError:
-      res.trace.append(String(data=str("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"))) 
+      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success.data=False
       print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
-    except IOError:       
-      res.success.data=False
-      res.trace.append(String(data=str("Error: can\'t find login file or read data")))
+    except IOError:
       print "Error: can\'t find login file or read data" 
+      res.success.data=False
+      res.trace.append("Error: can\'t find login file or read data")
     return res
     
   def constructCommaColumns(self,cols):
@@ -308,15 +308,15 @@ class MySQLdbWrapper:
       #print "return cols empty"
       return ""
       
-    elif (cols[0].data=="*"):      
+    elif (cols[0]=="*"):      
       return "*"      
     else:
       returncols=""
       for i in range(len(cols)):
           if i==0:
-            returncols=returncols+cols[i].data
+            returncols=returncols+cols[i]
           else:
-            returncols=returncols+","+cols[i].data
+            returncols=returncols+","+cols[i]
       return returncols 
     
   def constructAndQuery(self,cols):    
@@ -327,9 +327,9 @@ class MySQLdbWrapper:
     else:  
       for i in range(len(cols)):
         if i==0:
-          returnquery=returnquery+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
+          returnquery=returnquery+cols[i].s[0]+"=\""+cols[i].s[1]+"\""
         else:          
-          returnquery=returnquery+" AND "+cols[i].s[0].data+"=\""+cols[i].s[1].data+"\""
+          returnquery=returnquery+" AND "+cols[i].s[0]+"=\""+cols[i].s[1]+"\""
       returnquery=" WHERE "+returnquery
       return returnquery 
     
@@ -343,7 +343,7 @@ class MySQLdbWrapper:
       result_set = cur.fetchall()
       Columns=[]
       for row in result_set: 
-        Columns=Columns+[String(data=str(row[0]))]
+        Columns=Columns+[String(str(row[0]))]
       return Columns 
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])

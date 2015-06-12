@@ -1,10 +1,10 @@
 # Contains info about time and reference
 Header header
 # General string for simple queries
-std_msgs/String ontology_class 
+string ontology_class 
 ---
 # The results of the query
-std_msgs/String[] results 
-std_msgs/String[] trace
+string[] results 
+string[] trace
 bool success 
 string error

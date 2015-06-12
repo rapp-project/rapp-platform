@@ -193,24 +193,24 @@ std::vector<std::string> split(std::string str, std::string sep){
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response KnowrobWrapper::subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
-  if(req.ontology_class.data==std::string(""))
+  if(req.ontology_class==std::string(""))
   {
     res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Error, empty ontology class");
-    res.trace.push_back(temp_std_msgs_string);
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Error, empty ontology class");
+    res.trace.push_back("Error, empty ontology class");
     return res;
   } 
-  std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class.data + std::string("',A)"); 
+  std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)"); 
   json_prolog::PrologQueryProxy results = pl.query(query.c_str()); 
 
   char status = results.getStatus();
   if(status==0)
   {
     res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class.data+std::string(" does not exist");
-    res.trace.push_back(temp_std_msgs_string);
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
+    res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
     return res;    
   }
   else if(status==3)
@@ -227,11 +227,11 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
     //res.results.push_back(temp_std_msgs_string);
     query_ret.push_back(bdg["A"]);
   }
-  std_msgs::String temp_std_msgs_string;
+  //std_msgs::String temp_std_msgs_string;
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
-    temp_std_msgs_string.data = query_ret[i];
-    res.results.push_back(temp_std_msgs_string);
+    //temp_std_msgs_string.data = query_ret[i];
+    res.results.push_back(query_ret[i]);
   }
   return res;
 }
@@ -240,16 +240,16 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  KnowrobWrapper::superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
-  std::string query = std::string("superclassesOf_withCheck(knowrob:'") + req.ontology_class.data + std::string("',A)");
+  std::string query = std::string("superclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
   char status = results.getStatus();
   if(status==0)
   {
     res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class.data+std::string(" does not exist");
-    res.trace.push_back(temp_std_msgs_string);
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
+    res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
     return res;    
   }
   else if(status==3)
@@ -266,11 +266,11 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
     //res.results.push_back(temp_std_msgs_string);
     query_ret.push_back(bdg["A"]);
   }
-  std_msgs::String temp_std_msgs_string;
+  //std_msgs::String temp_std_msgs_string;
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
-    temp_std_msgs_string.data = query_ret[i];
-    res.results.push_back(temp_std_msgs_string);
+    //temp_std_msgs_string.data = query_ret[i];
+    res.results.push_back(query_ret[i]);
   }
   return res;
 }
@@ -279,157 +279,157 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
 rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req)
 {
   rapp_platform_ros_communications::createInstanceSrv::Response res;  
-  if(req.username.data==std::string(""))
-  {
-    res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Error, empty username");
-    res.trace.push_back(temp_std_msgs_string);
-    return res;
-  }  
-  if(req.ontology_class.data==std::string(""))
-  {
-    res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Error, empty ontology class");
-    res.trace.push_back(temp_std_msgs_string);
-    return res;
-  }
-  //if(req.attribute_name.size()!=req.attribute_value.size())
+  //if(req.username.data==std::string(""))
   //{
     //res.success=false;
     //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Error, attribute name array is not equal to attribute value array");
+    //temp_std_msgs_string.data=std::string("Error, empty username");
+    //res.trace.push_back(temp_std_msgs_string);
+    //return res;
+  //}  
+  //if(req.ontology_class.data==std::string(""))
+  //{
+    //res.success=false;
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Error, empty ontology class");
+    //res.trace.push_back(temp_std_msgs_string);
+    //return res;
+  //}
+  ////if(req.attribute_name.size()!=req.attribute_value.size())
+  ////{
+    ////res.success=false;
+    ////std_msgs::String temp_std_msgs_string;
+    ////temp_std_msgs_string.data=std::string("Error, attribute name array is not equal to attribute value array");
+    ////res.trace.push_back(temp_std_msgs_string);
+    ////return res;    
+  ////}
+  
+  ////std::vector<std::string> args;
+ //// args=split(caller_arguments,",");
+  ////std::vector<std::string> instance_name;
+  ////if(args.size()<2)
+  ////{
+    ////int Number = args.size();//number to convert int a string
+    ////std::string tempResult;//string which will contain the result
+    ////std::stringstream convert; // stringstream used for the conversion
+    ////convert << Number;//add the value of Number to the characters in the stream
+    ////tempResult = convert.str();
+    ////ret.push_back("Error, invalid number of arguments.. minimum required 2. You supplied: "+tempResult);
+    ////return ret;
+  ////}
+  //std::vector<std::string> instance_name;
+  //std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
+    //req.ontology_class.data + std::string("',A)");  
+  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  
+  //char status = results.getStatus();
+  //if(status==0)
+  //{
+    //res.success=false;
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class.data+std::string(" does not exist");
     //res.trace.push_back(temp_std_msgs_string);
     //return res;    
   //}
-  
-  //std::vector<std::string> args;
- // args=split(caller_arguments,",");
-  //std::vector<std::string> instance_name;
-  //if(args.size()<2)
-  //{
-    //int Number = args.size();//number to convert int a string
-    //std::string tempResult;//string which will contain the result
-    //std::stringstream convert; // stringstream used for the conversion
-    //convert << Number;//add the value of Number to the characters in the stream
-    //tempResult = convert.str();
-    //ret.push_back("Error, invalid number of arguments.. minimum required 2. You supplied: "+tempResult);
-    //return ret;
-  //}
-  std::vector<std::string> instance_name;
-  std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
-    req.ontology_class.data + std::string("',A)");  
-  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-  
-  char status = results.getStatus();
-  if(status==0)
-  {
-    res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class.data+std::string(" does not exist");
-    res.trace.push_back(temp_std_msgs_string);
-    return res;    
-  }
 
     
-  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    it != results.end() ; it++)
-  {
-    json_prolog::PrologBindings bdg = *it;    
-    instance_name.push_back(bdg["A"]);
-  }
+  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    //it != results.end() ; it++)
+  //{
+    //json_prolog::PrologBindings bdg = *it;    
+    //instance_name.push_back(bdg["A"]);
+  //}
   
-  if(instance_name.size()==1)
-  {
-    instance_name=split(instance_name[0],"#");
-      if(instance_name.size()==2)
-      {
-        res.instance_name.data=(std::string("Created instance name is: ")+instance_name[1]);
-      }
-      else
-      {
-        res.success=false;
-        std_msgs::String temp_std_msgs_string;
-        temp_std_msgs_string.data=std::string("Fatal Error, instance name cannot be passed to DB, split to # error");      
-        return res;
-      }
-  }
-  else
-  {
-    res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Fatal Error, instance name cannot be passed to DB, retrieval error");
-    res.trace.push_back(temp_std_msgs_string);
-    return res;  
-  }
+  //if(instance_name.size()==1)
+  //{
+    //instance_name=split(instance_name[0],"#");
+      //if(instance_name.size()==2)
+      //{
+        //res.instance_name.data=(std::string("Created instance name is: ")+instance_name[1]);
+      //}
+      //else
+      //{
+        //res.success=false;
+        //std_msgs::String temp_std_msgs_string;
+        //temp_std_msgs_string.data=std::string("Fatal Error, instance name cannot be passed to DB, split to # error");      
+        //return res;
+      //}
+  //}
+  //else
+  //{
+    //res.success=false;
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Fatal Error, instance name cannot be passed to DB, retrieval error");
+    //res.trace.push_back(temp_std_msgs_string);
+    //return res;  
+  //}
 
-  rapp_platform_ros_communications::writeDataSrv srv;
-  std_msgs::String temp_std_msgs_string;
+  //rapp_platform_ros_communications::writeDataSrv srv;
+  //std_msgs::String temp_std_msgs_string;
 
-  temp_std_msgs_string.data="user_id";
-  srv.request.req_cols.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="ontology_class";
-  srv.request.req_cols.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="ontology_instance";
-  srv.request.req_cols.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="file_url";
-  srv.request.req_cols.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="comments";
-  srv.request.req_cols.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="created_timestamp";
-  srv.request.req_cols.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="updated_timestamp";
-  srv.request.req_cols.push_back(temp_std_msgs_string);  
+  //temp_std_msgs_string.data="user_id";
+  //srv.request.req_cols.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="ontology_class";
+  //srv.request.req_cols.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="ontology_instance";
+  //srv.request.req_cols.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="file_url";
+  //srv.request.req_cols.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="comments";
+  //srv.request.req_cols.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="created_timestamp";
+  //srv.request.req_cols.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="updated_timestamp";
+  //srv.request.req_cols.push_back(temp_std_msgs_string);  
   
-  rapp_platform_ros_communications::StringArrayMsg temp_std_msgs_string_array;
-  temp_std_msgs_string.data="'"+req.username.data+"'";  
-  temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="'"+req.ontology_class.data+"'";  
-  temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="'"+instance_name[1]+"'";  
-  temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="'"+req.file_url.data+"'";  
-  temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="'"+req.comments.data+"'"; 
-  temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="curdate()";  
-  temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
-  temp_std_msgs_string.data="curdate()";  
-  temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
+  //rapp_platform_ros_communications::StringArrayMsg temp_std_msgs_string_array;
+  //temp_std_msgs_string.data="'"+req.username.data+"'";  
+  //temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="'"+req.ontology_class.data+"'";  
+  //temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="'"+instance_name[1]+"'";  
+  //temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="'"+req.file_url.data+"'";  
+  //temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="'"+req.comments.data+"'"; 
+  //temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="curdate()";  
+  //temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
+  //temp_std_msgs_string.data="curdate()";  
+  //temp_std_msgs_string_array.s.push_back(temp_std_msgs_string);
    
-  srv.request.req_data.push_back(temp_std_msgs_string_array);
+  //srv.request.req_data.push_back(temp_std_msgs_string_array);
    
-  mysql_write_client.call(srv);  
-  res.success=true;
-  if(srv.response.success.data!=true)
-  {
-    res.success=false;
-    std_msgs::String s;
-    for(unsigned int i = 0 ; i < srv.response.trace.size() ; i++)
-    {      
-      s = srv.response.trace[i];
-      res.trace.push_back(s);
-    }    
-    s.data=std::string("DB operation failed:, attempting to remove instance from ontology");
-    res.trace.push_back(s);
-    query = std::string("rdf_retractall(knowrob:'") + 
-    instance_name[1] + std::string("',rdf:type,knowrob:'")+req.ontology_class.data+std::string("')");
-    results = pl.query(query.c_str());
-    char status = results.getStatus();
-    if(status==0)
-    {
-      s.data=std::string("Error, removing instance from ontology failed...");
-      res.trace.push_back(s);
-      return res;
-    }
-    else if(status==3)
-    {
-      s.data=std::string("Remove Success");
-      res.trace.push_back(s);
-    }
+  //mysql_write_client.call(srv);  
+  //res.success=true;
+  //if(srv.response.success.data!=true)
+  //{
+    //res.success=false;
+    //std_msgs::String s;
+    //for(unsigned int i = 0 ; i < srv.response.trace.size() ; i++)
+    //{      
+      //s = srv.response.trace[i];
+      //res.trace.push_back(s);
+    //}    
+    //s.data=std::string("DB operation failed:, attempting to remove instance from ontology");
+    //res.trace.push_back(s);
+    //query = std::string("rdf_retractall(knowrob:'") + 
+    //instance_name[1] + std::string("',rdf:type,knowrob:'")+req.ontology_class.data+std::string("')");
+    //results = pl.query(query.c_str());
+    //char status = results.getStatus();
+    //if(status==0)
+    //{
+      //s.data=std::string("Error, removing instance from ontology failed...");
+      //res.trace.push_back(s);
+      //return res;
+    //}
+    //else if(status==3)
+    //{
+      //s.data=std::string("Remove Success");
+      //res.trace.push_back(s);
+    //}
       
-  }
+  //}
   return res;  
 }
 
@@ -503,16 +503,15 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
   
-  std::string query = std::string("rdf_save('") + 
-    req.file_url.data + std::string("')");
+  std::string query = std::string("rdf_save('") + req.file_url + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   char status = results.getStatus();
   if(status==0)
   {
     res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Ontology dump failed");
-    res.trace.push_back(temp_std_msgs_string);
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Ontology dump failed");
+    res.trace.push_back(std::string("Ontology dump failed"));
     return res;    
   }
   else if(status==3)
@@ -527,16 +526,15 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
-  std::string query = std::string("rdf_load('") + 
-    req.file_url.data + std::string("')");
+  std::string query = std::string("rdf_load('") + req.file_url + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   char status = results.getStatus();
   if(status==0)
   {
     res.success=false;
-    std_msgs::String temp_std_msgs_string;
-    temp_std_msgs_string.data=std::string("Ontology dump failed");
-    res.trace.push_back(temp_std_msgs_string);
+    //std_msgs::String temp_std_msgs_string;
+    //temp_std_msgs_string.data=std::string("Ontology dump failed");
+    res.trace.push_back(std::string("Ontology load failed"));
     return res;    
   }
   else if(status==3)
@@ -545,6 +543,9 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   }
   return res;
 }
+
+
+
 
 //std::vector<std::string> KnowrobWrapper::userInstancesFromClassQuery(std::string ontology_class)
 //{ 

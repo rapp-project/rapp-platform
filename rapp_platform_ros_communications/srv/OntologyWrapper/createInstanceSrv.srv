@@ -1,13 +1,13 @@
 # Contains info about time and reference
 Header header
 # General string for simple queries
-std_msgs/String username
-std_msgs/String ontology_class
-std_msgs/String file_url
-std_msgs/String comments 
+string username
+string ontology_class
+string file_url
+string comments 
 ---
 # The results of the query
-std_msgs/String instance_name
-std_msgs/String[] trace
+string instance_name
+string[] trace
 bool success 
 string error
