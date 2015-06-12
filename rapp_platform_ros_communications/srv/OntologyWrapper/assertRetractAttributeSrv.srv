@@ -9,3 +9,4 @@ std_msgs/String[] attribute_values
 std_msgs/String[] trace
 std_msgs/String[] confirmation
 bool success 
+string error

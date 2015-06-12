@@ -10,3 +10,4 @@ std_msgs/String comments
 std_msgs/String instance_name
 std_msgs/String[] trace
 bool success 
+string error

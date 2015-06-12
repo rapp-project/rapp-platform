@@ -6,3 +6,4 @@ string imageFilename
 # Container for detected qr positions
 geometry_msgs/PointStamped[] qr_centers
 string[] qr_messages
+string error

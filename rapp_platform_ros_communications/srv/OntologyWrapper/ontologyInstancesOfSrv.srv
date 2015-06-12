@@ -7,3 +7,4 @@ std_msgs/String query_term
 std_msgs/String[] results 
 std_msgs/String[] trace
 bool success 
+string error

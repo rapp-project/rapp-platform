@@ -6,3 +6,4 @@ std_msgs/String file_url
 # The results of the query
 std_msgs/String[] trace
 bool success 
+string error
