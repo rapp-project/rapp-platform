@@ -37,13 +37,16 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
+/* -- Set timer values for websocket communication to rosbridge -- */
 var timer_tick_value = 100 // ms
-var max_time = 5000 // ms
+var max_time = 15000 // ms
+var max_tries = 2
 //var max_timer_ticks = 1000 * max_time / tick_value;
+/* --------------------------------------------------------------- */
 
 service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''} ){
 
-  console.log('[speech-detection]: Service invocation. Preparing response');
+  console.log('[speech-detection]: Service invocation');
   console.log('[speech-detection]: Audio source file stored at:', fileUrl);
   //console.log('Words to search for:', words);
   //console.log('Sentences:', sentences);
@@ -102,9 +105,10 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
        // Print exception 
        console.log(e);
        // Craft return to client message
-       var resp_msg = {words: [], error: "Platform error!"};
+       var resp_msg = craft_error_response();
        // Return to Client
        sendResponse( JSON.stringify(resp_msg) ); 
+       console.log("[speech-detection-sphinx4]: Returning to client with error");
        return
      }
      /* ----------------------------------------------------------------- */
@@ -133,6 +137,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
          // Dismiss the unique rossrv-call identity  key for current client
          randStrGen.removeCached( uniqueID ); 
          sendResponse( resp_msg );
+         console.log("[speech-detection-sphinx4]: Returning to client");
        }
      }
      catch(e){
@@ -140,20 +145,40 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
        console.error('[speech-detection-sphinx4] --> ERROR: Cannot open websocket' + 
          'to rosbridge --> [ws//localhost:9090]' );
        console.log(e);
-       var resp_msg = {words: [], error: "Platform error!"};
+       var resp_msg = craft_error_response;
        sendResponse( JSON.stringify(resp_msg) ); 
-       return
+       console.log("[speech-detection-sphinx4]: Returning to client with error");
+       return;
      }
      /*------------------------------------------------------------------ */
      var timer_ticks = 0;
      var elapsed_time;
+     var retries = 0;
      // Set Timeout wrapping function
      function asyncWrap(){
        setTimeout( function(){
          timer_ticks += 1;
          elapsed_time = timer_ticks * timer_tick_value;
 
-         if (respFlag != true && elapsed_time > max_time){
+         if (respFlag != true && elapsed_time > max_time ){
+           timer_ticks = 0;
+           retries += 1;
+
+           console.log("[speech-detection-sphinx4]: Reached rosbridge response timeout" + 
+             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
+             elapsed_time.toString(), retries.toString());
+
+           if (retries > max_tries) // Reconnected for max_tries times
+           {
+             console.log("[speech-detection-sphinx4]: Reached max_retries (%s)" + 
+               "Could not receive response from rosbridge... Returning to client",
+               max_tries);
+             var respMsg = craft_error_response();
+             sendResponse( JSON.stringify(respMsg) );
+             console.log("[speech-detection-sphinx4]: Returning to client with error");
+             return; 
+           }
+
            if (rosWS != undefined)
            {
              rosWS.close();
@@ -183,6 +208,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
                respFlag = true;
                randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
+               console.log("[speech-detection-sphinx4]: Returning to client");
              }
            }
            catch(e){
@@ -190,8 +216,9 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
              console.error('[speech-detection-sphinx4] ---> ERROR: Cannot open websocket' + 
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
-             var resp_msg = {words: [],  error: 'Platform error!'};
+             var resp_msg = craft_error_response(); 
              sendResponse( JSON.stringify(resp_msg) ); 
+             console.log("[speech-detection-sphinx4]: Returning to client with error");
              return
            }
 
@@ -199,7 +226,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
          /*--------------------------------------------------------*/
          asyncWrap(); // Recall timeout function
          
-       }, 100); //Timeout value is set at 100 ms.
+       }, timer_tick_value); //Timeout value is set at 100 ms.
      }
      asyncWrap();
    }, this ); 
@@ -235,3 +262,10 @@ function craft_response(srvMsg)
   return JSON.stringify(craftedMsg)
   //return craftedMsg;
 };
+
+
+function craft_error_response()
+{
+  var craftedMsg = {words: [], error: 'Platform error'};
+  return craftedMsg;
+}
