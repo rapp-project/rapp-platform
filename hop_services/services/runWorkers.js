@@ -29,7 +29,7 @@ console.log("\033[0;36mService js files found:\n\033[0;0m", Services);
         
 var Workers = new Array();
 
-Fs.rm_file_sync( 'availableServices.txt' );
+Fs.rm_file_sync( __dirname + '/availableServices.txt' );
 
 for (var i in Services){
   Workers.push( new Worker ( "./" + Services[i] + '.service.js' ) );
@@ -39,6 +39,6 @@ for (var i in Services){
   /*-----<Store available uprunning services on a txt file>-----*/
   var regexp = /.service.js/g;
   var str = Services[i].toString().replace( regexp, '' );
-  Fs.writeLine ( str,  "availableServices.txt" );  
+  Fs.writeLine ( str,  __dirname + "/availableServices.txt" );  
 };
 
