@@ -1,4 +1,3 @@
-
 /*!
  * @file speech_detection_sphinx4.service.js
  * @brief Speech-Detection hop front-end service.
@@ -6,6 +5,7 @@
  * @bug Sometimes the websocket implementation from hop gets undefined before
  *   the onmessage event calls
  */
+
 
 "use strict";
 
@@ -29,7 +29,7 @@ var RandStringGen = require ( module_path + 'randStringGen.js' );
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
-var rosService = '/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text';
+var ros_service_name = '/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text';
 /*------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/
@@ -44,6 +44,18 @@ var max_tries = 2
 //var max_timer_ticks = 1000 * max_time / tick_value;
 /* --------------------------------------------------------------- */
 
+
+
+/*!
+ * @brief Speech Detection (sphinx4) front-end Platform web-service
+ * @param fileUrl
+ * @param language
+ * @param audio_source
+ * @param words
+ * @param sentences
+ * @param grammar
+ * @user
+ */
 service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''} ){
 
   console.log('[speech-detection]: Service invocation');
@@ -55,108 +67,113 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
   // Create new unique identity key
   var unqExt = randStrGen.createUnique();
   var file = fileUrl.split('.');
-  var fileUri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
+  var fileUrl_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
 
-  if (Fs.rename_file_sync(fileUrl, fileUri_new) == false)
+  /* --------------------- Handle transferred file ------------------------- */
+  if (Fs.rename_file_sync(fileUrl, fileUrl_new) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
-    var resp_msg = {faces_up_left: [], faces_down_right: [], error: "Platform error!"};
+    var resp_msg = craft_error_response(); 
     console.log("[face-detection]: Returning to client");
     return JSON.stringify(resp_msg); 
   }
+  /*-------------------------------------------------------------------------*/
+
   // Dismiss the unique identity key
   randStrGen.removeCached(unqExt);
 
-  var rosbridge_connection = true;
-  var respFlag = false;
   //var star_time = undefined;
   //var elapsed_time = undefined;
 
   // Asynchronous Response. Implementation
   return hop.HTTPResponseAsync(
     function( sendResponse ) { 
-      
+
+      /* ======== Create specific service arguments here ========= */ 
       var args = {
-        'path': /*audioFileUrl*/fileUri_new,
-        'audio_source': audio_source,
-        'words': JSON.parse(words),
-        'sentences': JSON.parse(sentences),
-        'grammar': JSON.parse(grammar),
-        'language': language,
-        'user': user
+        'path': /*audioFileUrl*/fileUrl_new,
+         'audio_source': audio_source,
+         'words': JSON.parse(words),
+         'sentences': JSON.parse(sentences),
+         'grammar': JSON.parse(grammar),
+         'language': language,
+         'user': user
       };
-
-      var uniqueID = randStrGen.createUnique();
-      var ros_srv_call = {
-        'op': 'call_service',
-        'service': rosService,
-        'args': args,
-        'id': uniqueID
-      };
-
-     /* ------ Catch exception while open websocket communication ------- */
-     try{
-       var rosWS = new WebSocket('ws://localhost:9090');
-     }
-     catch(e){
-       rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-       console.error('[speech-detection-sphinx4] ERROR: Cannot open websocket to rosbridge' +  
-         '--> [ws//localhost:9090]' );
-       // Print exception 
-       console.log(e);
-       // Craft return to client message
-       var resp_msg = craft_error_response();
-       // Return to Client
-       sendResponse( JSON.stringify(resp_msg) ); 
-       console.log("[speech-detection-sphinx4]: Returning to client with error");
-       return
-     }
-     /* ----------------------------------------------------------------- */
+      /* ========================================================= */
      
-     /* ------- Add into a try/catch block to ensure safe access -------- */
-     try{
-       // Implement WebSocket.onopen callback
-       rosWS.onopen = function(){
-         rosbridge_connection = true;
-         console.log('[speech-detection-sphinx4]: Connection to rosbridge established');
-         this.send(JSON.stringify(ros_srv_call));
-       }
-       // Implement WebSocket.onclose callback
-       rosWS.onclose = function(){
-         console.log('[speech-detection-sphinx4]: Connection to rosbridge closed');
-       }
-       // Implement WebSocket.message callback
-       rosWS.onmessage = function(event){
-         console.log('[speech-detection-sphinx4]: Received message from rosbridge');
-         //console.log(event.value);
-         var resp_msg = craft_response( event.value ); // Craft response message
-         this.close(); // Close websocket 
-         rosWS = undefined; // Ensure deletion of websocket
-         respFlag = true; // Raise Response-Received Flag
+/*=============================TEMPLATE======================================================*/
+      var rosbridge_connection = true;
+      var respFlag = false;
 
-         // Dismiss the unique rossrv-call identity  key for current client
-         randStrGen.removeCached( uniqueID ); 
-         sendResponse( resp_msg );
-         console.log("[speech-detection-sphinx4]: Returning to client");
-       }
-     }
-     catch(e){
-       rosbridge_connection = false;
-       console.error('[speech-detection-sphinx4] --> ERROR: Cannot open websocket' + 
-         'to rosbridge --> [ws//localhost:9090]' );
-       console.log(e);
-       var resp_msg = craft_error_response;
-       sendResponse( JSON.stringify(resp_msg) ); 
-       console.log("[speech-detection-sphinx4]: Returning to client with error");
-       return;
-     }
-     /*------------------------------------------------------------------ */
-     var timer_ticks = 0;
-     var elapsed_time;
-     var retries = 0;
-     // Set Timeout wrapping function
-     function asyncWrap(){
-       setTimeout( function(){
+      // Create a unique caller id
+      var uniqueID = randStrGen.createUnique();
+      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, uniqueID);
+
+      /* ------ Catch exception while open websocket communication ------- */
+      try{
+        var rosWS = new WebSocket('ws://localhost:9090');
+      }
+      catch(e){
+        rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
+        console.error('[speech-detection-sphinx4] ERROR: Cannot open websocket to rosbridge' +  
+          '--> [ws//localhost:9090]' );
+        // Print exception 
+        console.log(e);
+        // Craft return to client message
+        var resp_msg = craft_error_response();
+        // Return to Client
+        sendResponse( JSON.stringify(resp_msg) ); 
+        console.log("[speech-detection-sphinx4]: Returning to client with error");
+        return
+      }
+      /* ----------------------------------------------------------------- */
+     
+      /* ------- Add into a try/catch block to ensure safe access -------- */
+      try{
+        // Implement WebSocket.onopen callback
+        rosWS.onopen = function(){
+          rosbridge_connection = true;
+          console.log('[speech-detection-sphinx4]: Connection to rosbridge established');
+          this.send(JSON.stringify(rosbridge_msg));
+        }
+        // Implement WebSocket.onclose callback
+        rosWS.onclose = function(){
+          console.log('[speech-detection-sphinx4]: Connection to rosbridge closed');
+        }
+        // Implement WebSocket.message callback
+        rosWS.onmessage = function(event){
+          console.log('[speech-detection-sphinx4]: Received message from rosbridge');
+          //console.log(event.value);
+          var resp_msg = craft_response( event.value ); // Craft response message
+          this.close(); // Close websocket 
+          rosWS = undefined; // Ensure deletion of websocket
+          respFlag = true; // Raise Response-Received Flag
+
+          // Dismiss the unique rossrv-call identity  key for current client
+          randStrGen.removeCached( uniqueID ); 
+          sendResponse( resp_msg );
+          console.log("[speech-detection-sphinx4]: Returning to client");
+        }
+      }
+      catch(e){
+        rosbridge_connection = false;
+        console.error('[speech-detection-sphinx4] --> ERROR: Cannot open websocket' + 
+          'to rosbridge --> [ws//localhost:9090]' );
+        console.log(e);
+        var resp_msg = craft_error_response;
+        sendResponse( JSON.stringify(resp_msg) ); 
+        console.log("[speech-detection-sphinx4]: Returning to client with error");
+        return;
+      }
+      /*------------------------------------------------------------------ */
+
+      var timer_ticks = 0;
+      var elapsed_time;
+      var retries = 0;
+
+      // Set Timeout wrapping function
+      function asyncWrap(){
+        setTimeout( function(){
          timer_ticks += 1;
          elapsed_time = timer_ticks * timer_tick_value;
 
@@ -192,7 +209,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
              /* -----------< Redefine WebSocket callbacks >----------- */
              rosWS.onopen = function(){
              console.log('[speech-detection-sphinx4]: Connection to rosbridge established');
-             this.send(JSON.stringify(ros_srv_call));
+             this.send(JSON.stringify(rosbridge_msg));
              }
 
              rosWS.onclose = function(){
@@ -229,14 +246,16 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
        }, timer_tick_value); //Timeout value is set at 100 ms.
      }
      asyncWrap();
+/*==============================================================================================*/
    }, this ); 
 };
+
 
 
 /*!
  * @brief Crafts the form/format for the message to be returned
  * @param srvMsg Return message from ROS Service.
- *   return Message to be returned from the hop-service
+ * @return Message to be returned from the hop-service
  */
 function craft_response(srvMsg)
 {
@@ -257,15 +276,39 @@ function craft_response(srvMsg)
   else
   { 
     // Return error index!
-    craftedMsg.error = "Platform error!";
+    craftedMsg.error = "RAPP Platform Failure";
   }
   return JSON.stringify(craftedMsg)
   //return craftedMsg;
 };
 
 
+
+/*!
+ * @brief Crafts response message on Platform Failure
+ */
 function craft_error_response()
 {
-  var craftedMsg = {words: [], error: 'Platform error'};
+  // Add here to be returned literal
+  var craftedMsg = {words: [], error: 'RAPP Platform Failure'};
   return craftedMsg;
 }
+
+
+/*!
+ * @brief Crafts ready to send, rosbridge message.
+ *   Can be used by any service!!!!
+ */
+function craft_rosbridge_msg(args, service_name, id){
+
+  var rosbrige_msg = {
+    'op': 'call_service',
+    'service': service_name,
+    'args': args,
+    'id': id
+  };
+
+  return rosbrige_msg;
+}
+
+
