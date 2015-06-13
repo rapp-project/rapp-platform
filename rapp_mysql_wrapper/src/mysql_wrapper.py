@@ -271,7 +271,7 @@ class MySQLdbWrapper:
       where=self.constructAndQuery(req.where_data)          
       #print where
       query="SELECT "+returncols+" FROM "+tblName+where
-      #print query
+      #print "fetch called"
       cur.execute(query)  
       result_set = cur.fetchall() 
       for i in range(len(result_set)):
@@ -320,7 +320,7 @@ class MySQLdbWrapper:
       return returncols 
     
   def constructAndQuery(self,cols):    
-    #assiting function. constructs the where=... and where=... part of a query
+    #assisting function. constructs the where=... and where=... part of a query
     returnquery=""
     if(len(cols)==0):
       return ""

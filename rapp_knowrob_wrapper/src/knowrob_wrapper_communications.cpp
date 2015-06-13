@@ -36,19 +36,33 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
     
   //ros::service::waitForService("json_prolog/query", -1);  for DB service
 
-  if(!nh_.getParam("/rapp_knowrob_wrapper_subclass_of_topic", subclassesOfServiceTopic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_subclasses_of_topic", subclasses_of_service_topic_))
   {
     ROS_ERROR("rapp_knowrob_wrapper_subclass_of_topic not found");
   }
-  subclassesOfService_ = nh_.advertiseService(subclassesOfServiceTopic_,
-    &KnowrobWrapperCommunications::subclassesOfCallback, this);
+  subclasses_of_service_ = nh_.advertiseService(subclasses_of_service_topic_,
+    &KnowrobWrapperCommunications::subclasses_of_callback, this);
 
-  if(!nh_.getParam("/rapp_knowrob_wrapper_superclass_of_topic", superclassesOfServiceTopic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_superclasses_of_topic", superclasses_of_service_topic_))
   {
     ROS_ERROR("rapp_knowrob_wrapper_superclass_of_topic not found");
   }      
-  superclassesOfService_ = nh_.advertiseService(superclassesOfServiceTopic_,
-    &KnowrobWrapperCommunications::superclassesOfCallback, this);
+  superclasses_of_service_ = nh_.advertiseService(superclasses_of_service_topic_,
+    &KnowrobWrapperCommunications::superclasses_of_callback, this);
+    
+  if(!nh_.getParam("/rapp_knowrob_wrapper_is_superclass_of_topic", is_superclass_of_service_topic_))
+  {
+    ROS_ERROR("rapp_knowrob_wrapper_superclass_of_topic not found");
+  }      
+  is_superclass_of_service_ = nh_.advertiseService(is_superclass_of_service_topic_,
+    &KnowrobWrapperCommunications::is_superclass_of_callback, this);
+    
+  if(!nh_.getParam("/rapp_knowrob_wrapper_is_subclass_of_topic", is_subclass_of_service_topic_))
+  {
+    ROS_ERROR("rapp_knowrob_wrapper_is_subclass_of_topic not found");
+  }      
+  is_subclass_of_service_ = nh_.advertiseService(is_subclass_of_service_topic_,
+    &KnowrobWrapperCommunications::is_subclass_of_callback, this);
     
   if(!nh_.getParam("/rapp_knowrob_wrapper_create_instance_topic", createInstanceServiceTopic_))
   {
@@ -70,6 +84,13 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   }  
   loadOntologyService_ = nh_.advertiseService(loadOntologyServiceTopic_,
     &KnowrobWrapperCommunications::loadOntologyCallback, this);  
+    
+  if(!nh_.getParam("/rapp_knowrob_wrapper_user_instances_of_class", user_instances_of_class_topic_))
+  {
+    ROS_ERROR("ontologyuser_instances_of_class_topic not found");
+  }  
+  user_instances_of_class_service_ = nh_.advertiseService(user_instances_of_class_topic_,
+    &KnowrobWrapperCommunications::user_instances_of_class_callback, this);
 
 
 
@@ -96,19 +117,35 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   ROS_INFO("KnowRob ROS wrapper initialized");
 }
 
-bool KnowrobWrapperCommunications::subclassesOfCallback(
+bool KnowrobWrapperCommunications::subclasses_of_callback(
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
 {
-  res=knowrob_wrapper.subclassesOfQuery(req);
+  res=knowrob_wrapper.subclasses_of_query(req);
   return true;
 }
 
-bool KnowrobWrapperCommunications::superclassesOfCallback(
+bool KnowrobWrapperCommunications::superclasses_of_callback(
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
 {
-  res=knowrob_wrapper.superclassesOfQuery(req);
+  res=knowrob_wrapper.superclasses_of_query(req);
+  return true;
+}
+
+bool KnowrobWrapperCommunications::is_superclass_of_callback(
+  rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request& req,
+  rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response& res)
+{
+  res=knowrob_wrapper.is_superclass_of(req);
+  return true;
+}
+
+bool KnowrobWrapperCommunications::is_subclass_of_callback(
+  rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request& req,
+  rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response& res)
+{
+  res=knowrob_wrapper.is_subclass_of(req);
   return true;
 }
 
@@ -136,6 +173,13 @@ bool KnowrobWrapperCommunications::loadOntologyCallback(
   return true;
 }
 
+bool KnowrobWrapperCommunications::user_instances_of_class_callback(
+  rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request& req,
+  rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response& res)
+{
+  res=knowrob_wrapper.user_instances_of_class(req);
+  return true;
+}
 //bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
   //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
   //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)

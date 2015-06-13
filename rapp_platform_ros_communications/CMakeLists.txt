@@ -30,9 +30,11 @@ add_service_files(
   
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
+  /OntologyWrapper/ontologyIsSubSuperClassOfSrv.srv
   /OntologyWrapper/ontologyLoadDumpSrv.srv
   /OntologyWrapper/ontologyInstancesOfSrv.srv 
   /OntologyWrapper/assertRetractAttributeSrv.srv
+  /OntologyWrapper/returnUserInstancesOfClassSrv.srv
   
   FaceDetectionRosSrv.srv
   

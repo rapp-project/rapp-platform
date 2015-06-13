@@ -30,6 +30,7 @@ contact: akintsakis@issel.ee.auth.gr
 #include <json_prolog/prolog.h>
 #include <rapp_platform_ros_communications/fetchDataSrv.h>
 #include <rapp_platform_ros_communications/writeDataSrv.h>
+#include <rapp_platform_ros_communications/updateDataSrv.h>
 
 #include <rapp_platform_ros_communications/StringArrayMsg.h>
 
@@ -38,6 +39,9 @@ contact: akintsakis@issel.ee.auth.gr
 #include <rapp_platform_ros_communications/ontologyLoadDumpSrv.h>
 #include <rapp_platform_ros_communications/ontologySubSuperClassesOfSrv.h>
 #include <rapp_platform_ros_communications/assertRetractAttributeSrv.h>
+#include <rapp_platform_ros_communications/ontologyIsSubSuperClassOfSrv.h>
+#include <rapp_platform_ros_communications/returnUserInstancesOfClassSrv.h>
+
 
 
 
@@ -49,19 +53,27 @@ class KnowrobWrapper
     json_prolog::Prolog pl;    
     ros::ServiceClient mysql_write_client;
     ros::ServiceClient mysql_fetch_client;
+    ros::ServiceClient mysql_update_client;
   
   public:
   
     KnowrobWrapper(ros::NodeHandle nh);
-
+    std::string get_ontology_alias(std::string user_id);
+    std::string create_ontology_alias_for_new_user(std::string user_id);
     
-    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
-    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
-    //std::vector<std::string> createInstanceQuery(std::string caller_arguments);
+    
+    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  subclasses_of_query(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
+    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  superclasses_of_query(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
+    rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  is_superclass_of(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req);
+    rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  is_subclass_of(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req);
+        //std::vector<std::string> createInstanceQuery(std::string caller_arguments);
     rapp_platform_ros_communications::createInstanceSrv::Response createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req);
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);  
     rapp_platform_ros_communications::assertRetractAttributeSrv::Response assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req);
+    
+    rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response user_instances_of_class(rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request req);
+
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
     //std::vector<std::string> checkIfClassExists(std::string classValue);
     //

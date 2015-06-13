@@ -2,12 +2,9 @@
 Header header
 # General string for simple queries
 string user_id
-string ontology_class
-string file_url
-string comments 
+string ontology_class 
 ---
 # The results of the query
-string instance_name
+string[] results 
 string[] trace
 bool success 
-string error

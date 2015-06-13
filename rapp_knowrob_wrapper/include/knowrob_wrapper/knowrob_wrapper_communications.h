@@ -38,11 +38,17 @@ class KnowrobWrapperCommunications
     KnowrobWrapper knowrob_wrapper;
 
     
-    ros::ServiceServer subclassesOfService_;    
-    std::string subclassesOfServiceTopic_;
+    ros::ServiceServer subclasses_of_service_;    
+    std::string subclasses_of_service_topic_;
     
-    ros::ServiceServer superclassesOfService_;    
-    std::string superclassesOfServiceTopic_;
+    ros::ServiceServer superclasses_of_service_;    
+    std::string superclasses_of_service_topic_;
+    
+    ros::ServiceServer is_superclass_of_service_;    
+    std::string is_superclass_of_service_topic_;
+    
+    ros::ServiceServer is_subclass_of_service_;    
+    std::string is_subclass_of_service_topic_;
     
     ros::ServiceServer createInstanceService_;    
     std::string createInstanceServiceTopic_;
@@ -52,6 +58,9 @@ class KnowrobWrapperCommunications
     
     ros::ServiceServer loadOntologyService_;    
     std::string loadOntologyServiceTopic_;
+    
+    ros::ServiceServer user_instances_of_class_service_;    
+    std::string user_instances_of_class_topic_;
     
     //ros::ServiceServer userInstancesFromClassService_;    
     //std::string userInstancesFromClassServiceTopic_;   
@@ -67,13 +76,21 @@ class KnowrobWrapperCommunications
 
     KnowrobWrapperCommunications();
 
-    bool subclassesOfCallback(
+    bool subclasses_of_callback(
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res);
       
-    bool superclassesOfCallback(
+    bool superclasses_of_callback(
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res);
+      
+    bool is_superclass_of_callback(
+      rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request& req,
+      rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response& res);
+      
+    bool is_subclass_of_callback(
+      rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request& req,
+      rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response& res);
       
     bool createInstanceCallback(
       rapp_platform_ros_communications::createInstanceSrv::Request& req,
@@ -86,6 +103,10 @@ class KnowrobWrapperCommunications
     bool loadOntologyCallback(
       rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
       rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res);
+      
+    bool user_instances_of_class_callback(
+      rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request& req,
+      rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response& res);
       
     //bool userInstancesFromClassCallback(
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,

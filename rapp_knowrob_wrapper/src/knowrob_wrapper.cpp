@@ -44,8 +44,10 @@ contact: akintsakis@issel.ee.auth.gr
 
 KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh):nh_(nh)
 {
-  mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::writeDataSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
-  mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::fetchDataSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesFetchData");
+  //mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::writeDataSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
+  mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::writeDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_write_data");
+  mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::fetchDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_fetch_data");
+  mysql_update_client = nh_.serviceClient<rapp_platform_ros_communications::updateDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_update_data");
   
 }
 
@@ -60,6 +62,89 @@ std::vector<std::string> split(std::string str, std::string sep){
     }
     return arr;
 }
+
+
+std::string KnowrobWrapper::get_ontology_alias(std::string user_id)
+{
+  std::string ontology_alias;
+  rapp_platform_ros_communications::fetchDataSrv srv;
+  rapp_platform_ros_communications::StringArrayMsg ros_string_array;
+  std::vector<std::string> req_cols;
+  req_cols.push_back("ontology_alias");  
+  ros_string_array.s.push_back("id");
+  ros_string_array.s.push_back(user_id);   
+  srv.request.req_cols=req_cols;
+  srv.request.where_data.push_back(ros_string_array);
+  mysql_fetch_client.call(srv);  
+  if(srv.response.success.data!=true)
+  {
+    ontology_alias=srv.response.trace[0];
+  }
+  else
+  {
+    ontology_alias=srv.response.res_data[0].s[0];
+    //IF IF DISABLED, this is an overwrite to renew the ALIAS everytime.. this will be on as long as the ontology is not saved.
+    if(ontology_alias==std::string("None"))
+    {
+      ontology_alias=create_ontology_alias_for_new_user(user_id);
+    }      
+  }    
+  return ontology_alias; 
+}
+
+std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_id)
+{
+  std::string ontology_alias;  
+  std::vector<std::string> instance_name;
+  std::string query = std::string("rdf_instance_from_class(knowrob:'Person") + std::string("',A)");  
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  
+  char status = results.getStatus();
+  if(status==0)
+  {
+    ontology_alias=std::string("User was uninitialized (had no ontology alias), and initilization failed on ontology level");
+    return ontology_alias;    
+  }
+
+    
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;    
+    instance_name.push_back(bdg["A"]);
+  }
+  
+  ontology_alias=instance_name[0];
+  std::vector<std::string> splitted = split(ontology_alias,std::string("#"));
+  ontology_alias=splitted[1];
+  
+  rapp_platform_ros_communications::updateDataSrv srv;
+  srv.request.set_cols.push_back("ontology_alias='"+std::string(ontology_alias)+std::string("'"));
+  rapp_platform_ros_communications::StringArrayMsg ros_string_array;
+  ros_string_array.s.push_back(std::string("id"));
+  ros_string_array.s.push_back(user_id);
+  srv.request.where_data.push_back(ros_string_array);
+  mysql_update_client.call(srv);  
+  if(srv.response.success.data!=true)
+  {
+    ontology_alias=srv.response.trace[0];
+    query = std::string("rdf_retractall(knowrob:'") + ontology_alias + std::string("',rdf:type,knowrob:'Person")+std::string("')");
+    results = pl.query(query.c_str());
+    status = results.getStatus();
+    if(status==0)
+    {
+      ontology_alias=ontology_alias+std::string(" DB operation failed.. removing instance from ontology also failed...");           
+    }
+    else if(status==3)
+    {
+      ontology_alias=ontology_alias+std::string(" DB operation failed..Remove from ontology Success");      
+    }
+    return ontology_alias;
+  } 
+  
+  return ontology_alias; 
+}
+
 
 //std::vector<std::string> KnowrobWrapper::checkIfClassExists(std::string classValue) //checked
 //{
@@ -190,56 +275,15 @@ std::vector<std::string> split(std::string str, std::string sep){
 
 
 
-rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response KnowrobWrapper::subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
+rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response KnowrobWrapper::subclasses_of_query(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
   if(req.ontology_class==std::string(""))
   {
     res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Error, empty ontology class");
     res.trace.push_back("Error, empty ontology class");
     return res;
   } 
-  std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)"); 
-  json_prolog::PrologQueryProxy results = pl.query(query.c_str()); 
-
-  char status = results.getStatus();
-  if(status==0)
-  {
-    res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
-    res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
-    return res;    
-  }
-  else if(status==3)
-  {
-    res.success=true;
-  }
-  std::vector<std::string> query_ret;  
-
-  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    it != results.end() ; it++)
-  {
-    json_prolog::PrologBindings bdg = *it;
-    //std::string temp=bdg["A"];
-    //res.results.push_back(temp_std_msgs_string);
-    query_ret.push_back(bdg["A"]);
-  }
-  //std_msgs::String temp_std_msgs_string;
-  for(unsigned int i = 0 ; i < query_ret.size() ; i++)
-  {
-    //temp_std_msgs_string.data = query_ret[i];
-    res.results.push_back(query_ret[i]);
-  }
-  return res;
-}
-
-
-rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  KnowrobWrapper::superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
-{
-  rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
   std::string query = std::string("superclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
@@ -247,8 +291,56 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
   if(status==0)
   {
     res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
+    res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    return res;    
+  }
+  else if(status==3)
+  {
+    res.success=true;
+  }
+  std::vector<std::string> query_ret;  
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;    
+    //start code to remove duplicates
+    int i;
+    int logic=0;
+    std::string temp_query_result=bdg["A"];
+    for(int i=0; i<query_ret.size();i++)
+    {
+      if(query_ret.at(i)==temp_query_result)
+      {
+        logic=1;
+      }
+    }
+    if(logic==0)
+    {
+      query_ret.push_back(temp_query_result);
+    }    
+    //end
+  }
+  for(unsigned int i = 0 ; i < query_ret.size() ; i++)
+  {
+    res.results.push_back(query_ret[i]);
+  }
+  
+  //fortesting, remember to DELETE!
+  //std::string kati =get_ontology_alias(std::string("1"));
+  //res.results.push_back(kati);
+  return res;
+}
+
+
+rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  KnowrobWrapper::superclasses_of_query(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
+{
+  rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;  
+  std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)"); 
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str()); 
+  char status = results.getStatus();
+  if(status==0)
+  {
+    res.success=false;
     res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
     return res;    
   }
@@ -262,39 +354,138 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
     it != results.end() ; it++)
   {
     json_prolog::PrologBindings bdg = *it;
-    //std::string temp=bdg["A"];
-    //res.results.push_back(temp_std_msgs_string);
-    query_ret.push_back(bdg["A"]);
+    //start code to remove duplicates
+    int i;
+    int logic=0;
+    std::string temp_query_result=bdg["A"];
+    for(int i=0; i<query_ret.size();i++)
+    {
+      if(query_ret.at(i)==temp_query_result)
+      {
+        logic=1;
+      }
+    }
+    if(logic==0)
+    {
+      query_ret.push_back(temp_query_result);
+    }
+    //end
   }
-  //std_msgs::String temp_std_msgs_string;
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
-    //temp_std_msgs_string.data = query_ret[i];
     res.results.push_back(query_ret[i]);
   }
   return res;
 }
 
-//tested works
+rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  KnowrobWrapper::is_superclass_of(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req)
+{
+  rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response res;  
+  std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)"); 
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str()); 
+  char status = results.getStatus();
+  if(status==0)
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    return res;    
+  }
+  else if(status==3)
+  {
+    res.success=true;
+  }
+  std::vector<std::string> query_ret;  
+
+  int logic=0;
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    std::string temp_query_result=bdg["A"];
+    std::vector<std::string> seperator=split(temp_query_result,std::string("#"));
+    if(seperator[1]==req.other_class)
+    {
+      logic=1;
+      break;
+    }
+  }
+  if(logic==0)
+  {
+    res.results.push_back(std::string("NO"));
+  }
+  else
+  {
+    res.results.push_back(std::string("YES"));
+  }
+  return res;
+}
+
+rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response KnowrobWrapper::is_subclass_of(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req)
+{
+  rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response res;
+  if(req.ontology_class==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, empty ontology class");
+    return res;
+  } 
+  std::string query = std::string("superclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)");
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+
+  char status = results.getStatus();
+  if(status==0)
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    return res;    
+  }
+  else if(status==3)
+  {
+    res.success=true;
+  }
+  std::vector<std::string> query_ret;  
+  int logic=0;
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    std::string temp_query_result=bdg["A"];
+    std::vector<std::string> seperator=split(temp_query_result,std::string("#"));
+    if(seperator[1]==req.other_class)
+    {
+      logic=1;
+      break;
+    }
+  }
+  if(logic==0)
+  {
+    res.results.push_back(std::string("NO"));
+  }
+  else
+  {
+    res.results.push_back(std::string("YES"));
+  }
+  return res;
+}
+
+
 rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req)
 {
   rapp_platform_ros_communications::createInstanceSrv::Response res;  
-  //if(req.username.data==std::string(""))
-  //{
-    //res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Error, empty username");
-    //res.trace.push_back(temp_std_msgs_string);
-    //return res;
-  //}  
-  //if(req.ontology_class.data==std::string(""))
-  //{
-    //res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Error, empty ontology class");
-    //res.trace.push_back(temp_std_msgs_string);
-    //return res;
-  //}
+  if(req.user_id==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Error, empty username"));
+    return res;
+  }  
+  if(req.ontology_class==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Error, empty ontology class"));
+    return res;
+  }  
+  std::string ontology_alias=get_ontology_alias(req.user_id);
+  res.trace.push_back(ontology_alias);  
   ////if(req.attribute_name.size()!=req.attribute_value.size())
   ////{
     ////res.success=false;
@@ -316,54 +507,42 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
     ////tempResult = convert.str();
     ////ret.push_back("Error, invalid number of arguments.. minimum required 2. You supplied: "+tempResult);
     ////return ret;
-  ////}
-  //std::vector<std::string> instance_name;
-  //std::string query = std::string("instanceFromClass_withCheck(knowrob:'") + 
-    //req.ontology_class.data + std::string("',A)");  
-  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-  
-  //char status = results.getStatus();
-  //if(status==0)
-  //{
-    //res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Class: ")+req.ontology_class.data+std::string(" does not exist");
-    //res.trace.push_back(temp_std_msgs_string);
-    //return res;    
-  //}
-
-    
-  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    //it != results.end() ; it++)
-  //{
-    //json_prolog::PrologBindings bdg = *it;    
-    //instance_name.push_back(bdg["A"]);
-  //}
-  
-  //if(instance_name.size()==1)
-  //{
-    //instance_name=split(instance_name[0],"#");
-      //if(instance_name.size()==2)
-      //{
-        //res.instance_name.data=(std::string("Created instance name is: ")+instance_name[1]);
-      //}
-      //else
-      //{
-        //res.success=false;
-        //std_msgs::String temp_std_msgs_string;
-        //temp_std_msgs_string.data=std::string("Fatal Error, instance name cannot be passed to DB, split to # error");      
-        //return res;
-      //}
-  //}
-  //else
-  //{
-    //res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Fatal Error, instance name cannot be passed to DB, retrieval error");
-    //res.trace.push_back(temp_std_msgs_string);
-    //return res;  
-  //}
-
+  ////}  
+  std::vector<std::string> instance_name;
+  std::string query = std::string("instanceFromClass_withCheck_andAssign(knowrob:'") +req.ontology_class + std::string("',A,knowrob:'")+ontology_alias+std::string("')");  
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());  
+  char status = results.getStatus();
+  if(status==0)
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist probably.. or other error"));
+    return res;    
+  }    
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ;  it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;    
+    instance_name.push_back(bdg["A"]);
+  }  
+  if(instance_name.size()==1)
+  {
+    instance_name=split(instance_name[0],"#");
+    if(instance_name.size()==2)
+    {
+      res.instance_name=(std::string("Created instance name is: ")+instance_name[1]);
+    }
+    else
+    {
+      res.success=false;  
+      res.trace.push_back(std::string("Fatal Error, instance not created.. split to # error"));
+      return res;
+    }
+  }
+  else
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Fatal Error, instance not created.., retrieval error"));
+    return res;  
+  }
   //rapp_platform_ros_communications::writeDataSrv srv;
   //std_msgs::String temp_std_msgs_string;
 
@@ -545,11 +724,66 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 }
 
 
+rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response KnowrobWrapper::user_instances_of_class(rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request req)
+{ 
+  rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response res;    
+  if(req.user_id==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Error, empty username"));
+    return res;
+  }  
+  if(req.ontology_class==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Error, empty ontology class"));
+    return res;
+  }  
+  std::string ontology_alias=get_ontology_alias(req.user_id);
+  //res.trace.push_back(ontology_alias);  
+  
+  
+  
+  std::string query = std::string("rdf_has(knowrob:'") + ontology_alias + std::string("',knowrob:'belongsToUser',A)"); 
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str()); 
+  char status = results.getStatus();
+  if(status==0)
+  {
+    res.success=false;
+    res.trace.push_back(std::string("User has no instances"));
+    return res;    
+  }
+  else if(status==3)
+  {
+    res.success=true;
+  }
+  std::vector<std::string> query_ret;  
 
-
-//std::vector<std::string> KnowrobWrapper::userInstancesFromClassQuery(std::string ontology_class)
-//{ 
-  //rapp_platform_ros_communications::DbWrapperSrv srv;
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    //start code to remove duplicates
+    int i;
+    int logic=0;
+    std::string temp_query_result=bdg["A"];
+    for(int i=0; i<query_ret.size();i++)
+    {
+      if(query_ret.at(i)==temp_query_result)
+      {
+        logic=1;
+      }
+    }
+    if(logic==0)
+    {
+      query_ret.push_back(temp_query_result);
+    }
+    //end
+  }
+  for(unsigned int i = 0 ; i < query_ret.size() ; i++)
+  {
+    res.results.push_back(query_ret[i]);
+  }
   //std::vector<std::string> ret;  
   //std::string user_id;
   //std::string knowrobClass;
@@ -594,5 +828,5 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
     //ret.push_back(sss);
   //}
 
-  //return ret;
-//}
+  return res;
+}
