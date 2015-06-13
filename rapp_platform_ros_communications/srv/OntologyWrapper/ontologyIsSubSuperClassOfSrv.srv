@@ -5,6 +5,7 @@ string ontology_class
 string other_class
 ---
 # The results of the query
+string error
 string[] results 
 string[] trace
 bool success 

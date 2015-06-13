@@ -4,6 +4,7 @@ Header header
 string ontology_class 
 ---
 # The results of the query
+string error
 string[] results 
 string[] trace
 bool success 

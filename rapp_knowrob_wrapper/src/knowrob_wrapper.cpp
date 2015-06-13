@@ -292,6 +292,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
   {
     res.success=false;
     res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    res.error=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
     return res;    
   }
   else if(status==3)
@@ -335,6 +336,12 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  KnowrobWrapper::superclasses_of_query(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;  
+  if(req.ontology_class==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, empty ontology class");
+    return res;
+  } 
   std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)"); 
   json_prolog::PrologQueryProxy results = pl.query(query.c_str()); 
   char status = results.getStatus();
@@ -342,6 +349,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
   {
     res.success=false;
     res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    res.error=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
     return res;    
   }
   else if(status==3)
@@ -381,13 +389,28 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
 rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  KnowrobWrapper::is_superclass_of(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response res;  
-  std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)"); 
+  if(req.ontology_class==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, empty ontology class");
+    res.error=std::string("Error, empty ontology class");
+    return res;
+  } 
+  if(req.other_class==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, empty other class");
+    res.error=std::string("Error, empty other class");
+    return res;
+  }
+  std::string query = std::string("superclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)"); 
   json_prolog::PrologQueryProxy results = pl.query(query.c_str()); 
   char status = results.getStatus();
   if(status==0)
   {
     res.success=false;
     res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    res.error=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
     return res;    
   }
   else if(status==3)
@@ -427,9 +450,17 @@ rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response Knowrob
   {
     res.success=false;
     res.trace.push_back("Error, empty ontology class");
+    res.error=std::string("Error, empty ontology class");
     return res;
   } 
-  std::string query = std::string("superclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)");
+  if(req.other_class==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, empty other class");
+    res.error=std::string("Error, empty other class");
+    return res;
+  }
+  std::string query = std::string("subclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
   char status = results.getStatus();
@@ -437,6 +468,7 @@ rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response Knowrob
   {
     res.success=false;
     res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    res.error=std::string("Class: ")+req.ontology_class+std::string(" does not exist");
     return res;    
   }
   else if(status==3)
@@ -476,16 +508,18 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
   {
     res.success=false;
     res.trace.push_back(std::string("Error, empty username"));
+    res.error=std::string("Error, empty username");
     return res;
   }  
   if(req.ontology_class==std::string(""))
   {
     res.success=false;
     res.trace.push_back(std::string("Error, empty ontology class"));
+    res.error=std::string("Error,empty ontology class");
     return res;
   }  
   std::string ontology_alias=get_ontology_alias(req.user_id);
-  res.trace.push_back(ontology_alias);  
+  //res.trace.push_back(ontology_alias);  
   ////if(req.attribute_name.size()!=req.attribute_value.size())
   ////{
     ////res.success=false;
@@ -516,8 +550,10 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
   {
     res.success=false;
     res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist probably.. or other error"));
+    res.error=std::string("Class: ")+req.ontology_class+std::string(" does not exist probably.. or other error");
     return res;    
-  }    
+  } 
+  res.success=true;   
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ;  it != results.end() ; it++)
   {
     json_prolog::PrologBindings bdg = *it;    
@@ -534,6 +570,7 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
     {
       res.success=false;  
       res.trace.push_back(std::string("Fatal Error, instance not created.. split to # error"));
+      res.error=std::string("Fatal Error, instance not created.. split to # error");
       return res;
     }
   }
@@ -541,6 +578,7 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
   {
     res.success=false;
     res.trace.push_back(std::string("Fatal Error, instance not created.., retrieval error"));
+    res.error=std::string("Fatal Error, instance not created.. retrieval error");
     return res;  
   }
   //rapp_platform_ros_communications::writeDataSrv srv;
@@ -691,6 +729,7 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
     //std_msgs::String temp_std_msgs_string;
     //temp_std_msgs_string.data=std::string("Ontology dump failed");
     res.trace.push_back(std::string("Ontology dump failed"));
+    res.error=std::string("Ontology dump failed");
     return res;    
   }
   else if(status==3)
@@ -714,6 +753,7 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
     //std_msgs::String temp_std_msgs_string;
     //temp_std_msgs_string.data=std::string("Ontology dump failed");
     res.trace.push_back(std::string("Ontology load failed"));
+    res.error=std::string("Ontology load failed");
     return res;    
   }
   else if(status==3)
@@ -731,12 +771,14 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
   {
     res.success=false;
     res.trace.push_back(std::string("Error, empty username"));
+    res.error=std::string("Error, empty username");
     return res;
   }  
   if(req.ontology_class==std::string(""))
   {
     res.success=false;
     res.trace.push_back(std::string("Error, empty ontology class"));
+    res.error=std::string("Error, empty ontology class");
     return res;
   }  
   std::string ontology_alias=get_ontology_alias(req.user_id);
@@ -749,8 +791,9 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
   char status = results.getStatus();
   if(status==0)
   {
-    res.success=false;
+    res.success=true;
     res.trace.push_back(std::string("User has no instances"));
+    res.error=std::string("INFO: user has no instances");
     return res;    
   }
   else if(status==3)
