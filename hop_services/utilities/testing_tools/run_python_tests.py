@@ -42,7 +42,9 @@ module_path = __path__ + '/../python'
 sys.path.append(module_path)
 ## ------------------------------------------------##
 
+# Mutex lock used 
 mutex = Lock()
+threaded = False
 
 class bcolors:
     HEADER = '\033[95m'
@@ -54,53 +56,78 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+
+
 def execute(module):
   tmp = module.RappInterfaceTest()
   [error_code, time] = tmp.execute()
   print module.__name__,
 
-  mutex.acquire(True)
+  if threaded:
+    mutex.acquire(True)
   if error_code != True:
     print bcolors.FAIL + "FAIL [" + error_code + "]" + bcolors.ENDC + " " + str(time)
   else:
     print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC + " " + str(time)
-  mutex.release()
+  if threaded:
+    mutex.release()
+
 
 
 def main(): 
   folder = __path__ + "/python_tests"
   sys.path.append(folder)
 
-  parser = argparse.ArgumentParser(description='RAPP Platform front-end hop-service invocation tests')
+  # ---------------------------------------------- #
+  parser = argparse.ArgumentParser(description= \
+    'RAPP Platform front-end hop-service invocation tests')
+
   parser.add_argument('-i','--name', help='Test File Name to execute. \033[1;34mall==all\033[0m',\
     dest='fileName', action='store', nargs='+', type=str)
-  parser.add_argument('-n', '--', dest='numCalls', action='store', \
-    nargs=1, help='Number of times to run the test')
-  args =  parser.parse_args( ) # Parse the given arguments
 
+  parser.add_argument('-n', '--num-calls', dest='numCalls', action='store', \
+    help='Number of times to run the test', type=int, default=1)
 
+  parser.add_argument('-t', '--threaded', dest='threaded', action='store_true', \
+    help='Enable threaded mode')
+  args =  parser.parse_args( ) # Parse console arguments
+  # --------------------------------------------- #
+
+  ## ------------------- Parse arguments ---------------------------- ##
   if args.fileName == None:
+    # Find and run all the tests located under python_tests dirrectory
     files = [ f for f in listdir(folder) if isfile(join(folder, f)) ]
   else:
-    files = args.fileName
+    files = args.fileName # Input test files from arguments
+
+  numCalls = args.numCalls
+  # If threaded mode is enabled
+  if args.threaded:
+    threaded = True
+    threads = []
+  else:
+    threaded = False
+
+  ## ---------------------------------------------------------------- ##
+
+  
+  # -- Loop through test files to be executed -- #
   for f in files:
     clean_file = f.split(".")
     if clean_file[1] != "py" or clean_file[0] == "template":
       continue
     module = importlib.import_module(clean_file[0])
 
-    if args.numCalls == None:
-      numCalls = 1
-    else:
-      numCalls = int(args.numCalls[0])
-  
-    threads = []
-
     for i in range(0, numCalls):
-      thread = Thread(target=execute, args=(module, ))
-      thread.start()
-      threads.append(thread)
+      if threaded: 
+        thread = Thread(target=execute, args=(module, ))
+        thread.start()
+        threads.append(thread)
+      else:
+        execute(module)
+  # ------------------------------------------- #
 
+  if threaded:
     # Wait for all threads to complete
     for t in threads:
       t.join()
