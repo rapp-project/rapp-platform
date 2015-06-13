@@ -1,7 +1,7 @@
-var faceImage = '/home/klpanagi/Desktop/hop_rosbridge_test/Lenna.png'
-var faceDetectionService = '/ric/face_detection_service';
 
-var WebSocket = require('ws');
+var faceImage = __dirname + '/Lenna.png'
+var faceDetectionService = '/rapp/rapp_face_detection/detect_faces';
+
 
 var timeNow = new Date().getTime();
 
@@ -12,13 +12,10 @@ var header = {
   'frame_id': " "
 };
 
-args['header'] = header;
+//args['header'] = header;
 args['imageFilename'] = faceImage;
 
 var msg = undefined;
-
-
-
 
 //craft faceDetection ros service message
 var srvMsg = {
@@ -31,31 +28,30 @@ var srvMsg = {
 // ================================================
 var rosWS = new WebSocket('ws://localhost:9090');
 
-rosWS.on('open', function(){
+rosWS.onopen = function(){
   console.log('\033[0;33m[Rosbridge-connection]\033[0m: Connected to rosbridge_websocket_server');
-  wsOpenFlag = true;
   rosWS.send(JSON.stringify(srvMsg)); //Invoke a call to rosbridge_websocket_server
-});
+};
 
 // Define websocket onmessage ASYNC callback
-rosWS.on('message', function(message){
-  console.log('\033[0;33m[Rosbridge-connection]\033[0m: Received message');
-  console.log('\033[0;32m[Onmessage received]\033[0m:',message);
-  msg = JSON.parse(message);
-  console.log(msg.values);
-});
+rosWS.onmessage = function(event){
+  timeNow = new Date().getTime();
+  console.log('\033[0;33m[Rosbridge-connection]\033[0m: Received message %s', timeNow.toString());
+  //console.log('\033[0;32m[Onmessage received]\033[0m:',message);
+  msg = JSON.parse(event.value);
+  //console.log(msg.values);
+  rosWS.send(JSON.stringify(srvMsg)); //Invoke a call to rosbridge_websocket_server
+  //process.exit(1);
+};
 
-rosWS.on('error', function(err){
-  console.log('[WS-error]: ', err);
-  setTimeout(poll, 1000);
-});
+//rosWS.on('error', function(err){
+  //console.log('[WS-error]: ', err);
+//});
 
-rosWS.on('close', function(){
+rosWS.onclose = function(){
   console.log('[Rosbridge-connection]: Closed ');
-});
+};
 //}
-//==================================================
-//while(!wsOpenFlag){};
 
 
 
