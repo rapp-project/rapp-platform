@@ -110,7 +110,7 @@ service ontology_subclassesOf ( {queryStr:''} )
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[Ontology-subclassesOf]: Returning to client with error");
         return;
       }
@@ -222,11 +222,11 @@ function craft_response(srvMsg)
   {
     for (var ii = 0; ii < results.length; ii++)
     {
-      craftedMsg.results.push(results[ii].data);
+      craftedMsg.results.push(results[ii]);
     }
     for (var ii = 0; ii < trace.length; ii++)
     {
-      craftedMsg.trace.push(trace[ii].data);
+      craftedMsg.trace.push(trace[ii]);
     }
     craftedMsg.error = error;
   }
@@ -247,7 +247,7 @@ function craft_error_response()
 {
   // Add here to be returned literal
   var craftedMsg = {results: [], trace: [], error: 'RAPP Platform Failure'};
-  return craftedMsg;
+  return JSON.stringify(craftedMsg);
 }
 
 

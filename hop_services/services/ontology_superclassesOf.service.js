@@ -49,7 +49,7 @@ service ontology_superclassesOf ( {queryStr:''} )
    function( sendResponse ) { 
  
      var args = {};
-     args[ "ontology_class" ] = querySerm;
+     args[ "ontology_class" ] = queryStr;
 
      /*=============================TEMPLATE======================================================*/
      var rosbridge_connection = true;
@@ -72,7 +72,7 @@ service ontology_superclassesOf ( {queryStr:''} )
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[Ontology-superclassesOf]: Returning to client with error");
         return
       }
@@ -223,11 +223,11 @@ function craft_response(srvMsg)
   {
     for (var ii = 0; ii < results.length; ii++)
     {
-      craftedMsg.results.push(results[ii].data);
+      craftedMsg.results.push(results[ii]);
     }
     for (var ii = 0; ii < trace.length; ii++)
     {
-      craftedMsg.trace.push(trace[ii].data);
+      craftedMsg.trace.push(trace[ii]);
     }
     craftedMsg.error = error;
   }
@@ -248,7 +248,7 @@ function craft_error_response()
 {
   // Add here to be returned literal
   var craftedMsg = {results: [], trace: [], error: 'RAPP Platform Failure'};
-  return craftedMsg;
+  return JSON.stringify(craftedMsg);
 }
 
 
