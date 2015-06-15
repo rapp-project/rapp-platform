@@ -6,7 +6,6 @@ string[] attribute_names
 string[] attribute_values
 ---
 # The results of the query
-string error
 string[] trace
 string[] confirmation
 bool success 

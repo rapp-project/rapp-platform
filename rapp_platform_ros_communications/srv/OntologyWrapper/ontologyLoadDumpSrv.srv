@@ -4,7 +4,6 @@ Header header
 string file_url 
 ---
 # The results of the query
-string error
 string[] trace
 bool success 
 string error

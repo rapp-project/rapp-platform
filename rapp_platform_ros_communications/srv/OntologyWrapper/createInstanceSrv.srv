@@ -7,7 +7,6 @@ string file_url
 string comments 
 ---
 # The results of the query
-string error
 string instance_name
 string[] trace
 bool success 
