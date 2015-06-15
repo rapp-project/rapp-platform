@@ -1,7 +1,7 @@
 # Contains info about time and reference
 Header header
 # General string for simple queries
-string user_id
+string username
 string ontology_class
 string file_url
 string comments 

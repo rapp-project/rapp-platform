@@ -1,8 +1,9 @@
 # Contains info about time and reference
 Header header
 # General string for simple queries
-string ontology_class 
-string other_class
+string parent_class 
+string child_class
+bool recursive
 ---
 # The results of the query
 string error

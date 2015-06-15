@@ -62,10 +62,10 @@ class KnowrobWrapper
     std::string create_ontology_alias_for_new_user(std::string user_id);
     
     
-    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  subclasses_of_query(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
-    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  superclasses_of_query(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
-    rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  is_superclass_of(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req);
-    rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  is_subclass_of(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req);
+    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
+    rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
+        
+    rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  isSubSuperclassOfQuery(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req);
         //std::vector<std::string> createInstanceQuery(std::string caller_arguments);
     rapp_platform_ros_communications::createInstanceSrv::Response createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req);
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);
