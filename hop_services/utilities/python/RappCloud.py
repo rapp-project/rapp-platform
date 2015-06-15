@@ -70,7 +70,6 @@ class RappCloud:
         url = self.serviceUrl_['speech_detection_sphinx4']
         r = requests.post(url, data=payload, files=files, auth=HTTPBasicAuth('rappdev', \
             'rappdev'))
-
         resp_msg = json.loads(r.text)
         #print '\033[1;33m' + str(resp_msg) + '\033[0m'
         return resp_msg
@@ -134,6 +133,7 @@ class RappCloud:
         payload = {'queryStr': query}
         url = self.serviceUrl_['ontology_subclassesOf']
         r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
+        print r.text
         resp_msg = json.loads(r.text)
         return resp_msg
     #===========================================================================================
