@@ -47,11 +47,8 @@ service ontology_subclassesOf ( {queryStr:''} )
  return hop.HTTPResponseAsync(
    function( sendResponse ) { 
 
-     var query_term = {
-       "data": queryStr
-     };
      var args = {};
-     args[ "ontology_class" ] = query_term;
+     args[ "ontology_class" ] = queryStr;
 
     /*=============================TEMPLATE======================================================*/
       var rosbridge_connection = true;
