@@ -5,14 +5,30 @@
 # 14.04 install.
 
 #--------------------------------- Updates -----------------------------------#
-bash ./system_updates.sh
+bash ./system_updates.sh #ok
+#source ~/.bashrc
+#sudo ldconfig
 #-------------------------------- ROS setup ----------------------------------#
-bash ./ros_setup.sh
+bash ./ros_setup.sh #ok
+#source ~/.bashrc
+#sudo ldconfig
 #------------------------ Auxiliary packages install -------------------------#
-bash ./auxiliary_packages_setup.sh
+bash ./auxiliary_packages_setup.sh #ok
+#bash ./rosjava.sh
+#source ~/.bashrc
+#sudo ldconfig
+#bash ./knowrob.sh
 #-------------------------------- HOP setup ----------------------------------#
-bash ./hop_setup.sh
+#bash ./hop_setup.sh
 #-------------------------------Github repos setup----------------------------#
 bash ./external_repos_setup.sh
+#source ~/.bashrc
+#sudo ldconfig
+#bash ./rosjava.sh
+#source ~/.bashrc
+#sudo ldconfig
+#bash ./knowrob.sh
 bash ./rapp_platform_setup.sh
-
+bash ./sphinx_libraries.sh
+bash ./mysql_setup.sh
+bash ./hop_setup.sh

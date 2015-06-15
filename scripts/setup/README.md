@@ -22,13 +22,31 @@ Performs:
 - installs ROS Indigo 
 - downloads all Github repos needed
 
-You can execute it by:
+Execute the following scripts IN THE ORDER provided. Follow in between steps.
 
 ```
-sh clean_install.sh
+- sh system_updates.sh
+- sh ros_setup.sh
+- !Restart system
+- sh rosjava.sh
+- !Restart system
+- sh knowrob.sh
+- sh rapp_platform_setup.sh
+- sh mysql_setup.sh
+- sh mysql_setup.sh
 ```
 
-##Todo
+##What you must do manually
 
-- HOP installation / setup
-- MySQL installation / setup
+#create a new user, and grant all privileges on RappStore DB to him. Pick your username and password. run the following commands manually
+mysql -u root -p (you will be asked for your root password)
+GRANT USAGE ON *.* TO <username>@localhost IDENTIFIED BY '<password>';
+GRANT ALL PRIVILEGES ON RappStore.* TO <username>@localhost;
+FLUSH PRIVILEGES;
+exit
+
+#You must create a file named ... and store it in /etc/... which will have in it's first line the username and it's second line the password
+example file:
+username1
+password1
+
