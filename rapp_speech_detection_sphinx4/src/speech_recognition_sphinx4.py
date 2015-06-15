@@ -133,8 +133,8 @@ class SpeechRecognitionSphinx4(GlobalParams):
     #-------------------------Check with database-------------------------#
     if self.use_db_authentication == True:
       req_db = fetchDataSrv()
-      req_db.req_cols=[String(data="username")]
-      entry1=[String(data="username"),String(data=req.user)]
+      req_db.req_cols=["username"]
+      entry1=["username", req.user]
       req_db.where_data=[StringArrayMsg(s=entry1)]
 
       resp = self.authentication_service(req_db.req_cols, req_db.where_data)
