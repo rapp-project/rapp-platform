@@ -1,37 +1,18 @@
 {
   "platform": {
-    "host": "155.207.19.229",
-    "port": "6622",
+    "host_ip": "155.207.19.229",
     "user": "klpanagi",
-    "path": "~/rapp_platform_catkin_ws/src/rapp_platform/"
-  },
-  "hop": {
-    "port": "9001",
-    "path": "~/rapp_platform_catkin_ws/src/rapp_platform/hop_services",
     "services": {
-      "speech-detection": {
-        "name": "speech_detection_sphinx4",
-        "args": [
-          "fileUrl", "language", "audio_source", "words", "sentences", "grammar", "user"
-        ]
-      },
-      "denoie-profile": {
-        "name": "set_denoise_profile",
-        "args": [
-          ]
-      }
-    }
-  },
-
-  "ros": {
-    "rosbridge": {
-      "host": "155.207.19.37",
-      "port": "9090",
-      "protocol": "websocket"
-    },
-    "services": {
-      "speech-detection": "/ric/speech_detection_sphinx4_batch",
-      "speech-denoising": "/ric/audio_processing/set_denoise_profile"
+      "name": [
+        "speech_detection_sphinx4",
+        "set_denoise_profile",
+        "face_detection",
+        "qr_detection",
+        "ontology_subclasses_of",
+        "ontology_superclasses_of",
+        "ontology_is_subsuperclass_of"
+      ],
+      "port": 9001
     }
   }
 

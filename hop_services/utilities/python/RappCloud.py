@@ -131,9 +131,8 @@ class RappCloud:
     #===========================================================================================
     def ontology_subclasses_of(self, query):
         payload = {'query': query}
-        url = self.serviceUrl_['ontology_subclassesOf']
+        url = self.serviceUrl_['ontology_subclasses_of']
         r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
-        print r.text
         resp_msg = json.loads(r.text)
         return resp_msg
     #===========================================================================================
@@ -141,7 +140,15 @@ class RappCloud:
     
     def ontology_superclasses_of(self, query):
         payload = {'query': query}
-        url = self.serviceUrl_['ontology_superclassesOf']
+        url = self.serviceUrl_['ontology_superclasses_of']
+        r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
+        resp_msg = json.loads(r.text)
+        return resp_msg
+    #===========================================================================================
+
+    def ontology_is_subsuperclass_of(self, parent_class, child_class):
+        payload = {'parent_class': parent_class, 'child_class': child_class}
+        url = self.serviceUrl_['ontology_is_subsuperclass_of']
         r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
         resp_msg = json.loads(r.text)
         return resp_msg
