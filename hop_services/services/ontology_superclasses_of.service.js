@@ -1,11 +1,10 @@
 /*!
- * @file ontology_subclassesOf.service.js
- * @brief Ontology query "Subclasses Of" hop service.
- * @bug Currently NOT Operational!!
+ * @file ontology_superclasses_of.service.js
+ * @brief Ontology query "SuperclassesOf" hop service.
  *
  */
 
-console.log("Initiating Ontology-SubclassesOf front-end service");
+console.log("Initiated Ontology-Superclasses-Of front-end service");
 
 // TODO -- Get ontology_subclassesOf rosservice name
 
@@ -16,9 +15,8 @@ var module_path = '../utilities/js/'
 var RandStringGen = require ( module_path + 'randStringGen.js' );
 /*----------------------------------------------*/
 /*-----<Defined Name of QR Node ROS service>----*/
-var ros_service_name = "/rapp/rapp_knowrob_wrapper/subclasses_of";
+var ros_service_name = "/rapp/rapp_knowrob_wrapper/superclasses_of";
 var hop = require('hop');
-
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
@@ -33,38 +31,40 @@ var max_tries = 2
 
 
 /*!
- * @brief Ontology SubclassOf database query, HOP Service Core.
+ * @brief Ontology-SuperclassesOf database query, HOP Service Core.
  *
- * @param query Ontology query (String).
+ * @param query Ontology query given in a string format
+ * @return Results. 
  */
-service ontology_subclassesOf ( {query:''} )
+service ontology_superclasses_of ( {query:''} )
 {
   var randStr = randStrGen.createUnique();
-  console.log("[Ontology-subclassesOf]: Client Request");
-  console.log('[Ontology-subclassesOf]: Query -->', query);
+  console.log("[Ontology-Superclasses-Of]: Client Request");
+  console.log('[Ontology-Superclasses-Of]: Query -->', query);
 
  /*----------------------------------------------------------------- */
+ var respFlag = false;
  return hop.HTTPResponseAsync(
    function( sendResponse ) { 
-
+ 
      var args = {};
      args[ "ontology_class" ] = query;
 
-    /*=============================TEMPLATE======================================================*/
-      var rosbridge_connection = true;
-      var respFlag = false;
+     /*=============================TEMPLATE======================================================*/
+     var rosbridge_connection = true;
+     var respFlag = false;
 
-      // Create a unique caller id
-      var uniqueID = randStrGen.createUnique();
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, uniqueID);
+     // Create a unique caller id
+     var uniqueID = randStrGen.createUnique();
+     var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, uniqueID);
 
-      /* ------ Catch exception while open websocket communication ------- */
+     /* ------ Catch exception while open websocket communication ------- */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
       }
       catch(e){
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[Ontology-subclassesOf] ERROR: Cannot open websocket to rosbridge' +  
+        console.error('[Ontology-Superclasses-Of] ERROR: Cannot open websocket to rosbridge' +  
           '--> [ws//localhost:9090]' );
         // Print exception 
         console.log(e);
@@ -72,7 +72,7 @@ service ontology_subclassesOf ( {query:''} )
         var resp_msg = craft_error_response();
         // Return to Client
         sendResponse( resp_msg ); 
-        console.log("[Ontology-subclassesOf]: Returning to client with error");
+        console.log("[Ontology-Superclasses-Of]: Returning to client with error");
         return
       }
       /* ----------------------------------------------------------------- */
@@ -82,16 +82,16 @@ service ontology_subclassesOf ( {query:''} )
         // Implement WebSocket.onopen callback
         rosWS.onopen = function(){
           rosbridge_connection = true;
-          console.log('[Ontology-subclassesOf]: Connection to rosbridge established');
+          console.log('[Ontology-Superclasses-Of]: Connection to rosbridge established');
           this.send(JSON.stringify(rosbridge_msg));
         }
         // Implement WebSocket.onclose callback
         rosWS.onclose = function(){
-          console.log('[Ontology-subclassesOf]: Connection to rosbridge closed');
+          console.log('[Ontology-Superclasses-Of]: Connection to rosbridge closed');
         }
         // Implement WebSocket.message callback
         rosWS.onmessage = function(event){
-          console.log('[Ontology-subclassesOf]: Received message from rosbridge');
+          console.log('[Ontology-Superclasses-Of]: Received message from rosbridge');
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket 
@@ -101,17 +101,17 @@ service ontology_subclassesOf ( {query:''} )
           // Dismiss the unique rossrv-call identity  key for current client
           randStrGen.removeCached( uniqueID ); 
           sendResponse( resp_msg );
-          console.log("[Ontology-subclassesOf]: Returning to client");
+          console.log("[Ontology-Superclasses-Of]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[Ontology-subclassesOf] --> ERROR: Cannot open websocket' + 
+        console.error('[Ontology-Superclasses-Of] --> ERROR: Cannot open websocket' + 
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
         sendResponse( resp_msg ); 
-        console.log("[Ontology-subclassesOf]: Returning to client with error");
+        console.log("[Ontology-Superclasses-Of]: Returning to client with error");
         return;
       }
       /*------------------------------------------------------------------ */
@@ -130,18 +130,18 @@ service ontology_subclassesOf ( {query:''} )
            timer_ticks = 0;
            retries += 1;
 
-           console.log("[Ontology-subclassesOf]: Reached rosbridge response timeout" + 
+           console.log("[Ontology-Superclasses-Of]: Reached rosbridge response timeout" + 
              "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
              elapsed_time.toString(), retries.toString());
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
-             console.log("[Ontology-subclassesOf]: Reached max_retries (%s)" + 
+             console.log("[Ontology-Superclasses-Of]: Reached max_retries (%s)" + 
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
-             console.log("[Ontology-subclassesOf]: Returning to client with error");
+             console.log("[Ontology-Superclasses-Of]: Returning to client with error");
              return; 
            }
 
@@ -157,16 +157,16 @@ service ontology_subclassesOf ( {query:''} )
 
              /* -----------< Redefine WebSocket callbacks >----------- */
              rosWS.onopen = function(){
-             console.log('[Ontology-subclassesOf]: Connection to rosbridge established');
+             console.log('[Ontology-Superclasses-Of]: Connection to rosbridge established');
              this.send(JSON.stringify(rosbridge_msg));
              }
 
              rosWS.onclose = function(){
-               console.log('[Ontology-subclassesOf]: Connection to rosbridge closed');
+               console.log('[Ontology-Superclasses-Of]: Connection to rosbridge closed');
              }
 
              rosWS.onmessage = function(event){
-               console.log('[speech-detection-sphinx4]: Received message from rosbridge');
+               console.log('[Ontology-Superclasses-Of]: Received message from rosbridge');
                var resp_msg = craft_response( event.value ); 
                //console.log(resp_msg);
                this.close(); // Close websocket
@@ -174,17 +174,17 @@ service ontology_subclassesOf ( {query:''} )
                respFlag = true;
                randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
-               console.log("[Ontology-subclassesOf]: Returning to client");
+               console.log("[Ontology-Superclasses-Of]: Returning to client");
              }
            }
            catch(e){
              rosbridge_connection = false;
-             console.error('[Ontology-subclassesOf] ---> ERROR: Cannot open websocket' + 
+             console.error('[Ontology-Superclasses-Of] ---> ERROR: Cannot open websocket' + 
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
              sendResponse( resp_msg ); 
-             console.log("[Ontology-subclassesOf]: Returning to client with error");
+             console.log("[Ontology-Superclasses-Of]: Returning to client with error");
              return
            }
 
@@ -199,12 +199,12 @@ service ontology_subclassesOf ( {query:''} )
    }, this ); 
 };
 
- 
+
 
 /*!
  * @brief Crafts the form/format for the message to be returned
  * from the faceDetection hop-service.
- * @param rosbridge_msg Return message from ROS Service.
+ * @param rosbridge_msg Return message from rosbridge.
  * return Message to be returned from the hop-service
  */
 function craft_response(rosbridge_msg)
@@ -217,27 +217,27 @@ function craft_response(rosbridge_msg)
   var error = msg.values.error;
   var call_result = msg.result;
 
-  var craftedMsg = {results: [], trace: [], error: ''};
+  var crafted_msg = {results: [], trace: [], error: ''};
 
   if (call_result)
   {
     for (var ii = 0; ii < results.length; ii++)
     {
-      craftedMsg.results.push(results[ii]);
+      crafted_msg.results.push(results[ii]);
     }
     for (var ii = 0; ii < trace.length; ii++)
     {
-      craftedMsg.trace.push(trace[ii]);
+      crafted_msg.trace.push(trace[ii]);
     }
-    craftedMsg.error = error;
+    crafted_msg.error = error;
   }
   else
   {
-    craftedMsg.error = "RAPP Platform Failure";
+    crafted_msg.error = "RAPP Platform Failure"
   }
 
-  //console.log(craftedMsg);
-  return JSON.stringify(craftedMsg);
+  //console.log(crafted_msg);
+  return JSON.stringify(crafted_msg);
 }
 
 

@@ -27,7 +27,7 @@ for (var i in fileList){
 
 console.log("\033[0;36mService js files found:\n\033[0;0m", Services);
         
-var Workers = new Array();
+var Workers = [];
 
 Fs.rm_file_sync( __dirname + '/availableServices.txt' );
 

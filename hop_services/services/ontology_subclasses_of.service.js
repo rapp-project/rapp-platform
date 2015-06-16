@@ -1,32 +1,22 @@
 /*!
- * @file face_detection.service.js
- * @brief Face detection hop front-end service.
+ * @file ontology_subclasses_of.service.js
+ * @brief Ontology query "Subclasses Of" hop service.
  *
  */
 
-"use strict";
+console.log("Initiating Ontology-SubclassesOf front-end service");
 
-
-console.log('Initiated Face Detection front-end service');
-
-// TODO -- Load PLATFORM parameters from JSON file
-// TODO -- Load ROS-Topics/Services names from parameter server (ROS)
-
+// TODO -- Get ontology_subclassesOf rosservice name
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
 var module_path = '../utilities/js/'
 /*----------------------------------------------*/
-
-/*--------------Load required modules-----------*/
-var Fs = require( module_path + 'fileUtils.js' );
-var hop = require('hop');
 var RandStringGen = require ( module_path + 'randStringGen.js' );
 /*----------------------------------------------*/
-
-/*-----<Define face-detection ROS service name>----*/
-var ros_service_name = '/rapp/rapp_face_detection/detect_faces';
-/*------------------------------------------------------*/
+/*-----<Defined Name of QR Node ROS service>----*/
+var ros_service_name = "/rapp/rapp_knowrob_wrapper/subclasses_of";
+var hop = require('hop');
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -42,52 +32,24 @@ var max_tries = 2
 
 
 /*!
- * @brief Face Detection HOP Service Core.
+ * @brief Ontology SubclassOf query, HOP Service.
  *
- * @param file_uri Path of uploaded image file. Returned by hop server.
- * @return Message response from faceDetection ROS Service.
- *
+ * @param query Ontology query (String).
  */
-service face_detection ( {file_uri:''} )
+service ontology_subclasses_of ( {query:''} )
 {
-  console.log("[face-detection]: Client Request");
-  console.log('[face-detection]: Image stored at:', file_uri);
+  var randStr = randStrGen.createUnique();
+  console.log("[Ontology-Subclasses-Of]: Client Request");
+  console.log('[Ontology-Subclasses-Of]: Query -->', query);
 
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var unqExt = randStrGen.createUnique();
-  var file = file_uri.split('.');
-  var file_uri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
+ /*----------------------------------------------------------------- */
+ return hop.HTTPResponseAsync(
+   function( sendResponse ) { 
 
-  /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
-  {
-    //could not rename file. Probably cannot access the file. Return to client!
-    var resp_msg = craft_error_response(); 
-    console.log("[face-detection]: Returning to client with error");
-    return resp_msg; 
-  }
-  
-  /*-------------------------------------------------------------------------*/
-   
-  // Dismiss the unique identity key
-  randStrGen.removeCached(unqExt);
+     var args = {};
+     args[ "ontology_class" ] = query;
 
-  //var star_time = undefined;
-  //var elapsed_time = undefined;
-
-  // Asynchronous Response. Implementation
-  /*----------------------------------------------------------------- */
-  return hop.HTTPResponseAsync(
-    function( sendResponse ) { 
-
-     var args = {
-       /* Image path to perform faceDetection, used as input to the 
-        *  Face Detection ROS Node Service
-        */
-       "imageFilename": file_uri_new
-     };  
-
-/*=============================TEMPLATE======================================================*/
+    /*=============================TEMPLATE======================================================*/
       var rosbridge_connection = true;
       var respFlag = false;
 
@@ -101,7 +63,7 @@ service face_detection ( {file_uri:''} )
       }
       catch(e){
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[face-detection] ERROR: Cannot open websocket to rosbridge' +  
+        console.error('[Ontology-Subclasses-Of] ERROR: Cannot open websocket to rosbridge' +  
           '--> [ws//localhost:9090]' );
         // Print exception 
         console.log(e);
@@ -109,7 +71,7 @@ service face_detection ( {file_uri:''} )
         var resp_msg = craft_error_response();
         // Return to Client
         sendResponse( resp_msg ); 
-        console.log("[face-detection]: Returning to client with error");
+        console.log("[Ontology-Subclasses-Of]: Returning to client with error");
         return
       }
       /* ----------------------------------------------------------------- */
@@ -119,16 +81,16 @@ service face_detection ( {file_uri:''} )
         // Implement WebSocket.onopen callback
         rosWS.onopen = function(){
           rosbridge_connection = true;
-          console.log('[face-detection]: Connection to rosbridge established');
+          console.log('[Ontology-Subclasses-Of]: Connection to rosbridge established');
           this.send(JSON.stringify(rosbridge_msg));
         }
         // Implement WebSocket.onclose callback
         rosWS.onclose = function(){
-          console.log('[face-detection]: Connection to rosbridge closed');
+          console.log('[Ontology-Subclasses-Of]: Connection to rosbridge closed');
         }
         // Implement WebSocket.message callback
         rosWS.onmessage = function(event){
-          console.log('[face-detection]: Received message from rosbridge');
+          console.log('[Ontology-Subclasses-Of]: Received message from rosbridge');
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket 
@@ -138,23 +100,23 @@ service face_detection ( {file_uri:''} )
           // Dismiss the unique rossrv-call identity  key for current client
           randStrGen.removeCached( uniqueID ); 
           sendResponse( resp_msg );
-          console.log("[face-detection]: Returning to client");
+          console.log("[Ontology-Subclasses-Of]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[face-detection] --> ERROR: Cannot open websocket' + 
+        console.error('[Ontology-Subclasses-Of] --> ERROR: Cannot open websocket' + 
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
         sendResponse( resp_msg ); 
-        console.log("[face-detection]: Returning to client with error");
+        console.log("[Ontology-Subclasses-Of]: Returning to client with error");
         return;
       }
       /*------------------------------------------------------------------ */
 
       var timer_ticks = 0;
-      var elapsed_time;
+      var elapsed_time = 0;
       var retries = 0;
 
       // Set Timeout wrapping function
@@ -167,18 +129,18 @@ service face_detection ( {file_uri:''} )
            timer_ticks = 0;
            retries += 1;
 
-           console.log("[face-detection]: Reached rosbridge response timeout" + 
+           console.log("[Ontology-Subclasses-Of]: Reached rosbridge response timeout" + 
              "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
              elapsed_time.toString(), retries.toString());
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
-             console.log("[face-detection]: Reached max_retries (%s)" + 
+             console.log("[Ontology-Subclasses-Of]: Reached max_retries (%s)" + 
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
-             console.log("[face-detection]: Returning to client with error");
+             console.log("[Ontology-Subclasses-Of]: Returning to client with error");
              return; 
            }
 
@@ -194,16 +156,16 @@ service face_detection ( {file_uri:''} )
 
              /* -----------< Redefine WebSocket callbacks >----------- */
              rosWS.onopen = function(){
-             console.log('[face-detection]: Connection to rosbridge established');
+             console.log('[Ontology-Subclasses-Of]: Connection to rosbridge established');
              this.send(JSON.stringify(rosbridge_msg));
              }
 
              rosWS.onclose = function(){
-               console.log('[face-detection]: Connection to rosbridge closed');
+               console.log('[Ontology-Subclasses-Of]: Connection to rosbridge closed');
              }
 
              rosWS.onmessage = function(event){
-               console.log('[speech-detection-sphinx4]: Received message from rosbridge');
+               console.log('[Ontology-Subclasses-Of]: Received message from rosbridge');
                var resp_msg = craft_response( event.value ); 
                //console.log(resp_msg);
                this.close(); // Close websocket
@@ -211,17 +173,17 @@ service face_detection ( {file_uri:''} )
                respFlag = true;
                randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
-               console.log("[face-detection]: Returning to client");
+               console.log("[Ontology-Subclasses-Of]: Returning to client");
              }
            }
            catch(e){
              rosbridge_connection = false;
-             console.error('[face-detection] ---> ERROR: Cannot open websocket' + 
+             console.error('[Ontology-Subclasses-Of] ---> ERROR: Cannot open websocket' + 
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
              sendResponse( resp_msg ); 
-             console.log("[face-detection]: Returning to client with error");
+             console.log("[Ontology-Subclasses-Of]: Returning to client with error");
              return
            }
 
@@ -236,41 +198,45 @@ service face_detection ( {file_uri:''} )
    }, this ); 
 };
 
+ 
 
 /*!
- * @brief Crafts the form/format for the message to be returned
- * @param rosbridge_msg Return message from ROS Service.
- * return Message to be returned from service.
+ * @brief Crafts the form/format for the message to be returned to client
+ * @param rosbridge_msg Return message from rosbridge
+ * @return Message to be returned from service
  */
 function craft_response(rosbridge_msg)
 {
+  // TODO --Implement
   var msg = JSON.parse(rosbridge_msg);
-  var faces_up_left = msg.values.faces_up_left
-  var faces_down_right = msg.values.faces_down_right;
-  var call_result = msg.result;
+  var results = msg.values.results;
+  var trace = msg.values.trace;
+  var success = msg.values.success;
   var error = msg.values.error;
+  var call_result = msg.result;
 
-  var crafted_msg = { faces_up_left:[], faces_down_right:[], error: '' };
-  
+  var crafted_msg = {results: [], trace: [], error: ''};
+
   if (call_result)
   {
-    for (var ii = 0; ii < faces_up_left.length; ii++)
+    for (var ii = 0; ii < results.length; ii++)
     {
-      crafted_msg.faces_up_left.push( faces_up_left[ii].point )
+      crafted_msg.results.push(results[ii]);
     }
-    for (var ii = 0; ii < faces_down_right.length; ii++)
+    for (var ii = 0; ii < trace.length; ii++)
     {
-      crafted_msg.faces_down_right.push( faces_down_right[ii].point )
-    }   
-    crafted_msg.error = error; 
+      crafted_msg.trace.push(trace[ii]);
+    }
+    crafted_msg.error = error;
   }
-  else{
+  else
+  {
     crafted_msg.error = "RAPP Platform Failure";
   }
- 
-  //console.log(craftedMsg);
-  return JSON.stringify(crafted_msg)
-};
+
+  //console.log(crafted_msg);
+  return JSON.stringify(crafted_msg);
+}
 
 
 /*!
@@ -279,7 +245,7 @@ function craft_response(rosbridge_msg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var crafted_msg = {faces_up_left: [], faces_down_right: [], error: 'RAPP Platform Failure'};
+  var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
   return JSON.stringify(crafted_msg);
 }
 

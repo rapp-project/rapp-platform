@@ -1,5 +1,5 @@
 /*!
- * @file qr.service.js
+ * @file qr_detection.service.js
  * @brief QR Detection hop front-end service.
  *
  */
