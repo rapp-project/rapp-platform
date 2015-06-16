@@ -56,26 +56,26 @@ var max_tries = 2
  * @param grammar
  * @user
  */
-service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''} ){
+service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''} ){
 
   console.log('[speech-detection-sphinx4]: Service invocation');
-  console.log('[speech-detection-sphinx4]: Audio source file stored at:', fileUrl);
+  console.log('[speech-detection-sphinx4]: Audio source file stored at:', file_uri);
   //console.log('Words to search for:', words);
   //console.log('Sentences:', sentences);
   //console.log('Grammar:', grammar);
 
   // Create new unique identity key
   var unqExt = randStrGen.createUnique();
-  var file = fileUrl.split('.');
-  var fileUrl_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
+  var file = file_uri.split('.');
+  var file_uri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.rename_file_sync(fileUrl, fileUrl_new) == false)
+  if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var resp_msg = craft_error_response(); 
     console.log("[speech-detection-sphinx4]: Returning to client");
-    return JSON.stringify(resp_msg); 
+    return resp_msg; 
   }
   /*-------------------------------------------------------------------------*/
 
@@ -91,7 +91,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
 
       /* ======== Create specific service arguments here ========= */ 
       var args = {
-        'path': /*audioFileUrl*/fileUrl_new,
+        'path': /*audioFileUrl*/file_uri_new,
          'audio_source': audio_source,
          'words': JSON.parse(words),
          'sentences': JSON.parse(sentences),
@@ -122,7 +122,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[speech-detection-sphinx4]: Returning to client with error");
         return
       }
@@ -161,7 +161,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[speech-detection-sphinx4]: Returning to client with error");
         return;
       }
@@ -191,7 +191,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
-             sendResponse( JSON.stringify(respMsg) );
+             sendResponse( respMsg );
              console.log("[speech-detection-sphinx4]: Returning to client with error");
              return; 
            }
@@ -234,7 +234,7 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
-             sendResponse( JSON.stringify(resp_msg) ); 
+             sendResponse( resp_msg ); 
              console.log("[speech-detection-sphinx4]: Returning to client with error");
              return
            }
@@ -257,29 +257,31 @@ service speech_detection_sphinx4( {fileUrl: '', language: '', audio_source: '', 
  * @param srvMsg Return message from ROS Service.
  * @return Message to be returned from the hop-service
  */
-function craft_response(srvMsg)
+function craft_response(rosbridge_msg)
 {
-  var words = JSON.parse(srvMsg).values.words;
-  var result = JSON.parse(srvMsg).result;
-  var error = JSON.parse(srvMsg).values.error;
+  var msg = JSON.parse(rosbridge_msg);
+  var words = msg.values.words;
+  var result = msg.result;
+  var error = msg.values.error;
 
-  var craftedMsg = { words: [], error: '' };
+  var crafted_msg = { words: [], error: '' };
 
   if(result)
   {
     for (var ii = 0; ii < words.length; ii++)
     {
-      craftedMsg.words.push( words[ii] )
+      crafted_msg.words.push( words[ii] )
     }
-    craftedMsg.error = error; 
+    crafted_msg.error = error; 
   }
   else
   { 
     // Return error index!
-    craftedMsg.error = "RAPP Platform Failure";
+    crafted_msg.error = "RAPP Platform Failure";
   }
-  return JSON.stringify(craftedMsg)
-  //return craftedMsg;
+
+  //return crafted_msg;
+  return JSON.stringify(crafted_msg)
 };
 
 
@@ -290,8 +292,8 @@ function craft_response(srvMsg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var craftedMsg = {words: [], error: 'RAPP Platform Failure'};
-  return craftedMsg;
+  var crafted_msg = {words: [], error: 'RAPP Platform Failure'};
+  return JSON.stringify(crafted_msg);
 }
 
 

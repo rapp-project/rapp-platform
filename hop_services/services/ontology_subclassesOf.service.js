@@ -35,20 +35,20 @@ var max_tries = 2
 /*!
  * @brief Ontology SubclassOf database query, HOP Service Core.
  *
- * @param queryStr Ontology query (String).
+ * @param query Ontology query (String).
  */
-service ontology_subclassesOf ( {queryStr:''} )
+service ontology_subclassesOf ( {query:''} )
 {
   var randStr = randStrGen.createUnique();
   console.log("[Ontology-subclassesOf]: Client Request");
-  console.log('[Ontology-subclassesOf]: Query -->', queryStr);
+  console.log('[Ontology-subclassesOf]: Query -->', query);
 
  /*----------------------------------------------------------------- */
  return hop.HTTPResponseAsync(
    function( sendResponse ) { 
 
      var args = {};
-     args[ "ontology_class" ] = queryStr;
+     args[ "ontology_class" ] = query;
 
     /*=============================TEMPLATE======================================================*/
       var rosbridge_connection = true;
@@ -71,7 +71,7 @@ service ontology_subclassesOf ( {queryStr:''} )
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[Ontology-subclassesOf]: Returning to client with error");
         return
       }
@@ -140,7 +140,7 @@ service ontology_subclassesOf ( {queryStr:''} )
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
-             sendResponse( JSON.stringify(respMsg) );
+             sendResponse( respMsg );
              console.log("[Ontology-subclassesOf]: Returning to client with error");
              return; 
            }
@@ -183,7 +183,7 @@ service ontology_subclassesOf ( {queryStr:''} )
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
-             sendResponse( JSON.stringify(resp_msg) ); 
+             sendResponse( resp_msg ); 
              console.log("[Ontology-subclassesOf]: Returning to client with error");
              return
            }
@@ -204,17 +204,18 @@ service ontology_subclassesOf ( {queryStr:''} )
 /*!
  * @brief Crafts the form/format for the message to be returned
  * from the faceDetection hop-service.
- * @param srvMsg Return message from ROS Service.
+ * @param rosbridge_msg Return message from ROS Service.
  * return Message to be returned from the hop-service
  */
-function craft_response(srvMsg)
+function craft_response(rosbridge_msg)
 {
   // TODO --Implement
-  var results = JSON.parse(srvMsg).values.results;
-  var trace = JSON.parse(srvMsg).values.trace;
-  var success = JSON.parse(srvMsg).values.success;
-  var error = JSON.parse(srvMsg).values.error;
-  var call_result = JSON.parse(srvMsg).result;
+  var msg = JSON.parse(rosbridge_msg);
+  var results = msg.values.results;
+  var trace = msg.values.trace;
+  var success = msg.values.success;
+  var error = msg.values.error;
+  var call_result = msg.result;
 
   var craftedMsg = {results: [], trace: [], error: ''};
 
@@ -246,8 +247,8 @@ function craft_response(srvMsg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var craftedMsg = {results: [], trace: [], error: 'RAPP Platform Failure'};
-  return JSON.stringify(craftedMsg);
+  var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+  return JSON.stringify(crafted_msg);
 }
 
 

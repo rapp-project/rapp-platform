@@ -1,7 +1,6 @@
 /*!
- * @file ontology_subclassesOf.service.js
- * @brief Ontology query "Subclasses Of" hop service.
- * @bug Currently NOT Operational!!
+ * @file ontology_superclassesOf.service.js
+ * @brief Ontology query "SuperclassesOf" hop service.
  *
  */
 
@@ -32,16 +31,16 @@ var max_tries = 2
 
 
 /*!
- * @brief Ontology SubclassOf database query, HOP Service Core.
+ * @brief Ontology-SuperclassesOf database query, HOP Service Core.
  *
- * @param queryString Ontology query given in a string format
- * @return Message response from speech2Text ROS Node service. --JSON--
+ * @param query Ontology query given in a string format
+ * @return Results. 
  */
-service ontology_superclassesOf ( {queryStr:''} )
+service ontology_superclassesOf ( {query:''} )
 {
   var randStr = randStrGen.createUnique();
   console.log("[Ontology-superclassesOf]: Client Request");
-  console.log('[Ontology-superclassesOf]: Query -->', queryStr);
+  console.log('[Ontology-superclassesOf]: Query -->', query);
 
  /*----------------------------------------------------------------- */
  var respFlag = false;
@@ -49,7 +48,7 @@ service ontology_superclassesOf ( {queryStr:''} )
    function( sendResponse ) { 
  
      var args = {};
-     args[ "ontology_class" ] = queryStr;
+     args[ "ontology_class" ] = query;
 
      /*=============================TEMPLATE======================================================*/
      var rosbridge_connection = true;
@@ -111,7 +110,7 @@ service ontology_superclassesOf ( {queryStr:''} )
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[Ontology-superclassesOf]: Returning to client with error");
         return;
       }
@@ -141,7 +140,7 @@ service ontology_superclassesOf ( {queryStr:''} )
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
-             sendResponse( JSON.stringify(respMsg) );
+             sendResponse( respMsg );
              console.log("[Ontology-superclassesOf]: Returning to client with error");
              return; 
            }
@@ -184,7 +183,7 @@ service ontology_superclassesOf ( {queryStr:''} )
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
-             sendResponse( JSON.stringify(resp_msg) ); 
+             sendResponse( resp_msg ); 
              console.log("[Ontology-superclassesOf]: Returning to client with error");
              return
            }
@@ -205,39 +204,40 @@ service ontology_superclassesOf ( {queryStr:''} )
 /*!
  * @brief Crafts the form/format for the message to be returned
  * from the faceDetection hop-service.
- * @param srvMsg Return message from ROS Service.
+ * @param rosbridge_msg Return message from rosbridge.
  * return Message to be returned from the hop-service
  */
-function craft_response(srvMsg)
+function craft_response(rosbridge_msg)
 {
   // TODO --Implement
-  var results = JSON.parse(srvMsg).values.results;
-  var trace = JSON.parse(srvMsg).values.trace;
-  var success = JSON.parse(srvMsg).values.success;
-  var error = JSON.parse(srvMsg).values.error;
-  var call_result = JSON.parse(srvMsg).result;
+  var msg = JSON.parse(rosbridge_msg);
+  var results = msg.values.results;
+  var trace = msg.values.trace;
+  var success = msg.values.success;
+  var error = msg.values.error;
+  var call_result = msg.result;
 
-  var craftedMsg = {results: [], trace: [], error: ''};
+  var crafted_msg = {results: [], trace: [], error: ''};
 
   if (call_result)
   {
     for (var ii = 0; ii < results.length; ii++)
     {
-      craftedMsg.results.push(results[ii]);
+      crafted_msg.results.push(results[ii]);
     }
     for (var ii = 0; ii < trace.length; ii++)
     {
-      craftedMsg.trace.push(trace[ii]);
+      crafted_msg.trace.push(trace[ii]);
     }
-    craftedMsg.error = error;
+    crafted_msg.error = error;
   }
   else
   {
-    craftedMsg.error = "RAPP Platform Failure"
+    crafted_msg.error = "RAPP Platform Failure"
   }
 
-  //console.log(craftedMsg);
-  return JSON.stringify(craftedMsg);
+  //console.log(crafted_msg);
+  return JSON.stringify(crafted_msg);
 }
 
 
@@ -247,8 +247,8 @@ function craft_response(srvMsg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var craftedMsg = {results: [], trace: [], error: 'RAPP Platform Failure'};
-  return JSON.stringify(craftedMsg);
+  var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+  return JSON.stringify(crafted_msg);
 }
 
 

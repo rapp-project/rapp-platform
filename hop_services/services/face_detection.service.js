@@ -44,29 +44,27 @@ var max_tries = 2
 /*!
  * @brief Face Detection HOP Service Core.
  *
- * @param fileUrl Path of uploaded image file. Returned by hop front-end
+ * @param file_uri Path of uploaded image file. Returned by hop front-end
  * @return Message response from faceDetection ROS Node service.
  *
  */
-service face_detection ( {fileUrl:''} )
+service face_detection ( {file_uri:''} )
 {
-  var randStr = randStrGen.createUnique();
   console.log("[face-detection]: Client Request");
-  console.log('[face-detection]: Image stored at:', fileUrl);
+  console.log('[face-detection]: Image stored at:', file_uri);
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqExt = randStrGen.createUnique();
-  randStrGen.removeCached(unqExt);
-  var file = fileUrl.split('.');
-  var fileUrl_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
+  var file = file_uri.split('.');
+  var file_uri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.rename_file_sync(fileUrl, fileUrl_new) == false)
+  if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var resp_msg = craft_error_response(); 
     console.log("[face-detection]: Returning to client with error");
-    return JSON.stringify(resp_msg); 
+    return resp_msg; 
   }
   
   /*-------------------------------------------------------------------------*/
@@ -86,7 +84,7 @@ service face_detection ( {fileUrl:''} )
        /* Image path to perform faceDetection, used as input to the 
         *  Face Detection ROS Node Service
         */
-       "imageFilename": fileUrl_new
+       "imageFilename": file_uri_new
      };  
 
 /*=============================TEMPLATE======================================================*/
@@ -110,7 +108,7 @@ service face_detection ( {fileUrl:''} )
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[face-detection]: Returning to client with error");
         return
       }
@@ -149,7 +147,7 @@ service face_detection ( {fileUrl:''} )
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[face-detection]: Returning to client with error");
         return;
       }
@@ -179,7 +177,7 @@ service face_detection ( {fileUrl:''} )
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
-             sendResponse( JSON.stringify(respMsg) );
+             sendResponse( respMsg );
              console.log("[face-detection]: Returning to client with error");
              return; 
            }
@@ -222,7 +220,7 @@ service face_detection ( {fileUrl:''} )
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
-             sendResponse( JSON.stringify(resp_msg) ); 
+             sendResponse( resp_msg ); 
              console.log("[face-detection]: Returning to client with error");
              return
            }
@@ -245,38 +243,34 @@ service face_detection ( {fileUrl:''} )
  * @param srvMsg Return message from ROS Service.
  * return Message to be returned from the hop-service
  */
-function craft_response(srvMsg)
+function craft_response(rosbridge_msg)
 {
-  var faces_up_left = JSON.parse(srvMsg).values.faces_up_left
-  var faces_down_right = JSON.parse(srvMsg).values.faces_down_right;
-  var result = JSON.parse(srvMsg).result;
-  var error = JSON.parse(srvMsg).values.error;
+  var msg = JSON.parse(rosbridge_msg);
+  var faces_up_left = msg.values.faces_up_left
+  var faces_down_right = msg.values.faces_down_right;
+  var call_result = msg.result;
+  var error = msg.values.error;
 
-  var craftedMsg = { faces_up_left:[], faces_down_right:[], error: '' };
+  var crafted_msg = { faces_up_left:[], faces_down_right:[], error: '' };
   
-  if (result)
+  if (call_result)
   {
     for (var ii = 0; ii < faces_up_left.length; ii++)
     {
-      craftedMsg.faces_up_left.push( faces_up_left[ii].point )
+      crafted_msg.faces_up_left.push( faces_up_left[ii].point )
     }
     for (var ii = 0; ii < faces_down_right.length; ii++)
     {
-      craftedMsg.faces_down_right.push( faces_down_right[ii].point )
+      crafted_msg.faces_down_right.push( faces_down_right[ii].point )
     }   
-    craftedMsg.error = error; 
+    crafted_msg.error = error; 
   }
   else{
-    craftedMsg.error = "RAPP Platform Failure";
+    crafted_msg.error = "RAPP Platform Failure";
   }
+ 
   //console.log(craftedMsg);
-  return JSON.stringify(craftedMsg)
-  //return craftedMsg;
-    /* Return JSON representation:
-     *{ faces_up_left: [ { y:155, x:145, z:0} ],
-     *   faces_down_right: [ { y:155, x:145, z:0} ],
-     *   error: '0' }
-     */
+  return JSON.stringify(crafted_msg)
 };
 
 
@@ -286,8 +280,8 @@ function craft_response(srvMsg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var craftedMsg = {faces_up_left: [], faces_down_right: [], error: 'RAPP Platform Failure'};
-  return craftedMsg;
+  var crafted_msg = {faces_up_left: [], faces_down_right: [], error: 'RAPP Platform Failure'};
+  return JSON.stringify(crafted_msg);
 }
 
 

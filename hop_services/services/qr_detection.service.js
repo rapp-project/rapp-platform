@@ -48,25 +48,23 @@ var max_tries = 2
  *
  * @return Message response from qrDetection ROS Node service.
  */
-service qr_detection ( {fileUrl:''} )
+service qr_detection ( {file_uri:''} )
 {
-  var randStr = randStrGen.createUnique();
   console.log('[qr-detection]: Client Request');
-  console.log('[qr-detection]: Image stored at:', fileUrl);
+  console.log('[qr-detection]: Image stored at:', file_uri);
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqExt = randStrGen.createUnique();
-  randStrGen.removeCached(unqExt);
-  var file = fileUrl.split('.');
-  var fileUrl_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
+  var file = file_uri.split('.');
+  var file_uri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.rename_file_sync(fileUrl, fileUrl_new) == false)
+  if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var resp_msg = craft_error_response(); 
     console.log("[qr-detection]: Returning to client with error");
-    return JSON.stringify(resp_msg); 
+    return resp_msg; 
   }
   /*-------------------------------------------------------------------------*/
 
@@ -86,7 +84,7 @@ service qr_detection ( {fileUrl:''} )
        /* Image path to perform faceDetection, used as input to the 
         *  Face Detection ROS Node Service
         */
-       "imageFilename": fileUrl_new
+       "imageFilename": file_uri_new
      };  
 
 /*=============================TEMPLATE======================================================*/
@@ -110,7 +108,7 @@ service qr_detection ( {fileUrl:''} )
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[qr-detection]: Returning to client with error");
         return
       }
@@ -149,7 +147,7 @@ service qr_detection ( {fileUrl:''} )
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[qr-detection]: Returning to client with error");
         return;
       }
@@ -179,7 +177,7 @@ service qr_detection ( {fileUrl:''} )
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
-             sendResponse( JSON.stringify(respMsg) );
+             sendResponse( respMsg );
              console.log("[qr-detection]: Returning to client with error");
              return; 
            }
@@ -222,7 +220,7 @@ service qr_detection ( {fileUrl:''} )
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
-             sendResponse( JSON.stringify(resp_msg) ); 
+             sendResponse( resp_msg ); 
              console.log("[qr-detection]: Returning to client with error");
              return
            }
@@ -245,30 +243,31 @@ service qr_detection ( {fileUrl:''} )
  * @param srvMsg Return message from ROS Service.
  * return Message to be returned from the hop-service
  */
-function craft_response(srvMsg)
+function craft_response(rosbridge_msg)
 {
-  var qrCenters = JSON.parse(srvMsg).values.qr_centers;
-  var result = JSON.parse(srvMsg).result;
-  var error = JSON.parse(srvMsg).values.error;
+  var msg = JSON.parse(rosbridge_msg);
+  var qrCenters = msg.values.qr_centers;
+  var call_result = msg.result;
+  var error = msg.values.error;
 
-  var craftedMsg = {qr_centers: [], error: ''};
+  var crafted_msg = {qr_centers: [], error: ''};
 
-  if (result)
+  if (call_result)
   {
     for (var ii = 0; ii < qrCenters.length; ii++)
     {
-      craftedMsg.qr_centers.push(qrCenters[ii].point);
+      crafted_msg.qr_centers.push(qrCenters[ii].point);
     }
-    craftedMsg.error = error;
+    crafted_msg.error = error;
   }
   else
   {
     // Return error index
-    craftedMsg.error = 'RAPP Platform Failure';
+    crafted_msg.error = 'RAPP Platform Failure';
   }
 
   //console.log(craftedMsg);
-  return JSON.stringify(craftedMsg)
+  return JSON.stringify(crafted_msg)
 }
 
 
@@ -278,8 +277,8 @@ function craft_response(srvMsg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var craftedMsg = {qr_centers: [], error: 'RAPP Platform Failure'};
-  return craftedMsg;
+  var crafted_msg = {qr_centers: [], error: 'RAPP Platform Failure'};
+  return JSON.stringify(crafted_msg);
 }
 
 

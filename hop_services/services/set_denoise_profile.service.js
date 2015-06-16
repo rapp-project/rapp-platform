@@ -48,34 +48,33 @@ var max_tries = 2
  * @param user
  * @TODO Rename noise_audio_fileUri --> fileUrl
  */
-service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:''}  )
+service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
 {
   console.log('[set-denoise-profile]: Service invocation. Preparing response');
-  console.log('[set-denoise-profile]: Audio source file stored at:', noise_audio_fileUri);
+  console.log('[set-denoise-profile]: Audio source file stored at:', file_uri);
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqExt = randStrGen.createUnique();
-  randStrGen.removeCached(unqExt);
-  var fileUrl = noise_audio_fileUri;
-  var file = noise_audio_fileUri.split('.');
-  var fileUrl_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2]
+  var file = file_uri.split('.');
+  var file_uri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2]
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.rename_file_sync(fileUrl, fileUrl_new) == false)
+  if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var resp_msg = craft_error_response(); 
     console.log("[set-denoise-profile]: Returning to client");
-    return JSON.stringify(resp_msg); 
+    return resp_msg; 
   }
   /*-------------------------------------------------------------------------*/
+  randStrGen.removeCached(unqExt);
 
   return hop.HTTPResponseAsync(
     function( sendResponse ) { 
 
       var args = {
-        'noise_audio_file': fileUrl_new,
-         'audio_file_type': audio_file_type,
+        'noise_audio_file': file_uri_new,
+         'audio_file_type': audio_source,
          'user': user
       };
 
@@ -100,7 +99,7 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[set-denoise-profile]: Returning to client with error");
         return
       }
@@ -139,7 +138,7 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( JSON.stringify(resp_msg) ); 
+        sendResponse( resp_msg ); 
         console.log("[set-denoise-profile]: Returning to client with error");
         return;
       }
@@ -169,7 +168,7 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
-             sendResponse( JSON.stringify(respMsg) );
+             sendResponse( respMsg );
              console.log("[set-denoise-profile]: Returning to client with error");
              return; 
            }
@@ -212,7 +211,7 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
              var resp_msg = craft_error_response(); 
-             sendResponse( JSON.stringify(resp_msg) ); 
+             sendResponse( resp_msg ); 
              console.log("[set-denoise-profile]: Returning to client with error");
              return
            }
@@ -236,26 +235,27 @@ service set_denoise_profile( {noise_audio_fileUri:'', audio_file_type:'', user:'
  * @param srvMsg Return message from ROS Service.
  * return Message to be returned from the hop-service
  */
-function craft_response(srvMsg)
+function craft_response(rosbridge_msg)
 {
+  var msg = JSON.parse(rosbridge_msg);
   // Service invocation success index
-  var result = JSON.parse(srvMsg).result;
-  var error = JSON.parse(srvMsg).values.error;
+  var call_result = msg.result;
+  var error = msg.values.error;
 
-  var craftedMsg = { error: '' };
+  var crafted_msg = { error: '' };
   
-  if (result)
+  if (call_result)
   {
-    craftedMsg.error = error; 
+    crafted_msg.error = error; 
   }
   else
   { 
     // Return error index!
-    craftedMsg.error = "RAPP Platform Failure";
+    crafted_msg.error = "RAPP Platform Failure";
   }
 
-  //console.log(craftedMsg);
-  return JSON.stringify(craftedMsg)
+  //console.log(crafted_msg);
+  return JSON.stringify(crafted_msg)
 }
 
 
@@ -265,8 +265,8 @@ function craft_response(srvMsg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var craftedMsg = {error: 'RAPP Platform Failure'};
-  return craftedMsg;
+  var crafted_msg = {error: 'RAPP Platform Failure'};
+  return JSON.stringify(crafted_msg);
 }
 
 
