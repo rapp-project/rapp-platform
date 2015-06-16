@@ -64,7 +64,7 @@ class RappCloud:
                 'grammar':json.dumps(grammar), 'user': user}
 
         # -- Files to be added into to poset request
-        files = {'fileUrl': open(fileUri, 'rb')}
+        files = {'file_uri': open(fileUri, 'rb')}
 
         # -- Post-Request!
         url = self.serviceUrl_['speech_detection_sphinx4']
@@ -79,10 +79,10 @@ class RappCloud:
     #===========================================================================================
     def set_denoise_profile(self, noise_audio_fileUri, audio_file_type, user):
         # -- Craft the data payload for the post request
-        payload = {'user': user, 'audio_file_type': audio_file_type}
+        payload = {'user': user, 'audio_source': audio_file_type}
 
         # -- Files to be added into to poset request
-        files = {'noise_audio_fileUri': open(noise_audio_fileUri, 'rb')}
+        files = {'file_uri': open(noise_audio_fileUri, 'rb')}
 
         # -- Post-Request!
         url = self.serviceUrl_['set_denoise_profile']
@@ -98,7 +98,7 @@ class RappCloud:
     #===========================================================================================
     def qr_detection(self, fileUri): 
         # -- Files to be added into to poset request
-        files = {'fileUrl': open(fileUri, 'rb')}
+        files = {'file_uri': open(fileUri, 'rb')}
 
         # -- Post-Request!
         url = self.serviceUrl_['qr_detection']
@@ -114,7 +114,7 @@ class RappCloud:
     #===========================================================================================
     def face_detection(self, fileUri): 
      # -- Files to be added into to poset request
-        files = {'fileUrl': open(fileUri, 'rb')}
+        files = {'file_uri': open(fileUri, 'rb')}
 
         # -- Post-Request!
         url = self.serviceUrl_['face_detection']
@@ -130,7 +130,7 @@ class RappCloud:
 
     #===========================================================================================
     def ontology_subclasses_of(self, query):
-        payload = {'queryStr': query}
+        payload = {'query': query}
         url = self.serviceUrl_['ontology_subclassesOf']
         r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
         print r.text
@@ -140,7 +140,7 @@ class RappCloud:
 
     
     def ontology_superclasses_of(self, query):
-        payload = {'queryStr': query}
+        payload = {'query': query}
         url = self.serviceUrl_['ontology_superclassesOf']
         r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
         resp_msg = json.loads(r.text)
