@@ -36,9 +36,24 @@ var max_tries = 2
  *
  * @param parent_class 
  * @param child_class
+ * @param recursive Used to define a recursive behavior. 
  */
-service ontology_is_subsuperclass_of ( {parent_class: '', child_class: ''} )
+service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recursive: false} )
 {
+  /**** Boolean parameters are passed as strings onto the URL payload ****/
+
+  /* -- Handling string to boolean casting -- */
+  if (recursive == 'True' || recursive == 'true')
+  {
+    // String 'True' --> booleand true 
+    recursive = true;
+  }
+  else
+  {
+    recursive = false;
+  }
+  /* ---------------------------------------- */
+
   var randStr = randStrGen.createUnique();
   console.log("[Ontology-is_subsuperclass_of]: Client Request");
   console.log('[Ontology-is_subsuperclass_of]: Parent Class --> %s,  ' +  
@@ -51,6 +66,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: ''} )
      var args = {};
      args[ "parent_class" ] = parent_class;
      args[ "child_class" ] = child_class;
+     args[ "recursive" ] = recursive;
 
     /*=============================TEMPLATE======================================================*/
       var rosbridge_connection = true;
