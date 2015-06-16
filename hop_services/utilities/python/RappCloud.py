@@ -146,8 +146,13 @@ class RappCloud:
         return resp_msg
     #===========================================================================================
 
-    def ontology_is_subsuperclass_of(self, parent_class, child_class):
-        payload = {'parent_class': parent_class, 'child_class': child_class}
+    def ontology_is_subsuperclass_of(self, parent_class, child_class, recursive):
+        rec = False
+        if recursive != None:
+          rec = recursive
+
+        payload = {'parent_class': parent_class, 'child_class': child_class, \
+          'recursive': rec}
         url = self.serviceUrl_['ontology_is_subsuperclass_of']
         r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
         resp_msg = json.loads(r.text)
