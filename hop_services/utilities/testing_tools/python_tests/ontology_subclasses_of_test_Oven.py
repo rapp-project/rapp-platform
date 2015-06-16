@@ -45,7 +45,9 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.ontology_class = "Oven"
     # Set the valid results
-    self.valid_results = 0
+    self.valid_results = [ 'http://knowrob.org/kb/knowrob.owl#MicrowaveOven', \
+      'http://knowrob.org/kb/knowrob.owl#RegularOven', \
+      'http://knowrob.org/kb/knowrob.owl#ToasterOven']
 
   def execute(self):
 
