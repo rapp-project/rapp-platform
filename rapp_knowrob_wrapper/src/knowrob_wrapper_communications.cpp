@@ -50,7 +50,7 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   superclasses_of_service_ = nh_.advertiseService(superclasses_of_service_topic_,
     &KnowrobWrapperCommunications::superclassesOfCallback, this);
     
-  if(!nh_.getParam("/rapp_knowrob_wrapper_issubsuperclass_of_topic", is_subsuperclass_of_service_topic_))
+  if(!nh_.getParam("/rapp_knowrob_wrapper_is_subsuperclass_of_topic", is_subsuperclass_of_service_topic_))
   {
     ROS_ERROR("rapp_knowrob_wrapper_issubsuperclass_of_topic not found");
   }      
@@ -203,3 +203,4 @@ bool KnowrobWrapperCommunications::user_instances_of_class_callback(
   
   //return true;
 //}
+

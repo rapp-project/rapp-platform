@@ -7,6 +7,6 @@ bool recursive
 ---
 # The results of the query
 string error
-string[] results 
+bool result 
 string[] trace
 bool success 

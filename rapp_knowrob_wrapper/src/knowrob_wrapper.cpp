@@ -292,6 +292,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
   {
     res.success=false;
     res.trace.push_back("Error, empty ontology class");
+    res.error=std::string("Error, empty ontology class");
     return res;
   }
   std::string query=std::string("");
@@ -347,7 +348,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
   //fortesting, remember to DELETE!
   //std::string kati =get_ontology_alias(std::string("1"));
   //res.results.push_back(kati);
-  return res;
+  return res;  
 }
 
 
@@ -468,11 +469,11 @@ rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  Knowro
   }
   if(logic==0)
   {
-    res.results.push_back(std::string("NO"));
+    res.result=false;
   }
   else
   {
-    res.results.push_back(std::string("YES"));
+    res.result=true;
   }
   return res;
 }
@@ -862,3 +863,4 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
 
   return res;
 }
+
