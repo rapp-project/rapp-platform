@@ -322,23 +322,28 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
     it != results.end() ; it++)
   {
-    json_prolog::PrologBindings bdg = *it;    
+    json_prolog::PrologBindings bdg = *it;
     //start code to remove duplicates
     int i;
     int logic=0;
     std::string temp_query_result=bdg["A"];
-    for(int i=0; i<query_ret.size();i++)
+    std::size_t found = temp_query_result.find(std::string("file:///"));
+    if (found==std::string::npos)
     {
-      if(query_ret.at(i)==temp_query_result)
+      for(int i=0; i<query_ret.size();i++)
       {
-        logic=1;
+        if(query_ret.at(i)==temp_query_result)
+        {
+          logic=1;
+        }
       }
+      if(logic==0)
+      {
+        query_ret.push_back(temp_query_result);
+      }
+      //end    
     }
-    if(logic==0)
-    {
-      query_ret.push_back(temp_query_result);
-    }    
-    //end
+
   }
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
@@ -393,18 +398,23 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
     int i;
     int logic=0;
     std::string temp_query_result=bdg["A"];
-    for(int i=0; i<query_ret.size();i++)
+    std::size_t found = temp_query_result.find(std::string("file:///"));
+    if (found==std::string::npos)
     {
-      if(query_ret.at(i)==temp_query_result)
+      for(int i=0; i<query_ret.size();i++)
       {
-        logic=1;
+        if(query_ret.at(i)==temp_query_result)
+        {
+          logic=1;
+        }
       }
+      if(logic==0)
+      {
+        query_ret.push_back(temp_query_result);
+      }
+      //end    
     }
-    if(logic==0)
-    {
-      query_ret.push_back(temp_query_result);
-    }
-    //end
+
   }
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
