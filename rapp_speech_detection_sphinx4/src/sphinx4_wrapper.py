@@ -167,7 +167,14 @@ class Sphinx4Wrapper(GlobalParams):
       manipulation['detect_silence_threshold'] = 0.25
       manipulation['energy_denoising'] = True
       manipulation['energy_denoising_init_scale'] = 0.125
-
+    elif audio_type == "nao_wav_1_ch_only_sox":
+      manipulation['sox_denoising'] = True
+      manipulation['sox_denoising_scale'] = 0.15
+      manipulation['detect_silence'] = True
+      manipulation['detect_silence_threshold'] = 0.25
+    elif audio_type == "nao_wav_1_ch_denoised_only_sox":
+      manipulation['detect_silence'] = True
+      manipulation['detect_silence_threshold'] = 0.25
 
     return manipulation
 
@@ -191,9 +198,15 @@ class Sphinx4Wrapper(GlobalParams):
       audio_file_folder += "/"
 
     # Check that the audio_source is legit
-    if audio_source not in \
-        ["headset", "nao_ogg", "nao_wav_4_ch", "nao_wav_1_ch",\
-        "nao_wav_1_ch_denoised"]:
+    if audio_source not in [\
+        "headset", \
+        "nao_ogg", \
+        "nao_wav_4_ch", \
+        "nao_wav_1_ch",\
+        "nao_wav_1_ch_denoised", \
+        "nao_wav_1_ch_only_sox", \
+        "nao_wav_1_ch_denoised_only_sox"\
+        ]:
       return ["Error: Audio source unrecognized"]
 
     # Get processing profile

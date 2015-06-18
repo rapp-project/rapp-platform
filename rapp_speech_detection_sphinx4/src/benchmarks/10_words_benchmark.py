@@ -64,14 +64,22 @@ class SpeechRecognitionTester:
     spreq = SpeechRecognitionSphinx4ConfigureSrvRequest()
     spreq.language = 'gr'
     spreq.words = []
-    spreq.words.append(u'όχι')
+    spreq.words.append(u'οχι')
     spreq.words.append(u'ναι') 
-    spreq.sentences = []
-    spreq.sentences.append(u'όχι')
-    spreq.sentences.append(u'ναι')
-    spreq.grammar = []
-    spreq.grammar.append(u'(όχι)')
-    spreq.grammar.append(u'(ναι)')
+    spreq.words.append(u'αρκετα') 
+    spreq.words.append(u'ειμαι') 
+    spreq.words.append(u'εισαι') 
+    spreq.words.append(u'ειναι') 
+    spreq.words.append(u'φουρνος') 
+    spreq.words.append(u'γιατρος') 
+    #spreq.words.append(u'κατσε') 
+    #spreq.words.append(u'χαπια') 
+    #spreq.words.append(u'χαπι') 
+    #spreq.words.append(u'ρομποτ') 
+    #spreq.words.append(u'στειλε') 
+    #spreq.words.append(u'στειλεις') 
+    spreq.sentences = spreq.words
+    spreq.grammar = spreq.words
     return spreq
 
   def __init__(self):   
@@ -126,22 +134,44 @@ class SpeechRecognitionTester:
       toprint = ""
 
       response = []
-      if not (("nai_" in f) or ("oxi_" in f)) or ("einai_" in f):
-        continue
-      #if "hard" in f:
-        #continue
-      if "nai_" in f and "einai_" not in f:
+      if "einai_" in f or "eimai_" in f or "eisai_" in f:
+        response.append( (u'ειμαι').encode('utf-8') )
+        response.append( (u'εισαι').encode('utf-8') )
+        response.append( (u'ειναι').encode('utf-8') )
+      elif "arketa_" in f:
+        response.append( (u'αρκετα').encode('utf-8') )
+      elif "fournos_" in f:
+        response.append( (u'φουρνος').encode('utf-8') )
+      elif "giatros_" in f:
+        response.append( (u'γιατρος').encode('utf-8') )
+      #elif "katse_" in f:
+        #response.append( (u'κατσε').encode('utf-8') )
+      elif "nai_" in f:
         response.append( (u'ναι').encode('utf-8') )
+      elif "oxi_" in f:
+        response.append( (u'οχι').encode('utf-8') )
+      #elif "xapia_" in f or "xapi_" in f:
+        #response.append( (u'χαπια').encode('utf-8') )
+        #response.append( (u'χαπι').encode('utf-8') )
+      #elif "robot_" in f:
+        #response.append( (u'ρομποτ').encode('utf-8') )
+      #elif "steile_" in f or "steileis_" in f:
+        #response.append( (u'στειλε').encode('utf-8') )
+        #response.append( (u'στειλεις').encode('utf-8') )
       else:
-        response.append( (u'όχι').encode('utf-8') )
-           
+        continue
+
+      print f
+
       self.spee_req.language = self.spreq.language
       self.spee_req.words = self.spreq.words
       self.spee_req.grammar = self.spreq.grammar
       self.spee_req.user = 'etsardou'
       self.spee_req.sentences = self.spreq.sentences
       self.spee_req.path = folder + f
-      self.spee_req.audio_source = 'nao_wav_1_ch_denoised' # The samples are already denoised
+      #self.spee_req.audio_source = 'headset'
+      self.spee_req.audio_source = 'nao_wav_1_ch_only_sox'
+      #self.spee_req.audio_source = 'nao_wav_1_ch' 
     
       res = self.conf_sp_ser(self.spee_req)
 
