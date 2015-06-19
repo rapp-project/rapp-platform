@@ -43,7 +43,7 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/../test_data/nai-oxi-test.wav'
+    self.file_uri = __path__  + '/../test_data/yes-no.wav'
     self.language = 'en'
     self.audio_source = 'nao_wav_1_ch'
     self.words = []
