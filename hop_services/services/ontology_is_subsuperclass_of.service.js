@@ -15,7 +15,7 @@ var module_path = '../utilities/js/'
 var RandStringGen = require ( module_path + 'randStringGen.js' );
 /*----------------------------------------------*/
 /*-----<Defined Name of QR Node ROS service>----*/
-var ros_service_name = "/rapp/rapp_knowrob_wrapper/issubsuperclass_of";
+var ros_service_name = "/rapp/rapp_knowrob_wrapper/is_subsuperclass_of";
 var hop = require('hop');
 
 /*----<Random String Generator configurations---->*/
@@ -229,24 +229,17 @@ function craft_response(rosbridge_msg)
 {
   // TODO --Implement
   var msg = JSON.parse(rosbridge_msg);
-  var results = msg.values.results;
+  var result = msg.values.result;
   var trace = msg.values.trace;
   var success = msg.values.success;
   var error = msg.values.error;
   var call_result = msg.result;
 
-  var crafted_msg = {results: [], trace: [], error: ''};
+  var crafted_msg = {result: false, trace: [], error: ''};
 
   if (call_result)
   {
-    for (var ii = 0; ii < results.length; ii++)
-    {
-      crafted_msg.results.push(results[ii]);
-    }
-    for (var ii = 0; ii < trace.length; ii++)
-    {
-      crafted_msg.trace.push(trace[ii]);
-    }
+    crafted_msg.result = result;
     crafted_msg.error = error;
   }
   else
