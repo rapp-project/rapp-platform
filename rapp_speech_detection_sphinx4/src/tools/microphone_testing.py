@@ -63,7 +63,20 @@ class SpeechRecognitionTester:
   def setup_words_voc(self):
     spreq = SpeechRecognitionSphinx4ConfigureSrvRequest()
     spreq.language = 'gr'
-    spreq.words = [u'όχι', u'ναι']
+    spreq.words.append(u'οχι')
+    spreq.words.append(u'ναι') 
+    spreq.words.append(u'αρκετα') 
+    spreq.words.append(u'ειμαι') 
+    spreq.words.append(u'εισαι') 
+    spreq.words.append(u'ειναι') 
+    spreq.words.append(u'φουρνος') 
+    spreq.words.append(u'γιατρος') 
+    spreq.words.append(u'κατσε') 
+    spreq.words.append(u'χαπια') 
+    spreq.words.append(u'χαπι') 
+    spreq.words.append(u'ρομποτ') 
+    spreq.words.append(u'στειλε') 
+    spreq.words.append(u'στειλεις') 
     spreq.sentences = spreq.words
     spreq.grammar = []
     return spreq
@@ -94,7 +107,7 @@ class SpeechRecognitionTester:
             str(seconds)
     os.system(cmd)
     self.run(wav_file)
-    os.system("rm " + wav_file)
+    #os.system("rm " + wav_file)
     
   def run(self, wav_file):
       
