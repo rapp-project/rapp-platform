@@ -50,7 +50,7 @@ class RappInterfaceTest:
     self.sentences = self.words
     self.grammar = []
     self.user = 'klpanagi'
-    self.valid_words_found = [u'ναι', u'οχι', u'ίσως', u'ναι']
+    self.valid_words_found = [u'ναι', u'οχι', u'ίσως']
 
   def execute(self):
 
