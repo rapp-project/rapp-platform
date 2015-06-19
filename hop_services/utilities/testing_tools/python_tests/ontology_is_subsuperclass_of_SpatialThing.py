@@ -47,7 +47,7 @@ class RappInterfaceTest:
     self.child_class_ = "Oven"
     self.recursive_ = True
     # Set the valid results
-    self.valid_results = ['YES']; 
+    self.valid_results = True; 
 
   def execute(self):
 
@@ -61,7 +61,7 @@ class RappInterfaceTest:
 
   def validate(self, response):
     # Get the returned data
-    return_data = response['results']
+    return_data = response['result']
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
