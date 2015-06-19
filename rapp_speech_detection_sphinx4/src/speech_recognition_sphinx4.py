@@ -174,7 +174,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
       res.error = words[0]
       res.words = []
       return res
-
+    
     for word in words:
       if self.language != "en":
         print "Word: #" + word + "#"
@@ -182,7 +182,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
           continue
         res.words.append(self.word_mapping[word])
       else:
-        res.words.append(word)
+        res.words.append(word.replace("'"," "))
     
     return res;  
 
