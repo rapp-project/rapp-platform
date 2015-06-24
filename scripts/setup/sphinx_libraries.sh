@@ -1,7 +1,8 @@
 #download and compile sphinx4 extra libraries
-sudo apt-get install swig
-sudo apt-get install autoconf
-sudo apt-get install python-scipy
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Libraries \e[0m"
+sudo apt-get -y install swig
+sudo apt-get -y install autoconf
+sudo apt-get -y install python-scipy
 cd ~/
 git clone git@github.com:skerit/cmusphinx
 cd ./cmusphinx/cmuclmtk

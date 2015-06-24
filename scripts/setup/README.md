@@ -14,6 +14,8 @@ https://help.github.com/articles/generating-ssh-keys/
 If you already have a public/private key, copy it in the ```.ssh``` folder
 of your new installation.
 
+WARNING: At least 10 GB's of free space are recommended.
+
 ##Updates / ROS install / Github repos
 --------------------------------------------
 
@@ -21,32 +23,13 @@ Performs:
 - initial system updates 
 - installs ROS Indigo 
 - downloads all Github repos needed
+- builds and install all repos (rapp_platform, knowrob, rosjava_
+- downloads builds and installs depending libraries for Sphinx4
+- installs MySQL
+- installs HOP
 
-Execute the following scripts IN THE ORDER provided. Follow in between steps.
 
-```
-- sh system_updates.sh
-- sh ros_setup.sh
-- !Restart system
-- sh rosjava.sh
-- !Restart system
-- sh knowrob.sh
-- sh rapp_platform_setup.sh
-- sh mysql_setup.sh
-- sh mysql_setup.sh
-```
+##IMPORTANT!! What you must do manually
 
-##What you must do manually
-
-#create a new user, and grant all privileges on RappStore DB to him. Pick your username and password. run the following commands manually
-mysql -u root -p (you will be asked for your root password)
-GRANT USAGE ON *.* TO <username>@localhost IDENTIFIED BY '<password>';
-GRANT ALL PRIVILEGES ON RappStore.* TO <username>@localhost;
-FLUSH PRIVILEGES;
-exit
-
-#You must create a file named ... and store it in /etc/... which will have in it's first line the username and it's second line the password
-example file:
-username1
-password1
+A new MySQL user was created with username = dummyUser and password = changeMe and was granted all on RappStore DB. It is highly recommended that you change the password and the username of the user. The username and password are stored in the file located at /etc/db_credentials. The file db_credentials is used by the rapp platform services, be sure to update it with the correct username and password. It's first line is the username and it's second line the password.
 

@@ -1,12 +1,9 @@
 #!/bin/bash 
-
-
 sudo apt-get install libzbar-dev
 source /opt/ros/indigo/setup.bash
 source ~/knowrob_catkin_ws/devel/setup.bash --extend
 source ~/.bashrc
 sudo ldconfig
-
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Create Github folders \e[0m"
 # Create folder for RAPP platform repo
@@ -24,7 +21,6 @@ catkin_init_workspace
 
 echo "source ~/rapp-platform-catkin-ws/devel/setup.bash --extend" >> ~/.bashrc
 source ~/.bashrc
-
 
 # catkin_make rapp-platform
 cd ~/rapp-platform-catkin-ws
