@@ -18,6 +18,7 @@ WARNING: At least 10 GB's of free space are recommended.
 
 ##Updates / ROS install / Github repos
 --------------------------------------------
+Execute clean_install.sh script with sudo privileges
 
 Performs:
 - initial system updates 
