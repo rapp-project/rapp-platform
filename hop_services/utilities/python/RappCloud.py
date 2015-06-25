@@ -21,7 +21,7 @@ class RappCloud:
         # ------------------------------------- #
 
         self.platformIP_ = self.platform_params_['host_ip']
-        self.services_ = [] 
+        self.services_ = []
         self.serviceUrl_ = {}
         self.servicePort_ = self.platform_params_['services']['port']
 
@@ -31,19 +31,19 @@ class RappCloud:
                     #service
             self.serviceUrl_[service] = 'http://' + self.platformIP_ + ':' + str(self.servicePort_) + '/hop/' + \
                     service
- 
-    #=========================================================================================== 
+
+    #===========================================================================================
     def load_parameters(self):
-        parameters_file_path = __path__ + '/parameters.json'
+        parameters_file_path = __path__ + '/../parameters.json'
         #print parameters_file_path
-        with open(parameters_file_path) as json_file:    
+        with open(parameters_file_path) as json_file:
             data = json.load(json_file)
         return data
 
     ## @brief Call different services throught a single method
     #   @TODO Implement!!!
     def call_service(self, service_name, args):
-        print '[%s] service request' % service_name    
+        print '[%s] service request' % service_name
         # --- Validate existence for the requested service. --- #
         if service_name in self.services_:
             pass
@@ -56,7 +56,7 @@ class RappCloud:
     def get_platform_services(self):
         return self.services_
 
-    def speech_detection_sphinx4(self, language, audio_source, words, sentences, grammar, fileUri, user): 
+    def speech_detection_sphinx4(self, language, audio_source, words, sentences, grammar, fileUri, user):
 
         # -- Craft the data payload for the post request
         payload = {'language':language, 'audio_source':audio_source, \
@@ -91,12 +91,12 @@ class RappCloud:
 
         resp_msg = json.loads(r.text)
         #print  resp_msg
-        return resp_msg 
+        return resp_msg
     #===========================================================================================
 
 
     #===========================================================================================
-    def qr_detection(self, fileUri): 
+    def qr_detection(self, fileUri):
         # -- Files to be added into to poset request
         files = {'file_uri': open(fileUri, 'rb')}
 
@@ -112,7 +112,7 @@ class RappCloud:
 
 
     #===========================================================================================
-    def face_detection(self, fileUri): 
+    def face_detection(self, fileUri):
      # -- Files to be added into to poset request
         files = {'file_uri': open(fileUri, 'rb')}
 
@@ -137,7 +137,7 @@ class RappCloud:
         return resp_msg
     #===========================================================================================
 
-    
+
     def ontology_superclasses_of(self, query):
         payload = {'query': query}
         url = self.serviceUrl_['ontology_superclasses_of']
