@@ -38,7 +38,7 @@ var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
 /* -- Set timer values for websocket communication to rosbridge -- */
-var timer_tick_value = 100 // ms
+var timer_tick_value = 1000 // ms
 var max_time = 15000 // ms
 var max_tries = 2
 //var max_timer_ticks = 1000 * max_time / tick_value;
@@ -177,13 +177,17 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
          timer_ticks += 1;
          elapsed_time = timer_ticks * timer_tick_value;
 
-         if (respFlag != true && elapsed_time > max_time ){
+         if (respFlag == true)
+         {
+           return
+         }
+         else if (respFlag != true && elapsed_time > max_time ){
            timer_ticks = 0;
            retries += 1;
 
-           console.log("[speech-detection-sphinx4]: Reached rosbridge response timeout" + 
-             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
-             elapsed_time.toString(), retries.toString());
+           console.log("[speech-detection-sphinx4]: Reached rosbridge" + 
+             "response timeout ---> [%s] ms ... Reconnecting to rosbridge." + 
+             "Retry-%s", elapsed_time.toString(), retries.toString());
 
            if (retries > max_tries) // Reconnected for max_tries times
            {

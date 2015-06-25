@@ -163,7 +163,11 @@ service face_detection ( {file_uri:''} )
          timer_ticks += 1;
          elapsed_time = timer_ticks * timer_tick_value;
 
-         if (respFlag != true && elapsed_time > max_time ){
+         if (respFlag == true)
+         {
+           return
+         }
+         else if (respFlag != true && elapsed_time > max_time ){
            timer_ticks = 0;
            retries += 1;
 
