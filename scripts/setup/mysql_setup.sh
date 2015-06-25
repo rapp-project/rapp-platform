@@ -17,4 +17,5 @@ echo "Insert MySQL root Passowrd"
 echo "CREATE USER 'dummyUser'@'localhost' IDENTIFIED BY 'changeMe'" | mysql -u root -p
 echo "Insert MySQL root Passowrd"
 echo "GRANT ALL ON RappStore.* TO 'dummyUser'@'localhost'" | mysql -u root -p
-
+echo "If promted insert root sudo password"
+sudo printf "dummyUser\nchangeMe" >/etc/db_credentials

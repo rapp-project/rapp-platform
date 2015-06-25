@@ -18,7 +18,7 @@ echo "export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jv
 source ~/.bashrc
 
 # Download and install KnowRob
-echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Knowrong \e[0m"
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Knowrob \e[0m"
 sudo apt-get install -y swi-prolog swi-prolog-java
 sudo apt-get install -y ros-indigo-json-prolog-msgs
 sudo apt-get install -y python-rosinstall
