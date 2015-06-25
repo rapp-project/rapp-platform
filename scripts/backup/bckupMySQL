@@ -13,7 +13,4 @@ echo "Value of third element in my array : ${array[1]} ";
 username=${array[0]};
 password=${array[1]};
 
-echo $username
-echo $password
-
-mysqldump -u $username -p$password RappStore > /home/thanos/mysqlBckup_$DATE
+mysqldump -u $username -p$password RappStore > $HOME/mysqlBckup_$DATE
