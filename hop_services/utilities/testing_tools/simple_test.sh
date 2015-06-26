@@ -26,31 +26,29 @@
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
 
-#  ========== **Define python test files here** ==========
-FACE_TEST=face_detection_test_lenna_png.py
-QR_TEST=qr_detection_test_1.py
-SUBCLASSES_TEST=ontology_subclasses_of_test_Oven.py
-SUPERCLASSES_TEST=ontology_superclasses_of_test_1.py
-IS_SUBSUPER_TEST=ontology_is_subsuperclass_of_SpatialThing.py
-DENOISE_TEST=denoise_profile_test_1.py
-SPEECH_DETECT_TEST=speech_detection_sphinx_test_nao_wav_1_ch_nai_oxi.py
+CURRENT_DIR=$(pwd)
+FILES=$CURRENT_DIR/python_tests/*.py
 
-TESTS=($FACE_TEST $QR_TEST $SUBCLASSES_TEST $SUPERCLASSES_TEST)
-TESTS+=($IS_SUBSUPER_TEST $DENOISE_TEST $SPEECH_DETECT_TEST)
-# ========================================================
+NUM_SEQ_CALLS=2
+NUM_PARALLEL_CALLS=5
 
-#  These variables hold the inner and outer loop values
-NUM_CONC_CALLS=5
-LOOP=1
-# ======================================================
+echo -e "\033[1;33m------> Executing each test in sequential stress mode\033[0m"
+for TEST in $FILES
+do
+  if [ "${TEST##*/}" == "template.py" ]; then
+    continue
+  fi
+  echo `python run_python_tests.py -i ${TEST##*/} -n $NUM_SEQ_CALLS`
+done
 
-for ((i=1;i<LOOP+1;i++)); do
-  for TEST in "${TESTS[@]}"
-  do
-    for ((j=1;j<=NUM_CONC_CALLS;j++)); do
-      echo `python run_python_tests.py -i $TEST`
-    done
-  done
+
+echo -e "\033[1;33m------> Executing each test in parallel stress mode\033[0m"
+for TEST in $FILES
+do
+  if [ "${TEST##*/}" == "template.py" ]; then
+    continue
+  fi
+  echo `python run_python_tests.py -i ${TEST##*/} -n $NUM_PARALLEL_CALLS -t`
 done
 
 
