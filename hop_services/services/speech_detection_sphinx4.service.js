@@ -73,6 +73,9 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
   if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
+    Fs.rm_file_sync(file_uri);
+    // Dismiss the unique identity key
+    randStrGen.removeCached(unqExt);
     var resp_msg = craft_error_response(); 
     console.log("[speech-detection-sphinx4]: Returning to client");
     return resp_msg; 
@@ -117,6 +120,7 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
         console.error('[speech-detection-sphinx4] ERROR: Cannot open websocket to rosbridge' +  
           '--> [ws//localhost:9090]' );
+        Fs.rm_file_sync(file_uri_new);
         // Print exception 
         console.log(e);
         // Craft return to client message
@@ -143,6 +147,7 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
         // Implement WebSocket.message callback
         rosWS.onmessage = function(event){
           console.log('[speech-detection-sphinx4]: Received message from rosbridge');
+          Fs.rm_file_sync(file_uri_new);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket 
@@ -159,6 +164,7 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
         rosbridge_connection = false;
         console.error('[speech-detection-sphinx4] --> ERROR: Cannot open websocket' + 
           'to rosbridge --> [ws//localhost:9090]' );
+        Fs.rm_file_sync(file_uri_new);
         console.log(e);
         var resp_msg = craft_error_response;
         sendResponse( resp_msg ); 
@@ -194,6 +200,7 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
              console.log("[speech-detection-sphinx4]: Reached max_retries (%s)" + 
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
+             Fs.rm_file_sync(file_uri_new);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
              console.log("[speech-detection-sphinx4]: Returning to client with error");
@@ -222,6 +229,7 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
 
              rosWS.onmessage = function(event){
                console.log('[speech-detection-sphinx4]: Received message from rosbridge');
+               Fs.rm_file_sync(file_uri_new);
                var resp_msg = craft_response( event.value ); 
                //console.log(resp_msg);
                this.close(); // Close websocket
@@ -236,6 +244,7 @@ service speech_detection_sphinx4( {file_uri: '', language: '', audio_source: '',
              rosbridge_connection = false;
              console.error('[speech-detection-sphinx4] ---> ERROR: Cannot open websocket' + 
                'to rosbridge --> [ws//localhost:9090]' );
+             Fs.rm_file_sync(file_uri_new);
              console.log(e);
              var resp_msg = craft_error_response(); 
              sendResponse( resp_msg ); 

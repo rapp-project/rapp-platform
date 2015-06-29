@@ -61,6 +61,9 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
+    Fs.rm_file_sync(file_uri);
+    // Dismiss the unique identity key
+    randStrGen.removeCached(unqExt);
     //could not rename file. Probably cannot access the file. Return to client!
     var resp_msg = craft_error_response(); 
     console.log("[set-denoise-profile]: Returning to client");
@@ -94,6 +97,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
         console.error('[set-denoise-profile] ERROR: Cannot open websocket to rosbridge' +  
           '--> [ws//localhost:9090]' );
+        Fs.rm_file_sync(file_uri_new);
         // Print exception 
         console.log(e);
         // Craft return to client message
@@ -120,6 +124,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
         // Implement WebSocket.message callback
         rosWS.onmessage = function(event){
           console.log('[set-denoise-profile]: Received message from rosbridge');
+          Fs.rm_file_sync(file_uri_new);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket 
@@ -136,6 +141,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
         rosbridge_connection = false;
         console.error('[set-denoise-profile] --> ERROR: Cannot open websocket' + 
           'to rosbridge --> [ws//localhost:9090]' );
+        Fs.rm_file_sync(file_uri_new);
         console.log(e);
         var resp_msg = craft_error_response;
         sendResponse( resp_msg ); 
@@ -171,6 +177,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
              console.log("[set-denoise-profile]: Reached max_retries (%s)" + 
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
+             Fs.rm_file_sync(file_uri_new);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
              console.log("[set-denoise-profile]: Returning to client with error");
@@ -199,6 +206,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
 
              rosWS.onmessage = function(event){
                console.log('[set-denoise-profile]: Received message from rosbridge');
+               Fs.rm_file_sync(file_uri_new);
                var resp_msg = craft_response( event.value ); 
                //console.log(resp_msg);
                this.close(); // Close websocket
@@ -213,6 +221,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
              rosbridge_connection = false;
              console.error('[set-denoise-profile] ---> ERROR: Cannot open websocket' + 
                'to rosbridge --> [ws//localhost:9090]' );
+             Fs.rm_file_sync(file_uri_new);
              console.log(e);
              var resp_msg = craft_error_response(); 
              sendResponse( resp_msg ); 

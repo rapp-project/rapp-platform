@@ -61,6 +61,9 @@ service face_detection ( {file_uri:''} )
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
+    Fs.rm_file_sync(file_uri);
+    // Dismiss the unique identity key
+    randStrGen.removeCached(unqExt);
     //could not rename file. Probably cannot access the file. Return to client!
     var resp_msg = craft_error_response(); 
     console.log("[face-detection]: Returning to client with error");
@@ -103,6 +106,7 @@ service face_detection ( {file_uri:''} )
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
         console.error('[face-detection] ERROR: Cannot open websocket to rosbridge' +  
           '--> [ws//localhost:9090]' );
+        Fs.rm_file_sync(file_uri_new);
         // Print exception 
         console.log(e);
         // Craft return to client message
@@ -129,6 +133,7 @@ service face_detection ( {file_uri:''} )
         // Implement WebSocket.message callback
         rosWS.onmessage = function(event){
           console.log('[face-detection]: Received message from rosbridge');
+          Fs.rm_file_sync(file_uri_new);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket 
@@ -145,6 +150,7 @@ service face_detection ( {file_uri:''} )
         rosbridge_connection = false;
         console.error('[face-detection] --> ERROR: Cannot open websocket' + 
           'to rosbridge --> [ws//localhost:9090]' );
+        Fs.rm_file_sync(file_uri_new);
         console.log(e);
         var resp_msg = craft_error_response;
         sendResponse( resp_msg ); 
@@ -180,6 +186,7 @@ service face_detection ( {file_uri:''} )
              console.log("[face-detection]: Reached max_retries (%s)" + 
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
+             Fs.rm_file_sync(file_uri_new);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
              console.log("[face-detection]: Returning to client with error");
@@ -207,7 +214,8 @@ service face_detection ( {file_uri:''} )
              }
 
              rosWS.onmessage = function(event){
-               console.log('[speech-detection-sphinx4]: Received message from rosbridge');
+               console.log('[face-detection]: Received message from rosbridge');
+               Fs.rm_file_sync(file_uri_new);
                var resp_msg = craft_response( event.value ); 
                //console.log(resp_msg);
                this.close(); // Close websocket
@@ -222,11 +230,12 @@ service face_detection ( {file_uri:''} )
              rosbridge_connection = false;
              console.error('[face-detection] ---> ERROR: Cannot open websocket' + 
                'to rosbridge --> [ws//localhost:9090]' );
+             Fs.rm_file_sync(file_uri_new);
              console.log(e);
              var resp_msg = craft_error_response(); 
              sendResponse( resp_msg ); 
              console.log("[face-detection]: Returning to client with error");
-             return
+             return;
            }
 
          }
