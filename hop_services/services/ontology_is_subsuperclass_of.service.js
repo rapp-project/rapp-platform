@@ -262,7 +262,7 @@ function craft_response(rosbridge_msg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+  var crafted_msg = {result: [], trace: [], error: 'RAPP Platform Failure'};
   return JSON.stringify(crafted_msg);
 }
 
