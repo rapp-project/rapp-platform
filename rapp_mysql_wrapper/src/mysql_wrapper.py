@@ -375,88 +375,88 @@ class MySQLdbWrapper:
   #tblUser callbacks    
   def tblUserFetchDataHandler(self,req):     
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tbluser")
+    res=self.fetchData(req,"tblUser")
     return res      
 
   def tblUserWriteDataHandler(self,req): 
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tbluser")
+    res=self.writeData(req,"tblUser")
     return res  
     
   def tblUserDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
-    res=self.deleteData(req,"tbluser")
+    res=self.deleteData(req,"tblUser")
     return res  
     
   def tblUserUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tbluser")
+    res=self.updateData(req,"tblUser")
     return res
   #end tblUser callbacks
   
   #tblModel callbacks    
   def tblModelFetchDataHandler(self,req):     
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tblmodel")
+    res=self.fetchData(req,"tblModel")
     return res      
 
   def tblModelWriteDataHandler(self,req): 
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tblmodel")
+    res=self.writeData(req,"tblModel")
     return res  
     
   def tblModelDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
-    res=self.deleteData(req,"tblmodel")
+    res=self.deleteData(req,"tblModel")
     return res  
     
   def tblModelUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblmodel")
+    res=self.updateData(req,"tblModel")
     return res
   #end tblModel callbacks
   
   #tblRapp callbacks    
   def tblRappFetchDataHandler(self,req):     
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tblrapp")
+    res=self.fetchData(req,"tblRapp")
     return res      
 
   def tblRappWriteDataHandler(self,req): 
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tblrapp")
+    res=self.writeData(req,"tblRapp")
     return res  
     
   def tblRappDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
-    res=self.deleteData(req,"tblrapp")
+    res=self.deleteData(req,"tblRapp")
     return res  
     
   def tblRappUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblrapp")
+    res=self.updateData(req,"tblRapp")
     return res
   #end tblRapp callbacks
   
   #tblRobot callbacks    
   def tblRobotFetchDataHandler(self,req):     
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tblrobot")
+    res=self.fetchData(req,"tblRobot")
     return res      
 
   def tblRobotWriteDataHandler(self,req): 
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tblrobot")
+    res=self.writeData(req,"tblRobot")
     return res  
     
   def tblRobotDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
-    res=self.deleteData(req,"tblrobot")
+    res=self.deleteData(req,"tblRobot")
     return res  
     
   def tblRobotUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblrobot")
+    res=self.updateData(req,"tblRobot")
     return res
   #end tblRapp callbacks  
   
@@ -464,44 +464,44 @@ class MySQLdbWrapper:
   #tblAppsRobots callbacks    
   def tblAppsRobotsFetchDataHandler(self,req):     
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tblappsrobots")
+    res=self.fetchData(req,"tblAppsRobots")
     return res      
 
   def tblAppsRobotsWriteDataHandler(self,req): 
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tblappsrobots")
+    res=self.writeData(req,"tblAppsRobots")
     return res  
     
   def tblAppsRobotsDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
-    res=self.deleteData(req,"tblappsrobots")
+    res=self.deleteData(req,"tblAppsRobots")
     return res  
     
   def tblAppsRobotsUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblappsrobots")
+    res=self.updateData(req,"tblAppsRobots")
     return res
   #end tblAppsRobots callbacks  
   
   #tblUsersOntologyInstances callbacks    
   def tblUsersOntologyInstancesFetchDataHandler(self,req):     
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tblusersontologyinstances")
+    res=self.fetchData(req,"tblUsersOntologyInstances")
     return res      
 
   def tblUsersOntologyInstancesWriteDataHandler(self,req): 
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tblusersontologyinstances")
+    res=self.writeData(req,"tblUsersOntologyInstances")
     return res  
     
   def tblUsersOntologyInstancesDeleteDataHandler(self,req):
     res = deleteSrvResponse()
-    res=self.deleteData(req,"tblusersontologyinstances")
+    res=self.deleteData(req,"tblUsersOntologyInstances")
     return res  
     
   def tblUsersOntologyInstancesUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblusersontologyinstances")
+    res=self.updateData(req,"tblUsersOntologyInstances")
     return res
   #end tblAppsRobots callbacks    
   
