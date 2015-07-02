@@ -215,12 +215,12 @@ int findObjects(std::string fname, std::vector<std::string> names, std::vector<s
 			continue;
 		}//: if
 
-		ROS_DEBUG ("Model features: %d", models_keypoints[m].size());
+		ROS_INFO ("Model features: %d", models_keypoints[m].size());
 
 		// Find matches.
 		matcher.match( models_descriptors[m], scene_descriptors, matches );
 
-		ROS_DEBUG ("Matches found: %d", matches.size());
+		ROS_INFO ("Matches found: %d", matches.size());
 
 		// Filtering.
 		double max_dist = 0;
@@ -233,18 +233,18 @@ int findObjects(std::string fname, std::vector<std::string> names, std::vector<s
 			if( dist > max_dist ) max_dist = dist;
 		}//: for
 
-		ROS_DEBUG ("Max dist : %f", max_dist);
-		ROS_DEBUG ("Min dist : %f", min_dist);
+		ROS_INFO ("Max dist : %f", max_dist);
+		ROS_INFO ("Min dist : %f", min_dist);
 
 		//-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
 		std::vector< DMatch > good_matches;
 
 		for( int i = 0; i < matches.size(); i++ ) {
-			if( matches[i].distance < 3*min_dist )
+			if( matches[i].distance < 10*min_dist )
 				good_matches.push_back( matches[i]);
 		}//: for
 
-		ROS_DEBUG ("Good matches: %d", good_matches.size());
+		ROS_INFO ("Good matches: %d", good_matches.size());
 
 		// Localize the object
 		std::vector<Point2f> obj;
