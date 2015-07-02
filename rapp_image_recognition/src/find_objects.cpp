@@ -240,7 +240,7 @@ int findObjects(std::string fname, std::vector<std::string> names, std::vector<s
 		std::vector< DMatch > good_matches;
 
 		for( int i = 0; i < matches.size(); i++ ) {
-			if( matches[i].distance < 10*min_dist )
+			if( matches[i].distance <= 10*min_dist+0.1 )
 				good_matches.push_back( matches[i]);
 		}//: for
 
