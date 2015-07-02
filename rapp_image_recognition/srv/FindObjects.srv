@@ -1,0 +1,17 @@
+# Path (id) of query image
+string fname
+# List of known objects - names
+string[] names
+# List of known objects - image files (models)
+string[] files
+# Limit search to N best matches
+uint32 limit
+---
+# List of found objects - names
+string[] found_names
+# List of found objects - centroids in image
+geometry_msgs/Point[] found_centers
+# List of found objects - scores
+float64[] found_scores
+# Result: 0 - ok, -1 - no models, -2 - no image to analyse
+int32 result

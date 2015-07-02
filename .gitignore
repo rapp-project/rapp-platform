@@ -14,7 +14,7 @@ bags/
 *Feedback.msg
 *Goal.msg
 *Result.msg
-
+/CMakeLists.txt
 
 
 # Compiled source #

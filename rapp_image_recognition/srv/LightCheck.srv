@@ -1,0 +1,5 @@
+# Path (id) of query image
+string fname
+---
+# Result: 0 - no light, 100 - light switched on
+int32 result
