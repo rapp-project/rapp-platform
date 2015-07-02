@@ -54,7 +54,7 @@ cv::OrbFeatureDetector detector;
 cv::OrbDescriptorExtractor extractor;
 
 // Matcher.
-cv::BFMatcher matcher(NORM_L2, true);
+cv::BFMatcher matcher(NORM_HAMMING, true);
 
 
 // ******************************* FUNCTIONS *******************************
@@ -83,7 +83,7 @@ bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, c
 		// Detect the keypoints.
 		detector.detect( gray_img, keypoints_ );
 
-		ROS_DEBUG("Detected %d keypoints", keypoints_.size());
+		ROS_INFO("Detected %d keypoints", keypoints_.size());
 
 		// Extract descriptors (feature vectors).
 		extractor.compute( gray_img, keypoints_, descriptors_ );
