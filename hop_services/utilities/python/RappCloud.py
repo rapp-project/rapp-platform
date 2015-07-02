@@ -159,3 +159,20 @@ class RappCloud:
         return resp_msg
     #===========================================================================================
 
+    #===========================================================================================
+    def image_recognition(self, fileUri, limit):
+     # -- Files to be added into to poset request
+        files = {'file_uri': open(fileUri, 'rb')}
+        payload = {'limit': int(limit)}
+
+        # -- Post-Request!
+        url = self.serviceUrl_['image_recognition']
+        r = requests.post(url, data=payload, files=files, auth=HTTPBasicAuth('rappdev', 'rappdev'))
+        #r = requests.post(url, files=files)
+
+        resp_msg = json.loads(r.text)
+        #print '\033[1;33m' + str(resp_msg) + '\033[0m'
+        return resp_msg
+    #===========================================================================================
+
+

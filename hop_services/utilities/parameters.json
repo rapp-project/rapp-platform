@@ -10,7 +10,8 @@
         "qr_detection",
         "ontology_subclasses_of",
         "ontology_superclasses_of",
-        "ontology_is_subsuperclass_of"
+        "ontology_is_subsuperclass_of",
+        "image_recognition"
       ],
       "port": 9001
     }
