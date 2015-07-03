@@ -37,7 +37,9 @@ from rapp_platform_ros_communications.srv import (
   deleteDataSrv,
   deleteDataSrvResponse,
   updateDataSrv,
-  updateDataSrvResponse
+  updateDataSrvResponse,
+  whatRappsCanRunSrv,
+  whatRappsCanRunSrvResponse
   )
   
 from rapp_platform_ros_communications.msg import ( 
@@ -158,7 +160,11 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_view_users_robots_apps_topic")     
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.viewUsersRobotsAppsFetchDataHandler)
-                
+          
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_what_rapps_can_run_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_what_rapps_can_run Not found error")     
+    self.serv=rospy.Service(self.serv_topic, whatRappsCanRunSrv, self.whatRappsCanRunDataHandler)
     
   
   def writeData(self,req,tblName):
@@ -286,6 +292,47 @@ class MySQLdbWrapper:
         res.res_cols=self.getTableColumnNames(tblName)
       else:
         res.res_cols=req.req_cols
+      res.success.data=True
+      res.trace.append("Success")
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success.data=False
+      print "Error %d: %s" % (e.args[0],e.args[1]) 
+    except IndexError:
+      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.success.data=False
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+    except IOError:
+      print "Error: can\'t find login file or read data" 
+      res.success.data=False
+      res.trace.append("Error: can\'t find login file or read data")
+    return res
+    
+    
+    
+  def whatRappsCanRun(self,req,tblName):
+    #generic db read function
+    try:
+      res = whatRappsCanRunSrvResponse()
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'RappStore');                  
+      cur = con.cursor()
+      #returncols=self.constructCommaColumns(req.req_cols)
+      #print returncols            
+      #where=self.constructAndQuery(req.where_data)          
+      #print where
+      #query="SELECT "+returncols+" FROM "+tblName+where
+      query="SELECT rapp_id from tblRappsModelsVersion where model_id='"+req.model_id+"' and minimum_coreagent_version<='"+req.core_agent_version+"'";
+      #print "fetch called"
+      cur.execute(query)  
+      result_set = cur.fetchall() 
+      for i in range(len(result_set)):
+        line=StringArrayMsg()       
+        for j in range(len(result_set[i])):
+          temp_s=String(result_set[i][j])          
+          line.s.append((str(result_set[i][j])))#=line.s+[String(data=temp_s)]
+        res.res_data.append(line)   
+      con.close()
       res.success.data=True
       res.trace.append("Success")
     except mdb.Error, e:
@@ -509,6 +556,13 @@ class MySQLdbWrapper:
   def viewUsersRobotsAppsFetchDataHandler(self,req):     
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"usersrobotsapps")
+    return res  
+  #viewUsersRobotsApps
+  
+  #viewUsersRobotsApps callbacks    
+  def whatRappsCanRunDataHandler(self,req):     
+    res = whatRappsCanRunSrvResponse()
+    res=self.whatRappsCanRun(req,"tblRappsModelsVersion")
     return res  
   #viewUsersRobotsApps
     

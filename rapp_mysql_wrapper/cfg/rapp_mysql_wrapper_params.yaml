@@ -30,3 +30,5 @@ rapp_mysql_wrapper_users_ontology_instances_update_data_topic: /rapp/rapp_mysql_
 
 rapp_mysql_wrapper_view_users_robots_apps_topic: /rapp/rapp_mysql_wrapper/view_users_robots_apps_fetch_data
 
+rapp_mysql_wrapper_what_rapps_can_run_topic: /rapp/rapp_mysql_wrapper/what_rapps_can_run
+
