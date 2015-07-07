@@ -14,5 +14,4 @@ export JAVA_HOME=/usr/lib/jvm/default-java
 export SWI_HOME_DIR=/usr/lib/swi-prolog
 export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/amd64/server:$LD_LIBRARY_PATH
 
-
 roslaunch rapp_platform_launchers rapp_platform_launch.launch 
