@@ -18,6 +18,6 @@ utilities/testing_tools/
 
 ## Contributors
 
-Konstaninos Panayiotou, **[klpanagi@gmail.com]**
-Manos Tsardoulias, **[etsardou@gmail.com]**
-Vincent Prunet, **[vincent.prunet@inria.fr]**
+- Konstaninos Panayiotou, **[klpanagi@gmail.com]**
+- Manos Tsardoulias, **[etsardou@gmail.com]**
+- Vincent Prunet, **[vincent.prunet@inria.fr]**
