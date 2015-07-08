@@ -14,9 +14,9 @@ Testing tools used for testing HOP services available on RAPP Platform and furth
 Python script used for running developed tests.
 
 Arguments:
-- -i <test_name> : Define test to run.
-- -n <number_of_calls> : Define number of test calls.
-- -t : Run the test threaded which means that multible invocations can be done
+- -i **<test_name>** : Define test to run (use python test file full name).
+- -n **<number_of_calls>** : Define number of test calls.
+- -t : Run the test threaded which means that multible invocations can be done.
 simultaneous.
 
 ####Example of use
@@ -56,7 +56,7 @@ bash stress_test_sequential.sh
 
 ### test_hop_services.sh
 
-Calls one test for each hop service available on RAPP Platform and evaluates the results
+Calls one test for each hop service available on RAPP Platform and evaluates the results.
 
 ```bash
 bash test_hop_services.sh
