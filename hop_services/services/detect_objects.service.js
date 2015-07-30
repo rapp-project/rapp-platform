@@ -26,7 +26,7 @@ var RandStringGen = require ( module_path + 'randStringGen.js' );
 
 var script_dir_path = __dirname;
 var script_full_pah = __filename;
-var rapp_image_recognition_path = script_dir_path + 
+var rapp_image_recognition_path = script_dir_path +
   "/../../rapp_image_recognition/";
 var data_path = rapp_image_recognition_path + "data/book_1/";
 //console.log(data_path)
@@ -73,13 +73,13 @@ service detect_objects ( {file_uri:'', limit: ''} )
     // Dismiss the unique identity key
     randStrGen.removeCached(unqExt);
     //could not rename file. Probably cannot access the file. Return to client!
-    var resp_msg = craft_error_response(); 
+    var resp_msg = craft_error_response();
     console.log("[Detect-Objects]: Returning to client with error");
-    return resp_msg; 
+    return resp_msg;
   }
-  
+
   /*-------------------------------------------------------------------------*/
-   
+
   // Dismiss the unique identity key
   randStrGen.removeCached(unqExt);
 
@@ -89,7 +89,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
   // Asynchronous Response. Implementation
   /*----------------------------------------------------------------- */
   return hop.HTTPResponseAsync(
-    function( sendResponse ) { 
+    function( sendResponse ) {
 
      var files = [];
      /* Add parameters hardcoded */
@@ -106,14 +106,14 @@ service detect_objects ( {file_uri:'', limit: ''} )
      //console.log(files);
 
      var args = {
-       /* Image path to perform faceDetection, used as input to the 
+       /* Image path to perform faceDetection, used as input to the
         *  Face Detection ROS Node Service
         */
        "fname": file_uri_new,
        "limit": parseInt(limit),
        "names": names,
-       "files": files 
-     };  
+       "files": files
+     };
 
 /*=============================TEMPLATE======================================================*/
       var rosbridge_connection = true;
@@ -129,20 +129,20 @@ service detect_objects ( {file_uri:'', limit: ''} )
       }
       catch(e){
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[Detect-Objects] ERROR: Cannot open websocket to rosbridge' +  
+        console.error('[Detect-Objects] ERROR: Cannot open websocket to rosbridge' +
           '--> [ws//localhost:9090]' );
         Fs.rm_file_sync(file_uri_new);
-        // Print exception 
+        // Print exception
         console.log(e);
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[Detect-Objects]: Returning to client with error");
         return
       }
       /* ----------------------------------------------------------------- */
-     
+
       /* ------- Add into a try/catch block to ensure safe access -------- */
       try{
         // Implement WebSocket.onopen callback
@@ -161,24 +161,24 @@ service detect_objects ( {file_uri:'', limit: ''} )
           Fs.rm_file_sync(file_uri_new);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
-          this.close(); // Close websocket 
+          this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
 
           // Dismiss the unique rossrv-call identity  key for current client
-          randStrGen.removeCached( uniqueID ); 
+          randStrGen.removeCached( uniqueID );
           sendResponse( resp_msg );
           console.log("[Detect-Objects]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[Detect-Objects] --> ERROR: Cannot open websocket' + 
+        console.error('[Detect-Objects] --> ERROR: Cannot open websocket' +
           'to rosbridge --> [ws//localhost:9090]' );
         Fs.rm_file_sync(file_uri_new);
         console.log(e);
         var resp_msg = craft_error_response();
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[Detect-Objects]: Returning to client with error");
         return;
       }
@@ -203,19 +203,22 @@ service detect_objects ( {file_uri:'', limit: ''} )
            retries += 1;
 
            console.log("[Detect-Objects]: Reached rosbridge response timeout" + 
-             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
+             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s",
              elapsed_time.toString(), retries.toString());
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
-             console.log("[Detect-Objects]: Reached max_retries (%s)" + 
+             console.log("[Detect-Objects]: Reached max_retries (%s)" +
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              Fs.rm_file_sync(file_uri_new);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
              console.log("[Detect-Objects]: Returning to client with error");
-             return; 
+             //  Close websocket before return
+             rosWS.close();
+             rosWS = undefined;
+             return;
            }
 
            if (rosWS != undefined)

@@ -44,7 +44,7 @@ service ontology_subclasses_of ( {query:''} )
 
  /*----------------------------------------------------------------- */
  return hop.HTTPResponseAsync(
-   function( sendResponse ) { 
+   function( sendResponse ) {
 
      var args = {};
      args[ "ontology_class" ] = query;
@@ -63,19 +63,19 @@ service ontology_subclasses_of ( {query:''} )
       }
       catch(e){
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[Ontology-Subclasses-Of] ERROR: Cannot open websocket to rosbridge' +  
+        console.error('[Ontology-Subclasses-Of] ERROR: Cannot open websocket to rosbridge' +
           '--> [ws//localhost:9090]' );
-        // Print exception 
+        // Print exception
         console.log(e);
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[Ontology-Subclasses-Of]: Returning to client with error");
         return
       }
       /* ----------------------------------------------------------------- */
-     
+
       /* ------- Add into a try/catch block to ensure safe access -------- */
       try{
         // Implement WebSocket.onopen callback
@@ -93,23 +93,23 @@ service ontology_subclasses_of ( {query:''} )
           console.log('[Ontology-Subclasses-Of]: Received message from rosbridge');
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
-          this.close(); // Close websocket 
+          this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
 
           // Dismiss the unique rossrv-call identity  key for current client
-          randStrGen.removeCached( uniqueID ); 
+          randStrGen.removeCached( uniqueID );
           sendResponse( resp_msg );
           console.log("[Ontology-Subclasses-Of]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[Ontology-Subclasses-Of] --> ERROR: Cannot open websocket' + 
+        console.error('[Ontology-Subclasses-Of] --> ERROR: Cannot open websocket' +
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[Ontology-Subclasses-Of]: Returning to client with error");
         return;
       }
@@ -133,8 +133,8 @@ service ontology_subclasses_of ( {query:''} )
            timer_ticks = 0;
            retries += 1;
 
-           console.log("[Ontology-Subclasses-Of]: Reached rosbridge response timeout" + 
-             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
+           console.log("[Ontology-Subclasses-Of]: Reached rosbridge response timeout" +
+             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s",
              elapsed_time.toString(), retries.toString());
 
            if (retries > max_tries) // Reconnected for max_tries times
@@ -145,7 +145,10 @@ service ontology_subclasses_of ( {query:''} )
              var respMsg = craft_error_response();
              sendResponse( respMsg );
              console.log("[Ontology-Subclasses-Of]: Returning to client with error");
-             return; 
+             //  Close websocket before return
+             rosWS.close();
+             rosWS = undefined;
+             return;
            }
 
            if (rosWS != undefined)
@@ -170,10 +173,10 @@ service ontology_subclasses_of ( {query:''} )
 
              rosWS.onmessage = function(event){
                console.log('[Ontology-Subclasses-Of]: Received message from rosbridge');
-               var resp_msg = craft_response( event.value ); 
+               var resp_msg = craft_response( event.value );
                //console.log(resp_msg);
                this.close(); // Close websocket
-               rosWS = undefined; // Decostruct websocket 
+               rosWS = undefined; // Decostruct websocket
                respFlag = true;
                randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
@@ -182,11 +185,11 @@ service ontology_subclasses_of ( {query:''} )
            }
            catch(e){
              rosbridge_connection = false;
-             console.error('[Ontology-Subclasses-Of] ---> ERROR: Cannot open websocket' + 
+             console.error('[Ontology-Subclasses-Of] ---> ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
-             var resp_msg = craft_error_response(); 
-             sendResponse( resp_msg ); 
+             var resp_msg = craft_error_response();
+             sendResponse( resp_msg );
              console.log("[Ontology-Subclasses-Of]: Returning to client with error");
              return
            }
@@ -194,15 +197,15 @@ service ontology_subclasses_of ( {query:''} )
          }
          /*--------------------------------------------------------*/
          asyncWrap(); // Recall timeout function
-         
+
        }, timer_tick_value); //Timeout value is set at 100 ms.
      }
      asyncWrap();
 /*==============================================================================================*/
-   }, this ); 
+   }, this );
 };
 
- 
+
 
 /*!
  * @brief Crafts the form/format for the message to be returned to client

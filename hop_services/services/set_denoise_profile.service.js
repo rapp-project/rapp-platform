@@ -65,15 +65,15 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
     // Dismiss the unique identity key
     randStrGen.removeCached(unqExt);
     //could not rename file. Probably cannot access the file. Return to client!
-    var resp_msg = craft_error_response(); 
+    var resp_msg = craft_error_response();
     console.log("[set-denoise-profile]: Returning to client");
-    return resp_msg; 
+    return resp_msg;
   }
   /*-------------------------------------------------------------------------*/
   randStrGen.removeCached(unqExt);
 
   return hop.HTTPResponseAsync(
-    function( sendResponse ) { 
+    function( sendResponse ) {
 
       var args = {
         'noise_audio_file': file_uri_new,
@@ -95,20 +95,20 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
       }
       catch(e){
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[set-denoise-profile] ERROR: Cannot open websocket to rosbridge' +  
+        console.error('[set-denoise-profile] ERROR: Cannot open websocket to rosbridge' +
           '--> [ws//localhost:9090]' );
         Fs.rm_file_sync(file_uri_new);
-        // Print exception 
+        // Print exception
         console.log(e);
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[set-denoise-profile]: Returning to client with error");
         return
       }
       /* ----------------------------------------------------------------- */
-     
+
       /* ------- Add into a try/catch block to ensure safe access -------- */
       try{
         // Implement WebSocket.onopen callback
@@ -127,24 +127,24 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
           Fs.rm_file_sync(file_uri_new);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
-          this.close(); // Close websocket 
+          this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
 
           // Dismiss the unique rossrv-call identity  key for current client
-          randStrGen.removeCached( uniqueID ); 
+          randStrGen.removeCached( uniqueID );
           sendResponse( resp_msg );
           console.log("[set-denoise-profile]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[set-denoise-profile] --> ERROR: Cannot open websocket' + 
+        console.error('[set-denoise-profile] --> ERROR: Cannot open websocket' +
           'to rosbridge --> [ws//localhost:9090]' );
         Fs.rm_file_sync(file_uri_new);
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[set-denoise-profile]: Returning to client with error");
         return;
       }
@@ -159,7 +159,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
         setTimeout( function(){
          timer_ticks += 1;
          elapsed_time = timer_ticks * timer_tick_value;
- 
+
          if (respFlag == true)
          {
            return
@@ -168,20 +168,23 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
            timer_ticks = 0;
            retries += 1;
 
-           console.log("[set-denoise-profile]: Reached rosbridge response timeout" + 
-             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
+           console.log("[set-denoise-profile]: Reached rosbridge response timeout" +
+             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s",
              elapsed_time.toString(), retries.toString());
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
-             console.log("[set-denoise-profile]: Reached max_retries (%s)" + 
+             console.log("[set-denoise-profile]: Reached max_retries (%s)" +
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              Fs.rm_file_sync(file_uri_new);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
              console.log("[set-denoise-profile]: Returning to client with error");
-             return; 
+             //  Close websocket before return
+             rosWS.close();
+             rosWS = undefined;
+             return;
            }
 
            if (rosWS != undefined)
@@ -207,10 +210,10 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
              rosWS.onmessage = function(event){
                console.log('[set-denoise-profile]: Received message from rosbridge');
                Fs.rm_file_sync(file_uri_new);
-               var resp_msg = craft_response( event.value ); 
+               var resp_msg = craft_response( event.value );
                //console.log(resp_msg);
                this.close(); // Close websocket
-               rosWS = undefined; // Decostruct websocket 
+               rosWS = undefined; // Decostruct websocket
                respFlag = true;
                randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
@@ -219,12 +222,12 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
            }
            catch(e){
              rosbridge_connection = false;
-             console.error('[set-denoise-profile] ---> ERROR: Cannot open websocket' + 
+             console.error('[set-denoise-profile] ---> ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]' );
              Fs.rm_file_sync(file_uri_new);
              console.log(e);
-             var resp_msg = craft_error_response(); 
-             sendResponse( resp_msg ); 
+             var resp_msg = craft_error_response();
+             sendResponse( resp_msg );
              console.log("[set-denoise-profile]: Returning to client with error");
              return
            }
@@ -232,12 +235,12 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
          }
          /*--------------------------------------------------------*/
          asyncWrap(); // Recall timeout function
-         
+
        }, timer_tick_value); //Timeout value is set at 100 ms.
      }
      asyncWrap();
 /*==============================================================================================*/
-   }, this ); 
+   }, this );
 };
 
 
@@ -256,13 +259,13 @@ function craft_response(rosbridge_msg)
   var error = msg.values.error;
 
   var crafted_msg = { error: '' };
-  
+
   if (call_result)
   {
-    crafted_msg.error = error; 
+    crafted_msg.error = error;
   }
   else
-  { 
+  {
     // Return error index!
     crafted_msg.error = "RAPP Platform Failure";
   }

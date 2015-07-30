@@ -34,9 +34,9 @@ var max_tries = 2
 /*!
  * @brief Ontology is_subsuperclass_of query, HOP Service.
  *
- * @param parent_class 
+ * @param parent_class
  * @param child_class
- * @param recursive Used to define a recursive behavior. 
+ * @param recursive Used to define a recursive behavior.
  */
 service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recursive: false} )
 {
@@ -45,7 +45,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
   /* -- Handling string to boolean casting -- */
   if (recursive == 'True' || recursive == 'true')
   {
-    // String 'True' --> booleand true 
+    // String 'True' --> booleand true
     recursive = true;
   }
   else
@@ -56,12 +56,12 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
   var randStr = randStrGen.createUnique();
   console.log("[Ontology-is_subsuperclass_of]: Client Request");
-  console.log('[Ontology-is_subsuperclass_of]: Parent Class --> %s,  ' +  
+  console.log('[Ontology-is_subsuperclass_of]: Parent Class --> %s,  ' +
     'Child Class --> %s' , parent_class, child_class);
 
  /*----------------------------------------------------------------- */
  return hop.HTTPResponseAsync(
-   function( sendResponse ) { 
+   function( sendResponse ) {
 
      var args = {};
      args[ "parent_class" ] = parent_class;
@@ -82,19 +82,19 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
       }
       catch(e){
         rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[Ontology-is_subsuperclass_of] ERROR: Cannot open websocket to rosbridge' +  
+        console.error('[Ontology-is_subsuperclass_of] ERROR: Cannot open websocket to rosbridge' +
           '--> [ws//localhost:9090]' );
-        // Print exception 
+        // Print exception
         console.log(e);
         // Craft return to client message
         var resp_msg = craft_error_response();
         // Return to Client
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[Ontology-is_subsuperclass_of]: Returning to client with error");
         return
       }
       /* ----------------------------------------------------------------- */
-     
+
       /* ------- Add into a try/catch block to ensure safe access -------- */
       try{
         // Implement WebSocket.onopen callback
@@ -112,23 +112,23 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
           console.log('[Ontology-subclassesOf]: Received message from rosbridge');
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
-          this.close(); // Close websocket 
+          this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
 
           // Dismiss the unique rossrv-call identity  key for current client
-          randStrGen.removeCached( uniqueID ); 
+          randStrGen.removeCached( uniqueID );
           sendResponse( resp_msg );
           console.log("[Ontology-is_subsuperclass_of]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[Ontology-is_subsuperclass_of] --> ERROR: Cannot open websocket' + 
+        console.error('[Ontology-is_subsuperclass_of] --> ERROR: Cannot open websocket' +
           'to rosbridge --> [ws//localhost:9090]' );
         console.log(e);
         var resp_msg = craft_error_response;
-        sendResponse( resp_msg ); 
+        sendResponse( resp_msg );
         console.log("[Ontology-is_subsuperclass_of]: Returning to client with error");
         return;
       }
@@ -152,19 +152,22 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
            timer_ticks = 0;
            retries += 1;
 
-           console.log("[Ontology-is_subsuperclass_of]: Reached rosbridge response timeout" + 
-             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s", 
+           console.log("[Ontology-is_subsuperclass_of]: Reached rosbridge response timeout" +
+             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s",
              elapsed_time.toString(), retries.toString());
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
-             console.log("[Ontology-is_subsuperclass_of]: Reached max_retries (%s)" + 
+             console.log("[Ontology-is_subsuperclass_of]: Reached max_retries (%s)" +
                "Could not receive response from rosbridge... Returning to client",
                max_tries);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
              console.log("[Ontology-is_subsuperclass_of]: Returning to client with error");
-             return; 
+             //  Close websocket before return
+             rosWS.close();
+             rosWS = undefined;
+             return;
            }
 
            if (rosWS != undefined)
@@ -189,10 +192,10 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
              rosWS.onmessage = function(event){
                console.log('[Ontology-is_subsuperclass_of]: Received message from rosbridge');
-               var resp_msg = craft_response( event.value ); 
+               var resp_msg = craft_response( event.value );
                //console.log(resp_msg);
                this.close(); // Close websocket
-               rosWS = undefined; // Decostruct websocket 
+               rosWS = undefined; // Decostruct websocket
                respFlag = true;
                randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
@@ -201,11 +204,11 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
            }
            catch(e){
              rosbridge_connection = false;
-             console.error('[Ontology-is_subsuperclass_of] ---> ERROR: Cannot open websocket' + 
+             console.error('[Ontology-is_subsuperclass_of] ---> ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]' );
              console.log(e);
-             var resp_msg = craft_error_response(); 
-             sendResponse( resp_msg ); 
+             var resp_msg = craft_error_response();
+             sendResponse( resp_msg );
              console.log("[Ontology-is_subsuperclass_of]: Returning to client with error");
              return
            }
@@ -213,15 +216,15 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
          }
          /*--------------------------------------------------------*/
          asyncWrap(); // Recall timeout function
-         
+
        }, timer_tick_value); //Timeout value is set at 100 ms.
      }
      asyncWrap();
 /*==============================================================================================*/
-   }, this ); 
+   }, this );
 };
 
- 
+
 
 /*!
  * @brief Crafts the form/format for the message to be returned
