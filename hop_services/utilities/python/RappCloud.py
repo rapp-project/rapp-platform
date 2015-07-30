@@ -4,16 +4,17 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import json
-from pprint import pprint
 import os
 
-## --  Set and hold RappCloud directory path -- ##
+#  Set and hold RappCloud directory path
 __path__ = os.path.dirname(__file__)
-## -------------------------------------------- ##
 
 
 class RappCloud:
 
+    ##
+    #   @brief default constructor
+    ##
     def __init__(self):
         # --- Load Rapp Platform parameters --- #
         params = self.load_parameters()
@@ -23,16 +24,21 @@ class RappCloud:
         self.platformIP_ = self.platform_params_['host_ip']
         self.services_ = []
         self.serviceUrl_ = {}
+        self.auth_ = {}
         self.servicePort_ = self.platform_params_['services']['port']
+        self.auth_['user'] = self.platform_params_['auth']['username']
+        self.auth_['passwd'] = self.platform_params_['auth']['password']
 
         for service in self.platform_params_['services']['name']:
             self.services_.append(service)
-            #print "Service:  [%s]" % 'http://' + self.platformIP_ + ':' + str(self.servicePort_) + '/hop/' + \
-                    #service
             self.serviceUrl_[service] = 'http://' + self.platformIP_ + ':' + str(self.servicePort_) + '/hop/' + \
-                    service
-
+                service
     #===========================================================================================
+
+
+    ##
+    #   @brief load server parameters from parameters.json file
+    ##
     def load_parameters(self):
         parameters_file_path = __path__ + '/../parameters.json'
         #print parameters_file_path
@@ -40,8 +46,11 @@ class RappCloud:
             data = json.load(json_file)
         return data
 
-    ## @brief Call different services throught a single method
+
+    ##
+    #   @brief Call different services throught a single method
     #   @TODO Implement!!!
+    ##
     def call_service(self, service_name, args):
         print '[%s] service request' % service_name
         # --- Validate existence for the requested service. --- #
@@ -71,7 +80,6 @@ class RappCloud:
         r = requests.post(url, data=payload, files=files, auth=HTTPBasicAuth('rappdev', \
             'rappdev'))
         resp_msg = json.loads(r.text)
-        #print '\033[1;33m' + str(resp_msg) + '\033[0m'
         return resp_msg
     #===========================================================================================
 
@@ -159,20 +167,15 @@ class RappCloud:
         return resp_msg
     #===========================================================================================
 
-    #===========================================================================================
-    def image_recognition(self, fileUri, limit):
-     # -- Files to be added into to poset request
+    def detect_objects(self, fileUri, limit):
+        # -- Files to be added into to poset request
         files = {'file_uri': open(fileUri, 'rb')}
         payload = {'limit': int(limit)}
 
         # -- Post-Request!
         url = self.serviceUrl_['image_recognition']
         r = requests.post(url, data=payload, files=files, auth=HTTPBasicAuth('rappdev', 'rappdev'))
-        #r = requests.post(url, files=files)
 
         resp_msg = json.loads(r.text)
-        #print '\033[1;33m' + str(resp_msg) + '\033[0m'
         return resp_msg
     #===========================================================================================
-
-

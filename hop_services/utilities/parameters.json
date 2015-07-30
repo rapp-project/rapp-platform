@@ -1,7 +1,10 @@
 {
   "platform": {
-    "host_ip": "155.207.19.229",
-    "user": "klpanagi",
+    "host_ip": "localhost",
+    "auth": {
+      "username": "rappdev",
+      "password": "rappdev"
+    },
     "services": {
       "name": [
         "speech_detection_sphinx4",
@@ -11,11 +14,9 @@
         "ontology_subclasses_of",
         "ontology_superclasses_of",
         "ontology_is_subsuperclass_of",
-        "image_recognition"
+        "detect_objects"
       ],
       "port": 9001
     }
   }
-
 }
-  

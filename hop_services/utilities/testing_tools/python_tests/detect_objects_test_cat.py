@@ -29,7 +29,6 @@
 import sys
 import os
 import timeit
-import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -44,16 +43,17 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/cat.jpg'
     self.limit = 1
-    #self.valid_faces_up_left = [ {'y': 200.0, 'x': 212.0, 'z': 0.0} ]
-    #self.valid_faces_down_right = [ {'y': 379.0, 'x': 391.0, 'z': 0.0} ]
+
+    #  Set valid results here
+    #  TODO -- Create a function that loads valid results
 
   def execute(self):
 
     start_time = timeit.default_timer()
-    response = self.rappCloud.image_recognition(self.file_uri, self.limit)
+    response = self.rappCloud.detect_objects(self.file_uri, self.limit)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
-    #return self.validate(response)
+    return self.validate(response)
 
   def validate(self, response):
     found_names = response['found_names']
@@ -61,11 +61,5 @@ class RappInterfaceTest:
     found_scores = response['found_scores']
     error = response['error']
 
-    if error != "":
-      return [error, self.elapsed_time]
-    if self.valid_faces_up_left == faces_up_left and \
-        self.valid_faces_down_right == faces_down_right:
-      return [True, self.elapsed_time]
-    else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
+    #  Validate Results here
 
