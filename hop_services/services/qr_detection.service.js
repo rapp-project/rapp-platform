@@ -11,6 +11,8 @@ console.log('Initiated QR Detection front-end service');
 
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
+//
+var __DEBUG__ = true;
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
@@ -25,6 +27,8 @@ var RandStringGen = require ( module_path + 'randStringGen.js' );
 
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = '/rapp/rapp_qr_detection/detect_qrs';
+var hopServiceName = 'qr_detection'
+var hopServiceId = null;
 /*------------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/
@@ -39,6 +43,9 @@ var max_tries = 2
 //var max_timer_ticks = 1000 * max_time / tick_value;
 /* --------------------------------------------------------------- */
 
+var workerId = null;
+
+register_master_interface();
 
 /*!
  * @brief QR_Detection HOP Service Core.
@@ -132,7 +139,7 @@ service qr_detection ( {file_uri:''} )
         }
         // Implement WebSocket.message callback
         rosWS.onmessage = function(event){
-          console.log('[speech-detection-sphinx4]: Received message from rosbridge');
+          console.log('[qr-detection]: Received message from rosbridge');
           Fs.rm_file_sync(file_uri_new);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
@@ -314,4 +321,47 @@ function craft_rosbridge_msg(args, service_name, id){
   return rosbrige_msg;
 }
 
+function register_master_interface()
+{
+  onexit = function(e){
+    console.log("Service [%s] exiting...", hopServiceName);
+  }
+
+  //  Master --> Slave messag format
+  //  {id:, cmd:, data:}
+  onmessage = function(msg){
+    if (__DEBUG__)
+    {
+      console.log("Service [%s] received message from master process",
+        hopServiceName);
+      console.log("Msg -->", msg.data);
+    };
+    exec_master_command(msg.data);
+  }
+}
+
+//function master_command_isValid(cmd)
+//{
+  //if (master_cmd_list)
+
+//}
+
+function exec_master_command(msg)
+{
+  var cmd = msg.cmdId;
+  var data = msg.data;
+  switch (cmd)
+  {
+    case 2055:  // Set worker ID
+      set_worker_id(data);
+      console.log(workerId);
+      break;
+  }
+}
+
+
+function set_worker_id(id)
+{
+  workerId = id;
+};
 

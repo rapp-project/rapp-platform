@@ -4,6 +4,7 @@
  *  Each Service runs on a different worker. They communicate.
  */
 
+// ------------------- GLOBALS ------------------- //
 var __DEBUG__ = true;
 
 var user = process.env.LOGNAME;
@@ -11,54 +12,40 @@ var user = process.env.LOGNAME;
 var srvList = [];
 //  Hop services files found by full name
 var srvFileList = [];
-//  Workers map
-var hopSrvWorkers = {};
 
 var module_path = '../utilities/js/'
 
 var Fs = require( module_path + 'fileUtils.js' );
+var workerHandler = require( module_path + 'worker_handler.js' );
 var Path = require('path');
 var hop = require('hop');
 
+var hostname = hop.hostname;
+var port = hop.port;
+// ---------------------------------------------- //
 
-Fs.rm_file_sync( __dirname + '/availableServices.txt' );
 
 parse_services_dir();
-register_slave_services();
+workerHandler.register_workers(srvFileList, __dirname, srvList);
 
+//workerHandler.kill_worker("qr_detection");
 
 service available_services()
 {
-  return srvList;
-}
-
-function register_slave_services()
-{
-  for (var i in srvFileList)
-  {
-    hopSrvWorkers[ srvList[i] ] = new Worker ( "./" + srvFileList[i] );
-
-    console.log( "Created worker for service:" +
-      "\033[0;32m[%s]\033[0;0m", srvList[i] );
-
-    //  Register worker onmessage callback
-    hopSrvWorkers[ srvList[i] ].onmessage = function(msg){
-      if (__DEBUG__)
-      {
-        console.log("Received message from slave service:\033[0;32m %s\033[0m"
-          , msg.data);
-      }
-    }
-  }
+  return hop.HTTPResponseAsync(
+    function( sendResponse ) {
+       sendResponse(srvList);
+    }, this);
 };
+
 
 
 function parse_services_dir()
 {
-    //Load files from this script directory
+  //  Load files from this script directory
   var fileList = Fs.ls_sync( __dirname );
 
-    //Load hop services form services directory
+  //  Load hop services form services directory
   for (var i in fileList){
     if ( Path.extname( fileList[i] ) == '.js' ){
       var regexp = /.service.js/g;
@@ -70,3 +57,4 @@ function parse_services_dir()
     }
   }
 };
+
