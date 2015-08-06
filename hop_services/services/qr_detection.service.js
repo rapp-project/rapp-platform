@@ -66,26 +66,28 @@ service qr_detection ( {file_uri:''} )
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var unqExt = randStrGen.createUnique();
+  var unqCallId = randStrGen.createUnique();
   var file = file_uri.split('.');
-  var file_uri_new = file[0] + '.' + file[1] +  unqExt + '.' + file[2];
+  var file_uri_new = file[0] + '.' + file[1] +  unqCallId + '.' + file[2];
 
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
-    Fs.rm_file_sync(file_uri);
+    var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
+      file_uri_new + ']';
+
+    postMessage( craft_slaveMaster_msg('log', logMsg) );
+    //Fs.rm_file_sync(file_uri);
+
     // Dismiss the unique identity key
-    randStrGen.removeCached(unqExt);
+    randStrGen.removeCached(unqCallId);
     var resp_msg = craft_error_response();
     return resp_msg;
   }
   /*-------------------------------------------------------------------------*/
 
-  // Dismiss the unique identity key
-  randStrGen.removeCached(unqExt);
-
-
+  /* Async http response */
   /*----------------------------------------------------------------- */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
@@ -102,8 +104,8 @@ service qr_detection ( {file_uri:''} )
       var respFlag = false;
 
       // Create a unique caller id
-      var uniqueID = randStrGen.createUnique();
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, uniqueID);
+      //var uniqueID = randStrGen.createUnique();
+      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
 
       /* ------ Catch exception while open websocket communication ------- */
       try{
@@ -136,7 +138,7 @@ service qr_detection ( {file_uri:''} )
           respFlag = true; // Raise Response-Received Flag
 
           // Dismiss the unique rossrv-call identity  key for current client
-          randStrGen.removeCached( uniqueID );
+          randStrGen.removeCached( unqCallId );
           sendResponse( resp_msg );
         }
       }
@@ -228,7 +230,7 @@ service qr_detection ( {file_uri:''} )
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
                respFlag = true;
-               randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
+               randStrGen.removeCached( unqCallId ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
              }
            }
