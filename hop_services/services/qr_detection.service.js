@@ -12,7 +12,7 @@ console.log('Initiated QR Detection front-end service');
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
 //
-var __DEBUG__ = true;
+var __DEBUG__ = false;
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
@@ -37,15 +37,18 @@ var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
 /* -- Set timer values for websocket communication to rosbridge -- */
-var timer_tick_value = 100 // ms
-var max_time = 1000 // ms
-var max_tries = 2
+var timer_tick_value = 100; // ms
+var max_time = 1000; // ms
+var max_tries = 3;
 //var max_timer_ticks = 1000 * max_time / tick_value;
 /* --------------------------------------------------------------- */
 
 var workerId = null;
+var masterId = null;
 
 register_master_interface();
+//var slaveMasterMsg = craft_slaveMaster_msg();
+
 
 /*!
  * @brief QR_Detection HOP Service Core.
@@ -57,8 +60,10 @@ register_master_interface();
  */
 service qr_detection ( {file_uri:''} )
 {
-  console.log('[qr-detection]: Client Request');
-  console.log('[qr-detection]: Image stored at:', file_uri);
+  postMessage( craft_slaveMaster_msg('log', 'client-request') );
+
+  var logMsg = 'Image stored at [' + file_uri + ']';
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqExt = randStrGen.createUnique();
@@ -73,7 +78,6 @@ service qr_detection ( {file_uri:''} )
     // Dismiss the unique identity key
     randStrGen.removeCached(unqExt);
     var resp_msg = craft_error_response();
-    console.log("[qr-detection]: Returning to client with error");
     return resp_msg;
   }
   /*-------------------------------------------------------------------------*/
@@ -81,10 +85,6 @@ service qr_detection ( {file_uri:''} )
   // Dismiss the unique identity key
   randStrGen.removeCached(unqExt);
 
-  //var star_time = undefined;
-  //var elapsed_time = undefined;
-
-  // Asynchronous Response. Implementation
 
   /*----------------------------------------------------------------- */
   return hop.HTTPResponseAsync(
@@ -108,40 +108,28 @@ service qr_detection ( {file_uri:''} )
       /* ------ Catch exception while open websocket communication ------- */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
-      }
-      catch(e){
-        rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[qr-detection] ERROR: Cannot open websocket to rosbridge' +
-          '--> [ws//localhost:9090]' );
-        Fs.rm_file_sync(file_uri_new);
-        // Print exception
-        console.log(e);
-        // Craft return to client message
-        var resp_msg = craft_error_response();
-        // Return to Client
-        sendResponse( resp_msg );
-        console.log("[qr-detection]: Returning to client with error");
-        return
-      }
       /* ----------------------------------------------------------------- */
 
       /* ------- Add into a try/catch block to ensure safe access -------- */
-      try{
-        // Implement WebSocket.onopen callback
+        // Register WebSocket.onopen callback
         rosWS.onopen = function(){
           rosbridge_connection = true;
-          console.log('[qr-detection]: Connection to rosbridge established');
+          var logMsg = 'Connection to rosbridge established';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
           this.send(JSON.stringify(rosbridge_msg));
         }
-        // Implement WebSocket.onclose callback
+        // Register WebSocket.onclose callback
         rosWS.onclose = function(){
-          console.log('[qr-detection]: Connection to rosbridge closed');
+          var logMsg = 'Connection to rosbridge closed';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
         }
-        // Implement WebSocket.message callback
+        // Register WebSocket.message callback
         rosWS.onmessage = function(event){
-          console.log('[qr-detection]: Received message from rosbridge');
+          var logMsg = 'Received message from rosbridge';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
           Fs.rm_file_sync(file_uri_new);
-          //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
@@ -150,24 +138,27 @@ service qr_detection ( {file_uri:''} )
           // Dismiss the unique rossrv-call identity  key for current client
           randStrGen.removeCached( uniqueID );
           sendResponse( resp_msg );
-          console.log("[qr-detection]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[qr-detection] --> ERROR: Cannot open websocket' +
-          'to rosbridge --> [ws//localhost:9090]' );
+
+        var logMsg = 'ERROR: Cannot open websocket' +
+          'to rosbridge --> [ws//localhost:9090]';
+
+        // Update master and logger
+        postMessage( craft_slaveMaster_msg('log', logMsg) );
+
         Fs.rm_file_sync(file_uri_new);
         console.log(e);
-        var resp_msg = craft_error_response;
+        var resp_msg = craft_error_response();
         sendResponse( resp_msg );
-        console.log("[qr-detection]: Returning to client with error");
         return;
       }
       /*------------------------------------------------------------------ */
 
       var timer_ticks = 0;
-      var elapsed_time;
+      var elapsed_time = 0;
       var retries = 0;
 
       // Set Timeout wrapping function
@@ -184,19 +175,21 @@ service qr_detection ( {file_uri:''} )
            timer_ticks = 0;
            retries += 1;
 
-           console.log("[qr-detection]: Reached rosbridge response timeout" +
-             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s",
-             elapsed_time.toString(), retries.toString());
+           var logMsg = 'Reached rosbridge response timeout' +
+             '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
+             'Retry-' + retries;
 
-           if (retries > max_tries) // Reconnected for max_tries times
+           postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+           if (retries >= max_tries) // Reconnected for max_tries times
            {
-             console.log("[qr-detection]: Reached max_retries (%s)" +
-               "Could not receive response from rosbridge... Returning to client",
-               max_tries);
+             var logMsg = 'Reached max_retries [' + max_tries + ']' +
+               ' Could not receive response from rosbridge...';
+             postMessage( craft_slaveMaster_msg('log', logMsg) );
+
              Fs.rm_file_sync(file_uri_new);
              var respMsg = craft_error_response();
              sendResponse( respMsg );
-             console.log("[qr-detection]: Returning to client with error");
              //  Close websocket before return
              rosWS.close();
              rosWS = undefined;
@@ -215,36 +208,43 @@ service qr_detection ( {file_uri:''} )
 
              /* -----------< Redefine WebSocket callbacks >----------- */
              rosWS.onopen = function(){
-             console.log('[qr-detection]: Connection to rosbridge established');
-             this.send(JSON.stringify(rosbridge_msg));
+               var logMsg = 'Connection to rosbridge established';
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+               this.send(JSON.stringify(rosbridge_msg));
              }
 
              rosWS.onclose = function(){
-               console.log('[qr-detection]: Connection to rosbridge closed');
+               var logMsg = 'Connection to rosbridge closed';
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
              }
 
              rosWS.onmessage = function(event){
-               console.log('[qr-detection]: Received message from rosbridge');
+               var logMsg = 'Received message from rosbridge';
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+
                Fs.rm_file_sync(file_uri_new);
                var resp_msg = craft_response( event.value );
-               //console.log(resp_msg);
+
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
                respFlag = true;
                randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
-               console.log("[qr-detection]: Returning to client");
              }
            }
            catch(e){
              rosbridge_connection = false;
-             console.error('[qr-detection] ---> ERROR: Cannot open websocket' + 
-               'to rosbridge --> [ws//localhost:9090]' );
+
+             var logMsg = 'ERROR: Cannot open websocket' +
+               'to rosbridge --> [ws//localhost:9090]';
+
+             // Update master and logger
+             postMessage( craft_slaveMaster_msg('log', logMsg) );
+
              Fs.rm_file_sync(file_uri_new);
              console.log(e);
              var resp_msg = craft_error_response();
              sendResponse( resp_msg );
-             console.log("[qr-detection]: Returning to client with error");
              return
            }
 
@@ -255,7 +255,7 @@ service qr_detection ( {file_uri:''} )
        }, timer_tick_value); //Timeout value is set at 100 ms.
      }
      asyncWrap();
-/*==============================================================================================*/
+/*============================================================================*/
    }, this );
 };
 
@@ -272,9 +272,11 @@ function craft_response(rosbridge_msg)
   var qrCenters = msg.values.qr_centers;
   var call_result = msg.result;
   var error = msg.values.error;
+  //console.log(msg);
 
   var crafted_msg = {qr_centers: [], error: ''};
 
+  var logMsg = '';
   if (call_result)
   {
     for (var ii = 0; ii < qrCenters.length; ii++)
@@ -282,14 +284,27 @@ function craft_response(rosbridge_msg)
       crafted_msg.qr_centers.push(qrCenters[ii].point);
     }
     crafted_msg.error = error;
+    logMsg = 'Returning to client.';
+
+    if (error != '')
+    {
+      logMsg += ' ROS service [' + ros_service_name + '] error'
+        ' ---> ' + error;
+    }
+    else
+    {
+      logMsg += ' ROS service [' + ros_service_name + '] returned with success'
+    }
   }
   else
   {
-    // Return error index
+    logMsg = 'Communication with ROS service ' + ros_service_name +
+      'failed. Unsuccesful call! Returning to client with error' +
+      ' ---> RAPP Platform Failure';
     crafted_msg.error = 'RAPP Platform Failure';
   }
 
-  //console.log(craftedMsg);
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
   return JSON.stringify(crafted_msg)
 }
 
@@ -299,8 +314,12 @@ function craft_response(rosbridge_msg)
  */
 function craft_error_response()
 {
-  // Add here to be returned literal
-  var crafted_msg = {qr_centers: [], error: 'RAPP Platform Failure'};
+  var errorMsg = 'RAPP Platform Failure!'
+  var crafted_msg = {qr_centers: [], error: errorMsg};
+
+  var logMsg = 'Return to client with error --> ' + errorMsg;
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
+
   return JSON.stringify(crafted_msg);
 }
 
@@ -321,14 +340,15 @@ function craft_rosbridge_msg(args, service_name, id){
   return rosbrige_msg;
 }
 
+
 function register_master_interface()
 {
   onexit = function(e){
     console.log("Service [%s] exiting...", hopServiceName);
+    var logMsg = "Received termination command. Exiting.";
+    postMessage( craft_slaveMaster_msg('log', logMsg) );
   }
 
-  //  Master --> Slave messag format
-  //  {id:, cmd:, data:}
   onmessage = function(msg){
     if (__DEBUG__)
     {
@@ -338,13 +358,12 @@ function register_master_interface()
     };
     exec_master_command(msg.data);
   }
+
+  // On initialization inform master and append to log file
+  var logMsg = "Initiated worker";
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
 }
 
-//function master_command_isValid(cmd)
-//{
-  //if (master_cmd_list)
-
-//}
 
 function exec_master_command(msg)
 {
@@ -354,9 +373,19 @@ function exec_master_command(msg)
   {
     case 2055:  // Set worker ID
       set_worker_id(data);
-      console.log(workerId);
+      break;
+    case 2050:
+      storeMasterId(data);
+      break;
+    default:
       break;
   }
+}
+
+
+function storeMasterId(id)
+{
+  masterId = id;
 }
 
 
@@ -365,3 +394,14 @@ function set_worker_id(id)
   workerId = id;
 };
 
+
+function craft_slaveMaster_msg(msgId, msg)
+{
+  var msg = {
+    name: hopServiceName,
+    id:   workerId,
+    msgId: msgId,
+    data: msg
+  }
+  return msg;
+}

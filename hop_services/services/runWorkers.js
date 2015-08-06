@@ -16,34 +16,28 @@ var srvFileList = [];
 var module_path = '../utilities/js/'
 
 var Fs = require( module_path + 'fileUtils.js' );
-var workerHandler = require( module_path + 'worker_handler.js' );
 var Path = require('path');
 var hop = require('hop');
+
+// --------- Initiate Master Module ---------- //
+var MasterMod = require( module_path + 'master.js' );
+var master = new MasterMod.Master();
+// ------------------------------------------- //
 
 var hostname = hop.hostname;
 var port = hop.port;
 // ---------------------------------------------- //
 
+parse_services_dir(__dirname);
 
-parse_services_dir();
-workerHandler.register_workers(srvFileList, __dirname, srvList);
+/* ---------< Register services to master >----------- */
+master.registerWorkers(srvFileList, __dirname, srvList);
+/* --------------------------------------------------- */
 
-//workerHandler.kill_worker("qr_detection");
-
-service available_services()
-{
-  return hop.HTTPResponseAsync(
-    function( sendResponse ) {
-       sendResponse(srvList);
-    }, this);
-};
-
-
-
-function parse_services_dir()
+function parse_services_dir(dir)
 {
   //  Load files from this script directory
-  var fileList = Fs.ls_sync( __dirname );
+  var fileList = Fs.ls_sync( dir );
 
   //  Load hop services form services directory
   for (var i in fileList){
@@ -57,4 +51,16 @@ function parse_services_dir()
     }
   }
 };
+
+
+//service available_services()
+//{
+  //return hop.HTTPResponseAsync(
+    //function( sendResponse ) {
+       //sendResponse(srvList);
+    //}, this);
+//};
+
+
+
 
