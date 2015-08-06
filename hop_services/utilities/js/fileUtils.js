@@ -136,10 +136,20 @@ function write_file_sync( _destUrl, _data )
 
   fs.writeFileSync( path, _data );
   var filesize = read_filesize( path );
-  console.log("\033[0;36mFinished writing requested data" + 
+  console.log("\033[0;36mFinished writing requested data" +
     "@ [%s] , filesize: [%s]\033[0;0m", path, filesize);
 };
 
+function createDir(dirPath)
+{
+  var dir = resolve_path(dirPath);
+  if ( fs.existsSync(dir) ){ return ; }
+  else
+  {
+    fs.mkdirSync(dir);
+    return ;
+  }
+}
 
 /*!
  * @brief Wrapping Node.js unlinkSync function.
@@ -152,12 +162,12 @@ function rm_file_sync(_file)
   if(fs.existsSync(path))
   {
     fs.unlinkSync(path);
-    console.log("Successfully deleted file: [%s]", path);
+    //console.log("Successfully deleted file: [%s]", path);
     return true;
   }
   else
   {
-    console.log("\033[0;31mFile [%s] does not exist!\033[0;0m", path);
+    //console.log("\033[0;31mFile [%s] does not exist!\033[0;0m", path);
     return false;
   }
 };
@@ -232,12 +242,13 @@ function writeLine ( _data, _filePath ){
     data.write( _data + '\n' );
   }
   else{
-    console.log( "\033[01;31mInvalid Type of input parameter." + 
+    console.log( "\033[01;31mInvalid Type of input parameter." +
      " Only String and Buffer data are valid!\033[0;0m" );
     return;
   }
 
-  var fd = fs.openSync( _filePath, 'a' );
+  var file =  resolve_path( _filePath );
+  var fd = fs.openSync( file, 'a' );
   var numBytes = fs.writeSync( fd, data, 0, data.length, null );
   fs.close( fd );
 }
@@ -316,5 +327,6 @@ module.exports = {
   writeLine: writeLine,
   read_filesize: read_filesize,
   load_json_file: load_json_file,
-  rename_file_sync: rename_file_sync
+  rename_file_sync: rename_file_sync,
+  createDir: createDir
 }
