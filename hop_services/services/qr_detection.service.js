@@ -16,7 +16,7 @@ var __DEBUG__ = false;
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
-var module_path = '../utilities/js/'
+var module_path = '../utilities/js/';
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
@@ -27,7 +27,7 @@ var RandStringGen = require ( module_path + 'randStringGen.js' );
 
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = '/rapp/rapp_qr_detection/detect_qrs';
-var hopServiceName = 'qr_detection'
+var hopServiceName = 'qr_detection';
 var hopServiceId = null;
 /*------------------------------------------------------*/
 
@@ -45,6 +45,7 @@ var max_tries = 3;
 
 var workerId = null;
 var masterId = null;
+var storeDir = '~/.hop/cache/';
 
 register_master_interface();
 //var slaveMasterMsg = craft_slaveMaster_msg();
@@ -67,15 +68,21 @@ service qr_detection ( {file_uri:''} )
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqCallId = randStrGen.createUnique();
-  var file = file_uri.split('.');
-  var file_uri_new = file[0] + '.' + file[1] +  unqCallId + '.' + file[2];
+  var fileUrl = file_uri.split('/');
+  var fileName = fileUrl[fileUrl.length -1];
+
+  var cpFilePath = storeDir + fileName.split('.')[0] + '-'  + unqCallId +
+    '.' + fileName.split('.')[1];
+  cpFilePath = Fs.resolve_path(cpFilePath);
+
+  console.log(cpFilePath);
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.rename_file_sync(file_uri, file_uri_new) == false)
+  if (Fs.copyFile(file_uri, cpFilePath) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
-      file_uri_new + ']';
+      cpFilePath + ']';
 
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     //Fs.rm_file_sync(file_uri);
@@ -96,7 +103,7 @@ service qr_detection ( {file_uri:''} )
        /* Image path to perform faceDetection, used as input to the
         *  Face Detection ROS Node Service
         */
-       "imageFilename": file_uri_new
+       "imageFilename": cpFilePath
      };
 
 /*=============================TEMPLATE======================================*/
@@ -131,13 +138,13 @@ service qr_detection ( {file_uri:''} )
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          Fs.rm_file_sync(file_uri_new);
+          Fs.rm_file_sync(cpFilePath);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
 
-          // Dismiss the unique rossrv-call identity  key for current client
+          // Dismiss the unique call identity key for current client.
           randStrGen.removeCached( unqCallId );
           sendResponse( resp_msg );
         }
@@ -151,7 +158,7 @@ service qr_detection ( {file_uri:''} )
         // Update master and logger
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-        Fs.rm_file_sync(file_uri_new);
+        Fs.rm_file_sync(cpFilePath);
         console.log(e);
         var resp_msg = craft_error_response();
         sendResponse( resp_msg );
@@ -189,12 +196,12 @@ service qr_detection ( {file_uri:''} )
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-             Fs.rm_file_sync(file_uri_new);
+             Fs.rm_file_sync(cpFilePath);
              var respMsg = craft_error_response();
-             sendResponse( respMsg );
              //  Close websocket before return
              rosWS.close();
              rosWS = undefined;
+             sendResponse( respMsg );
              return;
            }
 
@@ -224,7 +231,7 @@ service qr_detection ( {file_uri:''} )
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-               Fs.rm_file_sync(file_uri_new);
+               Fs.rm_file_sync(cpFilePath);
                var resp_msg = craft_response( event.value );
 
                this.close(); // Close websocket
@@ -243,7 +250,7 @@ service qr_detection ( {file_uri:''} )
              // Update master and logger
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-             Fs.rm_file_sync(file_uri_new);
+             Fs.rm_file_sync(cpFilePath);
              console.log(e);
              var resp_msg = craft_error_response();
              sendResponse( resp_msg );
@@ -345,12 +352,14 @@ function craft_rosbridge_msg(args, service_name, id){
 
 function register_master_interface()
 {
+  // Register onexit callback function
   onexit = function(e){
     console.log("Service [%s] exiting...", hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   }
 
+  // Register onmessage callback function
   onmessage = function(msg){
     if (__DEBUG__)
     {
@@ -358,6 +367,11 @@ function register_master_interface()
         hopServiceName);
       console.log("Msg -->", msg.data);
     };
+
+    var logMsg = 'Received message from master process --> [' +
+      msg.data + ']';
+    postMessage( craft_slaveMaster_msg('log', logMsg) );
+
     exec_master_command(msg.data);
   }
 
