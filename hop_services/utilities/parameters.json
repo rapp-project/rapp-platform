@@ -14,7 +14,8 @@
         "ontology_subclasses_of",
         "ontology_superclasses_of",
         "ontology_is_subsuperclass_of",
-        "detect_objects"
+        "detect_objects",
+        "available_services"
       ],
       "port": 9001
     }

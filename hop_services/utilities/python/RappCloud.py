@@ -179,3 +179,13 @@ class RappCloud:
         resp_msg = json.loads(r.text)
         return resp_msg
     #===========================================================================================
+
+    def available_services(self):
+        payload = {'now': 1};
+
+        # -- Post-Request!
+        url = self.serviceUrl_['available_services']
+        r = requests.post(url, data=payload, auth=HTTPBasicAuth('rappdev', 'rappdev'))
+        resp_msg = json.loads(r.text)
+        return resp_msg
+

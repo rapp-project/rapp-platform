@@ -26,7 +26,7 @@ function Master( )
   this.registerWorkerToLogger = function(workerName)
   {
     logger.createLogFile(workerName);
-  }
+  };
 
 
   /*!
@@ -39,7 +39,7 @@ function Master( )
 
 
   /*!
-   * @brief Used to handle with WorkerToMaster messages.
+   * @brief Used to handle WorkerToMaster messages.
    */
   this.handleMsg = function (msg)
   {
@@ -57,7 +57,12 @@ function Master( )
         logger.appendToLogFile(srvName, logMsg);
         break;
       case 'up-services':
-        //TODO Implement
+        var msg = {
+          id: masterId_,
+          cmdId: 2060,
+          data: this.services_
+        };
+        this.workers_[srvName].postMessage(msg);
         break;
       default:
         break;
