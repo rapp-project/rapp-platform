@@ -1,7 +1,9 @@
+/*!
+ * @file master.js
+ */
 
 var rts = require ( './randStringGen.js' );
 var runTime = require( './runtime.js' );
-var logger = require( './logger.js' );
 
 
 function Master( )
@@ -17,6 +19,7 @@ function Master( )
   this.workerId_ = {};
 
   var logDir_ = '~/.hop/log/';
+  logger = require( './logger.js' );
   logger.setLogDir(logDir_);
 
 
@@ -158,13 +161,8 @@ Master.prototype =
 
       _this = this;
 
-      //  Register worker onmessage callback
+      //  Register 'this' worker onmessage callback
       this.workers_[ srvList[i] ].onmessage = function(msg){
-        //if (__DEBUG__)
-        //{
-        //console.log("Received message from slave service:\033[0;32m \033[0m"
-          //, msg);
-        //}
         _this.handleMsg(msg.data);
       }
     }
@@ -178,9 +176,19 @@ Master.prototype =
   {
     if (this.services_.indexOf(srvName) > -1) {return true;}
     else {return false;}
+  },
+
+  terminate: function()
+  {
+    for(var srv in this.services_)
+    {
+      var logMsg = 'Termination signal. Exiting...';
+      logger.appendToLogFile(srv, logMsg);
+    }
   }
 
 }
+
 
 // Export Module
 module.exports.Master = Master;

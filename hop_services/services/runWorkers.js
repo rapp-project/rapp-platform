@@ -20,7 +20,7 @@ var Path = require('path');
 var hop = require('hop');
 
 // --------- Initiate Master Module ---------- //
-var master = new ( require( module_path + 'master.js' ) ).Master();
+var Master = new ( require( module_path + 'master.js' ) ).Master();
 // ------------------------------------------- //
 
 var hostname = hop.hostname;
@@ -30,7 +30,7 @@ var port = hop.port;
 parse_services_dir(__dirname);
 
 /* ---------< Register services to master >----------- */
-master.registerWorkers(srvFileList, __dirname, srvList);
+Master.registerWorkers(srvFileList, __dirname, srvList);
 /* --------------------------------------------------- */
 
 function parse_services_dir(dir)
@@ -52,14 +52,30 @@ function parse_services_dir(dir)
 };
 
 
-//service available_services()
-//{
-  //return hop.HTTPResponseAsync(
-    //function( sendResponse ) {
-       //sendResponse(srvList);
-    //}, this);
-//};
 
+process.on('exit',
+  function(code){
+  console.log('Exiting with code: ', code);
+  Master.terminate();
+  }
+  );
 
+process.on('SIGNINT',
+  function(code){
+  console.log('Exiting with code: ', code);
+  }
+  );
+
+process.on('SIGTERM',
+  function(code){
+  console.log('Exiting with code: ', code);
+  }
+  )
+
+process.on('SIGKILL',
+  function(code){
+  console.log('Exiting with code: ', code);
+  }
+  )
 
 

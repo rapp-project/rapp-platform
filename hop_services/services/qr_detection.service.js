@@ -43,9 +43,9 @@ var max_tries = 3;
 //var max_timer_ticks = 1000 * max_time / tick_value;
 /* --------------------------------------------------------------- */
 
-var workerId = null;
-var masterId = null;
-var storeDir = '~/.hop/cache/';
+var __workerId__ = null;
+var __masterId__ = null;
+var __storeDir__ = '~/.hop/cache/';
 
 register_master_interface();
 //var slaveMasterMsg = craft_slaveMaster_msg();
@@ -388,10 +388,10 @@ function exec_master_command(msg)
   switch (cmd)
   {
     case 2055:  // Set worker ID
-      set_worker_id(data);
+      __workerId__ = data;
       break;
     case 2050:
-      storeMasterId(data);
+      __masterId__ = data;
       break;
     default:
       break;
@@ -399,23 +399,11 @@ function exec_master_command(msg)
 }
 
 
-function storeMasterId(id)
-{
-  masterId = id;
-}
-
-
-function set_worker_id(id)
-{
-  workerId = id;
-};
-
-
 function craft_slaveMaster_msg(msgId, msg)
 {
   var msg = {
     name: hopServiceName,
-    id:   workerId,
+    id:   __workerId__,
     msgId: msgId,
     data: msg
   }
