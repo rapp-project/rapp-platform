@@ -8,7 +8,7 @@ var startT = process.hrtime();
 function get_time()
 {
   var upTime = process.hrtime(startT);
-  return upTime[0] * 1e9 + upTime[1];
+  return upTime[0] * 1e3 + upTime[1] / 1e6;
 }
 
 module.exports = {
