@@ -20,8 +20,7 @@ var Path = require('path');
 var hop = require('hop');
 
 // --------- Initiate Master Module ---------- //
-var MasterMod = require( module_path + 'master.js' );
-var master = new MasterMod.Master();
+var master = new ( require( module_path + 'master.js' ) ).Master();
 // ------------------------------------------- //
 
 var hostname = hop.hostname;
