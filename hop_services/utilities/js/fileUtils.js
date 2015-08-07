@@ -300,18 +300,42 @@ function rename_file_sync(fileOld, fileNew){
   var res_fileNew = resolve_path(fileNew);
   if (res_fileOld == res_fileNew){
     // Nothing to do here other that return an index 
-    return 0;
+    return true;
   }
   try{
     fs.renameSync(res_fileOld, res_fileNew);
   }
   catch(e){
-    console.error("Failed to rename single file: [%s], ErrorCode: [%s]", res_fileOld, e);
-    return 0;
+    console.error("Failed to rename single file: [%s], ErrorCode: [%s]",
+      res_fileOld, e);
+    return false;
   }
-  return 1;
+  return true;
 }
 
+
+/*!
+ * @brief Copies file from-To
+ * @param file File (given with either relative or absolute path) to copy
+ * @param dest Destination to copy the file.
+ */
+function copyFile(file, dest)
+{
+  var resFile = resolve_path(file);
+  var resFileDest = resolve_path(dest);
+
+  if (resFile == resFileDest) {return true;}
+
+  try{
+    fs.createReadStream(resFile).pipe(fs.createWriteStream(resFileDest));
+  }
+  catch(e){
+    console.error("Failed to copy file [%s] --> [%s] . ErrorCode: {}",
+      resFile, resFileDest, e);
+    return false;
+  }
+  return true;
+}
 
 /*!
  * @briUef fileUtils module exports.
@@ -328,5 +352,6 @@ module.exports = {
   read_filesize: read_filesize,
   load_json_file: load_json_file,
   rename_file_sync: rename_file_sync,
-  createDir: createDir
+  createDir: createDir,
+  copyFile: copyFile
 }
