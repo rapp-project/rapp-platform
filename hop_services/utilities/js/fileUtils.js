@@ -76,8 +76,8 @@ function read_file_sync( _fileUrl, _encoding )
     var dataBuffer = fs.readFileSync( path );
     file.size['bytes'] = dataBuffer.length;
     file.size['kilobytes'] = file.size['bytes'] / 1024;
-    console.log("\033[0;33mReading requested file:" + 
-      "[%s] , filesize: [%s]\033[0;0m", path, file.size['bytes']); 
+    console.log("\033[0;33mReading requested file:" +
+      "[%s] , filesize: [%s]\033[0;0m", path, file.size['bytes']);
     encoding = _encoding || "none";
     switch ( encoding )
     {
@@ -131,25 +131,60 @@ function write_file_sync( _destUrl, _data )
     console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
   }
   else{
-    console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
+    //console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
   }
 
-  fs.writeFileSync( path, _data );
+  try{
+    fs.writeFileSync( path, _data );
+  }
+  catch(e){
+    // TODO !!!!
+    return false;
+  }
+
   var filesize = read_filesize( path );
-  console.log("\033[0;36mFinished writing requested data" +
-    "@ [%s] , filesize: [%s]\033[0;0m", path, filesize);
+  //console.log("\033[0;36mFinished writing requested data" +
+    //"@ [%s] , filesize: [%s]\033[0;0m", path, filesize);
+  return true;
 };
 
+
+/*!
+ * @brief Creates directory non-recursively
+ */
 function createDir(dirPath)
 {
   var dir = resolve_path(dirPath);
-  if ( fs.existsSync(dir) ){ return ; }
-  else
-  {
+  if ( fs.existsSync(dir) ) { return true; }
+
+  try{
     fs.mkdirSync(dir);
-    return ;
+  }
+  catch(e){
+    return false;
+  }
+
+  return true;
+}
+
+
+/*!
+ * @brief Creates directory recursively --> a/b/c/d
+ */
+function createDirRecur(dirPath)
+{
+  dirPath = resolve_path(dirPath);
+  if ( fs.existsSync(dirPath) ) { return true; }
+  if( createDir(dirPath) == false )
+  {
+    // Create all the parents recursively
+    createDirRecur(Path.dirname(dirPath));
+
+    // Then create the child directory
+    createDirRecur(dirPath);
   }
 }
+
 
 /*!
  * @brief Wrapping Node.js unlinkSync function.
@@ -225,7 +260,7 @@ function text2File ( _data, _filePath ){
 
 
 /*!
- * @brief Writes ascii encoded strings in a give file 
+ * @brief Writes ascii encoded strings in a give file
  *  with a newLine character at the end of the given string (\n).
  * @param _data Data to be written. Can be both a buffer or string.
  * @param _filePath Destination file path.
@@ -299,7 +334,7 @@ function rename_file_sync(fileOld, fileNew){
   var res_fileOld = resolve_path(fileOld);
   var res_fileNew = resolve_path(fileNew);
   if (res_fileOld == res_fileNew){
-    // Nothing to do here other that return an index 
+    // Nothing to do here other that return an index
     return true;
   }
   try{
@@ -353,5 +388,6 @@ module.exports = {
   load_json_file: load_json_file,
   rename_file_sync: rename_file_sync,
   createDir: createDir,
+  createDirRecur: createDirRecur,
   copyFile: copyFile
 }
