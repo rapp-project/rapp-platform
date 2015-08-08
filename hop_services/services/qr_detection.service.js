@@ -71,7 +71,7 @@ service qr_detection ( {file_uri:''} )
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
-  var cpFilePath = storeDir + fileName.split('.')[0] + '-'  + unqCallId +
+  var cpFilePath = __storeDir__ + fileName.split('.')[0] + '-'  + unqCallId +
     '.' + fileName.split('.')[1];
   cpFilePath = Fs.resolve_path(cpFilePath);
 
