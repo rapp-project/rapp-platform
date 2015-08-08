@@ -172,26 +172,3 @@ function craft_slaveMaster_msg(msgId, msg)
   return msg;
 }
 
-process.on('exit',
-  function(code){
-  console.log('Exiting with code: ', code);
-  }
-  );
-
-process.on('SIGNINT',
-  function(code){
-  console.log('Exiting with code: ', code);
-  }
-  );
-
-process.on('SIGTERM',
-  function(code){
-  console.log('Exiting with code: ', code);
-  }
-  )
-
-process.on('SIGKILL',
-  function(code){
-  console.log('Exiting with code: ', code);
-  }
-  )
