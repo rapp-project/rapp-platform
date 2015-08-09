@@ -44,7 +44,17 @@ class RappInterfaceTest:
   def __init__(self):
     self.rappCloud = RappCloud()
     # Set the valid results
-    self.valid_results = [];
+    self.valid_results = [
+        'ontology_subclasses_of',
+        'available_services',
+        'qr_detection',
+        'speech_detection_sphinx4',
+        'ontology_is_subsuperclass_of',
+        'face_detection',
+        'set_denoise_profile',
+        'detect_objects',
+        'ontology_superclasses_of'
+    ]
 
   def execute(self):
 

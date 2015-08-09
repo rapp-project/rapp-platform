@@ -241,20 +241,18 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 function craft_response(rosbridge_msg)
 {
   var msg = JSON.parse(rosbridge_msg);
-  var results = msg.values.results;
+  var result = msg.values.result;
   var trace = msg.values.trace;
   var success = msg.values.success;
   var error = msg.values.error;
   var call_result = msg.result;
+  //console.log(msg)
 
-  var crafted_msg = {results: [], trace: [], error: ''};
+  var crafted_msg = {result: false, trace: [], error: ''};
 
   if (call_result)
   {
-    for (var ii = 0; ii < results.length; ii++)
-    {
-      crafted_msg.results.push(results[ii]);
-    }
+    crafted_msg.result = result;
     for (var ii = 0; ii < trace.length; ii++)
     {
       crafted_msg.trace.push(trace[ii]);

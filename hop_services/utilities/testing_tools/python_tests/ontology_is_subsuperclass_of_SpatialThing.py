@@ -61,7 +61,7 @@ class RappInterfaceTest:
 
   def validate(self, response):
     # Get the returned data
-    results = response['results']
+    return_data = response['result']
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]

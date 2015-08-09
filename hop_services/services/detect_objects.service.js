@@ -254,7 +254,6 @@ service detect_objects ( {file_uri:'', limit: ''} )
 
                randStrGen.removeCached( unqCallId ); //Remove the uniqueID so it can be reused
                sendResponse( resp_msg ); //Return response to client
-               console.log("[Detect-Objects]: Returning to client");
              }
            }
            catch(e){
@@ -298,8 +297,10 @@ function craft_response(rosbridge_msg)
   var result = msg.values.result;
   //var error = msg.values.error;
 
-  var crafted_msg = {found_names:[], found_scores:[],
-    error: '' };
+  //console.log(msg);
+
+  var crafted_msg = {found_names: [], found_scores: [],
+    found_centers: [], error: '' };
 
   var logMsg = '';
 
@@ -311,7 +312,7 @@ function craft_response(rosbridge_msg)
     }
     for (var ii = 0; ii < found_centers.length; ii++)
     {
-      crafted_msg.objects.found_centers.push( found_centers[ii].point );
+      crafted_msg.found_centers.push( found_centers[ii].point );
     }
     for (var ii = 0; ii < found_scores.length; ii++)
     {
@@ -338,8 +339,8 @@ function craft_response(rosbridge_msg)
     crafted_msg.error = "RAPP Platform Failure";
   }
 
-  //console.log(JSON.stringify(crafted_msg));
   postMessage( craft_slaveMaster_msg('log', logMsg) );
+  //console.log(crafted_msg);
   return JSON.stringify(crafted_msg)
 };
 
@@ -355,6 +356,7 @@ function craft_error_response()
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
+  //console.log(crafted_msg);
   return JSON.stringify(crafted_msg);
 }
 
