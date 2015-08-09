@@ -15,6 +15,7 @@
 var Rsg_ = require ( './randStringGen.js' );
 var RunTime_ = require( './runtime.js' );
 var Logger_ = require( './logger.js' );
+var Hop_ = require('hop');
 
 /* --------< Initiate Random String Generator Module >------- */
 var __randStrLength = 5;
@@ -182,6 +183,7 @@ function registerWorkerProcess(worker)
     console.log("Error ---> %s", e);
     return false;
   }
+
   registerService( worker.name );
 
   setWorkerId( worker.name );
@@ -190,6 +192,12 @@ function registerWorkerProcess(worker)
 
   console.log( "Created worker for service:" +
     "\033[0;32m [%s]\033[0;0m", worker.name );
+
+  var serviceUrl = 'http://' + Hop_.hostname + ':' + Hop_.port + '/hop/' +
+    worker.name;
+
+  console.log('Started %s hop service \033[1m%s\033[0m\r\n', worker.name,
+    serviceUrl);
 
   //  Register 'this' worker onmessage callback
   __workers[ worker.name ].onmessage = function(msg){
@@ -206,6 +214,7 @@ function serviceExists(srvName)
   if (__services.indexOf(srvName) > -1) {return true;}
   else {return false;}
 }
+
 
 /*!
  * @brief Terminates WorkerHandler. Sends termination signal to workers

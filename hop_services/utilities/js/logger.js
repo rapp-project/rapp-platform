@@ -34,6 +34,7 @@ function createLogDir(logDir)
     Fs.createDirRecur(logDir);
   }
   __logDirCreated = true;
+  console.log('...logging to [%s]\r\n', __logDir);
   return;
 }
 
