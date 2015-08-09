@@ -18,19 +18,21 @@ and access RIC(RAPP Improvement Center) AI modules.
   - file_uri: Destination where the posted file data (**image file**) are saved by hop-server.
     Data are posted using a multipart/form-data post request using this field.
     e.g.
-    ```python
+
+    ```
     file = {'file_uri': open(<to-send-file-path>, 'rb')}
     ```
 
   **Response/Return-Data**
-  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received datia.
+
+  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received datia.
 
   > { qr_centers: [], error: '' }
 
   - qr_centers: Dynamic vector that containes points (x,y,z) of found QR in an image frame.
   - error: If error was encountered, an error message is pushed in this field
     and returned to the client.
+
 
   > {
   >   qr_centers: [ { y: 165, x: 165, z: 0 } ],
@@ -47,7 +49,8 @@ and access RIC(RAPP Improvement Center) AI modules.
   - file_uri: Destination where the posted file data (**image file**) are saved by hop-server.
     Data are posted using a multipart/form-data post request using this field.
     e.g.
-    ```python
+
+    ```
     file = {'file_uri': open(<to-send-file-path>, 'rb')}
     ```
 
@@ -63,6 +66,7 @@ and access RIC(RAPP Improvement Center) AI modules.
   - error: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
+
   > {
   >   faces_up_left: [ { y: 200, x: 212, z: 0 } ],
   >   faces_down_right: [ { y: 379, x: 391, z: 0 } ],
@@ -77,7 +81,8 @@ and access RIC(RAPP Improvement Center) AI modules.
   - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server.
     Data are posted using a multipart/form-data post request using this field.
     e.g.
-    ```python
+
+    ```
     file = {'file_uri': open(<to-send-file-path>, 'rb')}
     ```
 
@@ -97,6 +102,7 @@ and access RIC(RAPP Improvement Center) AI modules.
   - error: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
+
   > {
   >  error:"RAPP Platform Failure!"
   > }
@@ -111,7 +117,8 @@ and access RIC(RAPP Improvement Center) AI modules.
   - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server.
     Data are posted using a multipart/form-data post request using this field.
     e.g.
-    ```python
+
+    ```
     file = {'file_uri': open(<to-send-file-path>, 'rb')}
     ```
 
@@ -157,6 +164,7 @@ and access RIC(RAPP Improvement Center) AI modules.
   - **'trace'**:
   - **'error'**: If error was encountered, an error message is pushed in this field
     and returned to the client.
+
 
   > { [ 'http://knowrob.org/kb/knowrob.owl#Oven',
   >     'http://knowrob.org/kb/knowrob.owl#MicrowaveOven',
