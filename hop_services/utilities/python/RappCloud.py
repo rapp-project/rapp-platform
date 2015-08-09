@@ -127,9 +127,9 @@ class RappCloud:
         # -- Post-Request!
         url = self.serviceUrl_['face_detection']
         r = requests.post(url, files=files, auth=HTTPBasicAuth('rappdev', 'rappdev'))
-        #r = requests.post(url, files=files)
 
         resp_msg = json.loads(r.text)
+        print resp_msg
         #print '\033[1;33m' + str(resp_msg) + '\033[0m'
         return resp_msg
     #===========================================================================================
@@ -173,7 +173,7 @@ class RappCloud:
         payload = {'limit': int(limit)}
 
         # -- Post-Request!
-        url = self.serviceUrl_['image_recognition']
+        url = self.serviceUrl_['detect_objects']
         r = requests.post(url, data=payload, files=files, auth=HTTPBasicAuth('rappdev', 'rappdev'))
 
         resp_msg = json.loads(r.text)
@@ -181,7 +181,8 @@ class RappCloud:
     #===========================================================================================
 
     def available_services(self):
-        payload = {'now': 1};
+        # payload = {'now': 1};
+        payload = {'dummy': ''}
 
         # -- Post-Request!
         url = self.serviceUrl_['available_services']

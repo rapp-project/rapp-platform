@@ -60,6 +60,10 @@ class RappInterfaceTest:
     found_centers = response['found_centers']
     found_scores = response['found_scores']
     error = response['error']
+    if error != "":
+        return [error, self.elapsed_time]
 
     #  Validate Results here
+    ## Dummy return
+    return [True, self.elapsed_time]
 

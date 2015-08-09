@@ -55,7 +55,7 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-    
+
     return_data = response['qr_centers']
     error = response['error']
     if error != "":
