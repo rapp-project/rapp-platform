@@ -11,7 +11,11 @@ and access RIC(RAPP Improvement Center) AI modules.
 
 ## Services
 
-- **qr_detection ( {file_uri: ''} )**
+#### [qr_detection( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/qr_detection.service.js)
+
+```
+qr_detection ( {file_uri: ''} )
+```
 
   **Input parameters**
 
@@ -42,7 +46,11 @@ and access RIC(RAPP Improvement Center) AI modules.
 
 
 
-- **face_detection ( {file_uri: ''} )**
+#### [face_detection( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/face_detection.service.js)
+
+  ```
+  face_detection ( {file_uri: ''} )
+  ```
 
   **Input parameters**
 
@@ -74,7 +82,11 @@ and access RIC(RAPP Improvement Center) AI modules.
   > }
 
 
-- **set_denoise_profile ( {file_uri: '', audio_source: '', user: ''} )**
+#### [set_denoise_profile( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/set_denoise_profile.service.js)
+
+  ```
+  set_denoise_profile ( {file_uri: '', audio_source: '', user: ''} )
+  ```
 
   **Input parameters**
 
@@ -108,9 +120,11 @@ and access RIC(RAPP Improvement Center) AI modules.
   > }
 
 
-- **speech_detection_sphinx4 ( { file_uri: '', language: '',
-    audio_source: '', words: [], sentences: [], grammar: [], user: ''
-    })**
+#### [speech_detection_sphinx4( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/speech_detection_sphinx4.service.js) 
+
+  ```
+  speech_detection_sphinx4 ( { file_uri: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''})
+  ``` 
 
   **Input parameters**
 
@@ -146,7 +160,11 @@ and access RIC(RAPP Improvement Center) AI modules.
 
 
 
-- **ontology_subclasses_of ( { query: ''} )**
+#### [ontology_subclasses_of( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_subclasses_of.service.js)
+
+  ```
+  ontology_subclasses_of ( { query: ''} )
+  ```
 
   **Input parameters**
 
@@ -175,7 +193,11 @@ and access RIC(RAPP Improvement Center) AI modules.
   > }
 
 
-- **ontology_superclasses_of ( { query: ''} )**
+#### [ontology_superclasses_of( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_superclasses_of.service.js)
+
+  ```
+  ontology_superclasses_of ( { query: ''} )
+  ```
 
   **Input parameters**
 
@@ -195,7 +217,11 @@ and access RIC(RAPP Improvement Center) AI modules.
     and returned to the client.
 
 
-- **ontology_is_subsuperclass_of ( { parent_class: '', child_class: '', recursive: false } )**
+#### [ontology_is_subsuperclass_of( ) ](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_is_subsuperclass_of.service.js)
+
+  ```
+    ontology_is_subsuperclass_of ( { parent_class: '', child_class: '', recursive: false } )
+  ```
 
   **Input parameters**
 
