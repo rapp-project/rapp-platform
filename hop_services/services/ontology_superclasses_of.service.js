@@ -4,9 +4,8 @@
  *
  */
 
-console.log("Initiated Ontology-Superclasses-Of front-end service");
+var __DEBUG__ = false;
 
-// TODO -- Get ontology_subclassesOf rosservice name
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
@@ -29,6 +28,14 @@ var max_tries = 2
 //var max_timer_ticks = 1000 * max_time / tick_value;
 /* --------------------------------------------------------------- */
 
+var __hopServiceName = 'ontology_superclasses_of';
+var __hopServiceId = null;
+var __masterId = null;
+var __storeDir = '~/.hop/cache/';
+
+register_master_interface();
+
+
 
 /*!
  * @brief Ontology-SuperclassesOf database query, HOP Service Core.
@@ -38,60 +45,48 @@ var max_tries = 2
  */
 service ontology_superclasses_of ( {query:''} )
 {
-  var randStr = randStrGen.createUnique();
-  console.log("[Ontology-Superclasses-Of]: Client Request");
-  console.log('[Ontology-Superclasses-Of]: Query -->', query);
+  postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
- /*----------------------------------------------------------------- */
- var respFlag = false;
- return hop.HTTPResponseAsync(
-   function( sendResponse ) {
+  /*----------------------------------------------------------------- */
+  return hop.HTTPResponseAsync(
+    function( sendResponse ) {
 
-     var args = {};
-     args[ "ontology_class" ] = query;
+      var args = {};
+      args[ "ontology_class" ] = query;
 
-     /*=============================TEMPLATE======================================================*/
-     var rosbridge_connection = true;
-     var respFlag = false;
+      /*=============================TEMPLATE======================================================*/
+      var rosbridge_connection = true;
+      var respFlag = false;
 
-     // Create a unique caller id
-     var uniqueID = randStrGen.createUnique();
-     var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, uniqueID);
+      // Create a unique caller id
+      var unqCallId = randStrGen.createUnique();
+      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
 
-     /* ------ Catch exception while open websocket communication ------- */
+      /* ------ Catch exception while open websocket communication ------- */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
-      }
-      catch(e){
-        rosbridge_connection = false; // Could not open websocket to rosbridge websocket server
-        console.error('[Ontology-Superclasses-Of] ERROR: Cannot open websocket to rosbridge' +
-          '--> [ws//localhost:9090]' );
-        // Print exception
-        console.log(e);
-        // Craft return to client message
-        var resp_msg = craft_error_response();
-        // Return to Client
-        sendResponse( resp_msg );
-        console.log("[Ontology-Superclasses-Of]: Returning to client with error");
-        return
-      }
-      /* ----------------------------------------------------------------- */
 
-      /* ------- Add into a try/catch block to ensure safe access -------- */
-      try{
-        // Implement WebSocket.onopen callback
+        // Register WebSocket.onopen callback
         rosWS.onopen = function(){
           rosbridge_connection = true;
-          console.log('[Ontology-Superclasses-Of]: Connection to rosbridge established');
+
+          var logMsg = 'Connection to rosbridge established';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
           this.send(JSON.stringify(rosbridge_msg));
         }
-        // Implement WebSocket.onclose callback
+
+        // Register WebSocket.onclose callback
         rosWS.onclose = function(){
-          console.log('[Ontology-Superclasses-Of]: Connection to rosbridge closed');
+          var logMsg = 'Connection to rosbridge closed';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
         }
-        // Implement WebSocket.message callback
+
+        // Register WebSocket.onmessage callback
         rosWS.onmessage = function(event){
-          console.log('[Ontology-Superclasses-Of]: Received message from rosbridge');
+          var logMsg = 'Received message from rosbridge';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket
@@ -99,19 +94,20 @@ service ontology_superclasses_of ( {query:''} )
           respFlag = true; // Raise Response-Received Flag
 
           // Dismiss the unique rossrv-call identity  key for current client
-          randStrGen.removeCached( uniqueID );
+          randStrGen.removeCached( unqCallId );
           sendResponse( resp_msg );
-          console.log("[Ontology-Superclasses-Of]: Returning to client");
         }
       }
       catch(e){
         rosbridge_connection = false;
-        console.error('[Ontology-Superclasses-Of] --> ERROR: Cannot open websocket' +
-          'to rosbridge --> [ws//localhost:9090]' );
-        console.log(e);
+        //console.log(e);
+
+        var logMsg = 'ERROR: Cannot open websocket' +
+          'to rosbridge [ws//localhost:9090]\r\n' + e;
+        postMessage( craft_slaveMaster_msg('log', logMsg) );
+
         var resp_msg = craft_error_response;
         sendResponse( resp_msg );
-        console.log("[Ontology-Superclasses-Of]: Returning to client with error");
         return;
       }
       /*------------------------------------------------------------------ */
@@ -123,100 +119,110 @@ service ontology_superclasses_of ( {query:''} )
       // Set Timeout wrapping function
       function asyncWrap(){
         setTimeout( function(){
-         timer_ticks += 1;
-         elapsed_time = timer_ticks * timer_tick_value;
+          timer_ticks += 1;
+          elapsed_time = timer_ticks * timer_tick_value;
 
-         if (respFlag == true)
-         {
-           return
-         }
-         else if (respFlag != true && elapsed_time > max_time ){
-           timer_ticks = 0;
-           retries += 1;
+          if (respFlag == true)
+        {
+          return
+        }
+          else if (respFlag != true && elapsed_time > max_time ){
+            timer_ticks = 0;
+            retries += 1;
 
-           console.log("[Ontology-Superclasses-Of]: Reached rosbridge response timeout" +
-             "---> [%s] ms ... Reconnecting to rosbridge. Retry-%s",
-             elapsed_time.toString(), retries.toString());
+            var logMsg = 'Reached rosbridge response timeout' +
+          '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
+          'Retry-' + retries;
+        postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-           if (retries > max_tries) // Reconnected for max_tries times
-           {
-             console.log("[Ontology-Superclasses-Of]: Reached max_retries (%s)" +
-               "Could not receive response from rosbridge... Returning to client",
-               max_tries);
-             var respMsg = craft_error_response();
-             sendResponse( respMsg );
-             console.log("[Ontology-Superclasses-Of]: Returning to client with error");
-             //  Close websocket before return
-             rosWS.close();
-             rosWS = undefined;
-             return;
-           }
+        if (retries > max_tries) // Reconnected for max_tries times
+        {
+          var logMsg = 'Reached max_retries [' + max_tries + ']' +
+          ' Could not receive response from rosbridge...';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-           if (rosWS != undefined)
-           {
-             rosWS.close();
-           }
-           rosWS = undefined;
+          var respMsg = craft_error_response();
 
-           /* --------------< Re-open connection to the WebSocket >--------------*/
-           try{
-             rosWS = new WebSocket('ws://localhost:9090');
+          //  Close websocket before return
+          rosWS.close();
+          rosWS = undefined;
+          sendResponse( respMsg );
+          return;
+        }
 
-             /* -----------< Redefine WebSocket callbacks >----------- */
-             rosWS.onopen = function(){
-             console.log('[Ontology-Superclasses-Of]: Connection to rosbridge established');
-             this.send(JSON.stringify(rosbridge_msg));
-             }
+        if (rosWS != undefined)
+        {
+          rosWS.close();
+        }
+        rosWS = undefined;
 
-             rosWS.onclose = function(){
-               console.log('[Ontology-Superclasses-Of]: Connection to rosbridge closed');
-             }
+        /* --------------< Re-open connection to the WebSocket >--------------*/
+        try{
+          rosWS = new WebSocket('ws://localhost:9090');
 
-             rosWS.onmessage = function(event){
-               console.log('[Ontology-Superclasses-Of]: Received message from rosbridge');
-               var resp_msg = craft_response( event.value );
-               //console.log(resp_msg);
-               this.close(); // Close websocket
-               rosWS = undefined; // Decostruct websocket
-               respFlag = true;
-               randStrGen.removeCached( uniqueID ); //Remove the uniqueID so it can be reused
-               sendResponse( resp_msg ); //Return response to client
-               console.log("[Ontology-Superclasses-Of]: Returning to client");
-             }
-           }
-           catch(e){
-             rosbridge_connection = false;
-             console.error('[Ontology-Superclasses-Of] ---> ERROR: Cannot open websocket' +
-               'to rosbridge --> [ws//localhost:9090]' );
-             console.log(e);
-             var resp_msg = craft_error_response();
-             sendResponse( resp_msg );
-             console.log("[Ontology-Superclasses-Of]: Returning to client with error");
-             return
-           }
+          /* -----------< Redefine WebSocket callbacks >----------- */
+          // Register Websocket.onopen callback
+          rosWS.onopen = function(){
+            var logMsg = 'Connection to rosbridge established';
+            postMessage( craft_slaveMaster_msg('log', logMsg) );
+            this.send(JSON.stringify(rosbridge_msg));
+          }
 
-         }
-         /*--------------------------------------------------------*/
-         asyncWrap(); // Recall timeout function
+          // Register Websocket.onclose callback
+          rosWS.onclose = function(){
+            var logMsg = 'Connection to rosbridge closed';
+            postMessage( craft_slaveMaster_msg('log', logMsg) );
+          }
 
-       }, timer_tick_value); //Timeout value is set at 100 ms.
-     }
-     asyncWrap();
-/*==============================================================================================*/
-   }, this );
+          // Register Websocket.onmesasge callback
+          rosWS.onmessage = function(event){
+            var logMsg = 'Received message from rosbridge';
+            postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+            var resp_msg = craft_response( event.value );
+            //console.log(resp_msg);
+
+            this.close(); // Close websocket
+            rosWS = undefined; // Decostruct websocket
+            respFlag = true;
+            //Remove the unqCallId so it can be reused
+            randStrGen.removeCached( unqCallId );
+            sendResponse( resp_msg ); //Return response to client
+          }
+        }
+        catch(e){
+          rosbridge_connection = false;
+          //console.log(e);
+
+          var logMsg = 'ERROR: Cannot open websocket' +
+            'to rosbridge --> [ws//localhost:9090]';
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+          var resp_msg = craft_error_response();
+          sendResponse( resp_msg );
+          return;
+        }
+
+          }
+        /*--------------------------------------------------------*/
+        asyncWrap(); // Recall timeout function
+
+        }, timer_tick_value); //Timeout value is set at 100 ms.
+      }
+      asyncWrap();
+      /*==============================================================================================*/
+    }, this );
 };
 
 
 
 /*!
- * @brief Crafts the form/format for the message to be returned
- * from the faceDetection hop-service.
- * @param rosbridge_msg Return message from rosbridge.
- * return Message to be returned from the hop-service
+ * @brief Crafts the form/format for the message to be returned to client
+ * @param rosbridge_msg Return message from rosbridge
+ * @return Message to be returned from service
  */
 function craft_response(rosbridge_msg)
 {
-  // TODO --Implement
   var msg = JSON.parse(rosbridge_msg);
   var results = msg.values.results;
   var trace = msg.values.trace;
@@ -236,25 +242,44 @@ function craft_response(rosbridge_msg)
     {
       crafted_msg.trace.push(trace[ii]);
     }
+
     crafted_msg.error = error;
+    logMsg = 'Returning to client.';
+
+    if (error != '')
+    {
+      logMsg += ' ROS service [' + ros_service_name + '] error'
+        ' ---> ' + error;
+    }
+    else
+    {
+      logMsg += ' ROS service [' + ros_service_name + '] returned with success'
+    }
   }
   else
   {
-    crafted_msg.error = "RAPP Platform Failure"
+    logMsg = 'Communication with ROS service ' + ros_service_name +
+      'failed. Unsuccesful call! Returning to client with error' +
+      ' ---> RAPP Platform Failure';
+    crafted_msg.error = 'RAPP Platform Failure';
   }
 
   //console.log(crafted_msg);
-  return JSON.stringify(crafted_msg);
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
+  return JSON.stringify(crafted_msg)
 }
-
 
 /*!
  * @brief Crafts response message on Platform Failure
  */
 function craft_error_response()
 {
-  // Add here to be returned literal
-  var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+  var errorMsg = 'RAPP Platform Failure!'
+    var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+
+  var logMsg = 'Return to client with error --> ' + errorMsg;
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
+
   return JSON.stringify(crafted_msg);
 }
 
@@ -276,3 +301,62 @@ function craft_rosbridge_msg(args, service_name, id){
 }
 
 
+function register_master_interface()
+{
+  // Register onexit callback function
+  onexit = function(e){
+    console.log("Service [%s] exiting...", __hopServiceName);
+    var logMsg = "Received termination command. Exiting.";
+    postMessage( craft_slaveMaster_msg('log', logMsg) );
+  }
+
+  // Register onmessage callback function
+  onmessage = function(msg){
+    if (__DEBUG__)
+    {
+      console.log("Service [%s] received message from master process",
+        __hopServiceName);
+      console.log("Msg -->", msg.data);
+    };
+
+    var logMsg = 'Received message from master process --> [' +
+      msg.data + ']';
+    postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+    exec_master_command(msg.data);
+  }
+
+  // On initialization inform master and append to log file
+  var logMsg = "Initiated worker";
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
+}
+
+
+function exec_master_command(msg)
+{
+  var cmd = msg.cmdId;
+  var data = msg.data;
+  switch (cmd)
+  {
+    case 2055:  // Set worker ID
+      __hopServiceId = data;
+      break;
+    case 2050:
+      __masterId = data;
+      break;
+    default:
+      break;
+  }
+}
+
+
+function craft_slaveMaster_msg(msgId, msg)
+{
+  var msg = {
+    name: __hopServiceName,
+    id:   __hopServiceId,
+    msgId: msgId,
+    data: msg
+  }
+  return msg;
+}

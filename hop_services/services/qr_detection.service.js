@@ -6,12 +6,9 @@
 
 "use strict";
 
-console.log('Initiated QR Detection front-end service');
-
-
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
-//
+
 var __DEBUG__ = false;
 
 /*---------Sets required file Paths-------------*/
@@ -27,8 +24,6 @@ var RandStringGen = require ( module_path + 'randStringGen.js' );
 
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = '/rapp/rapp_qr_detection/detect_qrs';
-var hopServiceName = 'qr_detection';
-var hopServiceId = null;
 /*------------------------------------------------------*/
 
 /*----<Random String Generator configurations---->*/
@@ -43,12 +38,12 @@ var max_tries = 3;
 //var max_timer_ticks = 1000 * max_time / tick_value;
 /* --------------------------------------------------------------- */
 
-var __workerId__ = null;
-var __masterId__ = null;
-var __storeDir__ = '~/.hop/cache/';
+var __hopServiceName = 'qr_detection';
+var __hopServiceId = null;
+var __masterId = null;
+var __storeDir = '~/.hop/cache/';
 
 register_master_interface();
-//var slaveMasterMsg = craft_slaveMaster_msg();
 
 
 /*!
@@ -71,11 +66,11 @@ service qr_detection ( {file_uri:''} )
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
-  var cpFilePath = __storeDir__ + fileName.split('.')[0] + '-'  + unqCallId +
+  var cpFilePath = __storeDir + fileName.split('.')[0] + '-'  + unqCallId +
     '.' + fileName.split('.')[1];
   cpFilePath = Fs.resolve_path(cpFilePath);
+  /* ---------------------------------------------------------------- */
 
-  console.log(cpFilePath);
 
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.copyFile(file_uri, cpFilePath) == false)
@@ -92,6 +87,9 @@ service qr_detection ( {file_uri:''} )
     var resp_msg = craft_error_response();
     return resp_msg;
   }
+
+  logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
 
   /* Async http response */
@@ -110,19 +108,16 @@ service qr_detection ( {file_uri:''} )
       var rosbridge_connection = true;
       var respFlag = false;
 
-      // Create a unique caller id
-      //var uniqueID = randStrGen.createUnique();
       var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
 
-      /* ------ Catch exception while open websocket communication ------- */
+      /* ---- Catch exception while initiating websocket communication ----- */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
-      /* ----------------------------------------------------------------- */
 
-      /* ------- Add into a try/catch block to ensure safe access -------- */
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
           rosbridge_connection = true;
+
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -138,8 +133,10 @@ service qr_detection ( {file_uri:''} )
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
+          //console.log(event.value);
           Fs.rm_file_sync(cpFilePath);
           var resp_msg = craft_response( event.value ); // Craft response message
+
           this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
@@ -153,13 +150,10 @@ service qr_detection ( {file_uri:''} )
         rosbridge_connection = false;
 
         var logMsg = 'ERROR: Cannot open websocket' +
-          'to rosbridge --> [ws//localhost:9090]';
-
-        // Update master and logger
+          'to rosbridge [ws//localhost:9090]\r\n' + e;
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         Fs.rm_file_sync(cpFilePath);
-        console.log(e);
         var resp_msg = craft_error_response();
         sendResponse( resp_msg );
         return;
@@ -187,7 +181,6 @@ service qr_detection ( {file_uri:''} )
            var logMsg = 'Reached rosbridge response timeout' +
              '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
              'Retry-' + retries;
-
            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
            if (retries >= max_tries) // Reconnected for max_tries times
@@ -198,6 +191,7 @@ service qr_detection ( {file_uri:''} )
 
              Fs.rm_file_sync(cpFilePath);
              var respMsg = craft_error_response();
+
              //  Close websocket before return
              rosWS.close();
              rosWS = undefined;
@@ -243,18 +237,17 @@ service qr_detection ( {file_uri:''} )
            }
            catch(e){
              rosbridge_connection = false;
+             //console.log(e);
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';
-
-             // Update master and logger
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
              Fs.rm_file_sync(cpFilePath);
-             console.log(e);
              var resp_msg = craft_error_response();
+
              sendResponse( resp_msg );
-             return
+             return;
            }
 
          }
@@ -292,6 +285,7 @@ function craft_response(rosbridge_msg)
     {
       crafted_msg.qr_centers.push(qrCenters[ii].point);
     }
+
     crafted_msg.error = error;
     logMsg = 'Returning to client.';
 
@@ -313,6 +307,7 @@ function craft_response(rosbridge_msg)
     crafted_msg.error = 'RAPP Platform Failure';
   }
 
+  //console.log(crafted_msg);
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   return JSON.stringify(crafted_msg)
 }
@@ -354,7 +349,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", hopServiceName);
+    console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   }
@@ -364,7 +359,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        hopServiceName);
+        __hopServiceName);
       console.log("Msg -->", msg.data);
     };
 
@@ -388,10 +383,10 @@ function exec_master_command(msg)
   switch (cmd)
   {
     case 2055:  // Set worker ID
-      __workerId__ = data;
+      __hopServiceId = data;
       break;
     case 2050:
-      __masterId__ = data;
+      __masterId = data;
       break;
     default:
       break;
@@ -402,8 +397,8 @@ function exec_master_command(msg)
 function craft_slaveMaster_msg(msgId, msg)
 {
   var msg = {
-    name: hopServiceName,
-    id:   __workerId__,
+    name: __hopServiceName,
+    id:   __hopServiceId,
     msgId: msgId,
     data: msg
   }

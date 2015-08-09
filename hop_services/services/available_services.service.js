@@ -38,7 +38,7 @@ var __availableServices__ = [];
 register_master_interface();
 
 
-service available_services ( {now: ''} )
+service available_services ( {dummy: ''} )
 {
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
   __updatedServiceList__ = false;
