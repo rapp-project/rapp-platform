@@ -35,8 +35,6 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-module_path = __path__ + '/../../python'
-sys.path.append(module_path)
 from RappCloud import *
 
 class RappInterfaceTest:
@@ -50,8 +48,8 @@ class RappInterfaceTest:
     self.valid_results = True;
 
   def execute(self):
-
     start_time = timeit.default_timer()
+
     # Call the Python RappCloud service
     response = self.rappCloud.ontology_is_subsuperclass_of(self.parent_class_, \
       self.child_class_, self.recursive_)
@@ -61,10 +59,11 @@ class RappInterfaceTest:
 
   def validate(self, response):
     # Get the returned data
-    return_data = response['result']
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
+
+    return_data = response['result']
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]

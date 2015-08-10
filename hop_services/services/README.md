@@ -1,7 +1,7 @@
 ## Synopsis
 
 Containes RAPP Platform web services developed using hOP web broker.
-These services are used in order to communicate with the RAPP Platform echosystem
+These services are used in order to communicate with the RAPP Platform ecosystem
 and access RIC(RAPP Improvement Center) AI modules.
 
 

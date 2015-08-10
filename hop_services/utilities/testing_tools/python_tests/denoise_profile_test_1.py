@@ -34,8 +34,6 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-module_path = __path__ + '/../../python'
-sys.path.append(module_path)
 from RappCloud import *
 
 class RappInterfaceTest:
@@ -56,7 +54,7 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-       
+
     error = response['error']
 
     if error != "":

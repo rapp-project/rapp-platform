@@ -35,9 +35,7 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-module_path = __path__ + '/../../python'
-sys.path.append(module_path)
-from RappCloud import *
+from RappCloud import RappCloud
 
 class RappInterfaceTest:
 
@@ -47,7 +45,7 @@ class RappInterfaceTest:
     # Configure the call parameters
     self.file_uri = __path__  + '/../test_data/YOUR_DATA_HERE_IF_NEEDED'
     # Set the valid results
-    self.valid_results = 0 
+    self.valid_results = 0
 
   def execute(self):
 
@@ -59,11 +57,11 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-    # Get the returned data
-    return_data = response['qr_centers']
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
+
+    return_data = response['qr_centers']
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]

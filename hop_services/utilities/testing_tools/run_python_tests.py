@@ -37,12 +37,7 @@ from threading import Thread, Lock
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-module_path = __path__ + '/../python'
-sys.path.append(module_path)
-## ------------------------------------------------##
-
-# Mutex lock used 
+# Mutex lock used
 mutex = Lock()
 threaded = False
 
@@ -74,7 +69,7 @@ def execute(module):
 
 
 
-def main(): 
+def main():
   folder = __path__ + "/python_tests"
   sys.path.append(folder)
 
@@ -110,7 +105,7 @@ def main():
 
   ## ---------------------------------------------------------------- ##
 
-  
+
   # -- Loop through test files to be executed -- #
   for f in files:
     clean_file = f.split(".")
@@ -119,7 +114,7 @@ def main():
     module = importlib.import_module(clean_file[0])
 
     for i in range(0, numCalls):
-      if threaded: 
+      if threaded:
         thread = Thread(target=execute, args=(module, ))
         thread.start()
         threads.append(thread)
@@ -131,7 +126,7 @@ def main():
     # Wait for all threads to complete
     for t in threads:
       t.join()
-    
+
 if __name__ == "__main__":
   main()
 

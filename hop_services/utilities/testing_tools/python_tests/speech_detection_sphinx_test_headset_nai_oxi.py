@@ -35,9 +35,7 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-module_path = __path__ + '/../../python'
-sys.path.append(module_path)
-from RappCloud import *
+from RappCloud import RappCloud
 
 class RappInterfaceTest:
 
@@ -68,11 +66,12 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-    
-    return_data = response['words']
+
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
+
+    return_data = response['words']
     if self.valid_words_found == return_data:
       return [True, self.elapsed_time]
     else:

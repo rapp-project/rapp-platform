@@ -6,9 +6,6 @@
 
 "use strict";
 
-console.log('Initiated Set-Denoise_profile front-end service')
-
-
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
 

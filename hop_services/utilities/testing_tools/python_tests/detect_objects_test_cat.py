@@ -33,9 +33,7 @@ import timeit
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-module_path = __path__ + '/../../python'
-sys.path.append(module_path)
-from RappCloud import *
+from RappCloud import RappCloud
 
 class RappInterfaceTest:
 
@@ -45,6 +43,7 @@ class RappInterfaceTest:
     self.limit = 1
 
     #  Set valid results here
+    self.valid_results = {}
     #  TODO -- Create a function that loads valid results
 
   def execute(self):
@@ -56,13 +55,13 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-    found_names = response['found_names']
-    found_centers = response['found_centers']
-    found_scores = response['found_scores']
     error = response['error']
     if error != "":
         return [error, self.elapsed_time]
 
+    found_names = response['found_names']
+    found_centers = response['found_centers']
+    found_scores = response['found_scores']
     #  Validate Results here
     ## Dummy return
     return [True, self.elapsed_time]

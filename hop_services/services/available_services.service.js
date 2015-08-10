@@ -3,9 +3,7 @@
  * @brief Returns available hop services located on RAPP Platform
  */
 
-"use strict";
-
-console.log('Initiated Available-Services front-end service');
+//"use strict";
 
 
 var __DEBUG__ = false;
@@ -38,7 +36,7 @@ var __availableServices__ = [];
 register_master_interface();
 
 
-service available_services ( {dummy: ''} )
+service available_services (  )
 {
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
   __updatedServiceList__ = false;

@@ -35,9 +35,7 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-module_path = __path__ + '/../../python'
-sys.path.append(module_path)
-from RappCloud import *
+from RappCloud import RappCloud
 
 class RappInterfaceTest:
 
@@ -45,9 +43,12 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.ontology_class = "Oven"
     # Set the valid results
-    self.valid_results = [ 'http://knowrob.org/kb/knowrob.owl#MicrowaveOven', \
-      'http://knowrob.org/kb/knowrob.owl#RegularOven', \
-      'http://knowrob.org/kb/knowrob.owl#ToasterOven']
+    self.valid_results = [
+        'http://knowrob.org/kb/knowrob.owl#Box-Container', \
+        'http://knowrob.org/kb/knowrob.owl#FurniturePiece', \
+        'http://knowrob.org/kb/knowrob.owl#HeatingDevice', \
+        'http://knowrob.org/kb/knowrob.owl#HouseholdAppliance'
+    ]
 
   def execute(self):
 
@@ -59,11 +60,12 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-    # Get the returned data
-    return_data = response['results']
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
+
+    # Get the returned data
+    return_data = response['results']
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]
