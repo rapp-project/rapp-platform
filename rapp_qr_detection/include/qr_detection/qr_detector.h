@@ -23,6 +23,14 @@ class QrDetector
     // Default constructor
     QrDetector(void);
 
+    cv::Mat loadImage(std::string file_name);
+
+    void detectQrs(
+      const cv::Mat& img,
+      std::vector<cv::Point> &qr_points,
+      std::vector<std::string> &qr_messages
+      );
+
     void findQrs(
       std::string file_name,
       std::vector<cv::Point> &qr_points,

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <qr_detection/qr_detector.h>
+#include <ros/package.h>
 
 class QrDetectionTest : public ::testing::Test
 {
@@ -21,12 +22,43 @@ class QrDetectionTest : public ::testing::Test
 
 };
 
-TEST_F(QrDetectionTest, test1){
-  std::string s("/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/qr_code_rapp.jpg");
-  std::vector<cv::Point> points;
+TEST_F(QrDetectionTest, lenna_test)
+{
+  std::string path = ros::package::getPath("rapp_auxiliary_files");
+  std::string s = path + std::string("/Lenna.png");
+  std::vector<cv::Point> points; 
   std::vector<std::string> messages;
-  qr_detector_->findQrs(s, points, messages);
-  EXPECT_EQ(1,messages.size());
+  qr_detector_->findQrs(s, points, messages); 
+  EXPECT_EQ(0, messages.size());
+}
+
+TEST_F(QrDetectionTest, qr_test)
+{
+  std::string path = ros::package::getPath("rapp_auxiliary_files");
+  std::string s = path + std::string("/qr_code_rapp.jpg");
+  std::vector<cv::Point> points; 
+  std::vector<std::string> messages;
+  qr_detector_->findQrs(s, points, messages); 
+  EXPECT_EQ(1, messages.size());
+}
+
+TEST_F(QrDetectionTest, file_not_exists_test)
+{
+  std::string path = ros::package::getPath("rapp_auxiliary_files");
+  std::string s = path + std::string("/file_not_exists.jpg");
+  std::vector<cv::Point> points; 
+  std::vector<std::string> messages;
+  qr_detector_->findQrs(s, points, messages); 
+  EXPECT_EQ(0, messages.size());
+}
+
+TEST_F(QrDetectionTest, zero_sized_image_test)
+{
+  cv::Mat tmp_img(0, 0, CV_8UC1);
+  std::vector<cv::Point> points; 
+  std::vector<std::string> messages;
+  qr_detector_->detectQrs(tmp_img, points, messages);
+  EXPECT_EQ(0, messages.size());
 }
 
 int main(int argc, char **argv)

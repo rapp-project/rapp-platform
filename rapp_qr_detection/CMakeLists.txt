@@ -6,6 +6,7 @@ project(rapp_qr_detection)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  roslib
   rostest
   rapp_platform_ros_communications
   cv_bridge
@@ -18,6 +19,7 @@ pkg_check_modules(ZBAR zbar)
 catkin_package(
   CATKIN_DEPENDS
     roscpp
+    roslib
     rostest
     rapp_platform_ros_communications
     cv_bridge

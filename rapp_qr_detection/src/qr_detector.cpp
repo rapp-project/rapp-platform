@@ -7,18 +7,25 @@ QrDetector::QrDetector(void)
   scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
 }
 
-void QrDetector::findQrs(
-  std::string file_name,
-  std::vector<cv::Point> &qr_points,
-  std::vector<std::string> &qr_messages)
+cv::Mat QrDetector::loadImage(std::string file_name)
 {
-  qr_points.clear();
-  qr_messages.clear();
+  cv::Mat img = cv::imread(file_name);
+  return img; 
+}
 
-  cv::Mat input_frame, gray_frame;
-  // Must check if file exists
-  input_frame = cv::imread(file_name);
-  cv::cvtColor(input_frame, gray_frame, CV_BGR2GRAY);
+void QrDetector::detectQrs(
+  const cv::Mat& input_frame,
+  std::vector<cv::Point> &qr_points,
+  std::vector<std::string> &qr_messages
+  )
+{
+  cv::Mat gray_frame;
+
+  unsigned int channels = input_frame.channels();
+  if( channels == 3 )
+  {
+    cv::cvtColor(input_frame, gray_frame, CV_BGR2GRAY);
+  }
 
   int gaussiansharpenblur = 5;
   float gaussiansharpenweight = 0.8;
@@ -56,4 +63,25 @@ void QrDetector::findQrs(
 
     qr_points.push_back(detected_center);
   }
+ 
+}
+
+void QrDetector::findQrs(
+  std::string file_name,
+  std::vector<cv::Point> &qr_points,
+  std::vector<std::string> &qr_messages)
+{
+  qr_points.clear();
+  qr_messages.clear();
+
+  cv::Mat input_frame;
+
+  input_frame = loadImage(file_name);
+
+  if( input_frame.empty() )
+  {
+    return;
+  }
+
+  detectQrs(input_frame, qr_points, qr_messages);
 }
