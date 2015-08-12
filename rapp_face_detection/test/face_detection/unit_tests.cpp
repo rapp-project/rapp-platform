@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <face_detection/face_detector.h>
+#include <ros/package.h>
 
 class FaceDetectionTest : public ::testing::Test
 {
@@ -22,7 +23,9 @@ class FaceDetectionTest : public ::testing::Test
 };
 
 TEST_F(FaceDetectionTest, test1){
-  std::string s("/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/test_auxiliary_files/Lenna.png");
+  std::string path = ros::package::getPath("rapp_auxiliary_files");
+  std::string s = path + std::string("/Lenna.png");
+  std::cout << s << "\n";
   std::vector<cv::Rect> faces = face_detector_->findFaces(s);
   EXPECT_EQ(1,faces.size());
 }

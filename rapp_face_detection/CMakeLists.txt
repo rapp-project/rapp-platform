@@ -6,6 +6,7 @@ project(rapp_face_detection)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  roslib
   rostest
   rapp_platform_ros_communications
   cv_bridge
@@ -17,6 +18,7 @@ find_package(PkgConfig)
 catkin_package(
   CATKIN_DEPENDS
     roscpp
+    roslib
     rostest
     rapp_platform_ros_communications
     cv_bridge
