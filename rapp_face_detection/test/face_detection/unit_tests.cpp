@@ -22,12 +22,35 @@ class FaceDetectionTest : public ::testing::Test
 
 };
 
-TEST_F(FaceDetectionTest, test1){
+TEST_F(FaceDetectionTest, lenna_test)
+{
   std::string path = ros::package::getPath("rapp_auxiliary_files");
   std::string s = path + std::string("/Lenna.png");
-  std::cout << s << "\n";
   std::vector<cv::Rect> faces = face_detector_->findFaces(s);
   EXPECT_EQ(1,faces.size());
+}
+
+TEST_F(FaceDetectionTest, qr_test)
+{
+  std::string path = ros::package::getPath("rapp_auxiliary_files");
+  std::string s = path + std::string("/qr_code_rapp.jpg");
+  std::vector<cv::Rect> faces = face_detector_->findFaces(s);
+  EXPECT_EQ(0,faces.size());
+}
+
+TEST_F(FaceDetectionTest, file_not_exists_test)
+{
+  std::string path = ros::package::getPath("rapp_auxiliary_files");
+  std::string s = path + std::string("/not_existent_file.jpg");
+  std::vector<cv::Rect> faces = face_detector_->findFaces(s);
+  EXPECT_EQ(0,faces.size());
+}
+
+TEST_F(FaceDetectionTest, zero_sized_image_test)
+{
+  cv::Mat tmp_img(0, 0, CV_8UC1);
+  std::vector<cv::Rect> faces = face_detector_->detectFaces(tmp_img);
+  EXPECT_EQ(0,faces.size());
 }
 
 int main(int argc, char **argv)
