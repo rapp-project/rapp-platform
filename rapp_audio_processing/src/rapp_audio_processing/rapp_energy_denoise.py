@@ -36,6 +36,8 @@ class EnergyDenoise:
 
   # Method for energy-based denoising
   def energyDenoise(self, audio_file, scale, denoised_audio_file, energy_denoising_debug):     
+    if not os.path.isfile(audio_file):
+        return False
     samp_freq, signal = wavfile.read(audio_file)
     samples = signal.shape[0]
     sq_signal = signal * 1.0
