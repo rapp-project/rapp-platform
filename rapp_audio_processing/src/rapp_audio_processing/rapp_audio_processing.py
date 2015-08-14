@@ -61,7 +61,7 @@ from rapp_detect_silence import DetectSilence
 from rapp_energy_denoise import EnergyDenoise
 from rapp_sox_denoise import SoxDenoise
 from rapp_utilities import Utilities
-
+from rapp_set_noise_profile import SetNoiseProfile
 
 class AudioProcessing:
  
@@ -72,6 +72,7 @@ class AudioProcessing:
     self.energy_denoise_module = EnergyDenoise()
     self.sox_denoise_module = SoxDenoise()
     self.utilities_module = Utilities()
+    self.set_noise_profile_module = SetNoiseProfile()
 
     self.set_noise_profile_topic = rospy.get_param(\
             "rapp_audio_processing_set_noise_profile_topic")
@@ -119,7 +120,6 @@ class AudioProcessing:
   def setNoiseProfile(self, req):
     res = AudioProcessingSetNoiseProfileSrvResponse()
 
-    cleanup = []
     #-------------------------Check with database-------------------------#
     req_db = fetchDataSrv()
     req_db.req_cols=["username"]
@@ -132,69 +132,11 @@ class AudioProcessing:
       res.success = "Non authenticated user"
       return total_res
 
-    directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
-    if not os.path.isdir(directory):
-      os.makedirs(directory)
-      com_res = os.system("chmod 777 " + directory)
-      if com_res != 0:
-        res.success = "Error: Server chmod malfunctioned"
-        return res
-
-    directory += "/noise_profile/"
-    if not os.path.isdir(directory):
-      os.makedirs(directory)
-      com_res = os.system("chmod 777 " + directory)
-      if com_res != 0:
-        res.success = "Error: Server chmod malfunctioned"
-        return res
-
-    noise_profile_file = directory
-    new_audio = req.noise_audio_file
-
-    # Making audio compatible to sphinx4
-    if req.audio_file_type == 'nao_ogg':
-      new_audio += ".wav"
-      com_res = os.system("sox " + req.noise_audio_file + " " + new_audio)
-      if com_res != 0:
-        res.success = "Error: Server sox malfunctioned"
-        return res
-      cleanup.append(new_audio)
-    elif req.audio_file_type == "nao_wav_1_ch":
-      pass
-    elif req.audio_file_type == "nao_wav_4_ch":
-      new_audio += "_1ch.wav"
-      com_res = os.system("sox " + req.noise_audio_file + " -c 1 -r 16000 " + \
-          new_audio)
-      if com_res != 0:
-        res.success = "Error: Server sox malfunctioned"
-        return res
-
-      cleanup.append(new_audio)
-    else:
-      res.success = "Non valid noise audio type"
-      status = self.cleanup(cleanup)
-      if status != True:
-        res.success += " " + status
-      return total_res
-
-    noise_profile_uri = directory + "/noise_profile_" + req.audio_file_type
-    # Extract noise_profile
-    com_res = os.system("sox " + new_audio + " -t null /dev/null trim 0.5 2.5 noiseprof "\
-            + noise_profile_uri)
-    if com_res != 0:
-      res.success = "Error: Server sox malfunctioned"
-      return res
-
-    com_res = os.system("chmod 777 " + noise_profile_uri)
-    if com_res != 0:
-      res.success = "Error: Server chmod malfunctioned"
-      return res
-
-    status = self.cleanup(cleanup)
-    if status != True:
-      res.success = status
-    else:
-      res.success = "true"
+    #-------------------------set noise profile-------------------------#
+    res.success = self.set_noise_profile_module.setNoise_profile(\
+            req.user,\
+            req.noise_audio_file,\
+            req.audio_file_type)
     return res
 
   # Service callback for handling denoising
