@@ -60,6 +60,7 @@ from std_msgs.msg import (
 from rapp_detect_silence import DetectSilence
 from rapp_energy_denoise import EnergyDenoise
 from rapp_sox_denoise import SoxDenoise
+from rapp_utilities import Utilities
 
 
 class AudioProcessing:
@@ -70,6 +71,7 @@ class AudioProcessing:
     self.detect_silence_module = DetectSilence()
     self.energy_denoise_module = EnergyDenoise()
     self.sox_denoise_module = SoxDenoise()
+    self.utilities_module = Utilities()
 
     self.set_noise_profile_topic = rospy.get_param(\
             "rapp_audio_processing_set_noise_profile_topic")
@@ -232,13 +234,7 @@ class AudioProcessing:
 
   # Cleanup method
   def cleanup(self, clean):
-    for f in clean:
-      command = "rm " + f
-      com_res = os.system(command)
-      if com_res != 0:
-        return "Error: Server rm malfunctioned"
-    return True
-
+    return self.utilities_module.cleanup(clean) 
 
 # Main function
 if __name__ == "__main__": 
