@@ -59,6 +59,7 @@ from std_msgs.msg import (
 
 from rapp_detect_silence import DetectSilence
 from rapp_energy_denoise import EnergyDenoise
+from rapp_sox_denoise import SoxDenoise
 
 
 class AudioProcessing:
@@ -68,6 +69,7 @@ class AudioProcessing:
 
     self.detect_silence_module = DetectSilence()
     self.energy_denoise_module = EnergyDenoise()
+    self.sox_denoise_module = SoxDenoise()
 
     self.set_noise_profile_topic = rospy.get_param(\
             "rapp_audio_processing_set_noise_profile_topic")
@@ -196,19 +198,12 @@ class AudioProcessing:
   # Service callback for handling denoising
   def denoise(self, req):     
     res = AudioProcessingDenoiseSrvResponse()
-    directory = "/tmp/rapp_platform_files/audio_processing/" + req.user
-    noise_profile = directory + "/noise_profile/noise_profile_" + req.audio_type
-    if not os.path.isfile(noise_profile):
-      res.success = "No noise profile for the " + req.audio_type + " type exists"
-      return res
-    
-    command = "sox " + req.audio_file + " " + req.denoised_audio_file +\
-            " noisered " + noise_profile + " " + str(req.scale)
-    com_res = os.system(command)
-    if com_res != 0:
-      res.success = "System sox malfunctioned"
-    else:
-      res.success = "true"
+    res.success = self.sox_denoise_module.soxDenoise(\
+            req.user,\
+            req.audio_type,\
+            req.audio_file,\
+            req.denoised_audio_file,\
+            req.scale)
     return res
 
   # Service callback for detecting silence
