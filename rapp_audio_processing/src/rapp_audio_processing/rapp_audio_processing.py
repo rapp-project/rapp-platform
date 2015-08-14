@@ -57,10 +57,17 @@ from std_msgs.msg import (
   String 
   ) 
 
+from rapp_detect_silence import DetectSilence
+from rapp_energy_denoise import EnergyDenoise
+
+
 class AudioProcessing:
  
   # Constructor performing initializations
   def __init__(self):    
+
+    self.detect_silence_module = DetectSilence()
+    self.energy_denoise_module = EnergyDenoise()
 
     self.set_noise_profile_topic = rospy.get_param(\
             "rapp_audio_processing_set_noise_profile_topic")
@@ -207,55 +214,24 @@ class AudioProcessing:
   # Service callback for detecting silence
   def detect_silence(self, req):     
     res = AudioProcessingDetectSilenceSrvResponse()
-    samp_freq, signal = wavfile.read(req.audio_file)
-    sq_signal = signal * 1.0
-    for i in range(0, len(sq_signal)):
-      sq_signal[i] *= sq_signal[i]
-    mean_sq = mean(sq_signal)
-    std_sq = std(sq_signal)
-    rsd_sq = std_sq / mean_sq
-    res.level = rsd_sq
-    if rsd_sq > req.threshold:
-        res.silence = "false" 
-    else:
+    [res.level, res.silence] = self.detect_silence_module.detectSilence(\
+            req.audio_file, req.threshold)
+    if res.silence == True:
         res.silence = "true"
+    else:
+        res.silence = "false"
     return res
 
   # Service callback for energy denoising
   def energy_denoise(self, req):     
     res = AudioProcessingDenoiseSrvResponse()
-    
-    samp_freq, signal = wavfile.read(req.audio_file)
-    samples = signal.shape[0]
-    sq_signal = signal * 1.0
-    
-    if self.energy_denoising_debug:
-      timearray = arange(0, samples*1.0, 1)
-      timearray /= samp_freq 
-      timearray *= 1000.0
-      subplot(3,1,1)
-      plot(timearray, signal, color = 'k')
-
-    for i in range(0, len(sq_signal)):
-      sq_signal[i] *= sq_signal[i]
-    mean_sq = mean(sq_signal)
-
-    for i in range(0, len(sq_signal)):
-      if sq_signal[i] < req.scale * mean_sq:
-        signal[i] = 0
-
-    if self.energy_denoising_debug:
-      timearray = arange(0, samples*1.0, 1)
-      timearray /= samp_freq 
-      timearray *= 1000.0
-      subplot(3,1,2)
-      plot(timearray, signal, color = 'k')
-
-    if self.energy_denoising_debug:
-      show()
-
-    wavfile.write(req.denoised_audio_file, samp_freq, signal)
-    res.success = "true"
+    output = self.energy_denoise_module.energyDenoise(\
+          req.audio_file, req.scale, req.denoised_audio_file,\
+          self.energy_denoising_debug)
+    if output == True:
+        res.success = "true"
+    else:
+        res.success = "false"
     return res
 
 
