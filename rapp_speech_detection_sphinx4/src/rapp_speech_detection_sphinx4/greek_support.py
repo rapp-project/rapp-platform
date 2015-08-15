@@ -185,6 +185,12 @@ class GreekSupport(GlobalParams):
     self.s_specific_rules[(u'σγ').encode('utf-8')] = 'Z W '
     self.s_specific_rules[(u'σβ').encode('utf-8')] = 'Z V '
     self.s_specific_rules[(u'σδ').encode('utf-8')] = 'Z DH '
+    self.s_specific_rules[(u'σμ').encode('utf-8')] = 'Z M '
+    self.s_specific_rules[(u'σν').encode('utf-8')] = 'Z N '
+    self.s_specific_rules[(u'σλ').encode('utf-8')] = 'Z L '
+    self.s_specific_rules[(u'σρ').encode('utf-8')] = 'Z R '
+    self.s_specific_rules[(u'σμπ').encode('utf-8')] = 'Z B '
+    self.s_specific_rules[(u'σντ').encode('utf-8')] = 'Z D '
 
     self.letters = {}
     self.letters[(u'α').encode('utf-8')] = 'AA ' # when AE?
@@ -278,7 +284,7 @@ class GreekSupport(GlobalParams):
       for lit in self.literal_letters:
         eng_w = eng_w.replace(lit, self.literal_letters[lit])
       englified_words[eng_w] = word
-      print "Englified: " + word
+      print "Englified: " + eng_w
       # check phonems
       for ph in self.phonems:
         initial_word = initial_word.replace(ph, self.phonems[ph])
