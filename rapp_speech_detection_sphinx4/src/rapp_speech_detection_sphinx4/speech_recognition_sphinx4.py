@@ -151,9 +151,10 @@ class SpeechRecognitionSphinx4(GlobalParams):
     conf_req.sentences = req.sentences
 
     conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
-    conf_res = self.configureSpeechRecognition(conf_req)
+    [conf_res, success] = self.configureSpeechRecognition(conf_req)
     total_res.error = conf_res.error
-    if total_res.error != "":
+    if success != True:
+        total_res.error = success
         return total_res
 
     spee_req.path = req.path
@@ -215,11 +216,11 @@ class SpeechRecognitionSphinx4(GlobalParams):
       # Whole dictionary utilization
       if len(self.words) == 0: 
         print "Generic model used"
-        conf = self.english_support.getGenericConfiguration()
+        [conf, success] = self.english_support.getGenericConfiguration()
       # Limited dictionary utilization
       else:   
         print "Limited model used"
-        conf = self.english_support.getLimitedVocebularyConfiguration(\
+        [conf, success] = self.english_support.getLimitedVocebularyConfiguration(\
             self.words, self.grammar, self.sentences)
 
     # Greek language
@@ -232,7 +233,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
       # Limited dictionary utilization
       else:
         print "Words to be recognized (" + str(len(self.words)) + "):"
-        [conf, eng_w] = self.greek_support.getLimitedVocebularyConfiguration(\
+        [conf, eng_w, success] = self.greek_support.getLimitedVocebularyConfiguration(\
             self.words, self.grammar, self.sentences)
         for ew in eng_w:
           self.word_mapping[ew] = eng_w[ew]
@@ -246,7 +247,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     print "Configuration: \n"
     print conf
     self.sphinx4.configureSphinx(conf)
-    return res
+    return [res, success]
 
 # Main function
 if __name__ == "__main__": 

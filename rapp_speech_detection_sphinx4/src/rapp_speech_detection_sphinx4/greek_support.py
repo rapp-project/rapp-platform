@@ -351,10 +351,10 @@ class GreekSupport(GlobalParams):
       #print en + " " + englified[en] + '\n'
     englified_grammar = self.englify_words(grammar)    
     englified_sentences = self.englify_words(sentences)    
-    self.limited_sphinx_configuration = \
+    [self.limited_sphinx_configuration, success] = \
         self.vocabulary.createConfigurationFiles(tr_words, englified_grammar , \
         englified_sentences)
-    return [self.limited_sphinx_configuration, englified]
+    return [self.limited_sphinx_configuration, englified, success]
   
   def getGenericConfiguration(self):
-    return self.generic_sphinx_configuration
+    return [self.generic_sphinx_configuration, True]

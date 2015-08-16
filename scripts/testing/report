@@ -1,6 +1,5 @@
-FAIL: test_one_equals_one (t1.TestBareBones)
-----------------------------------------------------------------------
+1) FAIL: test_noSentences (limited_vocabulary_creator_unit_tests.TestAudioProcessing)
 Traceback (most recent call last):
-File "/home/etsardou/rapp_platform_catkin_ws/src/rapp-platform/ric/auxiliary_ros_wrappers/test/mysql_wrapper/t1.py", line 14, in test_one_equals_one
-self.assertEqual( 3*4, 13)
-AssertionError: 12 != 13
+/home/manos/Development/rapp_ws/src/rapp-platform/rapp_speech_detection_sphinx4/tests/unit/limited_vocabulary_creator_unit_tests.py line 120 in test_noSentences
+self.assertEqual(dict_words[0], 'ekei EH K IHn')
+AssertionError: 'kserw K S EH R OWn' != 'ekei EH K IHn'

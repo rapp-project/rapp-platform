@@ -24,8 +24,10 @@ class TestAudioProcessing(unittest.TestCase):
         grammar = ['autos', 'dyskolo', 'autos dyskolo']
         sentences = ['autos', 'dyskolo']
 
-        conf = self.module.createConfigurationFiles(words, grammar, sentences)
+        [conf, success] = self.module.createConfigurationFiles(words, grammar, sentences)
         
+        self.assertEqual(success, True)
+
         # Check if files are there
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
@@ -51,35 +53,43 @@ class TestAudioProcessing(unittest.TestCase):
         # Check data in files
         with open(dictionary) as f:
             dict_words = f.readlines()
-        self.assertEqual(dict_words[0], 'autos AA F T OW S\n')
-        self.assertEqual(dict_words[1], 'dyskolo D IH S K OW L OW\n')
+        self.assertEqual('autos AA F T OW S\n' in dict_words, True)
+        self.assertEqual('dyskolo D IH S K OW L OW\n' in dict_words, True)
+
+        # Check lm.dmp and .arpa
+        lm = language_model
+        self.assertEqual(os.path.isfile(lm), True)
+        lm = language_model[:-6] + 'arpa'
+        self.assertEqual(os.path.isfile(lm), True)
 
         # language model is the lm.dmp. Check the .txt instead.
         language_model = language_model[:-6] + 'txt'
         with open(language_model) as f:
             sentences = f.readlines()
-        self.assertEqual(sentences[0], '<s> autos </s>\n')
-        self.assertEqual(sentences[1], '<s> dyskolo </s>\n')
+        self.assertEqual('<s> autos </s>\n' in sentences, True)
+        self.assertEqual('<s> dyskolo </s>\n' in sentences, True)
 
         # Check grammar
         grammar = grammar_folder + 'custom.gram'
         with open(grammar) as f:
             grams = f.readlines()
-        self.assertEqual(grams[2], 'public <cmd1>=autos;\n')
-        self.assertEqual(grams[3], 'public <cmd2>=dyskolo;\n')
-        self.assertEqual(grams[4], 'public <cmd3>=autos dyskolo;\n')
+        self.assertEqual('public <cmd1>=autos;\n' in grams, True)
+        self.assertEqual('public <cmd2>=dyskolo;\n' in grams, True)
+        self.assertEqual('public <cmd3>=autos dyskolo;\n' in grams, True)
 
 
     def test_noSentences(self):
         # Prepare data
         words = {}
-        words['autos'] = ['AA','F','T','OW','S']
-        words['dyskolo'] = ['D','IH','S','K','OW','L','OW']
+        words['ekei'] = ['EH','K','IH']
+        words['kserw'] = ['K','S','EH','R','OW']
         grammar = []
         sentences = []
 
-        conf = self.module.createConfigurationFiles(words, grammar, sentences)
+        [conf, success] = self.module.createConfigurationFiles(words, grammar, sentences)
         
+        self.assertEqual(success, True)
+
         # Check if files are there
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
@@ -105,6 +115,19 @@ class TestAudioProcessing(unittest.TestCase):
         # Check data in files
         with open(dictionary) as f:
             dict_words = f.readlines()
-        self.assertEqual(dict_words[0], 'autos AA F T OW S\n')
-        self.assertEqual(dict_words[1], 'dyskolo D IH S K OW L OW\n')
+        self.assertEqual('ekei EH K IH\n' in dict_words, True)
+        self.assertEqual('kserw K S EH R OW\n' in dict_words, True)
+
+        # Check lm.dmp and .arpa
+        lm = language_model
+        self.assertEqual(os.path.isfile(lm), True)
+        lm = language_model[:-6] + 'arpa'
+        self.assertEqual(os.path.isfile(lm), True)
+
+        # language model is the lm.dmp. Check the .txt instead.
+        language_model = language_model[:-6] + 'txt'
+        with open(language_model) as f:
+            sentences = f.readlines()
+        self.assertEqual('<s> ekei </s>\n' in sentences, True)
+        self.assertEqual('<s> kserw </s>\n' in sentences, True)
 

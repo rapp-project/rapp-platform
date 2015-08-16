@@ -1,10 +1,10 @@
 #!/bin/bash
 
-url=~/rapp_platform_catkin_ws/src/rapp-platform/scripts/testing/testing_output
-url_err=~/rapp_platform_catkin_ws/src/rapp-platform/scripts/testing/report
+url=$HOME/Development/rapp_ws/src/rapp-platform/scripts/testing/testing_output
+url_err=$HOME/Development/rapp_ws/src/rapp-platform/scripts/testing/report
 
-cd ~/rapp_platform_catkin_ws
-catkin_make run_tests 2>&1 | tee $url #Now we have the output
+source ~/.bashrc
+cd $HOME/Development/rapp_ws && catkin_make run_tests -j1 2>&1 | tee $url #Now we have the output
 
 error_found=false
 error_lines=0

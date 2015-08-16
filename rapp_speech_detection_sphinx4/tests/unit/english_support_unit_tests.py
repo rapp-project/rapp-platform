@@ -17,8 +17,10 @@ class TestAudioProcessing(unittest.TestCase):
         self.utilities_module = None
 
     def test_genericConfigurationFiles(self):
-        conf = self.english_support_module.getGenericConfiguration()
+        [conf, success] = self.english_support_module.getGenericConfiguration()
         
+        self.assertEqual(success, True)
+
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
         self.assertEqual(jar_path[0], '.')
@@ -41,11 +43,13 @@ class TestAudioProcessing(unittest.TestCase):
         self.assertEqual(os.path.isfile(language_model), True)
 
     def test_limitedVocabularyConfigurationFiles_correctCase(self):
-        conf = self.english_support_module.getLimitedVocebularyConfiguration(\
+        [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
                 ['this', 'is', 'a', 'test'],\
                 [],\
                 [])
         
+        self.assertEqual(success, True)
+
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
         self.assertEqual(jar_path[0], '.')
@@ -69,28 +73,10 @@ class TestAudioProcessing(unittest.TestCase):
  
     def test_limitedVocabularyConfigurationFiles_notExistentWords(self):
         # This produces the proper files without the erroneous words
-        conf = self.english_support_module.getLimitedVocebularyConfiguration(\
+        [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
                 ['kakakakaka', 'lslslslsl', 'a', 'test'],\
                 [],\
                 [])
         
-        jar_path = conf['jar_path']
-        jar_path = jar_path.split(':')
-        self.assertEqual(jar_path[0], '.')
-        self.assertEqual(os.path.isfile(jar_path[1]), True)
-        self.assertEqual(os.path.isdir(jar_path[2]), True)
+        self.assertNotEqual(success, True)
 
-        conf_path = conf['configuration_path']
-        self.assertEqual(os.path.isfile(conf_path), True)
-
-        acoustic = conf['acoustic_model']
-        self.assertEqual(os.path.isdir(acoustic), True)
-
-        grammar_folder = conf['grammar_folder']
-        self.assertEqual(os.path.isdir(grammar_folder), True)
-
-        dictionary = conf['dictionary']
-        self.assertEqual(os.path.isfile(dictionary), True)
-
-        language_model = conf['language_model']
-        self.assertEqual(os.path.isfile(language_model), True)

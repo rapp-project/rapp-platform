@@ -63,10 +63,11 @@ class LimitedVocabularyCreator(GlobalParams):
   #           ...
   #         }
   def createConfigurationFiles(self, words, grammar, sentences):
-    
+    tmp_configuration = self.sphinx_configuration
+
     # Create custom dictionary file
-    self.sphinx_configuration['dictionary'] = self.languages_package + 'custom.dict'
-    custom_dict = open(self.sphinx_configuration['dictionary'], 'w')
+    tmp_configuration['dictionary'] = self.languages_package + 'custom.dict'
+    custom_dict = open(tmp_configuration['dictionary'], 'w')
     for word in words:
       tmp_line = word
       for phoneme in words[word]:
@@ -76,15 +77,15 @@ class LimitedVocabularyCreator(GlobalParams):
 
     # Check grammar
     if len(grammar) == 0:
-      self.sphinx_configuration['grammar_disabled'] = True
+      tmp_configuration['grammar_disabled'] = True
     else:
-      self.sphinx_configuration['grammar_disabled'] = False
-    self.sphinx_configuration['grammar_name'] = 'custom'
-    self.sphinx_configuration['grammar_folder'] = self.languages_package
-    custom_grammar = open(self.sphinx_configuration['grammar_folder'] +
-        self.sphinx_configuration['grammar_name'] + '.gram', 'w')
+      tmp_configuration['grammar_disabled'] = False
+    tmp_configuration['grammar_name'] = 'custom'
+    tmp_configuration['grammar_folder'] = self.languages_package
+    custom_grammar = open(tmp_configuration['grammar_folder'] +
+        tmp_configuration['grammar_name'] + '.gram', 'w')
     custom_grammar.write('#JSGF V1.0;\n')
-    custom_grammar.write("grammar " + self.sphinx_configuration['grammar_name'] + ';\n')
+    custom_grammar.write("grammar " + tmp_configuration['grammar_name'] + ';\n')
     counter = 1
     for gram in grammar:
       custom_grammar.write("public <cmd" + str(counter) + ">=" + gram + ";\n")
@@ -92,7 +93,9 @@ class LimitedVocabularyCreator(GlobalParams):
     custom_grammar.close()
 
     # Fix sentences / language model
-    self.sphinx_configuration['language_model'] = self.languages_package + \
+    # Check sentences: All words must exist in sentences
+    # Continue with the sentences setup
+    tmp_configuration['language_model'] = self.languages_package + \
       "sentences.lm.dmp"
     custom_sentences = open(self.languages_package + 'sentences.txt', 'w')
     if len(sentences) != 0:
@@ -110,4 +113,4 @@ class LimitedVocabularyCreator(GlobalParams):
         " && cd " + self.languages_package + " && bash run.sh"
     os.system(bash_command)
 
-    return self.sphinx_configuration
+    return [tmp_configuration, True]

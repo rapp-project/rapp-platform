@@ -79,7 +79,8 @@ class EnglishSupport(GlobalParams):
     for word in words:
       index = self.english_dict_mapping.find("\n" + word + " ") 
       if  index == -1:
-        print "ERROR: Word " + word + " does not exist in the English Dictionary"
+        return [self.limited_sphinx_configuration, \
+                "ERROR: Word " + word + " does not exist in the English Dictionary"]
       else:
         self.english_dict_file.seek(index + 1) # +1 because of the extra \n
         line = self.english_dict_file.readline()
@@ -89,10 +90,10 @@ class EnglishSupport(GlobalParams):
         for i in range(1, len(split_line)):
           enhanced_words[split_line[0]].append(split_line[i])
 
-    self.limited_sphinx_configuration = \
+    [self.limited_sphinx_configuration, success] = \
         self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
 
-    return self.limited_sphinx_configuration
+    return [self.limited_sphinx_configuration, success]
   
   def getGenericConfiguration(self):
-    return self.generic_sphinx_configuration
+    return [self.generic_sphinx_configuration, True]
