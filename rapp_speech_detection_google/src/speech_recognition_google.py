@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
 
 #MIT License (MIT)
 
@@ -26,6 +27,7 @@ import rospy
 import httplib
 import json
 import sys
+import os
 
 from rapp_platform_ros_communications.srv import (
   SpeechToTextSrv,
@@ -34,10 +36,6 @@ from rapp_platform_ros_communications.srv import (
 
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
-  )
-
-from std_msgs.msg import (
-  String
   )
 
 class SpeechToTextGoogle:
@@ -53,10 +51,15 @@ class SpeechToTextGoogle:
   # The service callback  
   def speech_to_text_callback(self, req):
     # Getting the results in order to parse them
-    transcripts = self.speech_to_text(req.filename.data)
+    transcripts = self.speech_to_text(req.filename)
+
+    # Check if we have some data
+    if len(transcripts['result']) == 0:
+        res = SpeechToTextSrvResponse()
+        return res
+
     # The alternative results
     alternatives = transcripts['result'][0]['alternative']
-    
     res = SpeechToTextSrvResponse()
 
     # If alternatives is 0 returns void response
@@ -64,16 +67,15 @@ class SpeechToTextGoogle:
       # The first alternative is Google's suggestion
       words = alternatives[0]['transcript'].split(" ")
       for w in words:
-        res.words = res.words + [String(data=w)]
+        res.words = res.words + [w]
       # Google provides the confidence for the first suggestion
       res.confidence.data = alternatives[0]['confidence']
 
-      # Google API may return other alternatives without confidence
       for alt in alternatives[1:]:
         sam = StringArrayMsg()
         words = alt['transcript'].split(" ")
         for w in words:
-          sam.s = sam.s + [String(data=w)]
+          sam.s = sam.s + [w]
         res.alternatives = res.alternatives + [sam]
     else:
       res.confidence.data = 0
@@ -82,6 +84,12 @@ class SpeechToTextGoogle:
 
   #NOTE The audio file should be flac to work.
   def speech_to_text(self, file_path):
+    
+    # Check if file exists
+    if not os.path.isfile(file_path):
+      res = '{"result":[]}'
+      return json.loads(res)
+
     with open(file_path, "r") as f:
       speech = f.read()
     url = "www.google.com"
@@ -96,9 +104,13 @@ class SpeechToTextGoogle:
     conn.request("POST", path, speech, headers)
     response = conn.getresponse()
     data = response.read()
+    initial_data = data
     # Google returns one empty result for some reason here. Removing it..
     index = data.find("}")
     data = data[index + 1:]
+    if data == '\n':
+        # Returned nothing.. something went wrong
+        data = initial_data
     jsdata = json.loads(data)
     return jsdata
 

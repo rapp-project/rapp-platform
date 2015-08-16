@@ -1,9 +1,9 @@
 # Contains info about time and reference
 Header header
 # The image's filename to perform face detection
-std_msgs/String filename
+string filename
 ---
 # Container for detected face positions
-std_msgs/String[] words
+string[] words
 std_msgs/Float64 confidence
 rapp_platform_ros_communications/StringArrayMsg[] alternatives
