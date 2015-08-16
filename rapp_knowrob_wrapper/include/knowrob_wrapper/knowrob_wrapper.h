@@ -42,10 +42,6 @@ contact: akintsakis@issel.ee.auth.gr
 #include <rapp_platform_ros_communications/ontologyIsSubSuperClassOfSrv.h>
 #include <rapp_platform_ros_communications/returnUserInstancesOfClassSrv.h>
 
-
-
-
-
 class KnowrobWrapper
 {
   private:

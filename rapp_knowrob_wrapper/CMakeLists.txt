@@ -4,6 +4,7 @@ project(rapp_knowrob_wrapper)
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  roslib
   std_msgs
   json_prolog
   rostest 
@@ -23,6 +24,8 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   CATKIN_DEPENDS
     roscpp
+    roslib
+    rostest
     json_prolog
     rapp_platform_ros_communications
   INCLUDE_DIRS
@@ -62,3 +65,9 @@ add_dependencies(knowrob_wrapper_node
   rapp_platform_ros_communications_gencpp
   ${catkin_EXPORTED_TARGETS}
   )
+
+## Tests
+if (CATKIN_ENABLE_TESTING)
+  # functional tests
+  add_rostest(tests/functional/functional_tests.launch)
+endif()
