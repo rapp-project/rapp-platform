@@ -44,10 +44,9 @@ class RappInterfaceTest:
     self.ontology_class = "Oven"
     # Set the valid results
     self.valid_results = [
-        'http://knowrob.org/kb/knowrob.owl#Box-Container', \
-        'http://knowrob.org/kb/knowrob.owl#FurniturePiece', \
-        'http://knowrob.org/kb/knowrob.owl#HeatingDevice', \
-        'http://knowrob.org/kb/knowrob.owl#HouseholdAppliance'
+        'http://knowrob.org/kb/knowrob.owl#MicrowaveOven', \
+        'http://knowrob.org/kb/knowrob.owl#RegularOven', \
+        'http://knowrob.org/kb/knowrob.owl#ToasterOven', \
     ]
 
   def execute(self):

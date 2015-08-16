@@ -142,7 +142,7 @@ function write_file_sync( _destUrl, _data )
     return false;
   }
 
-  var filesize = read_filesize( path );
+  var filesize = fileSize( path );
   //console.log("\033[0;36mFinished writing requested data" +
     //"@ [%s] , filesize: [%s]\033[0;0m", path, filesize);
   return true;
@@ -238,6 +238,7 @@ function ls_sync( _dir )
  * @param _data Data to be written. Can be both a buffer or string.
  * @param _filePath Destination file path.
  * @return Undefined.
+ * @TODO REFACTOR!!!
  */
 function text2File ( _data, _filePath ){
   if ( Buffer.isBuffer( _data ) ){
@@ -266,7 +267,10 @@ function text2File ( _data, _filePath ){
  * @param _filePath Destination file path.
  * @return Undefined.
  */
-function writeLine ( _data, _filePath ){
+function writeLine ( _data, dest ){
+  var destPath = resolve_path(dest);
+  if( fs.existsSync( destPath ) == false ) {return false;}
+
   if ( Buffer.isBuffer( _data ) ){
     var data = new Buffer( _data.length + 1 );
     data.write( _data.toString() + '\n' );
@@ -278,12 +282,11 @@ function writeLine ( _data, _filePath ){
   }
   else{
     console.log( "\033[01;31mInvalid Type of input parameter." +
-     " Only String and Buffer data are valid!\033[0;0m" );
+     " Only String and Buffer format types are valid!\033[0;0m" );
     return;
   }
 
-  var file =  resolve_path( _filePath );
-  var fd = fs.openSync( file, 'a' );
+  var fd = fs.openSync( destPath, 'a' );
   var numBytes = fs.writeSync( fd, data, 0, data.length, null );
   fs.close( fd );
 }
@@ -294,7 +297,7 @@ function writeLine ( _data, _filePath ){
  * @param _fileURL File System Url.
  * @return Size of the file in bytes.
  */
-function read_filesize( _fileURL ) {
+function fileSize( _fileURL ) {
   var path =  resolve_path( _fileURL );
   var stats = fs.statSync( path );
   var filesize_bytes = stats["size"];
@@ -330,22 +333,33 @@ function load_json_file(filename, encoding) {
  * @param fileOld Source file path.
  * @param fileNew Destination file path.
  */
-function rename_file_sync(fileOld, fileNew){
-  var res_fileOld = resolve_path(fileOld);
-  var res_fileNew = resolve_path(fileNew);
-  if (res_fileOld == res_fileNew){
-    // Nothing to do here other that return an index
+function rename_file_sync(file, dest)
+{
+  var sourcePath = resolve_path(file);
+  var destPath = resolve_path(dest);
+  var destDir = parentDir(destPath);
+
+  // If source file and destination file match then do not proceed.
+  if (sourcePath == destPath) {return true;}
+
+  // If parent directory of given destination file does not exist,
+  // return false immediately.
+  if ( destDir == false || fs.existsSync(destDir) == false ) {return false};
+
+  // Check if source file exists and destination directory also exists.
+  if ( fs.existsSync( sourcePath ) )
+  {
+    try{
+      fs.renameSync(sourcePath, destPath);
+    }
+    catch(e){
+      console.error("Failed to rename file [%s] --> [%s] , ErrorCode: [%s]",
+        sourcePath, destPath, e);
+      return false;
+    }
     return true;
   }
-  try{
-    fs.renameSync(res_fileOld, res_fileNew);
-  }
-  catch(e){
-    console.error("Failed to rename single file: [%s], ErrorCode: [%s]",
-      res_fileOld, e);
-    return false;
-  }
-  return true;
+  else {return false;}
 }
 
 
@@ -356,20 +370,50 @@ function rename_file_sync(fileOld, fileNew){
  */
 function copyFile(file, dest)
 {
-  var resFile = resolve_path(file);
-  var resFileDest = resolve_path(dest);
+  var sourcePath = resolve_path(file);
+  var destPath = resolve_path(dest);
+  var destDir = parentDir(destPath);
 
-  if (resFile == resFileDest) {return true;}
+  // If source file and destination file match then do not proceed.
+  if ( sourcePath == destPath ) {return true;}
 
-  try{
-    fs.createReadStream(resFile).pipe(fs.createWriteStream(resFileDest));
+  // If parent directory of given destination file does not exist,
+  // return false immediately.
+  if ( destDir == false || fs.existsSync(destDir) == false ) {return false};
+
+  // Check if source file exists and destination directory also exists.
+  if( fs.existsSync( sourcePath ) )
+  {
+    try{
+      fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
+    }
+    catch(e){
+      console.error("Failed to copy file [%s] --> [%s] . ErrorCode: {}",
+        sourcePath, destPath, e);
+      return false;
+    }
+    return true;
   }
-  catch(e){
-    console.error("Failed to copy file [%s] --> [%s] . ErrorCode: {}",
-      resFile, resFileDest, e);
+  else {return false;}  // If source file does not exist return false.
+}
+
+
+/*!
+ * @brief Returns the directory name for the given path.
+ */
+function parentDir(path)
+{
+  var absPath = resolve_path(path);
+  try
+  {
+    var parentDir = Path.dirname(absPath);
+  }
+  catch(e)
+  {
+    console.log(e);
     return false;
   }
-  return true;
+  return parentDir;
 }
 
 /*!
@@ -384,10 +428,11 @@ module.exports = {
   ls_sync: ls_sync,
   text2File: text2File,
   writeLine: writeLine,
-  read_filesize: read_filesize,
+  fileSize: fileSize,
   load_json_file: load_json_file,
   rename_file_sync: rename_file_sync,
   createDir: createDir,
   createDirRecur: createDirRecur,
-  copyFile: copyFile
+  copyFile: copyFile,
+  parentDir: parentDir
 }

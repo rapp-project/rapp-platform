@@ -9,9 +9,10 @@ var __DEBUG__ = false;
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
-var module_path = '../utilities/js/'
+var module_path = '../modules/'
 /*----------------------------------------------*/
-var RandStringGen = require ( module_path + 'randStringGen.js' );
+var RandStringGen = require ( module_path +
+  'RandomStrGenerator/randStringGen.js' );
 /*----------------------------------------------*/
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = "/rapp/rapp_knowrob_wrapper/superclasses_of";

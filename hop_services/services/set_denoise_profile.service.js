@@ -13,13 +13,14 @@ var __DEBUG__ = false;
 
 /*---------Sets required file Paths-------------*/
 var user = process.env.LOGNAME;
-var module_path = '../utilities/js/';
+var module_path = '../modules/';
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
 var hop = require('hop');
 var Fs = require( module_path + 'fileUtils.js' );
-var RandStringGen = require( module_path + 'randStringGen.js');
+var RandStringGen = require( module_path +
+  'RandomStrGenerator/randStringGen.js');
 /*----------------------------------------------*/
 
 /*----<Load modules used by the service>----*/
@@ -41,7 +42,7 @@ var max_tries = 2
 var __hopServiceName = 'set_denoise_profile';
 var __hopServiceId = null;
 var __masterId = null;
-var __storeDir = '~/.hop/cache/';
+var __cacheDir = '~/.hop/cache/services/';
 
 register_master_interface();
 
@@ -70,7 +71,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
-  var cpFilePath = __storeDir + fileName.split('.')[0] + '-'  + unqCallId +
+  var cpFilePath = __cacheDir + fileName.split('.')[0] + '-'  + unqCallId +
     '.' + fileName.split('.')[1];
   cpFilePath = Fs.resolve_path(cpFilePath);
   /* ---------------------------------------------------------------- */
@@ -385,6 +386,9 @@ function exec_master_command(msg)
       break;
     case 2050:
       __masterId = data;
+      break;
+    case 2065:
+      __cacheDir = data;
       break;
     default:
       break;

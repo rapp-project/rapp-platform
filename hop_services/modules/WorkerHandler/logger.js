@@ -2,8 +2,9 @@
  * @file logger.js
  */
 
-var Fs = require( './fileUtils.js' );
+var Fs = require( '../fileUtils.js' );
 
+// Default log directory path
 var __logDir = '~/.hop/log/'
 
 var __logDirCreated = false;
@@ -32,6 +33,7 @@ function createLogDir(logDir)
   else
   {
     Fs.createDirRecur(logDir);
+    setLogDir(logDir);
   }
   __logDirCreated = true;
   console.log('...logging to [%s]\r\n', __logDir);

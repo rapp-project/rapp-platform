@@ -1,10 +1,14 @@
 ## Synopsis
 
-Usefull python/javascript modules and testing tools used for testing HOP services
-available on RAPP Platform and furthermore RIC AI modules
+This directory includes utilities/tools related to HOP Web Services located under the RAPP Platform
+
 
 ## Directories
 
-- js/ : Javascript Modules / Utilities
-- python/ : Python Modules / Utilities 
 - testing_tools : Tools for testing HOP web services and furthermore RIC AI modules.
+
+
+## Contributors
+
+- Konstaninos Panayiotou, **[klpanagi@gmail.com]**
+- Manos Tsardoulias, **[etsardou@gmail.com]**

@@ -1,6 +1,36 @@
 /*!
- * @file master.js
+ * @file workerHandler.js
  */
+
+/**
+ *  MIT License (MIT)
+ *
+ *  Copyright (c) <2014> <Rapp Project EU>
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ *
+ *
+ *  Authors: Konstantinos Panayiotou
+ *  Contact: klpanagi@gmail.com
+ *
+ */
+
 
 /**
  * Global Module variables are assigned with one underscore "_xx" as an
@@ -12,9 +42,10 @@
  * Loaded module variables declerations start with Capital letters.
  */
 
-var Rsg_ = require ( './randStringGen.js' );
+var Rsg_ = require ( '../RandomStrGenerator/randStringGen.js' );
 var RunTime_ = require( './runtime.js' );
 var Logger_ = require( './logger.js' );
+var Cache_ = require( './cache.js' );
 var Hop_ = require('hop');
 
 /* --------< Initiate Random String Generator Module >------- */
@@ -31,11 +62,22 @@ var __services = [];
 var __workerId = {};
 /* --------------------------------- */
 
-assignMasterId()
+assignMasterId();
 
-var __logDir = '~/.hop/log/' + __masterId + '-' + RunTime_.getDate() + '/';
-Logger_.setLogDir(__logDir);
-Logger_.createLogDir();
+
+/* ----------------< Logging configuration >---------------- */
+var __logDirBase = '~/.hop/log/services/'
+var __logDir = __logDirBase + __masterId + '-' + RunTime_.getDate() + '/';
+Logger_.setLogDir(__logDir);  // Set directory for logger to store log files
+Logger_.createLogDir();  // Create log directory if it does not exist.
+/* --------------------------------------------------------- */
+
+/* -----------< File cache configuration >--------------- */
+var __cacheDir = '~/.hop/cache/services/';
+Cache_.setCacheDir(__cacheDir);
+Cache_.createCacheDir();
+/* ------------------------------------------------------ */
+
 
 /*!
  * Assigns A new unique ID to the master process
@@ -44,6 +86,7 @@ function assignMasterId()
 {
   __masterId = RandStrGen_.createUnique();
 }
+
 
 /*!
  * @brief Registers given worker to logger.
@@ -114,6 +157,17 @@ function setWorkerId(workerName)
 };
 
 
+function sendCacheDir(workerName)
+{
+  var msg = {
+    id: __masterId,
+    cmdId: 2065,
+    data: __cacheDir
+  };
+  __workers[ workerName ].postMessage(msg);
+}
+
+
 /*!
  * @brief broadcasts master id to all worker slaves.
  */
@@ -125,9 +179,9 @@ function broadcastId()
     data: __masterId
   };
 
-  for (var workerName in __workers_)
+  for (var workerName in __workers)
   {
-    __workers_[ workerName ].postMessage(msg);
+    __workers[ workerName ].postMessage(msg);
   }
 };
 
@@ -144,7 +198,6 @@ function sendMasterId(workerName)
   };
   __workers[ workerName ].postMessage(msg);
 };
-
 
 
 /*!
@@ -187,6 +240,7 @@ function registerWorkerProcess(worker)
   registerService( worker.name );
 
   setWorkerId( worker.name );
+  sendCacheDir( worker.name );
   sendMasterId( worker.name );
   registerWorkerToLogger( worker.name );
 

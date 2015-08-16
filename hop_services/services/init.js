@@ -8,20 +8,25 @@
 var __DEBUG__ = false;
 
 var user = process.env.LOGNAME;
+
+
 //  Hop services list by name
 var srvList = [];
 //  Hop services files found by full name
 var srvFileList = [];
 
-var module_path = '../utilities/js/'
+
+var Path = require('path');
+
+//var module_path = Path.resolve(__dirname + '/../modules')
+var module_path = __dirname + '/../modules/';
+//console.log(module_path);
 
 var Fs = require( module_path + 'fileUtils.js' );
-var Path = require('path');
 var hop = require('hop');
 
 // --------- Initiate Master Module ---------- //
-//var Master = new ( require( module_path + 'master.js' ) ).Master();
-var WorkerHandler = require( module_path + 'workerHandler.js' );
+var WorkerHandler = require( module_path + 'WorkerHandler/' + 'workerHandler.js' );
 // ------------------------------------------- //
 
 var hostname = hop.hostname;
