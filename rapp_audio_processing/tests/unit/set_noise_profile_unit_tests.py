@@ -3,29 +3,73 @@
 import sys
 import unittest
 import roslib
+import rospkg
+import os
 
 roslib.load_manifest("rapp_audio_processing")
 
-from rapp_audio_processing import rapp_audio_processing
-
-from rapp_platform_ros_communications.srv import (  
-  AudioProcessingDenoiseSrv, 
-  AudioProcessingDenoiseSrvResponse,
-  
-  AudioProcessingSetNoiseProfileSrv,
-  AudioProcessingSetNoiseProfileSrvResponse,
-
-  AudioProcessingDetectSilenceSrv,
-  AudioProcessingDetectSilenceSrvResponse
-  )
+from rapp_audio_processing import SetNoiseProfile
 
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
-        self.audio = rapp_audio_processing.AudioProcessing
-
+        rospack = rospkg.RosPack()
+        self.auxiliary_files_url = rospack.get_path("rapp_auxiliary_files")
+        self.module = SetNoiseProfile() 
+    
     def tearDown(self):
-        self.audio = None
+        self.module = None
+        self.rospack = None
 
-    def test_simpleTest(self):
-        self.assertEqual(0, 0)
+    def test_ogg(self):
+        result = self.module.setNoise_profile(\
+                'etsardou',\
+                self.auxiliary_files_url + '/silence_ogg_d05_a1.ogg',\
+                'nao_ogg')
+        self.assertEqual(result, 'true')
+        
+        # Check that the file exists
+        self.assertEqual(\
+            os.path.isfile(\
+            '/tmp/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_ogg'),\
+            True)
 
+    def test_wav_1_ch(self):
+        result = self.module.setNoise_profile(\
+                'etsardou',\
+                self.auxiliary_files_url + '/silence_sample.wav',\
+                'nao_wav_1_ch')
+        self.assertEqual(result, 'true')
+        
+        # Check that the file exists
+        self.assertEqual(\
+            os.path.isfile(\
+            '/tmp/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_wav_1_ch'),\
+            True)
+
+    def test_wav_4_ch(self):
+        result = self.module.setNoise_profile(\
+                'etsardou',\
+                self.auxiliary_files_url + '/silence_wav_d05_a1.wav',\
+                'nao_wav_4_ch')
+        self.assertEqual(result, 'true')
+        
+        # Check that the file exists
+        self.assertEqual(\
+            os.path.isfile(\
+            '/tmp/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_wav_4_ch'),\
+            True)
+
+    def test_wav_6_ch(self):
+        result = self.module.setNoise_profile(\
+                'etsardou',\
+                self.auxiliary_files_url + '/silence_wav_d05_a1.wav',\
+                'nao_wav_6_ch')
+        self.assertNotEqual(result, 'true')
+ 
+    def test_no_silence_file(self):
+        result = self.module.setNoise_profile(\
+                'etsardou',\
+                self.auxiliary_files_url + '/silence_aoua.wav',\
+                'nao_wav_1_ch')
+        self.assertNotEqual(result, 'true')
+             
