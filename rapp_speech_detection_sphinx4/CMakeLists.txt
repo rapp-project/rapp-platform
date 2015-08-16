@@ -28,5 +28,6 @@ include_directories(
 if (CATKIN_ENABLE_TESTING)
   catkin_add_nosetests(tests/unit/english_support_unit_tests.py)
   catkin_add_nosetests(tests/unit/greek_support_unit_tests.py)
+  catkin_add_nosetests(tests/unit/limited_vocabulary_creator_unit_tests.py)
 endif()
 
