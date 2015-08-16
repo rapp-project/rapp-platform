@@ -183,8 +183,8 @@ class Sphinx4Wrapper(GlobalParams):
   def performSpeechRecognition(self, audio_file, audio_source, user):
     # Check if path exists
     if os.path.isfile(audio_file) == False:
-      return ["Error: Something went wrong with the local audio storage",\
-              "Requested path: " + audio_file]
+      return ["Error: Something went wrong with the local audio storage\
+              Requested path: " + audio_file]
 
     # Keep extra audio files that need erasing
     audio_to_be_erased = []

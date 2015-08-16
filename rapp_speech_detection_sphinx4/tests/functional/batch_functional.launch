@@ -1,0 +1,10 @@
+<launch> 
+  <node name="rapp_speech_detection_sphinx4_node" pkg="rapp_speech_detection_sphinx4" type="speech_recognition_sphinx4.py" output="screen"/>
+  <rosparam file="$(find rapp_speech_detection_sphinx4)/cfg/sphinx4_wrapper_params.yaml" 
+    command="load" />
+  <include file="$(find rapp_audio_processing)/launch/audio_processing.launch" />
+  <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
+  
+  <test time-limit="20" test-name="speech_detection_sphinx4_batch_functional" pkg="rapp_speech_detection_sphinx4" type="batch_functional.py"/> 
+ </launch> 
+ 

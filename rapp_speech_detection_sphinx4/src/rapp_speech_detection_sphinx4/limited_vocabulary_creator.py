@@ -88,6 +88,12 @@ class LimitedVocabularyCreator(GlobalParams):
     custom_grammar.write("grammar " + tmp_configuration['grammar_name'] + ';\n')
     counter = 1
     for gram in grammar:
+      # check is all words in grammar exist in words
+      gram_words = gram.split(" ")
+      for gw in gram_words:
+          if gw not in words:
+              return [tmp_configuration, 'Word ' + gw + ' is not in words but\
+                      exists in grammar']
       custom_grammar.write("public <cmd" + str(counter) + ">=" + gram + ";\n")
       counter += 1
     custom_grammar.close()
@@ -100,6 +106,12 @@ class LimitedVocabularyCreator(GlobalParams):
     custom_sentences = open(self.languages_package + 'sentences.txt', 'w')
     if len(sentences) != 0:
       for sent in sentences:
+        # Split sentence
+        sent_words = sent.split(" ")
+        for sw in sent_words:
+            if sw not in words:
+                return [tmp_configuration, "Word " + sw + " does not exist in\
+                        words but is in a sentence"]
         custom_sentences.write("<s> " + sent + " </s>\n")
     else:
       for word in words:

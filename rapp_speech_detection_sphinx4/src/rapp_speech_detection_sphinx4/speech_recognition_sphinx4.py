@@ -151,10 +151,10 @@ class SpeechRecognitionSphinx4(GlobalParams):
     conf_req.sentences = req.sentences
 
     conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
-    [conf_res, success] = self.configureSpeechRecognition(conf_req)
+    conf_res = self.configureSpeechRecognition(conf_req)
     total_res.error = conf_res.error
-    if success != True:
-        total_res.error = success
+    if conf_res.error != '':
+        total_res.error = total_res.error + '\n' + conf_res.error
         return total_res
 
     spee_req.path = req.path
@@ -179,7 +179,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     for word in words:
       if self.language != "en":
         print "Word: #" + word + "#"
-        if word == "":
+        if word == "" or word == '<unk>':
           continue
         res.words.append(self.word_mapping[word])
       else:
@@ -243,11 +243,20 @@ class SpeechRecognitionSphinx4(GlobalParams):
       res.error = "Wrong language"
       return res
     
+    # sanity check
+    if success != True:
+        res.error = success
+        return res
+
     # Actual sphinx4 configuration
     print "Configuration: \n"
     print conf
     self.sphinx4.configureSphinx(conf)
-    return [res, success]
+    if success == True:
+        res.error = ''
+    else:
+        res.error = success
+    return res
 
 # Main function
 if __name__ == "__main__": 
