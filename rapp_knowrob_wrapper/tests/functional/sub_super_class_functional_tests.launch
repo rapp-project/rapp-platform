@@ -1,0 +1,6 @@
+<launch> 
+  <include file="$(find rapp_knowrob_wrapper)/launch/knowrob_wrapper.launch" />
+  <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
+  <test time-limit="20" test-name="ontology_functional" pkg="rapp_knowrob_wrapper" type="sub_super_class_functional_tests.py"/> 
+ </launch> 
+ 

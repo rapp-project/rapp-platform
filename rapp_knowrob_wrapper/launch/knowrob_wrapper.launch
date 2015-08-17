@@ -1,6 +1,5 @@
 <launch>
   <include file="$(find json_prolog)/launch/json_prolog.launch" />
   <node name="rapp_knowrob_wrapper_node" pkg="rapp_knowrob_wrapper" type="knowrob_wrapper_node" output="screen"/>
-  <rosparam file="$(find rapp_knowrob_wrapper)/cfg/rapp_knowrob_wrapper_params.yaml" 
-    command="load" />
+  <rosparam file="$(find rapp_knowrob_wrapper)/cfg/rapp_knowrob_wrapper_params.yaml" command="load" />
 </launch>

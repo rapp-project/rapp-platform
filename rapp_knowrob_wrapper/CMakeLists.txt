@@ -69,5 +69,5 @@ add_dependencies(knowrob_wrapper_node
 ## Tests
 if (CATKIN_ENABLE_TESTING)
   # functional tests
-  add_rostest(tests/functional/functional_tests.launch)
+  add_rostest(tests/functional/sub_super_class_functional_tests.launch)
 endif()
