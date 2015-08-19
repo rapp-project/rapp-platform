@@ -35,7 +35,7 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import *
+from RappCloud import RappCloud
 
 class RappInterfaceTest:
 

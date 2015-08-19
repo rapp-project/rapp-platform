@@ -23,7 +23,8 @@ colors ()
   BWHITE='\e[1;37m'
 }; colors
 
-CURRENTDIR=`pwd`
+## Get this script file directory name ##
+CURRENTDIR=$(dirname ${BASH_SOURCE[0]})
 
 ## Set executable paths ##
 SERVICEDIR=${CURRENTDIR}/services
