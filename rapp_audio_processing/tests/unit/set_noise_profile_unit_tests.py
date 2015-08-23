@@ -28,9 +28,11 @@ class TestAudioProcessing(unittest.TestCase):
         self.assertEqual(result, 'true')
         
         # Check that the file exists
+        path = os.path.expanduser(\
+                '~/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_ogg')
         self.assertEqual(\
             os.path.isfile(\
-            '/tmp/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_ogg'),\
+            path),\
             True)
 
     def test_wav_1_ch(self):
@@ -43,7 +45,8 @@ class TestAudioProcessing(unittest.TestCase):
         # Check that the file exists
         self.assertEqual(\
             os.path.isfile(\
-            '/tmp/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_wav_1_ch'),\
+            os.path.expanduser(\
+            '~/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_wav_1_ch')),\
             True)
 
     def test_wav_4_ch(self):
@@ -56,7 +59,8 @@ class TestAudioProcessing(unittest.TestCase):
         # Check that the file exists
         self.assertEqual(\
             os.path.isfile(\
-            '/tmp/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_wav_4_ch'),\
+            os.path.expanduser(\
+            '~/rapp_platform_files/audio_processing/etsardou/noise_profile/noise_profile_nao_wav_4_ch')),\
             True)
 
     def test_wav_6_ch(self):

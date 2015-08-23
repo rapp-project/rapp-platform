@@ -272,7 +272,7 @@ class Sphinx4Wrapper(GlobalParams):
             break
     
     backup_directory = \
-        "/tmp/rapp_platform_files/rapp_speech_recognition_sphinx4/"\
+        os.path.expanduser("~/rapp_platform_files/rapp_speech_recognition_sphinx4/")\
         + user
     if not os.path.isdir(backup_directory):
       os.makedirs(backup_directory)

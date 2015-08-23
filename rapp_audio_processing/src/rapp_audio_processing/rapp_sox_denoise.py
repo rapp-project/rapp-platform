@@ -42,7 +42,7 @@ class SoxDenoise :
     if scale < 0 or scale > 1:
         return "Invalid scale. Scale must be between [0,1]"
 
-    directory = "/tmp/rapp_platform_files/audio_processing/" + user
+    directory = os.path.expanduser("~/rapp_platform_files/audio_processing/") + user
     noise_profile = directory + "/noise_profile/noise_profile_" + audio_type
     
     if not os.path.isfile(noise_profile):

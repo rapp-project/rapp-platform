@@ -40,7 +40,7 @@ class SetNoiseProfile:
   def setNoise_profile(self, user, noise_audio_file, audio_file_type): 
 
     cleanup = []
-    directory = "/tmp/rapp_platform_files/audio_processing/" + user
+    directory = os.path.expanduser("~/rapp_platform_files/audio_processing/") + user
     if not os.path.isdir(directory):
       os.makedirs(directory)
       com_res = os.system("chmod 777 " + directory)
