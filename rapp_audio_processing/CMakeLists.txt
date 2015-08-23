@@ -26,9 +26,12 @@ include_directories(
 )
 
 if (CATKIN_ENABLE_TESTING)
+  # Unit 
   catkin_add_nosetests(tests/unit/set_noise_profile_unit_tests.py)
   catkin_add_nosetests(tests/unit/utilities_unit_tests.py)
   catkin_add_nosetests(tests/unit/detect_silence_unit_tests.py)
   catkin_add_nosetests(tests/unit/denoise_unit_tests.py)
   catkin_add_nosetests(tests/unit/energy_denoise_unit_tests.py)
+  # Functional
+  add_rostest(tests/functional/set_noise_profile_functional.launch)
 endif()

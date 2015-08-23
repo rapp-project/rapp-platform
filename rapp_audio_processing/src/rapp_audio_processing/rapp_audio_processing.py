@@ -127,16 +127,22 @@ class AudioProcessing:
     req_db.where_data=[StringArrayMsg(s=entry1)]
 
     resp = self.authentication_service(req_db.req_cols, req_db.where_data)
-    print resp
     if resp.success.data != True or len(resp.res_data) == 0: 
-      res.success = "Non authenticated user"
-      return total_res
+      res.success = "false"
+      res.error = "Non authenticated user"
+      return res
 
     #-------------------------set noise profile-------------------------#
-    res.success = self.set_noise_profile_module.setNoise_profile(\
+    ret = self.set_noise_profile_module.setNoise_profile(\
             req.user,\
             req.noise_audio_file,\
             req.audio_file_type)
+    if ret == 'true':
+        res.success = ret
+        res.error = ''
+    else:
+        res.success = 'false'
+        res.error = ret
     return res
 
   # Service callback for handling denoising
