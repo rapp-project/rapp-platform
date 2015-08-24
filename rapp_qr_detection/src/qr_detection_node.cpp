@@ -4,6 +4,7 @@ int main(int argc, char ** argv)
 {
   ros::init(argc, argv, "qr_detection_node");
   QrDetection qrnode;
-  ros::spin();
+  ros::MultiThreadedSpinner spinner(10);
+  spinner.spin();
   return 0;
 }

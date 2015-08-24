@@ -4,6 +4,7 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "knowrob_wrapper_node");
   KnowrobWrapperCommunications krcnode;
-  ros::spin();
+  ros::MultiThreadedSpinner spinner(10);
+  spinner.spin();
   return 0;
 }
