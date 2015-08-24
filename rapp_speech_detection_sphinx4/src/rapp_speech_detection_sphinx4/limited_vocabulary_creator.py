@@ -62,6 +62,9 @@ class LimitedVocabularyCreator(GlobalParams):
   #           'word2_en_chars': [phonem1, phonem2,...]
   #           ...
   #         }
+  # Returns [conf, status]
+  # conf is the final configuration
+  # status is either the error (string) or True (bool)
   def createConfigurationFiles(self, words, grammar, sentences):
     tmp_configuration = self.sphinx_configuration
 

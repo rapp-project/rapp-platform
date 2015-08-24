@@ -324,7 +324,10 @@ class GreekSupport(GlobalParams):
       englified_words.append(eng_w)
     return englified_words
 
-
+  # Returns [conf, englified, status]
+  # - conf is the configuration
+  # - englified is a dictionary of the englified words
+  # - status is either error (string) or True (bool)
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     enhanced_words = {}
     # NOTE: The following should work with the Greek generic dictionary

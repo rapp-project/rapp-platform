@@ -73,7 +73,9 @@ class EnglishSupport(GlobalParams):
     self.english_dict_mapping = mmap.mmap(self.english_dict_file.fileno(), 0, \
         access = mmap.ACCESS_READ)
 
-
+  # Returns [conf, status]
+  # conf is the configuration
+  # status is either error (string) or True (bool) 
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     enhanced_words = {}
     for word in words:

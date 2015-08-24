@@ -216,10 +216,12 @@ class SpeechRecognitionSphinx4(GlobalParams):
       # Whole dictionary utilization
       if len(self.words) == 0: 
         print "Generic model used"
+        # success is either True (bool) or error (string)
         [conf, success] = self.english_support.getGenericConfiguration()
       # Limited dictionary utilization
       else:   
         print "Limited model used"
+        # success is either True (bool) or error (string)
         [conf, success] = self.english_support.getLimitedVocebularyConfiguration(\
             self.words, self.grammar, self.sentences)
 
@@ -233,6 +235,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
       # Limited dictionary utilization
       else:
         print "Words to be recognized (" + str(len(self.words)) + "):"
+        # success is either True (bool) or error (string)
         [conf, eng_w, success] = self.greek_support.getLimitedVocebularyConfiguration(\
             self.words, self.grammar, self.sentences)
         for ew in eng_w:
