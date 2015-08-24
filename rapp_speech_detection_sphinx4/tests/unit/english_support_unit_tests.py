@@ -8,6 +8,7 @@ import os
 roslib.load_manifest("rapp_speech_detection_sphinx4")
 
 from rapp_speech_detection_sphinx4 import EnglishSupport
+from rapp_speech_detection_sphinx4 import RappError
 
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
@@ -17,9 +18,7 @@ class TestAudioProcessing(unittest.TestCase):
         self.utilities_module = None
 
     def test_genericConfigurationFiles(self):
-        [conf, success] = self.english_support_module.getGenericConfiguration()
-        
-        self.assertEqual(success, True)
+        conf = self.english_support_module.getGenericConfiguration()
 
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
@@ -43,12 +42,13 @@ class TestAudioProcessing(unittest.TestCase):
         self.assertEqual(os.path.isfile(language_model), True)
 
     def test_limitedVocabularyConfigurationFiles_correctCase(self):
-        [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
-                ['this', 'is', 'a', 'test'],\
-                [],\
-                [])
-        
-        self.assertEqual(success, True)
+        try:
+            conf = self.english_support_module.getLimitedVocebularyConfiguration(\
+                    ['this', 'is', 'a', 'test'],\
+                    [],\
+                    [])
+        except RappError as e:
+            self.assertEqual(e.value, True)
 
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
@@ -73,10 +73,12 @@ class TestAudioProcessing(unittest.TestCase):
  
     def test_limitedVocabularyConfigurationFiles_notExistentWords(self):
         # This produces the proper files without the erroneous words
-        [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
-                ['kakakakaka', 'lslslslsl', 'a', 'test'],\
-                [],\
-                [])
-        
-        self.assertNotEqual(success, True)
+        try:
+            [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
+                    ['kakakakaka', 'lslslslsl', 'a', 'test'],\
+                    [],\
+                    [])
+        except RappError as e:
+            self.assertNotEqual(e.value, '')
+            self.assertNotEqual(e.value, True)
 

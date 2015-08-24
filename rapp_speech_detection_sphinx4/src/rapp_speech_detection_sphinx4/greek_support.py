@@ -360,9 +360,9 @@ class GreekSupport(GlobalParams):
             self.vocabulary.createConfigurationFiles(tr_words, englified_grammar , \
             englified_sentences)
     except RappError as e:
-        return [self.limited_sphinx_configuration, englified, e.value]
+        raise RappError(e.value)
     
-    return [self.limited_sphinx_configuration, englified, True]
+    return [self.limited_sphinx_configuration, englified]
   
   def getGenericConfiguration(self):
-    return [self.generic_sphinx_configuration, True]
+    return self.generic_sphinx_configuration

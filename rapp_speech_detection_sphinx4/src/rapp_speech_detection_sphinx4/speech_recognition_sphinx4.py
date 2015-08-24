@@ -190,7 +190,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
   # Service callback dedicated for Sphinx4 configuration
   def configureSpeechRecognition(self, req):
     res = SpeechRecognitionSphinx4ConfigureSrvResponse()
-    
+    res.error = ''
     conf = {} # Dummy initialization
     reconfigure = False
     
@@ -217,13 +217,21 @@ class SpeechRecognitionSphinx4(GlobalParams):
       if len(self.words) == 0: 
         print "Generic model used"
         # success is either True (bool) or error (string)
-        [conf, success] = self.english_support.getGenericConfiguration()
+        try:
+            conf = self.english_support.getGenericConfiguration()
+        except RappError as e:
+            res.error = e.value
+            return res
       # Limited dictionary utilization
       else:   
         print "Limited model used"
         # success is either True (bool) or error (string)
-        [conf, success] = self.english_support.getLimitedVocebularyConfiguration(\
-            self.words, self.grammar, self.sentences)
+        try:
+            conf = self.english_support.getLimitedVocebularyConfiguration(\
+                self.words, self.grammar, self.sentences)
+        except RappError as e:
+            res.error = e.value
+            return res
 
     # Greek language
     elif self.language == "gr":
@@ -236,8 +244,13 @@ class SpeechRecognitionSphinx4(GlobalParams):
       else:
         print "Words to be recognized (" + str(len(self.words)) + "):"
         # success is either True (bool) or error (string)
-        [conf, eng_w, success] = self.greek_support.getLimitedVocebularyConfiguration(\
-            self.words, self.grammar, self.sentences)
+        try:
+            [conf, eng_w] = self.greek_support.getLimitedVocebularyConfiguration(\
+                self.words, self.grammar, self.sentences)
+        except RappError as e:
+            res.error = e.value
+            return res
+
         for ew in eng_w:
           self.word_mapping[ew] = eng_w[ew]
         print self.word_mapping
@@ -246,19 +259,10 @@ class SpeechRecognitionSphinx4(GlobalParams):
       res.error = "Wrong language"
       return res
     
-    # sanity check
-    if success != True:
-        res.error = success
-        return res
-
     # Actual sphinx4 configuration
     print "Configuration: \n"
     print conf
     self.sphinx4.configureSphinx(conf)
-    if success == True:
-        res.error = ''
-    else:
-        res.error = success
     return res
 
 # Main function

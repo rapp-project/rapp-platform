@@ -81,8 +81,7 @@ class EnglishSupport(GlobalParams):
     for word in words:
       index = self.english_dict_mapping.find("\n" + word + " ") 
       if  index == -1:
-        return [self.limited_sphinx_configuration, \
-                "ERROR: Word " + word + " does not exist in the English Dictionary"]
+        raise RappError("ERROR: Word " + word + " does not exist in the English Dictionary")
       else:
         self.english_dict_file.seek(index + 1) # +1 because of the extra \n
         line = self.english_dict_file.readline()
@@ -95,9 +94,9 @@ class EnglishSupport(GlobalParams):
         self.limited_sphinx_configuration= \
             self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
     except RappError as e:
-        return [self.limited_sphinx_configuration, e.value]
+        raise RappError(e.value)
 
-    return [self.limited_sphinx_configuration, True]
+    return self.limited_sphinx_configuration
   
   def getGenericConfiguration(self):
-    return [self.generic_sphinx_configuration, True]
+    return self.generic_sphinx_configuration
