@@ -31,6 +31,7 @@ import sys
 import os
 
 from global_parameters import GlobalParams
+from rapp_exceptions import RappError
 
 class LimitedVocabularyCreator(GlobalParams):
 
@@ -95,8 +96,10 @@ class LimitedVocabularyCreator(GlobalParams):
       gram_words = gram.split(" ")
       for gw in gram_words:
           if gw not in words:
-              return [tmp_configuration, 'Word ' + gw + ' is not in words but\
-                      exists in grammar']
+              raise RappError('Word ' + gw + ' is not in words but\
+                      exists in grammar')
+              # return [tmp_configuration, 'Word ' + gw + ' is not in words but\
+                      # exists in grammar']
       custom_grammar.write("public <cmd" + str(counter) + ">=" + gram + ";\n")
       counter += 1
     custom_grammar.close()
@@ -113,8 +116,10 @@ class LimitedVocabularyCreator(GlobalParams):
         sent_words = sent.split(" ")
         for sw in sent_words:
             if sw not in words:
-                return [tmp_configuration, "Word " + sw + " does not exist in\
-                        words but is in a sentence"]
+                raise RappError('Word ' + sw + ' is not in words but\
+                      exists in a sentence')
+                # return [tmp_configuration, "Word " + sw + " does not exist in\
+                        # words but is in a sentence"]
         custom_sentences.write("<s> " + sent + " </s>\n")
     else:
       for word in words:
@@ -128,4 +133,4 @@ class LimitedVocabularyCreator(GlobalParams):
         " && cd " + self.languages_package + " && bash run.sh"
     os.system(bash_command)
 
-    return [tmp_configuration, True]
+    return tmp_configuration

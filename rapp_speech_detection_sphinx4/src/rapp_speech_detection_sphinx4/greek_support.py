@@ -30,8 +30,9 @@
 import rospy
 import sys
 import mmap
-from global_parameters import GlobalParams
 
+from global_parameters import GlobalParams
+from rapp_exceptions import RappError
 from limited_vocabulary_creator import *
 
 class GreekSupport(GlobalParams):
@@ -352,12 +353,16 @@ class GreekSupport(GlobalParams):
       #print "\n"
     #for en in englified:
       #print en + " " + englified[en] + '\n'
-    englified_grammar = self.englify_words(grammar)    
-    englified_sentences = self.englify_words(sentences)    
-    [self.limited_sphinx_configuration, success] = \
-        self.vocabulary.createConfigurationFiles(tr_words, englified_grammar , \
-        englified_sentences)
-    return [self.limited_sphinx_configuration, englified, success]
+    englified_grammar = self.englify_words(grammar)
+    englified_sentences = self.englify_words(sentences)
+    try:
+        self.limited_sphinx_configuration = \
+            self.vocabulary.createConfigurationFiles(tr_words, englified_grammar , \
+            englified_sentences)
+    except RappError as e:
+        return [self.limited_sphinx_configuration, englified, e.value]
+    
+    return [self.limited_sphinx_configuration, englified, True]
   
   def getGenericConfiguration(self):
     return [self.generic_sphinx_configuration, True]

@@ -8,6 +8,7 @@ import os
 roslib.load_manifest("rapp_speech_detection_sphinx4")
 
 from rapp_speech_detection_sphinx4 import LimitedVocabularyCreator
+from rapp_speech_detection_sphinx4 import RappError
 
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
@@ -23,11 +24,12 @@ class TestAudioProcessing(unittest.TestCase):
         words['dyskolo'] = ['D','IH','S','K','OW','L','OW']
         grammar = ['autos', 'dyskolo', 'autos dyskolo']
         sentences = ['autos', 'dyskolo']
-
-        [conf, success] = self.module.createConfigurationFiles(words, grammar, sentences)
         
-        self.assertEqual(success, True)
-
+        try:
+            conf = self.module.createConfigurationFiles(words, grammar, sentences)
+        except RappError as e:
+            self.assertEqual(e.value, True)
+            
         # Check if files are there
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
@@ -86,9 +88,10 @@ class TestAudioProcessing(unittest.TestCase):
         grammar = []
         sentences = []
 
-        [conf, success] = self.module.createConfigurationFiles(words, grammar, sentences)
-        
-        self.assertEqual(success, True)
+        try:
+            conf = self.module.createConfigurationFiles(words, grammar, sentences)
+        except RappError as e:
+            self.assertEqual(e.value, True)
 
         # Check if files are there
         jar_path = conf['jar_path']

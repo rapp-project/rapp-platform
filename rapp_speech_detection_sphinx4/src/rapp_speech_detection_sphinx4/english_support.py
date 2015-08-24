@@ -31,7 +31,7 @@ import sys
 import mmap
 
 from global_parameters import GlobalParams
-
+from rapp_exceptions import RappError
 from limited_vocabulary_creator import *
 
 class EnglishSupport(GlobalParams):
@@ -91,11 +91,13 @@ class EnglishSupport(GlobalParams):
         enhanced_words[split_line[0]] = []
         for i in range(1, len(split_line)):
           enhanced_words[split_line[0]].append(split_line[i])
+    try:
+        self.limited_sphinx_configuration= \
+            self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
+    except RappError as e:
+        return [self.limited_sphinx_configuration, e.value]
 
-    [self.limited_sphinx_configuration, success] = \
-        self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
-
-    return [self.limited_sphinx_configuration, success]
+    return [self.limited_sphinx_configuration, True]
   
   def getGenericConfiguration(self):
     return [self.generic_sphinx_configuration, True]
