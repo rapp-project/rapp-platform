@@ -169,6 +169,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
       }
       catch(e){
         rosbridge_connection = false;
+        rosWS = undefined;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge --> [ws//localhost:9090]';
@@ -259,6 +260,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
            }
            catch(e){
              rosbridge_connection = false;
+             rosWS = undefined;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';

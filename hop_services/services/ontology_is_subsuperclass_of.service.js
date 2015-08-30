@@ -118,13 +118,14 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
       }
       catch(e){
         rosbridge_connection = false;
+        rosWS = undefined;
         //console.log(e);
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-        var resp_msg = craft_error_response;
+        var resp_msg = craft_error_response();
         sendResponse( resp_msg );
         return;
       }
@@ -210,6 +211,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
            }
            catch(e){
              rosbridge_connection = false;
+             rosWS = undefined;
              //console.log(e);
 
              var logMsg = 'ERROR: Cannot open websocket' +

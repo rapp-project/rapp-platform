@@ -150,6 +150,7 @@ service face_detection ( {file_uri:''} )
       }
       catch(e){
         rosbridge_connection = false;
+        rosWS = undefined;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge --> [ws//localhost:9090]\r\n' + e;
@@ -240,6 +241,7 @@ service face_detection ( {file_uri:''} )
            }
            catch(e){
              rosbridge_connection = false;
+             rosWS = undefined;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]\r\n' + e;

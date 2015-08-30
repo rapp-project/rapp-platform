@@ -166,6 +166,7 @@ service speech_detection_sphinx4(
       }
       catch(e){
         rosbridge_connection = false;
+        rosWS = undefined;
         //console.log(e);
 
         var logMsg = 'ERROR: Cannot open websocket' +
@@ -174,7 +175,8 @@ service speech_detection_sphinx4(
 
         Fs.rm_file_sync(cpFilePath);
 
-        var resp_msg = craft_error_response;
+        var resp_msg = craft_error_response();
+        console.log(resp_msg);
         sendResponse( resp_msg );
         return;
       }
@@ -258,6 +260,7 @@ service speech_detection_sphinx4(
           }
           catch(e){
             rosbridge_connection = false;
+            rosWS = undefined;
             //console.log(e);
 
             var logMsg = 'ERROR: Cannot open websocket' +
