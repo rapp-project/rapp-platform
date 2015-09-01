@@ -1,0 +1,10 @@
+;; generated file, Hop Wizard Thu, 30 Jul 2015 19:29:53 +0300
+;; anonymous user
+(add-user! "anonymous" :services (quote (public shutdown/kill)))
+
+;; admin
+(add-user! "admin" :groups (quote (admin exec)) :password "+e5a6e16ac4a23b08e47207231b2e5afc" :directories (cons "/tmp" (hop-path)) :services (quote *))
+
+;; klpanagi
+(add-user! "klpanagi" :groups (quote (exec)) :password "+3db051ad649707df23adc359258a40ca" :directories (cons* "/home/klpanagi" "/tmp" (hop-path)) :services (quote *))
+

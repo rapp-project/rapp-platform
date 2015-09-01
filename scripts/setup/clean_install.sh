@@ -5,18 +5,27 @@
 # 14.04 install.
 
 #--------------------------------- Updates -----------------------------------#
-bash ./system_updates.sh
+bash ./1_system_updates.sh
+
 #-------------------------------- ROS setup ----------------------------------#
-bash ./ros_setup.sh
+bash ./2_ros_setup.sh
+
 #------------------------ Auxiliary packages install -------------------------#
-bash ./auxiliary_packages_setup.sh #ok
+bash ./3_auxiliary_packages_setup.sh
+
 #-------------------------------Github repos setup----------------------------#
-bash ./external_repos_setup.sh
-bash ./rapp_platform_setup.sh
-bash ./sphinx_libraries.sh
+bash ./4_rosjava_setup.sh
+bash ./5_knowrob_setup.sh
+bash ./6_rapp_platform_setup.sh
+bash ./7_sphinx_libraries.sh
+
 #-------------------------------MySQLsetup------------------------------------#
-bash ./mysql_setup.sh
+bash ./8_mysql_install.sh
+bash ./9_create_rapp_mysql_db.sh
+bash ./10_create_rapp_mysql_users.sh
+
 #-------------------------------- HOP setup ----------------------------------#
-bash ./hop_setup.sh
+bash ./11_hop_setup.sh
+
 #-------------------------------- Finalizing ---------------------------------#
 source ~/.bashrc

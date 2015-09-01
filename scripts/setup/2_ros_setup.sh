@@ -20,7 +20,7 @@ echo -e "\e[1m\e[103m\e[31m [RAPP] ROS - Initializing rosdep \e[0m"
 sudo rosdep init
 rosdep update
 
-echo -e "\e[1m\e[103m\e[31m [RAPP] Setup ROS enironment \e[0m"
+echo -e "\e[1m\e[103m\e[31m [RAPP] Setup ROS environment \e[0m"
 # Setup environment
 echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
 source ~/.bashrc

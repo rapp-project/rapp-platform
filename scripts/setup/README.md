@@ -14,6 +14,10 @@ https://help.github.com/articles/generating-ssh-keys/
 If you already have a public/private key, copy it in the ```.ssh``` folder
 of your new installation.
 
+Additionally install git in order to be able to clone the repositories:
+
+```sudo apt-get install git```
+
 WARNING: At least 10 GB's of free space are recommended.
 
 ##Updates / ROS install / Github repos

@@ -2,10 +2,12 @@
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing HOP by repos \e[0m"
 
+# Keep current directory
+curr=$(pwd)
 #sudo sh -c 'echo "deb ftp://ftp-sop.inria.fr/indes/rapp/UBUNTU lts hop" >> \
 #  /etc/apt/sources.list'
   
-cd ~
+cd ~/rapp_platform
 mkdir hop
 cd hop
 wget ftp://ftp-sop.inria.fr/indes/rapp/hop/2015-05-07/bigloo4.2a.tar.gz
@@ -24,3 +26,8 @@ cd hop-3.0.0-pre14
 ./configure
 make
 sudo make install
+
+# Initialize HOP with users
+mkdir -p $HOME/.config/hop
+cd $curr/hop_init
+cp * $HOME/.config/hop/

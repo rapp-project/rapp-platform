@@ -16,34 +16,45 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `tblappsrobots`
+-- Table structure for table `tblAppsRobots`
 --
 
-DROP TABLE IF EXISTS `tblappsrobots`;
+DROP TABLE IF EXISTS `tblAppsRobots`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblappsrobots` (
+CREATE TABLE `tblAppsRobots` (
   `app_id` int(12) NOT NULL,
   `robot_id` int(12) NOT NULL,
   PRIMARY KEY (`app_id`,`robot_id`),
   KEY `robot_id` (`robot_id`),
-  CONSTRAINT `tblappsrobots_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `tblrapp` (`id`),
-  CONSTRAINT `tblappsrobots_ibfk_2` FOREIGN KEY (`robot_id`) REFERENCES `tblrobot` (`id`)
+  CONSTRAINT `tblAppsRobots_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `tblRapp` (`id`),
+  CONSTRAINT `tblAppsRobots_ibfk_2` FOREIGN KEY (`robot_id`) REFERENCES `tblRobot` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tblappsrobots`
+-- Table structure for table `tblDep`
 --
 
---
--- Table structure for table `tblemail`
---
-
-DROP TABLE IF EXISTS `tblemail`;
+DROP TABLE IF EXISTS `tblDep`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblemail` (
+CREATE TABLE `tblDep` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `name` varchar(16) NOT NULL,
+  `version` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tblEmail`
+--
+
+DROP TABLE IF EXISTS `tblEmail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tblEmail` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `password` varchar(32) NOT NULL,
@@ -55,17 +66,29 @@ CREATE TABLE `tblemail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tblemail`
+-- Table structure for table `tblLibrary`
 --
 
---
--- Table structure for table `tblmodel`
---
-
-DROP TABLE IF EXISTS `tblmodel`;
+DROP TABLE IF EXISTS `tblLibrary`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblmodel` (
+CREATE TABLE `tblLibrary` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `dep` int(12) NOT NULL,
+  `filename` varchar(12) NOT NULL,
+  `path` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tblModel`
+--
+
+DROP TABLE IF EXISTS `tblModel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tblModel` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `model_str` varchar(128) NOT NULL,
   `manufacturer` varchar(128) NOT NULL,
@@ -79,22 +102,52 @@ CREATE TABLE `tblmodel` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tblmodel`
+-- Table structure for table `tblNews`
 --
 
---
--- Table structure for table `tblrapp`
---
-
-DROP TABLE IF EXISTS `tblrapp`;
+DROP TABLE IF EXISTS `tblNews`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblrapp` (
+CREATE TABLE `tblNews` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `title` varchar(128) NOT NULL,
+  `text` longtext NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tblPackage`
+--
+
+DROP TABLE IF EXISTS `tblPackage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tblPackage` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `dep` int(12) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `lib_flag` varchar(64) NOT NULL,
+  `inc_flag` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tblRapp`
+--
+
+DROP TABLE IF EXISTS `tblRapp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tblRapp` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `rapp` varchar(64) NOT NULL,
   `version` decimal(18,9) NOT NULL,
   `arch` varchar(5) NOT NULL,
-  `owner` int(12) NOT NULL,
+  `lang` varchar(3) NOT NULL,
+  `owner` varchar(32) NOT NULL,
   `directory` varchar(128) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -102,23 +155,39 @@ CREATE TABLE `tblrapp` (
   UNIQUE KEY `uid` (`rapp`,`version`,`arch`),
   KEY `fk_owner` (`owner`),
   KEY `id_2` (`id`),
-  CONSTRAINT `tblrapp_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tbluser` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  CONSTRAINT `tblRapp_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tblUser` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tblrapp`
+-- Table structure for table `tblRappsModelsVersion`
 --
 
-
---
--- Table structure for table `tblrobot`
---
-
-DROP TABLE IF EXISTS `tblrobot`;
+DROP TABLE IF EXISTS `tblRappsModelsVersion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblrobot` (
+CREATE TABLE `tblRappsModelsVersion` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `rapp_id` int(12) NOT NULL,
+  `model_id` int(12) NOT NULL,
+  `minimum_coreagent_version` decimal(18,9) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uid` (`model_id`,`rapp_id`,`minimum_coreagent_version`),
+  KEY `fk_rapp_id` (`rapp_id`),
+  KEY `fk_model_id` (`model_id`),
+  CONSTRAINT `tblRappsModelsVersion_ibfk_1` FOREIGN KEY (`rapp_id`) REFERENCES `tblRapp` (`id`),
+  CONSTRAINT `tblRappsModelsVersion_ibfk_2` FOREIGN KEY (`model_id`) REFERENCES `tblModel` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tblRobot`
+--
+
+DROP TABLE IF EXISTS `tblRobot`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tblRobot` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `macddr` bigint(8) NOT NULL,
   `model` int(12) NOT NULL,
@@ -128,28 +197,24 @@ CREATE TABLE `tblrobot` (
   UNIQUE KEY `uid` (`macddr`,`model`),
   KEY `fk_owner` (`owner`),
   KEY `fk_model` (`model`),
-  CONSTRAINT `tblrobot_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tbluser` (`id`),
-  CONSTRAINT `tblrobot_ibfk_2` FOREIGN KEY (`model`) REFERENCES `tblmodel` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+  CONSTRAINT `tblRobot_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tblUser` (`id`),
+  CONSTRAINT `tblRobot_ibfk_2` FOREIGN KEY (`model`) REFERENCES `tblModel` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tblrobot`
+-- Table structure for table `tblUser`
 --
 
-
---
--- Table structure for table `tbluser`
---
-
-DROP TABLE IF EXISTS `tbluser`;
+DROP TABLE IF EXISTS `tblUser`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbluser` (
+CREATE TABLE `tblUser` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
   `firstname` varchar(128) NOT NULL,
   `lastname` varchar(128) NOT NULL,
+  `email` varchar(254) NOT NULL,
   `email_id` int(12) DEFAULT NULL,
   `ontology_alias` varchar(32) DEFAULT NULL,
   `pwd` char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
@@ -161,48 +226,56 @@ CREATE TABLE `tbluser` (
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `uid` (`firstname`,`lastname`,`email_id`),
-  KEY `tbluser_ibfk_1` (`email_id`),
-  CONSTRAINT `tbluser_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `tblemail` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+  KEY `tblUser_ibfk_1` (`email_id`),
+  CONSTRAINT `tblUser_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `tblEmail` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbluser`
+-- Table structure for table `tblUserDir`
 --
 
-
---
--- Table structure for table `tbluserrelations`
---
-
-DROP TABLE IF EXISTS `tbluserrelations`;
+DROP TABLE IF EXISTS `tblUserDir`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tbluserrelations` (
+CREATE TABLE `tblUserDir` (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `lang` varchar(3) CHARACTER SET ascii NOT NULL,
+  `path` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_id` (`username`,`path`)
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tblUserRelations`
+--
+
+DROP TABLE IF EXISTS `tblUserRelations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tblUserRelations` (
   `user_id1` int(12) NOT NULL,
   `user_id2` int(12) NOT NULL,
   `connection` enum('doctor','caregiver','child of') NOT NULL,
   `description` varchar(128) NOT NULL,
   PRIMARY KEY (`user_id1`,`user_id2`,`connection`),
-  KEY `tbluserrelations_ibfk_2` (`user_id2`),
-  CONSTRAINT `tbluserrelations_ibfk_1` FOREIGN KEY (`user_id1`) REFERENCES `tbluser` (`id`),
-  CONSTRAINT `tbluserrelations_ibfk_2` FOREIGN KEY (`user_id2`) REFERENCES `tbluser` (`id`)
+  KEY `tblUserRelations_ibfk_2` (`user_id2`),
+  CONSTRAINT `tblUserRelations_ibfk_1` FOREIGN KEY (`user_id1`) REFERENCES `tblUser` (`id`),
+  CONSTRAINT `tblUserRelations_ibfk_2` FOREIGN KEY (`user_id2`) REFERENCES `tblUser` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tbluserrelations`
+-- Table structure for table `tblUsersOntologyInstances`
 --
 
-
---
--- Table structure for table `tblusersontologyinstances`
---
-
-DROP TABLE IF EXISTS `tblusersontologyinstances`;
+DROP TABLE IF EXISTS `tblUsersOntologyInstances`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblusersontologyinstances` (
+CREATE TABLE `tblUsersOntologyInstances` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
   `user_id` int(12) NOT NULL,
   `ontology_class` varchar(50) NOT NULL,
@@ -213,48 +286,9 @@ CREATE TABLE `tblusersontologyinstances` (
   `updated_timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
-  CONSTRAINT `tblusersontologyinstances_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbluser` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+  CONSTRAINT `tblUsersOntologyInstances_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tblUser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tblusersontologyinstances`
---
-
-
---
--- Temporary table structure for view `usersrobotsapps`
---
-
-DROP TABLE IF EXISTS `usersrobotsapps`;
-/*!50001 DROP VIEW IF EXISTS `usersrobotsapps`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `usersrobotsapps` (
-  `owner` tinyint NOT NULL,
-  `id` tinyint NOT NULL,
-  `app_id` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
---
--- Final view structure for view `usersrobotsapps`
---
-
-/*!50001 DROP TABLE IF EXISTS `usersrobotsapps`*/;
-/*!50001 DROP VIEW IF EXISTS `usersrobotsapps`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `usersrobotsapps` AS select `a`.`owner` AS `owner`,`a`.`id` AS `id`,`b`.`app_id` AS `app_id` from (`tblrobot` `a` join `tblappsrobots` `b`) where (`a`.`id` = `b`.`robot_id`) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -265,4 +299,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-06-13 12:12:27
+-- Dump completed on 2015-09-01 13:51:42
