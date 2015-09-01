@@ -4,6 +4,7 @@ sudo apt-get -y install swig
 sudo apt-get -y install autoconf
 sudo apt-get -y install python-scipy
 sudo apt-get -y install bison
+sudo apt-get -y install sox 
 cd $HOME/rapp_platform
 git clone git@github.com:skerit/cmusphinx
 cd cmusphinx/cmuclmtk
