@@ -1,5 +1,0 @@
-# Image to upload
-sensor_msgs/Image image
----
-# Path (id) of uploaded image
-string path

@@ -1,6 +1,0 @@
-<launch>
-
-	<node name="upload_image_node" type="upload_image_node" pkg="rapp_image_recognition" output="screen" />
-	<node name="find_objects_node" type="find_objects_node" pkg="rapp_image_recognition" output="screen" />
-
-</launch>
