@@ -1,0 +1,151 @@
+#############################################################################
+## Copyright (c) 1996, Carnegie Mellon University, Cambridge University,
+## Ronald Rosenfeld and Philip Clarkson
+## Version 3, Copyright (c) 2006, Carnegie Mellon University 
+## Contributors includes Wen Xu, Ananlada Chotimongkol, 
+## David Huggins-Daines, Arthur Chan and Alan Black 
+#############################################################################
+=============================================================================
+===============  This file was produced by the CMU-Cambridge  ===============
+===============     Statistical Language Modeling Toolkit     ===============
+=============================================================================
+This is a 3-gram language model, based on a vocabulary of 17 words,
+  which begins "</s>", "<s>", "aristera"...
+This is a CLOSED-vocabulary model
+  (OOVs eliminated from training data and are forbidden in test data)
+Good-Turing discounting was applied.
+1-gram frequency of frequency : 14 
+2-gram frequency of frequency : 29 0 0 0 0 0 0 
+3-gram frequency of frequency : 43 0 0 0 0 0 0 
+1-gram discounting ratios : 0.93 
+2-gram discounting ratios : 
+3-gram discounting ratios : 
+This file is in the ARPA-standard format introduced by Doug Paul.
+
+p(wd3|wd1,wd2)= if(trigram exists)           p_3(wd1,wd2,wd3)
+                else if(bigram w1,w2 exists) bo_wt_2(w1,w2)*p(wd3|wd2)
+                else                         p(wd3|w2)
+
+p(wd2|wd1)= if(bigram exists) p_2(wd1,wd2)
+            else              bo_wt_1(wd1)*p_1(wd2)
+
+All probs and back-off weights (bo_wt) are given in log10 form.
+
+Data formats:
+
+Beginning of data mark: \data\
+ngram 1=nr            # number of 1-grams
+ngram 2=nr            # number of 2-grams
+ngram 3=nr            # number of 3-grams
+
+\1-grams:
+p_1     wd_1 bo_wt_1
+\2-grams:
+p_2     wd_1 wd_2 bo_wt_2
+\3-grams:
+p_3     wd_1 wd_2 wd_3 
+
+end of data mark: \end\
+
+\data\
+ngram 1=17
+ngram 2=30
+ngram 3=43
+
+\1-grams:
+-0.4873 </s>	-1.0178
+-0.4574 <s>	-1.3203
+-1.6634 aristera	-0.3061
+-1.6634 epanelabe	-0.3061
+-1.6634 geia	-0.3061
+-1.6634 kato	-0.3061
+-1.6634 leme	0.0000
+-1.6634 lene	-0.3061
+-1.6634 nai	-0.3061
+-1.6634 oxi	-0.3061
+-1.6634 pano	-0.3061
+-1.6634 prochora	-0.3061
+-1.6634 pws	-0.3061
+-1.6634 re	-0.3061
+-1.6634 se	-0.3061
+-1.6634 sou	-0.3061
+-1.6634 xano	-0.3061
+
+\2-grams:
+-0.0280 </s> <s> -0.1619
+-1.1903 <s> aristera 0.1761
+-1.1903 <s> epanelabe 0.1761
+-1.1903 <s> geia 0.1761
+-1.1903 <s> kato 0.1761
+-1.1903 <s> leme -0.1300
+-1.1903 <s> lene 0.1761
+-1.1903 <s> nai 0.1761
+-1.1903 <s> oxi 0.1761
+-1.1903 <s> pano 0.1761
+-1.1903 <s> prochora 0.1761
+-1.1903 <s> pws 0.1761
+-1.1903 <s> re 0.1761
+-1.1903 <s> se 0.1761
+-1.1903 <s> sou 0.1761
+-1.1903 <s> xano 0.1761
+-0.1761 aristera </s> 0.9031
+-0.1761 epanelabe </s> 0.9031
+-0.1761 geia </s> 0.9031
+-0.1761 kato </s> 0.9031
+-0.1761 lene </s> 0.9031
+-0.1761 nai </s> 0.9031
+-0.1761 oxi </s> 0.9031
+-0.1761 pano </s> 0.9031
+-0.1761 prochora </s> 0.9031
+-0.1761 pws </s> 0.9031
+-0.1761 re </s> 0.9031
+-0.1761 se </s> 0.9031
+-0.1761 sou </s> 0.9031
+-0.1761 xano </s> 0.9031
+
+\3-grams:
+-1.1761 </s> <s> aristera 
+-1.1761 </s> <s> epanelabe 
+-1.1761 </s> <s> geia 
+-1.1761 </s> <s> kato 
+-1.1761 </s> <s> leme 
+-1.1761 </s> <s> lene 
+-1.1761 </s> <s> nai 
+-1.1761 </s> <s> pano 
+-1.1761 </s> <s> prochora 
+-1.1761 </s> <s> pws 
+-1.1761 </s> <s> re 
+-1.1761 </s> <s> se 
+-1.1761 </s> <s> sou 
+-1.1761 </s> <s> xano 
+-0.3010 <s> aristera </s> 
+-0.3010 <s> epanelabe </s> 
+-0.3010 <s> geia </s> 
+-0.3010 <s> kato </s> 
+-0.3010 <s> leme </s> 
+-0.3010 <s> lene </s> 
+-0.3010 <s> nai </s> 
+-0.3010 <s> oxi </s> 
+-0.3010 <s> pano </s> 
+-0.3010 <s> prochora </s> 
+-0.3010 <s> pws </s> 
+-0.3010 <s> re </s> 
+-0.3010 <s> se </s> 
+-0.3010 <s> sou </s> 
+-0.3010 <s> xano </s> 
+-0.3010 aristera </s> <s> 
+-0.3010 epanelabe </s> <s> 
+-0.3010 geia </s> <s> 
+-0.3010 kato </s> <s> 
+-0.3010 lene </s> <s> 
+-0.3010 nai </s> <s> 
+-0.3010 oxi </s> <s> 
+-0.3010 pano </s> <s> 
+-0.3010 prochora </s> <s> 
+-0.3010 pws </s> <s> 
+-0.3010 re </s> <s> 
+-0.3010 se </s> <s> 
+-0.3010 sou </s> <s> 
+-0.3010 xano </s> <s> 
+
+\end\

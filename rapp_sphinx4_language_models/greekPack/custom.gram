@@ -1,0 +1,13 @@
+#JSGF V1.0;
+/**
+ * JSGF Grammar for Hello World example
+ *using other grammar rules within a grammar rule. 
+ *the OR "|" operator. 
+ *the grouping "(...)" operator. 
+ *the optional grouping "[...]" operator. 
+ *the zero-or-many "*" (called Kleene star) operator. 
+ *a probability (e.g., "open" is more likely than the others). 
+
+ */
+grammar hello;
+
