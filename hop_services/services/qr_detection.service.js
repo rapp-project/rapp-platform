@@ -57,6 +57,8 @@ register_master_interface();
  */
 service qr_detection ( {file_uri:''} )
 {
+  var startT = new Date().getTime();;
+  var execTime = 0;
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
   var logMsg = 'Image stored at [' + file_uri + ']';
@@ -86,6 +88,8 @@ service qr_detection ( {file_uri:''} )
     // Dismiss the unique identity key
     randStrGen.removeCached(unqCallId);
     var resp_msg = craft_error_response();
+    execTime = new Date().getTime() - startT;
+    postMessage( craft_slaveMaster_msg('execTime', execTime) );
     return resp_msg;
   }
 
@@ -144,6 +148,8 @@ service qr_detection ( {file_uri:''} )
 
           // Dismiss the unique call identity key for current client.
           randStrGen.removeCached( unqCallId );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
           sendResponse( resp_msg );
         }
       }
@@ -157,6 +163,8 @@ service qr_detection ( {file_uri:''} )
 
         Fs.rm_file_sync(cpFilePath);
         var resp_msg = craft_error_response();
+        execTime = new Date().getTime() - startT;
+        postMessage( craft_slaveMaster_msg('execTime', execTime) );
         sendResponse( resp_msg );
         return;
       }
@@ -197,6 +205,8 @@ service qr_detection ( {file_uri:''} )
              //  Close websocket before return
              rosWS.close();
              rosWS = undefined;
+             execTime = new Date().getTime() - startT;
+             postMessage( craft_slaveMaster_msg('execTime', execTime) );
              sendResponse( respMsg );
              return;
            }
@@ -234,6 +244,8 @@ service qr_detection ( {file_uri:''} )
                rosWS = undefined; // Decostruct websocket
                respFlag = true;
                randStrGen.removeCached( unqCallId ); //Remove the uniqueID so it can be reused
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
                sendResponse( resp_msg ); //Return response to client
              }
            }
@@ -249,6 +261,8 @@ service qr_detection ( {file_uri:''} )
              Fs.rm_file_sync(cpFilePath);
              var resp_msg = craft_error_response();
 
+             execTime = new Date().getTime() - startT;
+             postMessage( craft_slaveMaster_msg('execTime', execTime) );
              sendResponse( resp_msg );
              return;
            }
@@ -400,13 +414,13 @@ function exec_master_command(msg)
 }
 
 
-function craft_slaveMaster_msg(msgId, msg)
+function craft_slaveMaster_msg(msgId, data)
 {
   var msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
-    data: msg
-  }
+    data: data
+  };
   return msg;
 }
