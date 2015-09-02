@@ -40,8 +40,8 @@ from rapp_platform_ros_communications.srv import(
     AudioProcessingDetectSilenceSrvRequest
     )
 
-class Sphinx4Wrapper(GlobalParams): 
- 
+class Sphinx4Wrapper(GlobalParams):
+
   def __init__(self):
     GlobalParams.__init__(self)
     self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
@@ -74,26 +74,26 @@ class Sphinx4Wrapper(GlobalParams):
       print line
     return line
 
-  # Perform Sphinx4 initialization. For now it is initialized with the 
+  # Perform Sphinx4 initialization. For now it is initialized with the
   # reduced Greek model
   def initializeSphinx(self, conf):
-
+    print conf['jar_path']
     self.p = subprocess.Popen(["java", "-cp", conf['jar_path'], \
             "Sphinx4"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
 
     self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
     self.readLine()
-    
+
     self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
     self.readLine()
 
     self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
-            conf['grammar_folder'] + '\r\n') 
+            conf['grammar_folder'] + '\r\n')
     self.readLine()
 
     self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
     self.readLine()
-    
+
     self.p.stdin.write("languageModel#" + conf['language_model'] + '\r\n')
     self.readLine()
 
@@ -112,7 +112,7 @@ class Sphinx4Wrapper(GlobalParams):
     self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
     self.readLine()
     self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
-            conf['grammar_folder'] + '\r\n') 
+            conf['grammar_folder'] + '\r\n')
     self.readLine()
     self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
     self.readLine()
@@ -270,7 +270,7 @@ class Sphinx4Wrapper(GlobalParams):
             tries += 1
         else:
             break
-    
+
     backup_directory = \
         os.path.expanduser("~/rapp_platform_files/rapp_speech_recognition_sphinx4/")\
         + user
@@ -309,7 +309,7 @@ class Sphinx4Wrapper(GlobalParams):
     energy_denoise_res = self.energy_denoise_service(energy_denoise_req)
     return energy_denoise_res.success
 
-  def callSphinxJava(self,new_audio_file): 
+  def callSphinxJava(self,new_audio_file):
     self.p.stdin.write("start\r\n")
     self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
     start_time = time.time()

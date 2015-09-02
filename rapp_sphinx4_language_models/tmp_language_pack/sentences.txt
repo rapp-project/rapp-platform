@@ -1,2 +1,4 @@
-<s> o'xi </s>
-<s> nai </s>
+<s> this </s>
+<s> a </s>
+<s> is </s>
+<s> test </s>

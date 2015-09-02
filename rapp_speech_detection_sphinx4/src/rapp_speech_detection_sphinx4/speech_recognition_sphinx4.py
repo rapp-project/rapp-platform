@@ -110,7 +110,8 @@ class SpeechRecognitionSphinx4(GlobalParams):
         self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
         self.speechRecognitionBatch)
 
-    total_path = ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
+    total_path = ".:" + self.sphinx_jar_files_url + \
+        "/" + self.sphinx_jar_file + ":" \
             + self.sphinx_package_url + "/src"
 
     self.sphinx_configuration = { \

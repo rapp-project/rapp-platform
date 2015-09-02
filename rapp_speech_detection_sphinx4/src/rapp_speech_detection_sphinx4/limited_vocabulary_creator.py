@@ -44,7 +44,8 @@ class LimitedVocabularyCreator(GlobalParams):
       os.makedirs(self.languages_package)
 
     self.sphinx_configuration = { \
-      'jar_path' : ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
+      'jar_path' : ".:" + self.sphinx_jar_files_url + \
+            "/" + self.sphinx_jar_file + ":" \
             + self.sphinx_package_url + "/src", \
       'configuration_path' : self.language_models_url + "/greekPack/default.config.xml", \
       'acoustic_model' : self.acoustic_models_url, \
