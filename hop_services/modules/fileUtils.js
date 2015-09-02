@@ -292,6 +292,12 @@ function writeLine ( _data, dest ){
 }
 
 
+function appendLine( str, dest )
+{
+  var destPath = resolve_path(dest);
+  fs.appendFileSync(destPath, str + '\n');
+}
+
 /*!
  * @brief Getting File Size without Reading Entire File.
  * @param _fileURL File System Url.
@@ -416,8 +422,9 @@ function parentDir(path)
   return parentDir;
 }
 
-/*!
- * @briUef fileUtils module exports.
+
+/**
+ * This module exports.
  */
 module.exports = {
   version: getVersion,
@@ -428,6 +435,7 @@ module.exports = {
   ls_sync: ls_sync,
   text2File: text2File,
   writeLine: writeLine,
+  appendLine: appendLine,
   fileSize: fileSize,
   load_json_file: load_json_file,
   rename_file_sync: rename_file_sync,

@@ -7,8 +7,9 @@ var startT = process.hrtime();
 
 
 /*!
- * @brief Returns a number that represents time this module is up.
- * High Precision
+ * @brief Returns a number that represents the uprunning time in
+ * milliseconds.
+ * High Precision using process information.
  */
 function getUpTime()
 {
