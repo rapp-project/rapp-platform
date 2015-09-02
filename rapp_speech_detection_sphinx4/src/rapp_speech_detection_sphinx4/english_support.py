@@ -47,7 +47,7 @@ class EnglishSupport(GlobalParams):
     # language models
     self.english_dictionary = self.language_models_url + \
         "/englishPack/cmudict-en-us.dict"
-       
+
     jar_path = ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx_package_url + "/src"
 
@@ -60,10 +60,10 @@ class EnglishSupport(GlobalParams):
       'grammar_name' : 'hello', \
       'grammar_folder' : self.language_models_url + "/greekPack/", \
       'dictionary' : self.language_models_url + "/englishPack/cmudict-en-us.dict", \
-      'language_model' : self.language_models_url + "/englishPack/en-us.lm.dmp", \
+      'language_model' : self.language_models_url + "/englishPack/en-us.lm.bin", \
       'grammar_disabled' : True
       }
-    
+
     # Open the generic english dictionary file
     try:
       self.english_dict_file = open(self.english_dictionary, 'r')
@@ -75,11 +75,11 @@ class EnglishSupport(GlobalParams):
 
   # Returns [conf, status]
   # conf is the configuration
-  # status is either error (string) or True (bool) 
+  # status is either error (string) or True (bool)
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     enhanced_words = {}
     for word in words:
-      index = self.english_dict_mapping.find("\n" + word + " ") 
+      index = self.english_dict_mapping.find("\n" + word + " ")
       if  index == -1:
         raise RappError("ERROR: Word " + word + " does not exist in the English Dictionary")
       else:
@@ -97,6 +97,6 @@ class EnglishSupport(GlobalParams):
         raise RappError(e.value)
 
     return self.limited_sphinx_configuration
-  
+
   def getGenericConfiguration(self):
     return self.generic_sphinx_configuration

@@ -39,10 +39,10 @@ class LimitedVocabularyCreator(GlobalParams):
     GlobalParams.__init__(self)
 
     self.languages_package = self.language_models_url + "/tmp_language_pack/"
-    
+
     if not os.path.exists(self.languages_package):
       os.makedirs(self.languages_package)
- 
+
     self.sphinx_configuration = { \
       'jar_path' : ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx_package_url + "/src", \
@@ -108,7 +108,7 @@ class LimitedVocabularyCreator(GlobalParams):
     # Check sentences: All words must exist in sentences
     # Continue with the sentences setup
     tmp_configuration['language_model'] = self.languages_package + \
-      "sentences.lm.dmp"
+      "sentences.lm.bin"
     custom_sentences = open(self.languages_package + 'sentences.txt', 'w')
     if len(sentences) != 0:
       for sent in sentences:

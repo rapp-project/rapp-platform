@@ -7,7 +7,7 @@ export PATH=$PATH:/opt/bigloo/bin:/opt/hop/bin
 source /opt/ros/indigo/setup.bash
 source $HOME/knowrob_catkin_ws/devel/setup.bash --extend
 source $HOME/rosjava/devel/setup.bash --extend
-source $HOME/rapp-platform-catkin-ws/devel/setup.bash --extend
+source $HOME/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend
 
 #------- KnowRob related
 export JAVA_HOME=/usr/lib/jvm/default-java

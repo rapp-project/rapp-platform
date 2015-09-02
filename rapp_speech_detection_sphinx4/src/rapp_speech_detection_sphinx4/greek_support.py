@@ -49,7 +49,7 @@ class GreekSupport(GlobalParams):
     # NOTE: This does not exist yet
     self.greek_dictionary = self.language_models_url + \
         "/englishPack/cmudict-en-us.dict"
-    
+
     jar_path = ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx_package_url + "/src"
 
@@ -62,10 +62,10 @@ class GreekSupport(GlobalParams):
       'grammar_name' : 'hello', \
       'grammar_folder' : self.language_models_url + "/greekPack/", \
       'dictionary' : self.language_models_url +  "/englishPack/cmudict-en-us.dict", \
-      'language_model' : self.language_models_url + "/englishPack/en-us.lm.dmp", \
+      'language_model' : self.language_models_url + "/englishPack/en-us.lm.bin", \
       'grammar_disabled' : True
       }
-    
+
     # Open the generic english dictionary file
     # NOTE: Fix this according to the Greek generic dictionary
     #try:
@@ -80,14 +80,14 @@ class GreekSupport(GlobalParams):
 
   def configureLetters(self):
 
-    self.f_base_pre = [u'π', u'τ', u'κ', u'θ', u'χ', u'σ', u'ξ', u'ψ'] 
+    self.f_base_pre = [u'π', u'τ', u'κ', u'θ', u'χ', u'σ', u'ξ', u'ψ']
     self.f_base = []
     for l in self.f_base_pre:
       self.f_base.append(l.encode('utf-8'))
 
     self.v_base_pre = [u'δ', u'γ', u'ζ', u'λ', u'ρ', u'μ', u'ν', u'α', u'ά', u'ε',\
         u'έ', u'η', u'ή', u'ι', u'ί', u'ϊ', u'ΐ', u'ο', u'ό', u'υ', u'ύ', u'ϋ'\
-        u'ΰ', u'ω', u'ώ'] 
+        u'ΰ', u'ω', u'ώ']
     self.v_base = []
     for l in self.v_base_pre:
       self.v_base.append(l.encode('utf-8'))
@@ -145,7 +145,7 @@ class GreekSupport(GlobalParams):
     self.phonems[(u'ππ').encode('utf-8')] = 'P '
     self.phonems[(u'ρρ').encode('utf-8')] = 'R '
     self.phonems[(u'ττ').encode('utf-8')] = 'T '
-    
+
     self.two_digit_letters = {}
     self.two_digit_letters[(u'αι').encode('utf-8')] = 'EH '
     self.two_digit_letters[(u'αί').encode('utf-8')] = 'EH '
@@ -222,7 +222,7 @@ class GreekSupport(GlobalParams):
     self.letters[(u'τ').encode('utf-8')] = 'T '
     self.letters[(u'υ').encode('utf-8')] = 'IH '
     self.letters[(u'ύ').encode('utf-8')] = 'IH '
-    self.letters[(u'ϋ').encode('utf-8')] = 'IH ' 
+    self.letters[(u'ϋ').encode('utf-8')] = 'IH '
     self.letters[(u'ΰ').encode('utf-8')] = 'IH '
     self.letters[(u'φ').encode('utf-8')] = 'F '
     self.letters[(u'χ').encode('utf-8')] = 'HH '
@@ -261,7 +261,7 @@ class GreekSupport(GlobalParams):
     self.literal_letters[(u'τ').encode('utf-8')] = 't'
     self.literal_letters[(u'υ').encode('utf-8')] = 'u'
     self.literal_letters[(u'ύ').encode('utf-8')] = 'u\''
-    self.literal_letters[(u'ϋ').encode('utf-8')] = 'u:' 
+    self.literal_letters[(u'ϋ').encode('utf-8')] = 'u:'
     self.literal_letters[(u'ΰ').encode('utf-8')] = 'u\':'
     self.literal_letters[(u'φ').encode('utf-8')] = 'f'
     self.literal_letters[(u'χ').encode('utf-8')] = 'x'
@@ -307,13 +307,13 @@ class GreekSupport(GlobalParams):
       for l in self.letters:
         initial_word = initial_word.replace(l, self.letters[l])
       print "rest of letters: " + initial_word
-      
+
       enhanced_words[eng_w] = []
       temp = initial_word.split(' ')
       if len(temp) > 0:
         temp = temp[:-1]
       enhanced_words[eng_w] = temp
-    
+
     return [enhanced_words, englified_words]
 
   def englify_words(self, words):
@@ -333,7 +333,7 @@ class GreekSupport(GlobalParams):
     enhanced_words = {}
     # NOTE: The following should work with the Greek generic dictionary
     #for word in words:
-      #index = self.english_dict_mapping.find("\n" + word + " ") 
+      #index = self.english_dict_mapping.find("\n" + word + " ")
       #if  index == -1:
         #print "ERROR: Word " + word + " does not exist in the English Dictionary"
       #else:
@@ -361,8 +361,8 @@ class GreekSupport(GlobalParams):
             englified_sentences)
     except RappError as e:
         raise RappError(e.value)
-    
+
     return [self.limited_sphinx_configuration, englified]
-  
+
   def getGenericConfiguration(self):
     return self.generic_sphinx_configuration

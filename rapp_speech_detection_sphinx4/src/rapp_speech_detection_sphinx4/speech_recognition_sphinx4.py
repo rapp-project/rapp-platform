@@ -56,22 +56,22 @@ from rapp_platform_ros_communications.srv import (
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
-    
-from std_msgs.msg import ( 
-  String 
-  ) 
 
-class SpeechRecognitionSphinx4(GlobalParams): 
- 
+from std_msgs.msg import (
+  String
+  )
+
+class SpeechRecognitionSphinx4(GlobalParams):
+
   # Constructor performing initializations
-  def __init__(self):    
+  def __init__(self):
     GlobalParams.__init__(self)
 
     self.sphinx4 = Sphinx4Wrapper()
     self.greek_support = GreekSupport()
     self.english_support = EnglishSupport()
     self.word_mapping = {}
-    
+
     self.language = 'gr'
     self.words = []
     self.grammar = []
@@ -85,7 +85,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
 
     self.use_db_authentication = rospy.get_param(\
         "rapp_speech_detection_sphinx4_use_db_authentication")
-   
+
     #---------------------------Check db authentication------------------------#
     if self.use_db_authentication == True:
       self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
@@ -109,7 +109,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self.speech_recognition_batch_service = rospy.Service( \
         self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
         self.speechRecognitionBatch)
-    
+
     total_path = ".:" + self.sphinx_jar_files_url + "/sphinx4-core-1.0-SNAPSHOT.jar:" \
             + self.sphinx_package_url + "/src"
 
@@ -120,11 +120,11 @@ class SpeechRecognitionSphinx4(GlobalParams):
       'grammar_name' : 'hello', \
       'grammar_folder' : self.language_models_url + "/greekPack/", \
       'dictionary' : self.language_models_url + "/greekPack/custom.dict", \
-      'language_model' : self.language_models_url + "/greekPack/sentences.lm.dmp", \
+      'language_model' : self.language_models_url + "/greekPack/sentences.lm.bin", \
       'grammar_disabled' : True
       }
     self.sphinx4.initializeSphinx(self.sphinx_configuration)
- 
+
   # Service callback for handling sphinx4 configuration AND speech recognition
   def speechRecognitionBatch(self, req):
 
@@ -138,10 +138,10 @@ class SpeechRecognitionSphinx4(GlobalParams):
       req_db.where_data=[StringArrayMsg(s=entry1)]
 
       resp = self.authentication_service(req_db.req_cols, req_db.where_data)
-      if resp.success.data != True or len(resp.res_data) == 0: 
+      if resp.success.data != True or len(resp.res_data) == 0:
         total_res.error = "Non authenticated user"
         return total_res
-          
+
     conf_req = SpeechRecognitionSphinx4ConfigureSrvRequest()
     spee_req = SpeechRecognitionSphinx4SrvRequest()
 
@@ -166,16 +166,16 @@ class SpeechRecognitionSphinx4(GlobalParams):
     return total_res
 
   # Service callback for handling speech recognition
-  def speechRecognition(self, req):     
+  def speechRecognition(self, req):
     res = SpeechRecognitionSphinx4SrvResponse()
-    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user) 
+    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user)
     print words
     # Error handling - Must be implemented with exceptions
     if len(words) == 1 and "Error:" in words[0]:
       res.error = words[0]
       res.words = []
       return res
-    
+
     for word in words:
       if self.language != "en":
         print "Word: #" + word + "#"
@@ -184,8 +184,8 @@ class SpeechRecognitionSphinx4(GlobalParams):
         res.words.append(self.word_mapping[word])
       else:
         res.words.append(word.replace("'"," "))
-    
-    return res;  
+
+    return res;
 
   # Service callback dedicated for Sphinx4 configuration
   def configureSpeechRecognition(self, req):
@@ -193,7 +193,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     res.error = ''
     conf = {} # Dummy initialization
     reconfigure = False
-    
+
     if self.language != req.language:
       reconfigure = True
     if self.words != req.words:
@@ -214,7 +214,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     if self.language == 'en':
       print "Language set to English"
       # Whole dictionary utilization
-      if len(self.words) == 0: 
+      if len(self.words) == 0:
         print "Generic model used"
         # success is either True (bool) or error (string)
         try:
@@ -223,7 +223,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
             res.error = e.value
             return res
       # Limited dictionary utilization
-      else:   
+      else:
         print "Limited model used"
         # success is either True (bool) or error (string)
         try:
@@ -254,11 +254,11 @@ class SpeechRecognitionSphinx4(GlobalParams):
         for ew in eng_w:
           self.word_mapping[ew] = eng_w[ew]
         print self.word_mapping
-   
+
     else:
       res.error = "Wrong language"
       return res
-    
+
     # Actual sphinx4 configuration
     print "Configuration: \n"
     print conf
@@ -266,7 +266,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     return res
 
 # Main function
-if __name__ == "__main__": 
+if __name__ == "__main__":
   rospy.init_node('SpeechRecognitionSphinx4')
   SpeechRecognitionSphinx4Node = SpeechRecognitionSphinx4()
   rospy.spin()
