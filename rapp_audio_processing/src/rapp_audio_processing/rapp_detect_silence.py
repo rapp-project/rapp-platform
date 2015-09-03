@@ -33,13 +33,9 @@ from pylab import *
 from scipy.io import wavfile
 
 class DetectSilence:
- 
-  # Constructor performing initializations
-  def __init__(self):    
-      pass
 
-  # Service callback for detecting silence
-  def detectSilence(self, audio_file, threshold):     
+# Service callback for detecting silence
+  def detectSilence(self, audio_file, threshold):
     if not os.path.isfile(audio_file):
         return [-1, False]
     samp_freq, signal = wavfile.read(audio_file)

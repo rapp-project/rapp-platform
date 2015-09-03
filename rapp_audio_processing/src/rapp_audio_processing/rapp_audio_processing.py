@@ -33,10 +33,10 @@ import os
 from pylab import *
 from scipy.io import wavfile
 
-from rapp_platform_ros_communications.srv import (  
-  AudioProcessingDenoiseSrv, 
+from rapp_platform_ros_communications.srv import (
+  AudioProcessingDenoiseSrv,
   AudioProcessingDenoiseSrvResponse,
-  
+
   AudioProcessingSetNoiseProfileSrv,
   AudioProcessingSetNoiseProfileSrvResponse,
 
@@ -53,9 +53,9 @@ from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
 
-from std_msgs.msg import ( 
-  String 
-  ) 
+from std_msgs.msg import (
+  String
+  )
 
 from rapp_detect_silence import DetectSilence
 from rapp_energy_denoise import EnergyDenoise
@@ -64,9 +64,9 @@ from rapp_utilities import Utilities
 from rapp_set_noise_profile import SetNoiseProfile
 
 class AudioProcessing:
- 
+
   # Constructor performing initializations
-  def __init__(self):    
+  def __init__(self):
 
     self.detect_silence_module = DetectSilence()
     self.energy_denoise_module = EnergyDenoise()
@@ -74,6 +74,7 @@ class AudioProcessing:
     self.utilities_module = Utilities()
     self.set_noise_profile_module = SetNoiseProfile()
 
+    # Parameters acquisition
     self.set_noise_profile_topic = rospy.get_param(\
             "rapp_audio_processing_set_noise_profile_topic")
     self.denoise_topic = \
@@ -82,6 +83,8 @@ class AudioProcessing:
         rospy.get_param("rapp_audio_processing_energy_denoise_topic")
     self.detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
+    self.threads = \
+        rospy.get_param("rapp_audio_processing_threads")
 
     if(not self.set_noise_profile_topic):
       rospy.logerror("Audio processing noise profiling topic param not found")
@@ -91,7 +94,10 @@ class AudioProcessing:
       rospy.logerror("Audio processing energy denoise topic param not found")
     if(not self.detect_silence_topic):
       rospy.logerror("Audio processing detect silence topic param not found")
+    if not self.threads:
+      rospy.logerror("Audio processing threads param not found")
 
+    # Check for denoising debug mode. DO NOT make this true when in production
     self.energy_denoising_debug = False
     self.energy_denoising_debug = \
         rospy.get_param("rapp_audio_processing_energy_denoising_debug")
@@ -100,23 +106,41 @@ class AudioProcessing:
     else:
       self.energy_denoising_debug = True
 
+    # Create set noise profile services
     self.set_noise_profile_service = rospy.Service(self.set_noise_profile_topic, \
         AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
+    for i in range(0, self.threads):
+        rospy.Service(self.set_noise_profile_topic + '_' + str(i),\
+        AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
+    # Create sox denoise services 
     self.denoise_service = rospy.Service( \
         self.denoise_topic, AudioProcessingDenoiseSrv, \
         self.denoise)
+    for i in range(0, self.threads):
+        rospy.Service(self.denoise_topic + '_' + str(i),\
+        AudioProcessingDenoiseSrv, self.denoise)
+    # Create energy denoise services
     self.energy_denoise_service = rospy.Service( \
         self.energy_denoise_topic, AudioProcessingDenoiseSrv, \
         self.energy_denoise)
+    for i in range(0, self.threads):
+        rospy.Service(self.energy_denoise_topic + '_' + str(i),\
+        AudioProcessingDenoiseSrv,
+        self.energy_denoise)
+    # Create detect silence services
     self.detect_silence_service = rospy.Service( \
         self.detect_silence_topic, AudioProcessingDetectSilenceSrv, \
+        self.detect_silence)
+    for i in range(0, self.threads):
+        rospy.Service(self.detect_silence_topic + '_' + str(i),\
+        AudioProcessingDetectSilenceSrv,
         self.detect_silence)
 
     self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
     self.authentication_service = rospy.ServiceProxy(\
         self.serv_db_topic, fetchDataSrv)
- 
-  # Service callback for setting noise profile 
+
+  # Service callback for setting noise profile
   def setNoiseProfile(self, req):
     res = AudioProcessingSetNoiseProfileSrvResponse()
 
@@ -127,7 +151,7 @@ class AudioProcessing:
     req_db.where_data=[StringArrayMsg(s=entry1)]
 
     resp = self.authentication_service(req_db.req_cols, req_db.where_data)
-    if resp.success.data != True or len(resp.res_data) == 0: 
+    if resp.success.data != True or len(resp.res_data) == 0:
       res.success = "false"
       res.error = "Non authenticated user"
       return res
@@ -146,7 +170,7 @@ class AudioProcessing:
     return res
 
   # Service callback for handling denoising
-  def denoise(self, req):     
+  def denoise(self, req):
     res = AudioProcessingDenoiseSrvResponse()
     res.success = self.sox_denoise_module.soxDenoise(\
             req.user,\
@@ -157,7 +181,7 @@ class AudioProcessing:
     return res
 
   # Service callback for detecting silence
-  def detect_silence(self, req):     
+  def detect_silence(self, req):
     res = AudioProcessingDetectSilenceSrvResponse()
     [res.level, res.silence] = self.detect_silence_module.detectSilence(\
             req.audio_file, req.threshold)
@@ -168,7 +192,7 @@ class AudioProcessing:
     return res
 
   # Service callback for energy denoising
-  def energy_denoise(self, req):     
+  def energy_denoise(self, req):
     res = AudioProcessingDenoiseSrvResponse()
     output = self.energy_denoise_module.energyDenoise(\
           req.audio_file, req.scale, req.denoised_audio_file,\
@@ -182,10 +206,10 @@ class AudioProcessing:
 
   # Cleanup method
   def cleanup(self, clean):
-    return self.utilities_module.cleanup(clean) 
+    return self.utilities_module.cleanup(clean)
 
 # Main function
-if __name__ == "__main__": 
+if __name__ == "__main__":
   rospy.init_node('AudioProcessing')
   AudioProcessingNode = AudioProcessing()
   rospy.spin()

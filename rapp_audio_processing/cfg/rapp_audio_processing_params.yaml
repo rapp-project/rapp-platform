@@ -4,3 +4,5 @@ rapp_audio_processing_energy_denoise_topic: /rapp/rapp_audio_processing/energy_d
 rapp_audio_processing_detect_silence_topic: /rapp/rapp_audio_processing/detect_silence
 
 rapp_audio_processing_energy_denoising_debug: false
+
+rapp_audio_processing_threads: 10
