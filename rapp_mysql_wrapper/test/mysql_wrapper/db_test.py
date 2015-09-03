@@ -403,32 +403,32 @@ class TestDbWrapper(unittest.TestCase):
 
   def testTblRappWriteReadDeleteCheck(self):
     #Write
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_write_data_topic')
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_write_data_topic')
     if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_write_data topic param not found")
+      rospy.logerror("mysql_wrapper_rapp_write_data topic param not found")
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
     req = writeDataSrv()
-    req.req_cols=["username","firstname","lastname","email","email_id","ontology_alias","pwd","usrgroup","created","accessed","enabled","activation"]
-    #req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
+    req.req_cols=["rapp","version","arch","lang","owner","directory","enabled","timestamp"]
     entry1=StringArrayMsg()    
-    entry1=["'testingDB1'","'testingDB1'","'testingDB1'","'test@test'","NULL","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
+    entry1=["'testingDB1'","'1.01'","'15'","'1'","'admin'","'testingDB1'","'0'","'555'"]
     entry2=StringArrayMsg()    
-    entry2=["'testingDB2'","'testingDB2'","'testingDB1'","'test@test'","NULL","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
+    entry2=["'testingDB2'","'1.01'","'15'","'1'","'admin'","'testingDB1'","'0'","'555'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     
     response = db_service(req.req_cols,req.req_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)     
+    self.assertTrue(response.success.data)  
+
     #Read what was written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
     if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_fetch_data topic param not found")
+      rospy.logerror("mysql_wrapper_rapp_fetch_data topic param not found")
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
     req = fetchDataSrv()
-    req.req_cols=["firstname","lastname"]
-    entry1=["lastname","testingDB1"]
+    req.req_cols=["rapp","directory"]
+    entry1=["directory","testingDB1"]
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
@@ -436,54 +436,54 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.res_data[0].s[0],"testingDB1")
     self.assertEqual(response.res_data[1].s[0],"testingDB2")    
     #Update written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_update_data_topic')
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_update_data_topic')
     if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_update_data topic param not found")
+      rospy.logerror("mysql_wrapper_rapp_update_data topic param not found")
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
     req = updateDataSrv()
-    req.set_cols=["firstname='testingDB1'"]
-    entry1=["firstname","testingDB2"]
+    req.set_cols=["rapp='testingDB3'"]
+    entry1=["rapp","testingDB2"]
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.set_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)       
     #Read again
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
     if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_read_data topic param not found")
+      rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
     req = fetchDataSrv()
-    req.req_cols=["firstname","lastname"]
-    entry1=["firstname","testingDB1"]
+    req.req_cols=["rapp","directory"]
+    entry1=["directory","testingDB1"]
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB1")    
+    self.assertEqual(response.res_data[1].s[0],"testingDB3")    
     #Delete updated
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_delete_data_topic')
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_delete_data_topic')
     if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_delete_data topic param not found")
+      rospy.logerror("mysql_wrapper_rapp_delete_data topic param not found")
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
     req = deleteDataSrv()
-    entry1=["firstname","testingDB1"]
+    entry1=["directory","testingDB1"]
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.where_data)
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)   
     #Check if it was deleted
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
     if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_read_data topic param not found")
+      rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
     req = fetchDataSrv()
-    req.req_cols=["firstname","lastname"]
-    entry1=["firstname","testingDB1"]
+    req.req_cols=["rapp","directory"]
+    entry1=["directory","testingDB1"]
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)    
     self.assertEqual(response.trace[0],"Success")
