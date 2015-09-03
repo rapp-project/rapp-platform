@@ -25,7 +25,8 @@ class FaceDetection
 
     // The service server 
     ros::ServiceServer faceDetectionService_;
-    
+    std::vector<ros::ServiceServer> faceDetectionThreadServices_;
+
     // Topic nomeclarure
     std::string faceDetectionTopic_;
     

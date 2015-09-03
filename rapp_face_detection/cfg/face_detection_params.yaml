@@ -1,1 +1,3 @@
 rapp_face_detection_detect_faces_topic: /rapp/rapp_face_detection/detect_faces
+
+rapp_face_detection_threads: 10
