@@ -90,6 +90,8 @@ service face_detection ( {file_uri:''} )
     return resp_msg;
   }
   //Fs.rm_file_sync(file_uri);
+  logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
 
 
@@ -137,6 +139,7 @@ service face_detection ( {file_uri:''} )
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           Fs.rm_file_sync(cpFilePath);
+          console.log(event.value)
 
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket

@@ -93,6 +93,8 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
     return resp_msg;
   }
   //Fs.rm_file_sync(file_uri);
+  logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
 
   return hop.HTTPResponseAsync(
