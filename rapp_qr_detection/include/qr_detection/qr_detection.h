@@ -25,6 +25,7 @@ class QrDetection
 
     // The service server 
     ros::ServiceServer qrDetectionService_;
+    std::vector<ros::ServiceServer> qrDetectionServiceThreads_;
     
     // Topic nomeclarure
     std::string qrDetectionTopic_;

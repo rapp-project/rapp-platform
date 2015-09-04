@@ -1,1 +1,3 @@
 rapp_qr_detection_detect_qrs_topic: /rapp/rapp_qr_detection/detect_qrs
+
+rapp_qr_detection_threads: 10

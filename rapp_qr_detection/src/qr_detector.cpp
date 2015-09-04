@@ -43,7 +43,6 @@ void QrDetector::detectQrs(
   zbar::Image image(width, height, "Y800", raw, width * height);
 
   scanner.scan(image);
-  qrcode_list.clear();
 
   for (zbar::Image::SymbolIterator symbol = image.symbol_begin();
     symbol != image.symbol_end(); ++symbol)

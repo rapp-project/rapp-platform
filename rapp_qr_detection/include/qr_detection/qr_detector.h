@@ -43,10 +43,6 @@ class QrDetector
 
     //!< QrCode scanner
     zbar::ImageScanner scanner;
-    
-    //!< List of detected qrcodes
-    std::vector<QrCode> qrcode_list;
-
 };
 
 #endif
