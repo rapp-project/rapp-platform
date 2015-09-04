@@ -38,24 +38,41 @@ from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
 
+from rapp_exceptions import RappError
+
 class SpeechToTextGoogle:
 
   def __init__(self):
     # Speech recognition service published
     self.serv_topic = rospy.get_param("rapp_speech_detection_google_detect_speech_topic")
     if(not self.serv_topic):
-        rospy.logerror("Speech detection topic param not found")
+        rospy.logerror("Speech detection google topic param not found")
+
+    self.threads = rospy.get_param("rapp_speech_detection_google_threads")
+    if not self.threads:
+        rospy.logerror("Speech detection google threads param not found")
+        self.threads = 0
+
     self.serv = rospy.Service(self.serv_topic, \
         SpeechToTextSrv, self.speech_to_text_callback)
+    for i in range(0, self.threads):
+        rospy.Service(self.serv_topic + '_' + str(i), \
+            SpeechToTextSrv, self.speech_to_text_callback)
 
   # The service callback  
   def speech_to_text_callback(self, req):
-    # Getting the results in order to parse them
-    transcripts = self.speech_to_text(req.filename)
+    
+    res = SpeechToTextSrvResponse()
 
-    # Check if we have some data
+    # Getting the results in order to parse them
+    try:
+        transcripts = self.speech_to_text(req.filename)
+        print transcripts
+    except RappError as e:
+        res.error = e.value
+        return res
+
     if len(transcripts['result']) == 0:
-        res = SpeechToTextSrvResponse()
         return res
 
     # The alternative results
@@ -87,10 +104,19 @@ class SpeechToTextGoogle:
     
     # Check if file exists
     if not os.path.isfile(file_path):
-      res = '{"result":[]}'
-      return json.loads(res)
+        raise RappError("Error: file " + file_path + ' not found')
 
-    with open(file_path, "r") as f:
+    # Check if file is flac. If not convert it
+    new_file_path = file_path
+    if "wav" in file_path or "ogg" in file_path:
+        new_file_path = file_path + '.flac'
+        command = 'flac -f --channels=1 --sample-rate=16000 '\
+                + file_path + ' -o ' + new_file_path
+        if os.system(command):
+            raise RappError("Error: flac command malfunctioned. File path was"\
+                    + file_path)
+        
+    with open(new_file_path, "r") as f:
       speech = f.read()
     url = "www.google.com"
     language = "en-US" 
@@ -112,6 +138,12 @@ class SpeechToTextGoogle:
         # Returned nothing.. something went wrong
         data = initial_data
     jsdata = json.loads(data)
+
+    # Remove the flac if needed
+    if new_file_path != file_path:
+        command = 'rm -f ' + new_file_path
+        if os.system(command):
+            raise RappError("Error: Removal of temporary flac file malfunctioned")
     return jsdata
 
 if __name__ == "__main__":

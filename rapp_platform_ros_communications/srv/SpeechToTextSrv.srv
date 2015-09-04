@@ -7,3 +7,4 @@ string filename
 string[] words
 std_msgs/Float64 confidence
 rapp_platform_ros_communications/StringArrayMsg[] alternatives
+string error

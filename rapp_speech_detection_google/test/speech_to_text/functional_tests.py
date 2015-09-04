@@ -25,8 +25,6 @@ class SpeechToTextFunc(unittest.TestCase):
         response = stt_service(req)
         words_basic = len(response.words)
 
-        # self.assertEqual(response.words, 1)
-
         # Check number of words 
         self.assertEqual( words_basic, 0)
 
