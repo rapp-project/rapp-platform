@@ -23,6 +23,7 @@ colors ()
   BWHITE='\e[1;37m'
 }; colors
 
+
 ## Get this script file directory name ##
 CURRENTDIR=$(dirname ${BASH_SOURCE[0]})
 
@@ -38,44 +39,65 @@ PORT=9001
 ## Define the scheduler type to be used ##
 SCHEDULER="accept-many"
 
-## Define the maximum number of simultaneous running threads ##
+## Maximum number of handling HTTP requests.
 MAXTHREADS=100
 
 ## Logging definitions ##
 # Timestamp to be added onto log file name #
 TIMESTAMP=`date -d "today" +"%Y%m%d%H%M"`
-
 LOGDIR="/home/${USER}/.hop/log/server"
 LOGFILENAME="hop-server-${TIMESTAMP}.log"
 LOGFILE="${LOGDIR}/${LOGFILENAME}"
+CAPTUREFILE="/home/${USER}/capturefile.log"
+CLIENTOUTPUT="/home/${USER}/client-output.log"
+USE_CAPTUREFILE=false
+USE_CLIENTOUTPUT=false
 #########################
 
-## File caching definitions ##
+## File caching configurations
 CACHEDIR="/home/${USER}/.hop/cache/server"
 CLEARCACHE=true
 ##############################
 
+## HOP Server Configurations.
+FAST_SERVER_EVENT=false
 REPORT_EXECTIME=true
+##############################
 
-VERB_LEVEL=1
-DEBUG_LEVEL=1
-WARN_LEVEL=1
-
+## Verbosity ##
+VERB_LEVEL=10
+DEBUG_LEVEL=10
+WARN_LEVEL=10
+SECURITY_LEVEL=0
+#################
 
 ########## Assign arguments for Hop execution ##########
 FLAGS=" -v${VERB_LEVEL} "
 FLAGS+=" -g${DEBUG_LEVEL} "
 FLAGS+=" -w${WARN_LEVEL} "
+FLAGS+=" -s${SECURITY_LEVEL} "
 
-if [ ${CLEARCACHE} = true ]; then
+if [ ${CLEARCACHE} == true ]; then
   FLAGS+=" --clear-cache "
 else
   FLAGS+=" --no-clear-cache "
 fi
 
+if [ ${FAST_SERVER_EVENT} == true ]; then
+  FLAGS+=" --fast-server-event"
+else
+  FLAGS+=" --no-fast-server-event"
+fi
+
 FLAGS+=" --cache-dir ${CACHEDIR} "
 FLAGS+=" --http-port ${PORT} "
 FLAGS+=" --log-file ${LOGFILE} "
+if [ ${USE_CAPTUREFILE} == true ]; then
+  FLAGS+=" --capture-file ${CAPTUREFILE}"
+fi
+if [ ${USE_CLIENTOUTPUT} == true ]; then
+  FLAGS+=" --client-output ${CLIENTOUTPUT}"
+fi
 FLAGS+=" --scheduler ${SCHEDULER}"
 FLAGS+=" --max-threads ${MAXTHREADS}"
 
@@ -114,6 +136,7 @@ echo -e "  * Report execution time: ${REPORT_EXECTIME}"
 echo -e "  * Verbosity level: ${VERB_LEVEL}"
 echo -e "  * Debug level: ${DEBUG_LEVEL}"
 echo -e "  * Warning level: ${WARN_LEVEL}"
+echo -e "  * Security level: ${SECURITY_LEVEL}"
 echo -e "${RESET}"
 ################################
 

@@ -12,16 +12,6 @@ var Path = require('path');
 
 
 /*!
- * @brief Returns module version number.
- * @return Module Version.
- */
-function getVersion()
-{
-  return version;
-};
-
-
-/*!
  * @brief Resolve input path to absolute path.
  * @param _path Path to be resolved to absolute.
  * @return Resolved absolute path.
@@ -339,7 +329,7 @@ function load_json_file(filename, encoding) {
  * @param fileOld Source file path.
  * @param fileNew Destination file path.
  */
-function rename_file_sync(file, dest)
+function renameFile(file, dest)
 {
   var sourcePath = resolve_path(file);
   var destPath = resolve_path(dest);
@@ -370,8 +360,8 @@ function rename_file_sync(file, dest)
 
 
 /*!
- * @brief Copies file from-To
- * @param file File (given with either relative or absolute path) to copy
+ * @brief Copies file from-To. Uses read/write streams and pipes.
+ * @param file File (given with either relative or absolute path to copy
  * @param dest Destination to copy the file.
  */
 function copyFile(file, dest)
@@ -427,7 +417,7 @@ function parentDir(path)
  * This module exports.
  */
 module.exports = {
-  version: getVersion,
+  version: version,
   resolve_path: resolve_path,
   read_file_sync: read_file_sync,
   write_file_sync: write_file_sync,
@@ -438,7 +428,7 @@ module.exports = {
   appendLine: appendLine,
   fileSize: fileSize,
   load_json_file: load_json_file,
-  rename_file_sync: rename_file_sync,
+  renameFile: renameFile,
   createDir: createDir,
   createDirRecur: createDirRecur,
   copyFile: copyFile,
