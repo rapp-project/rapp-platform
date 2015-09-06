@@ -63,17 +63,24 @@ qr_detection ( {file_uri: ''} )
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
   the received datia.
 
-  > { faces_up_left: [], faces_down_right: [], error: '' }
+  > { faces: [{ up_left_point: {}, down_right_point: {} }], error: '' }
 
-  - faces_up_left: Dynamic vector that containes points (x,y,z) of recognized faces in an image frame.
-  - faces_down_right: Dynamic vector that containes points (x,y,z) of recognized faces in an image frame.
+  Point coordinates are presented in Cartesian Coordinate System as:
+
+  > {x: <value_int>, y: <value_int>, z: <value_int>}
+
+  - faces: Dynamic vector that contains recognized faces in an image frame.
+  - up_left_point: This Object literal contains the up-left point coordinates of detected face.
+  - up_left_point: This Object literal contains the down-right point coordinates of detected face.
   - error: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
 
   > {
-  >   faces_up_left: [ { y: 200, x: 212, z: 0 } ],
-  >   faces_down_right: [ { y: 379, x: 391, z: 0 } ],
+  >   faces: [{
+  >        up_left_point: { y: 200, x: 212, z: 0 },
+  >        down_right_point: { y: 379, x: 391, z: 0 }
+  >    }],
   >   error: '<error_message>'
   > }
 

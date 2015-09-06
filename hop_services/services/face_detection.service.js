@@ -139,7 +139,6 @@ service face_detection ( {file_uri:''} )
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           Fs.rm_file_sync(cpFilePath);
-          console.log(event.value)
 
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket
@@ -282,19 +281,22 @@ function craft_response(rosbridge_msg)
   var call_result = msg.result;
   var error = msg.values.error;
 
-  var crafted_msg = { faces_up_left:[], faces_down_right:[], error: '' };
+  //var crafted_msg = { faces_up_left:[], faces_down_right:[], error: '' };
+  var crafted_msg = { faces: [], error: '' };
+  var numFaces = faces_up_left.length;
 
   var logMsg = '';
 
   if (call_result)
   {
-    for (var ii = 0; ii < faces_up_left.length; ii++)
+    for (var ii = 0; ii < numFaces; ii++)
     {
-      crafted_msg.faces_up_left.push( faces_up_left[ii].point )
-    }
-    for (var ii = 0; ii < faces_down_right.length; ii++)
-    {
-      crafted_msg.faces_down_right.push( faces_down_right[ii].point )
+      var face = {
+        up_left_point: faces_up_left[ii].point,
+        down_right_point: faces_down_right[ii].point
+      };
+      crafted_msg.faces.push( face );
+      //console.log(face)
     }
 
     crafted_msg.error = error;
@@ -332,7 +334,7 @@ function craft_error_response()
 {
   // Add here to be returned literal
   var errorMsg = 'RAPP Platform Failure!'
-  var crafted_msg = {faces_up_left: [], faces_down_right: [], error: errorMsg};
+  var crafted_msg = {faces: [], error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );

@@ -41,11 +41,13 @@ class RappInterfaceTest:
   def __init__(self):
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/Lenna.png'
-    self.valid_faces_up_left = [ {'y': 200.0, 'x': 212.0, 'z': 0.0} ]
-    self.valid_faces_down_right = [ {'y': 379.0, 'x': 391.0, 'z': 0.0} ]
+    self.valid_faces = [{
+        'up_left_point': {'y': 200.0, 'x': 212.0, 'z': 0.0},
+        'down_right_point': {'y': 379.0, 'x': 391.0, 'z': 0.0}
+    }]
+
 
   def execute(self):
-
     start_time = timeit.default_timer()
     response = self.rappCloud.face_detection(self.file_uri)
     end_time = timeit.default_timer()
@@ -57,10 +59,8 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
-    faces_up_left = response['faces_up_left']
-    faces_down_right = response['faces_down_right']
-    if self.valid_faces_up_left == faces_up_left and \
-        self.valid_faces_down_right == faces_down_right:
+    faces = response['faces']
+    if self.valid_faces == faces:
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(response), self.elapsed_time]
