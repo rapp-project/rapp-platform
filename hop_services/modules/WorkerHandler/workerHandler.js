@@ -1,5 +1,7 @@
 /*!
  * @file workerHandler.js
+ * @brief Worker handler module is used by the main process to handle with
+ *  hop service workers. Bipolar communication with all the workers.
  */
 
 /**
