@@ -81,21 +81,20 @@ service detect_objects ( {file_uri:'', limit: ''} )
   /* ---------------------------------------------------------------- */
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.copyFile(file_uri, cpFilePath) == false)
+  if (Fs.renameFile(file_uri, cpFilePath) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
 
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-    //Fs.rm_file_sync(file_uri);
-
-    // Dismiss the unique identity key
+    Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId);
     var resp_msg = craft_error_response();
     return resp_msg;
   }
+  logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
 
 
@@ -129,7 +128,6 @@ service detect_objects ( {file_uri:'', limit: ''} )
 /*=============================TEMPLATE======================================================*/
       var rosbridge_connection = true;
       var respFlag = false;
-
       var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
 
       /* ------ Catch exception while open websocket communication ------- */
@@ -155,7 +153,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          Fs.rm_file_sync(cpFilePath);
+          Fs.rmFile(cpFilePath);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket
@@ -175,7 +173,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
           'to rosbridge --> [ws//localhost:9090]';
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-        Fs.rm_file_sync(cpFilePath);
+        Fs.rmFile(cpFilePath);
         var resp_msg = craft_error_response();
         sendResponse( resp_msg );
         return;
@@ -211,7 +209,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-             Fs.rm_file_sync(cpFilePath);
+             Fs.rmFile(cpFilePath);
              var respMsg = craft_error_response();
 
              //  Close websocket before return
@@ -247,7 +245,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-               Fs.rm_file_sync(cpFilePath);
+               Fs.rmFile(cpFilePath);
                var resp_msg = craft_response( event.value );
 
                this.close(); // Close websocket
@@ -266,7 +264,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
                'to rosbridge --> [ws//localhost:9090]';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-             Fs.rm_file_sync(cpFilePath);
+             Fs.rmFile(cpFilePath);
              console.log(e);
              var resp_msg = craft_error_response();
              sendResponse( resp_msg );

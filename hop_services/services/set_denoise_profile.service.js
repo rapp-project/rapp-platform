@@ -62,11 +62,6 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var unqExt = randStrGen.createUnique();
-  var file = file_uri.split('.');
-  var cpFilePath = file[0] + '.' + file[1] +  unqExt + '.' + file[2]
-
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqCallId = randStrGen.createUnique();
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
@@ -78,21 +73,18 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
 
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.copyFile(file_uri, cpFilePath) == false)
+  if (Fs.renameFile(file_uri, cpFilePath) == false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
 
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-    //Fs.rm_file_sync(file_uri);
-
-    // Dismiss the unique identity key
+    Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId);
     var resp_msg = craft_error_response();
     return resp_msg;
   }
-  //Fs.rm_file_sync(file_uri);
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
@@ -106,12 +98,8 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
          'user': user
       };
 
-/*=============================TEMPLATE======================================================*/
       var rosbridge_connection = true;
       var respFlag = false;
-
-      // Create a unique caller id
-      var unqCallId = randStrGen.createUnique();
       var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
 
       /* ------ Catch exception while open websocket communication ------- */
@@ -136,7 +124,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          Fs.rm_file_sync(cpFilePath);
+          Fs.rmFile(cpFilePath);
           //console.log(event.value);
           var resp_msg = craft_response( event.value ); // Craft response message
           this.close(); // Close websocket
@@ -156,7 +144,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
           'to rosbridge --> [ws//localhost:9090]\r\n' + e;
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-        Fs.rm_file_sync(cpFilePath);
+        Fs.rmFile(cpFilePath);
         //console.log(e);
 
         var resp_msg = craft_error_response();
@@ -195,7 +183,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-             Fs.rm_file_sync(cpFilePath);
+             Fs.rmFile(cpFilePath);
              var respMsg = craft_error_response();
 
              //  Close websocket before return
@@ -231,7 +219,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-               Fs.rm_file_sync(cpFilePath);
+               Fs.rmFile(cpFilePath);
                var resp_msg = craft_response( event.value );
                //console.log(resp_msg);
 
@@ -250,7 +238,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
                'to rosbridge --> [ws//localhost:9090]';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-             Fs.rm_file_sync(cpFilePath);
+             Fs.rmFile(cpFilePath);
              console.log(e);
              var resp_msg = craft_error_response();
              sendResponse( resp_msg );

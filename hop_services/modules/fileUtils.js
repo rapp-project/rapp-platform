@@ -181,7 +181,7 @@ function createDirRecur(dirPath)
  * @param _file File to be removed, specified by path.
  * @return True if file existed and removed, false otherwise.
  */
-function rm_file_sync(_file)
+function rmFile(_file)
 {
   var path =  resolve_path(_file);
   if(fs.existsSync(path))
@@ -250,43 +250,12 @@ function text2File ( _data, _filePath ){
 };
 
 
-/*!
- * @brief Writes ascii encoded strings in a give file
- *  with a newLine character at the end of the given string (\n).
- * @param _data Data to be written. Can be both a buffer or string.
- * @param _filePath Destination file path.
- * @return Undefined.
- */
-function writeLine ( _data, dest ){
-  var destPath = resolve_path(dest);
-  if( fs.existsSync( destPath ) == false ) {return false;}
-
-  if ( Buffer.isBuffer( _data ) ){
-    var data = new Buffer( _data.length + 1 );
-    data.write( _data.toString() + '\n' );
-
-  }
-  else if ( typeof _data == 'string' ){
-    var data = new Buffer( _data.length + 1 );
-    data.write( _data + '\n' );
-  }
-  else{
-    console.log( "\033[01;31mInvalid Type of input parameter." +
-     " Only String and Buffer format types are valid!\033[0;0m" );
-    return;
-  }
-
-  var fd = fs.openSync( destPath, 'a' );
-  var numBytes = fs.writeSync( fd, data, 0, data.length, null );
-  fs.close( fd );
-}
-
-
 function appendLine( str, dest )
 {
   var destPath = resolve_path(dest);
   fs.appendFileSync(destPath, str + '\n');
 }
+
 
 /*!
  * @brief Getting File Size without Reading Entire File.
@@ -299,7 +268,6 @@ function fileSize( _fileURL ) {
   var filesize_bytes = stats["size"];
  return filesize_bytes;
 };
-
 
 
 /*!
@@ -343,7 +311,7 @@ function renameFile(file, dest)
   if ( destDir == false || fs.existsSync(destDir) == false ) {return false};
 
   // Check if source file exists and destination directory also exists.
-  if ( fs.existsSync( sourcePath ) )
+  if ( fs.existsSync(sourcePath) )
   {
     try{
       fs.renameSync(sourcePath, destPath);
@@ -381,7 +349,8 @@ function copyFile(file, dest)
   if( fs.existsSync( sourcePath ) )
   {
     try{
-      fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
+      //fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
+      fs.writeFileSync(destPath, fs.readFileSync(sourcePath));
     }
     catch(e){
       console.error("Failed to copy file [%s] --> [%s] . ErrorCode: {}",
@@ -421,10 +390,9 @@ module.exports = {
   resolve_path: resolve_path,
   read_file_sync: read_file_sync,
   write_file_sync: write_file_sync,
-  rm_file_sync: rm_file_sync,
+  rmFile: rmFile,
   ls_sync: ls_sync,
   text2File: text2File,
-  writeLine: writeLine,
   appendLine: appendLine,
   fileSize: fileSize,
   load_json_file: load_json_file,
