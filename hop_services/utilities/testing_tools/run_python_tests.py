@@ -29,6 +29,7 @@
 import sys
 import os
 import timeit
+import time
 import argparse
 from os import listdir
 from os.path import isfile, join
@@ -56,14 +57,16 @@ class bcolors:
 def execute(module):
   tmp = module.RappInterfaceTest()
   [error_code, time] = tmp.execute()
-  print module.__name__,
 
+  print "\n\033[1;35m** Test [%s] **\033[0m" % module.__name__
   if threaded:
     mutex.acquire(True)
+  print "Execution time: " + str(time) + "sec"
   if error_code != True:
-    print bcolors.FAIL + "FAIL [" + error_code + "]" + bcolors.ENDC + " " + str(time)
+    print bcolors.FAIL + "[FAIL]:"
+    print error_code + bcolors.ENDC
   else:
-    print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC + " " + str(time)
+    print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC
   if threaded:
     mutex.release()
 
@@ -95,6 +98,14 @@ def main():
   else:
     files = args.fileName # Input test files from arguments
 
+  tests = []
+  for f in files:
+      clean_file = f.split('.')
+      if clean_file[1] != "py" or clean_file[0] == "template" :
+         continue
+      tests.append(clean_file[0])
+
+
   numCalls = args.numCalls
   # If threaded mode is enabled
   if args.threaded:
@@ -103,29 +114,48 @@ def main():
   else:
     threaded = False
 
+  if threaded:
+      core = "Parallel"
+  else:
+      core = "Serial"
+
+  ## ------------------------- Print Header -------------------------- ##
+  count = 1
+  numTests = len(tests)
+  print "\033[0;33m"
+  print "***************************"
+  print "     RAPP Platfrom Tests   "
+  print "***************************"
+  print bcolors.BOLD + bcolors.OKBLUE + bcolors.UNDERLINE
+  print "* Parameters:" + bcolors.ENDC
+  print "-- Number of Executions for each given test: [%s] " % numCalls
+  print "-- %s execution" % core
+  print bcolors.BOLD + bcolors.OKBLUE + bcolors.UNDERLINE
+  print "* Tests to Execute:" + bcolors.ENDC
+  for test in tests:
+      print "%s] %s" % (count, test)
+      count += 1
+  print "\033[0;33m***************************\033[1;32m"
+  time.sleep(1)
   ## ---------------------------------------------------------------- ##
 
-
-  # -- Loop through test files to be executed -- #
-  for f in files:
-    clean_file = f.split(".")
-    if clean_file[1] != "py" or clean_file[0] == "template":
-      continue
-    module = importlib.import_module(clean_file[0])
+  # -- Loop throug test files to be executed -- #
+  for test in tests:
+    module = importlib.import_module(test)
 
     for i in range(0, numCalls):
-      if threaded:
-        thread = Thread(target=execute, args=(module, ))
-        thread.start()
-        threads.append(thread)
-      else:
-        execute(module)
+        if threaded:
+            thread = Thread(target=execute, args=(module, ))
+            thread.start()
+            threads.append(thread)
+        else:
+            execute(module)
   # ------------------------------------------- #
-
   if threaded:
     # Wait for all threads to complete
     for t in threads:
       t.join()
+
 
 if __name__ == "__main__":
   main()
