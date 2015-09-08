@@ -34,7 +34,7 @@
  */
 
 
-"use strict";
+//"use strict";
 
 
 // TODO -- Load PLATFORM parameters from JSON file

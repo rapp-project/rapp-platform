@@ -34,7 +34,7 @@
  */
 
 
-"use strict";
+//"use strict";
 
 var __DEBUG__ = false;
 
@@ -263,8 +263,8 @@ function craft_response(rosbridge_msg)
   var success = msg.values.success;
   var error = msg.values.error;
   var call_result = msg.result;
-
   var crafted_msg = {results: [], trace: [], error: ''};
+  var logMsg = '';
 
   if (call_result)
   {

@@ -34,7 +34,7 @@
  */
 
 
-"use strict";
+//"use strict";
 
 
 var __DEBUG__ = false;
