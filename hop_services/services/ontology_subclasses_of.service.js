@@ -56,9 +56,9 @@ var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
 /* -- Set timer values for websocket communication to rosbridge -- */
-var timer_tick_value = 100 // ms
-var max_time = 2000 // ms
-var max_tries = 2
+var timer_tick_value = 200 // ms
+var max_time = 3000 // ms
+var max_tries = 3
 //var max_timer_ticks = 1000 * max_time / tick_value;
 /* --------------------------------------------------------------- */
 
