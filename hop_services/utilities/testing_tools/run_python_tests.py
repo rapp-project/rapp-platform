@@ -58,17 +58,15 @@ def execute(module):
   tmp = module.RappInterfaceTest()
   [error_code, time] = tmp.execute()
 
+  mutex.acquire(True)
   print "\n\033[1;35m** Test [%s] **\033[0m" % module.__name__
-  if threaded:
-    mutex.acquire(True)
   print "Execution time: " + str(time) + "sec"
   if error_code != True:
     print bcolors.FAIL + "[FAIL]:"
     print error_code + bcolors.ENDC
   else:
     print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC
-  if threaded:
-    mutex.release()
+  mutex.release()
 
 
 
