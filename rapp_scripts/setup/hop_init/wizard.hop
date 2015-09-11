@@ -5,6 +5,6 @@
 ;; admin
 (add-user! "admin" :groups (quote (admin exec)) :password "+e5a6e16ac4a23b08e47207231b2e5afc" :directories (cons "/tmp" (hop-path)) :services (quote *))
 
-;; klpanagi
-(add-user! "klpanagi" :groups (quote (exec)) :password "+3db051ad649707df23adc359258a40ca" :directories (cons* "/home/klpanagi" "/tmp" (hop-path)) :services (quote *))
+;; rapp
+(add-user! "rapp" :groups (quote (exec)) :password "+0c490944da919b09163ce2b72ab2f93a" :directories (cons* "" "/tmp" (hop-path)) :services (quote *))
 
