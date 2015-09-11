@@ -41,6 +41,8 @@ contact: akintsakis@issel.ee.auth.gr
 
 
 #include <knowrob_wrapper/knowrob_wrapper.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh):nh_(nh)
 {
@@ -49,6 +51,20 @@ KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh):nh_(nh)
   mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::fetchDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_fetch_data");
   mysql_update_client = nh_.serviceClient<rapp_platform_ros_communications::updateDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_update_data");
   
+  //rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
+  //rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
+  
+  
+  //res=KnowrobWrapper::dumpOntologyQuery(req);
+}
+
+
+bool checkIfFileExists(const char* fname)
+{
+  if( access( fname, F_OK ) != -1 ) {
+      return true;
+  }
+  return false;  
 }
 
 std::vector<std::string> split(std::string str, std::string sep){
@@ -719,6 +735,8 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   
   std::string query = std::string("rdf_save('") + req.file_url + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  
+    
   char status = results.getStatus();
   if(status==0)
   {
@@ -741,6 +759,18 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
+  
+  //std::string str;
+  //const char * c = req.file_url.c_str();
+  
+  //if(!checkIfFileExists(c))
+  //{
+    //res.success=false;
+    //res.trace.push_back(std::string("Ontology load failed, file does not exist"));
+    //res.error=std::string("Ontology load failed, file does not exist");
+    //return res; 
+  //}
+  
   std::string query = std::string("rdf_load('") + req.file_url + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   char status = results.getStatus();

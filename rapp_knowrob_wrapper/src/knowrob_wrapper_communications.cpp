@@ -25,6 +25,7 @@ Author: Athanassios Kintsakis
 contact: akintsakis@issel.ee.auth.gr
 **/
 #include <knowrob_wrapper/knowrob_wrapper_communications.h>
+#include <ros/package.h>
 
 KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_)
 {
@@ -107,8 +108,26 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   //assignAttributeValueService_ = nh_.advertiseService(assignAttributeValueServiceTopic_,
     //&KnowrobWrapperCommunications::assignAttributeValueCallback, this);
     
-    
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
+  //rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
+  std::string path = ros::package::getPath("rapp_knowrob_wrapper");
 
+  req.file_url=path+std::string("/Ontologybckup.owl");
+  res=knowrob_wrapper.loadOntologyQuery(req);
+  
+  if(res.success!=true)
+  {
+    ROS_ERROR("Ontology backup was not loaded.. Continuing with empty ontology");    
+  }
+  else
+  {
+    ROS_INFO("Ontology backup successfully loaded");
+  }
+  
+  //ROS_ERROR(path);
+  
+  
   ROS_INFO("KnowRob ROS wrapper initialized");
 }
 

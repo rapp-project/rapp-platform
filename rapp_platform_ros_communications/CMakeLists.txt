@@ -22,6 +22,8 @@ add_message_files(
 add_service_files(
   FILES
 
+  /CognitiveExercise/testSelector.srv
+
   /DbWrapper/DbWrapperSrv.srv
   /DbWrapper/fetchDataSrv.srv
   /DbWrapper/updateDataSrv.srv
