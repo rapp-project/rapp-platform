@@ -51,11 +51,13 @@ var Fs = require( module_path + 'fileUtils.js' );
 var hop = require('hop');
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
+var RosSrvPool = require(module_path + 'ros/srvPool.js');
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = '/rapp/rapp_qr_detection/detect_qrs';
 /*------------------------------------------------------*/
+var rosSrvPool = new RosSrvPool(ros_service_name);
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -87,6 +89,8 @@ register_master_interface();
  */
 service qr_detection ( {file_uri:''} )
 {
+  var rosSrvCall = rosSrvPool.getAvailable();
+  console.log(rosSrvCall);
   var startT = new Date().getTime();;
   var execTime = 0;
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
@@ -118,6 +122,7 @@ service qr_detection ( {file_uri:''} )
     var resp_msg = craft_error_response();
     execTime = new Date().getTime() - startT;
     postMessage( craft_slaveMaster_msg('execTime', execTime) );
+    rosSrvPool.release(rosSrvCall);
     return resp_msg;
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
@@ -176,6 +181,7 @@ service qr_detection ( {file_uri:''} )
           randStrGen.removeCached( unqCallId );
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
+          rosSrvPool.release(rosSrvCall);
           sendResponse( resp_msg );
         }
       }
@@ -191,6 +197,7 @@ service qr_detection ( {file_uri:''} )
         var resp_msg = craft_error_response();
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
+        rosSrvPool.release(rosSrvCall);
         sendResponse( resp_msg );
         return;
       }
@@ -233,6 +240,7 @@ service qr_detection ( {file_uri:''} )
              rosWS = undefined;
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             rosSrvPool.release(rosSrvCall);
              sendResponse( respMsg );
              return;
            }
@@ -272,6 +280,7 @@ service qr_detection ( {file_uri:''} )
                randStrGen.removeCached( unqCallId ); //Remove the uniqueID so it can be reused
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
+               rosSrvPool.release(rosSrvCall);
                sendResponse( resp_msg ); //Return response to client
              }
            }
@@ -290,6 +299,7 @@ service qr_detection ( {file_uri:''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              sendResponse( resp_msg );
+             rosSrvPool.release(rosSrvCall);
              return;
            }
 
