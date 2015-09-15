@@ -22,7 +22,7 @@ add_message_files(
 add_service_files(
   FILES
 
-  /CognitiveExercise/testSelector.srv
+  /CognitiveExercise/testSelectorSrv.srv
 
   /DbWrapper/DbWrapperSrv.srv
   /DbWrapper/fetchDataSrv.srv
