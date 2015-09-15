@@ -29,7 +29,7 @@ qr_detection ( {file_uri: ''} )
 
   > { qr_centers: [], qr_messages: [], error: '' }
 
-  - qr_centers: Vector that containes points (x,y,z) of found QR in an image frame.
+  - qr_centers: Vector that containes points (x,y) of found QR in an image frame.
   - qr_messages: Vector that containes message descriptions of found QR in an image frame.
   - error: If error was encountered, an error message is pushed in this field
     and returned to the client.
@@ -70,7 +70,7 @@ qr_detection ( {file_uri: ''} )
 
   Point coordinates are presented in Cartesian Coordinate System as:
 
-  > {x: <value_int>, y: <value_int>, z: <value_int>}
+  > {x: <value_int>, y: <value_int>}
 
   - faces: Dynamic vector that contains recognized faces in an image frame.
   - up_left_point: This Object literal contains the up-left point coordinates of detected face.
@@ -78,13 +78,14 @@ qr_detection ( {file_uri: ''} )
   - error: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
+  Response Sample:
 
   > {
   >   faces: [{
-  >        up_left_point: { y: 200, x: 212, z: 0 },
-  >        down_right_point: { y: 379, x: 391, z: 0 }
+  >        up_left_point: { y: 200, x: 212 },
+  >        down_right_point: { y: 379, x: 391 }
   >    }],
-  >   error: '<error_message>'
+  >   error: ''
   > }
 
 
