@@ -42,7 +42,11 @@ class RappInterfaceTest:
   def __init__(self):
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/qr_code_rapp.jpg'
-    self.valid_results = [ {'y': 165.0, 'x': 165.0, 'z': 0.0} ]
+    self.valid_results = {
+        'qr_centers': [{'y': 165, 'x': 165}],
+        'qr_messages': ['rapp project qr sample'],
+        'error': ''
+    }
 
   def execute(self):
 
@@ -57,7 +61,7 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
-    return_data = response['qr_centers']
+    return_data = response
     if self.valid_results == return_data:
       return [True, self.elapsed_time]
     else:

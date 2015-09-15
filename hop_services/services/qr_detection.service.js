@@ -325,18 +325,27 @@ function craft_response(rosbridge_msg)
 {
   var msg = JSON.parse(rosbridge_msg);
   var qrCenters = msg.values.qr_centers;
+  var qrMessages = msg.values.qr_messages;
   var call_result = msg.result;
   var error = msg.values.error;
   //console.log(msg);
 
-  var crafted_msg = {qr_centers: [], error: ''};
+  var crafted_msg = {qr_centers: [], qr_messages: [], error: ''};
+  // qrPoint object
+  var qrPoint = {
+    x: 0,
+    y: 0
+  }
 
   var logMsg = '';
   if (call_result)
   {
     for (var ii = 0; ii < qrCenters.length; ii++)
     {
-      crafted_msg.qr_centers.push(qrCenters[ii].point);
+      qrPoint.x = qrCenters[ii].point.x;
+      qrPoint.y = qrCenters[ii].point.y;
+      crafted_msg.qr_centers.push(qrPoint);
+      crafted_msg.qr_messages.push(qrMessages[ii]);
     }
 
     crafted_msg.error = error;

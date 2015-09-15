@@ -27,16 +27,19 @@ qr_detection ( {file_uri: ''} )
 
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received datia.
 
-  > { qr_centers: [], error: '' }
+  > { qr_centers: [], qr_messages: [], error: '' }
 
-  - qr_centers: Dynamic vector that containes points (x,y,z) of found QR in an image frame.
+  - qr_centers: Vector that containes points (x,y,z) of found QR in an image frame.
+  - qr_messages: Vector that containes message descriptions of found QR in an image frame.
   - error: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
+  Response Sample:
 
   > {
-  >   qr_centers: [ { y: 165, x: 165, z: 0 } ],
-  >   error: '<error_mesasge>'
+  >   qr_centers: [ { y: 165, x: 165 } ],
+  >   qr_messages: ['rapp project qr sample'],
+  >   error: ''
   > }
 
 
