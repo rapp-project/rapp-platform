@@ -1,9 +1,9 @@
-;; generated file, Hop Wizard Thu, 30 Jul 2015 19:29:53 +0300
+;; generated file, Hop Wizard Fri, 11 Sep 2015 17:00:55 +0300
 ;; anonymous user
 (add-user! "anonymous" :services (quote (public shutdown/kill)))
 
 ;; admin
-(add-user! "admin" :groups (quote (admin exec)) :password "+e5a6e16ac4a23b08e47207231b2e5afc" :directories (cons "/tmp" (hop-path)) :services (quote *))
+(add-user! "admin" :groups (quote (admin exec)) :password "+12f253d7a2b993c9926ecb678105a9e3" :directories (cons "/tmp" (hop-path)) :services (quote *))
 
 ;; rapp
 (add-user! "rapp" :groups (quote (exec)) :password "+0c490944da919b09163ce2b72ab2f93a" :directories (cons* "" "/tmp" (hop-path)) :services (quote *))
