@@ -25,7 +25,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchService(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -48,7 +48,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchService_stress(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -72,7 +72,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchServiceErrorLanguage(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -94,7 +94,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchServiceErrorSentences(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -116,7 +116,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchServiceErrorGrammar(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -138,7 +138,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchServiceWrongFile(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -160,7 +160,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchServiceWrongUser(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -182,7 +182,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchServiceWrongType(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -204,7 +204,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchService1Ch(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")
@@ -227,7 +227,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_batchServiceOgg(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
             "rapp_speech_detection_sphinx4_total_topic")

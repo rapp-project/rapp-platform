@@ -24,7 +24,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureService(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_speech_detection_sphinx4_configuration_topic")
@@ -42,7 +42,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureService_stress(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_speech_detection_sphinx4_configuration_topic")
@@ -62,7 +62,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureServiceErrorLanguage(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_speech_detection_sphinx4_configuration_topic")
@@ -80,7 +80,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureServiceErrorSentences(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_speech_detection_sphinx4_configuration_topic")
@@ -98,7 +98,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureServiceErrorGrammar(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_speech_detection_sphinx4_configuration_topic")
@@ -116,7 +116,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureServiceNotExistentWords(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_speech_detection_sphinx4_configuration_topic")
@@ -134,7 +134,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureServiceGreekWords(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_speech_detection_sphinx4_configuration_topic")
