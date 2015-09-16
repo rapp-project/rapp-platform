@@ -89,13 +89,13 @@ CLEARCACHE=true
 
 ## HOP Server Configurations.
 FAST_SERVER_EVENT=false
-REPORT_EXECTIME=true
+REPORT_EXECTIME=false
 ##############################
 
 ## Verbosity ##
-VERB_LEVEL=10
-DEBUG_LEVEL=10
-WARN_LEVEL=10
+VERB_LEVEL=1 #10 Default
+DEBUG_LEVEL=1 #10 Default
+WARN_LEVEL=1 #10 Default
 SECURITY_LEVEL=0
 #################
 
