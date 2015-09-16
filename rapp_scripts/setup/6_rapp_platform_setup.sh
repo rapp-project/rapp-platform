@@ -16,7 +16,6 @@ cd src
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo \e[0m"
 # Clone the repository (public key should have been setup)
 git clone git@github.com:rapp-project/rapp-platform.git
-git clone git@github.com:rapp-project/rapp-platform-supplementary-material.git
 git clone git@github.com:rapp-project/rapp-api.git
 
 catkin_init_workspace

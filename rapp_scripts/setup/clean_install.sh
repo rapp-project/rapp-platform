@@ -28,4 +28,5 @@ bash ./10_create_rapp_mysql_users.sh
 bash ./11_hop_setup.sh
 
 #-------------------------------- Finalizing ---------------------------------#
+sudo ldconfig
 source ~/.bashrc
