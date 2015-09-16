@@ -22,8 +22,8 @@ class SpeechToTextFunc(unittest.TestCase):
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
-        req.filename = rospack.get_path('rapp_auxiliary_files') + \
-                '/nai_sample.wav'
+        req.filename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/nai_sample.wav'
         response = stt_service(req)
         words_basic = len(response.words)
 
@@ -40,7 +40,8 @@ class SpeechToTextFunc(unittest.TestCase):
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
-        req.filename = rospack.get_path('rapp_auxiliary_files') + '/Lenna.png'
+        req.filename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/Lenna.png'
         response = stt_service(req)
         words_basic = len(response.words)
 
@@ -59,8 +60,8 @@ class SpeechToTextFunc(unittest.TestCase):
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
-        req.filename = rospack.get_path('rapp_auxiliary_files') + \
-                '/something.flac'
+        req.filename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/something.flac'
         response = stt_service(req)
         words_basic = len(response.words)
 
@@ -80,7 +81,8 @@ class SpeechToTextFunc(unittest.TestCase):
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
-        req.filename = rospack.get_path('rapp_auxiliary_files') + '/test.flac'
+        req.filename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/test.flac'
         response = stt_service(req)
         words_basic = len(response.words)
 
