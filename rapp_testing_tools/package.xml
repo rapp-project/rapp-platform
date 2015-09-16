@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>rapp_auxiliary_files</name>
+  <name>rapp_testing_tools</name>
   <version>0.0.1</version>
-  <description>The auxiliary files package</description>
+  <description>The RAPP testing package</description>
 
   <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
 

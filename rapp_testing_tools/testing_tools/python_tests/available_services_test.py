@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 #MIT License (MIT)
 
@@ -41,25 +40,39 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/../../../../rapp_auxiliary_files/test.flac'
-    self.valid_words_found = ['I', 'want', 'to', 'use', 'the', 'Skype']
+    # Set the valid results
+    self.valid_results = [
+        'ontology_subclasses_of',
+        'available_services',
+        'qr_detection',
+        'speech_detection_sphinx4',
+        'speech_detection_google',
+        'ontology_is_subsuperclass_of',
+        'face_detection',
+        'set_denoise_profile',
+        'detect_objects',
+        'ontology_superclasses_of'
+    ]
+
 
   def execute(self):
-
     start_time = timeit.default_timer()
-    response = self.rappCloud.speech_detection_google(self.file_uri)
+    # Call the Python RappCloud service
+    response = self.rappCloud.available_services()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
+    # Get the returned data
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    return_data = response['words']
-    if self.valid_words_found == return_data:
-      return [True, self.elapsed_time]
-    else:
-      return ["Unexpected result : " + str(return_data), self.elapsed_time]
-
+    return_data = response['services']
+    # Check if the returned data are equal to the expected
+    for ser in self.valid_results:
+        if ser not in return_data:
+            return ["Unexpected result : " + str(return_data), self.elapsed_time]
+    return [True, self.elapsed_time]
