@@ -17,11 +17,13 @@ class SpeechToTextFunc(unittest.TestCase):
 
     def test_wavFile(self):
         rospack = rospkg.RosPack()
-        google_service = rospy.get_param("rapp_speech_detection_google_detect_speech_topic")
+        google_service = rospy.get_param(\
+                "rapp_speech_detection_google_detect_speech_topic")
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
-        req.filename = rospack.get_path('rapp_auxiliary_files') + '/nai_sample.wav'
+        req.filename = rospack.get_path('rapp_auxiliary_files') + \
+                '/nai_sample.wav'
         response = stt_service(req)
         words_basic = len(response.words)
 
@@ -33,7 +35,8 @@ class SpeechToTextFunc(unittest.TestCase):
 
     def test_imageFile(self):
         rospack = rospkg.RosPack()
-        google_service = rospy.get_param("rapp_speech_detection_google_detect_speech_topic")
+        google_service = rospy.get_param(\
+                "rapp_speech_detection_google_detect_speech_topic")
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
@@ -51,11 +54,13 @@ class SpeechToTextFunc(unittest.TestCase):
 
     def test_notExistentFile(self):
         rospack = rospkg.RosPack()
-        google_service = rospy.get_param("rapp_speech_detection_google_detect_speech_topic")
+        google_service = rospy.get_param(\
+                "rapp_speech_detection_google_detect_speech_topic")
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
-        req.filename = rospack.get_path('rapp_auxiliary_files') + '/something.flac'
+        req.filename = rospack.get_path('rapp_auxiliary_files') + \
+                '/something.flac'
         response = stt_service(req)
         words_basic = len(response.words)
 
@@ -70,7 +75,8 @@ class SpeechToTextFunc(unittest.TestCase):
 
     def test_flacFile(self):
         rospack = rospkg.RosPack()
-        google_service = rospy.get_param("rapp_speech_detection_google_detect_speech_topic")
+        google_service = rospy.get_param(\
+                "rapp_speech_detection_google_detect_speech_topic")
         rospy.wait_for_service(google_service)
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()

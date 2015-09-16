@@ -23,10 +23,12 @@ class OntologyFunc(unittest.TestCase):
 
     # Subclasses_of tests
     def test_subclasses_of_existent_class(self):
-        subclasses_of_service = rospy.get_param("rapp_knowrob_wrapper_subclasses_of_topic")
+        subclasses_of_service = rospy.get_param(\
+                "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
         
-        test_service = rospy.ServiceProxy(subclasses_of_service, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'Oven'
@@ -36,11 +38,30 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(prefix + 'MicrowaveOven' in response.results, True)
         self.assertEqual(prefix + 'ToasterOven' in response.results, True)
 
-    def test_subclasses_of_non_existent_class(self):
-        subclasses_of_service = rospy.get_param("rapp_knowrob_wrapper_subclasses_of_topic")
+    # Subclasses_of tests
+    def test_subclasses_of_existent_class_stress(self):
+        subclasses_of_service = rospy.get_param(\
+                "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
         
-        test_service = rospy.ServiceProxy(subclasses_of_service, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, ontologySubSuperClassesOfSrv)
+        for i in range(0,100):
+            req = ontologySubSuperClassesOfSrvRequest()
+            req.ontology_class = 'Oven'
+            response = test_service(req)
+            prefix = 'http://knowrob.org/kb/knowrob.owl#'
+            self.assertEqual(prefix + 'RegularOven' in response.results, True)
+            self.assertEqual(prefix + 'MicrowaveOven' in response.results, True)
+            self.assertEqual(prefix + 'ToasterOven' in response.results, True)
+
+    def test_subclasses_of_non_existent_class(self):
+        subclasses_of_service = rospy.get_param(\
+                "rapp_knowrob_wrapper_subclasses_of_topic")
+        rospy.wait_for_service(subclasses_of_service)
+        
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'Podosfairo'
@@ -51,10 +72,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.error, 'Class: Podosfairo does not exist')
 
     def test_subclasses_of_existent_class_recursive(self):
-        subclasses_of_service = rospy.get_param("rapp_knowrob_wrapper_subclasses_of_topic")
+        subclasses_of_service = rospy.get_param(\
+                "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
         
-        test_service = rospy.ServiceProxy(subclasses_of_service, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'Oven'
@@ -69,10 +92,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.error, "")
 
     def test_subclasses_of_non_existent_class_recursive(self):
-        subclasses_of_service = rospy.get_param("rapp_knowrob_wrapper_subclasses_of_topic")
+        subclasses_of_service = rospy.get_param(\
+                "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
         
-        test_service = rospy.ServiceProxy(subclasses_of_service, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'Podosfairo'
@@ -85,10 +110,12 @@ class OntologyFunc(unittest.TestCase):
 
     # Superclasses_of tests
     def test_superclasses_of_existent_class(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_superclasses_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'SpatialThing'
@@ -97,10 +124,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(prefix + 'Thing' in response.results, True)
 
     def test_superclasses_of_existent_class_recursive(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_superclasses_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'Oven'
@@ -111,13 +140,16 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(len(response.results), 20)
         self.assertEqual(prefix + 'Thing' in response.results, True)
         self.assertEqual(prefix_2 + 'SpatialThing' in response.results, True)
-        self.assertEqual(prefix_2 + 'HouseholdAppliance' in response.results, True)
+        self.assertEqual(prefix_2 + \
+                'HouseholdAppliance' in response.results, True)
 
     def test_superclasses_of_non_existent_class(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_superclasses_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'NotExistent'
@@ -127,10 +159,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.error, "Class: NotExistent does not exist")
 
     def test_superclasses_of_non_existent_class_recursive(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_superclasses_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologySubSuperClassesOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologySubSuperClassesOfSrv)
 
         req = ontologySubSuperClassesOfSrvRequest()
         req.ontology_class = 'NotExistent'
@@ -142,10 +176,12 @@ class OntologyFunc(unittest.TestCase):
 
     # Is sub-superclasses_of tests
     def test_sub_superclasses_of_existent_class_direct(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'Oven'
@@ -156,10 +192,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.result, True)
 
     def test_sub_superclasses_of_existent_class_indirect(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'SpatialThing'
@@ -170,10 +208,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.result, False)
 
     def test_sub_superclasses_of_existent_class_direct_recursive(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'Oven'
@@ -184,10 +224,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.result, True)
 
     def test_sub_superclasses_of_existent_class_indirect_recursive(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'SpatialThing'
@@ -198,10 +240,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.result, True)
 
     def test_sub_superclasses_of_non_existent_class(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'Aoua'
@@ -214,10 +258,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.error, "Class: Aoua does not exist")
 
     def test_sub_superclasses_of_existent_class_recursive(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'Aoua'
@@ -230,10 +276,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.error, "Class: Aoua does not exist")
 
     def test_sub_superclasses_of_non_existent_classes(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'Aoua'
@@ -246,10 +294,12 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.result, False)
 
     def test_sub_superclasses_of_existent_classes_recursive(self):
-        service_name = rospy.get_param("rapp_knowrob_wrapper_is_subsuperclass_of_topic")
+        service_name = rospy.get_param(\
+                "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
         
-        test_service = rospy.ServiceProxy(service_name, ontologyIsSubSuperClassOfSrv)
+        test_service = rospy.ServiceProxy(\
+                service_name, ontologyIsSubSuperClassOfSrv)
 
         req = ontologyIsSubSuperClassOfSrvRequest()
         req.parent_class = 'Aoua'

@@ -21,9 +21,11 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         rospack = rospkg.RosPack()
         aux = rospack.get_path('rapp_auxiliary_files')
 
-        conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
+        conf_service = rospy.get_param(\
+                "rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, AudioProcessingSetNoiseProfileSrv)
+        test_service = rospy.ServiceProxy(\
+                conf_service, AudioProcessingSetNoiseProfileSrv)
         
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_ogg'
@@ -32,6 +34,25 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual( response.error, '' )
         self.assertEqual( response.success, 'true' )
+
+    def test_setNoiseProfileService_ogg_stress(self):
+        rospack = rospkg.RosPack()
+        aux = rospack.get_path('rapp_auxiliary_files')
+
+        conf_service = rospy.get_param(\
+                "rapp_audio_processing_set_noise_profile_topic")
+        rospy.wait_for_service(conf_service)
+        test_service = rospy.ServiceProxy(\
+                conf_service, AudioProcessingSetNoiseProfileSrv)
+        
+        for i in range(0, 100):
+            req = AudioProcessingSetNoiseProfileSrvRequest()
+            req.audio_file_type = 'nao_ogg'
+            req.noise_audio_file = aux + '/silence_ogg_d05_a1.ogg'
+            req.user = 'rapp'
+            response = test_service(req)
+            self.assertEqual( response.error, '' )
+            self.assertEqual( response.success, 'true' )
 
     def test_setNoiseProfileService_wav_1_ch(self):
         rospack = rospkg.RosPack()

@@ -20,19 +20,17 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4TotalSrvResponse
   )
 
-# rapp_speech_detection_sphinx4_detect_speech_topic: /rapp/rapp_speech_detection_sphinx4/speech_to_text
-# rapp_speech_detection_sphinx4_configuration_topic: /rapp/rapp_speech_detection_sphinx4/configure
-# rapp_speech_detection_sphinx4_total_topic: /rapp/rapp_speech_detection_sphinx4/batch_speech_to_text
-
 class SpeechDetSphinx4Func(unittest.TestCase):
 
     def test_configureService(self):
         rospack = rospkg.RosPack()
         aux = rospack.get_path('rapp_auxiliary_files')
 
-        conf_service = rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
+        conf_service = rospy.get_param(\
+                "rapp_speech_detection_sphinx4_configuration_topic")
         rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, SpeechRecognitionSphinx4ConfigureSrv)
+        test_service = rospy.ServiceProxy(\
+                conf_service, SpeechRecognitionSphinx4ConfigureSrv)
         
         req = SpeechRecognitionSphinx4ConfigureSrvRequest()
         req.language = 'en'
@@ -42,13 +40,35 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         response = test_service(req)
         self.assertEqual( response.error, '' )
 
+    def test_configureService_stress(self):
+        rospack = rospkg.RosPack()
+        aux = rospack.get_path('rapp_auxiliary_files')
+
+        conf_service = rospy.get_param(\
+                "rapp_speech_detection_sphinx4_configuration_topic")
+        rospy.wait_for_service(conf_service)
+        test_service = rospy.ServiceProxy(\
+                conf_service, SpeechRecognitionSphinx4ConfigureSrv)
+        
+        for i in range(0,40):
+            req = SpeechRecognitionSphinx4ConfigureSrvRequest()
+            req.language = 'en'
+            req.words = ['hello', 'this']
+            req.grammar = req.words + ['hello this']
+            req.sentences = req.words
+            response = test_service(req)
+            self.assertEqual( response.error, '' )
+
+
     def test_configureServiceErrorLanguage(self):
         rospack = rospkg.RosPack()
         aux = rospack.get_path('rapp_auxiliary_files')
 
-        conf_service = rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
+        conf_service = rospy.get_param(\
+                "rapp_speech_detection_sphinx4_configuration_topic")
         rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, SpeechRecognitionSphinx4ConfigureSrv)
+        test_service = rospy.ServiceProxy(\
+                conf_service, SpeechRecognitionSphinx4ConfigureSrv)
         
         req = SpeechRecognitionSphinx4ConfigureSrvRequest()
         req.language = 'es'
@@ -62,9 +82,11 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospack = rospkg.RosPack()
         aux = rospack.get_path('rapp_auxiliary_files')
 
-        conf_service = rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
+        conf_service = rospy.get_param(\
+                "rapp_speech_detection_sphinx4_configuration_topic")
         rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, SpeechRecognitionSphinx4ConfigureSrv)
+        test_service = rospy.ServiceProxy(\
+                conf_service, SpeechRecognitionSphinx4ConfigureSrv)
         
         req = SpeechRecognitionSphinx4ConfigureSrvRequest()
         req.language = 'en'
@@ -78,9 +100,11 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospack = rospkg.RosPack()
         aux = rospack.get_path('rapp_auxiliary_files')
 
-        conf_service = rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
+        conf_service = rospy.get_param(\
+                "rapp_speech_detection_sphinx4_configuration_topic")
         rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, SpeechRecognitionSphinx4ConfigureSrv)
+        test_service = rospy.ServiceProxy(\
+                conf_service, SpeechRecognitionSphinx4ConfigureSrv)
         
         req = SpeechRecognitionSphinx4ConfigureSrvRequest()
         req.language = 'en'
@@ -94,9 +118,11 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospack = rospkg.RosPack()
         aux = rospack.get_path('rapp_auxiliary_files')
 
-        conf_service = rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
+        conf_service = rospy.get_param(\
+                "rapp_speech_detection_sphinx4_configuration_topic")
         rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, SpeechRecognitionSphinx4ConfigureSrv)
+        test_service = rospy.ServiceProxy(\
+                conf_service, SpeechRecognitionSphinx4ConfigureSrv)
         
         req = SpeechRecognitionSphinx4ConfigureSrvRequest()
         req.language = 'en'
@@ -110,9 +136,11 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospack = rospkg.RosPack()
         aux = rospack.get_path('rapp_auxiliary_files')
 
-        conf_service = rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
+        conf_service = rospy.get_param(\
+                "rapp_speech_detection_sphinx4_configuration_topic")
         rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, SpeechRecognitionSphinx4ConfigureSrv)
+        test_service = rospy.ServiceProxy(\
+                conf_service, SpeechRecognitionSphinx4ConfigureSrv)
         
         req = SpeechRecognitionSphinx4ConfigureSrvRequest()
         req.language = 'gr'

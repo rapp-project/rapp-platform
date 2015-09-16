@@ -2,6 +2,6 @@
   <include file="$(find rapp_audio_processing)/launch/audio_processing.launch" />
   <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
   
-  <test time-limit="10" test-name="audio_processing_set_noise_profile_functional" pkg="rapp_audio_processing" type="set_noise_profile_functional.py"/> 
+  <test time-limit="100" test-name="audio_processing_set_noise_profile_functional" pkg="rapp_audio_processing" type="set_noise_profile_functional.py"/> 
  </launch> 
  
