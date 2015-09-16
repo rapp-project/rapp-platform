@@ -21,8 +21,8 @@ class FaceDetFunc(unittest.TestCase):
         rospy.wait_for_service(face_service)
         fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
         req = FaceDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/Lenna.png'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/Lenna.png'
         response = fd_service(req)
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1 )
@@ -33,8 +33,8 @@ class FaceDetFunc(unittest.TestCase):
         rospy.wait_for_service(face_service)
         fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
         req = FaceDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/Lenna.png'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/Lenna.png'
         for i in range(0, 100):
             response = fd_service(req)
             faces_num = len(response.faces_up_left)
@@ -46,8 +46,8 @@ class FaceDetFunc(unittest.TestCase):
         rospy.wait_for_service(face_service)
         fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
         req = FaceDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/qr_code_rapp.jpg'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/qr_code_rapp.jpg'
         response = fd_service(req)
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 0 )
@@ -58,8 +58,8 @@ class FaceDetFunc(unittest.TestCase):
         rospy.wait_for_service(face_service)
         fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
         req = FaceDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/qr_code_rapp.png'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/qr_code_rapp.png'
         response = fd_service(req)
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 0 )
@@ -70,8 +70,8 @@ class FaceDetFunc(unittest.TestCase):
         rospy.wait_for_service(face_service)
         fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
         req = FaceDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/silence_sample.wav'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/silence_sample.wav'
         response = fd_service(req)
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 0 )
