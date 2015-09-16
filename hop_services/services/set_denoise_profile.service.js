@@ -51,11 +51,14 @@ var hop = require('hop');
 var Fs = require( module_path + 'fileUtils.js' );
 var RandStringGen = require( module_path +
   'RandomStrGenerator/randStringGen.js');
+var RosSrvPool = require(module_path + 'ros/srvPool.js');
 /*----------------------------------------------*/
 
 /*----<Load modules used by the service>----*/
 var ros_service_name = '/rapp/rapp_audio_processing/set_noise_profile';
-/*----------------------------------------------*/
+var rosSrvThreads = 10;
+
+var rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -86,6 +89,8 @@ register_master_interface();
  */
 service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
 {
+  var rosSrvCall = rosSrvPool.getAvailable();
+  console.log(rosSrvCall);
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
   var logMsg = 'Audio data file stored at [' + file_uri + ']';
@@ -105,6 +110,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.renameFile(file_uri, cpFilePath) == false)
   {
+    rosSrvPool.release(rosSrvCall);
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
@@ -128,17 +134,14 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
          'user': user
       };
 
-      var rosbridge_connection = true;
       var respFlag = false;
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
+      var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId)
 
       /* ------ Catch exception while open websocket communication ------- */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
-          rosbridge_connection = true;
-
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -151,6 +154,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
         }
         // Register WebSocket.message callback
         rosWS.onmessage = function(event){
+          rosSrvPool.release(rosSrvCall);
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -167,7 +171,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
         }
       }
       catch(e){
-        rosbridge_connection = false;
+        rosSrvPool.release(rosSrvCall);
         rosWS = undefined;
 
         var logMsg = 'ERROR: Cannot open websocket' +
@@ -196,7 +200,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
 
          if (respFlag == true)
          {
-           return
+           return;
          }
          else if (respFlag != true && elapsed_time > max_time ){
            timer_ticks = 0;
@@ -209,6 +213,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
+             rosSrvPool.release(rosSrvCall);
              var logMsg = 'Reached max_retries [' + max_tries + ']' +
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -246,6 +251,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
              }
 
              rosWS.onmessage = function(event){
+               rosSrvPool.release(rosSrvCall);
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -261,7 +267,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
              }
            }
            catch(e){
-             rosbridge_connection = false;
+             rosSrvPool.release(rosSrvCall);
              rosWS = undefined;
 
              var logMsg = 'ERROR: Cannot open websocket' +
@@ -300,10 +306,9 @@ function craft_response(rosbridge_msg)
   // Service invocation success index
   var call_result = msg.result;
   var error = msg.values.error;
-
   var crafted_msg = { error: '' };
-
   var logMsg = '';
+  //console.log(msg)
 
   if (call_result)
   {

@@ -52,11 +52,14 @@ var Fs = require( module_path + 'fileUtils.js' );
 var hop = require('hop');
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
+var RosSrvPool = require(module_path + 'ros/srvPool.js');
 /*----------------------------------------------*/
 
 /*-----<Define face-detection ROS service name>----*/
 var ros_service_name = '/rapp/rapp_face_detection/detect_faces';
-/*------------------------------------------------------*/
+var rosSrvThreads = 10;
+
+var rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -88,6 +91,8 @@ register_master_interface();
  */
 service face_detection ( {file_uri:''} )
 {
+  var rosSrvCall = rosSrvPool.getAvailable();
+  console.log(rosSrvCall);
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
   var logMsg = 'Image stored at [' + file_uri + ']';
@@ -107,6 +112,7 @@ service face_detection ( {file_uri:''} )
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.renameFile(file_uri, cpFilePath) == false)
   {
+    rosSrvPool.release(rosSrvCall);
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
@@ -114,8 +120,8 @@ service face_detection ( {file_uri:''} )
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId);
-    var resp_msg = craft_error_response();
-    return resp_msg;
+    var response = craft_error_response();
+    return response;
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -134,9 +140,8 @@ service face_detection ( {file_uri:''} )
        "imageFilename": cpFilePath
      };
 
-      var rosbridge_connection = true;
       var respFlag = false;
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
+      var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId)
 
       /* ------ Catch exception while open websocket communication ------- */
       try{
@@ -144,8 +149,6 @@ service face_detection ( {file_uri:''} )
 
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
-          rosbridge_connection = true;
-
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -158,15 +161,16 @@ service face_detection ( {file_uri:''} )
         }
         // Register WebSocket.message callback
         rosWS.onmessage = function(event){
+          rosSrvPool.release(rosSrvCall);
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           Fs.rmFile(cpFilePath);
 
           var resp_msg = craft_response( event.value ); // Craft response message
-          this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
+          this.close(); // Close websocket
 
           // Dismiss the unique rossrv-call identity  key for current client
           randStrGen.removeCached( unqCallId );
@@ -174,7 +178,7 @@ service face_detection ( {file_uri:''} )
         }
       }
       catch(e){
-        rosbridge_connection = false;
+        rosSrvPool.release(rosSrvCall);
         rosWS = undefined;
 
         var logMsg = 'ERROR: Cannot open websocket' +
@@ -214,6 +218,7 @@ service face_detection ( {file_uri:''} )
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
+             rosSrvPool.release(rosSrvCall);
              var logMsg = 'Reached max_retries [' + max_tries + ']' +
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -251,6 +256,7 @@ service face_detection ( {file_uri:''} )
              }
 
              rosWS.onmessage = function(event){
+               rosSrvPool.release(rosSrvCall);
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -265,7 +271,7 @@ service face_detection ( {file_uri:''} )
              }
            }
            catch(e){
-             rosbridge_connection = false;
+             rosSrvPool.release(rosSrvCall);
              rosWS = undefined;
 
              var logMsg = 'ERROR: Cannot open websocket' +

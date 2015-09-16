@@ -47,16 +47,18 @@ var module_path = '../modules/';
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
-//var contents = require('../utilities/parameters.json');
 var hop = require('hop');
 var Fs = require( module_path + 'fileUtils.js' );
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
+var RosSrvPool = require(module_path + 'ros/srvPool.js');
 /*----------------------------------------------*/
 
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = '/rapp/rapp_speech_detection_google/speech_to_text';
-/*------------------------------------------------*/
+var rosSrvThreads = 10;
+
+var rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -91,6 +93,8 @@ register_master_interface();
  */
 service speech_detection_google({file_uri: ''})
 {
+  var rosSrvCall = rosSrvPool.getAvailable();
+  console.log(rosSrvCall);
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
   var logMsg = 'Audio data stored at [' + file_uri + ']';
@@ -110,6 +114,7 @@ service speech_detection_google({file_uri: ''})
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.renameFile(file_uri, cpFilePath) == false)
   {
+    rosSrvPool.release(rosSrvCall);
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
@@ -133,10 +138,8 @@ service speech_detection_google({file_uri: ''})
         'filename': cpFilePath
       };
 
-      var rosbridge_connection = true;
       var respFlag = false;
-
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
+      var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId)
 
       /* ---- Catch exception while initiating websocket communication ----- */
       try{
@@ -144,8 +147,6 @@ service speech_detection_google({file_uri: ''})
 
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
-          rosbridge_connection = true;
-
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -160,6 +161,7 @@ service speech_detection_google({file_uri: ''})
 
         // Register WebSocket.message callback
         rosWS.onmessage = function(event){
+          rosSrvPool.release(rosSrvCall);
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -177,7 +179,7 @@ service speech_detection_google({file_uri: ''})
         }
       }
       catch(e){
-        rosbridge_connection = false;
+        rosSrvPool.release(rosSrvCall);
         rosWS = undefined;
         //console.log(e);
 
@@ -213,12 +215,13 @@ service speech_detection_google({file_uri: ''})
             retries += 1;
 
             var logMsg = 'Reached rosbridge response timeout' +
-          '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
-          'Retry-' + retries;
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
+              '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
+              'Retry-' + retries;
+            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           if (retries > max_tries) // Reconnected for max_tries times
           {
+            rosSrvPool.release(rosSrvCall);
             var logMsg = 'Reached max_retries [' + max_tries + ']' +
             ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -256,6 +259,7 @@ service speech_detection_google({file_uri: ''})
             }
 
             rosWS.onmessage = function(event){
+              rosSrvPool.release(rosSrvCall);
               var logMsg = 'Received message from rosbridge';
               postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -271,7 +275,7 @@ service speech_detection_google({file_uri: ''})
             }
           }
           catch(e){
-            rosbridge_connection = false;
+            rosSrvPool.release(rosSrvCall);
             rosWS = undefined;
             //console.log(e);
             var logMsg = 'ERROR: Cannot open websocket' +
@@ -279,8 +283,8 @@ service speech_detection_google({file_uri: ''})
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
             Fs.rmFile(cpFilePath);
-            var resp_msg = craft_error_response();
 
+            var resp_msg = craft_error_response();
             sendResponse( resp_msg );
             return;
           }

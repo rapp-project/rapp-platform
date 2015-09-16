@@ -54,10 +54,10 @@ var RandStringGen = require ( module_path +
 var RosSrvPool = require(module_path + 'ros/srvPool.js');
 /*----------------------------------------------*/
 
-/*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = '/rapp/rapp_qr_detection/detect_qrs';
-/*------------------------------------------------------*/
-var rosSrvPool = new RosSrvPool(ros_service_name);
+var rosSrvThreads = 10;
+
+var rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -112,6 +112,7 @@ service qr_detection ( {file_uri:''} )
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.renameFile(file_uri, cpFilePath) == false)
   {
+    rosSrvPool.release(rosSrvCall);
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
@@ -119,11 +120,10 @@ service qr_detection ( {file_uri:''} )
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId); // Dismiss the unique identity key
-    var resp_msg = craft_error_response();
+    var response = craft_error_response();
     execTime = new Date().getTime() - startT;
     postMessage( craft_slaveMaster_msg('execTime', execTime) );
-    rosSrvPool.release(rosSrvCall);
-    return resp_msg;
+    return response;
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -133,30 +133,33 @@ service qr_detection ( {file_uri:''} )
   /*----------------------------------------------------------------- */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      //var rosWS = undefined;
 
      var args = {
-       /* Image path to perform faceDetection, used as input to the
-        *  Face Detection ROS Node Service
-        */
+        //Image path to perform faceDetection, used as input to the
+         //Face Detection ROS Node Service
        "imageFilename": cpFilePath
      };
 
-/*=============================TEMPLATE======================================*/
-      var rosbridge_connection = true;
       var respFlag = false;
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
+      var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
+      var response = undefined;
+      var responseROS = undefined;
+      //console.log(rosbridge_msg);
 
-      /* ---- Catch exception while initiating websocket communication ----- */
+      /**
+       * ---- Catch exception on initiating websocket.
+       *  -- Return to client immediately on exception thrown.
+       */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
 
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
-          rosbridge_connection = true;
-
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
-
+          //console.log(unqCallId);
+          //console.log(rosbridge_msg);
           this.send(JSON.stringify(rosbridge_msg));
         }
         // Register WebSocket.onclose callback
@@ -166,27 +169,29 @@ service qr_detection ( {file_uri:''} )
         }
         // Register WebSocket.message callback
         rosWS.onmessage = function(event){
+          rosSrvPool.release(rosSrvCall);
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           //console.log(event.value);
           Fs.rmFile(cpFilePath);
-          var resp_msg = craft_response( event.value ); // Craft response message
+          respFlag = true; // Raise Response-Received Flag
+          responseROS = event.value;
 
           this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
-          respFlag = true; // Raise Response-Received Flag
+          //console.log('Rosbridge message id: [%s]', JSON.parse(responseROS).id);
 
           // Dismiss the unique call identity key for current client.
           randStrGen.removeCached( unqCallId );
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
-          rosSrvPool.release(rosSrvCall);
-          sendResponse( resp_msg );
+          response = craft_response(responseROS);
+          sendResponse( response );
         }
       }
       catch(e){
-        rosbridge_connection = false;
+        rosSrvPool.release(rosSrvCall);
         rosWS = undefined;
 
         var logMsg = 'ERROR: Cannot open websocket' +
@@ -194,11 +199,10 @@ service qr_detection ( {file_uri:''} )
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         Fs.rmFile(cpFilePath);
-        var resp_msg = craft_error_response();
+        response = craft_error_response();
+        sendResponse( response );
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
-        rosSrvPool.release(rosSrvCall);
-        sendResponse( resp_msg );
         return;
       }
       /*------------------------------------------------------------------ */
@@ -213,11 +217,13 @@ service qr_detection ( {file_uri:''} )
          timer_ticks += 1;
          elapsed_time = timer_ticks * timer_tick_value;
 
-         if (respFlag == true)
+         if (respFlag)
          {
-           return
+           //response = craft_response(responseROS);
+           //sendResponse( response );
+           return;
          }
-         else if (respFlag != true && elapsed_time > max_time ){
+         else if  ( elapsed_time > max_time ){
            timer_ticks = 0;
            retries += 1;
 
@@ -226,22 +232,23 @@ service qr_detection ( {file_uri:''} )
              'Retry-' + retries;
            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-           if (retries >= max_tries) // Reconnected for max_tries times
+           /* - Fail to receive message from rosbridge. Return to client */
+           if (retries >= max_tries)
            {
+             rosSrvPool.release(rosSrvCall);
              var logMsg = 'Reached max_retries [' + max_tries + ']' +
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
              Fs.rmFile(cpFilePath);
-             var respMsg = craft_error_response();
 
-             //  Close websocket before return
              rosWS.close();
              rosWS = undefined;
+             //  Close websocket before return
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
-             rosSrvPool.release(rosSrvCall);
-             sendResponse( respMsg );
+             response = craft_error_response();
+             sendResponse( response );
              return;
            }
 
@@ -268,24 +275,26 @@ service qr_detection ( {file_uri:''} )
              }
 
              rosWS.onmessage = function(event){
+               rosSrvPool.release(rosSrvCall);
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
+               //Remove the uniqueID so it can be reused
+               randStrGen.removeCached( unqCallId );
                Fs.rmFile(cpFilePath);
-               var resp_msg = craft_response( event.value );
+               responseROS = event.value;
 
-               this.close(); // Close websocket
-               rosWS = undefined; // Decostruct websocket
                respFlag = true;
-               randStrGen.removeCached( unqCallId ); //Remove the uniqueID so it can be reused
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
-               rosSrvPool.release(rosSrvCall);
-               sendResponse( resp_msg ); //Return response to client
+               response = craft_response(responseROS);
+               sendResponse( response );
+               this.close(); // Close websocket
+               rosWS = undefined; // Decostruct websocket
              }
            }
            catch(e){
-             rosbridge_connection = false;
+             rosSrvPool.release(rosSrvCall);
              rosWS = undefined;
              //console.log(e);
 
@@ -294,12 +303,11 @@ service qr_detection ( {file_uri:''} )
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
              Fs.rmFile(cpFilePath);
-             var resp_msg = craft_error_response();
 
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
-             sendResponse( resp_msg );
-             rosSrvPool.release(rosSrvCall);
+             response = craft_error_response();
+             sendResponse( response );
              return;
            }
 

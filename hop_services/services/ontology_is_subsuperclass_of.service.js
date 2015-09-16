@@ -44,10 +44,15 @@ var module_path = '../modules/'
 /*----------------------------------------------*/
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
+var RosSrvPool = require(module_path + 'ros/srvPool.js');
+var hop = require('hop');
 /*----------------------------------------------*/
+
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = "/rapp/rapp_knowrob_wrapper/is_subsuperclass_of";
-var hop = require('hop');
+var rosSrvThreads = 10;
+
+var rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -78,21 +83,16 @@ register_master_interface();
  */
 service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recursive: false} )
 {
+  //var rosSrvCall = rosSrvPool.getAvailable();
+  var rosSrvCall = ros_service_name;
+  console.log(rosSrvCall);
+  postMessage( craft_slaveMaster_msg('log', 'client-request') );
   /**** Boolean parameters are passed as strings onto the URL payload ****/
 
   /* -- Handling string to boolean casting -- */
-  if (recursive == 'True' || recursive == 'true')
-  {
-    // String 'True' --> booleand true
-    recursive = true;
-  }
-  else
-  {
-    recursive = false;
-  }
+  if (recursive == 'True' || recursive == 'true') {recursive = true;}
+  else {recursive = false;}
   /* ---------------------------------------- */
-
-  postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
  /*----------------------------------------------------------------- */
  return hop.HTTPResponseAsync(
@@ -103,13 +103,10 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
      args[ "child_class" ] = child_class;
      args[ "recursive" ] = recursive;
 
-    /*=============================TEMPLATE======================================================*/
-      var rosbridge_connection = true;
-      var respFlag = false;
-
-      // Create a unique caller id
-      var unqCallId = randStrGen.createUnique();
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
+     var respFlag = false;
+     // Create a unique caller id
+     var unqCallId = randStrGen.createUnique();
+     var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
 
       /* ------ Catch exception while open websocket communication ------- */
       try{
@@ -117,8 +114,6 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
-          rosbridge_connection = true;
-
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -133,6 +128,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
         // Register WebSocket.onmessage callback
         rosWS.onmessage = function(event){
+          rosSrvPool.release(rosSrvCall);
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -148,7 +144,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
         }
       }
       catch(e){
-        rosbridge_connection = false;
+        rosSrvPool.release(rosSrvCall);
         rosWS = undefined;
         //console.log(e);
 
@@ -187,6 +183,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
            if (retries > max_tries) // Reconnected for max_tries times
            {
+             rosSrvPool.release(rosSrvCall);
              var logMsg = 'Reached max_retries [' + max_tries + ']' +
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -226,6 +223,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
              // Register Websocket.onmesasge callback
              rosWS.onmessage = function(event){
+               rosSrvPool.release(rosSrvCall);
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -241,7 +239,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
              }
            }
            catch(e){
-             rosbridge_connection = false;
+             rosSrvPool.release(rosSrvCall);
              rosWS = undefined;
              //console.log(e);
 

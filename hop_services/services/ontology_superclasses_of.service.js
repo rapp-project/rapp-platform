@@ -45,10 +45,16 @@ var module_path = '../modules/'
 /*----------------------------------------------*/
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
+var hop = require('hop');
+var RosSrvPool = require(module_path + 'ros/srvPool.js');
 /*----------------------------------------------*/
+
 /*-----<Defined Name of QR Node ROS service>----*/
 var ros_service_name = "/rapp/rapp_knowrob_wrapper/superclasses_of";
-var hop = require('hop');
+var rosSrvThreads = 10;
+
+var rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
+
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
@@ -78,6 +84,9 @@ register_master_interface();
  */
 service ontology_superclasses_of ( {query:''} )
 {
+  //var rosSrvCall = rosSrvPool.getAvailable();
+  var rosSrvCall = ros_service_name;
+  console.log(rosSrvCall);
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
   /*----------------------------------------------------------------- */
@@ -87,13 +96,10 @@ service ontology_superclasses_of ( {query:''} )
       var args = {};
       args[ "ontology_class" ] = query;
 
-      /*=============================TEMPLATE======================================================*/
-      var rosbridge_connection = true;
       var respFlag = false;
-
       // Create a unique caller id
       var unqCallId = randStrGen.createUnique();
-      var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
+      var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
 
       /* ------ Catch exception while open websocket communication ------- */
       try{
@@ -101,8 +107,6 @@ service ontology_superclasses_of ( {query:''} )
 
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
-          rosbridge_connection = true;
-
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -117,6 +121,7 @@ service ontology_superclasses_of ( {query:''} )
 
         // Register WebSocket.onmessage callback
         rosWS.onmessage = function(event){
+          rosSrvPool.release(rosSrvCall);
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -132,7 +137,7 @@ service ontology_superclasses_of ( {query:''} )
         }
       }
       catch(e){
-        rosbridge_connection = false;
+        rosSrvPool.release(rosSrvCall);
         rosWS = undefined;
         //console.log(e);
 
@@ -157,20 +162,22 @@ service ontology_superclasses_of ( {query:''} )
           elapsed_time = timer_ticks * timer_tick_value;
 
           if (respFlag == true)
-        {
-          return
-        }
-          else if (respFlag != true && elapsed_time > max_time ){
+          {
+            return;
+          }
+          else if (respFlag != true && elapsed_time > max_time )
+          {
             timer_ticks = 0;
             retries += 1;
 
             var logMsg = 'Reached rosbridge response timeout' +
-          '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
-          'Retry-' + retries;
-        postMessage( craft_slaveMaster_msg('log', logMsg) );
+              '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
+              'Retry-' + retries;
+            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         if (retries > max_tries) // Reconnected for max_tries times
         {
+          rosSrvPool.release(rosSrvCall);
           var logMsg = 'Reached max_retries [' + max_tries + ']' +
           ' Could not receive response from rosbridge...';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -210,6 +217,7 @@ service ontology_superclasses_of ( {query:''} )
 
           // Register Websocket.onmesasge callback
           rosWS.onmessage = function(event){
+            rosSrvPool.release(rosSrvCall);
             var logMsg = 'Received message from rosbridge';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -225,7 +233,7 @@ service ontology_superclasses_of ( {query:''} )
           }
         }
         catch(e){
-          rosbridge_connection = false;
+          rosSrvPool.release(rosSrvCall);
           rosWS = undefined;
           //console.log(e);
 
