@@ -47,7 +47,7 @@ class RappInterfaceTest:
     self.words = [u'θελω', u'βοηθεια']
     self.sentences = self.words
     self.grammar = []
-    self.user = 'klpanagi'
+    self.user = 'rapp'
     self.valid_words_found = [u'θελω', u'βοηθεια']
 
 

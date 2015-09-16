@@ -25,7 +25,7 @@ class TestAudioProcessing(unittest.TestCase):
     def test_realFile(self):
         original_file = self.auxiliary_files_url + "/nai_sample.wav"
         denoised_file = self.auxiliary_files_url + "/nai_sample_sox_denoised.wav"
-        user = 'klpanagi'
+        user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = 0.2
     
@@ -57,7 +57,7 @@ class TestAudioProcessing(unittest.TestCase):
     def test_notExistentAudioFile(self):
         original_file = self.auxiliary_files_url + "/not_existent_sample.wav"
         denoised_file = self.auxiliary_files_url + "/nai_sample_sox_denoised.wav"
-        user = 'klpanagi'
+        user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = 0.2
     
@@ -89,7 +89,7 @@ class TestAudioProcessing(unittest.TestCase):
     def test_notExistentAudioType(self):
         original_file = self.auxiliary_files_url + "/nai_sample.wav"
         denoised_file = self.auxiliary_files_url + "/nai_sample_sox_denoised.wav"
-        user = 'klapanagi'
+        user = 'rapp'
         audio_type = 'nao_wav_7_ch'
         scale = 0.2
     
@@ -105,7 +105,7 @@ class TestAudioProcessing(unittest.TestCase):
     def test_negativeScale(self):
         original_file = self.auxiliary_files_url + "/nai_sample.wav"
         denoised_file = self.auxiliary_files_url + "/nai_sample_sox_denoised.wav"
-        user = 'klpanagi'
+        user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = -0.2
     

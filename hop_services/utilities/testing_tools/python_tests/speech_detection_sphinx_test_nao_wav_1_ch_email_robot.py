@@ -47,7 +47,7 @@ class RappInterfaceTest:
     self.words = [u'robot', u'email']
     self.sentences = self.words
     self.grammar = []
-    self.user = 'klpanagi'
+    self.user = 'rapp'
     self.valid_words_found = [u'email', u'robot']
 
   def execute(self):

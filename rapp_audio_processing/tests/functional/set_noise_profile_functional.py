@@ -28,7 +28,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_ogg'
         req.noise_audio_file = aux + '/silence_ogg_d05_a1.ogg'
-        req.user = 'etsardou'
+        req.user = 'rapp'
         response = test_service(req)
         self.assertEqual( response.error, '' )
         self.assertEqual( response.success, 'true' )
@@ -44,7 +44,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_1_ch'
         req.noise_audio_file = aux + '/silence_sample.wav'
-        req.user = 'etsardou'
+        req.user = 'rapp'
         response = test_service(req)
         self.assertEqual( response.error, '' )
         self.assertEqual( response.success, 'true' )
@@ -60,7 +60,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_4_ch'
         req.noise_audio_file = aux + '/silence_wav_d05_a1.wav'
-        req.user = 'etsardou'
+        req.user = 'rapp'
         response = test_service(req)
         self.assertEqual( response.error, '' )
         self.assertEqual( response.success, 'true' )
@@ -76,7 +76,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_6_ch'
         req.noise_audio_file = aux + '/silence_wav_d05_a1.wav'
-        req.user = 'etsardou'
+        req.user = 'rapp'
         response = test_service(req)
         self.assertNotEqual( response.error, '' )
         self.assertEqual( response.success, 'false' )
@@ -92,7 +92,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_4_ch'
         req.noise_audio_file = aux + '/silence_wav_d05_a1_nope.wav'
-        req.user = 'etsardou'
+        req.user = 'rapp'
         response = test_service(req)
         self.assertNotEqual( response.error, '' )
         self.assertEqual( response.success, 'false' )

@@ -42,7 +42,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words
         req.path = aux + '/nao_wav_d05_a1.wav'
         req.audio_source = 'nao_wav_4_ch'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertEqual( response.error, '' )
@@ -63,7 +63,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words
         req.path = aux + '/nao_wav_d05_a1.wav'
         req.audio_source = 'nao_wav_4_ch'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertNotEqual( response.error, '' )
@@ -83,7 +83,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words + ['mine']
         req.path = aux + '/nao_wav_d05_a1.wav'
         req.audio_source = 'nao_wav_4_ch'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertNotEqual( response.error, '' )
@@ -103,7 +103,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words
         req.path = aux + '/nao_wav_d05_a1.wav'
         req.audio_source = 'nao_wav_4_ch'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertNotEqual( response.error, '' )
@@ -123,7 +123,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words
         req.path = aux + '/nao_wav_d05_a1_not.wav'
         req.audio_source = 'nao_wav_4_ch'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertNotEqual( response.error, '' )
@@ -163,7 +163,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words
         req.path = aux + '/nao_wav_d05_a1.wav'
         req.audio_source = 'nao_wav_7_ch'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertNotEqual( response.error, '' )
@@ -183,7 +183,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words
         req.path = aux + '/nai_sample.wav'
         req.audio_source = 'nao_wav_1_ch_denoised'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertEqual( response.error, '' )
@@ -204,7 +204,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.sentences = req.words
         req.path = aux + '/nao_ogg_d05_a1.ogg'
         req.audio_source = 'nao_ogg'
-        req.user = 'etsardou'
+        req.user = 'rapp'
 
         response = test_service(req)
         self.assertEqual( response.error, '' )

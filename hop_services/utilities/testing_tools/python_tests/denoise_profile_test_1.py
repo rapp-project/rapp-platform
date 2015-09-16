@@ -42,7 +42,7 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/denoise_source.wav'
     self.audio_source = "nao_wav_1_ch"
-    self.user = "klpanagi"
+    self.user = "rapp"
 
   def execute(self):
 

@@ -231,6 +231,7 @@ CREATE TABLE `tblUser` (
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+insert into tblUser(username, firstname, lastname) values('rapp', 'rapp', 'rapp');
 --
 -- Table structure for table `tblUserDir`
 --
