@@ -36,13 +36,13 @@ add_service_files(
   /OntologyWrapper/assertRetractAttributeSrv.srv
   /OntologyWrapper/returnUserInstancesOfClassSrv.srv
   
-  FaceDetectionRosSrv.srv
+  /FaceDetection/FaceDetectionRosSrv.srv
   
-  QrDetectionRosSrv.srv
+  /QrDetection/QrDetectionRosSrv.srv
   
-  SpeechToTextSrv.srv  
+  /SpeechDetectionGoogleWrapper/SpeechToTextSrv.srv  
   
-  MailSend.srv
+  /MailManagement/MailSend.srv
   
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4Srv.srv
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4ConfigureSrv.srv
