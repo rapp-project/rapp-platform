@@ -24,8 +24,8 @@ class QrDetectionTest : public ::testing::Test
 
 TEST_F(QrDetectionTest, lenna_test)
 {
-  std::string path = ros::package::getPath("rapp_auxiliary_files");
-  std::string s = path + std::string("/Lenna.png");
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  std::string s = path + std::string("/testing_tools/test_data/Lenna.png");
   std::vector<cv::Point> points; 
   std::vector<std::string> messages;
   qr_detector_->findQrs(s, points, messages); 
@@ -34,8 +34,8 @@ TEST_F(QrDetectionTest, lenna_test)
 
 TEST_F(QrDetectionTest, qr_test)
 {
-  std::string path = ros::package::getPath("rapp_auxiliary_files");
-  std::string s = path + std::string("/qr_code_rapp.jpg");
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  std::string s = path + std::string("/testing_tools/test_data/qr_code_rapp.jpg");
   std::vector<cv::Point> points; 
   std::vector<std::string> messages;
   qr_detector_->findQrs(s, points, messages); 
@@ -44,8 +44,8 @@ TEST_F(QrDetectionTest, qr_test)
 
 TEST_F(QrDetectionTest, file_not_exists_test)
 {
-  std::string path = ros::package::getPath("rapp_auxiliary_files");
-  std::string s = path + std::string("/file_not_exists.jpg");
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  std::string s = path + std::string("/testing_tools/test_data/file_not_exists.jpg");
   std::vector<cv::Point> points; 
   std::vector<std::string> messages;
   qr_detector_->findQrs(s, points, messages); 

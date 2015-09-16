@@ -20,8 +20,8 @@ class QrDetFunc(unittest.TestCase):
         rospy.wait_for_service(qr_service)
         fd_service = rospy.ServiceProxy(qr_service, QrDetectionRosSrv)
         req = QrDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/qr_code_rapp.jpg'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/qr_code_rapp.jpg'
         response = fd_service(req)
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 1 )
@@ -32,8 +32,8 @@ class QrDetFunc(unittest.TestCase):
         rospy.wait_for_service(qr_service)
         fd_service = rospy.ServiceProxy(qr_service, QrDetectionRosSrv)
         req = QrDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/qr_code_rapp.jpg'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/qr_code_rapp.jpg'
         for i in range(0,100):
             response = fd_service(req)
             qr_num = len(response.qr_messages)
@@ -45,8 +45,8 @@ class QrDetFunc(unittest.TestCase):
         rospy.wait_for_service(qr_service)
         fd_service = rospy.ServiceProxy(qr_service, QrDetectionRosSrv)
         req = QrDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/Lenna.png'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/Lenna.png'
         response = fd_service(req)
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 0 )
@@ -57,8 +57,8 @@ class QrDetFunc(unittest.TestCase):
         rospy.wait_for_service(qr_service)
         fd_service = rospy.ServiceProxy(qr_service, QrDetectionRosSrv)
         req = QrDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/testingfile.png'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/testingfile.png'
         response = fd_service(req)
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 0 )
@@ -69,8 +69,8 @@ class QrDetFunc(unittest.TestCase):
         rospy.wait_for_service(qr_service)
         fd_service = rospy.ServiceProxy(qr_service, QrDetectionRosSrv)
         req = QrDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_auxiliary_files') + \
-                '/nai_sample.wav'
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/nai_sample.wav'
         response = fd_service(req)
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 0 )
