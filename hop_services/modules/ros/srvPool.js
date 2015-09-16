@@ -32,10 +32,11 @@
  *
  */
 
-function SrvPool ( rosSrv ){
-  this.stackSize = 10;
+function SrvPool ( rosSrv, poolSize ){
+  this.stackSize = poolSize || 10;
   this.base = rosSrv;
   this.cache = [];
+  this.clients = [];
   // Initialize all as available (0)
   for(var ii = 0; ii < this.stackSize; ii++){this.cache[ii] = 0};
 
@@ -77,16 +78,25 @@ SrvPool.prototype.getAvailable = function()
    * the first available (not allocated).
    */
   var srvName = this.base;
+  var clientAssigned = false
   for( var ii = 0; ii < this.stackSize; ii++ )
   {
     if(!this.isAllocated(ii))
     {
       srvName += '_' + ii;
       //Allocate
+      clientAssigned = true;
       this.allocate(ii);
       break;
     }
   }
+  if(!clientAssigned)
+  {
+    var randomPickup = Math.floor(Math.random() * (this.stackSize -1));
+    this.allocate(randomPickup);
+    srvName += '_' + randomPickup;
+  }
+
   // If all are avilable then return to base srv. this.base
   return srvName;
 };
