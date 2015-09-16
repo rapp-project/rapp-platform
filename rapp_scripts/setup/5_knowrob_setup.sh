@@ -8,13 +8,13 @@ sudo apt-get install -y python-rosinstall
 sudo apt-get install -y ros-indigo-data-vis-msgs libjson-glib-dev
 sudo apt-get install -y ros-indigo-rosjava-build-tools
 echo "export SWI_HOME_DIR=/usr/lib/swi-prolog" >> ~/.bashrc
-sudo ldconfig
-source ~/.bashrc
 cd ~/
 mkdir -p rapp_platform/knowrob_catkin_ws
 cd rapp_platform/knowrob_catkin_ws
 mkdir src
 cd src
+sudo ldconfig
+source ~/.bashrc
 catkin_init_workspace
 
 git clone https://github.com/rapp-project/knowrob.git
