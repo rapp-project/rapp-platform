@@ -19,7 +19,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
 
     def test_setNoiseProfileService_ogg(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_audio_processing_set_noise_profile_topic")
@@ -37,7 +37,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
 
     def test_setNoiseProfileService_ogg_stress(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param(\
                 "rapp_audio_processing_set_noise_profile_topic")
@@ -56,7 +56,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
 
     def test_setNoiseProfileService_wav_1_ch(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
@@ -72,7 +72,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
 
     def test_setNoiseProfileService_wav_4_ch(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
@@ -88,7 +88,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
 
     def test_setNoiseProfileService_wav_6_ch(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
@@ -104,7 +104,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
 
     def test_setNoiseProfileService_no_silence_file(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
@@ -120,7 +120,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
 
     def test_setNoiseProfileService_not_valid_user(self):
         rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_auxiliary_files')
+        aux = rospack.get_path('rapp_testing_tools') + '/testing_tools/test_data'
 
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)

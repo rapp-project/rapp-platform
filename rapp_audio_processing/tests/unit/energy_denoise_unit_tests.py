@@ -15,7 +15,8 @@ from rapp_audio_processing import EnergyDenoise
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
         rospack = rospkg.RosPack()
-        self.auxiliary_files_url = rospack.get_path("rapp_auxiliary_files")
+        self.auxiliary_files_url = rospack.get_path("rapp_testing_tools") +\
+                '/testing_tools/test_data'
         self.energy_denoise_module = EnergyDenoise() 
     
     def tearDown(self):

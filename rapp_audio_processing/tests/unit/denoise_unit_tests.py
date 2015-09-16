@@ -15,7 +15,8 @@ from rapp_audio_processing import SoxDenoise
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
         rospack = rospkg.RosPack()
-        self.auxiliary_files_url = rospack.get_path("rapp_auxiliary_files")
+        self.auxiliary_files_url = rospack.get_path("rapp_testing_tools") +\
+                '/testing_tools/test_data'
         self.sox_denoise_module = SoxDenoise() 
     
     def tearDown(self):
