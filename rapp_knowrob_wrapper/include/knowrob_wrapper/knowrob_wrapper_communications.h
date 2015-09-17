@@ -59,6 +59,12 @@ class KnowrobWrapperCommunications
     ros::ServiceServer user_instances_of_class_service_;    
     std::string user_instances_of_class_topic_;
     
+    ros::ServiceServer create_ontology_alias_service_;    
+    std::string create_ontology_alias_topic_;
+    
+    ros::ServiceServer user_performance_cognitve_tests_service_;    
+    std::string user_performance_cognitve_tests_topic_;
+    
     //ros::ServiceServer userInstancesFromClassService_;    
     //std::string userInstancesFromClassServiceTopic_;   
     
@@ -101,6 +107,16 @@ class KnowrobWrapperCommunications
     bool user_instances_of_class_callback(
       rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request& req,
       rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response& res);
+      
+    bool create_ontology_alias_callback(
+      rapp_platform_ros_communications::createOntologyAliasSrv::Request& req,
+      rapp_platform_ros_communications::createOntologyAliasSrv::Response& res);
+
+    bool user_performance_cognitve_tests_callback(
+      rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
+      rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res);
+      
+      
       
     //bool userInstancesFromClassCallback(
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,

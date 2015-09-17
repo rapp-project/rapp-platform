@@ -88,7 +88,19 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   user_instances_of_class_service_ = nh_.advertiseService(user_instances_of_class_topic_,
     &KnowrobWrapperCommunications::user_instances_of_class_callback, this);
 
-
+  if(!nh_.getParam("/rapp_knowrob_wrapper_create_ontology_alias", create_ontology_alias_topic_))
+  {
+    ROS_ERROR("rapp_knowrob_wrapper_create_ontology_alias_topic not found");
+  }  
+  create_ontology_alias_service_ = nh_.advertiseService(create_ontology_alias_topic_,
+    &KnowrobWrapperCommunications::create_ontology_alias_callback, this);
+    
+  if(!nh_.getParam("/rapp_knowrob_wrapper_user_performance_cognitve_tests", user_performance_cognitve_tests_topic_))
+  {
+    ROS_ERROR("create_user_performance_cognitve_tests_topic not found");
+  }  
+  user_performance_cognitve_tests_service_ = nh_.advertiseService(user_performance_cognitve_tests_topic_,
+    &KnowrobWrapperCommunications::user_performance_cognitve_tests_callback, this);
 
 
 
@@ -182,6 +194,14 @@ bool KnowrobWrapperCommunications::loadOntologyCallback(
   return true;
 }
 
+bool KnowrobWrapperCommunications::create_ontology_alias_callback(
+  rapp_platform_ros_communications::createOntologyAliasSrv::Request& req,
+  rapp_platform_ros_communications::createOntologyAliasSrv::Response& res)
+{
+  res=knowrob_wrapper.create_ontology_alias(req);
+  return true;
+}
+
 bool KnowrobWrapperCommunications::user_instances_of_class_callback(
   rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request& req,
   rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response& res)
@@ -189,6 +209,16 @@ bool KnowrobWrapperCommunications::user_instances_of_class_callback(
   res=knowrob_wrapper.user_instances_of_class(req);
   return true;
 }
+
+bool KnowrobWrapperCommunications::user_performance_cognitve_tests_callback(
+  rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
+  rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res)
+{
+  res=knowrob_wrapper.user_performance_cognitve_tests(req);
+  return true;
+}
+
+
 //bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
   //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
   //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)

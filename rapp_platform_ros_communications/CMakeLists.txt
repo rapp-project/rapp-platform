@@ -29,6 +29,7 @@ add_service_files(
   /DbWrapper/updateDataSrv.srv
   /DbWrapper/writeDataSrv.srv
   /DbWrapper/deleteDataSrv.srv
+
   
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
@@ -37,6 +38,8 @@ add_service_files(
   /OntologyWrapper/ontologyInstancesOfSrv.srv 
   /OntologyWrapper/assertRetractAttributeSrv.srv
   /OntologyWrapper/returnUserInstancesOfClassSrv.srv
+  /OntologyWrapper/createOntologyAliasSrv.srv
+  /OntologyWrapper/userPerformanceCognitveTestsSrv.srv
   
   /FaceDetection/FaceDetectionRosSrv.srv
   

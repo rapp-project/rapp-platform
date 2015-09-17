@@ -1,0 +1,15 @@
+# Contains info about time and reference
+Header header
+# General string for simple queries
+string ontology_alias
+string test_type
+---
+# The results of the query
+string[] tests
+string[] scores
+string[] difficulty
+string[] variation
+string[] timestamps
+string[] trace
+bool success 
+string error

@@ -41,6 +41,8 @@ contact: akintsakis@issel.ee.auth.gr
 #include <rapp_platform_ros_communications/assertRetractAttributeSrv.h>
 #include <rapp_platform_ros_communications/ontologyIsSubSuperClassOfSrv.h>
 #include <rapp_platform_ros_communications/returnUserInstancesOfClassSrv.h>
+#include <rapp_platform_ros_communications/createOntologyAliasSrv.h>
+#include <rapp_platform_ros_communications/userPerformanceCognitveTestsSrv.h>
 
 class KnowrobWrapper
 {
@@ -70,6 +72,12 @@ class KnowrobWrapper
     
     rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response user_instances_of_class(rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request req);
 
+    rapp_platform_ros_communications::createOntologyAliasSrv::Response create_ontology_alias(rapp_platform_ros_communications::createOntologyAliasSrv::Request req);
+    
+    rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response user_performance_cognitve_tests(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req);
+    
+    
+    
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
     //std::vector<std::string> checkIfClassExists(std::string classValue);
     //

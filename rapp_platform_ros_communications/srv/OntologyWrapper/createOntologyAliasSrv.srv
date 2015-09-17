@@ -1,0 +1,10 @@
+# Contains info about time and reference
+Header header
+# General string for simple queries
+string username
+---
+# The results of the query
+string ontology_alias
+string[] trace
+bool success 
+string error

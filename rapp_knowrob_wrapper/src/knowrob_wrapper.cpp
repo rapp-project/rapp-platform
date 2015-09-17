@@ -296,9 +296,109 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
 //}
 
 
+rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::user_performance_cognitve_tests(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req)
+{
+  rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response res;
+  if(req.ontology_alias==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, ontology alias empty");
+    res.error=std::string("Error, ontology alias empty");
+    return res;
+  }
+  if(req.test_type==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, test type empty");
+    res.error=std::string("Error, test type empty");
+    return res;
+  }
+  std::string timestamp=std::string("2");
+  std::string query = std::string("rdf_has(__,knowrob:user,knowrob:'")+req.ontology_alias+std::string("'),rdf_has(B,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>")+timestamp+std::string(",rdf_has(__,knowrob:score,literal(type(_, SC)))");
+  //query=std::string("rdf_has(__,knowrob:user,knowrob:'Person_pQmhNKHv'),rdf_has(B,rdf:type,knowrob:'Arithmetic'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>2,rdf_has(__,knowrob:score,literal(type(_, SC)))");
+  query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Var,Dif,Timestamp,SC)");
+  //query=std::string("owl_subclass_of(A,knowrob:'FoodOrDrink')");
 
 
+  json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
+  char status = results.getStatus();
+  if(status==0)
+  {
+    res.success=false;
+    //res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    res.error=std::string("No performance records exist for the user");
+    return res;    
+  }
+  else if(status==3)
+  {
+    res.success=true;
+  }
+  std::vector<std::string> query_ret_tests;  
+  std::vector<std::string> query_ret_scores; 
+  std::vector<std::string> query_ret_difficulty; 
+  std::vector<std::string> query_ret_variation; 
+  std::vector<std::string> query_ret_timestamps; 
+  for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    it != results.end() ; it++)
+  {
+    json_prolog::PrologBindings bdg = *it;
+    
+    std::string temp_query_tests=bdg["B"];
+    query_ret_tests.push_back(temp_query_tests);   
+    
+    std::string temp_query_variation=bdg["Var"];
+    query_ret_variation.push_back(temp_query_variation);
+    
+    std::string temp_query_difficulty=bdg["Dif"];
+    query_ret_difficulty.push_back(temp_query_difficulty);
+    
+    std::string temp_query_timestamps=bdg["Timestamp"];
+    query_ret_timestamps.push_back(temp_query_timestamps);
+    
+    std::string temp_query_scores=bdg["SC"];
+    query_ret_scores.push_back(temp_query_scores);
+    
+
+
+  }
+  for(unsigned int i = 0 ; i < query_ret_tests.size() ; i++)
+  {
+    res.tests.push_back(query_ret_tests[i]);
+    res.scores.push_back(query_ret_scores[i]);
+    res.difficulty.push_back(query_ret_difficulty[i]);
+    res.variation.push_back(query_ret_variation[i]);
+    res.timestamps.push_back(query_ret_timestamps[i]);
+  }
+  
+  
+  
+  return res;
+}
+
+rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrapper::create_ontology_alias(rapp_platform_ros_communications::createOntologyAliasSrv::Request req)
+{
+  rapp_platform_ros_communications::createOntologyAliasSrv::Response res;
+  if(req.username==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, empty username");
+    res.error=std::string("Error, empty username");
+    return res;
+  }
+  std::string currentAlias=get_ontology_alias(req.username);
+  std::size_t found = currentAlias.find(std::string("FAIL"));
+  if (found!=std::string::npos)
+  {
+    res.success=false;
+    res.error=currentAlias;
+    res.trace.push_back(currentAlias);
+    return res;
+  }
+  res.ontology_alias=currentAlias;
+  res.success=true;
+  return res;
+}
 
 
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response KnowrobWrapper::subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
