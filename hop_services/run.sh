@@ -59,9 +59,10 @@ CURRENTDIR=$(dirname ${BASH_SOURCE[0]})
 SERVICEDIR=${CURRENTDIR}/services
 JSFILE=init.js
 JSEXECPATH=${SERVICEDIR}/${JSFILE}
+CFG_DIR=${CURRENTDIR}/config
 ##########################
 
-## Hop Web Services will run on this $PORT ##
+## Hop Web Server run on this $PORT ##
 PORT=9001
 
 ## Define the scheduler type to be used ##
@@ -99,6 +100,11 @@ WARN_LEVEL=1 #10 Default
 SECURITY_LEVEL=0
 #################
 
+##      HOP RC      ##
+USERS=${CFG_DIR}/users.js
+RC_FILE=${USERS}
+############
+
 ########## Assign arguments for Hop execution ##########
 FLAGS=" -v${VERB_LEVEL} "
 FLAGS+=" -g${DEBUG_LEVEL} "
@@ -132,6 +138,8 @@ FLAGS+=" --max-threads ${MAXTHREADS}"
 if [ ${REPORT_EXECTIME} = true ]; then
   FLAGS+=" --time "
 fi
+
+FLAGS+=" --rc-file ${RC_FILE} "
 #########################################################
 
 ## If log directory does not exist... Maybe create it?!! ##
