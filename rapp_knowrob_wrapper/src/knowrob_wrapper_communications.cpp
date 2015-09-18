@@ -26,6 +26,13 @@ contact: akintsakis@issel.ee.auth.gr
 **/
 #include <knowrob_wrapper/knowrob_wrapper_communications.h>
 #include <ros/package.h>
+bool checkIfFileExists(const char* fname)
+{
+  if( access( fname, F_OK ) != -1 ) {
+      return true;
+  }
+  return false;  
+}
 
 KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_)
 {
@@ -102,7 +109,26 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   user_performance_cognitve_tests_service_ = nh_.advertiseService(user_performance_cognitve_tests_topic_,
     &KnowrobWrapperCommunications::user_performance_cognitve_tests_callback, this);
 
+  if(!nh_.getParam("/rapp_knowrob_wrapper_create_cognitve_tests", create_cognitve_tests_topic_))
+  {
+    ROS_ERROR("create_cognitve_tests_topic not found");
+  }  
+  create_cognitve_tests_service_ = nh_.advertiseService(create_cognitve_tests_topic_,
+    &KnowrobWrapperCommunications::create_cognitve_tests_callback, this);
 
+  if(!nh_.getParam("/rapp_knowrob_wrapper_cognitive_tests_of_type", cognitive_tests_of_type_topic_))
+  {
+    ROS_ERROR("cognitive_tests_of_type not found");
+  }  
+  cognitive_tests_of_type_service_ = nh_.advertiseService(cognitive_tests_of_type_topic_,
+    &KnowrobWrapperCommunications::cognitive_tests_of_type_callback, this);
+
+  if(!nh_.getParam("/rapp_knowrob_wrapper_record_user_cognitive_tests_performance", record_user_cognitive_tests_performance_topic_))
+  {
+    ROS_ERROR("record_user_cognitive_tests_performance not found");
+  }  
+  record_user_cognitive_tests_performance_service_ = nh_.advertiseService(record_user_cognitive_tests_performance_topic_,
+    &KnowrobWrapperCommunications::record_user_cognitive_tests_performance_callback, this);
 
   //if(!nh_.getParam("/ontology_user_instances_from_class_topic", userInstancesFromClassServiceTopic_))
   //{
@@ -125,17 +151,27 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
   std::string path = ros::package::getPath("rapp_knowrob_wrapper");
 
-  req.file_url=path+std::string("/Ontologybckup.owl");
-  res=knowrob_wrapper.loadOntologyQuery(req);
-  
-  if(res.success!=true)
+
+
+  req.file_url=path+std::string("/Ontologybckup.owl");  
+  const char * c = req.file_url.c_str();  
+  if(!checkIfFileExists(c))
   {
-    ROS_ERROR("Ontology backup was not loaded.. Continuing with empty ontology");    
+    ROS_ERROR("Ontology backup was not loaded, backup file does not exist.. Continuing with empty ontology");  
   }
   else
   {
-    ROS_INFO("Ontology backup successfully loaded");
-  }
+    res=knowrob_wrapper.loadOntologyQuery(req);
+    if(res.success!=true)
+    {
+      ROS_ERROR("Ontology backup was not loaded.. Continuing with empty ontology");    
+    }
+    else
+    {
+      ROS_INFO("Ontology backup successfully loaded");
+    }
+  }  
+  
   
   //ROS_ERROR(path);
   
@@ -215,6 +251,30 @@ bool KnowrobWrapperCommunications::user_performance_cognitve_tests_callback(
   rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res)
 {
   res=knowrob_wrapper.user_performance_cognitve_tests(req);
+  return true;
+}
+
+bool KnowrobWrapperCommunications::create_cognitve_tests_callback(
+  rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request& req,
+  rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response& res)
+{
+  res=knowrob_wrapper.create_cognitve_tests(req);
+  return true;
+}
+
+bool KnowrobWrapperCommunications::cognitive_tests_of_type_callback(
+  rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request& req,
+  rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response& res)
+{
+  res=knowrob_wrapper.cognitive_tests_of_type(req);
+  return true;
+}
+
+bool KnowrobWrapperCommunications::record_user_cognitive_tests_performance_callback(
+  rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request& req,
+  rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response& res)
+{
+  res=knowrob_wrapper.record_user_cognitive_tests_performance(req);
   return true;
 }
 

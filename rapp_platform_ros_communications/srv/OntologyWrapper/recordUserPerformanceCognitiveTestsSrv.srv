@@ -1,0 +1,14 @@
+# Contains info about time and reference
+Header header
+# General string for simple queries
+string test
+string test_type
+string patient_ontology_alias
+int32 score
+int32 timestamp
+---
+# The results of the query
+string cognitive_test_performance_entry
+string[] trace
+bool success 
+string error

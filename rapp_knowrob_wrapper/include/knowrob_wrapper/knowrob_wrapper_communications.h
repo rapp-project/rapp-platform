@@ -65,6 +65,17 @@ class KnowrobWrapperCommunications
     ros::ServiceServer user_performance_cognitve_tests_service_;    
     std::string user_performance_cognitve_tests_topic_;
     
+    ros::ServiceServer create_cognitve_tests_service_;    
+    std::string create_cognitve_tests_topic_;
+    
+    ros::ServiceServer cognitive_tests_of_type_service_;    
+    std::string cognitive_tests_of_type_topic_;
+    
+    ros::ServiceServer record_user_cognitive_tests_performance_service_;    
+    std::string record_user_cognitive_tests_performance_topic_;
+    
+    
+        
     //ros::ServiceServer userInstancesFromClassService_;    
     //std::string userInstancesFromClassServiceTopic_;   
     
@@ -115,8 +126,20 @@ class KnowrobWrapperCommunications
     bool user_performance_cognitve_tests_callback(
       rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
       rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res);
+     
+    bool create_cognitve_tests_callback(
+      rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request& req,
+      rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response& res);
+
+    bool cognitive_tests_of_type_callback(
+      rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request& req,
+      rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response& res);
       
-      
+    bool record_user_cognitive_tests_performance_callback(
+      rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request& req,
+      rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response& res);
+
+
       
     //bool userInstancesFromClassCallback(
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,

@@ -1,0 +1,14 @@
+# Contains info about time and reference
+Header header
+# General string for simple queries
+string test_type
+int32 test_difficulty
+int32 test_variation
+string test_path
+string test_subtype
+---
+# The results of the query
+string test_name
+string[] trace
+bool success 
+string error

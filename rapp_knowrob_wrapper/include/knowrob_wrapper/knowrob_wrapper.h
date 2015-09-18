@@ -43,6 +43,9 @@ contact: akintsakis@issel.ee.auth.gr
 #include <rapp_platform_ros_communications/returnUserInstancesOfClassSrv.h>
 #include <rapp_platform_ros_communications/createOntologyAliasSrv.h>
 #include <rapp_platform_ros_communications/userPerformanceCognitveTestsSrv.h>
+#include <rapp_platform_ros_communications/createCognitiveExerciseTestSrv.h>
+#include <rapp_platform_ros_communications/cognitiveTestsOfTypeSrv.h>
+#include <rapp_platform_ros_communications/recordUserPerformanceCognitiveTestsSrv.h>
 
 class KnowrobWrapper
 {
@@ -76,6 +79,11 @@ class KnowrobWrapper
     
     rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response user_performance_cognitve_tests(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req);
     
+    rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response create_cognitve_tests(rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request req);
+    
+    rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response cognitive_tests_of_type(rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request req);
+    
+    rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req);
     
     
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
