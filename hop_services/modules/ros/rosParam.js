@@ -1,5 +1,5 @@
 /*!
- * @file rosParamClient.js
+ * @file rosParam.js
  * @brief Middleware to retrieve parameters from ROS Parameter Server.
  */
 
@@ -50,73 +50,55 @@ function ParamRequest(paramName, reqId)
 
 
 
-function RosParamClient(args)
+function RosParam(args)
 {
   this.hostname_ = args.hostname || 'localhost';
   this.port_ = args.port || '9090';
   this.srvROS_ = '/rosapi/get_param';
-  this.requests_ = {};
   this.unqIdLength_ = 10;
   this.randStrGen_ = new RandomStringGenerator(this.unqIdLength);
-  var __this = this;
-
-  try{
-    this.ws_ = new WebSocket('ws://' + this.hostname_ + ':' + this.port_);
-    this.ws_.onopen = function(){
-      //console.log('Connection to rosbridge established. Caller id -- %s',id);
-    }
-    this.ws_.onclose = function(){
-      //console.log('Connection to rosbridge closed. Caller id -- %s', id);
-    }
-    this.ws_.onmessage = function(event){
-      var response = JSON.parse(event.value);
-      if (__this.requests_[response.id] != undefined)
-      {
-        __this.requests_[response.id](response.values.value);
-        __this.clearRequest(response.id);
-      }
-    }
-  }
-  catch(e){
-    console.log('Failure on websocket initiation:\n%s', e);
-    return;
-  }
-
-  this.addRequest = function(paramName, callback)
-  {
-    var reqId = this.randStrGen_.createUnique();
-    if( this.requests_[ reqId.toString() ] === undefined )
-    {
-      this.requests_[reqId.toString()] = callback;
-      var msg = new ParamRequest(paramName, reqId);
-      this.ws_.send(JSON.stringify(msg));
-    }
-  }
-
-  this.clearRequest = function(reqId)
-  {
-    if( this.requests_[ reqId.toString() ] !== undefined )
-    {
-      this.randStrGen_.removeCached(reqId.toString());
-      delete this.requests_[ reqId.toString() ]; //release this request.
-    }
-  }
 
 }
+
 
 /**!
  * @brief Retrieve requested parameter value from ROS Parameter Server
  * @TODO
  */
-RosParamClient.prototype.getParam = function(paramName, callback)
+RosParam.prototype.getParam_async = function(paramName, callback)
 {
   if (!callback)
   {
     console.log("Invoke this method with a valid callback function.");
     return;
   }
-  // Assign the callback to this request.
-  this.addRequest(paramName, callback);
+
+  var returned = false;
+  var response = undefined;
+  var reqId = this.randStrGen_.createUnique();
+  var msg = new ParamRequest(paramName, reqId);
+  try{
+    var ws = new WebSocket('ws://' + this.hostname_ + ':' + this.port_);
+    ws.onopen = function(){
+      //console.log('Connection to rosbridge established. Caller id -- %s',id);
+      this.send(JSON.stringify(msg));
+    }
+    ws.onclose = function(){
+      //console.log('Connection to rosbridge closed. Caller id -- %s', id);
+    }
+    ws.onmessage = function(event){
+      response = JSON.parse(event.value);
+      this.close();
+      ws.close();
+      ws = undefined;
+      // Invoke caller callback
+      callback(response.values.value);
+    }
+  }
+  catch(e){
+    console.log('Failure on websocket initiation:\n%s', e);
+    return;
+  }
 }
 
 
@@ -124,4 +106,4 @@ RosParamClient.prototype.getParam = function(paramName, callback)
 /**
  * Module exports
  */
-module.exports = RosParamClient;
+module.exports = RosParam;
