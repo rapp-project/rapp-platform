@@ -28,7 +28,6 @@
 
 import sys
 import os
-import timeit
 import time
 import argparse
 from os import listdir
@@ -38,9 +37,32 @@ from threading import Thread, Lock
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-# Mutex lock used
+# Mutex lock used when threaded.
 mutex = Lock()
 threaded = False
+
+testClasses = [
+    'face-detection',
+    'qr-detection',
+    'speech-detection',
+    'speech-detection-sphinx4',
+    'speech-detection-google',
+    'ontology'
+]
+
+testClassMatch = {
+    'face-detection' : 'face',
+    'qr-detection' : 'qr',
+    'speech-detection' : 'speech',
+    'speech-detection-sphinx4' : 'sphinx4',
+    'speech-detection-google' : 'google',
+    'ontology' : 'ontology'
+}
+
+results = {
+    'success' : [],
+    'failed' : []
+}
 
 class bcolors:
     HEADER = '\033[95m'
@@ -51,110 +73,134 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+    YELLOW = '\033[93m'
 
 
 
-def execute(module):
-  tmp = module.RappInterfaceTest()
-  [error_code, time] = tmp.execute()
+def execute(module, id):
+    tmp = module.RappInterfaceTest()
+    [error_code, time] = tmp.execute()
 
-  mutex.acquire(True)
-  print "\n\033[1;35m** Test [%s] **\033[0m" % module.__name__
-  print "Execution time: " + str(time) + "sec"
-  if error_code != True:
-    print bcolors.FAIL + "[FAIL]:"
-    print error_code + bcolors.ENDC
-  else:
-    print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC
-  mutex.release()
+    mutex.acquire(True)
+    print "\n\033[1;35m** Test [%s] -- %s**\033[0m" % (module.__name__, id)
+    print "Execution time: " + str(time) + "sec"
+    if error_code != True:
+        results['failed'].append(module.__name__)
+        print bcolors.FAIL + "[FAIL]:"
+        print error_code + bcolors.ENDC
+    else:
+        results['success'].append(module.__name__)
+        print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC
+    mutex.release()
+
+
 
 
 
 def main():
-  folder = __path__ + "/python_tests"
-  sys.path.append(folder)
+    folder = __path__ + "/python_tests"
+    sys.path.append(folder)
 
-  # ---------------------------------------------- #
-  parser = argparse.ArgumentParser(description= \
-    'RAPP Platform front-end hop-service invocation tests')
+    # ---------------------------------------------- #
+    parser = argparse.ArgumentParser(description= \
+            'RAPP Platform front-end hop-service invocation tests')
 
-  parser.add_argument('-i','--name', help='Test File Name to execute. \033[1;34mall==all\033[0m',\
-    dest='fileName', action='store', nargs='+', type=str)
+    parser.add_argument('-i','--name',\
+            help='Test file name to execute.',\
+            dest='fileName', action='store', nargs='+', type=str)
 
-  parser.add_argument('-n', '--num-calls', dest='numCalls', action='store', \
-    help='Number of times to run the test', type=int, default=1)
+    parser.add_argument('-n', '--num-calls', dest='numCalls', action='store', \
+            help='Number of times to run the test', type=int, default=1)
 
-  parser.add_argument('-t', '--threaded', dest='threaded', action='store_true', \
-    help='Enable threaded mode')
-  args =  parser.parse_args( ) # Parse console arguments
-  # --------------------------------------------- #
+    parser.add_argument('-t', '--threaded', dest='threaded',\
+            action='store_true', help='Enable threaded mode')
 
-  ## ------------------- Parse arguments ---------------------------- ##
-  if args.fileName == None:
-    # Find and run all the tests located under python_tests dirrectory
-    files = [ f for f in listdir(folder) if isfile(join(folder, f)) ]
-  else:
-    files = args.fileName # Input test files from arguments
+    parser.add_argument('-c', '--class', dest='testClass', action='store', \
+            help='Tests class. "face-detection", "speech-detection"...', type=str)
 
-  tests = []
-  for f in files:
-      clean_file = f.split('.')
-      if clean_file[1] != "py" or clean_file[0] == "template" :
-         continue
-      tests.append(clean_file[0])
+    args =  parser.parse_args( ) # Parse console arguments
+
+    # --------------------------------------------- #
+
+    ## ------------------- Parse arguments ---------------------------- ##
+    if args.testClass and args.testClass in testClasses:
+        files = [ f for f in listdir(folder) if isfile(join(folder, f)) and testClassMatch[args.testClass] in f ]
+    elif args.fileName == None:
+        # Find and run all the tests located under python_tests dirrectory
+        files = [ f for f in listdir(folder) if isfile(join(folder, f)) ]
+    else:
+        files = args.fileName # Input test files from arguments
+
+    tests = []
+    for f in files:
+        clean_file = f.split('.')
+        if clean_file[1] != "py" or clean_file[0] == "template" :
+            continue
+        tests.append(clean_file[0])
 
 
-  numCalls = args.numCalls
-  # If threaded mode is enabled
-  if args.threaded:
-    threaded = True
-    threads = []
-  else:
-    threaded = False
+    numCalls = args.numCalls
+    # If threaded mode is enabled
+    if args.threaded:
+        threaded = True
+        core = "Parallel"
+        threads = []
+    else:
+        threaded = False
+        core = "Serial"
 
-  if threaded:
-      core = "Parallel"
-  else:
-      core = "Serial"
+    numTests = numCalls * len(tests)
+    ## ------------------------- Print Header -------------------------- ##
+    count = 1
+    print "\033[0;33m"
+    print "***************************"
+    print "     RAPP Platfrom Tests   "
+    print "***************************"
+    print bcolors.BOLD + bcolors.OKBLUE + bcolors.UNDERLINE
+    print "* Parameters:" + bcolors.ENDC
+    print "-- Number of Executions for each given test: [%s] " % numCalls
+    print "-- %s execution" % core
+    print bcolors.BOLD + bcolors.OKBLUE + bcolors.UNDERLINE
+    print "* Tests to Execute:" + bcolors.ENDC
+    for test in tests:
+        print "%s] %s x%s" % (count, test, numCalls)
+        count += 1
+    # print "\033[0;33m***************************\033[1;32m"
+    time.sleep(1)
+    ## ---------------------------------------------------------------- ##
 
-  ## ------------------------- Print Header -------------------------- ##
-  count = 1
-  numTests = len(tests)
-  print "\033[0;33m"
-  print "***************************"
-  print "     RAPP Platfrom Tests   "
-  print "***************************"
-  print bcolors.BOLD + bcolors.OKBLUE + bcolors.UNDERLINE
-  print "* Parameters:" + bcolors.ENDC
-  print "-- Number of Executions for each given test: [%s] " % numCalls
-  print "-- %s execution" % core
-  print bcolors.BOLD + bcolors.OKBLUE + bcolors.UNDERLINE
-  print "* Tests to Execute:" + bcolors.ENDC
-  for test in tests:
-      print "%s] %s" % (count, test)
-      count += 1
-  print "\033[0;33m***************************\033[1;32m"
-  time.sleep(1)
-  ## ---------------------------------------------------------------- ##
+    # -- Loop throug test files to be executed -- #
+    for test in tests:
+        module = importlib.import_module(test)
 
-  # -- Loop throug test files to be executed -- #
-  for test in tests:
-    module = importlib.import_module(test)
+        for i in range(0, numCalls):
+            if threaded:
+                _id = 'thread#' + str(i +1)
+                thread = Thread(target=execute, args=(module, _id, ))
+                thread.start()
+                threads.append(thread)
+            else:
+                _id = 'sequential#' + str(i + 1)
+                execute(module, _id)
+            # ------------------------------------------- #
+    if threaded:
+        # Wait for all threads to complete
+        for t in threads:
+            t.join()
 
-    for i in range(0, numCalls):
-        if threaded:
-            thread = Thread(target=execute, args=(module, ))
-            thread.start()
-            threads.append(thread)
-        else:
-            execute(module)
-  # ------------------------------------------- #
-  if threaded:
-    # Wait for all threads to complete
-    for t in threads:
-      t.join()
+    ## ------- Global Results -------- ##
+    print "\n\n" + bcolors.BOLD + bcolors.UNDERLINE + bcolors.YELLOW + \
+        "******* Results ********\n" + bcolors.ENDC
+    print bcolors.OKGREEN + "[ Succeded ]: {%s / %s}" \
+        % (len(results['success']), numTests) #+ bcolors.ENDC
+    for passed in results['success']:
+        print "- " + passed
+    print "\n" + bcolors.FAIL + "[ Failed ]: {%s / %s}" \
+        % (len(results['failed']), numTests)
+    for failed in results['failed']:
+        print "- " + failed
 
 
 if __name__ == "__main__":
-  main()
+    main()
 
