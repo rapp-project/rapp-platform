@@ -1,3 +1,0 @@
-to run
-hop -v -p 9001 svc1.js
-hop -v -p 9002 caller.js
