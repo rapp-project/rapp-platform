@@ -1,0 +1,44 @@
+<QuestionXML>
+	<name>Additions 1</name>
+	<variationID>1</variationID>
+	<Difficulty>1</Difficulty>
+	<testType>Arithmetic</testType>
+	<Questions>
+		<Question name="Q1">
+			<body>How many minutes elapsed from 9:11am to 12:54pm?</body>
+			<answer>
+				<body>187</body>
+			</answer>
+			<answer>
+				<body>223</body>
+			</answer>
+			<answer>
+				<body>354</body>
+			</answer>
+			<answer>
+				<body>214</body>
+			</answer>
+			<correctAnswer>
+				<body>223</body>
+			</correctAnswer>			
+		</Question>		
+		<Question name="Q2">
+			<body>How many seconds elapsed from 9:11:32am to 10:12:40am?</body>
+			<answer>
+				<body>5432</body>
+			</answer>
+			<answer>
+				<body>4356</body>
+			</answer>
+			<answer>
+				<body>3567</body>
+			</answer>
+			<answer>
+				<body>3668</body>
+			</answer>
+			<correctAnswer>
+				<body>3668</body>
+			</correctAnswer>		
+		</Question>	
+	</Questions>	
+</QuestionXML>

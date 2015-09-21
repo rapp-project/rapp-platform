@@ -1,0 +1,44 @@
+<QuestionXML>
+	<name>MoneyChange 2</name>
+	<variationID>2</variationID>
+	<Difficulty>1</Difficulty>
+	<testType>Arithmetic</testType>
+	<Questions>
+		<Question name="Q1">
+			<body>If something costs 5.45$ and you pay 20$ how much change you get back?</body>
+			<answer>
+				<body>14.35</body>
+			</answer>
+			<answer>
+				<body>13.2</body>
+			</answer>
+			<answer>
+				<body>14.55</body>
+			</answer>
+			<answer>
+				<body>14.3</body>
+			</answer>
+			<correctAnswer>
+				<body>14.55</body>
+			</correctAnswer>			
+		</Question>		
+		<Question name="Q2">
+			<body>If something costs 10$ and you have a 2.5$ discount coupon and you pay 50$, how much change you get back?</body>
+			<answer>
+				<body>41.5</body>
+			</answer>
+			<answer>
+				<body>44.5</body>
+			</answer>
+			<answer>
+				<body>43.5</body>
+			</answer>
+			<answer>
+				<body>42.5</body>
+			</answer>
+			<correctAnswer>
+				<body>42.5</body>
+			</correctAnswer>		
+		</Question>	
+	</Questions>	
+</QuestionXML>

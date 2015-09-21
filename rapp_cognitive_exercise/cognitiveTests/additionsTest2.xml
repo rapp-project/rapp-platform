@@ -1,0 +1,44 @@
+<QuestionXML>
+	<name>Additions 2</name>
+	<variationID>1</variationID>
+        <Difficulty>2</Difficulty>
+	<testType>Arithmetic</testType>
+	<Questions>
+		<Question name="Q1">
+			<body>How much is 3.54 plus 6.59?</body>
+			<answer>
+				<body>10.03</body>
+			</answer>
+			<answer>
+				<body>10.04</body>
+			</answer>
+			<answer>
+				<body>9.43</body>
+			</answer>
+			<answer>
+				<body>11.12</body>
+			</answer>
+			<correctAnswer>
+				<body>10.03</body>
+			</correctAnswer>			
+		</Question>		
+		<Question name="Q2">
+			<body>How much is 13.24 plus 11.12?</body>
+			<answer>
+				<body>25.13</body>
+			</answer>
+			<answer>
+				<body>21.20</body>
+			</answer>
+			<answer>
+				<body>23.30</body>
+			</answer>
+			<answer>
+				<body>24.36</body>
+			</answer>
+			<correctAnswer>
+				<body>24.36</body>
+			</correctAnswer>		
+		</Question>	
+	</Questions>	
+</QuestionXML>

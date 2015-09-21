@@ -1,4 +1,4 @@
-string userId
+string username
 string testType
 ---
 bool success

@@ -1,6 +1,7 @@
 <QuestionXML>
-	<name>Arithmetic Test 1</name>
+	<name>Additions 1</name>
 	<variationID>1</variationID>
+	<Difficulty>1</Difficulty>
 	<testType>Arithmetic</testType>
 	<Questions>
 		<Question name="Q1">
@@ -16,7 +17,10 @@
 			</answer>
 			<answer>
 				<body>4</body>
-			</answer>			
+			</answer>
+			<correctAnswer>
+				<body>4</body>
+			</correctAnswer>			
 		</Question>		
 		<Question name="Q2">
 			<body>How much is five plus two?</body>
@@ -31,7 +35,10 @@
 			</answer>
 			<answer>
 				<body>4</body>
-			</answer>		
+			</answer>
+			<correctAnswer>
+				<body>7</body>
+			</correctAnswer>		
 		</Question>	
 	</Questions>	
 </QuestionXML>
