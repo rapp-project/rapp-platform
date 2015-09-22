@@ -100,7 +100,8 @@ register_master_interface();
  * @param grammar
  * @user
  */
-service speech_detection_google({file_uri: ''})
+service speech_detection_google({file_uri: '', audio_source: '', user: '',
+  language: ''})
 {
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
   else {var rosSrvCall = ros_service_name;}
@@ -145,7 +146,10 @@ service speech_detection_google({file_uri: ''})
 
       /* ======== Create specific service arguments here ========= */
       var args = {
-        'filename': cpFilePath
+        'filename': cpFilePath,
+         'audio_type': audio_source,
+         'user': user,
+         'language': language
       };
 
       var respFlag = false;
