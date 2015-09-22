@@ -137,20 +137,19 @@ class AudioProcessing:
         self.detect_silence)
 
     self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
-    self.authentication_service = rospy.ServiceProxy(\
-        self.serv_db_topic, fetchDataSrv)
 
-  # Service callback for setting noise profile
+# Service callback for setting noise profile
   def setNoiseProfile(self, req):
     res = AudioProcessingSetNoiseProfileSrvResponse()
 
     #-------------------------Check with database-------------------------#
+    authentication_service = rospy.ServiceProxy(self.serv_db_topic, fetchDataSrv)
     req_db = fetchDataSrv()
     req_db.req_cols=["username"]
     entry1=["username", req.user]
     req_db.where_data=[StringArrayMsg(s=entry1)]
 
-    resp = self.authentication_service(req_db.req_cols, req_db.where_data)
+    resp = authentication_service(req_db.req_cols, req_db.where_data)
     if resp.success.data != True or len(resp.res_data) == 0:
       res.success = "false"
       res.error = "Non authenticated user"
