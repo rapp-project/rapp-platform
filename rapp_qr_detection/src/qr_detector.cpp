@@ -3,8 +3,6 @@
 
 QrDetector::QrDetector(void)
 {
-  scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 0);
-  scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
 }
 
 cv::Mat QrDetector::loadImage(std::string file_name)
@@ -42,6 +40,10 @@ void QrDetector::detectQrs(
 
   zbar::Image image(width, height, "Y800", raw, width * height);
 
+  //!< QrCode scanner
+  zbar::ImageScanner scanner;
+  scanner.set_config(zbar::ZBAR_NONE, zbar::ZBAR_CFG_ENABLE, 0);
+  scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
   scanner.scan(image);
 
   for (zbar::Image::SymbolIterator symbol = image.symbol_begin();

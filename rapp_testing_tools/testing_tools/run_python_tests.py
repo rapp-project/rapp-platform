@@ -133,6 +133,8 @@ def main():
 
     tests = []
     for f in files:
+
+        f = f.replace('python_tests/', '')
         clean_file = f.split('.')
         if clean_file[1] != "py" or clean_file[0] == "template" :
             continue

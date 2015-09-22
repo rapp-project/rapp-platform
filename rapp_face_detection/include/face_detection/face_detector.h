@@ -45,7 +45,6 @@ class FaceDetector
 
   private:
 
-    cv::CascadeClassifier face_cascade;  // The Haar cascade classifier
 };
 
 #endif

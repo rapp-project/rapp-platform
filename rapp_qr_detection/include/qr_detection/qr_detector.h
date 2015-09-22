@@ -38,11 +38,6 @@ class QrDetector
       );
 
     ~QrDetector(){}
-
-  private:
-
-    //!< QrCode scanner
-    zbar::ImageScanner scanner;
 };
 
 #endif
