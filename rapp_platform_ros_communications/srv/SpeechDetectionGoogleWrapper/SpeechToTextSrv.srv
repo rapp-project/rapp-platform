@@ -2,6 +2,12 @@
 Header header
 # The image's filename to perform face detection
 string filename
+# The audio type (headset, nao_ogg, nao_wav_1_ch, nao_wav_4_ch)
+string audio_type
+# The user
+string user
+# Language (en, gr)
+string language 
 ---
 # Container for detected face positions
 string[] words
