@@ -41,13 +41,20 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/../test_data/test.flac'
-    self.valid_words_found = ['I', 'want', 'to', 'use', 'the', 'Skype']
+    self.file_uri = __path__  + '/../test_data/speech_detection_samples/recording_sentence2.ogg'
+    self.language = 'en'
+    self.audio_source = 'nao_ogg'
+    self.user = 'rapp'
+    self.valid_words_found = ['check', 'my', 'email']
 
   def execute(self):
 
     start_time = timeit.default_timer()
-    response = self.rappCloud.speech_detection_google(self.file_uri)
+    response = self.rappCloud.speech_detection_google(\
+        self.file_uri,\
+        self.audio_source,\
+        self.user,\
+        self.language)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
