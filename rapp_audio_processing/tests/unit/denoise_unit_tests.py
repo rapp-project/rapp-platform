@@ -100,7 +100,6 @@ class TestAudioProcessing(unittest.TestCase):
                 original_file,\
                 denoised_file,\
                 scale)
-        # The function thinks the denoising succeded
         self.assertNotEqual(result, "true")
 
     def test_negativeScale(self):
@@ -116,6 +115,95 @@ class TestAudioProcessing(unittest.TestCase):
                 original_file,\
                 denoised_file,\
                 scale)
-        # The function thinks the denoising succeded
+        self.assertNotEqual(result, "true")
+
+    def test_ogg_type_wav_1_ch_file(self):
+        original_file = self.auxiliary_files_url + "/nao_ogg_d05_a1.ogg"
+        denoised_file = self.auxiliary_files_url + "/nao_ogg_teest.ogg"
+        user = 'rapp'
+        audio_type = 'nao_wav_1_ch'
+        scale = -0.2
+    
+        result = self.sox_denoise_module.soxDenoise(\
+                user,\
+                audio_type,\
+                original_file,\
+                denoised_file,\
+                scale)
+        self.assertNotEqual(result, "true")
+
+    def test_ogg_type_wav_4_ch_file(self):
+        original_file = self.auxiliary_files_url + "/nao_ogg_d05_a1.ogg"
+        denoised_file = self.auxiliary_files_url + "/nao_ogg_teest.ogg"
+        user = 'rapp'
+        audio_type = 'nao_wav_4_ch'
+        scale = -0.2
+    
+        result = self.sox_denoise_module.soxDenoise(\
+                user,\
+                audio_type,\
+                original_file,\
+                denoised_file,\
+                scale)
+        self.assertNotEqual(result, "true")
+
+    def test_wav_1_ch_type_ogg_file(self):
+        original_file = self.auxiliary_files_url + "/silence_sample.wav"
+        denoised_file = self.auxiliary_files_url + "/new_file.wav"
+        user = 'rapp'
+        audio_type = 'nao_ogg'
+        scale = -0.2
+    
+        result = self.sox_denoise_module.soxDenoise(\
+                user,\
+                audio_type,\
+                original_file,\
+                denoised_file,\
+                scale)
+        self.assertNotEqual(result, "true")
+
+    def test_wav_1_ch_type_wav_4_ch_file(self):
+        original_file = self.auxiliary_files_url + "/silence_sample.wav"
+        denoised_file = self.auxiliary_files_url + "/new_file.wav"
+        user = 'rapp'
+        audio_type = 'nao_wav_4_ch'
+        scale = -0.2
+    
+        result = self.sox_denoise_module.soxDenoise(\
+                user,\
+                audio_type,\
+                original_file,\
+                denoised_file,\
+                scale)
+        self.assertNotEqual(result, "true")
+
+    def test_wav_4_ch_type_ogg_file(self):
+        original_file = self.auxiliary_files_url + "/nao_wav_d05_a1.wav"
+        denoised_file = self.auxiliary_files_url + "/new_file.wav"
+        user = 'rapp'
+        audio_type = 'nao_ogg'
+        scale = -0.2
+    
+        result = self.sox_denoise_module.soxDenoise(\
+                user,\
+                audio_type,\
+                original_file,\
+                denoised_file,\
+                scale)
+        self.assertNotEqual(result, "true")
+
+    def test_wav_4_ch_type_wav_1_ch_file(self):
+        original_file = self.auxiliary_files_url + "/nao_wav_d05_a1.wav"
+        denoised_file = self.auxiliary_files_url + "/new_file.wav"
+        user = 'rapp'
+        audio_type = 'nao_wav_1_ch'
+        scale = -0.2
+    
+        result = self.sox_denoise_module.soxDenoise(\
+                user,\
+                audio_type,\
+                original_file,\
+                denoised_file,\
+                scale)
         self.assertNotEqual(result, "true")
 

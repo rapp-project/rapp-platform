@@ -77,4 +77,46 @@ class TestAudioProcessing(unittest.TestCase):
                 self.auxiliary_files_url + '/silence_aoua.wav',\
                 'nao_wav_1_ch')
         self.assertNotEqual(result, 'true')
-             
+
+    def test_wav_1_ch_with_ogg_type(self):
+        result = self.module.setNoise_profile(\
+                'rapp',\
+                self.auxiliary_files_url + '/silence_sample.wav',\
+                'nao_ogg')
+        self.assertEqual("Error" in result, True)
+ 
+    def test_wav_1_ch_with_wav_4_ch_type(self):
+        result = self.module.setNoise_profile(\
+                'rapp',\
+                self.auxiliary_files_url + '/silence_sample.wav',\
+                'nao_wav_4_ch')
+        self.assertEqual("Error" in result, True)
+  
+    def test_wav_4_ch_with_ogg_type(self):
+        result = self.module.setNoise_profile(\
+                'rapp',\
+                self.auxiliary_files_url + '/silence_wav_d05_a1.wav',\
+                'nao_ogg')
+        self.assertEqual("Error" in result, True)
+  
+    def test_wav_4_ch_with_wav_1_ch_type(self):
+        result = self.module.setNoise_profile(\
+                'rapp',\
+                self.auxiliary_files_url + '/silence_wav_d05_a1.wav',\
+                'nao_wav_1_ch')
+        self.assertEqual("Error" in result, True)
+  
+    def test_ogg_with_wav_1_ch_type(self):
+        result = self.module.setNoise_profile(\
+                'rapp',\
+                self.auxiliary_files_url + '/silence_ogg_d05_a1.ogg',\
+                'nao_wav_1_ch')
+        self.assertEqual("Error" in result, True)
+  
+    def test_ogg_with_wav_4_ch_type(self):
+        result = self.module.setNoise_profile(\
+                'rapp',\
+                self.auxiliary_files_url + '/silence_ogg_d05_a1.ogg',\
+                'nao_wav_4_ch')
+        self.assertEqual("Error" in result, True)
+ 
