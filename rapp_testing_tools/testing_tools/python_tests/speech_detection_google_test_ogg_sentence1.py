@@ -46,6 +46,14 @@ class RappInterfaceTest:
     self.audio_source = 'nao_ogg'
     self.user = 'rapp'
     self.valid_words_found = ['I', 'want', 'to', 'go', 'out']
+    # self.valid_sentences = [
+        # ['check', '-'],
+        # ['check','my','mail'],
+        # ['Tech', '-'],
+        # ['take','-'],
+        # ['10','-'],
+        # ['check', 'minus']
+    # ]
 
   def execute(self):
     start_time = timeit.default_timer()
@@ -63,9 +71,10 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
-    return_data = response['words']
-    if self.valid_words_found == return_data:
-      return [True, self.elapsed_time]
+    words_found = response['words']
+    alt_words_found = response['alternatives']
+    if self.valid_words_found == words_found or self.valid_words_found in alt_words_found:
+        return [True, self.elapsed_time]
     else:
-      return ["Unexpected result : " + str(return_data), self.elapsed_time]
+        return ["Unexpected result : " + str(response), self.elapsed_time]
 

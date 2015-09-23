@@ -82,7 +82,7 @@ def execute(module, id):
     [error_code, time] = tmp.execute()
 
     mutex.acquire(True)
-    print "\n\033[1;35m** Test [%s] -- %s**\033[0m" % (module.__name__, id)
+    print "\n\033[1;35m**  Test [%s] -- %s  **\033[0m" % (module.__name__, id)
     print "Execution time: " + str(time) + "sec"
     if error_code != True:
         results['failed'].append(module.__name__)
