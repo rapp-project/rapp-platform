@@ -15,7 +15,7 @@ cv::Mat FaceDetector::loadImage(std::string file_name)
 
 std::vector<cv::Rect> FaceDetector::detectFaces(const cv::Mat& input_img)
 {
-  std::vector<cv::Rect> faces;
+  std::vector<cv::Rect> faces, final_faces;
   cv::Mat grayscale_img;
   if( input_img.empty() )
   {
@@ -32,12 +32,37 @@ std::vector<cv::Rect> FaceDetector::detectFaces(const cv::Mat& input_img)
 
   face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 4);
 
+  // If no faces were found make the algorithm less strict
   if(faces.size() == 0)
   {
     face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 3);
   }
 
-  return faces;
+  // Check the faces again to eliminate false positives
+  for(unsigned int i = 0 ; i < faces.size() ; i++)
+  {
+    cv::Rect tmp_rect = faces[i];
+    tmp_rect.x -= 10;
+    tmp_rect.y -= 10;
+    tmp_rect.width += 20;
+    tmp_rect.height += 20;
+    if(tmp_rect.x < 0 || tmp_rect.y < 0 || 
+      (tmp_rect.x + tmp_rect.width) > grayscale_img.size().width ||
+      (tmp_rect.y + tmp_rect.height) > grayscale_img.size().height)
+    {
+      continue;
+    }
+    cv::Mat temp_map = grayscale_img(faces[i]);
+    std::vector<cv::Rect> tmp_faces;
+    face_cascade.detectMultiScale(temp_map, tmp_faces, 1.1, 3);
+    if(tmp_faces.size() == 0)
+    {
+      continue;
+    }
+    final_faces.push_back(faces[i]);
+  }
+
+  return final_faces;
 }
 
 std::vector<cv::Rect> FaceDetector::findFaces(std::string file_name)
