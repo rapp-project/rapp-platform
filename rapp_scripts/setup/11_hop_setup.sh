@@ -15,7 +15,7 @@ cd hop
 wget ftp://ftp-sop.inria.fr/indes/fp/Bigloo/bigloo4.2a-beta16Sep15.tar.gz
 git clone https://github.com/manuel-serrano/hop.git
 tar -zxvf bigloo4.2a-beta16Sep15.tar.gz
-cd bigloo4.2a-beta16Sep15
+cd bigloo4.2a
 ./configure
 make
 make test
