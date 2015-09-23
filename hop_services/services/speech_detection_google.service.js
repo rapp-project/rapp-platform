@@ -324,18 +324,20 @@ function craft_response(rosbridge_msg)
 {
   var msg = JSON.parse(rosbridge_msg);
   var words = msg.values.words;
+  var alternatives = msg.values.alternatives;
   var result = msg.result;
   var error = msg.values.error;
-
-  var crafted_msg = { words: [], error: '' };
-
+  var crafted_msg = { words: [], alternatives: [], error: '' };
   var logMsg = '';
+
+  //console.log(msg.values.alternatives)
 
   if(result)
   {
-    for (var ii = 0; ii < words.length; ii++)
+    crafted_msg.words = words;
+    for (var ii = 0; ii < alternatives.length; ii++)
     {
-      crafted_msg.words.push( words[ii] )
+      crafted_msg.alternatives.push( alternatives[ii].s )
     }
     crafted_msg.error = error;
     logMsg = 'Returning to client.';
