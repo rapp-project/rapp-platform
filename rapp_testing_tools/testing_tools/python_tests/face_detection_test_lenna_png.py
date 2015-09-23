@@ -42,8 +42,8 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/Lenna.png'
     self.valid_faces = [{
-        'up_left_point': {'y': 200.0, 'x': 212.0},
-        'down_right_point': {'y': 379.0, 'x': 391.0}
+        'up_left_point': {'y': 201.0, 'x': 213.0},
+        'down_right_point': {'y': 378.0, 'x': 390.0}
     }]
 
 

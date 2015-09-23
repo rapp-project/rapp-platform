@@ -26,10 +26,8 @@
 # Authors: Konstantinos Panayiotou, Manos Tsardoulias
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
-import sys
 import os
 import timeit
-import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -40,12 +38,8 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/../test_data/face_samples/fatsaSou_close_angle.jpg'
-    self.valid_faces = [{
-        'up_left_point': {'y': 312.0, 'x': 582.0},
-        'down_right_point': {'y': 544.0, 'x': 814.0}
-    }]
-
+    self.file_uri = __path__  + '/../test_data/face_samples/multi_faces_frames/two_faces.jpg'
+    self.valid_numFaces = 2
 
   def execute(self):
     start_time = timeit.default_timer()
@@ -59,9 +53,11 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
-    faces = response['faces']
-    if self.valid_faces == faces:
+    numFaces = len(response['faces'])
+    if self.valid_numFaces == numFaces:
       return [True, self.elapsed_time]
     else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
+      return ["Unexpected result : " + ' Number of faces found -> ' +\
+              str(numFaces) + ', expected -> ' + str(self.valid_numFaces), \
+              self.elapsed_time]
 

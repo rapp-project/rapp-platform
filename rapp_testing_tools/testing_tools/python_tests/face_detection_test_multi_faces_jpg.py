@@ -40,12 +40,8 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/../test_data/face_samples/fatsaSou_close_angle.jpg'
-    self.valid_faces = [{
-        'up_left_point': {'y': 312.0, 'x': 582.0},
-        'down_right_point': {'y': 544.0, 'x': 814.0}
-    }]
-
+    self.file_uri = __path__  + '/../test_data/face_samples/multi_faces_frames/multi_faces.jpg'
+    self.valid_minNumFaces = 2
 
   def execute(self):
     start_time = timeit.default_timer()
@@ -59,9 +55,11 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
-    faces = response['faces']
-    if self.valid_faces == faces:
+    numFaces = len(response['faces'])
+    if self.valid_minNumFaces <= numFaces:
       return [True, self.elapsed_time]
     else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
+        return ["Unexpected result : " + ' Number of faces found -> ' + \
+                str(numFaces) + ', expected (minimum) -> ' + \
+                str(self.valid_minNumFaces), self.elapsed_time]
 

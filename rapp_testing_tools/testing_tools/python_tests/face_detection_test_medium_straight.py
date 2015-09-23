@@ -42,8 +42,8 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/face_samples/afanaSou_medium_straight.jpg'
     self.valid_faces = [{
-        'up_left_point': {'y': 545.0, 'x': 719.0},
-        'down_right_point': {'y': 673.0, 'x': 847.0}
+        'up_left_point': {'y': 545.0, 'x': 720.0},
+        'down_right_point': {'y': 672.0, 'x': 847.0}
     }]
 
 

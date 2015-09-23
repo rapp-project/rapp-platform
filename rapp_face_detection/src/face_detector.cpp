@@ -30,7 +30,12 @@ std::vector<cv::Rect> FaceDetector::detectFaces(const cv::Mat& input_img)
   // Create the classifier
   face_cascade.load(haar_file_path);
 
-  face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 3);
+  face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 4);
+
+  if(faces.size() == 0)
+  {
+    face_cascade.detectMultiScale(grayscale_img, faces, 1.1, 3);
+  }
 
   return faces;
 }

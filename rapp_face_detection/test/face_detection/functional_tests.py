@@ -27,6 +27,30 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1 )
  
+    def test_faceExists_realistic(self):
+        rospack = rospkg.RosPack()
+        face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
+        rospy.wait_for_service(face_service)
+        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
+        req = FaceDetectionRosSrvRequest()
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/face_samples/fatsaSou_medium.jpg'
+        response = fd_service(req)
+        faces_num = len(response.faces_up_left)
+        self.assertEqual( faces_num, 1 )
+  
+    def test_faceExists_realistic_2(self):
+        rospack = rospkg.RosPack()
+        face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
+        rospy.wait_for_service(face_service)
+        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
+        req = FaceDetectionRosSrvRequest()
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/testing_tools/test_data/face_samples/afanaSou_medium_straight.jpg'
+        response = fd_service(req)
+        faces_num = len(response.faces_up_left)
+        self.assertEqual( faces_num, 1 )
+ 
     def test_faceExists_stress(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -35,7 +59,7 @@ class FaceDetFunc(unittest.TestCase):
         req = FaceDetectionRosSrvRequest()
         req.imageFilename = rospack.get_path('rapp_testing_tools') + \
                 '/testing_tools/test_data/Lenna.png'
-        for i in range(0, 100):
+        for i in range(0, 20):
             response = fd_service(req)
             faces_num = len(response.faces_up_left)
             self.assertEqual( faces_num, 1 )
