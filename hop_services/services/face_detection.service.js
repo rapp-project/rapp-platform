@@ -321,16 +321,15 @@ function craft_response(rosbridge_msg)
   var numFaces = faces_up_left.length;
   var logMsg = '';
   var crafted_msg = { faces: [], error: '' };
-  // face object
-  var face = {
-    up_left_point: {x: 0, y:0},
-    down_right_point: {x: 0, y: 0}
-  };
 
   if (call_result)
   {
     for (var ii = 0; ii < numFaces; ii++)
     {
+      var face = {
+        up_left_point: {x: 0, y:0},
+        down_right_point: {x: 0, y: 0}
+      };
       face.up_left_point.x = faces_up_left[ii].point.x;
       face.up_left_point.y = faces_up_left[ii].point.y;
       face.down_right_point.x = faces_down_right[ii].point.x;
@@ -360,7 +359,7 @@ function craft_response(rosbridge_msg)
   }
 
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-  //console.log(crafted_msg);
+  //console.log(crafted_msg.faces);
   return JSON.stringify(crafted_msg)
 };
 

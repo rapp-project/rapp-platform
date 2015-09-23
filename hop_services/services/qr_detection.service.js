@@ -351,16 +351,13 @@ function craft_response(rosbridge_msg)
 
   var crafted_msg = {qr_centers: [], qr_messages: [], error: ''};
   // qrPoint object
-  var qrPoint = {
-    x: 0,
-    y: 0
-  }
 
   var logMsg = '';
   if (call_result)
   {
     for (var ii = 0; ii < qrCenters.length; ii++)
     {
+      var qrPoint = { x: 0, y: 0};
       qrPoint.x = qrCenters[ii].point.x;
       qrPoint.y = qrCenters[ii].point.y;
       crafted_msg.qr_centers.push(qrPoint);
