@@ -104,7 +104,10 @@ class SpeechToTextGoogle:
       for w in words:
         res.words = res.words + [w]
       # Google provides the confidence for the first suggestion
-      res.confidence.data = alternatives[0]['confidence']
+      if 'confidence' in alternatives[0].keys():
+        res.confidence.data = alternatives[0]['confidence']
+      else:
+        res.confidence.data = 0
 
       for alt in alternatives[1:]:
         sam = StringArrayMsg()

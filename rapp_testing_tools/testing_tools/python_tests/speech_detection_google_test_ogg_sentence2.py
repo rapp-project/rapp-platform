@@ -64,8 +64,10 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
+    print response
     return_data = response['words']
-    if self.valid_words_found == return_data:
+    if self.valid_words_found == return_data: 
+    #or return_data in response['alternatives']:
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(return_data), self.elapsed_time]
