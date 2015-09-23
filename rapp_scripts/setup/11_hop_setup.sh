@@ -6,15 +6,16 @@ echo -e "\e[1m\e[103m\e[31m [RAPP] Installing HOP by repos \e[0m"
 curr=$(pwd)
 #sudo sh -c 'echo "deb ftp://ftp-sop.inria.fr/indes/rapp/UBUNTU lts hop" >> \
 #  /etc/apt/sources.list'
-  
+
+sudo apt-get install libunistring-dev
+
 cd ~/rapp_platform
 mkdir hop
 cd hop
-wget ftp://ftp-sop.inria.fr/indes/rapp/hop/2015-05-07/bigloo4.2a.tar.gz
-wget ftp://ftp-sop.inria.fr/indes/rapp/hop/2015-05-07/hop-3.0.0-pre14.tar.gz
-tar -zxvf bigloo4.2a.tar.gz
-tar -zxvf hop-3.0.0-pre14.tar.gz
-cd bigloo4.2a
+wget ftp://ftp-sop.inria.fr/indes/fp/Bigloo/bigloo4.2a-beta16Sep15.tar.gz
+git clone https://github.com/manuel-serrano/hop.git
+tar -zxvf bigloo4.2a-beta16Sep15.tar.gz
+cd bigloo4.2a-beta16Sep15
 ./configure
 make
 make test
@@ -22,7 +23,7 @@ make compile-bee
 sudo make install
 sudo make -y install-bee
 cd ..
-cd hop-3.0.0-pre14
+cd hop
 ./configure
 make
 sudo make install
