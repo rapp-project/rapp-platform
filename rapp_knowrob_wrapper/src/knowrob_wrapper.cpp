@@ -428,7 +428,7 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
   if(status==0)
   {
     res.success=false;
-    //res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+    res.trace.push_back(std::string("No tests of given type exist"));
     res.error=std::string("No tests of given type exist");
     return res;    
   }
@@ -468,7 +468,7 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
   {
     res.tests.push_back(query_ret_tests[i]);  
     res.difficulty.push_back(query_ret_difficulty[i]);
-    //res.variation.push_back(query_ret_variation[i]);
+    res.variation.push_back(query_ret_variation[i]);
     res.file_paths.push_back(query_ret_file_paths[i]);
     res.subtype.push_back(query_ret_subtypes[i]);
   }

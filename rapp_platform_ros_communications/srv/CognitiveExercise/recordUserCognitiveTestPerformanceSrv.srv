@@ -1,0 +1,11 @@
+string username
+string test
+string testType
+int32 score
+
+---
+bool success
+string userCognitiveTestPerformanceEntry
+string error
+string[] trace
+
