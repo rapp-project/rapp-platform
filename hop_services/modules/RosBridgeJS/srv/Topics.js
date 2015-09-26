@@ -1,5 +1,6 @@
 /*!
- * @file getServicesTest.js
+ * @file Nodes.js
+ * @brief ROS Nodes transport msg objects.
  */
 
 /**
@@ -31,24 +32,14 @@
  *
  */
 
-function Rosbridge(hostName, port)
-{
-  this.hostName_ = hostName;
-  this.port_ = port
-  var bridge_ = require( __dirname + '/core/bridge.js' );
-  this.rosbridge_ = new bridge_(hostName, port);
+var GetTopics = {
+  op: 'call_service',
+  service: '/rosapi/topics',
+  args: {},  // Empty Srv msg
+  id: ''  // Id field to be added by the ServiceController.
+};
+
+
+module.exports = {
+  GetTopics: GetTopics
 }
-
-Rosbridge.prototype.getParam = function( paramName, callback )
-  {this.rosbridge_.getParam(paramName, callback)}
-
-Rosbridge.prototype.getServices = function( callback )
-  {this.rosbridge_.getServices(callback)}
-
-Rosbridge.prototype.getNodes = function( callback )
-  {this.rosbridge_.getNodes(callback)}
-
-Rosbridge.prototype.getTopics = function( callback )
-  {this.rosbridge_.getTopics(callback)}
-
-module.exports = Rosbridge;
