@@ -39,7 +39,10 @@ var hop = require('hop');
 var module_path = '../modules/'
 var ROS = require( module_path + 'RosBridgeJS/src/Rosbridge.js' );
 /*----------------------------------------------*/
-var ros = new ROS('localhost','9090');
+var ROSBRIDGE_IP = 'localhost';
+var ROSBRIDGE_PORT = '9090';
+
+var ros = new ROS(ROSBRIDGE_IP, ROSBRIDGE_PORT);
 
 var domTree = require( '../html/rapp_platform_ros_conditions.html' );
 var platformActiveServices = [];
@@ -166,23 +169,25 @@ service rapp_platform_status(  )
 
 function loopInf(){
   setTimeout(function(){
-    ros.getServices(function(data){
-      platformActiveServices = data;
-      //console.log(data)
-      rappRosServices = [];
-      for(i in platformActiveServices){
-        if(platformActiveServices[i].indexOf("rapp") > -1){
-          rappRosServices.push(platformActiveServices[i])
+    if(!ros.connected() ){ros.connect(ROSBRIDGE_IP, ROSBRIDGE_PORT)}
+    else{
+      ros.getServices(function(data){
+        platformActiveServices = data;
+        //console.log(data)
+        rappRosServices = [];
+        for(i in platformActiveServices){
+          if(platformActiveServices[i].indexOf("rapp") > -1){
+            rappRosServices.push(platformActiveServices[i])
+          }
         }
-      }
-    })
-    ros.getNodes(function(data){
-      platformActiveNodes = data;
-    })
-    ros.getTopics(function(data){
-      platformActiveTopics = data;
-    })
-
+      })
+      ros.getNodes(function(data){
+        platformActiveNodes = data;
+      })
+      ros.getTopics(function(data){
+        platformActiveTopics = data;
+      })
+    }
     loopInf();
   }, pollCycle)
 }
