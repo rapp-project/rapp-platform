@@ -36,7 +36,14 @@ function Rosbridge(hostName, port)
   this.hostName_ = hostName;
   this.port_ = port
   var bridge_ = require( __dirname + '/core/bridge.js' );
-  this.rosbridge_ = new bridge_(hostName, port);
+  this.rosbridge_ = undefined;
+
+  this.connect__ = function( hostName, port ){
+    this.rosbridge_ = undefined;
+    this.rosbridge_ = new bridge_(hostName, port);
+  }
+
+  this.connect__(hostName, port);
 }
 
 Rosbridge.prototype.getParam = function( paramName, callback )
@@ -50,5 +57,12 @@ Rosbridge.prototype.getNodes = function( callback )
 
 Rosbridge.prototype.getTopics = function( callback )
   {this.rosbridge_.getTopics(callback)}
+
+Rosbridge.prototype.connect = function( hostName, port )
+  {this.connect__(hostName, port)}
+
+Rosbridge.prototype.connected = function()
+  {return this.rosbridge_.connected()}
+
 
 module.exports = Rosbridge;
