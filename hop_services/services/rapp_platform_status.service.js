@@ -36,13 +36,13 @@
 
 /*--------------Load required modules-----------*/
 var hop = require('hop');
-var module_path = '../modules/'
+var module_path = '../modules/';
+var config_path = '../config/';
 var ROS = require( module_path + 'RosBridgeJS/src/Rosbridge.js' );
+var rosbridgeEnv = require( config_path + 'env/rosbridge.json' );
 /*----------------------------------------------*/
-var ROSBRIDGE_IP = 'localhost';
-var ROSBRIDGE_PORT = '9090';
 
-var ros = new ROS(ROSBRIDGE_IP, ROSBRIDGE_PORT);
+var ros = new ROS(rosbridgeEnv.ip_addr, rosbridgeEnv.port);
 
 var domTree = require( '../html/rapp_platform_ros_conditions.html' );
 var platformActiveServices = [];
@@ -169,7 +169,7 @@ service rapp_platform_status(  )
 
 function loopInf(){
   setTimeout(function(){
-    if(!ros.connected() ){ros.connect(ROSBRIDGE_IP, ROSBRIDGE_PORT)}
+    if(!ros.connected() ){ros.connect(rosbridgeEnv.ip_addr, rosbridgeEnv.port)}
     else{
       ros.getServices(function(data){
         platformActiveServices = data;

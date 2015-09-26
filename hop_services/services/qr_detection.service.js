@@ -39,52 +39,55 @@
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
 
-var __DEBUG__ = false;
 
-/*---------Sets required file Paths-------------*/
+/* ------------< Load and set basic configuration parameters >-------------*/
+var __DEBUG__ = false;
 var user = process.env.LOGNAME;
 var module_path = '../modules/';
-/*----------------------------------------------*/
+var config_path = '../config/';
+var srvEnv = require( config_path + 'env/hop-services.json' )
+/* ----------------------------------------------------------------------- */
 
-/*--------------Load required modules-----------*/
+/* --------------------------< Load required modules >---------------------*/
 var Fs = require( module_path + 'fileUtils.js' );
 var hop = require('hop');
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
 var RosSrvPool = require(module_path + 'ros/srvPool.js');
 var RosParam = require(module_path + 'ros/rosParam.js')
-/*----------------------------------------------*/
+/* ----------------------------------------------------------------------- */
 
-var rosParam = new RosParam({});
-var rosSrvThreads = 0;
-var rosSrvPool = undefined;
 var ros_service_name = '/rapp/rapp_qr_detection/detect_qrs';
+var rosParam = new RosParam({});
+var rosSrvThreads = 0;  // Default is set at zero (0)
+
+/* -------------------------< ROS service pool >-------------------------- */
+var rosSrvPool = undefined;
 
 rosParam.getParam_async('/rapp_qr_detection_threads', function(data){
-  if(data)
+  if(data > 0)
   {
     rosSrvThreads = data;
     rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
   }
 });
-
+/* ----------------------------------------------------------------------- */
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
-/* -- Set timer values for websocket communication to rosbridge -- */
-var timer_tick_value = 100; // ms
-var max_time = 10000; // ms
-var max_tries = 3;
-//var max_timer_ticks = 1000 * max_time / tick_value;
-/* --------------------------------------------------------------- */
-
 var __hopServiceName = 'qr_detection';
 var __hopServiceId = null;
 var __masterId = null;
 var __cacheDir = '~/.hop/cache/services/';
+
+/* ------< Set timer values for websocket communication to rosbridge> ----- */
+var timeout = srvEnv[__hopServiceName].timeout; // ms
+var max_tries = srvEnv[__hopServiceName].retries;
+/* ----------------------------------------------------------------------- */
+
 
 register_master_interface();
 
@@ -99,12 +102,12 @@ register_master_interface();
  */
 service qr_detection ( {file_uri:''} )
 {
+  var startT = new Date().getTime();
+  var execTime = 0;
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
   else {var rosSrvCall = ros_service_name;}
   console.log(rosSrvCall);
-  var startT = new Date().getTime();;
-  var execTime = 0;
-  postMessage( craft_slaveMaster_msg('log', 'client-request') );
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
 
   var logMsg = 'Image stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -154,9 +157,6 @@ service qr_detection ( {file_uri:''} )
 
       var respFlag = false;
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
-      var response = undefined;
-      var responseROS = undefined;
-      //console.log(rosbridge_msg);
 
       /**
        * ---- Catch exception on initiating websocket.
@@ -169,8 +169,6 @@ service qr_detection ( {file_uri:''} )
         rosWS.onopen = function(){
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
-          //console.log(unqCallId);
-          //console.log(rosbridge_msg);
           this.send(JSON.stringify(rosbridge_msg));
         }
         // Register WebSocket.onclose callback
@@ -187,17 +185,15 @@ service qr_detection ( {file_uri:''} )
           //console.log(event.value);
           Fs.rmFile(cpFilePath);
           respFlag = true; // Raise Response-Received Flag
-          responseROS = event.value;
 
           this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
-          //console.log('Rosbridge message id: [%s]', JSON.parse(responseROS).id);
 
           // Dismiss the unique call identity key for current client.
           randStrGen.removeCached( unqCallId );
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
-          response = craft_response(responseROS);
+          var response = craft_response(event.value);
           sendResponse( response );
         }
       }
@@ -210,7 +206,7 @@ service qr_detection ( {file_uri:''} )
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         Fs.rmFile(cpFilePath);
-        response = craft_error_response();
+        var response = craft_error_response();
         sendResponse( response );
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
@@ -218,28 +214,21 @@ service qr_detection ( {file_uri:''} )
       }
       /*------------------------------------------------------------------ */
 
-      var timer_ticks = 0;
-      var elapsed_time = 0;
       var retries = 0;
 
       // Set Timeout wrapping function
       function asyncWrap(){
         setTimeout( function(){
-         timer_ticks += 1;
-         elapsed_time = timer_ticks * timer_tick_value;
 
          if (respFlag)
          {
-           //response = craft_response(responseROS);
-           //sendResponse( response );
            return;
          }
-         else if  ( elapsed_time > max_time ){
-           timer_ticks = 0;
+         else{
            retries += 1;
 
            var logMsg = 'Reached rosbridge response timeout' +
-             '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
+             '---> [' + timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
              'Retry-' + retries;
            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -258,7 +247,7 @@ service qr_detection ( {file_uri:''} )
              //  Close websocket before return
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
-             response = craft_error_response();
+             var response = craft_error_response();
              sendResponse( response );
              return;
            }
@@ -293,12 +282,11 @@ service qr_detection ( {file_uri:''} )
                //Remove the uniqueID so it can be reused
                randStrGen.removeCached( unqCallId );
                Fs.rmFile(cpFilePath);
-               responseROS = event.value;
 
                respFlag = true;
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
-               response = craft_response(responseROS);
+               var response = craft_response(event.value);
                sendResponse( response );
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
@@ -317,7 +305,7 @@ service qr_detection ( {file_uri:''} )
 
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
-             response = craft_error_response();
+             var response = craft_error_response();
              sendResponse( response );
              return;
            }
@@ -326,7 +314,7 @@ service qr_detection ( {file_uri:''} )
          /*--------------------------------------------------------*/
          asyncWrap(); // Recall timeout function
 
-       }, timer_tick_value); //Timeout value is set at 100 ms.
+       }, timeout); //Timeout value is set at 100 ms.
      }
      asyncWrap();
 /*============================================================================*/

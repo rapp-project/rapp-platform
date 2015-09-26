@@ -1,0 +1,47 @@
+{
+  "speech_detection_sphinx4": {
+    "Mode": "Deploy",
+    "timeout": 15000,
+    "retries": 3
+  },
+  "speech_detection_google": {
+    "Mode": "Deploy",
+    "timeout": 5000,
+    "retries": 3
+  },
+  "qr_detection": {
+    "Mode": "Deploy",
+    "timeout": 1000
+    "retries": 3
+  },
+  "face_detection": {
+    "Mode": "Deploy",
+    "timeout": 1000
+    "retries": 3
+  },
+  "set_denoise_profile": {
+    "Mode": "Deploy",
+    "timeout": 1000
+    "retries": 3
+  },
+  "ontology_subclasses_of": {
+    "Mode": "Deploy",
+    "timeout": 1000
+    "retries": 3
+  },
+  "ontology_superclasses_of": {
+    "Mode": "Deploy",
+    "timeout": 1000
+    "retries": 3
+  },
+  "ontology_is_subsuperclass_of": {
+    "Mode": "Deploy",
+    "timeout": 3000
+    "retries": 3
+  },
+  "detect_objects": {
+    "Mode": "Deploy",
+    "timeout": 3000
+    "retries": 3
+  }
+}

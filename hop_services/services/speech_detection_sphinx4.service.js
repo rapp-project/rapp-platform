@@ -39,15 +39,16 @@
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
 
-var __DEBUG__ = false;
 
-/*---------Sets required file Paths-------------*/
+/* ------------< Load and set basic configuration parameters >-------------*/
+var __DEBUG__ = false;
 var user = process.env.LOGNAME;
 var module_path = '../modules/';
-/*----------------------------------------------*/
+var config_path = '../config/';
+var srvEnv = require( config_path + 'env/hop-services.json' )
+/* ----------------------------------------------------------------------- */
 
-/*--------------Load required modules-----------*/
-//var contents = require('../utilities/parameters.json');
+/* --------------------------< Load required modules >---------------------*/
 var hop = require('hop');
 var Fs = require( module_path + 'fileUtils.js' );
 var RandStringGen = require ( module_path +
@@ -56,18 +57,22 @@ var RosSrvPool = require(module_path + 'ros/srvPool.js');
 var RosParam = require(module_path + 'ros/rosParam.js')
 /*----------------------------------------------*/
 
+var ros_service_name = '/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text';
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;
+
+/* -------------------------< ROS service pool >-------------------------- */
 var rosSrvPool = undefined;
-var ros_service_name = '/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text';
 
 rosParam.getParam_async('/rapp_speech_detection_sphinx4_threads', function(data){
-  if(data)
+  if(data > 0)
   {
     rosSrvThreads = data;
+    console.log(data)
     rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
   }
 });
+/* ----------------------------------------------------------------------- */
 
 
 /*----<Random String Generator configurations---->*/
@@ -75,18 +80,16 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /*------------------------------------------------*/
 
-/* -- Set timer values for websocket communication to rosbridge -- */
-var timer_tick_value = 1000 // ms
-var max_time = 15000 // ms
-var max_tries = 2
-//var max_timer_ticks = 1000 * max_time / tick_value;
-/* --------------------------------------------------------------- */
-
-
 var __hopServiceName = 'speech_detection_sphinx4';
 var __hopServiceId = null;
 var __masterId = null;
 var __cacheDir = '~/.hop/cache/services/';
+
+/* ------< Set timer values for websocket communication to rosbridge> ----- */
+var timeout = srvEnv[__hopServiceName].timeout; // ms
+var max_tries = srvEnv[__hopServiceName].retries;
+/* ----------------------------------------------------------------------- */
+
 
 register_master_interface();
 
@@ -106,10 +109,12 @@ service speech_detection_sphinx4(
     words: [], sentences: [], grammar: [], user: ''
   })
 {
-  //var rosSrvCall = rosSrvPool.getAvailable();
-  var rosSrvCall = ros_service_name;
+  var startT = new Date().getTime();
+  var execTime = 0;
+  if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
+  else {var rosSrvCall = ros_service_name;}
   console.log(rosSrvCall);
-  postMessage( craft_slaveMaster_msg('log', 'client-request') );
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
 
   var logMsg = 'Audio data stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -161,7 +166,10 @@ service speech_detection_sphinx4(
       var respFlag = false;
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
 
-      /* ---- Catch exception while initiating websocket communication ----- */
+      /**
+       * ---- Catch exception on initiating websocket.
+       *  -- Return to client immediately on exception thrown.
+       */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
 
@@ -169,16 +177,13 @@ service speech_detection_sphinx4(
         rosWS.onopen = function(){
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
-
           this.send(JSON.stringify(rosbridge_msg));
         }
-
         // Register WebSocket.onclose callback
         rosWS.onclose = function(){
           var logMsg = 'Connection to rosbridge closed';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
         }
-
         // Register WebSocket.message callback
         rosWS.onmessage = function(event){
           if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
@@ -187,136 +192,141 @@ service speech_detection_sphinx4(
 
           //console.log(event.value);
           Fs.rmFile(cpFilePath);
-          var resp_msg = craft_response( event.value ); // Craft response message
+          respFlag = true; // Raise Response-Received Flag
 
           this.close(); // Close websocket
           rosWS = undefined; // Ensure deletion of websocket
-          respFlag = true; // Raise Response-Received Flag
 
-          // Dismiss the unique rossrv-call identity  key for current client
+          // Dismiss the unique call identity key for current client.
           randStrGen.removeCached( unqCallId );
-          sendResponse( resp_msg );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
+          var response = craft_response(event.value);
+          sendResponse( response );
         }
       }
       catch(e){
         if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
         rosWS = undefined;
-        //console.log(e);
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         Fs.rmFile(cpFilePath);
-
-        var resp_msg = craft_error_response();
-        //console.log(resp_msg);
-        sendResponse( resp_msg );
+        var response = craft_error_response();
+        sendResponse( response );
+        execTime = new Date().getTime() - startT;
+        postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
       }
       /*------------------------------------------------------------------ */
 
-      var timer_ticks = 0;
-      var elapsed_time;
       var retries = 0;
 
       // Set Timeout wrapping function
       function asyncWrap(){
         setTimeout( function(){
-          timer_ticks += 1;
-          elapsed_time = timer_ticks * timer_tick_value;
 
-          if (respFlag == true)
-          {
-            return;
-          }
-          else if (respFlag != true && elapsed_time > max_time ){
-            timer_ticks = 0;
-            retries += 1;
+         if (respFlag)
+         {
+           return;
+         }
+         else{
+           retries += 1;
 
-            var logMsg = 'Reached rosbridge response timeout' +
-              '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
-              'Retry-' + retries;
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
+           var logMsg = 'Reached rosbridge response timeout' +
+             '---> [' + timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
+             'Retry-' + retries;
+           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          if (retries > max_tries) // Reconnected for max_tries times
-          {
-            if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-            var logMsg = 'Reached max_retries [' + max_tries + ']' +
-            ' Could not receive response from rosbridge...';
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
+           /* - Fail to receive message from rosbridge. Return to client */
+           if (retries >= max_tries)
+           {
+             if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+             var logMsg = 'Reached max_retries [' + max_tries + ']' +
+               ' Could not receive response from rosbridge...';
+             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-            Fs.rmFile(cpFilePath);
-            var respMsg = craft_error_response();
+             Fs.rmFile(cpFilePath);
 
-            //  Close websocket before return
-            rosWS.close();
-            rosWS = undefined;
-            sendResponse( respMsg );
-            return;
-          }
+             rosWS.close();
+             rosWS = undefined;
+             //  Close websocket before return
+             execTime = new Date().getTime() - startT;
+             postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             var response = craft_error_response();
+             sendResponse( response );
+             return;
+           }
 
-          if (rosWS != undefined)
-          {
-            rosWS.close();
-          }
-          rosWS = undefined;
+           if (rosWS != undefined)
+           {
+             rosWS.close();
+           }
+           rosWS = undefined;
 
-        /* --------------< Re-open connection to the WebSocket >--------------*/
-          try{
-            rosWS = new WebSocket('ws://localhost:9090');
+           /* --------------< Re-open connection to the WebSocket >--------------*/
+           try{
+             rosWS = new WebSocket('ws://localhost:9090');
 
-            /* -----------< Redefine WebSocket callbacks >----------- */
-            rosWS.onopen = function(){
-              var logMsg = 'Connection to rosbridge established';
-              postMessage( craft_slaveMaster_msg('log', logMsg) );
-              this.send(JSON.stringify(rosbridge_msg));
-            }
+             /* -----------< Redefine WebSocket callbacks >----------- */
+             rosWS.onopen = function(){
+               var logMsg = 'Connection to rosbridge established';
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+               this.send(JSON.stringify(rosbridge_msg));
+             }
 
-            rosWS.onclose = function(){
-              var logMsg = 'Connection to rosbridge closed';
-              postMessage( craft_slaveMaster_msg('log', logMsg) );
-            }
+             rosWS.onclose = function(){
+               var logMsg = 'Connection to rosbridge closed';
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+             }
 
-            rosWS.onmessage = function(event){
-              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-              var logMsg = 'Received message from rosbridge';
-              postMessage( craft_slaveMaster_msg('log', logMsg) );
+             rosWS.onmessage = function(event){
+               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+               var logMsg = 'Received message from rosbridge';
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-              Fs.rmFile(cpFilePath);
-              var resp_msg = craft_response( event.value );
-              //console.log(resp_msg);
+               //Remove the uniqueID so it can be reused
+               randStrGen.removeCached( unqCallId );
+               Fs.rmFile(cpFilePath);
 
-              this.close(); // Close websocket
-              rosWS = undefined; // Decostruct websocket
-              respFlag = true;
-              randStrGen.removeCached( unqCallId ); //Remove the unqCallId so it can be reused
-              sendResponse( resp_msg ); //Return response to client
-            }
-          }
-          catch(e){
-            if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-            rosWS = undefined;
-            //console.log(e);
-            var logMsg = 'ERROR: Cannot open websocket' +
-              'to rosbridge --> [ws//localhost:9090]\r\n' + e;
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
+               respFlag = true;
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+               var response = craft_response(event.value);
+               sendResponse( response );
+               this.close(); // Close websocket
+               rosWS = undefined; // Decostruct websocket
+             }
+           }
+           catch(e){
+             if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+             rosWS = undefined;
+             //console.log(e);
 
-            Fs.rmFile(cpFilePath);
+             var logMsg = 'ERROR: Cannot open websocket' +
+               'to rosbridge --> [ws//localhost:9090]';
+             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-            var resp_msg = craft_error_response();
-            sendResponse( resp_msg );
-            return;
-          }
-        }
-        /*--------------------------------------------------------*/
-        asyncWrap(); // Recall timeout function
+             Fs.rmFile(cpFilePath);
 
-        }, timer_tick_value); //Timeout value is set at 100 ms.
-      }
-      asyncWrap();
-      /*==============================================================================================*/
-    }, this );
+             execTime = new Date().getTime() - startT;
+             postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             var response = craft_error_response();
+             sendResponse( response );
+             return;
+           }
+
+         }
+         /*--------------------------------------------------------*/
+         asyncWrap(); // Recall timeout function
+
+       }, timeout); //Timeout value is set at 100 ms.
+     }
+     asyncWrap();
+/*============================================================================*/
+   }, this );
 };
 
 

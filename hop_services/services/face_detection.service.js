@@ -40,52 +40,55 @@
 // TODO -- Load PLATFORM parameters from JSON file
 // TODO -- Load ROS-Topics/Services names from parameter server (ROS)
 
-var __DEBUG__ = false;
 
-/*---------Sets required file Paths-------------*/
+/* ------------< Load and set basic configuration parameters >-------------*/
+var __DEBUG__ = false;
 var user = process.env.LOGNAME;
 var module_path = '../modules/'
-/*----------------------------------------------*/
+var config_path = '../config/';
+var srvEnv = require( config_path + 'env/hop-services.json' )
+/* ----------------------------------------------------------------------- */
 
-/*--------------Load required modules-----------*/
+/* --------------------------< Load required modules >---------------------*/
 var Fs = require( module_path + 'fileUtils.js' );
 var hop = require('hop');
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
 var RosSrvPool = require(module_path + 'ros/srvPool.js');
 var RosParam = require(module_path + 'ros/rosParam.js')
-/*----------------------------------------------*/
+/* ----------------------------------------------------------------------- */
 
-var rosParam = new RosParam({});
-var rosSrvThreads = 0;
-var rosSrvPool = undefined;
 var ros_service_name = '/rapp/rapp_face_detection/detect_faces';
+var rosParam = new RosParam({});
+var rosSrvThreads = 0;  // Default is set at zero (0)
+
+/* -------------------------< ROS service pool >-------------------------- */
+var rosSrvPool = undefined;
 
 rosParam.getParam_async('/rapp_face_detection_threads', function(data){
-  if(data)
+  if(data > 0)
   {
     rosSrvThreads = data;
     rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
   }
 });
+/* ----------------------------------------------------------------------- */
 
-/*----<Random String Generator configurations---->*/
+/*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
-/*------------------------------------------------*/
-
-/* -- Set timer values for websocket communication to rosbridge -- */
-var timer_tick_value = 100 // ms
-var max_time = 2000 // ms
-var max_tries = 2
-//var max_timer_ticks = 1000 * max_time / tick_value;
-/* --------------------------------------------------------------- */
-
+/* ----------------------------------------------------------------------- */
 
 var __hopServiceName = 'face_detection';
 var __hopServiceId = null;
 var __masterId = null;
 var __cacheDir = '~/.hop/cache/services/';
+
+/* ------< Set timer values for websocket communication to rosbridge> ----- */
+var timeout = srvEnv[__hopServiceName].timeout; // ms
+var max_tries = srvEnv[__hopServiceName].retries;
+/* ----------------------------------------------------------------------- */
+
 
 register_master_interface();
 
@@ -99,10 +102,12 @@ register_master_interface();
  */
 service face_detection ( {file_uri:''} )
 {
+  var startT = new Date().getTime();
+  var execTime = 0;
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
   else {var rosSrvCall = ros_service_name;}
   console.log(rosSrvCall);
-  postMessage( craft_slaveMaster_msg('log', 'client-request') );
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
 
   var logMsg = 'Image stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -152,7 +157,10 @@ service face_detection ( {file_uri:''} )
       var respFlag = false;
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId)
 
-      /* ------ Catch exception while open websocket communication ------- */
+      /**
+       * ---- Catch exception on initiating websocket.
+       *  -- Return to client immediately on exception thrown.
+       */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
 
@@ -160,7 +168,6 @@ service face_detection ( {file_uri:''} )
         rosWS.onopen = function(){
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
-
           this.send(JSON.stringify(rosbridge_msg));
         }
         // Register WebSocket.onclose callback
@@ -174,16 +181,19 @@ service face_detection ( {file_uri:''} )
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
+          //console.log(event.value);
           Fs.rmFile(cpFilePath);
-
-          var resp_msg = craft_response( event.value ); // Craft response message
-          rosWS = undefined; // Ensure deletion of websocket
           respFlag = true; // Raise Response-Received Flag
-          this.close(); // Close websocket
 
-          // Dismiss the unique rossrv-call identity  key for current client
+          this.close(); // Close websocket
+          rosWS = undefined; // Ensure deletion of websocket
+
+          // Dismiss the unique call identity key for current client.
           randStrGen.removeCached( unqCallId );
-          sendResponse( resp_msg );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
+          var response = craft_response(event.value);
+          sendResponse( response );
         }
       }
       catch(e){
@@ -191,41 +201,38 @@ service face_detection ( {file_uri:''} )
         rosWS = undefined;
 
         var logMsg = 'ERROR: Cannot open websocket' +
-          'to rosbridge --> [ws//localhost:9090]\r\n' + e;
+          'to rosbridge [ws//localhost:9090]\r\n' + e;
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         Fs.rmFile(cpFilePath);
-
-        var resp_msg = craft_error_response();
-        sendResponse( resp_msg );
+        var response = craft_error_response();
+        sendResponse( response );
+        execTime = new Date().getTime() - startT;
+        postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
       }
       /*------------------------------------------------------------------ */
 
-      var timer_ticks = 0;
-      var elapsed_time;
       var retries = 0;
 
       // Set Timeout wrapping function
       function asyncWrap(){
         setTimeout( function(){
-         timer_ticks += 1;
-         elapsed_time = timer_ticks * timer_tick_value;
 
-         if (respFlag == true)
+         if (respFlag)
          {
-           return
+           return;
          }
-         else if (respFlag != true && elapsed_time > max_time ){
-           timer_ticks = 0;
+         else{
            retries += 1;
 
            var logMsg = 'Reached rosbridge response timeout' +
-             '---> [' + elapsed_time + '] ms ... Reconnecting to rosbridge.' +
+             '---> [' + timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
              'Retry-' + retries;
            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-           if (retries > max_tries) // Reconnected for max_tries times
+           /* - Fail to receive message from rosbridge. Return to client */
+           if (retries >= max_tries)
            {
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
              var logMsg = 'Reached max_retries [' + max_tries + ']' +
@@ -233,12 +240,14 @@ service face_detection ( {file_uri:''} )
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
              Fs.rmFile(cpFilePath);
-             var respMsg = craft_error_response();
 
-             //  Close websocket before return
              rosWS.close();
              rosWS = undefined;
-             sendResponse( respMsg );
+             //  Close websocket before return
+             execTime = new Date().getTime() - startT;
+             postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             var response = craft_error_response();
+             sendResponse( response );
              return;
            }
 
@@ -269,28 +278,34 @@ service face_detection ( {file_uri:''} )
                var logMsg = 'Received message from rosbridge';
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
+               //Remove the uniqueID so it can be reused
+               randStrGen.removeCached( unqCallId );
                Fs.rmFile(cpFilePath);
-               var resp_msg = craft_response( event.value );
 
+               respFlag = true;
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+               var response = craft_response(event.value);
+               sendResponse( response );
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
-               respFlag = true;
-               randStrGen.removeCached( unqCallId ); //Remove the unqCallId so it can be reused
-               sendResponse( resp_msg ); //Return response to client
              }
            }
            catch(e){
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
              rosWS = undefined;
+             //console.log(e);
 
              var logMsg = 'ERROR: Cannot open websocket' +
-               'to rosbridge --> [ws//localhost:9090]\r\n' + e;
+               'to rosbridge --> [ws//localhost:9090]';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
              Fs.rmFile(cpFilePath);
-             console.log(e);
-             var resp_msg = craft_error_response();
-             sendResponse( resp_msg );
+
+             execTime = new Date().getTime() - startT;
+             postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             var response = craft_error_response();
+             sendResponse( response );
              return;
            }
 
@@ -298,10 +313,10 @@ service face_detection ( {file_uri:''} )
          /*--------------------------------------------------------*/
          asyncWrap(); // Recall timeout function
 
-       }, timer_tick_value); //Timeout value is set at 100 ms.
+       }, timeout); //Timeout value is set at 100 ms.
      }
      asyncWrap();
-/*==============================================================================================*/
+/*============================================================================*/
    }, this );
 };
 
