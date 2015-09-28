@@ -74,6 +74,7 @@ Thumbs.db
 .*.swo
 *.log
 core
+!core/
 *~
 *ignore_thanos*
 .ropeproject/
