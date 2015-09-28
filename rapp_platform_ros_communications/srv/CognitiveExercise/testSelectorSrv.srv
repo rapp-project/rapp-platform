@@ -6,3 +6,4 @@ string error
 string[] trace
 string[] questions
 rapp_platform_ros_communications/StringArrayMsg[] answers
+string[] correctAnswers

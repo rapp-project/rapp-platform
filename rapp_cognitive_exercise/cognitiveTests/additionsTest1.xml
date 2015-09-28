@@ -18,9 +18,7 @@
 			<answer>
 				<body>4</body>
 			</answer>
-			<correctAnswer>
-				<body>4</body>
-			</correctAnswer>			
+			<correctAnswer>4</correctAnswer>			
 		</Question>		
 		<Question name="Q2">
 			<body>How much is five plus two?</body>
@@ -36,9 +34,7 @@
 			<answer>
 				<body>4</body>
 			</answer>
-			<correctAnswer>
-				<body>7</body>
-			</correctAnswer>		
+			<correctAnswer>7</correctAnswer>		
 		</Question>	
 	</Questions>	
 </QuestionXML>

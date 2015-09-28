@@ -266,6 +266,7 @@ class TestSelector:
       
       for question in root.find('Questions'):        
         res.questions.append(question.find("body").text)
+        res.correctAnswers.append(question.find("correctAnswer").text)
         line=StringArrayMsg()
         for answers in question.findall('answer'):          
           line.s.append(answers.find("body").text)        
