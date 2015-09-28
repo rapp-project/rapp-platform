@@ -1,0 +1,6 @@
+<launch>
+  <node name="rapp_text_to_speech_espeak_node" pkg="rapp_text_to_speech_espeak" type="text_to_speech_espeak.py" output="screen"/>
+  <rosparam file="$(find rapp_text_to_speech_espeak)/cfg/rapp_text_to_speech_espeak_params.yaml" 
+    command="load" />
+
+</launch>

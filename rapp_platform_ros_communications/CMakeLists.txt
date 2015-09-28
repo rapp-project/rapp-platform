@@ -51,6 +51,8 @@ add_service_files(
   /AudioProcessing/AudioProcessingDenoiseSrv.srv
   /AudioProcessing/AudioProcessingSetNoiseProfileSrv.srv
   /AudioProcessing/AudioProcessingDetectSilenceSrv.srv
+
+  /TextToSpeechEspeak/TextToSpeechSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here

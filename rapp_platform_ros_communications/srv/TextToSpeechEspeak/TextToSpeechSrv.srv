@@ -1,0 +1,11 @@
+# Contains info about time and reference
+Header header
+# The text to be spoken
+string text
+# The audio output file
+string audio_output
+# Language (en, gr)
+string language
+---
+# Possible errors
+string error
