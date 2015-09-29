@@ -49,3 +49,13 @@ If you want to add rapp-platform to an already existent system (Ubuntu 14.04) yo
  - ```catkin_init_workspace```
 - Then clone the rapp-platform workspace in the ```src``` folder, as it is constructed as a ROS metapackage.
 - To compile it just ```cd /PATH/rapp-platform-catkin-ws && catkin_make```
+
+#####NOTES:
+
+The following notes concern the manual setup of rapp-platform (not the clean setup form our scripts):
+
+- To compile ```rapp_qr_detection``` you must install the ```libzbar``` library
+- To compile ```rapp_knowrob_wrapper``` you must execute the following scripts:
+ - https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh
+ - https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh
+ - **If you dont want interaction with the ontology, add an empty ```CATKIN_IGNORE``` file in the ```rapp-platform/rapp_knowrob_wrapper/``` folder**
