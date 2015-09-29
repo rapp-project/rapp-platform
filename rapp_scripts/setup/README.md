@@ -34,7 +34,7 @@ Performs:
 - installs HOP
 
 
-##IMPORTANT!! What you must do manually
+##Note: What you must do manually
 
 A new MySQL user was created with username = 'dummyUser' and password = 'changeMe' and was granted all on RappStore DB. It is highly recommended that you change the password and the username of the user. The username and password are stored in the file located at /etc/db_credentials. The file db_credentials is used by the rapp platform services, be sure to update it with the correct username and password. It's first line is the username and it's second line the password.
 
