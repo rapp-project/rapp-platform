@@ -38,3 +38,14 @@ Performs:
 
 A new MySQL user was created with username = 'dummyUser' and password = 'changeMe' and was granted all on RappStore DB. It is highly recommended that you change the password and the username of the user. The username and password are stored in the file located at /etc/db_credentials. The file db_credentials is used by the rapp platform services, be sure to update it with the correct username and password. It's first line is the username and it's second line the password.
 
+##Setup in an existing system
+
+If you want to add rapp-platform to an already existent system (Ubuntu 14.04) you must:
+
+- Create a catkin workspace (if you dont have one)
+ - ```mkdir PATH/rapp-platform-catkin-ws```
+ - ```cd PATH/rapp-platform-catkin-ws```
+ - ```mkdir src && cd src```
+ - ```catkin_init_workspace```
+- Then clone the rapp-platform workspace in the ```src``` folder, as it is constructed as a ROS metapackage.
+- To compile it just ```cd /PATH/rapp-platform-catkin-ws && catkin_make```
