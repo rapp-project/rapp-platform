@@ -3,6 +3,7 @@ string testType
 ---
 bool success
 string error
+string test
 string[] trace
 string[] questions
 rapp_platform_ros_communications/StringArrayMsg[] answers

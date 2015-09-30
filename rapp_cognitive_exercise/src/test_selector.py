@@ -142,7 +142,7 @@ class TestSelector:
           req.testType=d1.values()[0][0] 
           res.trace.append("all test types had performance records.. least recently used one was :"+ req.testType)         
       else:
-        res.trace.append("test is "+req.testType)
+        #res.trace.append("test is "+req.testType)
         if (req.testType not in testTypesList): 
           res.trace.append("testType provided does not exist")
           res.error="testType provided does not exist"
@@ -226,31 +226,35 @@ class TestSelector:
         res.success=False
         return res
       
+      finalTestname=""
+      finalTestFilePath=""
       if(noUserPerformanceRecordsExist):
-        finalTest=random.choice(testsOfTypeOrdered.values())          
+        finalTestname=random.choice(testsOfTypeOrdered.keys())  
+        finalTest=testsOfTypeOrdered[finalTestname]
         finalTestFilePath=finalTest[0][0]          
       else:          
         testsOfTypeOrderedCopy=testsOfTypeOrdered.copy()
         
         for k, v in userPerfOrganizedByTimestamp.items():
           if(v[0][0] in testsOfTypeOrderedCopy):
-            del testsOfTypeOrderedCopy[v[0][0]]
+            del testsOfTypeOrderedCopy[v[0][0]]       
         
-        finalTestFilePath=""
         if(len(testsOfTypeOrderedCopy)>0):
-          finalTest=random.choice(testsOfTypeOrderedCopy.values())          
+          finalTestname=random.choice(testsOfTypeOrderedCopy.keys())    
+          finalTest=testsOfTypeOrderedCopy[finalTestname]
           finalTestFilePath=finalTest[0][0]
         else:
           #res.trace.append("was empty")
-          finalTest=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-1]
+          finalTestname=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-1]
           #res.trace.append("Selected test name: "+finalTest[0][0])
-          finalTest=testsOfTypeOrdered[finalTest[0][0]]
+          finalTest=testsOfTypeOrdered[finalTestname[0][0]]
           finalTestFilePath=finalTest[0][0]
  
 
         #choose category if not defined (arithemtic, recall etc)
         #retrieve past performance from ontology for specified category
-        
+      tmpList=finalTestname.split('#')
+      res.test=tmpList[1]
       tmp=expanduser('~') 
       #tmp=userPerformanceResponse.tests[0]
       #res.trace.append(tmp)
@@ -275,13 +279,14 @@ class TestSelector:
     
       #check if ontology alias of user exists      
     except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.trace.append("Null pointer exception.. some argument was empty")
+      res.error="Null pointer exception.. some argument was empty"
       res.success=False
       #print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
-    except IOError:
-      print "Error: can\'t find login file or read data" 
+    except IOError:      
       res.success=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append("IO Error, cant open file or read data")
+      res.error="IO Error, cant open file or read data"
     return res
 
   def organizeUserPerformance(self,userPerf):
