@@ -310,7 +310,9 @@ function craft_response(rosbridge_msg)
     {
       logMsg += ' ROS service [' + ros_service_name + '] error'
         ' ---> ' + error;
-      crafted_msg.error = (error) ? error : trace[trace.length - 1];
+      console.log(error)
+      crafted_msg.error = (!error && trace.length) ?
+        trace[trace.length - 1] : error;
     }
     else
     {

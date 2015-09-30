@@ -1,6 +1,6 @@
 /*!
- * @file ontology_subclasses_of.service.js
- * @brief Ontology query "Subclasses Of" hop service.
+ * @file ontology_superclasses_of.service.js
+ * @brief Ontology query "SuperclassesOf" hop service.
  *
  */
 
@@ -42,10 +42,6 @@ var user = process.env.LOGNAME;
 var module_path = '../modules/';
 var config_path = '../config/';
 var srvEnv = require( config_path + 'env/hop-services.json' )
-var __hopServiceName = 'ontology_subclasses_of';
-var __hopServiceId = null;
-var __masterId = null;
-var __storeDir = '~/.hop/cache/';
 /* ----------------------------------------------------------------------- */
 
 /* --------------------------< Load required modules >---------------------*/
@@ -56,7 +52,9 @@ var RosSrvPool = require(module_path + 'ros/srvPool.js');
 var RosParam = require(module_path + 'ros/rosParam.js')
 /* ----------------------------------------------------------------------- */
 
-var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
+/*-----<Defined Name of QR Node ROS service>----*/
+var ros_service_name =
+  "/rapp/rapp_cognitive_exercise/record_user_cognitive_tests_performance";
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;
 
@@ -73,11 +71,16 @@ var rosSrvPool = undefined;
 //});
 /* ----------------------------------------------------------------------- */
 
+
 /*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
+var __hopServiceName = 'record_cognitive_test_performance';
+var __hopServiceId = null;
+var __masterId = null;
+var __storeDir = '~/.hop/cache/';
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = srvEnv[__hopServiceName].timeout; // ms
@@ -88,12 +91,15 @@ var max_tries = srvEnv[__hopServiceName].retries;
 register_master_interface();
 
 
+
 /*!
- * @brief Ontology SubclassOf query, HOP Service.
+ * @brief Ontology-SuperclassesOf database query, HOP Service Core.
  *
- * @param query Ontology query (String).
+ * @param query Ontology query given in a string format
+ * @return Results.
  */
-service ontology_subclasses_of ( {query: ''} )
+service record_cognitive_test_performance( {username: '', test: '',
+  testType: '', score: 0} )
 {
   var startT = new Date().getTime();
   var execTime = 0;
@@ -102,16 +108,18 @@ service ontology_subclasses_of ( {query: ''} )
   console.log(rosSrvCall);
   postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
 
- /*----------------------------------------------------------------- */
- return hop.HTTPResponseAsync(
-   function( sendResponse ) {
+  /*----------------------------------------------------------------- */
+  return hop.HTTPResponseAsync(
+    function( sendResponse ) {
 
-     var args = {};
-     args[ "ontology_class" ] = query;
+      var args = {
+        username: username.toString(),
+        test:     test.toString(),
+        testType: testType.toString(),
+        score:    parseInt(score)
+      };
 
-    /*=============================TEMPLATE======================================================*/
       var respFlag = false;
-
       // Create a unique caller id
       var unqCallId = randStrGen.createUnique();
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
@@ -283,25 +291,17 @@ service ontology_subclasses_of ( {query: ''} )
 function craft_response(rosbridge_msg)
 {
   var msg = JSON.parse(rosbridge_msg);
-  var results = msg.values.results;
+  var performance_entry = msg.values.userCognitiveTestPerformanceEntry;
   var trace = msg.values.trace;
   var success = msg.values.success;
   var error = msg.values.error;
   var call_result = msg.result;
-  var crafted_msg = {results: [], trace: [], error: ''};
+  var crafted_msg = {performance_entry: '', error: ''};
   var logMsg = '';
 
   if (call_result)
   {
-    for (var ii = 0; ii < results.length; ii++)
-    {
-      crafted_msg.results.push(results[ii]);
-    }
-    for (var ii = 0; ii < trace.length; ii++)
-    {
-      crafted_msg.trace.push(trace[ii]);
-    }
-
+    crafted_msg.performance_entry = performance_entry;
     crafted_msg.error = error;
     logMsg = 'Returning to client.';
 
@@ -328,14 +328,13 @@ function craft_response(rosbridge_msg)
   return JSON.stringify(crafted_msg)
 }
 
-
 /*!
  * @brief Crafts response message on Platform Failure
  */
 function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure!'
-  var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+    var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );

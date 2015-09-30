@@ -46,6 +46,10 @@ var user = process.env.LOGNAME;
 var module_path = '../modules/';
 var config_path = '../config/';
 var srvEnv = require( config_path + 'env/hop-services.json' );
+var __hopServiceName = 'set_denoise_profile';
+var __hopServiceId = null;
+var __masterId = null;
+var __cacheDir = '~/.hop/cache/services/';
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
@@ -58,9 +62,9 @@ var RosParam = require(module_path + 'ros/rosParam.js')
 /*----------------------------------------------*/
 
 /*----<Load modules used by the service>----*/
+var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;
-var ros_service_name = '/rapp/rapp_audio_processing/set_noise_profile';
 
 /* -------------------------< ROS service pool >-------------------------- */
 var rosSrvPool = undefined;
@@ -79,10 +83,6 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-var __hopServiceName = 'set_denoise_profile';
-var __hopServiceId = null;
-var __masterId = null;
-var __cacheDir = '~/.hop/cache/services/';
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = srvEnv[__hopServiceName].timeout; // ms

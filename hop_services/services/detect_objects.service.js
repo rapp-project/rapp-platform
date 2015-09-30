@@ -49,6 +49,10 @@ var user = process.env.LOGNAME;
 var module_path = '../modules/';
 var config_path = '../config/';
 var srvEnv = require( config_path + 'env/hop-services.json' )
+var __hopServiceName = 'detect_objects';
+var __hopServiceId = null;
+var __masterId = null;
+var __cacheDir = '~/.hop/cache/services/';
 /* ----------------------------------------------------------------------- */
 
 /* --------------------------< Load required modules >---------------------*/
@@ -67,7 +71,7 @@ var rapp_image_recognition_path = script_dir_path +
 var data_path = rapp_image_recognition_path + "data/book_1/";
 //console.log(data_path)
 
-var ros_service_name = '/find_objects';
+var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;  // Default is set at zero (0)
 
@@ -82,11 +86,6 @@ rosParam.getParam_async('/rapp_qr_detection_threads', function(data){
   }
 });
 /* ----------------------------------------------------------------------- */
-
-var __hopServiceName = 'detect_objects';
-var __hopServiceId = null;
-var __masterId = null;
-var __cacheDir = '~/.hop/cache/services/';
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;

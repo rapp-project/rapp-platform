@@ -47,6 +47,10 @@ var user = process.env.LOGNAME;
 var module_path = '../modules/'
 var config_path = '../config/';
 var srvEnv = require( config_path + 'env/hop-services.json' )
+var __hopServiceName = 'face_detection';
+var __hopServiceId = null;
+var __masterId = null;
+var __cacheDir = '~/.hop/cache/services/';
 /* ----------------------------------------------------------------------- */
 
 /* --------------------------< Load required modules >---------------------*/
@@ -58,7 +62,7 @@ var RosSrvPool = require(module_path + 'ros/srvPool.js');
 var RosParam = require(module_path + 'ros/rosParam.js')
 /* ----------------------------------------------------------------------- */
 
-var ros_service_name = '/rapp/rapp_face_detection/detect_faces';
+var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;  // Default is set at zero (0)
 
@@ -79,10 +83,6 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-var __hopServiceName = 'face_detection';
-var __hopServiceId = null;
-var __masterId = null;
-var __cacheDir = '~/.hop/cache/services/';
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = srvEnv[__hopServiceName].timeout; // ms
