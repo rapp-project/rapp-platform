@@ -2,46 +2,74 @@
   "speech_detection_sphinx4": {
     "Mode": "Deploy",
     "timeout": 15000,
-    "retries": 3
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text"
   },
   "speech_detection_google": {
     "Mode": "Deploy",
     "timeout": 5000,
-    "retries": 3
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_speech_detection_google/speech_to_text"
   },
   "qr_detection": {
     "Mode": "Deploy",
     "timeout": 1000,
-    "retries": 3
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_qr_detection/detect_qrs"
   },
   "face_detection": {
     "Mode": "Deploy",
     "timeout": 1000,
-    "retries": 3
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_face_detection/detect_faces"
   },
   "set_denoise_profile": {
     "Mode": "Deploy",
-    "timeout": 1000,
-    "retries": 3
+    "timeout": 2000,
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_audio_processing/set_noise_profile"
   },
   "ontology_subclasses_of": {
     "Mode": "Deploy",
-    "timeout": 1000,
-    "retries": 3
+    "timeout": 2000,
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_knowrob_wrapper/subclasses_of"
   },
   "ontology_superclasses_of": {
     "Mode": "Deploy",
-    "timeout": 1000,
-    "retries": 3
+    "timeout": 2000,
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_knowrob_wrapper/superclasses_of"
   },
   "ontology_is_subsuperclass_of": {
     "Mode": "Deploy",
-    "timeout": 3000,
-    "retries": 3
+    "timeout": 2000,
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_knowrob_wrapper/is_subsuperclass_of"
   },
   "detect_objects": {
     "Mode": "Deploy",
     "timeout": 3000,
-    "retries": 3
+    "retries": 3,
+    "ros_srv_name": ""
+  },
+  "record_cognitive_test_performance": {
+    "Mode": "Deploy",
+    "timeout": 3000,
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_cognitive_exercise/record_user_cognitive_tests_performance"
+  },
+  "cognitive_test_chooser": {
+    "Mode": "Deploy",
+    "timeout": 3000,
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser"
+  },
+  "text_to_speech": {
+    "Mode": "Deploy",
+    "timeout": 3000,
+    "retries": 3,
+    "ros_srv_name": "/rapp/rapp_text_to_speech_espeak/text_to_speech_topic"
   }
+
 }
