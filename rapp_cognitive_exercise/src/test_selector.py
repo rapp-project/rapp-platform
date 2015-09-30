@@ -280,9 +280,9 @@ class TestSelector:
         for answers in question.findall('answer'):          
           line.s.append(answers.find("body").text)        
         res.answers.append(line)
-            
-    
-      #check if ontology alias of user exists      
+      
+      res.success=True  
+       
     except IndexError:
       res.trace.append("Null pointer exception.. some argument was empty")
       res.error="Null pointer exception.. some argument was empty"
