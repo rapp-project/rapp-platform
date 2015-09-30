@@ -43,8 +43,14 @@ class RappInterfaceTest:
     self.testType = "ArithmeticCts"
     # Set the valid results
     self.valid_questions = [
+        'How much is two plus two?',
+        'How much is five plus two?'
     ]
     self.valid_answers = [
+        ['1', '2', '3', '4'],
+        ['1', '2', '7', '4']
+    ]
+    self.valid_correctAnswers = [
     ]
 
   def execute(self):
@@ -57,7 +63,6 @@ class RappInterfaceTest:
     return self.validate(response)
 
   def validate(self, response):
-    print response
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
