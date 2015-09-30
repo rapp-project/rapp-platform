@@ -47,7 +47,8 @@ testClasses = [
     'speech-detection',
     'speech-detection-sphinx4',
     'speech-detection-google',
-    'ontology'
+    'ontology',
+    'cognitive'
 ]
 
 testClassMatch = {
@@ -56,7 +57,8 @@ testClassMatch = {
     'speech-detection' : 'speech',
     'speech-detection-sphinx4' : 'sphinx4',
     'speech-detection-google' : 'google',
-    'ontology' : 'ontology'
+    'ontology' : 'ontology',
+    'cognitive': 'cognitive'
 }
 
 results = {
