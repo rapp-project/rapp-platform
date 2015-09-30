@@ -25,6 +25,7 @@
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
 
+import rospkg
 import rospy
 import sys
 import xml.etree.ElementTree as ET
@@ -255,16 +256,20 @@ class TestSelector:
         #retrieve past performance from ontology for specified category
       tmpList=finalTestname.split('#')
       res.test=tmpList[1]
-      tmp=expanduser('~') 
+
+      rospack = rospkg.RosPack()
+      localPackagePath=rospack.get_path('rapp_cognitive_exercise')
+      #res.trace.append(localPackagePath)
       #tmp=userPerformanceResponse.tests[0]
-      #res.trace.append(tmp)
+
       currentTimestamp = str(int(time.time()))
       edibleTime=datetime.now().strftime('%d/%m/%Y %H:%M:%S')
       #res.trace.append(edibleTime)
-      res.trace.append(finalTestFilePath)     
+     
       
       
-      #testFilePath=tmp+"/rapp_platform_catkin_ws/src/rapp-platform/rapp_cognitive_exercise/cognitiveTests/arithmeticTest1.xml"
+      finalTestFilePath=localPackagePath+finalTestFilePath
+      res.trace.append(finalTestFilePath)
       tree = ET.parse(finalTestFilePath)
       root = tree.getroot()
       

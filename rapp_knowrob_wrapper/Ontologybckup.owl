@@ -1201,7 +1201,7 @@
 
 <knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_vUXiHMJy">
   <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/home/thanos/rapp_platform_catkin_ws/src/rapp-platform/rapp_cognitive_exercise/cognitiveTests/ObjectIdentificationTest1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ObjectIdentificationTest1.xml</knowrob:cognitiveTestFilePath>
   <knowrob:cognitiveTestSubType rdf:resource="&knowrob;ObjectIdentificationCts"/>
   <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
 </knowrob:ReasoningCts>
@@ -2144,7 +2144,7 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
 
 <knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_qdaDeDZn">
   <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/home/thanos/rapp_platform_catkin_ws/src/rapp-platform/rapp_cognitive_exercise/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
   <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
   <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
 </knowrob:ArithmeticCts>
@@ -2835,7 +2835,7 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
 
 <knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_bneXbLGX">
   <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/home/thanos/rapp_platform_catkin_ws/src/rapp-platform/rapp_cognitive_exercise/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
   <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
   <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
 </knowrob:ArithmeticCts>
@@ -3946,7 +3946,7 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
 
 <knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_GJNNLYhq">
   <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/home/thanos/rapp_platform_catkin_ws/src/rapp-platform/rapp_cognitive_exercise/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
   <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
   <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
 </knowrob:ArithmeticCts>
@@ -8909,7 +8909,7 @@ Note that a fictional or imaginary object (such as Frodo, Captain Queeg, or HAL9
 
 <knowrob:AwarenessCts rdf:about="&knowrob;AwarenessCts_qdaDeDZn">
   <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/home/thanos/rapp_platform_catkin_ws/src/rapp-platform/rapp_cognitive_exercise/cognitiveTests/ObjectIdentificationTest1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ObjectIdentificationTest1.xml</knowrob:cognitiveTestFilePath>
   <knowrob:cognitiveTestSubType rdf:resource="&knowrob;LocationCts"/>
   <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
 </knowrob:AwarenessCts>
@@ -9266,7 +9266,7 @@ See also xAxisPredicateOfSystem and yAxisPredicateOfSystem.</rdfs:comment>
 
 <knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_pQmhNKHv">
   <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/home/thanos/rapp_platform_catkin_ws/src/rapp-platform/rapp_cognitive_exercise/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/additionsTest1.xml</knowrob:cognitiveTestFilePath>
   <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
   <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
 </knowrob:ArithmeticCts>
