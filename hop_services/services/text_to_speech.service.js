@@ -48,6 +48,7 @@ var __hopServiceId = null;
 var __masterId = null;
 var __cacheDir = '~/.hop/cache/services/';
 var audioOutFormat = 'wav';
+var basenamePrefix = 'tts_';
 /* ----------------------------------------------------------------------- */
 
 /* --------------------------< Load required modules >---------------------*/
@@ -109,7 +110,7 @@ service text_to_speech ( {text: '', language: ''} )
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqCallId = randStrGen.createUnique();
   var audioOutPath = Fs.resolve_path(
-    __cacheDir + unqCallId + '.' + audioOutFormat
+    __cacheDir + basenamePrefix + unqCallId + '.' + audioOutFormat
     );
   /* ---------------------------------------------------------------- */
 
