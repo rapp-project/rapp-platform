@@ -34,7 +34,7 @@
 
 
 var fs = require('fs');
-var Path = require('path');
+var path = require('path');
 
 
 /*!
@@ -54,7 +54,7 @@ function resolve_path( _path )
   }
   else
   {
-    newPath = Path.resolve( _path );
+    newPath = path.resolve( _path );
   }
   return newPath;
 };
@@ -76,61 +76,60 @@ function read_file_sync( _fileUrl, _encoding )
 {
   var file = {
     data: undefined,
-    datatype: undefined,
-    fileEncoding: undefined,
-    absoluteUrl: undefined,
+    encoding: undefined,
+    basename: undefined,
+    absolutePath: undefined,
     size: {
       bytes: undefined,
       kilobytes: undefined,
-      string: undefined
     }
   }
-  var path = resolve_path( _fileUrl );
-  file.absoluteUrl = path;
-  if( fs.existsSync( path ) )
+  var fileAbsPath = resolve_path( _fileUrl );
+  if( fs.existsSync( fileAbsPath ) )
   {
-    var dataBuffer = fs.readFileSync( path );
+    file.absolutePath = fileAbsPath;
+    file.basename = path.basename( fileAbsPath );
+    var dataBuffer = fs.readFileSync( fileAbsPath );
     file.size['bytes'] = dataBuffer.length;
     file.size['kilobytes'] = file.size['bytes'] / 1024;
     console.log("\033[0;33mReading requested file:" +
-      "[%s] , filesize: [%s]\033[0;0m", path, file.size['bytes']);
+      "[%s] , filesize: [%s]\033[0;0m", fileAbsPath, file.size['bytes']);
     encoding = _encoding || "none";
     switch ( encoding )
     {
       case "buffer":
         file.data = dataBuffer;
-        file.datatype = "buffer/raw_binary";
+        file.encoding = "raw";
         break;
-      case "string/ascii":
+      case "ascii":
         var str = dataBuffer.toString( 'ascii' );
         file.data = str;
-        file.datatype = "string/ascii";
-        file.size['string'] = str.length;
+        file.encoding = "ascii";
         break;
       case "string/utf8":
         var str = dataBuffer.toString( 'utf8' );
         file.data = str;
-        file.datatype = "string/utf8";
-        file.size['string'] = str.length;
+        file.encoding = "utf8";
         break;
       case "string/binary":
         var str = dataBuffer.toString( 'binary' );
         file.data = str;
-        file.datatype = "string/binary";
-        file.size['string'] = dataBuffer.length;
+        file.encoding = "binary";
         break;
       case "none":
         file.data = dataBuffer;
-        file.datatype = "buffer/raw_binary";
+        file.encoding = "raw";
         break;
       default:
         console.log( '\033[0;31mGiven encoding is not supported\033[0;0m' );
     }
+    return file;
   }
-  else{
+  else
+  {
     console.log("\033[01;31mCannot access the requested file. File does not exist.\033[0;0m");
+    return 0;
   }
-  return file;
 };
 
 
@@ -194,7 +193,7 @@ function createDirRecur(dirPath)
   if( createDir(dirPath) == false )
   {
     // Create all the parents recursively
-    createDirRecur(Path.dirname(dirPath));
+    createDirRecur(path.dirname(dirPath));
 
     // Then create the child directory
     createDirRecur(dirPath);
