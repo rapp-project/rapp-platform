@@ -161,7 +161,7 @@ service text_to_speech ( {text: '', language: ''} )
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
           var response = craft_response(event.value, audioOutPath);
-          sendResponse( response )
+          sendResponse( hop.HTTPResponseJson(response));
         }
       }
       catch(e){
@@ -173,7 +173,7 @@ service text_to_speech ( {text: '', language: ''} )
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         var response = craft_error_response();
-        sendResponse( response );
+        sendResponse( hop.HTTPResponseJson(response));
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
@@ -212,7 +212,7 @@ service text_to_speech ( {text: '', language: ''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -250,7 +250,7 @@ service text_to_speech ( {text: '', language: ''} )
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
                var response = craft_response(event.value, audioOutPath);
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
@@ -267,7 +267,7 @@ service text_to_speech ( {text: '', language: ''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -294,7 +294,7 @@ function craft_response(rosbridge_msg, audioFilePath)
   var call_result = msg.result;
   var error = msg.values.error;
   var logMsg = '';
-  //var crafted_msg = {data: '', error: ''};
+  var response = {payload: '', basename: '', encoding: '', error: ''};
 
   if (call_result)
   {
@@ -304,18 +304,18 @@ function craft_response(rosbridge_msg, audioFilePath)
     {
       logMsg += ' ROS service [' + ros_service_name + '] error'
         ' ---> ' + error;
-      //crafted_msg.error = error;
-      var response = {error: error};
-      return JSON.stringify(response);
+      response.error = error;
     }
     else
     {
       logMsg += ' ROS service [' + ros_service_name + '] returned with success'
-      //audioFile = Fs.read_file_sync(audioFilePath);
-      //var data = {data: audioFile.data.toString('')};
-      //console.log(data);
-      var response = hop.HTTPResponseFile ( audioFilePath  );
-      return response;
+      if( audioFile = Fs.read_file_sync(audioFilePath) )
+      {
+        response.payload = audioFile.data.toString('base64');
+        response.basename = audioFile.basename;
+        response.encoding = 'base64';
+      }
+      else{ response.error = 'RAPP Platform Failure' }
     }
   }
   else
@@ -323,14 +323,12 @@ function craft_response(rosbridge_msg, audioFilePath)
     logMsg = 'Communication with ROS service ' + ros_service_name +
       'failed. Unsuccesful call! Returning to client with error' +
       ' ---> RAPP Platform Failure';
-
-    var response = {error: 'RAPP Platform Failure'};
-    return JSON.stringify(response);
+    response.error = 'RAPP Platform Failure';
   }
 
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   //console.log(crafted_msg)
-  //return JSON.stringify(crafted_msg);
+  return response
 };
 
 
@@ -341,12 +339,11 @@ function craft_error_response()
 {
   // Add here to be returned literal
   var errorMsg = 'RAPP Platform Failure!'
-  var crafted_msg = { error: errorMsg };
+  var response = { error: errorMsg };
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-  return JSON.stringify(crafted_msg);
+  return response;
 }
 
 
