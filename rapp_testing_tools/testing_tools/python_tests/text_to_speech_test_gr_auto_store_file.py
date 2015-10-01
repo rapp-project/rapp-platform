@@ -41,13 +41,14 @@ class RappInterfaceTest:
     self.language = 'el'
     self.text = u'Καλησπέρα. Είμαι ο ναο.'
     self.audioDataSize = 79204
-    self.destDir = '/tmp/'
+    self.destFilePath = '/tmp/ttsClient.wav'
     # Set the valid results
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.text_to_speech(self.text, self.language, '')
+    response = self.rappCloud.text_to_speech(self.text, self.language,
+                                             self.destFilePath)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
@@ -56,12 +57,8 @@ class RappInterfaceTest:
     if response['error']:
         return [response['error'], self.elapsed_time]
 
-    # Get the returned data
-    audioData = response['audioData']
     # Check if the returned data are equal to the expected
-    if len(audioData) == self.audioDataSize:
-        with open(self.destDir + response['basename'], 'wb') as f1:
-            f1.write(audioData)
+    if os.path.getsize(self.destFilePath) == self.audioDataSize:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + 'Invalid size of audio data', self.elapsed_time]
