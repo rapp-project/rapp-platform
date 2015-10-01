@@ -208,10 +208,10 @@ function createDirRecur(dirPath)
  */
 function rmFile(_file)
 {
-  var path =  resolve_path(_file);
-  if(fs.existsSync(path))
+  var filePath =  resolve_path(_file);
+  if(fs.existsSync(filePath))
   {
-    fs.unlinkSync(path);
+    fs.unlinkSync(filePath);
     //console.log("Successfully deleted file: [%s]", path);
     return true;
   }
@@ -391,12 +391,12 @@ function copyFile(file, dest)
 /*!
  * @brief Returns the parent directory name for given path.
  */
-function parentDir(path)
+function parentDir(_path)
 {
-  var absPath = resolve_path(path);
+  var absPath = resolve_path(_path);
   try
   {
-    var parentDir = Path.dirname(absPath);
+    var parentDir = path.dirname(absPath);
   }
   catch(e)
   {
