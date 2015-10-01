@@ -48,7 +48,8 @@ testClasses = [
     'speech-detection-sphinx4',
     'speech-detection-google',
     'ontology',
-    'cognitive'
+    'cognitive',
+    'tts'
 ]
 
 testClassMatch = {
@@ -58,7 +59,8 @@ testClassMatch = {
     'speech-detection-sphinx4' : 'sphinx4',
     'speech-detection-google' : 'google',
     'ontology' : 'ontology',
-    'cognitive': 'cognitive'
+    'cognitive': 'cognitive',
+    'tts': 'text_to_speech'
 }
 
 results = {
