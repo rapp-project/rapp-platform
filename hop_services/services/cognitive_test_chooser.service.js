@@ -289,15 +289,18 @@ function craft_response(rosbridge_msg)
   var questions = msg.values.questions;
   var answers = msg.values.answers;
   var correctAnswers = msg.values.correctAnswers;
+  var test = msg.values.test;
   //console.log(msg)
 
-  var crafted_msg = {questions: [], answers: [], correctAnswers: [], error: ''};
+  var crafted_msg = {questions: [], answers: [], correctAnswers: [],
+    test: '', error: ''};
   var logMsg = '';
 
   if (call_result)
   {
     crafted_msg.questions = questions;
     crafted_msg.correctAnswers = correctAnswers;
+    crafted_msg.test = test;
     for (var ii = 0; ii < answers.length; ii++)
     {
       crafted_msg.answers.push( answers[ii].s )
