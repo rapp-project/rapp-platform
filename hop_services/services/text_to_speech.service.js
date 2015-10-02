@@ -126,6 +126,7 @@ service text_to_speech ( {text: '', language: ''} )
      };
 
       var respFlag = false;
+      var wsError = false;
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId)
 
       /**
@@ -135,18 +136,18 @@ service text_to_speech ( {text: '', language: ''} )
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
 
-        // Register WebSocket.onopen callback
+        // Register WebSocket.onopen event callback
         rosWS.onopen = function(){
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
           this.send(JSON.stringify(rosbridge_msg));
         }
-        // Register WebSocket.onclose callback
+        // Register WebSocket.onclose event callback
         rosWS.onclose = function(){
           var logMsg = 'Connection to rosbridge closed';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
         }
-        // Register WebSocket.message callback
+        // Register WebSocket.message event callback
         rosWS.onmessage = function(event){
           if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
           var logMsg = 'Received message from rosbridge';
@@ -164,10 +165,26 @@ service text_to_speech ( {text: '', language: ''} )
           var response = craft_response(event.value, audioOutPath);
           sendResponse( hop.HTTPResponseJson(response));
         }
+        // Register WebSocket.onerror event callback
+        rosWS.onerror = function(e){
+          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+          rosWS = undefined;
+          wsError = true;
+
+          var logMsg = 'Websocket' +
+            'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+          var response = craft_error_response();
+          sendResponse( response );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
+        }
       }
       catch(e){
         if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
         rosWS = undefined;
+        wsError = true;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
@@ -187,10 +204,7 @@ service text_to_speech ( {text: '', language: ''} )
       function asyncWrap(){
         setTimeout( function(){
 
-         if (respFlag)
-         {
-           return;
-         }
+         if (respFlag || wsError) { return; }
          else{
            retries += 1;
 
@@ -217,10 +231,7 @@ service text_to_speech ( {text: '', language: ''} )
              return;
            }
 
-           if (rosWS != undefined)
-           {
-             rosWS.close();
-           }
+           if (rosWS != undefined) { rosWS.close(); }
            rosWS = undefined;
 
            /* --------------< Re-open connection to the WebSocket >--------------*/
@@ -255,11 +266,26 @@ service text_to_speech ( {text: '', language: ''} )
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
+             rosWS.onerror = function(e){
+               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+               rosWS = undefined;
+               wsError = true;
+
+               var logMsg = 'Websocket' +
+                 'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+               var response = craft_error_response();
+               sendResponse( response );
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             }
+
            }
            catch(e){
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
              rosWS = undefined;
-             //console.log(e);
+             wsError = true;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';
@@ -315,6 +341,8 @@ function craft_response(rosbridge_msg, audioFilePath)
         response.payload = audioFile.data.toString('base64');
         response.basename = audioFile.basename;
         response.encoding = 'base64';
+        // Remove local file immediately.
+        Fs.rmFile(audioFilePath);
       }
       else{ response.error = 'RAPP Platform Failure' }
     }

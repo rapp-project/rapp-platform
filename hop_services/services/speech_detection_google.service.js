@@ -1,6 +1,6 @@
 /*!
- * @file speech_detection_sphinx4.service.js
- * @brief Speech-Detection hop front-end service.
+ * @file speech_detection_google.service.js
+ * @brief Speech-Detection hop front-end service. Using google engine.
  */
 
 /**
@@ -36,12 +36,8 @@
 //"use strict";
 
 
-// TODO -- Load PLATFORM parameters from JSON file
-// TODO -- Load ROS-Topics/Services names from parameter server (ROS)
-
-var __DEBUG__ = false;
-
 /*---------Sets required file Paths-------------*/
+var __DEBUG__ = false;
 var user = process.env.LOGNAME;
 var module_path = '../modules/';
 var config_path = '../config/';
@@ -160,6 +156,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
       };
 
       var respFlag = false;
+      var wsError = false;
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId)
 
       /**
@@ -169,13 +166,13 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
 
-        // Register WebSocket.onopen callback
+        // Register WebSocket.onopen event callback
         rosWS.onopen = function(){
           var logMsg = 'Connection to rosbridge established';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
           this.send(JSON.stringify(rosbridge_msg));
         }
-        // Register WebSocket.onclose callback
+        // Register WebSocket.onclose event callback
         rosWS.onclose = function(){
           var logMsg = 'Connection to rosbridge closed';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -200,10 +197,27 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
           var response = craft_response(event.value);
           sendResponse( response );
         }
+        // Register WebSocket.onerror event callback
+        rosWS.onerror = function(e){
+          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+          rosWS = undefined;
+          wsError = true;
+
+          var logMsg = 'Websocket' +
+            'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+          Fs.rmFile(cpFilePath);
+          var response = craft_error_response();
+          sendResponse( response );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
+        }
       }
       catch(e){
         if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
         rosWS = undefined;
+        wsError = true;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
@@ -224,10 +238,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
       function asyncWrap(){
         setTimeout( function(){
 
-         if (respFlag)
-         {
-           return;
-         }
+         if (respFlag || wsError) { return; }
          else{
            retries += 1;
 
@@ -256,10 +267,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
              return;
            }
 
-           if (rosWS != undefined)
-           {
-             rosWS.close();
-           }
+           if (rosWS != undefined) { rosWS.close(); }
            rosWS = undefined;
 
            /* --------------< Re-open connection to the WebSocket >--------------*/
@@ -295,11 +303,26 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
+             rosWS.onerror = function(e){
+               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+               rosWS = undefined;
+               wsError = true;
+
+               var logMsg = 'Websocket' +
+                 'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+               Fs.rmFile(cpFilePath);
+               var response = craft_error_response();
+               sendResponse( response );
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             }
            }
            catch(e){
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
              rosWS = undefined;
-             //console.log(e);
+             wsError = true;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';

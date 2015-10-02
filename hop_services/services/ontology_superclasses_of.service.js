@@ -113,6 +113,7 @@ service ontology_superclasses_of ( {query:''} )
       args[ "ontology_class" ] = query;
 
       var respFlag = false;
+      var wsError = false;
       // Create a unique caller id
       var unqCallId = randStrGen.createUnique();
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
@@ -154,10 +155,26 @@ service ontology_superclasses_of ( {query:''} )
           var response = craft_response(event.value);
           sendResponse( response );
         }
+        // Register WebSocket.onerror callback
+        rosWS.onerror = function(e){
+          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+          rosWS = undefined;
+          wsError = true;
+
+          var logMsg = 'Websocket' +
+            'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+          var response = craft_error_response();
+          sendResponse( response );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
+        }
       }
       catch(e){
         if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
         rosWS = undefined;
+        wsError = true;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
@@ -177,10 +194,7 @@ service ontology_superclasses_of ( {query:''} )
       function asyncWrap(){
         setTimeout( function(){
 
-         if (respFlag)
-         {
-           return;
-         }
+         if (respFlag || wsError) { return; }
          else{
            retries += 1;
 
@@ -208,10 +222,7 @@ service ontology_superclasses_of ( {query:''} )
              return;
            }
 
-           if (rosWS != undefined)
-           {
-             rosWS.close();
-           }
+           if (rosWS != undefined) { rosWS.close(); }
            rosWS = undefined;
 
            /* --------------< Re-open connection to the WebSocket >--------------*/
@@ -246,11 +257,26 @@ service ontology_superclasses_of ( {query:''} )
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
+             rosWS.onerror = function(e){
+               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+               rosWS = undefined;
+               wsError = true;
+
+               var logMsg = 'Websocket' +
+                 'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+               var response = craft_error_response();
+               sendResponse( response );
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             }
+
            }
            catch(e){
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
              rosWS = undefined;
-             //console.log(e);
+             wsError = true;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';

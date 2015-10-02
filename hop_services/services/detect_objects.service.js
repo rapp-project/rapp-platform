@@ -39,9 +39,6 @@
 //"use strict";
 
 
-// TODO -- Load PLATFORM parameters from JSON file
-// TODO -- Load ROS-Topics/Services names from parameter server (ROS)
-
 
 /* ------------< Load and set basic configuration parameters >-------------*/
 var __DEBUG__ = false;
@@ -179,6 +176,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
 
 /*=============================TEMPLATE======================================================*/
       var respFlag = false;
+      var wsError = false;
       var rosbridge_msg = craft_rosbridge_msg(args, ros_service_name, unqCallId);
 
       /**
@@ -219,10 +217,26 @@ service detect_objects ( {file_uri:'', limit: ''} )
           var response = craft_response(event.value);
           sendResponse( response );
         }
+        rosWS.onerror = function(e){
+          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+          rosWS = undefined;
+          wsError = true;
+
+          var logMsg = 'Websocket' +
+            'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+          Fs.rmFile(cpFilePath);
+          var response = craft_error_response();
+          sendResponse( response );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
+        }
       }
       catch(e){
         if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
         rosWS = undefined;
+        wsError = true;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
@@ -243,7 +257,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
       function asyncWrap(){
         setTimeout( function(){
 
-         if (respFlag)
+         if (respFlag || wsError)
          {
            return;
          }
@@ -314,11 +328,26 @@ service detect_objects ( {file_uri:'', limit: ''} )
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
+             rosWS.onerror = function(e){
+               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+               rosWS = undefined;
+               wsError = true;
+
+               var logMsg = 'Websocket' +
+                 'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+               Fs.rmFile(cpFilePath);
+               var response = craft_error_response();
+               sendResponse( response );
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             }
            }
            catch(e){
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
              rosWS = undefined;
-             //console.log(e);
+             wsError = true;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';

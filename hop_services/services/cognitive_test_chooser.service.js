@@ -1,5 +1,5 @@
 /*!
- * @file test_selector.service.js
+ * @file cognitive_test_chooser.service.js
  *
  */
 
@@ -111,6 +111,7 @@ service cognitive_test_chooser( {username: '', testType: ''} )
      };
 
       var respFlag = false;
+      var wsError = false;
       // Create a unique caller id
       var unqCallId = randStrGen.createUnique();
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
@@ -127,12 +128,12 @@ service cognitive_test_chooser( {username: '', testType: ''} )
           postMessage( craft_slaveMaster_msg('log', logMsg) );
           this.send(JSON.stringify(rosbridge_msg));
         }
-        // Register WebSocket.oncloschooserck
+        // Register WebSocket.onclose callback
         rosWS.onclose = function(){
           var logMsg = 'Connection to rosbridge closed';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
         }
-        // Register WebSocket.message callback
+        // Register WebSocket.onmessage callback
         rosWS.onmessage = function(event){
           if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
           var logMsg = 'Received message from rosbridge';
@@ -150,11 +151,27 @@ service cognitive_test_chooser( {username: '', testType: ''} )
           var response = craft_response(event.value);
           sendResponse( response );
         }
+        // Register WebSocket.onerror callback
+        rosWS.onerror = function(e){
+          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+          rosWS = undefined;
+          wsError = true;
+
+          var logMsg = 'Websocket' +
+            'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+          var response = craft_error_response();
+          sendResponse( response );
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
+        }
       }
       catch(e){
         if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
         if(rosWS){ rosWS.close()}
         rosWS = undefined;
+        wsError = true;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
@@ -174,10 +191,7 @@ service cognitive_test_chooser( {username: '', testType: ''} )
       function asyncWrap(){
         setTimeout( function(){
 
-         if (respFlag)
-         {
-           return;
-         }
+         if (respFlag || wsError) { return; }
          else{
            retries += 1;
 
@@ -205,10 +219,7 @@ service cognitive_test_chooser( {username: '', testType: ''} )
              return;
            }
 
-           if (rosWS != undefined)
-           {
-             rosWS.close();
-           }
+           if (rosWS != undefined) { rosWS.close(); }
            rosWS = undefined;
 
            /* --------------< Re-open connection to the WebSocket >--------------*/
@@ -243,12 +254,28 @@ service cognitive_test_chooser( {username: '', testType: ''} )
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
+             // Register WebSocket.onerror callback
+             rosWS.onerror = function(e){
+               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+               rosWS = undefined;
+               wsError = true;
+
+               var logMsg = 'Websocket' +
+                 'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+               var response = craft_error_response();
+               sendResponse( response );
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             }
+
            }
            catch(e){
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
              if(rosWS){ rosWS.close()}
              rosWS = undefined;
-             //console.log(e);
+             wsError = true;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';
