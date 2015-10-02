@@ -25,7 +25,7 @@ qr_detection ( {file_uri: ''} )
 
   **Response/Return-Data**
 
-  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received datia.
+  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
   > { qr_centers: [], qr_messages: [], error: '' }
 
@@ -41,7 +41,6 @@ qr_detection ( {file_uri: ''} )
   >   qr_messages: ['rapp project qr sample'],
   >   error: ''
   > }
-
 
 
 
@@ -64,7 +63,7 @@ qr_detection ( {file_uri: ''} )
   **Response/Return-Data**
 
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received datia.
+  the received data.
 
   > { faces: [{ up_left_point: {}, down_right_point: {} }], error: '' }
 
@@ -87,6 +86,10 @@ qr_detection ( {file_uri: ''} )
   >    }],
   >   error: ''
   > }
+
+
+
+### Speech Detection related services.
 
 
 #### [set_denoise_profile( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/set_denoise_profile.service.js)
@@ -114,7 +117,7 @@ qr_detection ( {file_uri: ''} )
   **Response/Return-Data**
 
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received datia.
+  the received data.
 
   > { error: '<error_message>' }
 
@@ -131,7 +134,7 @@ qr_detection ( {file_uri: ''} )
 
   ```
   speech_detection_sphinx4 ( { file_uri: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''})
-  ``` 
+  ```
 
   **Input parameters**
 
@@ -157,7 +160,7 @@ qr_detection ( {file_uri: ''} )
   **Response/Return-Data**
 
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received datia.
+  the received data.
 
   > { words: [], error: '<error_message>' }
 
@@ -165,6 +168,45 @@ qr_detection ( {file_uri: ''} )
     and returned to the client.
   - **'words[]'**: A vector that contains the "words-found"
 
+
+#### [speech_detection_google( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/speech_detection_google.service.js) 
+
+  ```
+  speech_detection_sphinx4 ( { file_uri: '', audio_source: '',  user: '', language: ''} )
+  ```
+
+  **Input parameters**
+
+  - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server.
+    Data are posted using a multipart/form-data post request using this field.
+    e.g.
+
+    ```
+    file = {'file_uri': open(<to-send-file-path>, 'rb')}
+    ```
+
+  - **'language'**: Language to be used by the speech_detection_sphinx4 module.
+    Currently valid language values are ‘gr’ for Greek and ‘en’ for English.
+  - **'audio_source'**: A value that presents the <robot>_<encode>_<channels> information for the audio source data.
+    e.g "nao_wav_1_ch".
+  - **'user'**: User’s name. Used for per-user profile denoise configurations.
+    e.g "klpanagi"
+
+
+  **Response/Return-Data**
+
+  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
+  the received data.
+
+  > { words: [], alternatives: [] error: '<error_message>' }
+
+  - **'error'**: If error was encountered, an error message is pushed in this field
+    and returned to the client.
+  - **'words[]'**: A vector that contains the "words-found" with highest confidence.
+  - **'alternatives[[]]'**: vector<vector<string>> Alternative sentences.
+
+
+### Ontology related services.
 
 
 #### [ontology_subclasses_of( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_subclasses_of.service.js)
@@ -181,7 +223,7 @@ qr_detection ( {file_uri: ''} )
   **Response/Return-Data**
 
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received datia.
+  the received data.
 
   > { results: [], trace: [], error: '<error_message>' }
 
@@ -214,7 +256,7 @@ qr_detection ( {file_uri: ''} )
   **Response/Return-Data**
 
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received datia.
+  the received data.
 
   > { results: [], trace: [], error: '<error_message>' }
 
@@ -240,7 +282,7 @@ qr_detection ( {file_uri: ''} )
   **Response/Return-Data**
 
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received datia.
+  the received data.
 
   > { results: [], trace: [], error: '<error_message>' }
 
@@ -250,13 +292,86 @@ qr_detection ( {file_uri: ''} )
     and returned to the client.
 
 
+### Text-To-Speech (tts) related services
+
+#### [text_to_speech( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/text_to_speech.service.js)
+
+  ```
+    text_to_speech( { text: '', language: ''} )
+  ```
+
+  **Input parameters**
+
+  - **'text'**: Input text to translate to audio data.
+  - **'language'**: Language to be used for the TTS module. Valid values are currently **el** and **en**
+
+
+  **Response/Return-Data**
+
+  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
+  the received data.
+
+  > { payload: <audio_data>, basename: <audio_file_basename>, encoding: <payload_encoding>, error: <error_message> }
+
+
+  - **'payload'**: The audio data payload. Payload encoding is defined by the 'encoding' json field. Decode the payload audio data (client-side) using the codec value from the 'encoding' field.
+  - **'encoding**: Codec used to encode the audio data payload. Currently encoding of binary data is done using base64 codec. Ignore this field. May be used in future implementations.
+  - **'basename'**: A static basename for the audio data file, returned by the platform service. Ignore this field. May be usefull in future implementations.
+  - **'error'**: If error was encountered, an error message is pushed in this field.
+
+
+### Cognitive Exercises related services.
+
+
+#### [cognitive_test_chooser( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/cognitive_test_chooser.service.js)
+
+  ```
+  cognitive_test_chooser( { username: '', testType: '' } )
+  ```
+
+
+  **Input parameters**
+
+  - **'username'**: Username of client used to retrieve information from database.
+    e.g "klpanagi"
+  - **'testType'**: Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
+
+
+  **Response/Return-Data**
+
+  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
+  the received data.
+
+  > { questions: [], answers: [], correctAnswers: [], test: '', error: '' }
+
+  - **'questions'**: The exercise set of questions.
+  - **'answers'**:  The set of answers for each question. vector<vector<string>>
+  - **'correctAnswers'**: The set of correct answers for each question. vector<string>
+  - **'test'**: Returned test name. For example, 'ArithmeticCts_askw0Snwk'
+  - **'error'**: If error was encountered, an error message is pushed in this field.
+
+
+### Health - RAPP Platform Status
+
+
+#### [rapp_platform_status](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/rapp_platform_status.service.js)
+
+  ```
+  rapp_platform_status()
+  ```
+
+  Invoke this service from your favourite web browser:
+
+  > <rapp_platform_address>/9001/hop/rapp_platform_status
+
+
 
 ## Tests
 
 Developed tests and testing tools are currently located under:
 
 ```
-../utilities/testing_tools/
+rapp-platform/rapp_testing_tools/
 ```
 
 ## Contributors

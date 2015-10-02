@@ -20,7 +20,8 @@ a HOP Web Service js executable file and it is registered as a worker to HOP Web
 ## Directories
 
 - services/ : Front-end HOP services running on RAPP Platform.
-- module/ : Module used for developing and testing HOP services.
+- module/   : Modules used for developing and testing HOP services.
+- config/   : Configurations directoroy.
 
 
 
