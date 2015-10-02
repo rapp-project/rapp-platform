@@ -215,7 +215,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
           var response = craft_response(event.value);
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
         }
         rosWS.onerror = function(e){
           if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
@@ -228,7 +228,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
 
           Fs.rmFile(cpFilePath);
           var response = craft_error_response();
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
         }
@@ -244,7 +244,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
 
         Fs.rmFile(cpFilePath);
         var response = craft_error_response();
-        sendResponse( response );
+        sendResponse( hop.HTTPResponseJson(response));
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
@@ -285,7 +285,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -324,7 +324,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
                var response = craft_response(event.value);
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
@@ -339,7 +339,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
 
                Fs.rmFile(cpFilePath);
                var response = craft_error_response();
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
              }
@@ -358,7 +358,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -433,7 +433,7 @@ function craft_response(rosbridge_msg)
 
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   //console.log(crafted_msg);
-  return JSON.stringify(crafted_msg)
+  return crafted_msg;
 };
 
 
@@ -449,7 +449,7 @@ function craft_error_response()
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   //console.log(crafted_msg);
-  return JSON.stringify(crafted_msg);
+  return crafted_msg;
 }
 
 

@@ -183,15 +183,14 @@ service face_detection ( {file_uri:''} )
           Fs.rmFile(cpFilePath);
           respFlag = true; // Raise Response-Received Flag
 
-          this.close(); // Close websocket
-          rosWS = undefined; // Ensure deletion of websocket
-
           // Dismiss the unique call identity key for current client.
           randStrGen.removeCached( unqCallId );
+          var response = craft_response(event.value);
+          sendResponse( hop.HTTPResponseJson(response));
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
-          var response = craft_response(event.value);
-          sendResponse( response );
+          this.close(); // Close websocket
+          rosWS = undefined; // Ensure deletion of websocket
         }
         rosWS.onerror = function(e){
           if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
@@ -204,7 +203,7 @@ service face_detection ( {file_uri:''} )
 
           Fs.rmFile(cpFilePath);
           var response = craft_error_response();
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
         }
@@ -220,7 +219,7 @@ service face_detection ( {file_uri:''} )
 
         Fs.rmFile(cpFilePath);
         var response = craft_error_response();
-        sendResponse( response );
+        sendResponse( hop.HTTPResponseJson(response));
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
@@ -258,7 +257,7 @@ service face_detection ( {file_uri:''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -294,7 +293,7 @@ service face_detection ( {file_uri:''} )
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
                var response = craft_response(event.value);
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
@@ -309,7 +308,7 @@ service face_detection ( {file_uri:''} )
 
                Fs.rmFile(cpFilePath);
                var response = craft_error_response();
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
              }
@@ -328,7 +327,7 @@ service face_detection ( {file_uri:''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -398,7 +397,7 @@ function craft_response(rosbridge_msg)
 
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   //console.log(crafted_msg.faces);
-  return JSON.stringify(crafted_msg)
+  return crafted_msg;
 };
 
 
@@ -408,13 +407,13 @@ function craft_response(rosbridge_msg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var errorMsg = 'RAPP Platform Failure!'
+  var errorMsg = 'RAPP Platform Failure'
   var crafted_msg = {faces: [], error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return JSON.stringify(crafted_msg);
+  return crafted_msg;
 }
 
 

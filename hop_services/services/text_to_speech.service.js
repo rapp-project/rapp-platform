@@ -176,7 +176,7 @@ service text_to_speech ( {text: '', language: ''} )
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           var response = craft_error_response();
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
         }
@@ -276,7 +276,7 @@ service text_to_speech ( {text: '', language: ''} )
                postMessage( craft_slaveMaster_msg('log', logMsg) );
 
                var response = craft_error_response();
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
              }
@@ -357,7 +357,7 @@ function craft_response(rosbridge_msg, audioFilePath)
 
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   //console.log(crafted_msg)
-  return response
+  return response;
 };
 
 
@@ -367,8 +367,8 @@ function craft_response(rosbridge_msg, audioFilePath)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var errorMsg = 'RAPP Platform Failure!'
-  var response = { error: errorMsg };
+  var errorMsg = 'RAPP Platform Failure';
+  var response = {payload: '', basename: '', encoding: '', error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );

@@ -195,7 +195,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
           var response = craft_response(event.value);
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
         }
         // Register WebSocket.onerror event callback
         rosWS.onerror = function(e){
@@ -209,7 +209,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
 
           Fs.rmFile(cpFilePath);
           var response = craft_error_response();
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
         }
@@ -225,7 +225,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
 
         Fs.rmFile(cpFilePath);
         var response = craft_error_response();
-        sendResponse( response );
+        sendResponse( hop.HTTPResponseJson(response));
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
@@ -263,7 +263,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -299,7 +299,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
                var response = craft_response(event.value);
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
@@ -314,7 +314,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
 
                Fs.rmFile(cpFilePath);
                var response = craft_error_response();
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
              }
@@ -333,7 +333,7 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -397,8 +397,7 @@ function craft_response(rosbridge_msg)
 
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  //return crafted_msg;
-  return JSON.stringify(crafted_msg)
+  return crafted_msg;
 };
 
 
@@ -409,13 +408,13 @@ function craft_response(rosbridge_msg)
 function craft_error_response()
 {
   // Add here to be returned literal
-  var errorMsg = 'RAPP Platform Failure!'
-    var crafted_msg = {words: [], error: errorMsg};
+  var errorMsg = 'RAPP Platform Failure';
+  var crafted_msg = { words: [], alternatives: [], error: errorMsg };
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return JSON.stringify(crafted_msg);
+  return crafted_msg;
 }
 
 

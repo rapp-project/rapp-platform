@@ -193,7 +193,7 @@ service qr_detection ( {file_uri:''} )
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
           var response = craft_response(event.value);
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
         }
         // Register WebSocket.onerror event callback
         rosWS.onerror = function(e){
@@ -207,7 +207,7 @@ service qr_detection ( {file_uri:''} )
 
           Fs.rmFile(cpFilePath);
           var response = craft_error_response();
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
         }
@@ -223,7 +223,7 @@ service qr_detection ( {file_uri:''} )
 
         Fs.rmFile(cpFilePath);
         var response = craft_error_response();
-        sendResponse( response );
+        sendResponse( hop.HTTPResponseJson(response));
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
@@ -261,7 +261,7 @@ service qr_detection ( {file_uri:''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -297,7 +297,7 @@ service qr_detection ( {file_uri:''} )
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
                var response = craft_response(event.value);
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
@@ -312,7 +312,7 @@ service qr_detection ( {file_uri:''} )
 
                Fs.rmFile(cpFilePath);
                var response = craft_error_response();
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
              }
@@ -331,7 +331,7 @@ service qr_detection ( {file_uri:''} )
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -363,7 +363,6 @@ function craft_response(rosbridge_msg)
   //console.log(msg);
 
   var crafted_msg = {qr_centers: [], qr_messages: [], error: ''};
-  // qrPoint object
 
   var logMsg = '';
   if (call_result)
@@ -400,7 +399,7 @@ function craft_response(rosbridge_msg)
 
   //console.log(crafted_msg);
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-  return JSON.stringify(crafted_msg)
+  return crafted_msg;
 }
 
 
@@ -409,13 +408,13 @@ function craft_response(rosbridge_msg)
  */
 function craft_error_response()
 {
-  var errorMsg = 'RAPP Platform Failure!'
-  var crafted_msg = {qr_centers: [], error: errorMsg};
+  var errorMsg = 'RAPP Platform Failure';
+  var crafted_msg = {qr_centers: [], qr_messages: [], error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return JSON.stringify(crafted_msg);
+  return crafted_msg;
 }
 
 
