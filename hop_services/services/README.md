@@ -87,10 +87,11 @@ qr_detection ( {file_uri: ''} )
   >   error: ''
   > }
 
-
+------------------------------
 
 ### Speech Detection related services.
 
+------------------------------
 
 #### [set_denoise_profile( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/set_denoise_profile.service.js)
 
@@ -187,7 +188,7 @@ qr_detection ( {file_uri: ''} )
 
   - **'language'**: Language to be used by the speech_detection_sphinx4 module.
     Currently valid language values are ‘gr’ for Greek and ‘en’ for English.
-  - **'audio_source'**: A value that presents the <robot>_<encode>_<channels> information for the audio source data.
+  - **'audio_source'**: A value that presents the {robot}_{encode}_{channels} information for the audio source data.
     e.g "nao_wav_1_ch".
   - **'user'**: User’s name. Used for per-user profile denoise configurations.
     e.g "klpanagi"
@@ -203,11 +204,14 @@ qr_detection ( {file_uri: ''} )
   - **'error'**: If error was encountered, an error message is pushed in this field
     and returned to the client.
   - **'words[]'**: A vector that contains the "words-found" with highest confidence.
-  - **'alternatives[[]]'**: vector<vector<string>> Alternative sentences.
+  - **'alternatives[[]]'**: Alternative sentences. e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...]
 
+
+------------------------------
 
 ### Ontology related services.
 
+------------------------------
 
 #### [ontology_subclasses_of( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_subclasses_of.service.js)
 
@@ -225,10 +229,9 @@ qr_detection ( {file_uri: ''} )
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
   the received data.
 
-  > { results: [], trace: [], error: '<error_message>' }
+  > { results: [], error: '<error_message>' }
 
   - **'results'**: Query results returned from ontology database.
-  - **'trace'**:
   - **'error'**: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
@@ -258,10 +261,9 @@ qr_detection ( {file_uri: ''} )
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
   the received data.
 
-  > { results: [], trace: [], error: '<error_message>' }
+  > { results: [], error: '<error_message>' }
 
   - **'results'**: Query results returned from ontology database.
-  - **'trace'**:
   - **'error'**: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
@@ -284,15 +286,18 @@ qr_detection ( {file_uri: ''} )
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
   the received data.
 
-  > { results: [], trace: [], error: '<error_message>' }
+  > { results: [], error: '<error_message>' }
 
   - **'results'**: Query results returned from ontology database.
-  - **'trace'**:
   - **'error'**: If error was encountered, an error message is pushed in this field
     and returned to the client.
 
 
+------------------------------
+
 ### Text-To-Speech (tts) related services
+
+------------------------------
 
 #### [text_to_speech( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/text_to_speech.service.js)
 
@@ -320,8 +325,11 @@ qr_detection ( {file_uri: ''} )
   - **'error'**: If error was encountered, an error message is pushed in this field.
 
 
+------------------------------
+
 ### Cognitive Exercises related services.
 
+------------------------------
 
 #### [cognitive_test_chooser( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/cognitive_test_chooser.service.js)
 
@@ -362,7 +370,7 @@ qr_detection ( {file_uri: ''} )
 
   Invoke this service from your favourite web browser:
 
-  > <rapp_platform_address>/9001/hop/rapp_platform_status
+  > {rapp_platform_address}/9001/hop/rapp_platform_status
 
 
 
