@@ -310,7 +310,7 @@ function craft_response(rosbridge_msg)
   var success = msg.values.success;
   var error = msg.values.error;
   var call_result = msg.result;
-  var crafted_msg = {results: [], trace: [], error: ''};
+  var crafted_msg = {results: [], error: ''};
   var logMsg = '';
 
   if (call_result)
@@ -318,10 +318,6 @@ function craft_response(rosbridge_msg)
     for (var ii = 0; ii < results.length; ii++)
     {
       crafted_msg.results.push(results[ii]);
-    }
-    for (var ii = 0; ii < trace.length; ii++)
-    {
-      crafted_msg.trace.push(trace[ii]);
     }
 
     crafted_msg.error = error;
@@ -356,8 +352,8 @@ function craft_response(rosbridge_msg)
  */
 function craft_error_response()
 {
-  var errorMsg = 'RAPP Platform Failure!'
-  var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+  var errorMsg = 'RAPP Platform Failure'
+  var crafted_msg = {results: [], error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
