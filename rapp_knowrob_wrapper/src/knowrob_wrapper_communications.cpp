@@ -149,18 +149,18 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
   //rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
-  std::string path = ros::package::getPath("rapp_knowrob_wrapper");
+  //std::string path = ros::package::getPath("rapp_knowrob_wrapper");
 
 
 
-  req.file_url=path+std::string("/Ontologybckup.owl");  
-  const char * c = req.file_url.c_str();  
-  if(!checkIfFileExists(c))
-  {
-    ROS_ERROR("Ontology backup was not loaded, backup file does not exist.. Continuing with empty ontology");  
-  }
-  else
-  {
+  req.file_url=std::string("/owl/currentVersion.owl");  
+  //const char * c = req.file_url.c_str();  
+  //if(!checkIfFileExists(c))
+  //{
+    //ROS_ERROR("Ontology backup was not loaded, backup file does not exist.. Continuing with empty ontology");  
+  //}
+  //else
+  //{
     res=knowrob_wrapper.loadOntologyQuery(req);
     if(res.success!=true)
     {
@@ -170,7 +170,7 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
     {
       ROS_INFO("Ontology backup successfully loaded");
     }
-  }  
+ // }  
   
   
   //ROS_ERROR(path);

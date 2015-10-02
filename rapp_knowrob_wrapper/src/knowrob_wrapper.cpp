@@ -44,6 +44,8 @@ contact: akintsakis@issel.ee.auth.gr
 #include <sys/stat.h>
 #include <unistd.h>
 #include <sstream>
+#include <ros/package.h>
+#include <fstream>
 
 KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh):nh_(nh)
 {
@@ -65,12 +67,18 @@ std::string intToString (int a)
     return temp.str();
 }
 
-bool checkIfFileExists(const char* fname)
+//bool checkIfFileExists(const char* fname)
+//{
+  //if( access( fname, F_OK ) != -1 ) {
+      //return true;
+  //}
+  //return false;  
+//}
+
+bool checkIfFileExists(const char *fileName)
 {
-  if( access( fname, F_OK ) != -1 ) {
-      return true;
-  }
-  return false;  
+    std::ifstream infile(fileName);
+    return infile.good();
 }
 
 std::vector<std::string> split(std::string str, std::string sep){
@@ -331,7 +339,7 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
     //res.trace.push_back(std::string("Test type/subtype combination invalid. Either test type does not exist, or test sub type does not exist or if they exist the subtype does not correspond to the type"));
     //res.error=std::string("Test type/subtype combination invalid. Either test type does not exist, or test sub type does not exist or if they exist the subtype does not correspond to the type");
     res.trace.push_back(std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias"));
-    res.error=std::string("Test performance entry insertion into ontology FAILED, ither invalid test or patient alias");
+    res.error=std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias");
     return res;    
   }
   else if(status==3)
@@ -363,11 +371,16 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     res.error=std::string("Error, one or more arguments not provided or out of range.  Test variation and test difficulty are positive integers >0");
     return res;
   }  
+ 
+  std::string path = ros::package::getPath("rapp_cognitive_exercise");
+  //res.trace.push_back(path);
+  req.test_path=path+req.test_path;
   const char * c = req.test_path.c_str();  
   if(!checkIfFileExists(c))
   {
     res.success=false;
     res.trace.push_back(std::string("Test file does not exist in provided file path"));
+    res.trace.push_back(req.test_path);
     res.error=std::string("Test file does not exist in provided file path");
     return res; 
   }
@@ -1009,7 +1022,9 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
   
-  std::string query = std::string("rdf_save('") + req.file_url + std::string("')");
+  std::string path = ros::package::getPath("rapp_knowrob_wrapper");
+  std::string savePath=path+req.file_url;
+  std::string query = std::string("rdf_save('") + savePath + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   
     
@@ -1047,6 +1062,17 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
     //return res; 
   //}
   
+  std::string path = ros::package::getPath("rapp_knowrob_wrapper");
+  req.file_url=path+req.file_url;
+  const char * c = req.file_url.c_str();  
+  if(!checkIfFileExists(c))
+  {
+    res.success=false;
+    res.trace.push_back(std::string("File does not exist in provided file path"));
+    res.trace.push_back(req.file_url);
+    res.error=std::string("File does not exist in provided file path");
+    return res; 
+  }
   std::string query = std::string("rdf_load('") + req.file_url + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   char status = results.getStatus();
