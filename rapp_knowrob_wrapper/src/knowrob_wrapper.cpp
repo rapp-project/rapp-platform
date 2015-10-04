@@ -318,7 +318,7 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
 rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response KnowrobWrapper::record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req)
 {  
   rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response res;
-  if(req.test==std::string("") || req.score<1 || req.timestamp<1 || req.patient_ontology_alias==std::string("") || req.test_type==std::string(""))
+  if(req.test==std::string("") || req.score<1 || req.timestamp<1 || req.patient_ontology_alias==std::string("") || req.test==std::string(""))
   {
     res.success=false;
     res.trace.push_back("Error, one or more arguments not provided or out of range.  Test score and timestamp are positive integers >0");
@@ -328,8 +328,9 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
   std::string timestamp = intToString(req.timestamp);
   std::string score = intToString(req.score);
   
-  std::string query = std::string("cognitiveTestPerformed(B,knowrob:'")+req.patient_ontology_alias+std::string("',knowrob:'")+req.test+std::string("',knowrob:'")+req.test_type+std::string("','")+timestamp+std::string("','")+score+std::string("',knowrob:'Person',knowrob:'CognitiveTestPerformed')");
-  
+  std::string query = std::string("cognitiveTestPerformed(B,knowrob:'")+req.patient_ontology_alias+std::string("',knowrob:'")+req.test+std::string("','")+timestamp+std::string("','")+score+std::string("',knowrob:'Person',knowrob:'CognitiveTestPerformed')");
+  query=std::string("cognitiveTestPerformed(B,knowrob:'")+req.patient_ontology_alias+std::string("',knowrob:'")+req.test+std::string("','")+timestamp+std::string("','")+score+std::string("',knowrob:'Person',knowrob:'CognitiveTestPerformed')");
+  res.trace.push_back(query);
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
   char status = results.getStatus();

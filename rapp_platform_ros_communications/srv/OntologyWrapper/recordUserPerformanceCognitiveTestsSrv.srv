@@ -2,7 +2,6 @@
 Header header
 # General string for simple queries
 string test
-string test_type
 string patient_ontology_alias
 int32 score
 int32 timestamp

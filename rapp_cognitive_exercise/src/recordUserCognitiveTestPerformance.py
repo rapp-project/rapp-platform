@@ -97,7 +97,7 @@ class RecordUserCognitiveTestPerformance:
       knowrob_service = rospy.ServiceProxy(serv_topic, recordUserPerformanceCognitiveTestsSrv)
       userPerformanceEntry = recordUserPerformanceCognitiveTestsSrvRequest()
       userPerformanceEntry.test=req.test 
-      userPerformanceEntry.test_type=req.testType
+      #userPerformanceEntry.test_type=req.testType
       userPerformanceEntry.patient_ontology_alias=createOntologyAliasResponse.ontology_alias
       userPerformanceEntry.timestamp=int(time.time())
       userPerformanceEntry.score=req.score

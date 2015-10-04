@@ -97,7 +97,7 @@ class OntologyFunc(unittest.TestCase):
 
         req = recordUserPerformanceCognitiveTestsSrvRequest()        
         req.patient_ontology_alias="Person_vUXiHMJy"
-        req.test_type="ArithmeticCts"
+        #req.test_type="ArithmeticCts"
         req.test="ArithmeticCts_qdaDeDZn"
         req.score=1
         req.timestamp=1
@@ -113,8 +113,7 @@ class OntologyFunc(unittest.TestCase):
                 subclasses_of_service, recordUserPerformanceCognitiveTestsSrv)
 
         req = recordUserPerformanceCognitiveTestsSrvRequest()        
-        req.patient_ontology_alias="1Person_vUXiHMJy"
-        req.test_type="1ArithmeticCts"
+        req.patient_ontology_alias="1Person_vUXiHMJy"        
         req.test="1Arithm1eticCts_qdaDeDZn"
         req.score=1
         req.timestamp=1
