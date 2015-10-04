@@ -92,7 +92,7 @@ register_master_interface();
  *
  * @param query Ontology query (String).
  */
-service cognitive_test_chooser( {username: '', testType: ''} )
+service cognitive_test_chooser( {user: '', testType: ''} )
 {
   var startT = new Date().getTime();
   var execTime = 0;
@@ -106,7 +106,7 @@ service cognitive_test_chooser( {username: '', testType: ''} )
    function( sendResponse ) {
 
      var args = {
-       username: username,
+       username: user,
        testType: testType
      };
 
@@ -319,29 +319,27 @@ function craft_response(rosbridge_msg)
   var test = msg.values.test;
   //console.log(msg)
 
-  var crafted_msg = {questions: [], answers: [], correctAnswers: [],
+  var response = {questions: [], answers: [], correctAnswers: [],
     test: '', error: ''};
   var logMsg = '';
 
   if (call_result)
   {
-    crafted_msg.questions = questions;
-    crafted_msg.correctAnswers = correctAnswers;
-    crafted_msg.test = test;
+    logMsg = 'Returning to client.';
+    response.questions = questions;
+    response.correctAnswers = correctAnswers;
+    response.test = test;
     for (var ii = 0; ii < answers.length; ii++)
     {
-      crafted_msg.answers.push( answers[ii].s )
+      response.answers.push( answers[ii].s )
     }
-
-    crafted_msg.error = error;
-    logMsg = 'Returning to client.';
 
     if (!success)
     {
       logMsg += ' ROS service [' + ros_service_name + '] error'
         ' ---> ' + error;
-      console.log(error)
-      crafted_msg.error = (!error && trace.length) ?
+      //console.log(error)
+      response.error = (!error && trace.length) ?
         trace[trace.length - 1] : error;
     }
     else
@@ -354,12 +352,12 @@ function craft_response(rosbridge_msg)
     logMsg = 'Communication with ROS service ' + ros_service_name +
       'failed. Unsuccesful call! Returning to client with error' +
       ' ---> RAPP Platform Failure';
-    crafted_msg.error = 'RAPP Platform Failure';
+    response.error = 'RAPP Platform Failure';
   }
 
-  //console.log(crafted_msg);
+  //console.log(response);
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-  return crafted_msg;
+  return response;
 }
 
 
@@ -369,13 +367,13 @@ function craft_response(rosbridge_msg)
 function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure';
-  var crafted_msg = {questions: [], answers: [], correctAnswers: [],
+  var response = {questions: [], answers: [], correctAnswers: [],
     test: '', error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return crafted_msg;
+  return response;
 }
 
 

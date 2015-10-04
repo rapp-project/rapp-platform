@@ -7,7 +7,7 @@
   },
   "speech_detection_google": {
     "Mode": "Deploy",
-    "timeout": 5000,
+    "timeout": 7000,
     "retries": 3,
     "ros_srv_name": "/rapp/rapp_speech_detection_google/speech_to_text"
   },
@@ -57,7 +57,7 @@
     "Mode": "Deploy",
     "timeout": 3000,
     "retries": 3,
-    "ros_srv_name": "/rapp/rapp_cognitive_exercise/record_user_cognitive_tests_performance"
+    "ros_srv_name": "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance"
   },
   "cognitive_test_chooser": {
     "Mode": "Deploy",

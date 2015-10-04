@@ -1,6 +1,5 @@
 /*!
- * @file ontology_superclasses_of.service.js
- * @brief Ontology query "SuperclassesOf" hop service.
+ * @file record_cognitive_test_performace.service.js
  *
  */
 
@@ -42,6 +41,10 @@ var user = process.env.LOGNAME;
 var module_path = '../modules/';
 var config_path = '../config/';
 var srvEnv = require( config_path + 'env/hop-services.json' )
+var __hopServiceName = 'record_cognitive_test_performance';
+var __hopServiceId = null;
+var __masterId = null;
+var __storeDir = '~/.hop/cache/';
 /* ----------------------------------------------------------------------- */
 
 /* --------------------------< Load required modules >---------------------*/
@@ -53,8 +56,7 @@ var RosParam = require(module_path + 'ros/rosParam.js')
 /* ----------------------------------------------------------------------- */
 
 /*-----<Defined Name of QR Node ROS service>----*/
-var ros_service_name =
-  "/rapp/rapp_cognitive_exercise/record_user_cognitive_tests_performance";
+var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;
 
@@ -77,10 +79,6 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-var __hopServiceName = 'record_cognitive_test_performance';
-var __hopServiceId = null;
-var __masterId = null;
-var __storeDir = '~/.hop/cache/';
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = srvEnv[__hopServiceName].timeout; // ms
@@ -98,7 +96,7 @@ register_master_interface();
  * @param query Ontology query given in a string format
  * @return Results.
  */
-service record_cognitive_test_performance( {username: '', test: '',
+service record_cognitive_test_performance( {user: '', test: '',
   testType: '', score: 0} )
 {
   var startT = new Date().getTime();
@@ -113,13 +111,14 @@ service record_cognitive_test_performance( {username: '', test: '',
     function( sendResponse ) {
 
       var args = {
-        username: username.toString(),
-        test:     test.toString(),
-        testType: testType.toString(),
+        username: user,
+        test:     test,
+        testType: testType,
         score:    parseInt(score)
       };
 
       var respFlag = false;
+      var wsError = false;
       // Create a unique caller id
       var unqCallId = randStrGen.createUnique();
       var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId);
@@ -130,7 +129,6 @@ service record_cognitive_test_performance( {username: '', test: '',
        */
       try{
         var rosWS = new WebSocket('ws://localhost:9090');
-
         // Register WebSocket.onopen callback
         rosWS.onopen = function(){
           var logMsg = 'Connection to rosbridge established';
@@ -142,13 +140,12 @@ service record_cognitive_test_performance( {username: '', test: '',
           var logMsg = 'Connection to rosbridge closed';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
         }
-        // Register WebSocket.message callback
+        // Register WebSocket.onmessage callback
         rosWS.onmessage = function(event){
           if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
           var logMsg = 'Received message from rosbridge';
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          //console.log(event.value);
           respFlag = true; // Raise Response-Received Flag
 
           this.close(); // Close websocket
@@ -159,19 +156,36 @@ service record_cognitive_test_performance( {username: '', test: '',
           execTime = new Date().getTime() - startT;
           postMessage( craft_slaveMaster_msg('execTime', execTime) );
           var response = craft_response(event.value);
-          sendResponse( response );
+          sendResponse( hop.HTTPResponseJson(response));
+        }
+        // Register WebSocket.onerror callback
+        rosWS.onerror = function(e){
+          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+          rosWS = undefined;
+          wsError = true;
+
+          var logMsg = 'Websocket' +
+            'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+          var response = craft_error_response();
+          sendResponse( hop.HTTPResponseJson(response));
+          execTime = new Date().getTime() - startT;
+          postMessage( craft_slaveMaster_msg('execTime', execTime) );
         }
       }
       catch(e){
         if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+        if(rosWS){ rosWS.close()}
         rosWS = undefined;
+        wsError = true;
 
         var logMsg = 'ERROR: Cannot open websocket' +
           'to rosbridge [ws//localhost:9090]\r\n' + e;
         postMessage( craft_slaveMaster_msg('log', logMsg) );
 
         var response = craft_error_response();
-        sendResponse( response );
+        sendResponse( hop.HTTPResponseJson(response));
         execTime = new Date().getTime() - startT;
         postMessage( craft_slaveMaster_msg('execTime', execTime) );
         return;
@@ -184,10 +198,7 @@ service record_cognitive_test_performance( {username: '', test: '',
       function asyncWrap(){
         setTimeout( function(){
 
-         if (respFlag)
-         {
-           return;
-         }
+         if (respFlag || wsError) { return; }
          else{
            retries += 1;
 
@@ -211,14 +222,11 @@ service record_cognitive_test_performance( {username: '', test: '',
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
-           if (rosWS != undefined)
-           {
-             rosWS.close();
-           }
+           if (rosWS != undefined) { rosWS.close(); }
            rosWS = undefined;
 
            /* --------------< Re-open connection to the WebSocket >--------------*/
@@ -249,15 +257,32 @@ service record_cognitive_test_performance( {username: '', test: '',
                execTime = new Date().getTime() - startT;
                postMessage( craft_slaveMaster_msg('execTime', execTime) );
                var response = craft_response(event.value);
-               sendResponse( response );
+               sendResponse( hop.HTTPResponseJson(response));
                this.close(); // Close websocket
                rosWS = undefined; // Decostruct websocket
              }
+             // Register WebSocket.onerror callback
+             rosWS.onerror = function(e){
+               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+               rosWS = undefined;
+               wsError = true;
+
+               var logMsg = 'Websocket' +
+                 'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
+               postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+               var response = craft_error_response();
+               sendResponse( hop.HTTPResponseJson(response));
+               execTime = new Date().getTime() - startT;
+               postMessage( craft_slaveMaster_msg('execTime', execTime) );
+             }
+
            }
            catch(e){
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
+             if(rosWS){ rosWS.close()}
              rosWS = undefined;
-             //console.log(e);
+             wsError = true;
 
              var logMsg = 'ERROR: Cannot open websocket' +
                'to rosbridge --> [ws//localhost:9090]';
@@ -266,7 +291,7 @@ service record_cognitive_test_performance( {username: '', test: '',
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
-             sendResponse( response );
+             sendResponse( hop.HTTPResponseJson(response));
              return;
            }
 
@@ -296,19 +321,22 @@ function craft_response(rosbridge_msg)
   var success = msg.values.success;
   var error = msg.values.error;
   var call_result = msg.result;
-  var crafted_msg = {performance_entry: '', error: ''};
+  //console.log(msg)
+
+  var response = {performance_entry: '', error: ''};
   var logMsg = '';
 
   if (call_result)
   {
-    crafted_msg.performance_entry = performance_entry;
-    crafted_msg.error = error;
     logMsg = 'Returning to client.';
+    response.performance_entry = performance_entry;
 
-    if (error != '')
+    if ( ! success )
     {
       logMsg += ' ROS service [' + ros_service_name + '] error'
         ' ---> ' + error;
+      response.error = (!error && trace.length) ?
+        trace[trace.length - 1] : error;
     }
     else
     {
@@ -320,12 +348,12 @@ function craft_response(rosbridge_msg)
     logMsg = 'Communication with ROS service ' + ros_service_name +
       'failed. Unsuccesful call! Returning to client with error' +
       ' ---> RAPP Platform Failure';
-    crafted_msg.error = 'RAPP Platform Failure';
+    response.error = 'RAPP Platform Failure';
   }
 
-  //console.log(crafted_msg);
+  //console.log(response);
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-  return JSON.stringify(crafted_msg)
+  return response;
 }
 
 /*!
@@ -333,13 +361,13 @@ function craft_response(rosbridge_msg)
  */
 function craft_error_response()
 {
-  var errorMsg = 'RAPP Platform Failure!'
-    var crafted_msg = {results: [], trace: [], error: 'RAPP Platform Failure'};
+  var errorMsg = 'RAPP Platform Failure!';
+  var response = {performance_entry: '', error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return JSON.stringify(crafted_msg);
+  return response;
 }
 
 

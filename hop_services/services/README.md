@@ -334,13 +334,13 @@ qr_detection ( {file_uri: ''} )
 #### [cognitive_test_chooser( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/cognitive_test_chooser.service.js)
 
   ```
-  cognitive_test_chooser( { username: '', testType: '' } )
+  cognitive_test_chooser( { user: '', testType: '' } )
   ```
 
 
   **Input parameters**
 
-  - **'username'**: Username of client used to retrieve information from database.
+  - **'user'**: Username of client used to retrieve information from database.
     e.g "klpanagi"
   - **'testType'**: Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
 
@@ -356,6 +356,33 @@ qr_detection ( {file_uri: ''} )
   - **'answers'**:  The set of answers for each question. vector<vector<string>>
   - **'correctAnswers'**: The set of correct answers for each question. vector<string>
   - **'test'**: Returned test name. For example, 'ArithmeticCts_askw0Snwk'
+  - **'error'**: If error was encountered, an error message is pushed in this field.
+
+
+#### [record_cognitive_test_performace( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/record_cognitive_test_performace.service.js)
+
+  ```
+  record_cognitive_test_performace( { user: '', test: '', testType: '', score: 0 } )
+  ```
+
+
+  **Input parameters**
+
+  - **'user'**: Username of client used to retrieve information from database.
+    e.g "klpanagi"
+  - **'test'**: The full cognitive test entry name as reported by the **cognitive_test_chooser()**.
+  - **'testType'**: Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
+  - **'score'**: User's performance score on given test entry.
+
+
+  **Response/Return-Data**
+
+  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
+  the received data.
+
+  > { performance_entry: '', error: '' }
+
+  - **'performace_entry'**: User's cognitive test performance entry.
   - **'error'**: If error was encountered, an error message is pushed in this field.
 
 
