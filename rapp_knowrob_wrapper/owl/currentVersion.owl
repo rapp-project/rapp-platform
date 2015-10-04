@@ -4429,7 +4429,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
   <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">10</knowrob:cognitiveTestPerformedScore>
   <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_qdaDeDZn"/>
   <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1010</knowrob:cognitiveTestPerformedTimestamp>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;ArithmeticCts"/>
 </knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;Butter">
@@ -4762,7 +4761,6 @@ Note that locatedAtPoint-Spatial is irreflexive; in order to locate points in sp
   <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">90</knowrob:cognitiveTestPerformedScore>
   <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;AwarenessCts_qdaDeDZn"/>
   <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1443097833</knowrob:cognitiveTestPerformedTimestamp>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;AwarenessCts"/>
 </knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;VegetarianCuisine">
@@ -5974,7 +5972,6 @@ Cf. Surface, whose instances are two-dimensional, intangible regions of space.</
   <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">10</knowrob:cognitiveTestPerformedScore>
   <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_bneXbLGX"/>
   <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">990</knowrob:cognitiveTestPerformedTimestamp>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;ArithmeticCts"/>
 </knowrob:CognitiveTestPerformed>
 
 <owl:ObjectProperty rdf:about="&knowrob;objectLeftSide">
@@ -7178,7 +7175,6 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
   <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">10</knowrob:cognitiveTestPerformedScore>
   <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_qdaDeDZn"/>
   <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1000</knowrob:cognitiveTestPerformedTimestamp>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;ArithmeticCts"/>
 </knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;Point">
@@ -7522,7 +7518,6 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
   <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">90</knowrob:cognitiveTestPerformedScore>
   <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ReasoningCts_vUXiHMJy"/>
   <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1443097904</knowrob:cognitiveTestPerformedTimestamp>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;ReasoningCts"/>
 </knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;Frozen">
@@ -8021,7 +8016,6 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
   <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">90</knowrob:cognitiveTestPerformedScore>
   <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_pQmhNKHv"/>
   <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1443097957</knowrob:cognitiveTestPerformedTimestamp>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;ArithmeticCts"/>
 </knowrob:CognitiveTestPerformed>
 
 <knowrob:CognitiveTestPerformed rdf:about="&knowrob;CognitiveTestPerformed_lEOECMZR">
@@ -8029,7 +8023,6 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
   <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">10</knowrob:cognitiveTestPerformedScore>
   <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_GJNNLYhq"/>
   <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1090</knowrob:cognitiveTestPerformedTimestamp>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;ArithmeticCts"/>
 </knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;FixedStructure">
