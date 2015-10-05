@@ -32,6 +32,22 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.testType="ArithmeticCts"
         response = test_service(req)     
         self.assertEqual(response.success, True)  
+        
+        
+    def test_record_user_performance_basic(self):
+        subclasses_of_service = rospy.get_param(\
+                "rapp_cognitive_exercise_record_user_cognitive_test_performance_topic")
+        rospy.wait_for_service(subclasses_of_service)
+        
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, recordUserCognitiveTestPerformanceSrv)
+
+        req = recordUserCognitiveTestPerformanceSrvRequest()
+        req.username="cognitiveExerciseSystemTestUser1"        
+        req.test="ArithmeticCts_pQmhNKHv"
+        req.score=10
+        response = test_service(req)     
+        self.assertEqual(response.success, True)  
   
     
 if __name__ == '__main__':

@@ -35,6 +35,6 @@ include_directories(
 ## Build ##
 ###########
 if (CATKIN_ENABLE_TESTING)
-  #catkin_add_nosetests(test/mysql_wrapper/t1.py)
-  add_rostest(/test/cognitive_exercise_test.launch)
+  #catkin_add_nosetests(test/cognitive_exercise_system_services_functional_tests.py)
+  add_rostest(test/cognitive_exercise_system_services_functional_tests.launch)
 endif()
