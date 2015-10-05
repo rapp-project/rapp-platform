@@ -1,7 +1,0 @@
-<launch> 
-   <node name="server_cognitive_exercise_test" pkg="rapp_cognitive_exercise" type="cognitive_exercise_test.py" /> 
-   <test time-limit="10" test-name="cognitive_exercise_test" pkg="rapp_cognitive_exercise" type="cognitive_exercise_test.py" /> 
-   <rosparam file="$(find rapp_cognitive_exercise)/cfg/rapp_cognitive_exercise_params.yaml" 
-    command="load" />
- </launch> 
- 

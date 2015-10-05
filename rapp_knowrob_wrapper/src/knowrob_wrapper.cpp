@@ -1024,8 +1024,27 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
   
   std::string path = ros::package::getPath("rapp_knowrob_wrapper");
-  std::string savePath=path+req.file_url;
-  std::string query = std::string("rdf_save('") + savePath + std::string("')");
+  
+  if(req.file_url.empty())   // || req.file_url==std::string("")
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Empty file path"));
+    res.trace.push_back(req.file_url);
+    res.error=std::string("Empty file path");
+    return res; 
+  }  
+  req.file_url=path+req.file_url;
+  const char * c = req.file_url.c_str();  
+  if(!checkIfFileExists(c))
+  {
+    res.success=false;
+    res.trace.push_back(std::string("File does not exist in provided file path"));
+    res.trace.push_back(req.file_url);
+    res.error=std::string("File does not exist in provided file path");
+    return res; 
+  }
+  
+  std::string query = std::string("rdf_save('") + req.file_url + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   
     
@@ -1052,18 +1071,20 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
   
-  //std::string str;
-  //const char * c = req.file_url.c_str();
+
   
-  //if(!checkIfFileExists(c))
-  //{
-    //res.success=false;
-    //res.trace.push_back(std::string("Ontology load failed, file does not exist"));
-    //res.error=std::string("Ontology load failed, file does not exist");
-    //return res; 
-  //}
+  if(req.file_url.empty())   // || req.file_url==std::string("")
+  {
+    res.success=false;
+    res.trace.push_back(std::string("Empty file path"));
+    res.trace.push_back(req.file_url);
+    res.error=std::string("Empty file path");
+    return res; 
+  }  
+     
   
   std::string path = ros::package::getPath("rapp_knowrob_wrapper");
+    
   req.file_url=path+req.file_url;
   const char * c = req.file_url.c_str();  
   if(!checkIfFileExists(c))
