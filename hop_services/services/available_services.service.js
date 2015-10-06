@@ -88,13 +88,13 @@ service available_services (  )
 
           if (__updatedServiceList__)
           {
-            var resp_msg = craft_response();
+            var response = craft_response();
 
             var logMsg = 'Succesfully updated available service list.' +
               ' Returning to client with success';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-            sendResponse(resp_msg);
+            sendResponse( hop.HTTPResponseJson(response) );
             return;
           }
           else if (__updatedServiceList__ == false && elapsed_time > max_time)
@@ -104,14 +104,14 @@ service available_services (  )
 
             if (retries >= max_tries)
             {
-              var respMsg = craft_error_response();
+              var response = craft_error_response();
 
               var logMsg = 'Reached max_retries while trying to retrieve' +
                 'available services list from master. Returning to client' +
                 'with error ---> [RAPP Platform Failure]';
               postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-              sendResponse(respMsg);
+              sendResponse( hop.HTTPResponseJson(response) );
               return;
             }
           }
@@ -126,14 +126,14 @@ service available_services (  )
 
 function craft_response()
 {
-  var crafted_msg = {services: __availableServices__, error: ''};
-  return JSON.stringify(crafted_msg);
+  var response = {services: __availableServices__, error: ''};
+  return response;
 }
 
 function craft_error_respose()
 {
-  var crafted_msg = {services: [], error: 'RAPP Platform Failure'};
-  return JSON.stringify(crafted_msg);
+  var response= {services: [], error: 'RAPP Platform Failure'};
+  return response;
 }
 
 function register_master_interface()
