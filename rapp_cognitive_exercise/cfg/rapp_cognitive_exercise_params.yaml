@@ -1,4 +1,4 @@
 rapp_cognitive_exercise_chooser_topic: /rapp/rapp_cognitive_exercise/cognitive_exercise_chooser
 rapp_cognitive_exercise_record_user_cognitive_test_performance_topic: /rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance
-
+rapp_cognitive_test_creator_topic: /rapp/rapp_cognitive_exercise/cognitive_test_creator
 

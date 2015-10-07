@@ -1,0 +1,6 @@
+string inputFile
+---
+bool success
+string error
+string[] trace
+

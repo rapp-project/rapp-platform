@@ -37,6 +37,7 @@ from datetime import datetime
 from os.path import expanduser
 from test_selector import TestSelector
 from recordUserCognitiveTestPerformance import RecordUserCognitiveTestPerformance
+from cognitive_test_creator import CognitiveTestCreator
 
 from rapp_platform_ros_communications.srv import (
   testSelectorSrv,  
@@ -45,7 +46,9 @@ from rapp_platform_ros_communications.srv import (
   createOntologyAliasSrvRequest,
   createOntologyAliasSrvResponse,
   recordUserCognitiveTestPerformanceSrv,
-  recordUserCognitiveTestPerformanceSrvResponse
+  recordUserCognitiveTestPerformanceSrvResponse,
+  cognitiveTestCreatorSrv,
+  cognitiveTestCreatorSrvResponse
   )
   
 from rapp_platform_ros_communications.msg import ( 
@@ -69,7 +72,12 @@ class CognitiveExercise:
     if(not self.serv_topic):
       rospy.logerror("rapp_cognitive_exercise_record_user_cognitive_test_performance_topic not found")   
     self.serv=rospy.Service(self.serv_topic, recordUserCognitiveTestPerformanceSrv, self.recordUserCognitiveTestPerformanceDataHandler) 
-                    
+           
+    self.serv_topic = rospy.get_param("rapp_cognitive_test_creator_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_cognitive_test_creator_topic not found")   
+    self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.rcognitiveTestCreatorDataHandler) 
+            
   #tblUser callbacks    
   def chooserDataHandler(self,req):     
     res = testSelectorSrvResponse()
@@ -82,6 +90,12 @@ class CognitiveExercise:
     it = RecordUserCognitiveTestPerformance()    
     res=it.recordPerformance(req) 
     return res   
+    
+  def rcognitiveTestCreatorDataHandler(self,req):     
+    res = cognitiveTestCreatorSrvResponse()
+    it = CognitiveTestCreator()    
+    res=it.testCreator(req) 
+    return res  
     
 if __name__ == "__main__": 
   rospy.init_node('CognitiveExercise')
