@@ -1,2 +1,5 @@
 #JSGF V1.0;
 grammar custom;
+public <cmd1>=hello;
+public <cmd2>=this;
+public <cmd3>=hello this;
