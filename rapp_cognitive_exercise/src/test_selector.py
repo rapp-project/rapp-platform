@@ -280,12 +280,12 @@ class TestSelector:
 
       root = tree.getroot()
       
-      for question in root.find('Questions'):        
-        res.questions.append(question.find("body").text)
-        res.correctAnswers.append(question.find("correctAnswer").text)
+      for question in root.find('Questions'):            
+        res.questions.append(question.find("body").text.encode('UTF-8'))
+        res.correctAnswers.append(question.find("correctAnswer").text.encode('UTF-8'))
         line=StringArrayMsg()
         for answers in question.findall('answer'):          
-          line.s.append(answers.find("body").text)        
+          line.s.append(answers.find("body").text.encode('UTF-8'))        
         res.answers.append(line)
       
       res.success=True  
