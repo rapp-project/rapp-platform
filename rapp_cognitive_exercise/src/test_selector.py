@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# -*- encode: utf-8 -*-
+
 
 #MIT License (MIT)
 
@@ -25,6 +27,7 @@
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
 
+
 import rospkg
 import rospy
 import sys
@@ -36,6 +39,7 @@ from datetime import datetime
 from os.path import expanduser
 from collections import OrderedDict
 from random import randint
+from codecs import open
 
 
 from rapp_platform_ros_communications.srv import (
@@ -271,6 +275,9 @@ class TestSelector:
       finalTestFilePath=localPackagePath+finalTestFilePath
       res.trace.append(finalTestFilePath)
       tree = ET.parse(finalTestFilePath)
+      #with open(finalTestFilePath, 'r',"UTF-8") as xml_file:
+       # tree=ET.parse(xml_file)
+
       root = tree.getroot()
       
       for question in root.find('Questions'):        

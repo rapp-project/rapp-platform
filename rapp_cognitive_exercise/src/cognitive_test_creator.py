@@ -1,9 +1,39 @@
 #!/usr/bin/env python
+# -*- encode: utf-8 -*-
+
+
+#MIT License (MIT)
+
+#Copyright (c) <2014> <Rapp Project EU>
+
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+
+#The above copyright notice and this permission notice shall be included in
+#all copies or substantial portions of the Software.
+
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+#THE SOFTWARE.
+
+# Author: Athanassios Kintsakis
+# contact: akintsakis@issel.ee.auth.gr
+
+
 import xml.etree.cElementTree as ET
 import rospkg
 import rospy
 import os
 import sys
+
 
 from rapp_platform_ros_communications.srv import (
   cognitiveTestCreatorSrv,
@@ -23,8 +53,7 @@ class CognitiveTestCreator:
   def testCreator(self,req):   
     res=cognitiveTestCreatorSrvResponse()
     fname=req.inputFile
-    with open(fname) as f:
-      content = f.readlines()
+    
       
     d=dict()
     questions=dict()
@@ -34,6 +63,8 @@ class CognitiveTestCreator:
     questionsStart=False
     count=0
     try:
+      with open(fname) as f:
+        content = f.readlines()
       for s in content:
         if (":" in s):
           s=s.strip()
@@ -91,7 +122,7 @@ class CognitiveTestCreator:
         ET.SubElement(root, "variationID").text = d["variationID"][0]
         ET.SubElement(root, "difficulty").text = d["difficulty"][0]
         ET.SubElement(root, "testSubType").text = d["testSubType"][0]
-        ET.SubElement(root, "Questions")
+        #ET.SubElement(root, "Questions")
         Questions=ET.SubElement(root,"Questions")
         #print "count "+str(count)
         for i in range(1,count+1):
@@ -101,21 +132,21 @@ class CognitiveTestCreator:
           nm="question"+str(i)
           #print nm
           #print questions[nm]
-          ET.SubElement(Q, "body").text = questions[nm][0]
+          ET.SubElement(Q, "body").text = questions[nm].decode('UTF-8')#[0]
           nm="answers"+str(i)
           answs=answers[nm].split(",")
           for j in answs:
             A=ET.SubElement(Q, "answer")
-            ET.SubElement(A, "body").text = j
+            ET.SubElement(A, "body").text = j.decode('UTF-8')
           nm="correctAnswer"+str(i)
           corrAnswer=correctAnswers[nm]  
-          ET.SubElement(Q, "correctAnswer").text = corrAnswer  
+          ET.SubElement(Q, "correctAnswer").text = corrAnswer.decode('UTF-8') 
                   
         tree = ET.ElementTree(root) 
         rospack = rospkg.RosPack()
         localPackagePath=rospack.get_path('rapp_cognitive_exercise')
         localPackagePath=localPackagePath+"/cognitiveTests/"+xmlFileName
-        tree.write(localPackagePath)
+        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
         
         serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')
         if(not serv_topic):
@@ -146,7 +177,7 @@ class CognitiveTestCreator:
         tree = ET.parse(localPackagePath)
         root = tree.getroot()
         ET.SubElement(root, "name").text = ontologyName
-        tree.write(localPackagePath)
+        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
         
         res.success=True
       if(not flag):
@@ -161,7 +192,7 @@ class CognitiveTestCreator:
     except IOError:
       #print "IO Error, cannot open test file or write xml file"
       res.error="IO Error, cannot open test file or write xml file"
-      es.success=False
+      res.success=False
       
     return res
          

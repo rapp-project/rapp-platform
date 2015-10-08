@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- encode: utf-8 -*-
 
 #MIT License (MIT)
 
