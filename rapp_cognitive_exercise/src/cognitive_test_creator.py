@@ -28,7 +28,7 @@
 # contact: akintsakis@issel.ee.auth.gr
 
 
-import xml.etree.cElementTree as ET
+import xml.etree.ElementTree as ET
 import rospkg
 import rospy
 import os
@@ -177,6 +177,7 @@ class CognitiveTestCreator:
         tree = ET.parse(localPackagePath)
         root = tree.getroot()
         ET.SubElement(root, "name").text = ontologyName
+        self.indent(root)
         tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
         
         res.success=True
@@ -195,10 +196,25 @@ class CognitiveTestCreator:
       res.success=False
       
     return res
-         
+  
   def is_int(self,s):
       try:
           int(s)
           return True
       except ValueError:
           return False
+          
+  def indent(self, elem, level=0):
+      i = "\n" + level*"  "
+      if len(elem):
+          if not elem.text or not elem.text.strip():
+              elem.text = i + "  "
+          if not elem.tail or not elem.tail.strip():
+              elem.tail = i
+          for elem in elem:
+              self.indent(elem, level+1)
+          if not elem.tail or not elem.tail.strip():
+              elem.tail = i
+      else:
+          if level and (not elem.tail or not elem.tail.strip()):
+              elem.tail = i
