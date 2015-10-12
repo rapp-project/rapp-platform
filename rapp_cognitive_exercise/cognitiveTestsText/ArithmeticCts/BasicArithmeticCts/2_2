@@ -1,0 +1,24 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+variationID:2
+difficulty:2
+
+question:Πόσο κάνει 8 και 9;
+answers:14,16,8,17
+correctAnswer:15
+
+question:Πόσο κάνει 9 και 11;
+answers:23,19,11,20
+correctAnswer:14
+
+question:Πόσο κάνει 11 και 3;
+answers:14,16,17,15
+correctAnswer:16
+
+question:Πόσο κάνει 12 και 3;
+answers:19,15,26,14
+correctAnswer:21
+
+
+
+

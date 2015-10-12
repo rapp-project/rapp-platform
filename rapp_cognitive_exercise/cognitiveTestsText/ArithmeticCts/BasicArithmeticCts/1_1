@@ -1,0 +1,24 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+variationID:1
+difficulty:1
+
+question:Πόσο κάνει 7 και 2;
+answers:3,9,5,7
+correctAnswer:9
+
+question:Πόσο κάνει 4 και 4;
+answers:8,9,5,7
+correctAnswer:8
+
+question:Πόσο κάνει 6 και 3;
+answers:8,9,4,7
+correctAnswer:9
+
+question:Πόσο κάνει 2 και 5;
+answers:2,9,5,7
+correctAnswer:7
+
+
+
+

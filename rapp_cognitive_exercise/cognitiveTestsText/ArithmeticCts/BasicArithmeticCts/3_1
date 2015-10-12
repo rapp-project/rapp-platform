@@ -1,0 +1,24 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+variationID:1
+difficulty:3
+
+question:Πόσο κάνει 13 και 18;
+answers:30,31,32,13
+correctAnswer:31
+
+question:Πόσο κάνει 21 και 35;
+answers:58,35,56,57
+correctAnswer:56
+
+question:Πόσο κάνει 45 και 53;
+answers:108,98,99,88
+correctAnswer:98
+
+question:Πόσο κάνει 82 και 23;
+answers:95,105,114,115
+correctAnswer:115
+
+
+
+

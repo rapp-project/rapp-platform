@@ -1,0 +1,24 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+variationID:2
+difficulty:3
+
+question:Πόσο κάνει 71 και 23;
+answers:104,84,93,94
+correctAnswer:94
+
+question:Πόσο κάνει 11 και 35;
+answers:46,36,47,37
+correctAnswer:46
+
+question:Πόσο κάνει 45 και 73;
+answers:108,98,128,118
+correctAnswer:118
+
+question:Πόσο κάνει 49 και 13;
+answers:72,51,52,62
+correctAnswer:62
+
+
+
+
