@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <difficulty>2</difficulty>
+  <testSubType>TimeDifferenceCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις 6</body>
+      <answer>
+        <body>28 λεπτά</body>
+      </answer>
+      <answer>
+        <body>18 λεπτά</body>
+      </answer>
+      <answer>
+        <body>12 λεπτά</body>
+      </answer>
+      <answer>
+        <body>21 λεπτά</body>
+      </answer>
+      <correctAnswer>21 λεπτά</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Έχετε ραντεβού με την παρέα σας το απόγευμα στις 5</body>
+      <answer>
+        <body>5 και 33</body>
+      </answer>
+      <answer>
+        <body>5 και 43</body>
+      </answer>
+      <answer>
+        <body>5 και 25</body>
+      </answer>
+      <answer>
+        <body>5 και 30</body>
+      </answer>
+      <correctAnswer>5 και 43</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ArithmeticCts_obzxzwaP</name>
+</cognitiveTest>

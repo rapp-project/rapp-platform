@@ -1,6 +1,5 @@
 testType:ArithmeticCts
-testSubType:TimeDayYearCts
-variationID:2
+testSubType:TimeDifferenceCts
 difficulty:3
 
 question:Πρέπει να πάρετε την αντιβίωση σας στις 9 το πρωί και μετά ανά 6ωρο ακριβώς. Το μεσημέρι το ξεχνάτε και παίρνετε το χάπι σας με καθυστέρηση μιας ώρας. Τι ώρα θα το πάρετε το απόγευμα τηρώντας αυστηρά το 6ωρο; 

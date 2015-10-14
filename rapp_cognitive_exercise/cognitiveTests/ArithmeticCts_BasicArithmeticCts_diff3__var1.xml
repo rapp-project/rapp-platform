@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <difficulty>3</difficulty>
+  <testSubType>BasicArithmeticCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Πόσο κάνει 13 και 18;</body>
+      <answer>
+        <body>30</body>
+      </answer>
+      <answer>
+        <body>31</body>
+      </answer>
+      <answer>
+        <body>32</body>
+      </answer>
+      <answer>
+        <body>13</body>
+      </answer>
+      <correctAnswer>31</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Πόσο κάνει 21 και 35;</body>
+      <answer>
+        <body>58</body>
+      </answer>
+      <answer>
+        <body>35</body>
+      </answer>
+      <answer>
+        <body>56</body>
+      </answer>
+      <answer>
+        <body>57</body>
+      </answer>
+      <correctAnswer>56</correctAnswer>
+    </Question>
+    <Question name="Q3">
+      <body>Πόσο κάνει 45 και 53;</body>
+      <answer>
+        <body>108</body>
+      </answer>
+      <answer>
+        <body>98</body>
+      </answer>
+      <answer>
+        <body>99</body>
+      </answer>
+      <answer>
+        <body>88</body>
+      </answer>
+      <correctAnswer>98</correctAnswer>
+    </Question>
+    <Question name="Q4">
+      <body>Πόσο κάνει 82 και 23;</body>
+      <answer>
+        <body>95</body>
+      </answer>
+      <answer>
+        <body>105</body>
+      </answer>
+      <answer>
+        <body>114</body>
+      </answer>
+      <answer>
+        <body>115</body>
+      </answer>
+      <correctAnswer>105</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ArithmeticCts_hSmyiLiV</name>
+</cognitiveTest>

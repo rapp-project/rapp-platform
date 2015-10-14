@@ -1,7 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <cognitiveTest>
   <testType>ArithmeticCts</testType>
-  <variationID>1</variationID>
   <difficulty>1</difficulty>
   <testSubType>BasicArithmeticCts</testSubType>
   <Questions>
@@ -70,5 +69,5 @@
       <correctAnswer>7</correctAnswer>
     </Question>
   </Questions>
-  <name>ArithmeticCts_vUXiHMJy</name>
+  <name>ArithmeticCts_xqQsIBFN</name>
 </cognitiveTest>

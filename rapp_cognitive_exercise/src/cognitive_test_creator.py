@@ -72,7 +72,7 @@ class CognitiveTestCreator:
         if (":" in s):
           s=s.strip()
           tmp=s.split(":")
-          print tmp[1]
+          #print tmp[1]
           if(tmp[0] == "Difficulty" or tmp[0]=="variationID"):
             if (not self.is_int(tmp[1])):               
               res.trace.append("error, difficulty or variation ID is not an integer")
@@ -114,7 +114,7 @@ class CognitiveTestCreator:
       if(flag):        
         #res.trace.append("test seems good")
         #xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"+"var"+d["variationID"][0]+".xml"
-        xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"+"var"+".xml"
+        xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"
 
 
         
@@ -147,9 +147,7 @@ class CognitiveTestCreator:
                   
         tree = ET.ElementTree(root) 
         rospack = rospkg.RosPack()
-        localPackagePath=rospack.get_path('rapp_cognitive_exercise')
-        localPackagePath=localPackagePath+"/cognitiveTests/"+xmlFileName
-        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
+
         
         #get the cognitive test_id
         serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
@@ -172,13 +170,18 @@ class CognitiveTestCreator:
             tmpSubtype=tmp[1]            
             if (tmpSubtype==d["testSubType"][0] and cognitiveTestsOfTypeResponse.difficulty[test_i]==d["difficulty"][0]):
               maxidlist.append(cognitiveTestsOfTypeResponse.variation[test_i])
-          print maxidlist
+          #print maxidlist
           if (len(maxidlist)>0):
             maxidlist=map(int, maxidlist)
             calculatedVariationID=max(maxidlist)+1
           #print calculatedVariationID           
         
         #
+        
+        localPackagePath=rospack.get_path('rapp_cognitive_exercise')
+        inNodeName="/cognitiveTests/"+xmlFileName+"_var"+str(calculatedVariationID)+".xml"
+        localPackagePath=localPackagePath+inNodeName
+        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
         
         serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')
         if(not serv_topic):
@@ -193,7 +196,7 @@ class CognitiveTestCreator:
         createTestReq.test_variation=calculatedVariationID#int(d["variationID"][0])
         createTestReq.test_difficulty=int(d["difficulty"][0])
         createTestReq.test_subtype=d["testSubType"][0]
-        createTestReq.test_path="/cognitiveTests/"+xmlFileName
+        createTestReq.test_path=inNodeName   
         knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)       
         createCognitiveTestResponse = knowrob_service(createTestReq)
         if(createCognitiveTestResponse.success!=True):     
@@ -210,7 +213,8 @@ class CognitiveTestCreator:
         root = tree.getroot()
         ET.SubElement(root, "name").text = ontologyName
         self.indent(root)
-        localPackagePath=localPackagePath+"_var"+str(calculatedVariationID)+"_"+ontologyName
+        os.remove(localPackagePath)        
+        #localPackagePath=localPackagePath+"_var"+str(calculatedVariationID)+".xml"        
         tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
         
         res.success=True

@@ -223,7 +223,7 @@ class TestSelector:
         return res
       #res.trace.append("length "+str(len(cognitiveTestsOfTypeResponse.tests)))
 
-      testsOfTypeOrdered=self.organizeTestsOfType(cognitiveTestsOfTypeResponse)
+      testsOfTypeOrdered=self.organizeTestsOfType(cognitiveTestsOfTypeResponse,chosenDif)
       
       if(not len(testsOfTypeOrdered)>0):
         res.trace.append("Error, no tests of type contained in the ontology... cannot proceed")
@@ -271,7 +271,7 @@ class TestSelector:
       #res.trace.append(edibleTime)
      
       
-      
+      #print finalTestFilePath
       finalTestFilePath=localPackagePath+finalTestFilePath
       res.trace.append(finalTestFilePath)
       tree = ET.parse(finalTestFilePath)
@@ -320,11 +320,12 @@ class TestSelector:
     else:
       return 0
     
-  def organizeTestsOfType(self,testsOfType):
+  def organizeTestsOfType(self,testsOfType,chosenDif):
     d=dict()
     for i in range(len(testsOfType.tests)):
-      tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.variation[i],testsOfType.subtype[i]]
-      d[testsOfType.tests[i]]=[tlist]
+	  if(testsOfType.difficulty[i]==chosenDif):			
+	    tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.variation[i],testsOfType.subtype[i]]
+	    d[testsOfType.tests[i]]=[tlist]	    
     return d   
 
     

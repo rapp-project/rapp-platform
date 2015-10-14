@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>AwarenessCts</testType>
+  <difficulty>1</difficulty>
+  <testSubType>TimeDayYearCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Τι μέρα είναι σήμερα;</body>
+      <answer>
+        <body>The RApp is responsible for finding the correct answer</body>
+      </answer>
+      <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Τι μήνα έχουμε;</body>
+      <answer>
+        <body>The RApp is responsible for finding the correct answer</body>
+      </answer>
+      <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+    </Question>
+    <Question name="Q3">
+      <body>Ποιά χρονιά έχουμε φέτος;</body>
+      <answer>
+        <body>The RApp is responsible for finding the correct answer</body>
+      </answer>
+      <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+    </Question>
+  </Questions>
+  <name>AwarenessCts_kRmyDqqu</name>
+</cognitiveTest>

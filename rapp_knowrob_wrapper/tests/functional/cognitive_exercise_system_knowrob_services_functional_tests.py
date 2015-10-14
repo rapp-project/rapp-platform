@@ -37,8 +37,8 @@ class OntologyFunc(unittest.TestCase):
         req.test_type="ArithmeticCts"
         response = test_service(req)     
         prefix = 'http://knowrob.org/kb/knowrob.owl#'
-        self.assertEqual(prefix + 'ArithmeticCts_qdaDeDZn' in response.tests, True)
-        self.assertEqual(prefix + 'ArithmeticCts_bneXbLGX' in response.tests, True)   
+        self.assertEqual(prefix + 'ArithmeticCts_tDjYwuhx' in response.tests, True)
+        self.assertEqual(prefix + 'ArithmeticCts_xqQsIBFN' in response.tests, True)   
         self.assertEqual(response.success, True)
         
     def test_cognitive_tests_of_nonexistent_type(self):
@@ -64,13 +64,14 @@ class OntologyFunc(unittest.TestCase):
                 subclasses_of_service, userPerformanceCognitveTestsSrv)
 
         req = userPerformanceCognitveTestsSrvRequest()        
-        req.ontology_alias="Person_vUXiHMJy"
+        req.ontology_alias="Person_DpphmPqg"
         req.test_type="ArithmeticCts"
-        response = test_service(req)        
-        self.assertEqual(response.success, True)
+        response = test_service(req)           
+        self.assertEqual(response.success, True)        
         prefix = 'http://knowrob.org/kb/knowrob.owl#'
-        self.assertEqual(prefix + 'ArithmeticCts_qdaDeDZn' in response.tests, True)
-        self.assertEqual(prefix + 'ArithmeticCts_bneXbLGX' in response.tests, True) 
+        self.assertEqual(prefix + 'ArithmeticCts_xqQsIBFN' in response.tests, True)
+        self.assertEqual(prefix + 'ArithmeticCts_stXqnGrc' in response.tests, True) 
+        self.assertEqual(prefix + 'ArithmeticCts_TaVWzXre' in response.tests, True)        
         
     def test_user_performance_nonexistent_user_and_test(self):
         subclasses_of_service = rospy.get_param(\
@@ -96,10 +97,10 @@ class OntologyFunc(unittest.TestCase):
                 subclasses_of_service, recordUserPerformanceCognitiveTestsSrv)
 
         req = recordUserPerformanceCognitiveTestsSrvRequest()        
-        req.patient_ontology_alias="Person_vUXiHMJy"
+        req.patient_ontology_alias="Person_DpphmPqg"
         #req.test_type="ArithmeticCts"
-        req.test="ArithmeticCts_qdaDeDZn"
-        req.score=1
+        req.test="ArithmeticCts_MewmmEsP"
+        req.score=11
         req.timestamp=1
         response = test_service(req)        
         self.assertEqual(response.success, True)
@@ -133,7 +134,7 @@ class OntologyFunc(unittest.TestCase):
         req.test_type="ArithmeticCts"
         req.test_difficulty=1
         req.test_variation=1
-        req.test_path="/cognitiveTests/additionsTest1.xml"
+        req.test_path="/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1__var1.xml"
         req.test_subtype="BasicArithmeticCts"
         response = test_service(req)        
         self.assertEqual(response.success, True)       
@@ -150,7 +151,7 @@ class OntologyFunc(unittest.TestCase):
         req.test_type="1ArithmeticCts"
         req.test_difficulty=1
         req.test_variation=1
-        req.test_path="/cognitiveTests/additionsTest1.xml"
+        req.test_path="/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1__var1.xml"
         req.test_subtype="BasicArithmeticCts"
         response = test_service(req)        
         self.assertEqual(response.success, False)  

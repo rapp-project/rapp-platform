@@ -1,6 +1,5 @@
 testType:ArithmeticCts
-testSubType:TimeDayYearCts
-variationID:1
+testSubType:TimeDifferenceCts
 difficulty:2
 
 question:Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις 6:15. Οι διαφημίσεις δεν λένε να τελειώσουν και έχει πάει 6:33 χωρίς ακόμη να έχει αρχίσει. Πόση ώρα καθυστέρησε; 

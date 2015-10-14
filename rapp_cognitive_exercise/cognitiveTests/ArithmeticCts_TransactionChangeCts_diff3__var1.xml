@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <difficulty>3</difficulty>
+  <testSubType>TransactionChangeCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Αγοράζουμε μία μπλούζα που κάνει 22 ευρώ και 80 λεπτά και ενα παντελόνι που κάνει 14 ευρώ και 30 λεπτά και δίνουμε ένα χαρτονόμισμα των 50 ευρώ. Πόσα ρέστα θα μας δώσει ο πωλητής;</body>
+      <answer>
+        <body>12 ευρώ και 60 λεπτά</body>
+      </answer>
+      <answer>
+        <body>13 ευρώ και 90 λεπτά</body>
+      </answer>
+      <answer>
+        <body>11 ευρώ και 70 λεπτά</body>
+      </answer>
+      <answer>
+        <body>12 ευρώ και 90 λεπτά</body>
+      </answer>
+      <correctAnswer>12 ευρώ και 90 λεπτά</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Αγοράζουμε ένα λούτρινο αρκουδάκι που κάνει 15 ευρώ και 60 λεπτά και μία κούκλα που κάνει 18 ευρώ και 50 λεπτά και δίνουμε ένα χαρτονόμισμα των 50 ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+      <answer>
+        <body>15 ευρώ και 15 λεπτά</body>
+      </answer>
+      <answer>
+        <body>12 ευρώ και 90 λεπτά</body>
+      </answer>
+      <answer>
+        <body>15 ευρώ και 90 λεπτά</body>
+      </answer>
+      <answer>
+        <body>14 ευρώ 80 λεπτά</body>
+      </answer>
+      <correctAnswer>15 ευρώ και 90 λεπτά</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ArithmeticCts_VeMDiXVm</name>
+</cognitiveTest>

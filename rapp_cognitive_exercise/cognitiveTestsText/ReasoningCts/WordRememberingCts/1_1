@@ -1,0 +1,15 @@
+testType:ReasoningCts
+testSubType:WordRememberingCts
+difficulty:1
+
+question:Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω; 
+answers:ναι,όχι
+correctAnswer:ναι
+
+question:Μπάλα Σημαία Δέντρο. Τις συγκράτησες;
+answers:ναι,όχι
+correctAnswer:ναι
+
+question:Θα μου επαναλάβεις τώρα τις λέξεις σε παρακαλώ;
+answers:Μπάλα Σημαία Δέντρο
+correctAnswer:Μπάλα Σημαία Δέντρο

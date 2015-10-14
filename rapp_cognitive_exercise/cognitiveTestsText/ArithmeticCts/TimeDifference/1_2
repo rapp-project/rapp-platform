@@ -1,6 +1,5 @@
 testType:ArithmeticCts
-testSubType:TimeDayYearCts
-variationID:2
+testSubType:TimeDifferenceCts
 difficulty:1
 
 question:Έχουμε ραντεβού στο γιατρό στις 7:25 το απόγευμα. Φτάνουμε στις 7 και τελικά ο γιατρός μας δέχεται μετά από 35 λεπτά. Τι ώρα μας δέχτηκε τελικά ο γιατρός; 

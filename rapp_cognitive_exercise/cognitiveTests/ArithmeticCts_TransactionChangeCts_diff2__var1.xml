@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <difficulty>2</difficulty>
+  <testSubType>TransactionChangeCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Αγοράζουμε ένα κιλό ντομάτες που κάνουν 1 ευρώ και 20 λεπτά και δίνουμε ένα χαρτονόμισμα των 5 ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης;</body>
+      <answer>
+        <body>4 ευρώ και 70 λεπτά</body>
+      </answer>
+      <answer>
+        <body>3 ευρώ και 80 λεπτά</body>
+      </answer>
+      <answer>
+        <body>2 ευρώ και 80 λεπτά</body>
+      </answer>
+      <answer>
+        <body>80 λεπτά</body>
+      </answer>
+      <correctAnswer>3 ευρώ και 80 λεπτά</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Αγοράζουμε ένα κουτί γλυκά που κάνει 8 ευρώ και 90 λεπτά και δίνουμε ένα χαρτονόμισμα των 10 ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+      <answer>
+        <body>1 ευρώ και 15 λεπτά</body>
+      </answer>
+      <answer>
+        <body>2 ευρώ και 10 λεπτά</body>
+      </answer>
+      <answer>
+        <body>1 ευρώ και 10 λεπτά</body>
+      </answer>
+      <answer>
+        <body>40 λεπτά</body>
+      </answer>
+      <correctAnswer>1 ευρώ και 10 λεπτά</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ArithmeticCts_RMwNovGs</name>
+</cognitiveTest>

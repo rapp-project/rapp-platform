@@ -1,6 +1,5 @@
 testType:ArithmeticCts
 testSubType:TransactionChangeCts
-variationID:1
 difficulty:2
 
 question:Αγοράζουμε ένα κιλό ντομάτες που κάνουν 1 ευρώ και 40 λεπτά και δίνουμε ένα χαρτονόμισμα των 5 ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης; 

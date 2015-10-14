@@ -1,6 +1,5 @@
 testType:ArithmeticCts
 testSubType:BasicArithmeticCts
-variationID:1
 difficulty:3
 
 question:Πόσο κάνει 13 και 18;
@@ -17,7 +16,7 @@ correctAnswer:98
 
 question:Πόσο κάνει 82 και 23;
 answers:95,105,114,115
-correctAnswer:115
+correctAnswer:105
 
 
 

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <difficulty>1</difficulty>
+  <testSubType>TimeDifferenceCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Έχουμε ραντεβού στο γιατρό στις 7</body>
+      <answer>
+        <body>7 και 15</body>
+      </answer>
+      <answer>
+        <body>7 και 35</body>
+      </answer>
+      <answer>
+        <body>8 και 30</body>
+      </answer>
+      <answer>
+        <body>7</body>
+      </answer>
+      <correctAnswer>7 και 35</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Το βράδυ έχουμε να πάμε σε ένα πάρτυ που ξεκινάει στις 8 αλλά μας βρίσκει κίνηση και τελικά φτάνουμε στις 8</body>
+      <answer>
+        <body>50 λεπτά</body>
+      </answer>
+      <answer>
+        <body>40 λεπτά</body>
+      </answer>
+      <answer>
+        <body>30 λεπτά</body>
+      </answer>
+      <answer>
+        <body>80 λεπτά</body>
+      </answer>
+      <correctAnswer>40 λεπτά</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ArithmeticCts_TaVWzXre</name>
+</cognitiveTest>

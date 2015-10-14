@@ -1,6 +1,5 @@
 testType:ArithmeticCts
 testSubType:TransactionChangeCts
-variationID:2
 difficulty:1
 
 question:Αγοράζουμε ένα ψωμί που κάνει 60 λεπτά και δίνουμε ένα κέρμα των 2 ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης; 

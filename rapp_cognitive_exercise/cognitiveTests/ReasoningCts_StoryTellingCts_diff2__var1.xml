@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ReasoningCts</testType>
+  <difficulty>2</difficulty>
+  <testSubType>StoryTellingCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Θα σου διηγηθώ τώρα μια ιστορία και μετά θα σου κάνω κάποιες ερωτήσεις για να δούμε αν κατάλαβες. Είσαι έτοιμος να ξεκινήσω;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Ο Α΄ Παγκόσμιος Πόλεμος, επίσης γνωστός ως ο Μεγάλος Πόλεμος όπως λεγόταν πριν το ξέσπασμα του Δεύτερου Πολέμου, ήταν μια γενικευμένη σύγκρουση των Ευρωπαϊκών Δυνάμεων που διήρκεσε από τον Αύγουστο του 1914 ως τις 11 Νοεμβρίου 1918. Οι Ενωμένες Δυνάμεις, καλούμενες και Δυνάμεις της Αντάντ (κυρίως οι Μεγάλη Βρετανία, Γαλλία,  Ιταλία, Ρωσία και ΗΠΑ) νίκησαν τις Κεντρικές Δυνάμεις (Γερμανία, Αυστροουγγαρία, Οθωμανική Αυτοκρατορία και Βουλγαρία) και οδήγησαν στην κατάρρευση τεσσάρων αυτοκρατοριών και σε ριζικές αλλαγές στον χάρτη της Ευρώπης. Τα θύματα του Α΄ Παγκοσμίου Πολέμου ανήλθαν σε 9 εκατομμύρια στρατευμένους και σε άλλους τόσους αμάχους ξεπερνώντας συνολικά τα 18,5 εκατομμύρια ψυχών. Ο πόλεμος ξεκίνησε οταν στις 28 Ιουνίου 1914 δολοφονήθηκε στο Σαράγεβο της Βοσνίας (επαρχία της Αυστροουγγαρίας) ο αρχιδούκας διάδοχος της Αυστρίας Φερδινάνδος και η σύζυγός του, Σοφία φον Τσότεκ, από το νεαρό σπουδαστή Γαβριήλ Πρίντσιπ. Στις 30 Οκτωβρίου 1918 υπογράφεται η πρώτη ανακωχή του πολέμου, η Συνθήκη ανακωχής του Μούδρου. Αυτή η συνθήκη απετέλεσε και την απαρχή της λήξης του Α΄ Παγκοσμίου Πολέμου. Η ιστορία τελείωσε, να προχωρήσω στις ερωτήσεις;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q3">
+      <body>Ο Α’ Παγόσμιος Πόλεμος λέγεται και Μεγάλος Πόλεμος;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q4">
+      <body>Κράτησε 4 χρόνια από το 1914 ως το 1918;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q5">
+      <body>Οι Δυνάμεις της Αντάντ νίκησαν;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q6">
+      <body>Η Γαλλία ανήκε στις δυνάμεις της Αντάντ;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q7">
+      <body>Η Γερμανία ανήκε στις δυνάμεις της Αντάντ;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+    <Question name="Q8">
+      <body>Η Βουλγαρία ανήκε στις Κεντρικές Δυνάμεις;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q9">
+      <body>9 εκατομμύρια άνθρωποι έχασαν συνολικά τη ζωή τους;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+    <Question name="Q10">
+      <body>Ο πόλεμος ξεκίνησε από το Σαράγεβο της Βοσνίας;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q11">
+      <body>Ο σπουδαστής Γαβριήλ Πρίντσιπ σκότωσε τον Φερδινάνδο της Αυστρίας και τη σύζυγο του;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q12">
+      <body>Η πρώτη ανακωχή υπεγράφη στον Μούδρο της Λήμνου τον Οκτώβρη του 1918</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ReasoningCts_rlvFJyrl</name>
+</cognitiveTest>

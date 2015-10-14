@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <difficulty>3</difficulty>
+  <testSubType>TimeDifferenceCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Πρέπει να πάρετε την αντιβίωση σας στις 9 το πρωί και μετά ανά 6ωρο ακριβώς. Το μεσημέρι το ξεχνάτε και παίρνετε το χάπι σας με καθυστέρηση μιας ώρας. Τι ώρα θα το πάρετε το απόγευμα τηρώντας αυστηρά το 6ωρο;</body>
+      <answer>
+        <body>9</body>
+      </answer>
+      <answer>
+        <body>10</body>
+      </answer>
+      <answer>
+        <body>8</body>
+      </answer>
+      <answer>
+        <body>11</body>
+      </answer>
+      <correctAnswer>10</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Το βράδυ κανονίσατε να πάτε σινεμά με φίλους στην παράσταση των 8</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ArithmeticCts_EuRQCNBL</name>
+</cognitiveTest>

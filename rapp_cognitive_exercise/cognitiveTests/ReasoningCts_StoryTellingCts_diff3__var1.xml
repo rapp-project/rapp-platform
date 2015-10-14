@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ReasoningCts</testType>
+  <difficulty>3</difficulty>
+  <testSubType>StoryTellingCts</testSubType>
+  <Questions>
+    <Question name="Q1">
+      <body>Θα σου διηγηθώ τώρα μια ιστορία και μετά θα σου κάνω κάποιες ερωτήσεις για να δούμε αν κατάλαβες. Είσαι έτοιμος να ξεκινήσω;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q2">
+      <body>Ο Αλέξανδρος Γ΄ ο Μακεδών  ήταν βασιλιάς της Μακεδονίας. Γεννήθηκε στην Πέλλα της Μακεδονίας τον Ιούλιο του έτους 356 π.Χ.. Γονείς του ήταν ο βασιλιάς Φίλιππος Β' της Μακεδονίας και η πριγκίπισσα Ολυμπιάδα της Ηπείρου. Ως βασιλιάς της Μακεδονίας, συνέχισε το έργο του πατέρα του, Φιλίππου Β', και του παππού του Αμύντα Γ', ικανών στρατηγών, πολιτικών και διπλωματών, οι οποίοι διαδοχικά αναμόρφωσαν το Μακεδονικό βασίλειο και το εξέλιξαν σε σημαντική δύναμη του Ελληνικού κόσμου, και με τη σειρά του ο Αλέξανδρος το διαμόρφωσε σε παγκόσμια υπερδύναμη. Υπήρξε ένας από τους σπουδαιότερους στρατηγούς στην ιστορία, και κατά την περίοδο των 13 ετών της βασιλείας του (336 - 323 π.Χ.) κατέκτησε το μεγαλύτερο μέρος του τότε γνωστού κόσμου (Μικρά Ασία, Περσία, Αίγυπτο κλπ), φτάνοντας στις παρυφές της Ινδίας, και χωρίς να έχει ηττηθεί σε μάχη που ο ίδιος συμμετείχε. Πέθανε στην Βαβυλώνα, στο παλάτι του Ναβουχοδονόσορα Β' στις 10 Ιουνίου του 323 π.Χ., σε ηλικία ακριβώς 33 ετών. Λέγεται ότι είχε ένα γαλάζιο κι ένα καστανό μάτι εμφανίζοντας το γενικά σπάνιο στους ανθρώπους φαινόμενο της ετεροχρωμίας όπου οι ίριδες των ματιών διαφέρουν σε χρώμα μεταξύ τους. Δάσκαλος του ήταν ο Αριστοτέλης. Η ιστορία τελείωσε, να προχωρήσω στις ερωτήσεις;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q3">
+      <body>Ο Μέγας Αλέξανδρος γεννήθηκε στη Θεσσαλονίκη;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+    <Question name="Q4">
+      <body>Ο πατέρας του ονομαζόταν Φίλιππος;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q5">
+      <body>Η μητέρα του Ολυμπιάδα ήταν πριγκίπισσα της Αμφίπολης;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+    <Question name="Q6">
+      <body>Υπήρξε σπουδαίος στρατηγός και δεν ηττήθηκε ποτέ σε μάχη που συμμετείχε ο ίδιος;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q7">
+      <body>Οι κατακτήσεις του φτάσαν στις παρυφές της Ινδίας;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q8">
+      <body>Ο Αμύντας ήταν θείος του;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+    <Question name="Q9">
+      <body>Πέθανε στην Βαβυλώνα το 323 π.Χ.;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>ναι</correctAnswer>
+    </Question>
+    <Question name="Q10">
+      <body>Είχε γαλάζια μάτια;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+    <Question name="Q11">
+      <body>Ο Αριστοτέλης ήταν ο παππούς του;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+    <Question name="Q12">
+      <body>Είχε για δάσκαλο τον Ναβουχοδονόσορα;</body>
+      <answer>
+        <body>ναι</body>
+      </answer>
+      <answer>
+        <body>όχι</body>
+      </answer>
+      <correctAnswer>όχι</correctAnswer>
+    </Question>
+  </Questions>
+  <name>ReasoningCts_GJNNLYhq</name>
+</cognitiveTest>
