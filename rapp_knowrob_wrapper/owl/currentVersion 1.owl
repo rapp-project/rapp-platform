@@ -31,30 +31,6 @@
       <owl:someValuesFrom rdf:resource="&knowrob;ClosingADrawer"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ReleasingGraspOfSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ClosingADrawer"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ReleasingGraspOfSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ClosingADrawer"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ClosingAContainerArtifact"/>
 </owl:Class>
 
@@ -93,30 +69,6 @@
       <owl:someValuesFrom rdf:resource="&knowrob;OpeningADrawer"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Reaching"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;OpeningADrawer"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Reaching"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;OpeningADrawer"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;OpeningAContainerArtifact"/>
 </owl:Class>
 
@@ -127,20 +79,15 @@
       <owl:someValuesFrom rdf:resource="&knowrob;Sugar"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sugar"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sugar"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Food-ReadyToEat"/>
 </owl:Class>
+
+<knowrob:CognitiveTestPerformed rdf:about="&knowrob;CognitiveTestPerformed_noJHgORs">
+  <knowrob:cognitiveTestPerformedPatient rdf:resource="&knowrob;Person_DpphmPqg"/>
+  <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">1</knowrob:cognitiveTestPerformedScore>
+  <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_TaVWzXre"/>
+  <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1444994287</knowrob:cognitiveTestPerformedTimestamp>
+</knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;HospitalRoom">
   <rdfs:subClassOf rdf:resource="&knowrob;RoomInAConstruction"/>
@@ -275,20 +222,6 @@
   <rdfs:subPropertyOf rdf:resource="&knowrob;inputs"/>
 </owl:ObjectProperty>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CarvingKnife"/>
-    <rdf:Description rdf:about="&knowrob;Fork-SilverwarePiece"/>
-    <rdf:Description rdf:about="&knowrob;Scissors"/>
-    <rdf:Description rdf:about="&knowrob;Spatula"/>
-    <rdf:Description rdf:about="&knowrob;Spoon-SilverwarePiece"/>
-    <rdf:Description rdf:about="&knowrob;TableKnife"/>
-    <rdf:Description rdf:about="&knowrob;Tongs"/>
-    <rdf:Description rdf:about="&knowrob;WireWhisk"/>
-    <rdf:Description rdf:about="&knowrob;WoodenSpoon"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;SilverwarePiece">
   <rdfs:subClassOf rdf:resource="&knowrob;FoodUtensil"/>
 </owl:Class>
@@ -334,22 +267,6 @@
 </owl:AllDisjointClasses>
 
 <owl:DatatypeProperty rdf:about="&knowrob;workingTemperature">
-  <rdfs:domain>
-    <owl:Class>
-      <owl:unionOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;CoolingDevice"/>
-        <rdf:Description rdf:about="&knowrob;HeatingDevice"/>
-      </owl:unionOf>
-    </owl:Class>
-  </rdfs:domain>
-  <rdfs:domain>
-    <owl:Class>
-      <owl:unionOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;CoolingDevice"/>
-        <rdf:Description rdf:about="&knowrob;HeatingDevice"/>
-      </owl:unionOf>
-    </owl:Class>
-  </rdfs:domain>
   <rdfs:domain>
     <owl:Class>
       <owl:unionOf rdf:parseType="Collection">
@@ -430,18 +347,6 @@
       <owl:onProperty rdf:resource="&knowrob;lispClass"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-unhanded</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-unhanded</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;VoluntaryBodyMovement"/>
 </owl:Class>
 
@@ -466,17 +371,12 @@
   </owl:members>
 </owl:AllDisjointClasses>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BlackColor"/>
-    <rdf:Description rdf:about="&knowrob;BlueColor"/>
-    <rdf:Description rdf:about="&knowrob;GreenColor"/>
-    <rdf:Description rdf:about="&knowrob;OrangeColor"/>
-    <rdf:Description rdf:about="&knowrob;RedColor"/>
-    <rdf:Description rdf:about="&knowrob;WhiteColor"/>
-    <rdf:Description rdf:about="&knowrob;YellowColor"/>
-  </owl:members>
-</owl:AllDisjointClasses>
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_FWcHvbLr">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff1__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;LightBeer">
   <rdfs:subClassOf rdf:resource="&knowrob;Beer"/>
@@ -499,38 +399,6 @@
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;PuttingSomethingOnto">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;toLocation"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:intersectionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Place"/>
-            <owl:Restriction>
-              <owl:onProperty rdf:resource="&knowrob;on-Physical"/>
-              <owl:someValuesFrom rdf:resource="&knowrob;SpatialThing-Localized"/>
-            </owl:Restriction>
-          </owl:intersectionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;toLocation"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:intersectionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Place"/>
-            <owl:Restriction>
-              <owl:onProperty rdf:resource="&knowrob;on-Physical"/>
-              <owl:someValuesFrom rdf:resource="&knowrob;SpatialThing-Localized"/>
-            </owl:Restriction>
-          </owl:intersectionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;toLocation"/>
@@ -664,6 +532,13 @@ Note that some events, such as an ice cube melting into a small puddle of water,
   <rdfs:subClassOf rdf:resource="&knowrob;CookingUtensil"/>
 </owl:Class>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_RMwNovGs">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:ObjectProperty rdf:about="&knowrob;orientation">
   <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
   <rdfs:range rdf:resource="&knowrob;RotationMatrix"/>
@@ -688,18 +563,6 @@ Note that some events, such as an ice cube melting into a small puddle of water,
       <owl:onProperty rdf:resource="&knowrob;lispClass"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">door</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">door</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;DoorwayCovering"/>
 </owl:Class>
 
@@ -709,30 +572,6 @@ Note that some events, such as an ice cube melting into a small puddle of water,
 
 <owl:Class rdf:about="&knowrob;Mixing"
     rdfs:comment="two or more substances are combined to form a Mixture">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Stirring"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AddingSth"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Stirring"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AddingSth"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;subAction"/>
@@ -782,30 +621,6 @@ Note that some events, such as an ice cube melting into a small puddle of water,
       <owl:someValuesFrom rdf:resource="&knowrob;GaseousTangibleThing"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;SolidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GaseousTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;SolidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GaseousTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;StateOfMatterChangeEvent"/>
 </owl:Class>
 
@@ -816,42 +631,6 @@ Note that some events, such as an ice cube melting into a small puddle of water,
 </owl:ObjectProperty>
 
 <owl:Class rdf:about="&knowrob;Melting">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">0</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Frozen"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">0</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Frozen"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;integer">0</owl:hasValue>
@@ -894,6 +673,13 @@ Note that some events, such as an ice cube melting into a small puddle of water,
   <rdfs:range rdf:resource="&xsd;float"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;matrixElement"/>
 </owl:DatatypeProperty>
+
+<knowrob:CognitiveTestPerformed rdf:about="&knowrob;CognitiveTestPerformed_QifCuFiG">
+  <knowrob:cognitiveTestPerformedPatient rdf:resource="&knowrob;Person_DpphmPqg"/>
+  <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">1</knowrob:cognitiveTestPerformedScore>
+  <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_stXqnGrc"/>
+  <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1444994266</knowrob:cognitiveTestPerformedTimestamp>
+</knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;ElectricalPlug">
   <rdfs:subClassOf rdf:resource="&knowrob;ElectricalComponent"/>
@@ -947,34 +733,11 @@ Note that some events, such as an ice cube melting into a small puddle of water,
   <rdfs:subClassOf rdf:resource="&knowrob;MathematicalOrComputationalThing"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CleaningARoom"/>
-    <rdf:Description rdf:about="&knowrob;DryingDishes"/>
-    <rdf:Description rdf:about="&knowrob;DryingLaundry"/>
-    <rdf:Description rdf:about="&knowrob;MoppingAFloor"/>
-    <rdf:Description rdf:about="&knowrob;SweepingAnArea"/>
-    <rdf:Description rdf:about="&knowrob;TakingOutTheGarbage"/>
-    <rdf:Description rdf:about="&knowrob;Vacuuming"/>
-    <rdf:Description rdf:about="&knowrob;WashingClothesInAMachine"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <rdfs:Class rdf:about="&rdfs;Resource"
     rdfs:comment="The class resource, everything."
     rdfs:label="Resource">
   <rdfs:isDefinedBy rdf:resource="&rdfs;"/>
 </rdfs:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BodyWash"/>
-    <rdf:Description rdf:about="&knowrob;DishwashingSoap"/>
-    <rdf:Description rdf:about="&knowrob;LaundryDetergent"/>
-    <rdf:Description rdf:about="&knowrob;Shampoo"/>
-    <rdf:Description rdf:about="&knowrob;Soap-Personal"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;Ball">
   <rdfs:subClassOf rdf:resource="&knowrob;PortableObject"/>
@@ -1003,16 +766,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
 <owl:Class rdf:about="&knowrob;Digit-AnatomicalPart">
   <rdfs:subClassOf rdf:resource="&knowrob;Appendage-AnimalBodyPart"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;FrameOfReference"/>
-    <rdf:Description rdf:about="&knowrob;Matrix"/>
-    <rdf:Description rdf:about="&knowrob;RelationalStructure"/>
-    <rdf:Description rdf:about="&knowrob;Tuple"/>
-    <rdf:Description rdf:about="&knowrob;Vector"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;Milk">
   <rdfs:subClassOf rdf:resource="&knowrob;Drink"/>
@@ -1057,72 +810,10 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
       <owl:someValuesFrom rdf:resource="&knowrob;PickingUpAnObject"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PickingUpAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PickingUpAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Incorporation-Physical"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Dishwasher">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">dish-washer</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;WashingDishes"/>
-            <rdf:Description rdf:about="&knowrob;WashingDishesByMachine"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FoodVessel"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">dish-washer</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;WashingDishes"/>
-            <rdf:Description rdf:about="&knowrob;WashingDishesByMachine"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FoodVessel"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">dish-washer</owl:hasValue>
@@ -1181,16 +872,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
   <rdfs:subClassOf rdf:resource="&knowrob;Food"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BodyWash"/>
-    <rdf:Description rdf:about="&knowrob;DishwashingSoap"/>
-    <rdf:Description rdf:about="&knowrob;LaundryDetergent"/>
-    <rdf:Description rdf:about="&knowrob;Shampoo"/>
-    <rdf:Description rdf:about="&knowrob;Soap-Personal"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;ProbCogReasoning">
   <rdfs:subClassOf rdf:resource="&knowrob;Reasoning"/>
 </owl:Class>
@@ -1208,18 +889,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Boiling">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">100</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">100</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;integer">100</owl:hasValue>
@@ -1246,16 +915,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
   <rdfs:range rdf:resource="&knowrob;EnduringThing-Localized"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;objectActedOn"/>
 </owl:ObjectProperty>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;IndexFinger"/>
-    <rdf:Description rdf:about="&knowrob;LittleFinger"/>
-    <rdf:Description rdf:about="&knowrob;MiddleFinger"/>
-    <rdf:Description rdf:about="&knowrob;RingFinger"/>
-    <rdf:Description rdf:about="&knowrob;Thumb"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;Fall">
   <rdfs:subClassOf rdf:resource="&knowrob;Situation"/>
@@ -1335,18 +994,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
   <rdfs:subClassOf rdf:resource="&knowrob;Candy"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;ConstructionArtifact"/>
-    <rdf:Description rdf:about="&knowrob;FoodOrDrinkOrIngredient"/>
-    <rdf:Description rdf:about="&knowrob;FoodVessel"/>
-    <rdf:Description rdf:about="&knowrob;HandTool"/>
-    <rdf:Description rdf:about="&knowrob;RefrigeratedStorageDevice"/>
-    <rdf:Description rdf:about="&knowrob;TableCovering"/>
-    <rdf:Description rdf:about="&knowrob;Tray"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;MicrowaveOven">
   <rdfs:subClassOf rdf:resource="&knowrob;ElectricalHouseholdAppliance"/>
   <rdfs:subClassOf rdf:resource="&knowrob;FoodOrDrinkPreparationDevice"/>
@@ -1355,32 +1002,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Drawer">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;FoodUtensil"/>
-            <rdf:Description rdf:about="&knowrob;FoodVessel"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;FoodUtensil"/>
-            <rdf:Description rdf:about="&knowrob;FoodVessel"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
@@ -1433,30 +1054,6 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Condensing">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GaseousTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GaseousTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
@@ -1544,18 +1141,6 @@ Note that a fictional or imaginary object (such as Frodo, Captain Queeg, or HAL9
       <owl:someValuesFrom rdf:resource="&knowrob;Sugar"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sugar"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sugar"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;SoftDrink"/>
 </owl:Class>
 
@@ -1598,41 +1183,10 @@ Note that a fictional or imaginary object (such as Frodo, Captain Queeg, or HAL9
       <owl:onProperty rdf:resource="&knowrob;matrixNumRows"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">3</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumColumns"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">3</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumRows"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">3</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumColumns"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">3</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumRows"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;RotationMatrix"/>
 </owl:Class>
 
 <owl:ObjectProperty rdf:about="&owl;topObjectProperty"/>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_rMsqkRjP">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff3__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;Information">
   <rdfs:subClassOf rdf:resource="&knowrob;HumanMessage"/>
@@ -1707,6 +1261,13 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;PublicRestroom">
   <rdfs:subClassOf rdf:resource="&knowrob;Restroom"/>
 </owl:Class>
+
+<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_qdaDeDZn">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_WordRememberingCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;WordRememberingCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ReasoningCts>
 
 <owl:Class rdf:about="&knowrob;SoupSpoon">
   <rdfs:comment rdf:datatype="&xsd;string">A spoon with a larger-than-normal basin, used for eating soup.</rdfs:comment>
@@ -1810,30 +1371,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;Point3D"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">handle</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;center"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Point3D"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">handle</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;center"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Point3D"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;NonPoweredDevice"/>
   <rdfs:subClassOf rdf:resource="&knowrob;PhysicalPartOfObject"/>
   <rdfs:comment rdf:datatype="&xsd;string">A collection of devices. Each instance of Handle is a part (it might be a detachable part, it might be a specially shaped region of a thing) of another object, of which it is the handle. Each instance of Handle is a physical device which is designed to be grasped with the human hand in such a way that the grasper can more easily control his or her orientation to the object that the handle is attached to. In most cases, handles are intended to help in manipulating the object, by allowing the user to move the object in a more controlled way than s/he could without the handle. Handles are found on cookware, suitcases, crutches, doors, hand-held and hand-powered tools -- in fact, on most artifacts that humans need to manipulate frequently and which are bigger and heavier than a dinner plate or a book. In other, less common cases, handles are provided on objects (a) to facilitate moving oneself around the object (rather than vice versa), e.g., handles on a pommel horse or other exercise equipment, or on a ladder, in a spacecraft, or pounded into a rock face; or (b) for holding oneself stationary with respect to some moving object, e.g., handles inside a subway car. Note that handles are sometimes used to perform other functions, such as hanging one's dry cleaning from the little handle above the rear door of a passenger car.</rdfs:comment>
@@ -1859,13 +1396,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:domain rdf:resource="&owl;Thing"/>
   <rdfs:range rdf:resource="&knowrob;MathematicalOrdering"/>
 </owl:ObjectProperty>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_obzxzwaP">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:ObjectProperty rdf:about="&knowrob;objectAddedTo">
   <rdfs:domain rdf:resource="&knowrob;Incorporation-Physical"/>
@@ -1904,13 +1434,6 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;Cookie">
   <rdfs:subClassOf rdf:resource="&knowrob;Baked"/>
 </owl:Class>
-
-<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_GJNNLYhq">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_StoryTellingCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;StoryTellingCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ReasoningCts>
 
 <owl:Class rdf:about="&knowrob;Tray">
   <rdfs:subClassOf rdf:resource="&knowrob;ContainerArtifact"/>
@@ -1967,30 +1490,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:onProperty rdf:resource="&knowrob;matrixNumRows"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">4</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumColumns"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">4</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumRows"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">4</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumColumns"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">4</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;matrixNumRows"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;RotationMatrix"/>
 </owl:Class>
 
@@ -2008,50 +1507,7 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;OpeningAContainerArtifact"/>
 </owl:Class>
 
-<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_rlvFJyrl">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_StoryTellingCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;StoryTellingCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ReasoningCts>
-
 <owl:Class rdf:about="&knowrob;Freezing">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Frozen"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">0</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;maxTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Frozen"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">0</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;maxTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
@@ -2109,14 +1565,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:range rdf:resource="&owl;Thing"/>
 </rdf:Property>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Broom"/>
-    <rdf:Description rdf:about="&knowrob;Mop"/>
-    <rdf:Description rdf:about="&knowrob;VacuumCleaner"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;Cuisine">
   <rdfs:subClassOf rdf:resource="&knowrob;EdibleStuff"/>
 </owl:Class>
@@ -2153,27 +1601,6 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;CognitiveTests">
   <rdfs:subClassOf rdf:resource="&knowrob;CognitiveExerciseSystem"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;AnimalBodyPart"/>
-    <rdf:Description rdf:about="&knowrob;CleaningDevice"/>
-    <rdf:Description rdf:about="&knowrob;ConstructionArtifact"/>
-    <rdf:Description rdf:about="&knowrob;ControlDevice"/>
-    <rdf:Description rdf:about="&knowrob;FoodOrDrinkOrIngredient"/>
-    <rdf:Description rdf:about="&knowrob;FoodVessel"/>
-    <rdf:Description rdf:about="&knowrob;HandTool"/>
-    <rdf:Description rdf:about="&knowrob;TableCovering"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CounterTop"/>
-    <rdf:Description rdf:about="&knowrob;Person-SupportingFurniture"/>
-    <rdf:Description rdf:about="&knowrob;Table-PieceOfFurniture"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;DrinkingVessel">
   <rdfs:subClassOf rdf:resource="&knowrob;FoodVessel"/>
@@ -2230,13 +1657,6 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;BathRoom">
   <rdfs:subClassOf rdf:resource="&knowrob;Restroom"/>
 </owl:Class>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_tDjYwuhx">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;EmbodiedAgent">
   <rdfs:subClassOf rdf:resource="&knowrob;EnduringThing-Localized"/>
@@ -2373,31 +1793,7 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;PersonalHygieneProduct"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BlackColor"/>
-    <rdf:Description rdf:about="&knowrob;BlueColor"/>
-    <rdf:Description rdf:about="&knowrob;GreenColor"/>
-    <rdf:Description rdf:about="&knowrob;OrangeColor"/>
-    <rdf:Description rdf:about="&knowrob;RedColor"/>
-    <rdf:Description rdf:about="&knowrob;WhiteColor"/>
-    <rdf:Description rdf:about="&knowrob;YellowColor"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;EatingTable">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">table</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">table</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">table</owl:hasValue>
@@ -2464,18 +1860,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:onProperty rdf:resource="&knowrob;toState"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
   <rdfs:subClassOf rdf:resource="&knowrob;ControllingAPhysicalDevice"/>
 </owl:Class>
@@ -2515,77 +1899,9 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PuttingDownAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PickingUpAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CarryingWhileLocomoting"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;SubEventOrderingPuttingSomethingSomewhere2"/>
-      <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;SubEventOrderingPuttingSomethingSomewhere1"/>
-      <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PuttingDownAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PickingUpAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CarryingWhileLocomoting"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;SubEventOrderingPuttingSomethingSomewhere2"/>
-      <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;SubEventOrderingPuttingSomethingSomewhere1"/>
-      <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Movement-TranslationEvent"/>
   <rdfs:subClassOf rdf:resource="&knowrob;TransportationEvent"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Bowl-Serving"/>
-    <rdf:Description rdf:about="&knowrob;Pitcher"/>
-    <rdf:Description rdf:about="&knowrob;Platter"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <rdf:Property rdf:about="&owl;sameAs"
     rdfs:label="sameAs">
@@ -2644,18 +1960,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:onProperty rdf:resource="&knowrob;lispClass"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">knife</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">knife</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Knife"/>
   <rdfs:subClassOf rdf:resource="&knowrob;SilverwarePiece"/>
   <rdfs:comment rdf:datatype="&xsd;string"></rdfs:comment>
@@ -2685,30 +1989,6 @@ For predicates that relate things to measurable quantities that characterize the
 </rdfs:Class>
 
 <owl:Class rdf:about="&knowrob;ClosingSomething">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateClosed"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateOpen"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateClosed"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateOpen"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:resource="&knowrob;ObjectStateClosed"/>
@@ -2764,14 +2044,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;ConsumingFoodOrDrink"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Bowl-Eating"/>
-    <rdf:Description rdf:about="&knowrob;DinnerPlate"/>
-    <rdf:Description rdf:about="&knowrob;Saucer"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <rdfs:Class rdf:about="&owl;AnnotationProperty">
   <rdfs:subClassOf rdf:resource="&rdf;Property"/>
 </rdfs:Class>
@@ -2793,30 +2065,6 @@ For predicates that relate things to measurable quantities that characterize the
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Microwaving">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;MicrowaveOven"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Microwaved"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;MicrowaveOven"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Microwaved"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
@@ -2947,42 +2195,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:onProperty rdf:resource="&knowrob;lispClass"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ReleasingGraspOfSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LoweringAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-put-down</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ReleasingGraspOfSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LoweringAnObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-put-down</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Movement-TranslationEvent"/>
 </owl:Class>
 
@@ -3019,38 +2231,7 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;Modality"/>
 </owl:Class>
 
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_EuRQCNBL">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff3__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
 <owl:Class rdf:about="&knowrob;OpeningACupboard">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Reaching"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;OpeningADoor"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Reaching"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;OpeningADoor"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;subAction"/>
@@ -3131,13 +2312,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;ToiletrySubstance"/>
 </owl:Class>
 
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_ExJpRNHP">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff2__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
 <owl:Class rdf:about="&knowrob;IndividualAgent">
   <rdfs:subClassOf rdf:resource="&knowrob;Agent-Generic"/>
 </owl:Class>
@@ -3165,18 +2339,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:isDefinedBy rdf:resource="&rdfs;"/>
   <rdfs:range rdf:resource="&rdfs;Literal"/>
 </rdf:Property>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;ConstructionArtifact"/>
-    <rdf:Description rdf:about="&knowrob;FoodOrDrinkOrIngredient"/>
-    <rdf:Description rdf:about="&knowrob;FoodVessel"/>
-    <rdf:Description rdf:about="&knowrob;HandTool"/>
-    <rdf:Description rdf:about="&knowrob;RefrigeratedStorageDevice"/>
-    <rdf:Description rdf:about="&knowrob;TableCovering"/>
-    <rdf:Description rdf:about="&knowrob;Tray"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;GreenTea">
   <rdfs:subClassOf rdf:resource="&knowrob;Tea-Beverage"/>
@@ -3224,46 +2386,10 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;ReleasingGraspOfSomething"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ClosingADoor"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ReleasingGraspOfSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ClosingADoor"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ReleasingGraspOfSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ClosingAContainerArtifact"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;DinnerPlate">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">plate</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">plate</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">plate</owl:hasValue>
@@ -3294,30 +2420,6 @@ For predicates that relate things to measurable quantities that characterize the
 </owl:ObjectProperty>
 
 <owl:Class rdf:about="&knowrob;ControlDevice">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ControllingSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;causes-Underspecified"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Event"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ControllingSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;causes-Underspecified"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Event"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
@@ -3479,30 +2581,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;CookingFood"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">150</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CookingFood"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">150</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CookingFood"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;FurniturePiece"/>
   <rdfs:subClassOf rdf:resource="&knowrob;HeatingDevice"/>
   <rdfs:comment rdf:datatype="&xsd;string">The part of a CookingRange (cf) that has the burners and is used for frying &amp; boiling in pots &amp; pans. Often called 'Stove' in english..</rdfs:comment>
@@ -3533,29 +2611,7 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;BackSide"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;AngularDistance"/>
-    <rdf:Description rdf:about="&knowrob;Area"/>
-    <rdf:Description rdf:about="&knowrob;Distance"/>
-    <rdf:Description rdf:about="&knowrob;Orientation"/>
-    <rdf:Description rdf:about="&knowrob;Volume"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;MakingTea-TheBeverage">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Tea-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Tea-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
@@ -3570,30 +2626,6 @@ For predicates that relate things to measurable quantities that characterize the
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;TurningOnHeatingDevice">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputs"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatSource"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatingDevice"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputs"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatSource"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatingDevice"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;outputs"/>
@@ -3636,6 +2668,13 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;RfidPerception">
   <rdfs:subClassOf rdf:resource="&knowrob;Perceiving"/>
 </owl:Class>
+
+<knowrob:CognitiveTestPerformed rdf:about="&knowrob;CognitiveTestPerformed_bYmVjIRg">
+  <knowrob:cognitiveTestPerformedPatient rdf:resource="&knowrob;Person_DpphmPqg"/>
+  <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">1</knowrob:cognitiveTestPerformedScore>
+  <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_xqQsIBFN"/>
+  <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1444994251</knowrob:cognitiveTestPerformedTimestamp>
+</knowrob:CognitiveTestPerformed>
 
 <owl:ObjectProperty rdf:about="&knowrob;temporallyRelated"/>
 
@@ -3688,30 +2727,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;Pouring-PourFromOneContainerIntoAnother"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cracking"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Pouring-PourFromOneContainerIntoAnother"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cracking"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Pouring-PourFromOneContainerIntoAnother"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;AddingSth"/>
 </owl:Class>
 
@@ -3744,34 +2759,9 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:onProperty rdf:resource="&knowrob;toState"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOff"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOff"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
   <rdfs:subClassOf rdf:resource="&knowrob;ControllingAPhysicalDevice"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;AnimalBodyPart"/>
-    <rdf:Description rdf:about="&knowrob;CleaningDevice"/>
-    <rdf:Description rdf:about="&knowrob;ConstructionArtifact"/>
-    <rdf:Description rdf:about="&knowrob;ControlDevice"/>
-    <rdf:Description rdf:about="&knowrob;FoodOrDrinkOrIngredient"/>
-    <rdf:Description rdf:about="&knowrob;FoodVessel"/>
-    <rdf:Description rdf:about="&knowrob;HandTool"/>
-    <rdf:Description rdf:about="&knowrob;TableCovering"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:ObjectProperty rdf:about="&knowrob;taskStartState">
   <rdfs:domain rdf:resource="&knowrob;PurposefulAction"/>
@@ -3801,42 +2791,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;Tap-PlumbingFixture"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOff"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Tap-PlumbingFixture"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOff"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Tap-PlumbingFixture"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ChangingDeviceState"/>
   <rdfs:subClassOf rdf:resource="&knowrob;RegulatingFluidFlow"/>
   <rdfs:comment rdf:datatype="&xsd;string">The collection of events in which a tap is closed and water can no longer flow through it.</rdfs:comment>
@@ -3845,13 +2799,6 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;ChessBoard">
   <rdfs:subClassOf rdf:resource="&knowrob;NonPoweredDevice"/>
 </owl:Class>
-
-<knowrob:CognitiveTestPerformed rdf:about="&knowrob;CognitiveTestPerformed_pQmhNKHv">
-  <knowrob:cognitiveTestPerformedPatient rdf:resource="&knowrob;Person_DpphmPqg"/>
-  <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">1</knowrob:cognitiveTestPerformedScore>
-  <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_TaVWzXre"/>
-  <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1444848649</knowrob:cognitiveTestPerformedTimestamp>
-</knowrob:CognitiveTestPerformed>
 
 <rdfs:Class rdf:about="&owl;SymmetricProperty"
     rdfs:label="SymmetricProperty">
@@ -3869,13 +2816,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;Wine"/>
 </owl:Class>
 
-<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_pQmhNKHv">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_WordRememberingCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;WordRememberingCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ReasoningCts>
-
 <owl:Class rdf:about="&knowrob;VisualWork">
   <rdfs:subClassOf rdf:resource="&knowrob;ConceptualWork"/>
 </owl:Class>
@@ -3888,26 +2828,16 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;BuildingCleaningChore"/>
 </owl:Class>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_xqQsIBFN">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:Class rdf:about="&knowrob;Pouring">
   <rdfs:subClassOf rdf:resource="&knowrob;FluidFlow-Translation"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Arm"/>
-    <rdf:Description rdf:about="&knowrob;Digit-AnatomicalPart"/>
-    <rdf:Description rdf:about="&knowrob;FaceOfAnimal"/>
-    <rdf:Description rdf:about="&knowrob;Hand"/>
-    <rdf:Description rdf:about="&knowrob;Leg"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
-<knowrob:CognitiveTestPerformed rdf:about="&knowrob;CognitiveTestPerformed_qdaDeDZn">
-  <knowrob:cognitiveTestPerformedPatient rdf:resource="&knowrob;Person_DpphmPqg"/>
-  <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">1</knowrob:cognitiveTestPerformedScore>
-  <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_stXqnGrc"/>
-  <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1444846711</knowrob:cognitiveTestPerformedTimestamp>
-</knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;MaterialHandling">
   <rdfs:subClassOf rdf:resource="&knowrob;PurposefulAction"/>
@@ -3942,13 +2872,6 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;CleaningDevice">
   <rdfs:subClassOf rdf:resource="&knowrob;PhysicalDevice"/>
 </owl:Class>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_ZxKuHwbZ">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff2__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;CarvingKnife">
   <rdfs:subClassOf rdf:resource="&knowrob;FoodUtensil"/>
@@ -3990,13 +2913,6 @@ For predicates that relate things to measurable quantities that characterize the
 <owl:Class rdf:about="&knowrob;BentoBox">
   <rdfs:subClassOf rdf:resource="&knowrob;FingerFood"/>
 </owl:Class>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_OrUIzvEY">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff2__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;Sculpture">
   <rdfs:subClassOf rdf:resource="&knowrob;Artifact"/>
@@ -4083,14 +2999,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subPropertyOf rdf:resource="&knowrob;objectActedOn"/>
 </owl:ObjectProperty>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;AirCoolingDevice"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator-Freezer"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;PuttingSomethingIntoSomething">
   <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingSomewhere"/>
 </owl:Class>
@@ -4128,18 +3036,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;LiquidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Movement-TranslationEvent"/>
 </owl:Class>
 
@@ -4164,46 +3060,10 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;restaurantTypeSpecializingInCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;restaurantTypeSpecializingInCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;FastFoodRestaurant-Organization"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;RegularOven">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">200</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">200</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;integer">200</owl:hasValue>
@@ -4218,38 +3078,6 @@ For predicates that relate things to measurable quantities that characterize the
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;LoadingADishwasher">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;toLocation"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:intersectionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Place"/>
-            <owl:Restriction>
-              <owl:onProperty rdf:resource="&knowrob;in-ContGeneric"/>
-              <owl:someValuesFrom rdf:resource="&knowrob;Refrigerator"/>
-            </owl:Restriction>
-          </owl:intersectionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;toLocation"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:intersectionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Place"/>
-            <owl:Restriction>
-              <owl:onProperty rdf:resource="&knowrob;in-ContGeneric"/>
-              <owl:someValuesFrom rdf:resource="&knowrob;Refrigerator"/>
-            </owl:Restriction>
-          </owl:intersectionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;toLocation"/>
@@ -4337,6 +3165,13 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&owl;ObjectProperty"/>
 </rdfs:Class>
 
+<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_vUXiHMJy">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_WordRememberingCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;WordRememberingCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ReasoningCts>
+
 <owl:Class rdf:about="&knowrob;MathematicalThing">
   <rdfs:subClassOf rdf:resource="&knowrob;MathematicalOrComputationalThing"/>
 </owl:Class>
@@ -4369,18 +3204,6 @@ For predicates that relate things to measurable quantities that characterize the
 </owl:ObjectProperty>
 
 <owl:Class rdf:about="&knowrob;ControlKnob">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">knob</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">knob</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">knob</owl:hasValue>
@@ -4470,18 +3293,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;HeatingProcess"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatingProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatingProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;PhysicalDevice"/>
   <rdfs:subClassOf rdf:resource="&knowrob;PoweredDevice"/>
   <rdfs:comment rdf:datatype="&xsd;string">A specialization of PoweredDevice. Each instance of HeatingDevice is a device whose primary function (see the predicate primaryFunction) is to generate heat to raise the temperature of something else. The thing being heated might be in gaseous form (for example, the air in a room), in liquid form (for example, the water in a pool), or in solid form (for example, food in an oven). A given instance of HeatingDevice typically has some energy input, some way of converting that energy to heat, and some way of delivering the heat to the object(s) to be heated.</rdfs:comment>
@@ -4496,18 +3307,6 @@ For predicates that relate things to measurable quantities that characterize the
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;MakingPizza">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Pizza"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Pizza"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
@@ -4547,6 +3346,13 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subPropertyOf rdf:resource="&knowrob;preEvents"/>
 </owl:ObjectProperty>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_hSmyiLiV">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:Class rdf:about="&knowrob;StorageRoom">
   <rdfs:subClassOf rdf:resource="&knowrob;RoomInAConstruction"/>
 </owl:Class>
@@ -4584,42 +3390,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;Dough"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">120</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Baked"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Dough"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">120</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Baked"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Dough"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Baking-Hardening"/>
   <rdfs:subClassOf rdf:resource="&knowrob;CookingFood"/>
 </owl:Class>
@@ -4628,6 +3398,13 @@ For predicates that relate things to measurable quantities that characterize the
     rdfs:label="ObjectProperty">
   <rdfs:subClassOf rdf:resource="&rdf;Property"/>
 </rdfs:Class>
+
+<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_pQmhNKHv">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_WordRememberingCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;WordRememberingCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ReasoningCts>
 
 <owl:FunctionalProperty rdf:about="&knowrob;nextPointOnArmTrajectory">
   <rdf:type rdf:resource="&owl;ObjectProperty"/>
@@ -4723,42 +3500,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;CoolingProcess"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">6</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Perishable"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CoolingProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">6</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Perishable"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CoolingProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Box-Container"/>
   <rdfs:subClassOf rdf:resource="&knowrob;ElectricalHouseholdAppliance"/>
   <rdfs:subClassOf rdf:resource="&knowrob;RefrigeratedStorageDevice"/>
@@ -4788,16 +3529,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:range rdf:resource="&knowrob;EnduringThing-Localized"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;objectActedOn"/>
 </owl:ObjectProperty>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Arm"/>
-    <rdf:Description rdf:about="&knowrob;Digit-AnatomicalPart"/>
-    <rdf:Description rdf:about="&knowrob;FaceOfAnimal"/>
-    <rdf:Description rdf:about="&knowrob;Hand"/>
-    <rdf:Description rdf:about="&knowrob;Leg"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;VegetarianCuisine">
   <rdfs:subClassOf rdf:resource="&knowrob;Cuisine"/>
@@ -4889,18 +3620,6 @@ For predicates that relate things to measurable quantities that characterize the
       <owl:someValuesFrom rdf:resource="&knowrob;RegulatingFluidFlow"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;RegulatingFluidFlow"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;RegulatingFluidFlow"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ContainerArtifact"/>
   <rdfs:subClassOf rdf:resource="&knowrob;FlowControlDevice"/>
   <rdfs:comment rdf:datatype="&xsd;string">A device through which fluid can flow and which can control the flow of liquid through itself. Found on sinks, bathtubs, kegs of beer, etc.</rdfs:comment>
@@ -4958,8 +3677,6 @@ For predicates that relate things to measurable quantities that characterize the
   <rdfs:subClassOf rdf:resource="&knowrob;Food"/>
   <rdfs:subClassOf rdf:resource="&knowrob;LiquidTangibleThing"/>
 </owl:Class>
-
-<knowrob:Person rdf:about="&knowrob;Person_DpphmPqg"/>
 
 <owl:Class rdf:about="&knowrob;HolderGripper">
   <rdfs:subClassOf rdf:resource="&knowrob;EnduringThing-Localized"/>
@@ -5030,14 +3747,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
   <rdfs:subClassOf rdf:resource="&knowrob;Weekday"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Bowl-Eating"/>
-    <rdf:Description rdf:about="&knowrob;DinnerPlate"/>
-    <rdf:Description rdf:about="&knowrob;Saucer"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;AttachmentState">
   <rdfs:subClassOf rdf:resource="&knowrob;TaskState"/>
 </owl:Class>
@@ -5089,30 +3798,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:someValuesFrom rdf:resource="&knowrob;FoodVessel"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">cupboard</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FoodVessel"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FoodVessel"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">cupboard</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Box-Container"/>
 </owl:Class>
 
@@ -5121,6 +3806,13 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
   <rdfs:range rdf:resource="&xsd;int"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;objectID"/>
 </owl:DatatypeProperty>
+
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_VeMDiXVm">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;Desk-PieceOfFurniture">
   <rdfs:subClassOf rdf:resource="&knowrob;Table-PieceOfFurniture"/>
@@ -5144,46 +3836,10 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:someValuesFrom rdf:resource="&knowrob;TimePoint"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;endTime"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;TimePoint"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;startTime"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;TimePoint"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;endTime"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;TimePoint"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;startTime"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;TimePoint"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;TimeOfDay"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Fork-SilverwarePiece">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">fork</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">fork</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">fork</owl:hasValue>
@@ -5221,31 +3877,12 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:someValuesFrom rdf:resource="&knowrob;VegetarianCuisine"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;VegetarianCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;VegetarianCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Food-ReadyToEat"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Cracker-FoodItem">
   <rdfs:subClassOf rdf:resource="&knowrob;SnackFood"/>
 </owl:Class>
-
-<knowrob:CognitiveTestPerformed rdf:about="&knowrob;CognitiveTestPerformed_vUXiHMJy">
-  <knowrob:cognitiveTestPerformedPatient rdf:resource="&knowrob;Person_DpphmPqg"/>
-  <knowrob:cognitiveTestPerformedScore rdf:datatype="&xsd;string">1</knowrob:cognitiveTestPerformedScore>
-  <knowrob:cognitiveTestPerformedTestType rdf:resource="&knowrob;ArithmeticCts_xqQsIBFN"/>
-  <knowrob:cognitiveTestPerformedTimestamp rdf:datatype="&xsd;string">1444846698</knowrob:cognitiveTestPerformedTimestamp>
-</knowrob:CognitiveTestPerformed>
 
 <owl:Class rdf:about="&knowrob;AwarenessCts">
   <rdfs:subClassOf rdf:resource="&knowrob;CognitiveTests"/>
@@ -5259,18 +3896,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 </rdf:Property>
 
 <owl:Class rdf:about="&knowrob;PancakeMaker">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">150</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">150</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;integer">150</owl:hasValue>
@@ -5328,39 +3953,16 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
   <rdfs:subClassOf rdf:resource="&knowrob;FoodIngredientOnly"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Cup"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingBottle"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingCan"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingGlass"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Cup"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingBottle"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingCan"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingGlass"/>
-  </owl:members>
-</owl:AllDisjointClasses>
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_TaVWzXre">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff1__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;ToolTip">
   <rdfs:subClassOf rdf:resource="&knowrob;PhysicalPartOfObject"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Bowl-Mixing"/>
-    <rdf:Description rdf:about="&knowrob;CookingVessel"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingVessel"/>
-    <rdf:Description rdf:about="&knowrob;EatingVessel"/>
-    <rdf:Description rdf:about="&knowrob;MeasuringCup"/>
-    <rdf:Description rdf:about="&knowrob;ServingVessel"/>
-    <rdf:Description rdf:about="&knowrob;Thermos"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;BaseAtPoseState">
   <rdfs:subClassOf rdf:resource="&knowrob;AtPoseState"/>
@@ -5412,22 +4014,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       </owl:oneOf>
     </owl:Class>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Class>
-      <owl:oneOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;DeviceStateOff"/>
-        <rdf:Description rdf:about="&knowrob;DeviceStateOn"/>
-      </owl:oneOf>
-    </owl:Class>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Class>
-      <owl:oneOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;DeviceStateOff"/>
-        <rdf:Description rdf:about="&knowrob;DeviceStateOn"/>
-      </owl:oneOf>
-    </owl:Class>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ObjectState"/>
 </owl:Class>
 
@@ -5453,6 +4039,13 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 <owl:DatatypeProperty rdf:about="&knowrob;maxJointValue">
   <rdfs:subPropertyOf rdf:resource="&knowrob;jointLimitParameters"/>
 </owl:DatatypeProperty>
+
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_stXqnGrc">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:ObjectProperty rdf:about="&knowrob;subEvents">
   <rdfs:domain rdf:resource="&knowrob;Event"/>
@@ -5497,13 +4090,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
   <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
 </owl:DatatypeProperty>
 
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_xqQsIBFN">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
 <owl:Class rdf:about="&knowrob;CarbonatedBeverage">
   <rdfs:subClassOf rdf:resource="&knowrob;Drink"/>
 </owl:Class>
@@ -5519,6 +4105,13 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
   <rdfs:range rdf:resource="&knowrob;Vector"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;direction"/>
 </owl:ObjectProperty>
+
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_kpdCJilp">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff3__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:ObjectProperty rdf:about="&knowrob;perceivedThings">
   <rdfs:domain rdf:resource="&knowrob;Perceiving"/>
@@ -5565,38 +4158,10 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Sandwich"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;PreparingAFoodItem"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;ContainerState">
-  <rdfs:subClassOf>
-    <owl:Class>
-      <owl:oneOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;ObjectStateClosed"/>
-        <rdf:Description rdf:about="&knowrob;ObjectStateOpen"/>
-      </owl:oneOf>
-    </owl:Class>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Class>
-      <owl:oneOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;ObjectStateClosed"/>
-        <rdf:Description rdf:about="&knowrob;ObjectStateOpen"/>
-      </owl:oneOf>
-    </owl:Class>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Class>
       <owl:oneOf rdf:parseType="Collection">
@@ -5669,30 +4234,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:someValuesFrom rdf:resource="&knowrob;WashingDishes"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">sink</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typeIntendedBehaviorCapable-DeviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;WashingDishes"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">sink</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typeIntendedBehaviorCapable-DeviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;WashingDishes"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Basin"/>
   <rdfs:subClassOf rdf:resource="&knowrob;ContainerArtifact"/>
   <rdfs:subClassOf rdf:resource="&knowrob;FurniturePiece"/>
@@ -5739,18 +4280,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:onProperty rdf:resource="&knowrob;lispClass"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">sofa</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">sofa</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Person-SupportingFurniture"/>
   <rdfs:comment rdf:datatype="&xsd;string">A piece of furniture used for seating that can hold more than one person comfortably; usually padded and fully upholstered [covered with fabric].</rdfs:comment>
 </owl:Class>
@@ -5763,6 +4292,13 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 <owl:Class rdf:about="&knowrob;Broom">
   <rdfs:subClassOf rdf:resource="&knowrob;DomesticCleaningTool"/>
 </owl:Class>
+
+<knowrob:AwarenessCts rdf:about="&knowrob;AwarenessCts_kRmyDqqu">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/AwarenessCts_TimeDayYearCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDayYearCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:AwarenessCts>
 
 <owl:Class rdf:about="&knowrob;Paper-IBO">
   <rdfs:subClassOf rdf:resource="&knowrob;HardCopyInformationBearingObject"/>
@@ -5799,26 +4335,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 <owl:Class rdf:about="&knowrob;Dirtiness">
   <rdfs:subClassOf rdf:resource="&knowrob;NonNumericQuantitySlot"/>
   <rdfs:subClassOf rdf:resource="&knowrob;ObjectState"/>
-  <owl:equivalentClass>
-    <owl:Class>
-      <owl:oneOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;Sterile"/>
-        <rdf:Description rdf:about="&knowrob;Clean"/>
-        <rdf:Description rdf:about="&knowrob;ALittleDirty"/>
-        <rdf:Description rdf:about="&knowrob;Dirty"/>
-      </owl:oneOf>
-    </owl:Class>
-  </owl:equivalentClass>
-  <owl:equivalentClass>
-    <owl:Class>
-      <owl:oneOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;Sterile"/>
-        <rdf:Description rdf:about="&knowrob;Clean"/>
-        <rdf:Description rdf:about="&knowrob;ALittleDirty"/>
-        <rdf:Description rdf:about="&knowrob;Dirty"/>
-      </owl:oneOf>
-    </owl:Class>
-  </owl:equivalentClass>
   <owl:equivalentClass>
     <owl:Class>
       <owl:oneOf rdf:parseType="Collection">
@@ -5894,18 +4410,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:someValuesFrom rdf:resource="&knowrob;RestaurantSpace"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;RestaurantSpace"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;RestaurantSpace"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;FoodAndBeverageOrganization"/>
 </owl:Class>
 
@@ -5918,17 +4422,12 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
   <rdfs:subPropertyOf rdf:resource="&knowrob;vectorElement"/>
 </owl:DatatypeProperty>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Bowl-Mixing"/>
-    <rdf:Description rdf:about="&knowrob;CookingVessel"/>
-    <rdf:Description rdf:about="&knowrob;DrinkingVessel"/>
-    <rdf:Description rdf:about="&knowrob;EatingVessel"/>
-    <rdf:Description rdf:about="&knowrob;MeasuringCup"/>
-    <rdf:Description rdf:about="&knowrob;ServingVessel"/>
-    <rdf:Description rdf:about="&knowrob;Thermos"/>
-  </owl:members>
-</owl:AllDisjointClasses>
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_lEOECMZR">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:ObjectProperty rdf:about="&knowrob;startTime">
   <rdfs:domain rdf:resource="&knowrob;TemporallyExtendedThing"/>
@@ -5943,16 +4442,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 <owl:Class rdf:about="&knowrob;PerceptionState">
   <rdfs:subClassOf rdf:resource="&knowrob;TaskState"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;AngularDistance"/>
-    <rdf:Description rdf:about="&knowrob;Area"/>
-    <rdf:Description rdf:about="&knowrob;Distance"/>
-    <rdf:Description rdf:about="&knowrob;Orientation"/>
-    <rdf:Description rdf:about="&knowrob;Volume"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <rdf:Property rdf:about="&rdfs;isDefinedBy"
     rdfs:comment="The defininition of the subject resource."
@@ -5986,42 +4475,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Sandwich">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AmericanStyleFastFoodCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GreenSalad"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Bread"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AmericanStyleFastFoodCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GreenSalad"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Bread"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
@@ -6082,42 +4535,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
       <owl:someValuesFrom rdf:resource="&knowrob;JapaneseCuisine"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Rice"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Fish"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;JapaneseCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Rice"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Fish"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;JapaneseCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Food-ReadyToEat"/>
 </owl:Class>
 
@@ -6131,18 +4548,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 </owl:ObjectProperty>
 
 <owl:Class rdf:about="&knowrob;Spoon-SilverwarePiece">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">table-spoon</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">table-spoon</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">table-spoon</owl:hasValue>
@@ -6193,42 +4598,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;TurningOnWater">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Tap-PlumbingFixture"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOff"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Tap-PlumbingFixture"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;DeviceStateOff"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
@@ -6377,13 +4746,6 @@ There are various specializations of coordinateValuePredicateOfSystem currently 
   <rdfs:subClassOf rdf:resource="&knowrob;ElectricalLightingDevice"/>
 </owl:Class>
 
-<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_bneXbLGX">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_StoryTellingCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;StoryTellingCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ReasoningCts>
-
 <owl:ObjectProperty rdf:about="&knowrob;mainColorOfObject"/>
 
 <owl:ObjectProperty rdf:about="&knowrob;cognitiveTestVariation">
@@ -6431,6 +4793,13 @@ Examples include the location of the center of mass of the Milky Way galaxy at t
   <rdfs:subClassOf rdf:resource="&knowrob;SpaceRegion-Empirical"/>
 </owl:Class>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_tDjYwuhx">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:Class rdf:about="&knowrob;MildCognitiveImpairment">
   <rdfs:subClassOf rdf:resource="&knowrob;Patient"/>
 </owl:Class>
@@ -6454,70 +4823,10 @@ Examples include the location of the center of mass of the Milky Way galaxy at t
       <owl:someValuesFrom rdf:resource="&knowrob;CoffeeShopSpace"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Coffee-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;restaurantTypeSpecializingInCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Coffee-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CoffeeShopSpace"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Coffee-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;restaurantTypeSpecializingInCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Coffee-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;CoffeeShopSpace"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Restaurant-Organization"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Burner">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">hot-plate</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typeIntendedBehaviorCapable-DeviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatingFood"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">hot-plate</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typeIntendedBehaviorCapable-DeviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatingFood"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">hot-plate</owl:hasValue>
@@ -6592,13 +4901,6 @@ Examples include the location of the center of mass of the Milky Way galaxy at t
   <rdfs:subClassOf rdf:resource="&knowrob;ApplyingSomethingToSurface"/>
 </owl:Class>
 
-<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_qdaDeDZn">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_WordRememberingCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;WordRememberingCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ReasoningCts>
-
 <owl:Class rdf:about="&knowrob;PouringSomethingInto">
   <rdfs:subClassOf rdf:resource="&knowrob;Pouring"/>
 </owl:Class>
@@ -6615,15 +4917,6 @@ Examples include the location of the center of mass of the Milky Way galaxy at t
   <rdfs:domain rdf:resource="&knowrob;PhysicalDevice"/>
   <rdfs:range rdf:resource="&knowrob;Event"/>
 </owl:ObjectProperty>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Dishwasher"/>
-    <rdf:Description rdf:about="&knowrob;MicrowaveOven"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator-Freezer"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;ClosingADrawer">
   <rdfs:subClassOf rdf:resource="&knowrob;ClosingAContainerArtifact"/>
@@ -6650,31 +4943,12 @@ Examples include the location of the center of mass of the Milky Way galaxy at t
       <owl:someValuesFrom rdf:resource="&knowrob;Rice"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Rice"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Rice"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;FingerFood"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;ParallelExtension">
   <rdfs:subClassOf rdf:resource="&knowrob;IntermediateGrasp"/>
 </owl:Class>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_hSmyiLiV">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;WhippedCream">
   <rdfs:subClassOf rdf:resource="&knowrob;DairyProduct"/>
@@ -6732,18 +5006,6 @@ Examples include the location of the center of mass of the Milky Way galaxy at t
       <owl:complementOf rdf:resource="&owl;Nothing"/>
     </owl:Class>
   </owl:unionOf>
-  <owl:unionOf rdf:parseType="Collection">
-    <rdf:Description rdf:about="&owl;Nothing"/>
-    <owl:Class>
-      <owl:complementOf rdf:resource="&owl;Nothing"/>
-    </owl:Class>
-  </owl:unionOf>
-  <owl:unionOf rdf:parseType="Collection">
-    <rdf:Description rdf:about="&owl;Nothing"/>
-    <owl:Class>
-      <owl:complementOf rdf:resource="&owl;Nothing"/>
-    </owl:Class>
-  </owl:unionOf>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;MixForBakedGoods">
@@ -6754,58 +5016,6 @@ Examples include the location of the center of mass of the Milky Way galaxy at t
 <owl:Class rdf:about="&knowrob;BlackTea">
   <rdfs:subClassOf rdf:resource="&knowrob;Tea-Beverage"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BakingSoda"/>
-    <rdf:Description rdf:about="&knowrob;Bread"/>
-    <rdf:Description rdf:about="&knowrob;BreakfastCereal"/>
-    <rdf:Description rdf:about="&knowrob;Butter"/>
-    <rdf:Description rdf:about="&knowrob;Buttermilk"/>
-    <rdf:Description rdf:about="&knowrob;Cake"/>
-    <rdf:Description rdf:about="&knowrob;Cheese"/>
-    <rdf:Description rdf:about="&knowrob;Cocoa-ThePowder"/>
-    <rdf:Description rdf:about="&knowrob;Coffee-Beverage"/>
-    <rdf:Description rdf:about="&knowrob;Cream-Dairy"/>
-    <rdf:Description rdf:about="&knowrob;Curd"/>
-    <rdf:Description rdf:about="&knowrob;EdibleFruit"/>
-    <rdf:Description rdf:about="&knowrob;Egg-Chickens"/>
-    <rdf:Description rdf:about="&knowrob;EggSalad"/>
-    <rdf:Description rdf:about="&knowrob;Frosting"/>
-    <rdf:Description rdf:about="&knowrob;GreenSalad"/>
-    <rdf:Description rdf:about="&knowrob;IceCream"/>
-    <rdf:Description rdf:about="&knowrob;Juice"/>
-    <rdf:Description rdf:about="&knowrob;Meat"/>
-    <rdf:Description rdf:about="&knowrob;Milk"/>
-    <rdf:Description rdf:about="&knowrob;Pasta"/>
-    <rdf:Description rdf:about="&knowrob;Pizza"/>
-    <rdf:Description rdf:about="&knowrob;PotatoSalad"/>
-    <rdf:Description rdf:about="&knowrob;Soup"/>
-    <rdf:Description rdf:about="&knowrob;Sugar"/>
-    <rdf:Description rdf:about="&knowrob;TableSalt"/>
-    <rdf:Description rdf:about="&knowrob;Tea-Beverage"/>
-    <rdf:Description rdf:about="&knowrob;VanillaExtract"/>
-    <rdf:Description rdf:about="&knowrob;VegetableOil"/>
-    <rdf:Description rdf:about="&knowrob;WheatFlour"/>
-    <rdf:Description rdf:about="&knowrob;Whey"/>
-    <rdf:Description rdf:about="&knowrob;WhippedCream"/>
-    <rdf:Description rdf:about="&knowrob;Yogurt"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_kpdCJilp">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff3__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_lEOECMZR">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;Platter">
   <rdfs:subClassOf rdf:resource="&knowrob;ServingVessel"/>
@@ -6873,19 +5083,14 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
   <rdfs:range rdf:resource="&knowrob;SpatialThing-Localized"/>
 </owl:ObjectProperty>
 
+<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_GJNNLYhq">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_StoryTellingCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;StoryTellingCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ReasoningCts>
+
 <owl:Class rdf:about="&knowrob;WashingDishesByMachine">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Dishwasher"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Dishwasher"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
@@ -6961,54 +5166,6 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
       <owl:someValuesFrom rdf:resource="&knowrob;IntelligentAgent"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;locationSearched"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;EnduringThing-Localized"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectSought"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;EnduringThing-Localized"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;searchSpace"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;SpatialThing-Localized"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;performedBy"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;IntelligentAgent"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;locationSearched"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;EnduringThing-Localized"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectSought"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;EnduringThing-Localized"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;searchSpace"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;SpatialThing-Localized"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;performedBy"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;IntelligentAgent"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;PurposefulAction"/>
 </owl:Class>
 
@@ -7019,6 +5176,13 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
 <owl:Class rdf:about="&knowrob;RestaurantOrg-WithoutWaitstaff">
   <rdfs:subClassOf rdf:resource="&knowrob;Restaurant-Organization"/>
 </owl:Class>
+
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_OrUIzvEY">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff2__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:DatatypeProperty rdf:about="&knowrob;quaternionComponent">
   <rdfs:domain rdf:resource="&knowrob;Quaternion"/>
@@ -7052,16 +5216,6 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
 <owl:Class rdf:about="&knowrob;JapaneseCuisine">
   <rdfs:subClassOf rdf:resource="&knowrob;Cuisine"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;FrameOfReference"/>
-    <rdf:Description rdf:about="&knowrob;Matrix"/>
-    <rdf:Description rdf:about="&knowrob;RelationalStructure"/>
-    <rdf:Description rdf:about="&knowrob;Tuple"/>
-    <rdf:Description rdf:about="&knowrob;Vector"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:DatatypeProperty rdf:about="&knowrob;vectorY">
   <rdf:type rdf:resource="&owl;FunctionalProperty"/>
@@ -7179,30 +5333,6 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
       <owl:someValuesFrom rdf:resource="&knowrob;Cooked"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatSource"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cooked"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;HeatSource"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cooked"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;HeatingProcess"/>
   <rdfs:subClassOf rdf:resource="&knowrob;PreparingFoodOrDrink"/>
 </owl:Class>
@@ -7225,27 +5355,6 @@ The two most common types of coordinate systems are CartesianCoordinateSystems a
 <owl:Class rdf:about="&knowrob;Trajectory">
   <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Broom"/>
-    <rdf:Description rdf:about="&knowrob;Mop"/>
-    <rdf:Description rdf:about="&knowrob;VacuumCleaner"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CleaningARoom"/>
-    <rdf:Description rdf:about="&knowrob;DryingDishes"/>
-    <rdf:Description rdf:about="&knowrob;DryingLaundry"/>
-    <rdf:Description rdf:about="&knowrob;MoppingAFloor"/>
-    <rdf:Description rdf:about="&knowrob;SweepingAnArea"/>
-    <rdf:Description rdf:about="&knowrob;TakingOutTheGarbage"/>
-    <rdf:Description rdf:about="&knowrob;Vacuuming"/>
-    <rdf:Description rdf:about="&knowrob;WashingClothesInAMachine"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;CalendarDay">
   <rdfs:subClassOf rdf:resource="&knowrob;Date"/>
@@ -7299,13 +5408,6 @@ See also xAxisPredicateOfSystem and yAxisPredicateOfSystem.</rdfs:comment>
 </owl:ObjectProperty>
 
 <owl:ObjectProperty rdf:about="&knowrob;preEvents"/>
-
-<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_vUXiHMJy">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_WordRememberingCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;WordRememberingCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ReasoningCts>
 
 <owl:DatatypeProperty rdf:about="&knowrob;zCoord">
   <rdf:type rdf:resource="&owl;FunctionalProperty"/>
@@ -7363,20 +5465,6 @@ See also xAxisPredicateOfSystem and yAxisPredicateOfSystem.</rdfs:comment>
   <rdfs:subClassOf rdf:resource="&knowrob;InstantFood"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CarvingKnife"/>
-    <rdf:Description rdf:about="&knowrob;Fork-SilverwarePiece"/>
-    <rdf:Description rdf:about="&knowrob;Scissors"/>
-    <rdf:Description rdf:about="&knowrob;Spatula"/>
-    <rdf:Description rdf:about="&knowrob;Spoon-SilverwarePiece"/>
-    <rdf:Description rdf:about="&knowrob;TableKnife"/>
-    <rdf:Description rdf:about="&knowrob;Tongs"/>
-    <rdf:Description rdf:about="&knowrob;WireWhisk"/>
-    <rdf:Description rdf:about="&knowrob;WoodenSpoon"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <rdfs:Class rdf:about="&owl;DeprecatedProperty"
     rdfs:label="DeprecatedProperty">
   <rdfs:subClassOf rdf:resource="&rdf;Property"/>
@@ -7418,18 +5506,6 @@ See also xAxisPredicateOfSystem and yAxisPredicateOfSystem.</rdfs:comment>
       <owl:someValuesFrom rdf:resource="&knowrob;Meat"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Meat"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Meat"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Sandwich"/>
 </owl:Class>
 
@@ -7455,16 +5531,6 @@ See also xAxisPredicateOfSystem and yAxisPredicateOfSystem.</rdfs:comment>
 <owl:Class rdf:about="&knowrob;ClosingAGripper">
   <rdfs:subClassOf rdf:resource="&knowrob;ClosingSomething"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;IndexFinger"/>
-    <rdf:Description rdf:about="&knowrob;LittleFinger"/>
-    <rdf:Description rdf:about="&knowrob;MiddleFinger"/>
-    <rdf:Description rdf:about="&knowrob;RingFinger"/>
-    <rdf:Description rdf:about="&knowrob;Thumb"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;Sunday">
   <rdfs:subClassOf rdf:resource="&knowrob;Weekday"/>
@@ -7502,17 +5568,17 @@ Note that a physical object, being three-dimensional, can only be partially loca
   <rdfs:subClassOf rdf:resource="&knowrob;FoodVessel"/>
 </owl:Class>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_EuRQCNBL">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff3__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:Class rdf:about="&knowrob;PlaceMat">
   <rdfs:subClassOf rdf:resource="&knowrob;TableCovering"/>
   <owl:disjointWith rdf:resource="&knowrob;TableCloth"/>
 </owl:Class>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_VeMDiXVm">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;ColoredThing">
   <rdfs:subClassOf rdf:resource="&knowrob;Color"/>
@@ -7540,30 +5606,6 @@ Note that a physical object, being three-dimensional, can only be partially loca
 </owl:DatatypeProperty>
 
 <owl:Class rdf:about="&knowrob;Refrigerator-Freezer">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">-18</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Frozen"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">-18</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;workingTemperature"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-StoragePlaceFor"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Frozen"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;integer">-18</owl:hasValue>
@@ -7609,15 +5651,6 @@ Note that a physical object, being three-dimensional, can only be partially loca
   <rdfs:domain rdf:resource="&owl;Thing"/>
   <rdfs:range rdf:resource="&xsd;string"/>
 </owl:DatatypeProperty>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CleaningSubstance"/>
-    <rdf:Description rdf:about="&knowrob;DomesticCleaningTool"/>
-    <rdf:Description rdf:about="&knowrob;Napkin"/>
-    <rdf:Description rdf:about="&knowrob;PaperTowel"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;HingedJoint">
   <rdfs:comment rdf:datatype="&xsd;string">The hinged connection</rdfs:comment>
@@ -7672,6 +5705,13 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
   <rdfs:isDefinedBy rdf:resource="&rdfs;"/>
   <rdfs:range rdf:resource="&rdfs;Class"/>
 </rdf:Property>
+
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_MewmmEsP">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;Toothpaste">
   <rdfs:subClassOf rdf:resource="&knowrob;ToiletrySubstance"/>
@@ -7781,18 +5821,6 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
       <owl:someValuesFrom rdf:resource="&knowrob;InformationBearingObject"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectSought"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;InformationBearingObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectSought"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;InformationBearingObject"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;LookingForSomething"/>
 </owl:Class>
 
@@ -7880,30 +5908,6 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
       <owl:someValuesFrom rdf:resource="&knowrob;Cheese"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ItalianCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cheese"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;commonFoodTypeOfCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;ItalianCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasIngredient"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cheese"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;FingerFood"/>
 </owl:Class>
 
@@ -7912,18 +5916,6 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Cup">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">cup</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">cup</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">cup</owl:hasValue>
@@ -7942,40 +5934,18 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
 </rdfs:Class>
 
 <owl:Class rdf:about="&knowrob;HeatSource">
-  <owl:equivalentClass>
-    <owl:Class>
-      <owl:intersectionOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;HeatingDevice"/>
-        <owl:Restriction>
-          <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-          <owl:onProperty rdf:resource="&knowrob;stateOfObject"/>
-        </owl:Restriction>
-      </owl:intersectionOf>
-    </owl:Class>
-  </owl:equivalentClass>
-  <owl:equivalentClass>
-    <owl:Class>
-      <owl:intersectionOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;HeatingDevice"/>
-        <owl:Restriction>
-          <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-          <owl:onProperty rdf:resource="&knowrob;stateOfObject"/>
-        </owl:Restriction>
-      </owl:intersectionOf>
-    </owl:Class>
-  </owl:equivalentClass>
-  <owl:equivalentClass>
-    <owl:Class>
-      <owl:intersectionOf rdf:parseType="Collection">
-        <rdf:Description rdf:about="&knowrob;HeatingDevice"/>
-        <owl:Restriction>
-          <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
-          <owl:onProperty rdf:resource="&knowrob;stateOfObject"/>
-        </owl:Restriction>
-      </owl:intersectionOf>
-    </owl:Class>
-  </owl:equivalentClass>
   <rdfs:comment rdf:datatype="&xsd;string">HeatingElement that is activated and emits heat</rdfs:comment>
+  <owl:equivalentClass>
+    <owl:Class>
+      <owl:intersectionOf rdf:parseType="Collection">
+        <rdf:Description rdf:about="&knowrob;HeatingDevice"/>
+        <owl:Restriction>
+          <owl:hasValue rdf:resource="&knowrob;DeviceStateOn"/>
+          <owl:onProperty rdf:resource="&knowrob;stateOfObject"/>
+        </owl:Restriction>
+      </owl:intersectionOf>
+    </owl:Class>
+  </owl:equivalentClass>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;VisibleThing">
@@ -7997,45 +5967,14 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
   <rdfs:subPropertyOf rdf:resource="&knowrob;matrixElement"/>
 </owl:DatatypeProperty>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_ZxKuHwbZ">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff2__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:Class rdf:about="&knowrob;Oven">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;CookingFood"/>
-            <rdf:Description rdf:about="&knowrob;HeatingFood"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">oven</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;CookingFood"/>
-            <rdf:Description rdf:about="&knowrob;HeatingFood"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">oven</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;typePrimaryFunction-deviceUsed"/>
@@ -8204,14 +6143,6 @@ Cf. Surface, whose instances are two-dimensional, intangible regions of space.</
 
 <owl:AllDisjointClasses>
   <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;AirCoolingDevice"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator-Freezer"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
     <rdf:Description rdf:about="&knowrob;ConstructionArtifact"/>
     <rdf:Description rdf:about="&knowrob;FoodOrDrinkOrIngredient"/>
     <rdf:Description rdf:about="&knowrob;FoodVessel"/>
@@ -8229,54 +6160,6 @@ Cf. Surface, whose instances are two-dimensional, intangible regions of space.</
 <owl:Class rdf:about="&knowrob;PickingUpAnObject">
   <rdf:type rdf:resource="&owl;NamedIndividual"/>
   <rdf:type rdf:resource="&owl;Thing"/>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Reaching"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;TakingSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-picked-up</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;SubEventOrderingPickingUp"/>
-      <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Reaching"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;subAction"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;TakingSomething"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-picked-up</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;SubEventOrderingPickingUp"/>
-      <owl:onProperty rdf:resource="&knowrob;orderingConstraints"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;subAction"/>
@@ -8406,42 +6289,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       <owl:someValuesFrom rdf:resource="&knowrob;FastFoodRestaurantSpace"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;restaurantTypeSpecializingInCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AmericanStyleFastFoodCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AmericanStyleFastFoodCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FastFoodRestaurantSpace"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;restaurantTypeSpecializingInCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AmericanStyleFastFoodCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;AmericanStyleFastFoodCuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FastFoodRestaurantSpace"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;RestaurantOrg-WithoutWaitstaff"/>
 </owl:Class>
 
@@ -8522,13 +6369,12 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:domain rdf:resource="&knowrob;SpatialThing"/>
 </owl:ObjectProperty>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CounterTop"/>
-    <rdf:Description rdf:about="&knowrob;Person-SupportingFurniture"/>
-    <rdf:Description rdf:about="&knowrob;Table-PieceOfFurniture"/>
-  </owl:members>
-</owl:AllDisjointClasses>
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_obzxzwaP">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;IntentionalMentalEvent">
   <rdfs:subClassOf rdf:resource="&knowrob;MentalEvent"/>
@@ -8543,13 +6389,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:range rdf:resource="&knowrob;RobotBaseTrajectory"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;trajectory-Complete"/>
 </owl:ObjectProperty>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_TaVWzXre">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff1__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;CowsMilk-Product">
   <rdfs:subClassOf rdf:resource="&knowrob;DairyProduct"/>
@@ -8581,26 +6420,7 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;Wine"/>
 </owl:Class>
 
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_stXqnGrc">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
 <owl:Class rdf:about="&knowrob;GraspingSomething">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-gripped</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">entity-gripped</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">entity-gripped</owl:hasValue>
@@ -8637,18 +6457,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       <owl:onProperty rdf:resource="&knowrob;lispClass"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">cup</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">cup</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Cup"/>
 </owl:Class>
 
@@ -8674,13 +6482,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:range rdf:resource="&xsd;float"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;matrixElement"/>
 </owl:DatatypeProperty>
-
-<knowrob:AwarenessCts rdf:about="&knowrob;AwarenessCts_kRmyDqqu">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/AwarenessCts_TimeDayYearCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDayYearCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:AwarenessCts>
 
 <owl:ObjectProperty rdf:about="&knowrob;cognitiveTestPerformedPatient">
   <rdfs:domain rdf:resource="&knowrob;CognitiveTestPerformed"/>
@@ -8724,13 +6525,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;Situation"/>
 </owl:Class>
 
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_MewmmEsP">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
 <owl:Class rdf:about="&knowrob;BuildingCleaningChore">
   <rdfs:subClassOf rdf:resource="&knowrob;Cleaning"/>
 </owl:Class>
@@ -8740,18 +6534,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;FoodVessel">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;storedAtPlace"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cupboard"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;storedAtPlace"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cupboard"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;storedAtPlace"/>
@@ -8785,58 +6567,21 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       </owl:someValuesFrom>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;toLocation"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:intersectionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Place"/>
-            <owl:Restriction>
-              <owl:onProperty rdf:resource="&knowrob;in-ContGeneric"/>
-              <owl:someValuesFrom rdf:resource="&knowrob;Refrigerator"/>
-            </owl:Restriction>
-          </owl:intersectionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;toLocation"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:intersectionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Place"/>
-            <owl:Restriction>
-              <owl:onProperty rdf:resource="&knowrob;in-ContGeneric"/>
-              <owl:someValuesFrom rdf:resource="&knowrob;Refrigerator"/>
-            </owl:Restriction>
-          </owl:intersectionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;PuttingSomethingIntoSomething"/>
 </owl:Class>
+
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_ThPDDeBB">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
 
 <owl:Class rdf:about="&knowrob;Stirring-Beating">
   <rdfs:subClassOf rdf:resource="&knowrob;Stirring"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;Tap-PlumbingFixture">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">tap</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;string">tap</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;lispClass"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:hasValue rdf:datatype="&xsd;string">tap</owl:hasValue>
@@ -8884,52 +6629,7 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subPropertyOf rdf:resource="&knowrob;matrixElement"/>
 </owl:DatatypeProperty>
 
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_FWcHvbLr">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff1__var2.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
 <owl:Class rdf:about="&knowrob;PreparingFoodOrDrink">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;eventOccursAt"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Kitchen"/>
-            <rdf:Description rdf:about="&knowrob;RestaurantSpace"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FoodOrDrinkOrIngredient"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;eventOccursAt"/>
-      <owl:someValuesFrom>
-        <owl:Class>
-          <owl:unionOf rdf:parseType="Collection">
-            <rdf:Description rdf:about="&knowrob;Kitchen"/>
-            <rdf:Description rdf:about="&knowrob;RestaurantSpace"/>
-          </owl:unionOf>
-        </owl:Class>
-      </owl:someValuesFrom>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;objectActedOn"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;FoodOrDrinkOrIngredient"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;eventOccursAt"/>
@@ -9027,23 +6727,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;Container"/>
 </owl:Class>
 
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BottleOpener"/>
-    <rdf:Description rdf:about="&knowrob;CakePan"/>
-    <rdf:Description rdf:about="&knowrob;CanOpener"/>
-    <rdf:Description rdf:about="&knowrob;CoffeeMaker"/>
-    <rdf:Description rdf:about="&knowrob;Colander"/>
-    <rdf:Description rdf:about="&knowrob;ElectricMixer"/>
-    <rdf:Description rdf:about="&knowrob;MicrowaveOven"/>
-    <rdf:Description rdf:about="&knowrob;Spatula"/>
-    <rdf:Description rdf:about="&knowrob;StoveTopCookingPot"/>
-    <rdf:Description rdf:about="&knowrob;Tongs"/>
-    <rdf:Description rdf:about="&knowrob;WireWhisk"/>
-    <rdf:Description rdf:about="&knowrob;WoodenSpoon"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
 <owl:Class rdf:about="&knowrob;ComplexStatementsCts">
   <rdfs:subClassOf rdf:resource="&knowrob;ReasoningCts"/>
 </owl:Class>
@@ -9061,15 +6744,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
 <owl:Class rdf:about="&knowrob;OperateOven">
   <rdfs:subClassOf rdf:resource="&knowrob;OperatingAHouseholdAppliance"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;CleaningSubstance"/>
-    <rdf:Description rdf:about="&knowrob;DomesticCleaningTool"/>
-    <rdf:Description rdf:about="&knowrob;Napkin"/>
-    <rdf:Description rdf:about="&knowrob;PaperTowel"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;True">
   <rdfs:subClassOf rdf:resource="&knowrob;Bool"/>
@@ -9104,18 +6778,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       <owl:someValuesFrom rdf:resource="&knowrob;Coffee-Beverage"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Coffee-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Coffee-Beverage"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;PreparingABeverage"/>
 </owl:Class>
 
@@ -9134,6 +6796,13 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;Artifact"/>
   <rdfs:subClassOf rdf:resource="&knowrob;HumanScaleObject"/>
 </owl:Class>
+
+<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_rlvFJyrl">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_StoryTellingCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;StoryTellingCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ReasoningCts>
 
 <owl:Class rdf:about="&knowrob;GeographicalArea-Intangible">
   <rdfs:subClassOf rdf:resource="&knowrob;Surface-Empirical"/>
@@ -9308,42 +6977,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       <owl:someValuesFrom rdf:resource="&knowrob;Burner"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">100</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Boiled"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Burner"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:datatype="&xsd;integer">100</owl:hasValue>
-      <owl:onProperty rdf:resource="&knowrob;minTempForProcess"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Boiled"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;deviceUsed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Burner"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;CookingFood"/>
   <rdfs:comment rdf:datatype="&xsd;string">Cooking food by immersing it in boiling water.</rdfs:comment>
 </owl:Class>
@@ -9362,14 +6995,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:range rdf:resource="&knowrob;Trajectory"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;eventOccursAt"/>
 </owl:ObjectProperty>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Bowl-Serving"/>
-    <rdf:Description rdf:about="&knowrob;Pitcher"/>
-    <rdf:Description rdf:about="&knowrob;Platter"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;Weekday">
   <rdfs:subClassOf rdf:resource="&knowrob;CalendarDay"/>
@@ -9417,18 +7042,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       <owl:someValuesFrom rdf:resource="&knowrob;PortalCovering"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;intendedCovering"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PortalCovering"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;intendedCovering"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;PortalCovering"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;Path-Spatial"/>
   <rdfs:subClassOf rdf:resource="&knowrob;PhysicalPartOfObject"/>
   <rdfs:comment rdf:datatype="&xsd;string">A Container has zero or more Portals, which are the outside openings in the container's Enclosure. For example, the nearly flat circular opening across the mouth of the cup is its Portal, and the exterior doors and windows to a house (plus chimney openings, etc.) are its Portals. Stand- alone walls and other partitions can have portals too, even when no container is involved. The hole through a doughnut is also a Portal.</rdfs:comment>
@@ -9452,18 +7065,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
     rdfs:label="AllDifferent"/>
 
 <owl:Class rdf:about="&knowrob;FoodAndBeverageOrganization">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasDaytimeOpeningHours"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;DaytimeOpeningHours"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;hasDaytimeOpeningHours"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;DaytimeOpeningHours"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;hasDaytimeOpeningHours"/>
@@ -9576,49 +7177,8 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       <owl:someValuesFrom rdf:resource="&knowrob;SolidTangibleThing"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GaseousTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;SolidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;outputsCreated"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;GaseousTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;inputsDestroyed"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;SolidTangibleThing"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;StateOfMatterChangeEvent"/>
 </owl:Class>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BottleOpener"/>
-    <rdf:Description rdf:about="&knowrob;CakePan"/>
-    <rdf:Description rdf:about="&knowrob;CanOpener"/>
-    <rdf:Description rdf:about="&knowrob;CoffeeMaker"/>
-    <rdf:Description rdf:about="&knowrob;Colander"/>
-    <rdf:Description rdf:about="&knowrob;ElectricMixer"/>
-    <rdf:Description rdf:about="&knowrob;MicrowaveOven"/>
-    <rdf:Description rdf:about="&knowrob;Spatula"/>
-    <rdf:Description rdf:about="&knowrob;StoveTopCookingPot"/>
-    <rdf:Description rdf:about="&knowrob;Tongs"/>
-    <rdf:Description rdf:about="&knowrob;WireWhisk"/>
-    <rdf:Description rdf:about="&knowrob;WoodenSpoon"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;PrismaticJoint">
   <rdfs:subClassOf rdf:resource="&knowrob;Joint-Physical"/>
@@ -9629,6 +7189,13 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;PurposefulAction"/>
 </owl:Class>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_ExJpRNHP">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff2__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:Class rdf:about="&knowrob;BreakfastCereal">
   <rdfs:subClassOf rdf:resource="&knowrob;CerealFood"/>
   <rdfs:subClassOf rdf:resource="&knowrob;Granular"/>
@@ -9637,6 +7204,13 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
 <owl:Class rdf:about="&knowrob;ClearGlass">
   <rdfs:subClassOf rdf:resource="&knowrob;ColorlessThing"/>
 </owl:Class>
+
+<knowrob:ReasoningCts rdf:about="&knowrob;ReasoningCts_bneXbLGX">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">1</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ReasoningCts_StoryTellingCts_diff1__var1.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;StoryTellingCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
+</knowrob:ReasoningCts>
 
 <owl:Class rdf:about="&knowrob;EggYolk-Food">
   <rdfs:subClassOf rdf:resource="&knowrob;FoodIngredientOnly"/>
@@ -9666,42 +7240,11 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;FurniturePiece"/>
 </owl:Class>
 
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_RMwNovGs">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">2</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TransactionChangeCts_diff2__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TransactionChangeCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
-
 <owl:Class rdf:about="&knowrob;Pepper-TheSpice">
   <rdfs:subClassOf rdf:resource="&knowrob;Spice"/>
 </owl:Class>
 
 <owl:Class rdf:about="&knowrob;ConvenienceStore">
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;MultiRoomUnit"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;Cuisine"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:onProperty rdf:resource="&knowrob;servesCuisineAtLocation"/>
-      <owl:someValuesFrom rdf:resource="&knowrob;MultiRoomUnit"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf>
     <owl:Restriction>
       <owl:onProperty rdf:resource="&knowrob;servesCuisine"/>
@@ -9750,6 +7293,8 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;Perishable"/>
 </owl:Class>
 
+<knowrob:Person rdf:about="&knowrob;Person_DpphmPqg"/>
+
 <owl:Class rdf:about="&knowrob;WaxedCardboardCarton">
   <rdfs:subClassOf rdf:resource="&knowrob;Box-Container"/>
   <rdfs:subClassOf rdf:resource="&knowrob;CardboardBox"/>
@@ -9796,30 +7341,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
       <owl:onProperty rdf:resource="&knowrob;toState"/>
     </owl:Restriction>
   </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateClosed"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateOpen"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateClosed"/>
-      <owl:onProperty rdf:resource="&knowrob;fromState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
-  <rdfs:subClassOf>
-    <owl:Restriction>
-      <owl:hasValue rdf:resource="&knowrob;ObjectStateOpen"/>
-      <owl:onProperty rdf:resource="&knowrob;toState"/>
-    </owl:Restriction>
-  </rdfs:subClassOf>
   <rdfs:subClassOf rdf:resource="&knowrob;ActionOnObject"/>
   <rdfs:subClassOf rdf:resource="&knowrob;IntrinsicStateChangeEvent"/>
 </owl:Class>
@@ -9832,15 +7353,6 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:domain rdf:resource="&knowrob;SpatialThing"/>
   <rdfs:range rdf:resource="&knowrob;Point3D"/>
 </owl:ObjectProperty>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;Dishwasher"/>
-    <rdf:Description rdf:about="&knowrob;MicrowaveOven"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator"/>
-    <rdf:Description rdf:about="&knowrob;Refrigerator-Freezer"/>
-  </owl:members>
-</owl:AllDisjointClasses>
 
 <owl:Class rdf:about="&knowrob;Rum">
   <rdfs:subClassOf rdf:resource="&knowrob;Liquor-Drink"/>
@@ -9944,56 +7456,18 @@ sizeParameterOfObject is the common generalization of all those PhysicalAmountSl
   <rdfs:subClassOf rdf:resource="&knowrob;ProbCogReasoning"/>
 </owl:Class>
 
+<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_rMsqkRjP">
+  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
+  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff3__var2.xml</knowrob:cognitiveTestFilePath>
+  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;BasicArithmeticCts"/>
+  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">2</knowrob:cognitiveTestVariation>
+</knowrob:ArithmeticCts>
+
 <owl:DatatypeProperty rdf:about="&knowrob;fullName">
   <rdfs:domain rdf:resource="&knowrob;Agent-Generic"/>
   <rdfs:range rdf:resource="&xsd;string"/>
   <rdfs:subPropertyOf rdf:resource="&knowrob;nameString"/>
 </owl:DatatypeProperty>
-
-<owl:AllDisjointClasses>
-  <owl:members rdf:parseType="Collection">
-    <rdf:Description rdf:about="&knowrob;BakingSoda"/>
-    <rdf:Description rdf:about="&knowrob;Bread"/>
-    <rdf:Description rdf:about="&knowrob;BreakfastCereal"/>
-    <rdf:Description rdf:about="&knowrob;Butter"/>
-    <rdf:Description rdf:about="&knowrob;Buttermilk"/>
-    <rdf:Description rdf:about="&knowrob;Cake"/>
-    <rdf:Description rdf:about="&knowrob;Cheese"/>
-    <rdf:Description rdf:about="&knowrob;Cocoa-ThePowder"/>
-    <rdf:Description rdf:about="&knowrob;Coffee-Beverage"/>
-    <rdf:Description rdf:about="&knowrob;Cream-Dairy"/>
-    <rdf:Description rdf:about="&knowrob;Curd"/>
-    <rdf:Description rdf:about="&knowrob;EdibleFruit"/>
-    <rdf:Description rdf:about="&knowrob;Egg-Chickens"/>
-    <rdf:Description rdf:about="&knowrob;EggSalad"/>
-    <rdf:Description rdf:about="&knowrob;Frosting"/>
-    <rdf:Description rdf:about="&knowrob;GreenSalad"/>
-    <rdf:Description rdf:about="&knowrob;IceCream"/>
-    <rdf:Description rdf:about="&knowrob;Juice"/>
-    <rdf:Description rdf:about="&knowrob;Meat"/>
-    <rdf:Description rdf:about="&knowrob;Milk"/>
-    <rdf:Description rdf:about="&knowrob;Pasta"/>
-    <rdf:Description rdf:about="&knowrob;Pizza"/>
-    <rdf:Description rdf:about="&knowrob;PotatoSalad"/>
-    <rdf:Description rdf:about="&knowrob;Soup"/>
-    <rdf:Description rdf:about="&knowrob;Sugar"/>
-    <rdf:Description rdf:about="&knowrob;TableSalt"/>
-    <rdf:Description rdf:about="&knowrob;Tea-Beverage"/>
-    <rdf:Description rdf:about="&knowrob;VanillaExtract"/>
-    <rdf:Description rdf:about="&knowrob;VegetableOil"/>
-    <rdf:Description rdf:about="&knowrob;WheatFlour"/>
-    <rdf:Description rdf:about="&knowrob;Whey"/>
-    <rdf:Description rdf:about="&knowrob;WhippedCream"/>
-    <rdf:Description rdf:about="&knowrob;Yogurt"/>
-  </owl:members>
-</owl:AllDisjointClasses>
-
-<knowrob:ArithmeticCts rdf:about="&knowrob;ArithmeticCts_ThPDDeBB">
-  <knowrob:cognitiveTestDifficulty rdf:datatype="&xsd;string">3</knowrob:cognitiveTestDifficulty>
-  <knowrob:cognitiveTestFilePath rdf:datatype="&xsd;string">/cognitiveTests/ArithmeticCts_TimeDifferenceCts_diff3__var1.xml</knowrob:cognitiveTestFilePath>
-  <knowrob:cognitiveTestSubType rdf:resource="&knowrob;TimeDifferenceCts"/>
-  <knowrob:cognitiveTestVariation rdf:datatype="&xsd;string">1</knowrob:cognitiveTestVariation>
-</knowrob:ArithmeticCts>
 
 <owl:ObjectProperty rdf:about="&knowrob;stateOfObject">
   <rdfs:domain rdf:resource="&knowrob;EnduringThing-Localized"/>

@@ -181,7 +181,7 @@ class TestSelector:
       else:          
         userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
         for k, v in userPerfOrganizedByTimestamp.items():
-          if(currentTimestamp-k<15552000000):
+          if(currentTimestamp-k>15552000000):
             del userPerfOrganizedByTimestamp[k]
           else:
             break
@@ -191,15 +191,15 @@ class TestSelector:
             #res.trace.append(v[0][2])
           #res.trace.append(v[2])              
         userScore=self.calculateUserScore(userPerfOrganizedByTimestamp)
-        res.trace.append("score "+str(userScore))
+        res.trace.append("score "+str(userScore))        
         #chosenDif="1"
         if(userScore==0):
           chosenDif="1"
-        elif(userScore>0.75*100):
+        elif(userScore<0.75*100):
           chosenDif="1"
-        elif(userScore>0.75*2*100):
+        elif(userScore<0.75*2*100):
           chosenDif="2"
-        elif(userScore>0.75*3*100):
+        else:   #(userScore>0.75*3*100)
           chosenDif="3"
         
       res.trace.append("Chosen Diff "+chosenDif)
@@ -304,7 +304,7 @@ class TestSelector:
   def organizeUserPerformance(self,userPerf):
     d=OrderedDict()
     for i in range(len(userPerf.tests)):
-      tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i],userPerf.variation[i]]
+      tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i],userPerf.variation[i]]      
       d[int(userPerf.timestamps[i])]=[tlist]
       #testTypesDict[s]=['1']
     d=OrderedDict(sorted(d.items(), key=lambda t: t[0], reverse=True))
@@ -314,10 +314,10 @@ class TestSelector:
     score=0
     if (len(d)>0):      
       for k, v in d.items():
-        score=score+int(v[0][1])*int(v[0][2])  
+        score=score+int(v[0][1])*int(v[0][2])                 
       score=score/len(d)
       return score
-    else:
+    else:      
       return 0
     
   def organizeTestsOfType(self,testsOfType,chosenDif):

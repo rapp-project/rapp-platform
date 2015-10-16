@@ -127,7 +127,7 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id)
     {
       ontology_alias=create_ontology_alias_for_new_user(user_id);
     }      
-  }    
+  }      
   return ontology_alias; 
 }
 
@@ -180,8 +180,11 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
     }
     std::string("FAIL")+ontology_alias;
     return ontology_alias;
-  } 
-  
+  }
+   
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
+  dmp.file_url=std::string("/owl/currentVersion.owl");
+  KnowrobWrapper::dumpOntologyQuery(dmp);
   return ontology_alias; 
 }
 
@@ -359,6 +362,10 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
   {
     res.cognitive_test_performance_entry=(query_ret_tests[i]);  
   }
+  
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
+  dmp.file_url=std::string("/owl/currentVersion.owl");
+  KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
 
@@ -423,6 +430,9 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     res.test_name=(query_ret_tests[i]);  
   }
   
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
+  dmp.file_url=std::string("/owl/currentVersion.owl");
+  KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
 
@@ -588,6 +598,10 @@ rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrappe
   }
   res.ontology_alias=currentAlias;
   res.success=true;
+  
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
+  dmp.file_url=std::string("/owl/currentVersion.owl");
+  KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
 
@@ -951,6 +965,10 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
     //}
       
   //}
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
+  dmp.file_url=std::string("/owl/currentVersion.owl");
+  KnowrobWrapper::dumpOntologyQuery(dmp);
+  
   return res;  
 }
 
@@ -1022,7 +1040,7 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
 
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)
 {
-  rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res; 
   
   std::string path = ros::package::getPath("rapp_knowrob_wrapper");
   
