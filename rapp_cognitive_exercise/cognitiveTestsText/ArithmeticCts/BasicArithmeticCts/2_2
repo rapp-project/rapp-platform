@@ -2,21 +2,21 @@ testType:ArithmeticCts
 testSubType:BasicArithmeticCts
 difficulty:2
 
-question:Πόσο κάνει 8 και 9;
-answers:14,16,8,17
-correctAnswer:17
+question:Πόσο κάνει οκτώ και εννιά;
+answers:δεκατέσσερα,δεκαέξι,οκτώ,δεκαεφτά
+correctAnswer:δεκαεφτά
 
-question:Πόσο κάνει 9 και 11;
-answers:23,19,11,20
-correctAnswer:20
+question:Πόσο κάνει εννιά και έντεκα;
+answers:είκοσι τρία,δεκαεννιά,έντεκα,είκοσι
+correctAnswer:είκοσι
 
-question:Πόσο κάνει 11 και 3;
-answers:14,16,17,15
-correctAnswer:14
+question:Πόσο κάνει έντεκα και τρία;
+answers:δεκατέσσερα,δεκαέξι,δεκαεφτά,δεκαπέντε
+correctAnswer:δεκατέσσερα
 
-question:Πόσο κάνει 12 και 3;
-answers:19,15,16,21
-correctAnswer:15
+question:Πόσο κάνει δώδεκα και τρία;
+answers:δεκαεννιά,δεκαπέντε,δεκαέξι,είκοσι ένα
+correctAnswer:δεκαπέντε
 
 
 

@@ -2,22 +2,21 @@ testType:ArithmeticCts
 testSubType:BasicArithmeticCts
 difficulty:3
 
-question:Πόσο κάνει 71 και 23;
-answers:104,84,93,94
-correctAnswer:94
+question:Πόσο κάνει εβδομήντα ένα και είκοσι τρία;
+answers:εκατόν τέσσερα,ογδόντα τέσσερα,ενενήντα τρία,ενενήντα τέσσερα
+correctAnswer:ενενήντα τέσσερα
 
-question:Πόσο κάνει 11 και 35;
-answers:46,36,47,37
-correctAnswer:46
+question:Πόσο κάνει έντεκα και τριάντα πέντε;
+answers:σαράντα έξι,τριάντα έξι,σαράντα εφτά,τριάντα εφτά
+correctAnswer:σαράντα έξι
 
-question:Πόσο κάνει 45 και 73;
-answers:108,98,128,118
-correctAnswer:118
+question:Πόσο κάνει σαράντα πέντε και εβδομήντα τρία;
+answers:εκατόν οκτώ,ενενήντα οκτώ,εκατόν είκοσι οκτώ,εκατόν δέκα οκτώ
+correctAnswer:εκατόν δέκα οκτώ
 
-question:Πόσο κάνει 49 και 13;
-answers:72,51,52,62
-correctAnswer:62
-
+question:Πόσο κάνει σαράντα εννιά και δεκατρία;
+answers:εβδομήντα δύο,πενήντα ένα,πενήντα δύο,εξήντα δύο
+correctAnswer:εξήντα δύο
 
 
 

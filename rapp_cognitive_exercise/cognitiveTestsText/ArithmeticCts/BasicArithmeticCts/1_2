@@ -2,19 +2,19 @@ testType:ArithmeticCts
 testSubType:BasicArithmeticCts
 difficulty:1
 
-question:Πόσο κάνει 3 και 4;
-answers:3,9,4,7
-correctAnswer:7
+question:Πόσο κάνει τρία και τέσσερα;
+answers:τρία,εννιά,τέσσερα,εφτά
+correctAnswer:εφτά
 
-question:Πόσο κάνει 1 και 4;
-answers:4,9,5,7
-correctAnswer:5
+question:Πόσο κάνει ένα και τέσσερα;
+answers:τέσσερα,εννιά,πέντε,εφτά
+correctAnswer:πέντε
 
-question:Πόσο κάνει 6 και 1;
-answers:1,9,5,7
-correctAnswer:7
+question:Πόσο κάνει έξι και ένα;
+answers:ένα,εννιά,πέντε,εφτά
+correctAnswer:εφτά
 
-question:Πόσο κάνει 1 και 5;
-answers:2,6,5,7
-correctAnswer:6
+question:Πόσο κάνει ένα και πέντε;
+answers:δύο,έξι,πέντε,εφτά
+correctAnswer:έξι
 

@@ -5,36 +5,36 @@
   <testSubType>TransactionChangeCts</testSubType>
   <Questions>
     <Question name="Q1">
-      <body>Αγοράζουμε ένα ψωμί που κάνει 60 λεπτά και δίνουμε ένα κέρμα των 2 ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης;</body>
+      <body>Αγοράζουμε ένα ψωμί που κάνει εξήντα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης;</body>
       <answer>
-        <body>1 ευρώ και 20 λεπτά</body>
+        <body>ένα ευρώ και είκοσι λεπτά</body>
       </answer>
       <answer>
-        <body>2 ευρώ και 10 λεπτά</body>
+        <body>δύο ευρώ και δέκα λεπτά</body>
       </answer>
       <answer>
-        <body>1 ευρώ και 40 λεπτά</body>
+        <body>ένα ευρώ και σαράντα λεπτά</body>
       </answer>
       <answer>
-        <body>60 λεπτά</body>
+        <body>εξήντα λεπτά</body>
       </answer>
-      <correctAnswer>1 ευρώ και 40 λεπτά</correctAnswer>
+      <correctAnswer>ένα ευρώ και σαράντα λεπτά</correctAnswer>
     </Question>
     <Question name="Q2">
-      <body>Αγοράζουμε ένα γάλα που κάνει 1 ευρώ και 10 λεπτά και δίνουμε ένα κέρμα των 2 ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+      <body>Αγοράζουμε ένα γάλα που κάνει ένα ευρώ και δέκα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
       <answer>
-        <body>1 ευρώ και 5 λεπτά</body>
+        <body>ένα ευρώ και πέντε λεπτά</body>
       </answer>
       <answer>
-        <body>2 ευρώ και 90 λεπτά</body>
+        <body>δύο ευρώ και ενενήντα λεπτά</body>
       </answer>
       <answer>
-        <body>1 ευρώ και 90 λεπτά</body>
+        <body>ένα ευρώ και ενενήντα λεπτά</body>
       </answer>
       <answer>
-        <body>90 λεπτά</body>
+        <body>ενενήντα λεπτά</body>
       </answer>
-      <correctAnswer>90 λεπτά</correctAnswer>
+      <correctAnswer>ενενήντα λεπτά</correctAnswer>
     </Question>
   </Questions>
   <name>ArithmeticCts_FWcHvbLr</name>

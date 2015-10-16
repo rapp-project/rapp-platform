@@ -2,21 +2,21 @@ testType:ArithmeticCts
 testSubType:BasicArithmeticCts
 difficulty:3
 
-question:Πόσο κάνει 13 και 18;
-answers:30,31,32,13
-correctAnswer:31
+question:Πόσο κάνει δεκατρία και δεκαοκτώ;
+answers:τριάντα,τριάντα ένα,τριάντα δύο,δεκατρία
+correctAnswer:τριάντα ένα
 
-question:Πόσο κάνει 21 και 35;
-answers:58,35,56,57
-correctAnswer:56
+question:Πόσο κάνει είκοσι ένα και τριάντα πέντε;
+answers:πενήντα οκτώ,τριάντα πέντε,πενήντα έξι,πενήντα εφτά
+correctAnswer:πενήντα έξι
 
-question:Πόσο κάνει 45 και 53;
-answers:108,98,99,88
-correctAnswer:98
+question:Πόσο κάνει σαράντα πέντε και πενήντα τρία;
+answers:εκατόν οκτώ,ενενήντα οκτώ,ενενήντα εννιά,ογδόντα οκτώ
+correctAnswer:ενενήντα οκτώ
 
-question:Πόσο κάνει 82 και 23;
-answers:95,105,114,115
-correctAnswer:105
+question:Πόσο κάνει ογδόντα δύο και είκοσι τρία;
+answers:ενενήντα πέντε,εκατόν πέντε,εκατόν δέκα τέσσερα,εκατόν δέκα πέντε
+correctAnswer:εκατόν πέντε
 
 
 

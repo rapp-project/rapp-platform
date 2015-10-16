@@ -5,36 +5,36 @@
   <testSubType>TimeDifferenceCts</testSubType>
   <Questions>
     <Question name="Q1">
-      <body>Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις 6</body>
+      <body>Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις έξι και δεκαπέντε. Οι διαφημίσεις δεν λένε να τελειώσουν και έχει πάει έξι και τριάντα τρία χωρίς ακόμη να έχει αρχίσει. Πόση ώρα καθυστέρησε;</body>
       <answer>
-        <body>28 λεπτά</body>
+        <body>είκοσι οκτώ λεπτά</body>
       </answer>
       <answer>
-        <body>18 λεπτά</body>
+        <body>δεκαοκτώ λεπτά</body>
       </answer>
       <answer>
-        <body>12 λεπτά</body>
+        <body>δώδεκα λεπτά</body>
       </answer>
       <answer>
-        <body>21 λεπτά</body>
+        <body>είκοσι ένα λεπτά</body>
       </answer>
-      <correctAnswer>18 λεπτά</correctAnswer>
+      <correctAnswer>δεκαοκτώ λεπτά</correctAnswer>
     </Question>
     <Question name="Q2">
-      <body>Έχετε ραντεβού με την παρέα σας το απόγευμα στις 5</body>
+      <body>Έχετε ραντεβού με την παρέα σας το απόγευμα στις πέντε και δέκα αλλά καθυστερείτε είκοσι τρία λεπτά ακριβώς. Τι ώρα φτάνετε;</body>
       <answer>
-        <body>5 και 33</body>
+        <body>πέντε και τριάντα τρία</body>
       </answer>
       <answer>
-        <body>5 και 23</body>
+        <body>πέντε και είκοσι τρία</body>
       </answer>
       <answer>
-        <body>5 και 25</body>
+        <body>πέντε και είκοσι πέντε</body>
       </answer>
       <answer>
-        <body>5 και 30</body>
+        <body>πέντε και τριάντα</body>
       </answer>
-      <correctAnswer>5 και 33</correctAnswer>
+      <correctAnswer>πέντε και τριάντα τρία</correctAnswer>
     </Question>
   </Questions>
   <name>ArithmeticCts_ExJpRNHP</name>

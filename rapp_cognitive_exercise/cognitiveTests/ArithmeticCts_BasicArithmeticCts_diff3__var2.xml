@@ -5,68 +5,68 @@
   <testSubType>BasicArithmeticCts</testSubType>
   <Questions>
     <Question name="Q1">
-      <body>Πόσο κάνει 71 και 23;</body>
+      <body>Πόσο κάνει εβδομήντα ένα και είκοσι τρία;</body>
       <answer>
-        <body>104</body>
+        <body>εκατόν τέσσερα</body>
       </answer>
       <answer>
-        <body>84</body>
+        <body>ογδόντα τέσσερα</body>
       </answer>
       <answer>
-        <body>93</body>
+        <body>ενενήντα τρία</body>
       </answer>
       <answer>
-        <body>94</body>
+        <body>ενενήντα τέσσερα</body>
       </answer>
-      <correctAnswer>94</correctAnswer>
+      <correctAnswer>ενενήντα τέσσερα</correctAnswer>
     </Question>
     <Question name="Q2">
-      <body>Πόσο κάνει 11 και 35;</body>
+      <body>Πόσο κάνει έντεκα και τριάντα πέντε;</body>
       <answer>
-        <body>46</body>
+        <body>σαράντα έξι</body>
       </answer>
       <answer>
-        <body>36</body>
+        <body>τριάντα έξι</body>
       </answer>
       <answer>
-        <body>47</body>
+        <body>σαράντα εφτά</body>
       </answer>
       <answer>
-        <body>37</body>
+        <body>τριάντα εφτά</body>
       </answer>
-      <correctAnswer>46</correctAnswer>
+      <correctAnswer>σαράντα έξι</correctAnswer>
     </Question>
     <Question name="Q3">
-      <body>Πόσο κάνει 45 και 73;</body>
+      <body>Πόσο κάνει σαράντα πέντε και εβδομήντα τρία;</body>
       <answer>
-        <body>108</body>
+        <body>εκατόν οκτώ</body>
       </answer>
       <answer>
-        <body>98</body>
+        <body>ενενήντα οκτώ</body>
       </answer>
       <answer>
-        <body>128</body>
+        <body>εκατόν είκοσι οκτώ</body>
       </answer>
       <answer>
-        <body>118</body>
+        <body>εκατόν δέκα οκτώ</body>
       </answer>
-      <correctAnswer>118</correctAnswer>
+      <correctAnswer>εκατόν δέκα οκτώ</correctAnswer>
     </Question>
     <Question name="Q4">
-      <body>Πόσο κάνει 49 και 13;</body>
+      <body>Πόσο κάνει σαράντα εννιά και δεκατρία;</body>
       <answer>
-        <body>72</body>
+        <body>εβδομήντα δύο</body>
       </answer>
       <answer>
-        <body>51</body>
+        <body>πενήντα ένα</body>
       </answer>
       <answer>
-        <body>52</body>
+        <body>πενήντα δύο</body>
       </answer>
       <answer>
-        <body>62</body>
+        <body>εξήντα δύο</body>
       </answer>
-      <correctAnswer>62</correctAnswer>
+      <correctAnswer>εξήντα δύο</correctAnswer>
     </Question>
   </Questions>
   <name>ArithmeticCts_rMsqkRjP</name>

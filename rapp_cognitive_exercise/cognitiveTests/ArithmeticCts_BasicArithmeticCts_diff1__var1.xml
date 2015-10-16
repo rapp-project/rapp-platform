@@ -5,68 +5,68 @@
   <testSubType>BasicArithmeticCts</testSubType>
   <Questions>
     <Question name="Q1">
-      <body>Πόσο κάνει 7 και 2;</body>
+      <body>Πόσο κάνει εφτά και δύο;</body>
       <answer>
-        <body>3</body>
+        <body>τρία</body>
       </answer>
       <answer>
-        <body>9</body>
+        <body>εννιά</body>
       </answer>
       <answer>
-        <body>5</body>
+        <body>πέντε</body>
       </answer>
       <answer>
-        <body>7</body>
+        <body>εφτά</body>
       </answer>
-      <correctAnswer>9</correctAnswer>
+      <correctAnswer>εννιά</correctAnswer>
     </Question>
     <Question name="Q2">
-      <body>Πόσο κάνει 4 και 4;</body>
+      <body>Πόσο κάνει τέσσερα και τέσσερα;</body>
       <answer>
-        <body>8</body>
+        <body>οκτώ</body>
       </answer>
       <answer>
-        <body>9</body>
+        <body>εννιά</body>
       </answer>
       <answer>
-        <body>5</body>
+        <body>πέντε</body>
       </answer>
       <answer>
-        <body>7</body>
+        <body>εφτά</body>
       </answer>
-      <correctAnswer>8</correctAnswer>
+      <correctAnswer>οκτώ</correctAnswer>
     </Question>
     <Question name="Q3">
-      <body>Πόσο κάνει 6 και 3;</body>
+      <body>Πόσο κάνει έξι και τρία;</body>
       <answer>
-        <body>8</body>
+        <body>οκτώ</body>
       </answer>
       <answer>
-        <body>9</body>
+        <body>εννιά</body>
       </answer>
       <answer>
-        <body>4</body>
+        <body>τέσσερα</body>
       </answer>
       <answer>
-        <body>7</body>
+        <body>εφτά</body>
       </answer>
-      <correctAnswer>9</correctAnswer>
+      <correctAnswer>εννιά</correctAnswer>
     </Question>
     <Question name="Q4">
-      <body>Πόσο κάνει 2 και 5;</body>
+      <body>Πόσο κάνει δύο και πέντε;</body>
       <answer>
-        <body>2</body>
+        <body>δύο</body>
       </answer>
       <answer>
-        <body>9</body>
+        <body>εννιά</body>
       </answer>
       <answer>
-        <body>5</body>
+        <body>πέντε</body>
       </answer>
       <answer>
-        <body>7</body>
+        <body>εφτά</body>
       </answer>
-      <correctAnswer>7</correctAnswer>
+      <correctAnswer>εφτά</correctAnswer>
     </Question>
   </Questions>
   <name>ArithmeticCts_xqQsIBFN</name>

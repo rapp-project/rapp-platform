@@ -5,68 +5,68 @@
   <testSubType>BasicArithmeticCts</testSubType>
   <Questions>
     <Question name="Q1">
-      <body>Πόσο κάνει 8 και 9;</body>
+      <body>Πόσο κάνει οκτώ και εννιά;</body>
       <answer>
-        <body>14</body>
+        <body>δεκατέσσερα</body>
       </answer>
       <answer>
-        <body>16</body>
+        <body>δεκαέξι</body>
       </answer>
       <answer>
-        <body>8</body>
+        <body>οκτώ</body>
       </answer>
       <answer>
-        <body>17</body>
+        <body>δεκαεφτά</body>
       </answer>
-      <correctAnswer>17</correctAnswer>
+      <correctAnswer>δεκαεφτά</correctAnswer>
     </Question>
     <Question name="Q2">
-      <body>Πόσο κάνει 9 και 11;</body>
+      <body>Πόσο κάνει εννιά και έντεκα;</body>
       <answer>
-        <body>23</body>
+        <body>είκοσι τρία</body>
       </answer>
       <answer>
-        <body>19</body>
+        <body>δεκαεννιά</body>
       </answer>
       <answer>
-        <body>11</body>
+        <body>έντεκα</body>
       </answer>
       <answer>
-        <body>20</body>
+        <body>είκοσι</body>
       </answer>
-      <correctAnswer>20</correctAnswer>
+      <correctAnswer>είκοσι</correctAnswer>
     </Question>
     <Question name="Q3">
-      <body>Πόσο κάνει 11 και 3;</body>
+      <body>Πόσο κάνει έντεκα και τρία;</body>
       <answer>
-        <body>14</body>
+        <body>δεκατέσσερα</body>
       </answer>
       <answer>
-        <body>16</body>
+        <body>δεκαέξι</body>
       </answer>
       <answer>
-        <body>17</body>
+        <body>δεκαεφτά</body>
       </answer>
       <answer>
-        <body>15</body>
+        <body>δεκαπέντε</body>
       </answer>
-      <correctAnswer>14</correctAnswer>
+      <correctAnswer>δεκατέσσερα</correctAnswer>
     </Question>
     <Question name="Q4">
-      <body>Πόσο κάνει 12 και 3;</body>
+      <body>Πόσο κάνει δώδεκα και τρία;</body>
       <answer>
-        <body>19</body>
+        <body>δεκαεννιά</body>
       </answer>
       <answer>
-        <body>15</body>
+        <body>δεκαπέντε</body>
       </answer>
       <answer>
-        <body>16</body>
+        <body>δεκαέξι</body>
       </answer>
       <answer>
-        <body>21</body>
+        <body>είκοσι ένα</body>
       </answer>
-      <correctAnswer>15</correctAnswer>
+      <correctAnswer>δεκαπέντε</correctAnswer>
     </Question>
   </Questions>
   <name>ArithmeticCts_stXqnGrc</name>

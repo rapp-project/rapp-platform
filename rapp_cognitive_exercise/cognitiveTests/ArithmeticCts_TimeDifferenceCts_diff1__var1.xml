@@ -5,36 +5,36 @@
   <testSubType>TimeDifferenceCts</testSubType>
   <Questions>
     <Question name="Q1">
-      <body>Έχουμε ραντεβού στο γιατρό στις 7</body>
+      <body>Έχουμε ραντεβού στο γιατρό στις εφτά και δεκαπέντε το απόγευμα. Φτάνουμε στις εφτά και τελικά ο γιατρός μας δέχεται μετά από είκοσι πέντε λεπτά. Τι ώρα μας δέχτηκε τελικά ο γιατρός;</body>
       <answer>
-        <body>7 και 25</body>
+        <body>εφτά και είκοσι πέντε</body>
       </answer>
       <answer>
-        <body>7 και 35</body>
+        <body>εφτά και τριάντα πέντε</body>
       </answer>
       <answer>
-        <body>8 και 30</body>
+        <body>οκτώ και τριάντα</body>
       </answer>
       <answer>
-        <body>7</body>
+        <body>εφτά</body>
       </answer>
-      <correctAnswer>7 και 25</correctAnswer>
+      <correctAnswer>εφτά και είκοσι πέντε</correctAnswer>
     </Question>
     <Question name="Q2">
-      <body>Το βράδυ έχουμε να πάμε σε ένα πάρτυ που ξεκινάει στις 8 αλλά μας βρίσκει κίνηση και τελικά φτάνουμε στις 8</body>
+      <body>Το βράδυ έχουμε να πάμε σε ένα πάρτυ που ξεκινάει στις οκτώ αλλά μας βρίσκει κίνηση και τελικά φτάνουμε στις οκτώ και πενήντα. Πόση ώρα έχουμε καθυστερήσει;</body>
       <answer>
-        <body>50 λεπτά</body>
+        <body>πενήντα λεπτά</body>
       </answer>
       <answer>
-        <body>40 λεπτά</body>
+        <body>σαράντα λεπτά</body>
       </answer>
       <answer>
-        <body>30 λεπτά</body>
+        <body>τριάντα λεπτά</body>
       </answer>
       <answer>
-        <body>80 λεπτά</body>
+        <body>ογδόντα λεπτά</body>
       </answer>
-      <correctAnswer>50 λεπτά</correctAnswer>
+      <correctAnswer>πενήντα λεπτά</correctAnswer>
     </Question>
   </Questions>
   <name>ArithmeticCts_lEOECMZR</name>

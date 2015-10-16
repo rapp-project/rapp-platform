@@ -5,68 +5,68 @@
   <testSubType>BasicArithmeticCts</testSubType>
   <Questions>
     <Question name="Q1">
-      <body>Πόσο κάνει 13 και 18;</body>
+      <body>Πόσο κάνει δεκατρία και δεκαοκτώ;</body>
       <answer>
-        <body>30</body>
+        <body>τριάντα</body>
       </answer>
       <answer>
-        <body>31</body>
+        <body>τριάντα ένα</body>
       </answer>
       <answer>
-        <body>32</body>
+        <body>τριάντα δύο</body>
       </answer>
       <answer>
-        <body>13</body>
+        <body>δεκατρία</body>
       </answer>
-      <correctAnswer>31</correctAnswer>
+      <correctAnswer>τριάντα ένα</correctAnswer>
     </Question>
     <Question name="Q2">
-      <body>Πόσο κάνει 21 και 35;</body>
+      <body>Πόσο κάνει είκοσι ένα και τριάντα πέντε;</body>
       <answer>
-        <body>58</body>
+        <body>πενήντα οκτώ</body>
       </answer>
       <answer>
-        <body>35</body>
+        <body>τριάντα πέντε</body>
       </answer>
       <answer>
-        <body>56</body>
+        <body>πενήντα έξι</body>
       </answer>
       <answer>
-        <body>57</body>
+        <body>πενήντα εφτά</body>
       </answer>
-      <correctAnswer>56</correctAnswer>
+      <correctAnswer>πενήντα έξι</correctAnswer>
     </Question>
     <Question name="Q3">
-      <body>Πόσο κάνει 45 και 53;</body>
+      <body>Πόσο κάνει σαράντα πέντε και πενήντα τρία;</body>
       <answer>
-        <body>108</body>
+        <body>εκατόν οκτώ</body>
       </answer>
       <answer>
-        <body>98</body>
+        <body>ενενήντα οκτώ</body>
       </answer>
       <answer>
-        <body>99</body>
+        <body>ενενήντα εννιά</body>
       </answer>
       <answer>
-        <body>88</body>
+        <body>ογδόντα οκτώ</body>
       </answer>
-      <correctAnswer>98</correctAnswer>
+      <correctAnswer>ενενήντα οκτώ</correctAnswer>
     </Question>
     <Question name="Q4">
-      <body>Πόσο κάνει 82 και 23;</body>
+      <body>Πόσο κάνει ογδόντα δύο και είκοσι τρία;</body>
       <answer>
-        <body>95</body>
+        <body>ενενήντα πέντε</body>
       </answer>
       <answer>
-        <body>105</body>
+        <body>εκατόν πέντε</body>
       </answer>
       <answer>
-        <body>114</body>
+        <body>εκατόν δέκα τέσσερα</body>
       </answer>
       <answer>
-        <body>115</body>
+        <body>εκατόν δέκα πέντε</body>
       </answer>
-      <correctAnswer>105</correctAnswer>
+      <correctAnswer>εκατόν πέντε</correctAnswer>
     </Question>
   </Questions>
   <name>ArithmeticCts_hSmyiLiV</name>
