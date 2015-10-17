@@ -209,7 +209,7 @@ function createDirRecur(dirPath)
 function rmFile(_file)
 {
   var filePath =  resolve_path(_file);
-  if(fs.existsSync(filePath))
+  if( fs.existsSync(filePath) && isFile(filePath) )
   {
     fs.unlinkSync(filePath);
     //console.log("Successfully deleted file: [%s]", path);
@@ -333,7 +333,9 @@ function renameFile(file, dest)
 
   // If parent directory of given destination file does not exist,
   // return false immediately.
-  if ( destDir == false || fs.existsSync(destDir) == false ) {return false};
+  if ( destDir == false || fs.existsSync(destDir) == false ||
+    (! isFile(sourcePath)) )
+    {return false};
 
   // Check if source file exists and destination directory also exists.
   if ( fs.existsSync(sourcePath) )
@@ -390,6 +392,8 @@ function copyFile(file, dest)
 
 /*!
  * @brief Returns the parent directory name for given path.
+ * @return The parent directory. In case of error a zero 0 value will be
+ * returned.
  */
 function parentDir(_path)
 {
@@ -406,6 +410,23 @@ function parentDir(_path)
   return parentDir;
 }
 
+
+function isDirectory(_path)
+{
+  var dirPath = resolve_path(_path);
+  var isDir = false;
+  if( fs.existsSync(_path) ) {isDir = fs.lstatSync(_path).isDirectory();}
+  return isDir;
+}
+
+
+function isFile(_path)
+{
+  var filePath = resolve_path(_path);
+  var isFile = false;
+  if( fs.existsSync(_path) ) {isFile = fs.lstatSync(_path).isFile();}
+  return isFile;
+}
 
 /**
  * This module exports.
@@ -424,5 +445,7 @@ module.exports = {
   createDir: createDir,
   createDirRecur: createDirRecur,
   copyFile: copyFile,
-  parentDir: parentDir
+  parentDir: parentDir,
+  isDirectory: isDirectory,
+  isFile: isFile
 }
