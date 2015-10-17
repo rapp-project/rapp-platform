@@ -37,26 +37,27 @@
 //"use strict";
 
 
-
-/* ------------< Load and set basic configuration parameters >-------------*/
-var __DEBUG__ = false;
-var user = process.env.LOGNAME;
-var module_path = '../modules/'
-var config_path = '../config/';
-var srvEnv = require( config_path + 'env/hop-services.json' )
-var __hopServiceName = 'face_detection';
-var __hopServiceId = null;
-var __masterId = null;
-var __cacheDir = '~/.hop/cache/services/';
-/* ----------------------------------------------------------------------- */
-
 /* --------------------------< Load required modules >---------------------*/
-var Fs = require( module_path + 'fileUtils.js' );
+var module_path = '../modules/'
 var hop = require('hop');
+var Fs = require( module_path + 'fileUtils.js' );
 var RandStringGen = require ( module_path +
   'RandomStrGenerator/randStringGen.js' );
 var RosSrvPool = require(module_path + 'ros/srvPool.js');
 var RosParam = require(module_path + 'ros/rosParam.js')
+/* ----------------------------------------------------------------------- */
+
+/* ------------< Load and set basic configuration parameters >-------------*/
+var __DEBUG__ = false;
+var user = process.env.LOGNAME;
+var config_path = '../config/';
+var srvEnv = require( config_path + 'env/hop-services.json' )
+var pathsEnv = require( config_path + 'env/paths.json' )
+var __hopServiceName = 'face_detection';
+var __hopServiceId = null;
+var __masterId = null;
+var __cacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
+var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 /* ----------------------------------------------------------------------- */
 
 var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
@@ -99,13 +100,29 @@ register_master_interface();
  */
 service face_detection ( {file_uri:''} )
 {
+  // For security reasons, if file_uri is not defined under the server_cache_dir
+  // do not operate. HOP server stores the files under the __serverCacheDir
+  // directory.
+  if( file_uri.indexOf(__serverCacheDir) === -1 )
+  {
+    var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
+        " Abortion for security reasons.";
+    postMessage( craft_slaveMaster_msg('log', errorMsg) );
+    console.log(errorMsg);
+    var response = {
+      faces: [],
+      error: errorMsg
+    }
+    return hop.HTTPResponseJson(response);
+  }
   var startT = new Date().getTime();
   var execTime = 0;
+  // Check if this service uses a threaPool and assign the relevant ros_service.
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
   else {var rosSrvCall = ros_service_name;}
   console.log(rosSrvCall);
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
-
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall +
+    '}') );
   var logMsg = 'Image stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
