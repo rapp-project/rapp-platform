@@ -63,13 +63,15 @@ class SpeechRecognitionTester:
   def setup_words_voc(self):
     spreq = SpeechRecognitionSphinx4ConfigureSrvRequest()
     spreq.language = 'gr'
-    spreq.words.append(u'σαράντα')
-    spreq.words.append(u'λεπτά') 
-    spreq.words.append(u'μία') 
-    spreq.words.append(u'ώρα') 
+    spreq.words.append(u'δύο')
+    spreq.words.append(u'τριάντα') 
+    spreq.words.append(u'είκοσι') 
+    spreq.words.append(u'δέκα') 
     spreq.words.append(u'και') 
     spreq.sentences = spreq.words
-    spreq.grammar = ['μία ώρα', 'μία ώρα και σαράντα λεπτά']
+    spreq.grammar = ['δύο-και-δέκα', 'δύο-και-είκοσι', 'δύο-και-τριάντα']
+    spreq.words = spreq.grammar
+    spreq.sentences = spreq.grammar
     return spreq
 
   def __init__(self):   

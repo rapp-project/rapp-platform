@@ -76,7 +76,7 @@ class LimitedVocabularyCreator(GlobalParams):
     for word in words:
       tmp_line = word
       for phoneme in words[word]:
-        tmp_line += " " + phoneme
+        tmp_line += " " + phoneme.replace('-', '').replace('_', '')
       custom_dict.write(tmp_line + '\n')
     custom_dict.close()
 
@@ -92,23 +92,23 @@ class LimitedVocabularyCreator(GlobalParams):
     custom_grammar.write('#JSGF V1.0;\n')
     custom_grammar.write("grammar " + tmp_configuration['grammar_name'] + ';\n')
     counter = 1
-    custom_grammar.write("public <cmd1>=(")
+    #custom_grammar.write("public <cmd1>=(")
     for i in range(0, len(grammar)):
       gram = grammar[i]
       # check is all words in grammar exist in words
       gram_words = gram.split(" ")
       for gw in gram_words:
-          if gw not in words:
+          if gw not in words and gram not in words:
               raise RappError('Word ' + gw + ' is not in words but\
                       exists in grammar')
               # return [tmp_configuration, 'Word ' + gw + ' is not in words but\
                       # exists in grammar']
-      #custom_grammar.write("public <cmd" + str(counter) + ">=" + gram + ";\n")
-      custom_grammar.write(gram)
-      if i == len(grammar) - 1:
-          custom_grammar.write(");")
-      else:
-          custom_grammar.write(" | ")
+      custom_grammar.write("public <cmd" + str(counter) + ">=" + "\"" + gram + "\";\n")
+      #custom_grammar.write("\"" + gram + "\"")
+      #if i == len(grammar) - 1:
+          #custom_grammar.write(");")
+      #else:
+          #custom_grammar.write(" | ")
       counter += 1
     custom_grammar.close()
 
@@ -123,7 +123,7 @@ class LimitedVocabularyCreator(GlobalParams):
         # Split sentence
         sent_words = sent.split(" ")
         for sw in sent_words:
-            if sw not in words:
+            if sw not in words and sent not in words:
                 raise RappError('Word ' + sw + ' is not in words but\
                       exists in a sentence')
                 # return [tmp_configuration, "Word " + sw + " does not exist in\
