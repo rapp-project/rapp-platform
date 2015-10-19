@@ -97,7 +97,7 @@ register_master_interface();
  * @return Results.
  */
 service record_cognitive_test_performance( {user: '', test: '',
-  testType: '', score: 0} )
+  score: 0} )
 {
   var startT = new Date().getTime();
   var execTime = 0;
@@ -113,7 +113,6 @@ service record_cognitive_test_performance( {user: '', test: '',
       var args = {
         username: user,
         test:     test,
-        testType: testType,
         score:    parseInt(score)
       };
 

@@ -40,19 +40,16 @@ class RappInterfaceTest:
   def __init__(self):
     self.rappCloud = RappCloud()
     self.username = "rapp"
-    self.testType = "ReasoningCts"
     self.test = "ReasoningCts_GJNNLYhq"
     self.score = 50
     # Set the valid results
-    self.valid_results = ''  # The valid repsonse
+    self.valid_result_partial = "CognitiveTestPerformed"
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
     response = self.rappCloud.record_cognitive_test_performance(self.username,
-                                                                self.test,
-                                                                self.testType,
-                                                                self.score)
+                    self.test, self.score)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
@@ -63,7 +60,7 @@ class RappInterfaceTest:
       return [error, self.elapsed_time]
 
     # Check if the returned data are equal to the expected
-    if self.valid_results == response['performance_entry']:
+    if self.valid_result_partial in response['performance_entry']:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + str(response), self.elapsed_time]
