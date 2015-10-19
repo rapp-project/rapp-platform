@@ -37,34 +37,53 @@
 //"use strict";
 
 
-var __DEBUG__ = false;
-
 /*---------Sets required file Paths-------------*/
+var __DEBUG__ = false;
 var user = process.env.LOGNAME;
+var config_path = '../config/';
+var srvEnv = require( config_path + 'env/hop-services.json' )
+var __hopServiceName = 'available_services';
+var __hopServiceId = null;
+var __masterId = null;
+var __availableServices = [];
 /*----------------------------------------------*/
 
 /*--------------Load required modules-----------*/
 var hop = require('hop');
 /*----------------------------------------------*/
 
-/*-----<Defined Name of QR Node ROS service>----*/
-var hopServiceName = 'available_services';
-var hopServiceId = null;
-/*------------------------------------------------------*/
-
 /* -- Set timer values for websocket communication to rosbridge -- */
-var timer_tick_value = 10; // ms
-var max_time = 2000; // ms
-var max_tries = 3;
-//var max_timer_ticks = 1000 * max_time / tick_value;
+var scanTimer = 2 * 60 * 1000;  // Two minutes
 /* --------------------------------------------------------------- */
 
-var __workerId__ = null;
-var __masterId__ = null;
-var __updatedServiceList__ = true;
-var __availableServices__ = [];
 
 register_master_interface();
+
+
+(function scanServices(){
+  __availableServices.length = 0;
+  for(s in srvEnv){
+    var response = undefined;
+    //var args = srvEnv[s].args;
+    var args = {};
+    var webService = hop.webService('http://' + hop.hostname + ':' + hop.port + '/hop/' + s);
+    var srv = webService(args);
+    try{
+      response = srv.postSync();
+    }
+    catch(e){
+      continue
+    }
+    __availableServices.push(s);
+  }
+  console.log("[Active Services]: ");
+  for(i in __availableServices){
+    console.log("    *[%s] - %s", i, __availableServices[i]);
+  }
+  setTimeout(function(){
+    scanServices();
+  }, scanTimer);
+})()
 
 
 service available_services (  )
@@ -73,60 +92,19 @@ service available_services (  )
   __updatedServiceList__ = false;
   postMessage( craft_slaveMaster_msg('up-services', '') );
 
-  /* Async http response */
-  /*----------------------------------------------------------------- */
+   //Async http response
+  //-----------------------------------------------------------------
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-      var timer_ticks = 0;
-      var elapsed_time = 0;
-      var retries = 0;
-
-      function asyncWrap(){
-        setTimeout( function(){
-          timer_ticks += 1;
-          elapsed_time = timer_ticks * timer_tick_value;
-
-          if (__updatedServiceList__)
-          {
-            var response = craft_response();
-
-            var logMsg = 'Succesfully updated available service list.' +
-              ' Returning to client with success';
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-            sendResponse( hop.HTTPResponseJson(response) );
-            return;
-          }
-          else if (__updatedServiceList__ == false && elapsed_time > max_time)
-          {
-            retries += 1;
-            timer_ticks = 0;
-
-            if (retries >= max_tries)
-            {
-              var response = craft_error_response();
-
-              var logMsg = 'Reached max_retries while trying to retrieve' +
-                'available services list from master. Returning to client' +
-                'with error ---> [RAPP Platform Failure]';
-              postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-              sendResponse( hop.HTTPResponseJson(response) );
-              return;
-            }
-          }
-          asyncWrap();
-
-        }, timer_tick_value);
-      }
-      asyncWrap();
+      var response = craft_response();
+      sendResponse( hop.HTTPResponseJson(response) );
     }, this);
 }
 
 
 function craft_response()
 {
-  var response = {services: __availableServices__, error: ''};
+  var response = {services: __availableServices, error: ''};
   return response;
 }
 
@@ -174,14 +152,13 @@ function exec_master_command(msg)
   switch (cmd)
   {
     case 2055:  // Set worker ID
-      __workerId__ = data;
+      __hopServiceId = data;
       break;
     case 2050:  // Set master ID
-      __masterId__ = data;
+      __masterId = data;
       break;
     case 2060:  // Master returns available hop services list
-      __updatedServiceList__ = true;
-      __availableServices__ = data;
+      __availableServices = data;
       var logMsg = 'Received list of available-services from master';
       postMessage( craft_slaveMaster_msg('log', logMsg) );
     default:
@@ -193,8 +170,8 @@ function exec_master_command(msg)
 function craft_slaveMaster_msg(msgId, msg)
 {
   var msg = {
-    name: hopServiceName,
-    id:   __workerId__,
+    name: __hopServiceName,
+    id:   __hopServiceId,
     msgId: msgId,
     data: msg
   }

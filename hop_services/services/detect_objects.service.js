@@ -133,6 +133,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
+    console.log(logMsg);
 
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
@@ -140,7 +141,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
     var resp_msg = craft_error_response();
     execTime = new Date().getTime() - startT;
     postMessage( craft_slaveMaster_msg('execTime', execTime) );
-    return resp_msg;
+    return hop.HTTPResponseJson(resp_msg);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );

@@ -188,11 +188,10 @@ service rapp_platform_status(  )
             var retObj = ${testService}(callSrv).postSync();
             console.log(retObj)
             var success = retObj.success;
-            var results = retObj.output;
+            var srvResponse = retObj.output;
             var inputParams = retObj.input;
             var alertClass = '"alert alert-info"';
             var alertMessage = '';
-            console.log();
             if(success){
               alertClass = '"alert alert-success"';
               alertMessage = 'Successful Service Call!';
@@ -211,10 +210,7 @@ service rapp_platform_status(  )
               selectedHopSrv + '<br><br></strong><strong>Input</strong>' +
               '<li>' + JSON.stringify(inputParams) + '</li>';
             res_literal += '<br><strong>Output</strong>';
-            for(index = 0 ; index < results.length ; index++)
-            {
-              res_literal += "<li>" +   results[index] + '</li>';
-            }
+            res_literal += '<li>' + JSON.stringify(srvResponse) + '</li>'
             res_literal += '</div>';
             document.getElementById('hopResults').innerHTML = res_literal;
 
@@ -239,23 +235,28 @@ service testService(srvName)
   var response = {success: false, output: undefined, input: undefined};
   if(srvName in srvMap){
     var results = srvMap[srvName]();
-    response = {success: results.success, output: results.output,
-                input: results.input
-               };
+    console.log(results.output)
+    response = {
+      success: results.success,
+      output: results.output,
+      input: results.input
+    };
   }
   else{
-    response = {success: false, output: ['Error on service call!'],
-                input: 'Error on service call!'
-               }
+    response = {
+      success: false,
+      output: 'Service call error! Service does not exist',
+      input: 'Service call error! Service does not exist',
+    };
   }
-
   return response;
 }
+
 
 var srvMap = {
   'ontology_subclasses_of': test_ontology_subclassesOf,
   'ontology_superclasses_of': test_ontology_superclassesOf,
-  //'ontology_is_subsuperclass_of': test_is_subsuperclassOf,
+  'ontology_is_subsuperclass_of': test_ontology_is_subsuperclassOf,
   //'speech_detection_sphinx4': test_speech_detection_sphinx4,
   //'speech_detection_google': test_speech_detection_google,
   //'face_detection': test_face_detection,
@@ -265,11 +266,18 @@ var srvMap = {
 
 
 
+/*****************************************************************************
+ *                          Per service Tests.
+ *****************************************************************************
+ */
+
 function test_ontology_subclassesOf(){
   import service ontology_subclasses_of();
-  var query = 'Oven';
+  var args = {
+    query: 'Oven'
+  };
   var success = true;
-  var response = ontology_subclasses_of({query: query}).postSync();
+  var response = ontology_subclasses_of(args).postSync();
   var valid_results = [
     'http://knowrob.org/kb/knowrob.owl#MicrowaveOven',
     'http://knowrob.org/kb/knowrob.owl#RegularOven',
@@ -285,13 +293,16 @@ function test_ontology_subclassesOf(){
       break;
     }
   }
-  return {success: success, output: response.results, input: {query: query}};
+  return {success: success, output: response.results, input: args};
 }
+
 
 function test_ontology_superclassesOf(){
   import service ontology_superclasses_of();
-  var query = 'Oven';
-  var response = ontology_superclasses_of({query: query}).postSync();
+  var args = {
+    query: 'Oven'
+  }
+  var response = ontology_superclasses_of(args).postSync();
   console.log(response)
   var success = true;
   var valid_results = [
@@ -310,10 +321,38 @@ function test_ontology_superclassesOf(){
       break;
     }
   }
-  return {success: success, output: response.results, input: {query: query}};
+  return {success: success, output: response.results, input: args};
 }
 
 
+function test_ontology_is_subsuperclassOf(){
+  var success = true;
+  var results = undefined;
+  var s = 'ontology_is_subsuperclass_of';
+  var args = {
+    'parent_class': 'SpatialThing',
+    'child_class': 'Oven',
+    'recursive': true
+  }
+  var validResult = true;
+  var response = undefined;
+  var webService = hop.webService('http://' + hop.hostname + ':' +
+    hop.port + '/hop/' + s);
+  var srv = webService(args);
+  try{
+    response = srv.postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response}
+  return {success: success, output: results, input: args};
+}
+
+
+/****************************************************************************/
 
 function loopInf(){
   setTimeout(function(){
