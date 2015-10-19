@@ -92,7 +92,9 @@ class LimitedVocabularyCreator(GlobalParams):
     custom_grammar.write('#JSGF V1.0;\n')
     custom_grammar.write("grammar " + tmp_configuration['grammar_name'] + ';\n')
     counter = 1
-    for gram in grammar:
+    custom_grammar.write("public <cmd1>=(")
+    for i in range(0, len(grammar)):
+      gram = grammar[i]
       # check is all words in grammar exist in words
       gram_words = gram.split(" ")
       for gw in gram_words:
@@ -101,7 +103,12 @@ class LimitedVocabularyCreator(GlobalParams):
                       exists in grammar')
               # return [tmp_configuration, 'Word ' + gw + ' is not in words but\
                       # exists in grammar']
-      custom_grammar.write("public <cmd" + str(counter) + ">=" + gram + ";\n")
+      #custom_grammar.write("public <cmd" + str(counter) + ">=" + gram + ";\n")
+      custom_grammar.write(gram)
+      if i == len(grammar) - 1:
+          custom_grammar.write(");")
+      else:
+          custom_grammar.write(" | ")
       counter += 1
     custom_grammar.close()
 

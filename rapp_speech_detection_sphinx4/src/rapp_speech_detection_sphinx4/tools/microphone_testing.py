@@ -63,22 +63,13 @@ class SpeechRecognitionTester:
   def setup_words_voc(self):
     spreq = SpeechRecognitionSphinx4ConfigureSrvRequest()
     spreq.language = 'gr'
-    spreq.words.append(u'οχι')
-    spreq.words.append(u'ναι') 
-    spreq.words.append(u'αρκετα') 
-    spreq.words.append(u'ειμαι') 
-    spreq.words.append(u'εισαι') 
-    spreq.words.append(u'ειναι') 
-    spreq.words.append(u'φουρνος') 
-    spreq.words.append(u'γιατρος') 
-    spreq.words.append(u'κατσε') 
-    spreq.words.append(u'χαπια') 
-    spreq.words.append(u'χαπι') 
-    spreq.words.append(u'ρομποτ') 
-    spreq.words.append(u'στειλε') 
-    spreq.words.append(u'στειλεις') 
+    spreq.words.append(u'σαράντα')
+    spreq.words.append(u'λεπτά') 
+    spreq.words.append(u'μία') 
+    spreq.words.append(u'ώρα') 
+    spreq.words.append(u'και') 
     spreq.sentences = spreq.words
-    spreq.grammar = []
+    spreq.grammar = ['μία ώρα', 'μία ώρα και σαράντα λεπτά']
     return spreq
 
   def __init__(self):   
@@ -116,12 +107,13 @@ class SpeechRecognitionTester:
     self.spee_req.language = self.spreq.language
     self.spee_req.words = self.spreq.words
     self.spee_req.grammar = self.spreq.grammar
-    self.spee_req.user = 'etsardou'
+    self.spee_req.user = 'rapp'
     self.spee_req.sentences = self.spreq.sentences
     self.spee_req.path = wav_file
     self.spee_req.audio_source = 'headset' # The samples are already denoised
 
     res = self.conf_sp_ser(self.spee_req)
+    print res
     for word in res.words:
       toprint += "'" + word + "' "
     print toprint
