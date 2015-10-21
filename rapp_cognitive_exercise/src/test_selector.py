@@ -69,7 +69,7 @@ class TestSelector:
     currentTimestamp = int(time.time()) #15552000000 for last 3 months
     
     try:
-      res = testSelectorSrvResponse() 
+      res = testSelectorSrvResponse()       
       #obtain user's ontology alias. It will be created if it does not exist in case of invalid username it will be caught
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
       if(not serv_topic):
@@ -146,38 +146,25 @@ class TestSelector:
           d1=OrderedDict(sorted(d1.items(), key=lambda t: t[0]))
           req.testType=d1.values()[0][0] 
           res.trace.append("all test types had performance records.. least recently used one was :"+ req.testType)         
-      else:
-        #res.trace.append("test is "+req.testType)
+      else:    
         if (req.testType not in testTypesList): 
           res.trace.append("testType provided does not exist")
           res.error="testType provided does not exist"
           res.success=False
-          return res
-      
-      #testTypes=testTypesResponse.results
-      #if(req.testType!=""):
-        #if any(req.testType in s for s in testTypes):
-          #print "something"
-                
-
-     
+          return res      
+           
+      # check if performance records exist for the selected test in order to determine the difficulty setting
       noUserPerformanceRecordsExist=False;
-      chosenDif="1"     
-       
+      chosenDif="1"           
       userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
       userPerformanceReq.test_type=req.testType
       userPerformanceReq.ontology_alias=createOntologyAliasResponse.ontology_alias
       knowrob_service = rospy.ServiceProxy(serv_topic, userPerformanceCognitveTestsSrv)       
       userPerformanceResponse = knowrob_service(userPerformanceReq)
       if(userPerformanceResponse.success!=True):
-        #means no performance records exist. so you choose random test, test1, variation1
         res.trace.extend(userPerformanceResponse.trace)
         res.trace.append("KnowRob wrapper returned no performance records for this user.. will start with a a difficulty setting of 1")
-        noUserPerformanceRecordsExist=True
-        #userPerfOrganizedByTimestamp=OrderedDict() #empty
-        #res.error=userPerformanceResponse.error
-        #res.success=False
-        #return res          
+        noUserPerformanceRecordsExist=True       
       else:          
         userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
         for k, v in userPerfOrganizedByTimestamp.items():
@@ -185,14 +172,9 @@ class TestSelector:
             del userPerfOrganizedByTimestamp[k]
           else:
             break
-          #else:
-            #res.trace.append(str(k))                    
-            #res.trace.append(v[0][1])
-            #res.trace.append(v[0][2])
-          #res.trace.append(v[2])              
+           
         userScore=self.calculateUserScore(userPerfOrganizedByTimestamp)
-        res.trace.append("score "+str(userScore))        
-        #chosenDif="1"
+        res.trace.append("user score :"+str(userScore))
         if(userScore==0):
           chosenDif="1"
         elif(userScore<0.75*100):
@@ -200,10 +182,10 @@ class TestSelector:
         elif(userScore<0.75*2*100):
           chosenDif="2"
         else:   #(userScore>0.75*3*100)
-          chosenDif="3"
-        
-      res.trace.append("Chosen Diff "+chosenDif)
+          chosenDif="3"        
+      res.trace.append("Chosen Diff :"+chosenDif)
       
+      #Get cognitive tests of the selected type.
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
       if(not serv_topic):
         rospy.logerror("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
@@ -220,17 +202,19 @@ class TestSelector:
         res.trace.extend(cognitiveTestsOfTypeResponse.trace)
         res.error=cognitiveTestsOfTypeResponse.error
         res.success=False
-        return res
-      print "length "+str(len(cognitiveTestsOfTypeResponse.tests))
+        return res      
 
+      #Filter the tests according to the determined difficulty
       success,testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,res)
       
+      #If no test exists
       if(not success): #not len(testsOfTypeOrdered)>0):
         res.trace.append("Error, no tests of type contained in the ontology... cannot proceed")
         res.error="Error, no tests of type contained in the ontology... cannot proceed"
         res.success=False
-        return res
+        return res      
       
+      #Choose the least recently used test of the given test type and difficulty and obtain the path to the xml file
       finalTestname=""
       finalTestFilePath=""
       if(noUserPerformanceRecordsExist):
@@ -238,8 +222,7 @@ class TestSelector:
         finalTest=testsOfTypeOrdered[finalTestname]
         finalTestFilePath=finalTest[0][0]          
       else:          
-        testsOfTypeOrderedCopy=testsOfTypeOrdered.copy()
-        
+        testsOfTypeOrderedCopy=testsOfTypeOrdered.copy()        
         for k, v in userPerfOrganizedByTimestamp.items():
           if(v[0][0] in testsOfTypeOrderedCopy):
             del testsOfTypeOrderedCopy[v[0][0]]       
@@ -248,55 +231,22 @@ class TestSelector:
           finalTestname=random.choice(testsOfTypeOrderedCopy.keys())    
           finalTest=testsOfTypeOrderedCopy[finalTestname]
           finalTestFilePath=finalTest[0][0]
-        else:
-          #res.trace.append("was empty")
+        else:      
           finalTestname=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-1]
-          finalTestname=finalTestname[0][0]
-          #res.trace.append("Selected test name: "+finalTest[0][0])
-          #finalTest=testsOfTypeOrdered[finalTestname[0][0]]
-          #print "was empty"
-          #print finalTestname
+          finalTestname=finalTestname[0][0]     
           finalTest=testsOfTypeOrdered[finalTestname]
           finalTestFilePath=finalTest[0][0]
- 
-
-        #choose category if not defined (arithemtic, recall etc)
-        #retrieve past performance from ontology for specified category
-      #print "test"
-      #print finalTestname
+          
+      #Retrieve the name of the selected test
       tmpList=finalTestname.split('#')
       res.test=tmpList[1]
       
-
+      #Parse the test xml file and retrieve the desired information
       rospack = rospkg.RosPack()
       localPackagePath=rospack.get_path('rapp_cognitive_exercise')
-      #res.trace.append(localPackagePath)
-      #tmp=userPerformanceResponse.tests[0]
-
-      currentTimestamp = str(int(time.time()))
-      edibleTime=datetime.now().strftime('%d/%m/%Y %H:%M:%S')
-      #res.trace.append(edibleTime)
-     
-      
-      #print finalTestFilePath
       finalTestFilePath=localPackagePath+finalTestFilePath
-      res.trace.append(finalTestFilePath)
-      tree = ET.parse(finalTestFilePath)
-      #with open(finalTestFilePath, 'r',"UTF-8") as xml_file:
-       # tree=ET.parse(xml_file)
-
-      root = tree.getroot()
-      res.testType=root.find("testType").text.encode('UTF-8')
-      res.testSubType=root.find("testSubType").text.encode('UTF-8')
-      
-      for question in root.find('Questions'):            
-        res.questions.append(question.find("body").text.encode('UTF-8'))
-        res.correctAnswers.append(question.find("correctAnswer").text.encode('UTF-8'))
-        line=StringArrayMsg()
-        for answers in question.findall('answer'):          
-          line.s.append(answers.find("body").text.encode('UTF-8'))        
-        res.answers.append(line)
-      
+      res.trace.append(finalTestFilePath)      
+      self.retrieveDataFromTestXml(finalTestFilePath,res)            
       res.success=True  
        
     except IndexError:
@@ -308,7 +258,21 @@ class TestSelector:
       res.success=False
       res.trace.append("IO Error, cant open file or read data")
       res.error="IO Error, cant open file or read data"
-    return res
+    return res    
+    
+  def retrieveDataFromTestXml(self,finalTestFilePath,res):
+    tree = ET.parse(finalTestFilePath)
+    root = tree.getroot()
+    res.testType=root.find("testType").text.encode('UTF-8')
+    res.testSubType=root.find("testSubType").text.encode('UTF-8')
+    
+    for question in root.find('Questions'):            
+      res.questions.append(question.find("body").text.encode('UTF-8'))
+      res.correctAnswers.append(question.find("correctAnswer").text.encode('UTF-8'))
+      line=StringArrayMsg()
+      for answers in question.findall('answer'):          
+        line.s.append(answers.find("body").text.encode('UTF-8'))        
+      res.answers.append(line)    
 
   def organizeUserPerformance(self,userPerf):
     d=OrderedDict()
@@ -348,9 +312,4 @@ class TestSelector:
         success,d=self.filterTestsbyDifficulty(testsOfType,chosenDif,res)
       else: 
         success=True
-      return success,d   
-    
-
-
-    
-    
+      return success,d       
