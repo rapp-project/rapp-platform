@@ -73,6 +73,9 @@ class KnowrobWrapperCommunications
     
     ros::ServiceServer record_user_cognitive_tests_performance_service_;    
     std::string record_user_cognitive_tests_performance_topic_;
+   
+    ros::ServiceServer clear_user_cognitive_tests_performance_records_service_;    
+    std::string clear_user_cognitive_tests_performance_records_topic_;
     
     
         
@@ -138,6 +141,10 @@ class KnowrobWrapperCommunications
     bool record_user_cognitive_tests_performance_callback(
       rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request& req,
       rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response& res);
+
+    bool clear_user_cognitive_tests_performance_records_callback(
+      rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
+      rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res);
 
 
       

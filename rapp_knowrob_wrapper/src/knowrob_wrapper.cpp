@@ -519,10 +519,10 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     res.error=std::string("Error, test type empty");
     return res;
   }
-  std::string timestamp=std::string("2");
-  std::string query = std::string("rdf_has(__,knowrob:user,knowrob:'")+req.ontology_alias+std::string("'),rdf_has(B,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>")+timestamp+std::string(",rdf_has(__,knowrob:score,literal(type(_, SC))),P");
+  //std::string timestamp=std::string("2");
+  //std::string query = std::string("rdf_has(__,knowrob:user,knowrob:'")+req.ontology_alias+std::string("'),rdf_has(B,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>")+timestamp+std::string(",rdf_has(__,knowrob:score,literal(type(_, SC))),P");
   //query=std::string("rdf_has(__,knowrob:user,knowrob:'Person_pQmhNKHv'),rdf_has(B,rdf:type,knowrob:'Arithmetic'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>2,rdf_has(__,knowrob:score,literal(type(_, SC)))");
-  query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Var,Dif,Timestamp,SC,P)");
+  std::string query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Var,Dif,Timestamp,SC,P)");
   //query=std::string("owl_subclass_of(A,knowrob:'FoodOrDrink')");
 
 
@@ -574,6 +574,59 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     res.timestamps.push_back(query_ret_timestamps[i]);
   }
   
+  return res;
+}
+
+
+rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req)
+{
+  rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response res;
+  if(req.ontology_alias==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, ontology alias empty");
+    res.error=std::string("Error, ontology alias empty");
+    return res;
+  }
+  std::string currentAlias=get_ontology_alias(req.ontology_alias);
+  if(req.test_type==std::string(""))
+  {
+    std::string query=std::string("rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'")+currentAlias+std::string("'),rdf_retractall(P,L,S)");
+    json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+    char status = results.getStatus();
+    if(status==0)
+    {
+      res.success=false;
+      //res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+      res.error=std::string("No performance records exist for the user or invalid user or invalid test type");
+      return res;    
+    }
+    else if(status==3)
+    {
+      res.success=true;
+    }
+  }
+  else
+  {
+    std::string query=std::string("rdf_has(A,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(P,knowrob:cognitiveTestPerformedTestType,A),rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'")+currentAlias+std::string("'),rdf_retractall(P,L,S)");
+    json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+    char status = results.getStatus();
+    if(status==0)
+    {
+      res.success=false;
+      //res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
+      res.error=std::string("No performance records exist for the user or invalid user or invalid test type");
+      return res;    
+    }
+    else if(status==3)
+    {
+      res.success=true;
+    }
+  }
+  
+  rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
+  dmp.file_url=std::string("/owl/currentVersion.owl");
+  KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
 

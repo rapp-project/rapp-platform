@@ -129,6 +129,13 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   }  
   record_user_cognitive_tests_performance_service_ = nh_.advertiseService(record_user_cognitive_tests_performance_topic_,
     &KnowrobWrapperCommunications::record_user_cognitive_tests_performance_callback, this);
+    
+  if(!nh_.getParam("/rapp_knowrob_wrapper_clear_user_cognitive_tests_performance_records", clear_user_cognitive_tests_performance_records_topic_))
+  {
+    ROS_ERROR("rapp_knowrob_wrapper_clear_user_cognitive_tests_performance_records not found");
+  }  
+  clear_user_cognitive_tests_performance_records_service_ = nh_.advertiseService(clear_user_cognitive_tests_performance_records_topic_,
+    &KnowrobWrapperCommunications::clear_user_cognitive_tests_performance_records_callback, this);
 
   //if(!nh_.getParam("/ontology_user_instances_from_class_topic", userInstancesFromClassServiceTopic_))
   //{
@@ -277,6 +284,15 @@ bool KnowrobWrapperCommunications::record_user_cognitive_tests_performance_callb
   res=knowrob_wrapper.record_user_cognitive_tests_performance(req);
   return true;
 }
+
+bool KnowrobWrapperCommunications::clear_user_cognitive_tests_performance_records_callback(
+  rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
+  rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res)
+{
+  res=knowrob_wrapper.clear_user_cognitive_tests_performance_records(req);
+  return true;
+}
+
 
 
 //bool KnowrobWrapperCommunications::userInstancesFromClassCallback(

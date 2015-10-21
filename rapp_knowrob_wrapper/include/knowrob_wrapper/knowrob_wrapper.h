@@ -85,6 +85,8 @@ class KnowrobWrapper
     
     rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req);
     
+    rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req);
+    
     
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
     //std::vector<std::string> checkIfClassExists(std::string classValue);

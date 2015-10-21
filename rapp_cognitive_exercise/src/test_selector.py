@@ -221,11 +221,11 @@ class TestSelector:
         res.error=cognitiveTestsOfTypeResponse.error
         res.success=False
         return res
-      #res.trace.append("length "+str(len(cognitiveTestsOfTypeResponse.tests)))
+      print "length "+str(len(cognitiveTestsOfTypeResponse.tests))
 
-      testsOfTypeOrdered=self.organizeTestsOfType(cognitiveTestsOfTypeResponse,chosenDif)
+      success,testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,res)
       
-      if(not len(testsOfTypeOrdered)>0):
+      if(not success): #not len(testsOfTypeOrdered)>0):
         res.trace.append("Error, no tests of type contained in the ontology... cannot proceed")
         res.error="Error, no tests of type contained in the ontology... cannot proceed"
         res.success=False
@@ -251,15 +251,22 @@ class TestSelector:
         else:
           #res.trace.append("was empty")
           finalTestname=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-1]
+          finalTestname=finalTestname[0][0]
           #res.trace.append("Selected test name: "+finalTest[0][0])
-          finalTest=testsOfTypeOrdered[finalTestname[0][0]]
+          #finalTest=testsOfTypeOrdered[finalTestname[0][0]]
+          #print "was empty"
+          #print finalTestname
+          finalTest=testsOfTypeOrdered[finalTestname]
           finalTestFilePath=finalTest[0][0]
  
 
         #choose category if not defined (arithemtic, recall etc)
         #retrieve past performance from ontology for specified category
+      #print "test"
+      #print finalTestname
       tmpList=finalTestname.split('#')
       res.test=tmpList[1]
+      
 
       rospack = rospkg.RosPack()
       localPackagePath=rospack.get_path('rapp_cognitive_exercise')
@@ -279,6 +286,8 @@ class TestSelector:
        # tree=ET.parse(xml_file)
 
       root = tree.getroot()
+      res.testType=root.find("testType").text.encode('UTF-8')
+      res.testSubType=root.find("testSubType").text.encode('UTF-8')
       
       for question in root.find('Questions'):            
         res.questions.append(question.find("body").text.encode('UTF-8'))
@@ -320,13 +329,28 @@ class TestSelector:
     else:      
       return 0
     
-  def organizeTestsOfType(self,testsOfType,chosenDif):
+  def filterTestsbyDifficulty(self,testsOfType,chosenDif,res):
+    success=False
     d=dict()
-    for i in range(len(testsOfType.tests)):
-	  if(testsOfType.difficulty[i]==chosenDif):			
-	    tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.variation[i],testsOfType.subtype[i]]
-	    d[testsOfType.tests[i]]=[tlist]	    
-    return d   
+    intDif=int(chosenDif)
+    if(intDif==0):
+      return success,d  
+    else:      
+      for i in range(len(testsOfType.tests)):
+        if(testsOfType.difficulty[i]==chosenDif):			
+          tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.variation[i],testsOfType.subtype[i]]
+          d[testsOfType.tests[i]]=[tlist]
+          
+      if(not len(d)>0):
+        res.trace.append("downscaling difficulty by 1 as no test exists for diff = " +chosenDif);
+        #print "downscaling difficulty by 1 as no test exists for diff = " +chosenDif
+        chosenDif=str(int(chosenDif)-1)        
+        success,d=self.filterTestsbyDifficulty(testsOfType,chosenDif,res)
+      else: 
+        success=True
+      return success,d   
+    
+
 
     
     
