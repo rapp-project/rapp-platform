@@ -41,19 +41,9 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.username = "rapp"
     self.testType = "AwarenessCts"
-    # Set the valid results
-    self.valid_answers = [
-        ['1', '2', '3', '4'],
-        ['1', '2', '7', '4']
-    ]
-    self.valid_questions = [
-        'How much is two plus two?',
-        'How much is five plus two?'
-    ]
-    self.valid_correctAnswers = []
+
 
   def execute(self):
-
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
     response = self.rappCloud.cognitive_test_chooser(self.username, self.testType)
@@ -61,16 +51,22 @@ class RappInterfaceTest:
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
     # Get the returned data
-    answers = response['answers']
+    test_instance = response['test_instance']
+    test_type = response['test_type']
+    test_sub_type = response['test_sub_type']
     questions = response['questions']
+    possib_ans = response['possib_ans']
+    correct_ans = response['correct_ans']
     # Check if the returned data are equal to the expected
-    if questions == self.valid_questions and answers == self.valid_answers:
+    if test_instance and test_type and test_sub_type and questions \
+            and possib_ans and correct_ans:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + str(response), self.elapsed_time]
