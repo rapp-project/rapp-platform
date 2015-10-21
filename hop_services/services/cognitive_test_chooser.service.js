@@ -321,21 +321,21 @@ function craft_response(rosbridge_msg)
   var testSubType = msg.values.testSubType;
   //console.log(msg)
 
-  var response = {questions: [], answers: [], correct_answers: [],
-    test: '', test_type: '', test_sub_type: '', error: ''};
+  var response = {questions: [], possib_ans: [], correct_ans: [],
+    test_instance: '', test_type: '', test_sub_type: '', error: ''};
   var logMsg = '';
 
   if (call_result)
   {
     logMsg = 'Returning to client.';
     response.questions = questions;
-    response.correctAnswers = correctAnswers;
-    response.test = test;
+    response.correct_ans = correctAnswers;
+    response.test_instance = test;
     response.test_type = testType;
     response.test_sub_type = testSubType;
     for (var ii = 0; ii < answers.length; ii++)
     {
-      response.answers.push( answers[ii].s )
+      response.possib_ans.push( answers[ii].s )
     }
 
     if (!success)

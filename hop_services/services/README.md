@@ -350,12 +350,12 @@ qr_detection ( {file_uri: ''} )
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
   the received data.
 
-  > { questions: [], answers: [], correct_answers: [], test: '', test_type: '', test_sub_type: '' error: '' }
+  > { questions: [], possib_ans: [], correct_ans: [], test_instance: '', test_type: '', test_sub_type: '' error: '' }
 
   - **'questions'**: The exercise set of questions.
-  - **'answers'**:  The set of answers for each question. vector<vector<string>>
-  - **'correct_answers'**: The set of correct answers for each question. vector<string>
-  - **'test'**: Returned test name. For example, 'ArithmeticCts_askw0Snwk'
+  - **'possib_ans'**:  The set of answers for each question. vector<vector<string>>
+  - **'correct_ans'**: The set of correct answers for each question. vector<string>
+  - **'test_instance'**: Returned test name. For example, 'ArithmeticCts_askw0Snwk'
   - **'test_type'**: Cognitive exercise class/type. Explained [here](https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise)
   - **'test_sub_type'**: Cognitive exercise sub-type. Explained [here](https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise)
   - **'error'**: If error was encountered, an error message is pushed in this field.
