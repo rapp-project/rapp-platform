@@ -40,28 +40,27 @@
 /* ------------< Load and set basic configuration parameters >-------------*/
 var __DEBUG__ = false;
 var user = process.env.LOGNAME;
-var module_path = '../modules/'
-var config_path = '../config/';
-var srvEnv = require( config_path + 'env/hop-services.json' )
+var __modulePath = '../modules/'
+var __configPath = '../config/';
+var srvEnv = require( __configPath + 'env/hop-services.json' )
 var __hopServiceName = 'text_to_speech';
 var __hopServiceId = null;
-var __masterId = null;
-var __cacheDir = '~/.hop/cache/services/';
+var __servicesCacheDir = '~/.hop/cache/services/';
 var audioOutFormat = 'wav';
 var basenamePrefix = 'tts_';
 /* ----------------------------------------------------------------------- */
 
 /* --------------------------< Load required modules >---------------------*/
-var Fs = require( module_path + 'fileUtils.js' );
+var Fs = require( __modulePath + 'fileUtils.js' );
 var fs = require('fs');
 var hop = require('hop');
-var RandStringGen = require ( module_path +
+var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
-var RosSrvPool = require(module_path + 'ros/srvPool.js');
-var RosParam = require(module_path + 'ros/rosParam.js')
+var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
+var RosParam = require(__modulePath + 'ros/rosParam.js')
 /* ----------------------------------------------------------------------- */
 
-var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
+var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;  // Default is set at zero (0)
 
@@ -72,7 +71,7 @@ rosParam.getParam_async('/rapp_text_to_speech_espeak_threads', function(data){
   if(data > 0)
   {
     rosSrvThreads = data;
-    rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
+    rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -84,7 +83,7 @@ var randStrGen = new RandStringGen( stringLength );
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = srvEnv[__hopServiceName].timeout; // ms
-var max_tries = srvEnv[__hopServiceName].retries;
+var maxTries = srvEnv[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
 
@@ -103,14 +102,15 @@ service text_to_speech ( {text: '', language: ''} )
   var startT = new Date().getTime();
   var execTime = 0;
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
-  else {var rosSrvCall = ros_service_name;}
+  else {var rosSrvCall = rosSrvName;}
   console.log(rosSrvCall);
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall +
+    '}') );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var unqCallId = randStrGen.createUnique();
   var audioOutPath = Fs.resolve_path(
-    __cacheDir + basenamePrefix + unqCallId + '.' + audioOutFormat
+    __servicesCacheDir + basenamePrefix + unqCallId + '.' + audioOutFormat
     );
   /* ---------------------------------------------------------------- */
 
@@ -208,16 +208,16 @@ service text_to_speech ( {text: '', language: ''} )
          else{
            retries += 1;
 
-           var logMsg = 'Reached rosbridge response timeout' +
-             '---> [' + timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
+           var logMsg = 'Reached rosbridge response timeout' + '---> [' +
+             timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
              'Retry-' + retries;
            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
            /* - Fail to receive message from rosbridge. Return to client */
-           if (retries >= max_tries)
+           if (retries >= maxTries)
            {
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-             var logMsg = 'Reached max_retries [' + max_tries + ']' +
+             var logMsg = 'Reached max_retries [' + maxTries + ']' +
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -234,7 +234,7 @@ service text_to_speech ( {text: '', language: ''} )
            if (rosWS != undefined) { rosWS.close(); }
            rosWS = undefined;
 
-           /* --------------< Re-open connection to the WebSocket >--------------*/
+           /* --------------< Re-connect to Rosbridge >--------------*/
            try{
              rosWS = new WebSocket('ws://localhost:9090');
 
@@ -300,9 +300,9 @@ service text_to_speech ( {text: '', language: ''} )
 
          }
          /*--------------------------------------------------------*/
-         asyncWrap(); // Recall timeout function
+         asyncWrap();
 
-       }, timeout); //Timeout value is set at 100 ms.
+       }, timeout);
      }
      asyncWrap();
 /*============================================================================*/
@@ -329,13 +329,13 @@ function craft_response(rosbridge_msg, audioFilePath)
 
     if (error != '')
     {
-      logMsg += ' ROS service [' + ros_service_name + '] error'
+      logMsg += ' ROS service [' + rosSrvName + '] error'
         ' ---> ' + error;
       response.error = error;
     }
     else
     {
-      logMsg += ' ROS service [' + ros_service_name + '] returned with success'
+      logMsg += ' ROS service [' + rosSrvName + '] returned with success'
       if( audioFile = Fs.read_file_sync(audioFilePath) )
       {
         response.payload = audioFile.data.toString('base64');
@@ -349,7 +349,7 @@ function craft_response(rosbridge_msg, audioFilePath)
   }
   else
   {
-    logMsg = 'Communication with ROS service ' + ros_service_name +
+    logMsg = 'Communication with ROS service ' + rosSrvName +
       'failed. Unsuccesful call! Returning to client with error' +
       ' ---> RAPP Platform Failure';
     response.error = 'RAPP Platform Failure';
@@ -434,11 +434,8 @@ function exec_master_command(msg)
     case 2055:  // Set worker ID
       __hopServiceId = data;
       break;
-    case 2050:
-      __masterId = data;
-      break;
     case 2065:
-      __cacheDir = data;
+      __servicesCacheDir = data;
       break;
     default:
       break;

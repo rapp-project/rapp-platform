@@ -40,6 +40,15 @@ var __DEBUG__ = false;
 
 var user = process.env.LOGNAME;
 
+var color = {
+  success:  '\033[1;32m',
+  error:    '\033[1;31m',
+  ok:       '\033[1;34m',
+  yellow:   '\033[33m',
+  clear:    '\033[0m',
+  cyan:     '\033[36m'
+}
+
 
 //  Hop services list by name
 var srvList = [];

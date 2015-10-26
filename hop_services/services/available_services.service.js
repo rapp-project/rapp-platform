@@ -40,11 +40,10 @@
 /*---------Sets required file Paths-------------*/
 var __DEBUG__ = false;
 var user = process.env.LOGNAME;
-var config_path = '../config/';
-var srvEnv = require( config_path + 'env/hop-services.json' )
+var __configPath = '../config/';
+var srvEnv = require( __configPath + 'env/hop-services.json' )
 var __hopServiceName = 'available_services';
 var __hopServiceId = null;
-var __masterId = null;
 var __availableServices = [];
 /*----------------------------------------------*/
 
@@ -53,8 +52,16 @@ var hop = require('hop');
 /*----------------------------------------------*/
 
 /* -- Set timer values for websocket communication to rosbridge -- */
-var scanTimer = 2 * 60 * 1000;  // Two minutes
+var scanTimer = srvEnv[__hopServiceName].scan_time * 60 * 1000;  // Minutes
 /* --------------------------------------------------------------- */
+
+var color = {
+  error:    '\033[1;31m',
+  success:  '\033[1;32m',
+  ok:       '\033[34m',
+  yellow:   '\033[33m',
+  clear:    '\033[0m'
+}
 
 
 register_master_interface();
@@ -62,24 +69,51 @@ register_master_interface();
 
 (function scanServices(){
   __availableServices.length = 0;
+
+  var msg = color.yellow +
+    '\n------------------------------------------------------------\n' +
+    ' --->   [Scanning Web Services for availability]           ' +
+    '\n------------------------------------------------------------\n' +
+    color.clear;
+
+  console.log(msg);
+
   for(s in srvEnv){
+    if(s === __hopServiceName){
+      __availableServices.push(s);
+      continue;
+    }
     var response = undefined;
     //var args = srvEnv[s].args;
     var args = {};
-    var webService = hop.webService('http://' + hop.hostname + ':' + hop.port + '/hop/' + s);
+    var webService = hop.webService('http://' + hop.hostname + ':' + hop.port +
+      '/hop/' + s);
     var srv = webService(args);
     try{
       response = srv.postSync();
     }
     catch(e){
+      console.log(color.error + "\n ---> [Failed]: " + s + color.clear +
+        "\n");
       continue
     }
+      console.log(color.success + "\n ---> [OK]: " + s + color.clear +
+        "\n");
     __availableServices.push(s);
   }
-  console.log("[Active Services]: ");
+
+  console.log(color.ok + "\n <UpRunning Services>" + color.clear)
+
   for(i in __availableServices){
     console.log("    *[%s] - %s", i, __availableServices[i]);
   }
+
+  msg = color.yellow +
+    '\n------------------------------------------------------------' +
+    '\n------------------------------------------------------------\n' +
+    color.clear;
+  console.log(msg)
+
   setTimeout(function(){
     scanServices();
   }, scanTimer);
@@ -89,8 +123,6 @@ register_master_interface();
 service available_services (  )
 {
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
-  __updatedServiceList__ = false;
-  postMessage( craft_slaveMaster_msg('up-services', '') );
 
    //Async http response
   //-----------------------------------------------------------------
@@ -151,16 +183,9 @@ function exec_master_command(msg)
   var data = msg.data;
   switch (cmd)
   {
-    case 2055:  // Set worker ID
+    case 'id':  // Set worker ID
       __hopServiceId = data;
       break;
-    case 2050:  // Set master ID
-      __masterId = data;
-      break;
-    case 2060:  // Master returns available hop services list
-      __availableServices = data;
-      var logMsg = 'Received list of available-services from master';
-      postMessage( craft_slaveMaster_msg('log', logMsg) );
     default:
       break;
   }

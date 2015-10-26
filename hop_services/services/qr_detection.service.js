@@ -38,29 +38,28 @@
 
 
 /* --------------------------< Load required modules >---------------------*/
-var module_path = '../modules/';
+var __modulePath = '../modules/';
 var hop = require('hop');
-var Fs = require( module_path + 'fileUtils.js' );
-var RandStringGen = require ( module_path +
+var Fs = require( __modulePath + 'fileUtils.js' );
+var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
-var RosSrvPool = require(module_path + 'ros/srvPool.js');
-var RosParam = require(module_path + 'ros/rosParam.js')
+var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
+var RosParam = require(__modulePath + 'ros/rosParam.js')
 /* ----------------------------------------------------------------------- */
 
 /* ------------< Load and set basic configuration parameters >-------------*/
 var __DEBUG__ = false;
 var user = process.env.LOGNAME;
-var config_path = '../config/';
-var srvEnv = require( config_path + 'env/hop-services.json' )
-var pathsEnv = require( config_path + 'env/paths.json' )
+var __configPath = '../config/';
+var srvEnv = require( __configPath + 'env/hop-services.json' )
+var pathsEnv = require( __configPath + 'env/paths.json' )
 var __hopServiceName = 'qr_detection';
 var __hopServiceId = null;
-var __masterId = null;
-var __cacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
+var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
 var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 /* ----------------------------------------------------------------------- */
 
-var ros_service_name = srvEnv[__hopServiceName].ros_srv_name;
+var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
 var rosParam = new RosParam({});
 var rosSrvThreads = 0;  // Default is set at zero (0)
 
@@ -71,7 +70,7 @@ rosParam.getParam_async('/rapp_qr_detection_threads', function(data){
   if(data > 0)
   {
     rosSrvThreads = data;
-    rosSrvPool = new RosSrvPool(ros_service_name, rosSrvThreads);
+    rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -84,7 +83,7 @@ var randStrGen = new RandStringGen( stringLength );
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = srvEnv[__hopServiceName].timeout; // ms
-var max_tries = srvEnv[__hopServiceName].retries;
+var maxTries = srvEnv[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
 
@@ -120,9 +119,10 @@ service qr_detection ( {file_uri:''} )
   var startT = new Date().getTime();
   var execTime = 0;
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
-  else {var rosSrvCall = ros_service_name;}
+  else {var rosSrvCall = rosSrvName;}
   console.log(rosSrvCall);
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall +
+    '}') );
 
   var logMsg = 'Image stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -132,8 +132,8 @@ service qr_detection ( {file_uri:''} )
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
-  var cpFilePath = __cacheDir + fileName.split('.')[0] + '-'  + unqCallId +
-    '.' + fileName.split('.')[1];
+  var cpFilePath = __servicesCacheDir + fileName.split('.')[0] + '-'  +
+    unqCallId + '.' + fileName.split('.')[1];
   cpFilePath = Fs.resolve_path(cpFilePath);
   /* ---------------------------------------------------------------- */
 
@@ -257,16 +257,16 @@ service qr_detection ( {file_uri:''} )
          else{
            retries += 1;
 
-           var logMsg = 'Reached rosbridge response timeout' +
-             '---> [' + timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
+           var logMsg = 'Reached rosbridge response timeout' + '---> [' +
+             timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
              'Retry-' + retries;
            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
            /* - Fail to receive message from rosbridge. Return to client */
-           if (retries >= max_tries)
+           if (retries >= maxTries)
            {
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-             var logMsg = 'Reached max_retries [' + max_tries + ']' +
+             var logMsg = 'Reached max_retries [' + maxTries + ']' +
                ' Could not receive response from rosbridge...';
              postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -285,7 +285,7 @@ service qr_detection ( {file_uri:''} )
            if (rosWS != undefined) { rosWS.close(); }
            rosWS = undefined;
 
-           /* --------------< Re-open connection to the WebSocket >--------------*/
+           /* --------------< Re-connect to Rosbridge >--------------*/
            try{
              rosWS = new WebSocket('ws://localhost:9090');
 
@@ -398,17 +398,17 @@ function craft_response(rosbridge_msg)
 
     if (error != '')
     {
-      logMsg += ' ROS service [' + ros_service_name + '] error'
+      logMsg += ' ROS service [' + rosSrvName + '] error'
         ' ---> ' + error;
     }
     else
     {
-      logMsg += ' ROS service [' + ros_service_name + '] returned with success'
+      logMsg += ' ROS service [' + rosSrvName + '] returned with success'
     }
   }
   else
   {
-    logMsg = 'Communication with ROS service ' + ros_service_name +
+    logMsg = 'Communication with ROS service ' + rosSrvName +
       'failed. Unsuccesful call! Returning to client with error' +
       ' ---> RAPP Platform Failure';
     crafted_msg.error = 'RAPP Platform Failure';
@@ -492,11 +492,8 @@ function exec_master_command(msg)
     case 2055:  // Set worker ID
       __hopServiceId = data;
       break;
-    case 2050:
-      __masterId = data;
-      break;
     case 2065:
-      __cacheDir = data;
+      __servicesCacheDir = data;
       break;
     default:
       break;

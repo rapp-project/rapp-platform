@@ -36,10 +36,10 @@
 
 /*--------------Load required modules-----------*/
 var hop = require('hop');
-var module_path = '../modules/';
-var config_path = '../config/';
-var ROS = require( module_path + 'RosBridgeJS/src/Rosbridge.js' );
-var rosbridgeEnv = require( config_path + 'env/rosbridge.json' );
+var __modulePath = '../modules/';
+var __configPath = '../config/';
+var ROS = require( __modulePath + 'RosBridgeJS/src/Rosbridge.js' );
+var rosbridgeEnv = require( __configPath + 'env/rosbridge.json' );
 var testDataPath = __dirname +
   '../../rapp_testing_tools/testing_tools/test_data';
 /*----------------------------------------------*/
@@ -65,7 +65,6 @@ var navbar =
           '<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">' +
             '<a class="btn btn-success" href="#">RAPP Platform Status</a>' +
           '</button>' +
-          //'<a class="brand" href="#">Project name</a>' +
         '</div>' +
       '</div>' +
     '</div>';
