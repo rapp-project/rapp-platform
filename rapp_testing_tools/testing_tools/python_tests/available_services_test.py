@@ -42,16 +42,18 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     # Set the valid results
     self.valid_results = [
-        'ontology_subclasses_of',
-        'available_services',
-        'qr_detection',
-        'speech_detection_sphinx4',
-        'speech_detection_google',
-        'ontology_is_subsuperclass_of',
-        'face_detection',
-        'set_denoise_profile',
-        'detect_objects',
-        'ontology_superclasses_of'
+        u'ontology_subclasses_of',
+        u'available_services',
+        u'qr_detection',
+        u'speech_detection_sphinx4',
+        u'speech_detection_google',
+        u'ontology_is_subsuperclass_of',
+        u'face_detection',
+        u'set_denoise_profile',
+        u'ontology_superclasses_of',
+        u'record_cognitive_test_performance',
+        u'cognitive_test_chooser',
+        u'text_to_speech'
     ]
 
 
