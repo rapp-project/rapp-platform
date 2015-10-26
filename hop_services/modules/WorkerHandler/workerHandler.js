@@ -44,19 +44,34 @@
  * Loaded module variables declerations start with Capital letters.
  */
 
+
+var modulePath = __dirname + '/../../modules/'
+var configPath = __dirname + '/../../config/';
+
 var Rsg_ = require ( '../RandomStrGenerator/randStringGen.js' );
 var RunTime_ = require( './runtime.js' );
 var Logger_ = require( './logger.js' );
 var Cache_ = require( './cache.js' );
-var Hop_ = require('hop');
+var hop = require('hop');
+var Fs = require( modulePath + 'fileUtils.js' );
+
+var pathsEnv = require( configPath + 'env/paths.json' )
+
+/* -------------------- Cache directories ------------------------ */
+var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
+var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
+/* --------------------------------------------------------------- */
+
+/* ----------------< Logging configuration >---------------- */
+var __logDirBase = Fs.resolve_path( pathsEnv.log_dir );
+var __logDir = __logDirBase + RunTime_.getDate() + '/';
+Logger_.createLogDir(__logDir);  // Create log directory if it does not exist.
+/* --------------------------------------------------------- */
 
 /* --------< Initiate Random String Generator Module >------- */
 var __randStrLength = 5;
 var RandStrGen_ = new Rsg_( __randStrLength );
 /* ---------------------------------------------------------- */
-
-// Craft unique id for master process
-var __masterId = '';
 
 /* ----- < Workers info hold >------ */
 var __workers = {};
@@ -64,47 +79,27 @@ var __services = [];
 var __workerId = {};
 /* --------------------------------- */
 
-assignMasterId();
-
-
-/* ----------------< Logging configuration >---------------- */
-var __logDirBase = '~/.hop/log/services/'
-var __logDir = __logDirBase + __masterId + '-' + RunTime_.getDate() + '/';
-Logger_.setLogDir(__logDir);  // Set directory for logger to store log files
-Logger_.createLogDir();  // Create log directory if it does not exist.
-/* --------------------------------------------------------- */
-
 /* -----------< File cache configuration >--------------- */
-var __cacheDir = '~/.hop/cache/services/';
-Cache_.setCacheDir(__cacheDir);
+Cache_.setCacheDir(__servicesCacheDir);
 Cache_.createCacheDir();
 /* ------------------------------------------------------ */
 
-
-/*!
- * Assigns A new unique ID to the master process
- */
-function assignMasterId()
-{
-  __masterId = RandStrGen_.createUnique();
+var color = {
+  success:  '\033[1;32m',
+  error:    '\033[1;31m',
+  ok:       '\033[1;34m',
+  yellow:   '\033[33m',
+  clear:    '\033[0m',
+  cyan:     '\033[36m'
 }
 
 
 /*!
  * @brief Registers given worker to logger.
  */
-function registerWorkerToLogger(workerName)
+function registerToLogger(workerName)
 {
   Logger_.createLogFile(workerName);
-};
-
-
-/*!
- * @brief Registers the input service.
- */
-function registerService(srv)
-{
-  __services = __services.concat(srv);
 };
 
 
@@ -113,8 +108,8 @@ function registerService(srv)
  */
 function handleMsg(msg)
 {
-  var srvName = msg.name;
   var srvId = msg.id;
+  var srvName = msg.name;
   var msgId = msg.msgId;
   var data = msg.data;
 
@@ -125,14 +120,6 @@ function handleMsg(msg)
     case 'log':
       var logMsg = '[' + timeNow + ']: ' + data;
       Logger_.appendToLogFile(srvName, logMsg);
-      break;
-    case 'up-services':
-      var msg = {
-        id: __masterId,
-        cmdId: 2060,
-        data: __services
-      };
-      __workers[srvName].postMessage(msg);
       break;
     default:
       break;
@@ -148,7 +135,6 @@ function setWorkerId(workerName)
   var unqId = RandStrGen_.createUnique();
 
   var msg = {
-    id: __masterId,
     cmdId: 2055,
     data: unqId
   };
@@ -162,44 +148,11 @@ function setWorkerId(workerName)
 function sendCacheDir(workerName)
 {
   var msg = {
-    id: __masterId,
     cmdId: 2065,
-    data: __cacheDir
+    data: __servicesCacheDir
   };
   __workers[ workerName ].postMessage(msg);
 }
-
-
-/*!
- * @brief broadcasts master id to all worker slaves.
- */
-function broadcastId()
-{
-  var msg = {
-    id: __masterId,
-    cmdId: 2050,
-    data: __masterId
-  };
-
-  for (var workerName in __workers)
-  {
-    __workers[ workerName ].postMessage(msg);
-  }
-};
-
-
-/*!
- * @brief Send masterId to slave worker.
- */
-function sendMasterId(workerName)
-{
-  var msg = {
-    id: __masterId,
-    cmdId: 2050,
-    data: __masterId
-  };
-  __workers[ workerName ].postMessage(msg);
-};
 
 
 /*!
@@ -216,44 +169,35 @@ function killWorker(workerName)
 
 
 /*!
- * @brief Register worker services
+ * @brief Register web services as workers.
  * @param worker [{file: <absolute path to worker file>, name: <workerName>}]
  *  (Object literal Array)
  */
-function registerWorkerProcess(worker)
+function registerWorker(worker)
 {
-  if ( (worker.file || worker.name) == undefined)
-  {
-    console.log("Input worker literal must define both file absolute path + " +
-      "worker process name --> worker = {file:'', name: ''}");
-    return false;
-  }
-
   try{
   __workers[ worker.name ] = new Worker ( worker.file );
   }
   catch(e){
-    console.log("Error on launching worker process ---> file:[%s], name:[%s]",
+    console.log(color.error + '[Error] - Failed to Launch Web Service:\n' +
+      'file:[%s], name:[%s]' + color.clear,
       worker.file, worker.name);
-    console.log("Error ---> %s", e);
+    console.log('- Trace:\n' + e.toString());
     return false;
   }
 
-  registerService( worker.name );
+  __services = __services.concat(worker.name);
 
   setWorkerId( worker.name );
   sendCacheDir( worker.name );
-  sendMasterId( worker.name );
-  registerWorkerToLogger( worker.name );
+  registerToLogger( worker.name );
 
-  console.log( "Created worker for service:" +
-    "\033[0;32m [%s]\033[0;0m", worker.name );
-
-  var serviceUrl = 'http://' + Hop_.hostname + ':' + Hop_.port + '/hop/' +
+  var serviceUrl = 'http://' + hop.hostname + ':' + hop.port + '/hop/' +
     worker.name;
 
-  console.log('Started %s hop service \033[1m%s\033[0m\r\n', worker.name,
-    serviceUrl);
+  console.log(color.success + '[OK]' + color.clear +
+    ' - Initiated HOP Web Service: \n' + color.cyan +
+    serviceUrl + color.clear);
 
   //  Register 'this' worker onmessage callback
   __workers[ worker.name ].onmessage = function(msg){
@@ -288,6 +232,6 @@ function terminate()
 
 // Export Module
 module.exports = {
-  registerWorker: registerWorkerProcess,
+  registerWorker: registerWorker,
   terminate: terminate
 }

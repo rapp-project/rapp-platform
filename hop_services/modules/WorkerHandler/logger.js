@@ -45,13 +45,12 @@ var __logDirCreated = false;
 var __logFiles = [];
 var __logFileStreams = {};
 
-
-/*!
- * @brief Sets the direcory where log files are stored
- */
-function setLogDir(logDir)
-{
-  __logDir = logDir;
+var color = {
+  error:    '\033[1;31m',
+  success:  '\033[1;32m',
+  ok:       '\033[34m',
+  yellow:   '\033[33m',
+  clear:    '\033[0m'
 }
 
 
@@ -60,18 +59,20 @@ function setLogDir(logDir)
  */
 function createLogDir(logDir)
 {
-  if(logDir == undefined || logDir == '')
+  if( !logDir )
   {
-    Fs.createDirRecur(__logDir);
+    console.log(color.error + '[Error]' + color.clear +
+      ' - Failed to create directory {%s} for log files.', logDir);
+    return false;
   }
   else
   {
     Fs.createDirRecur(logDir);
-    setLogDir(logDir);
-  }
-  __logDirCreated = true;
+    __logDir = logDir;
+    __logDirCreated = true;
   console.log('...logging to [%s]\r\n', __logDir);
-  return;
+  return true;
+  }
 }
 
 
@@ -80,20 +81,12 @@ function createLogDir(logDir)
  */
 function createLogFile( workerName )
 {
-  // Check if there the log directory was previously created.
-  if( __logDirCreated == false )
-  {
-    console.log('Must create log directory first by calling the' +
-      'relevant method [createLogDir]');
-    return false;
-  }
-
   var logFilePath = __logDir + workerName + '.log';
 
   // Check if the log file was previously created.
   if ( logFileExists(logFilePath) )
   {
-    console.log('Log File already exists!!! Stopping creation');
+    console.log(color.error + '[Error]' + color.clear + ' - Log File {%s} already exists!!!');
     return false;
   }
 
@@ -105,7 +98,6 @@ function createLogFile( workerName )
     __logFileStreams[logFilePath] = new FileStreams.WriteStream(logFilePath);
     return true;
   }
-
   return false;
 };
 
@@ -124,7 +116,8 @@ function appendToLogFile(workerName, logMsg)
     return true;
   }
 
-  console.log('Requested write to log file [%s] is not permitted' +
+  console.log(color.error + '[Error]' + color.clear +
+    '- Requested write to log file [%s] is not permitted' +
     'because log file was not previously created', logFilePath);
   return false;
 };
@@ -145,5 +138,4 @@ module.exports = {
   appendToLogFile: appendToLogFile,
   createLogFile: createLogFile,
   createLogDir: createLogDir,
-  setLogDir: setLogDir
 }

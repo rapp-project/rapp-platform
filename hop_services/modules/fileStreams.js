@@ -34,6 +34,12 @@
  *
  */
 
+var colors = {
+  success: '\033[0;32m',
+  error: '\033[0;31m',
+  clear: '\033[0m',
+  ok: '\033[0;34m'
+}
 
 
 var fs = require( 'fs' );
@@ -43,44 +49,43 @@ var Fs = require( './fileUtils.js' );
 function WriteStream( filePath )
 {
   this.wstream_ = undefined;
+  this.endPoint_ = filePath || '';
 
-  this.__create = function( )
-  {
-    var absFilePath = Fs.resolve_path( filePath );
-    try{
-      this.wstream_ = fs.createWriteStream( absFilePath );
-    }
-    catch(e){
-      console.log(e);
-      this.wstream_ = undefined;
-      return false;
-    }
-
-    console.log('Created writeStream [%s]', absFilePath);
-    return true;
-  }
-
-  this.__close = function( )
-  {
-    try {if(this.wstream_) {this.wstream_.end();}}
-    catch(e)
-    {
-      if(__DEBUG)
-      {
-        console.log('Thrown an exception on line 64' +
-        ' [fileStreams.js] while trying to close stream');
-          throw(e);
-      }
-    }
-  }
-
-  if( filePath )  {this.__create();}
+  if( filePath )  { this.create(filePath) }
 
 };
 
 
-WriteStream.prototype.create = this.__create;
-WriteStream.prototype.close = this.__close;
+WriteStream.prototype.close = function( _callack )
+{
+  try { if(this.wstream_) { this.wstream_.end(); } }
+  catch(e)
+  {
+    var errorMsg = 'Thrown an exception on line 64' +
+        ' [fileStreams.js] while trying to close stream'
+      console.log(colors.error + errorMsg + colors.clear);
+    if(_callback) { _callback() }
+    else { return false }
+  }
+
+}
+
+WriteStream.prototype.create = function( streamEndPoint )
+{
+  var absFilePath = Fs.resolve_path( streamEndPoint );
+  try{
+    this.wstream_ = fs.createWriteStream( absFilePath );
+  }
+  catch(e){
+    console.log(colors.error + e.toString() + colors.clear);
+    this.wstream_ = undefined;
+    return false;
+  }
+
+  console.log(colors.ok + 'Initiated Writable Stream '+ colors.clear +
+    "[%s]", absFilePath);
+  return true;
+}
 
 
 /*!
