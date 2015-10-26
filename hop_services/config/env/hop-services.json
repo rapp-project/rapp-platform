@@ -70,6 +70,10 @@
     "timeout": 3000,
     "retries": 3,
     "ros_srv_name": "/rapp/rapp_text_to_speech_espeak/text_to_speech_topic"
+  },
+  "available_services": {
+    "Mode": "Deploy",
+    "scan_time": 2
   }
 
 }

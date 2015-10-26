@@ -1,4 +1,5 @@
 {
   "cache_dir_server": "~/.hop/cache/server/9001/upload/",
-  "cache_dir_services": "~/.hop/cache/services/"
+  "cache_dir_services": "~/.hop/cache/services/",
+  "log_dir": "~/.hop/log/"
 }
