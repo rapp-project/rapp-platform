@@ -43,6 +43,7 @@ from rapp_platform_ros_communications.srv import(
 class Sphinx4Wrapper(GlobalParams):
 
   def __init__(self):
+    self.conf = ''
     GlobalParams.__init__(self)
     self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
     self.energy_denoise_topic = \
@@ -77,9 +78,14 @@ class Sphinx4Wrapper(GlobalParams):
   # Perform Sphinx4 initialization. For now it is initialized with the
   # reduced Greek model
   def initializeSphinx(self, conf):
+    if self.conf == '':
+        self.conf = conf
+    #self.conf = conf
+
     print conf['jar_path']
     self.p = subprocess.Popen(["java", "-cp", conf['jar_path'], \
             "Sphinx4"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
+    #print "Respawning sphinx (pid: " + str( self.p.pid ) + ")"
 
     self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
     self.readLine()
@@ -317,6 +323,8 @@ class Sphinx4Wrapper(GlobalParams):
     words = []
     while(True):
       line = self.readLine()
+      #print 'Reading Line'
+      #print line
       if(len(line)>0):
         if(line[0]=="#"):
           stripped_down_line = line[1:-1].split(" ")
@@ -324,8 +332,21 @@ class Sphinx4Wrapper(GlobalParams):
             words.append(word)
         if(line=="stopPython\n"):
           break
+        if("CatchedException" in line):
+            rospy.logerr(line)
+            self.respawnSphinx()
+            return words
+
       if (time.time() - start_time > 10):
         words.append("Error: Time out error")
         break
     return words
+
+  def respawnSphinx(self):
+    rospy.logwarn("Respawning sphinx (pid: " + str( self.p.pid ) + ")")
+    self.p.kill()
+    time.sleep(2)
+    self.initializeSphinx( self.conf )
+    rospy.logwarn("Respawned sphinx (pid: " + str( self.p.pid ) + ")")
+
 

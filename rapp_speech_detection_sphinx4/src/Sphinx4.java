@@ -195,10 +195,12 @@ public class Sphinx4 {
           }
         }
       } 
-      catch (IOException e) {
+      catch (IOException | RuntimeException e) {
+      //catch (IOException e) {
         e.printStackTrace();
-        System.out.println("#"+e);
-        System.out.println("stopPython");
+        //System.out.println("#"+e);
+        System.out.println("CatchedException " + e);
+        //System.out.println("stopPython");
       }
     }
   }
