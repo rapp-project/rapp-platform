@@ -70,6 +70,10 @@ class LimitedVocabularyCreator(GlobalParams):
   def createConfigurationFiles(self, words, grammar, sentences):
     tmp_configuration = self.sphinx_configuration
 
+    print "Creating configuration files with parameters:"
+    print "Words: " + str(words)
+    print "Sentences: " + str(sentences)
+    print "Grammar: " + str(grammar)
     # Create custom dictionary file
     tmp_configuration['dictionary'] = self.languages_package + 'custom.dict'
     custom_dict = open(tmp_configuration['dictionary'], 'w')
@@ -101,8 +105,7 @@ class LimitedVocabularyCreator(GlobalParams):
           if gw not in words and gram not in words:
               raise RappError('Word ' + gw + ' is not in words but\
                       exists in grammar')
-              # return [tmp_configuration, 'Word ' + gw + ' is not in words but\
-                      # exists in grammar']
+
       custom_grammar.write("public <cmd" + str(counter) + ">=" + "\"" + gram + "\";\n")
       #custom_grammar.write("\"" + gram + "\"")
       #if i == len(grammar) - 1:
@@ -126,8 +129,7 @@ class LimitedVocabularyCreator(GlobalParams):
             if sw not in words and sent not in words:
                 raise RappError('Word ' + sw + ' is not in words but\
                       exists in a sentence')
-                # return [tmp_configuration, "Word " + sw + " does not exist in\
-                        # words but is in a sentence"]
+
         custom_sentences.write("<s> " + sent + " </s>\n")
     else:
       for word in words:

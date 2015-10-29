@@ -321,6 +321,9 @@ class GreekSupport(GlobalParams):
     englified_words = []
     for word in words:
       eng_w = word
+      # First transform the Capitals
+      for cap in self.capital_letters:
+        eng_w = eng_w.replace(cap, self.capital_letters[cap])
       for lit in self.literal_letters:
         eng_w = eng_w.replace(lit, self.literal_letters[lit])
       englified_words.append(eng_w)
