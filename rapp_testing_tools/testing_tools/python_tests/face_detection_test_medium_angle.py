@@ -38,7 +38,7 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/../test_data/face_samples/fatsaSou_medium_angle.jpg'
+    self.file_uri = __path__  + '/../test_data/face_samples/etsardou_medium_angle.jpg'
     self.valid_faces = [{
         'up_left_point': {'y': 153.0, 'x': 118.0},
         'down_right_point': {'y': 320.0, 'x': 285.0}
