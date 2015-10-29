@@ -254,6 +254,7 @@ class Sphinx4Wrapper(GlobalParams):
       silence_req.audio_file = prev_audio_file
       silence_req.threshold = profile['detect_silence_threshold']
       silence_res = self.detect_silence_service(silence_req)
+      print "Silence detection results: " + str(silence_res)
       if silence_res.silence == "true":
         return ["Error: No speech detected. RSD = " + str(silence_res.level)]
 
