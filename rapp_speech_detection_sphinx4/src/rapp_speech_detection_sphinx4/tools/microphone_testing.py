@@ -62,7 +62,7 @@ class SpeechRecognitionTester:
 
   def setup_words_voc(self):
     spreq = SpeechRecognitionSphinx4ConfigureSrvRequest()
-    spreq.language = 'gr'
+    spreq.language = 'el'
     spreq.words.append(u'δύο')
     spreq.words.append(u'τριάντα') 
     spreq.words.append(u'είκοσι') 

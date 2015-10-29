@@ -42,7 +42,7 @@ class RappInterfaceTest:
   def __init__(self):
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/speech_detection_samples/recording_triti.ogg'
-    self.language = 'gr'
+    self.language = 'el'
     self.audio_source = 'nao_ogg'
     self.words = [u'δευτερα', u'τριτη']
     self.sentences = self.words

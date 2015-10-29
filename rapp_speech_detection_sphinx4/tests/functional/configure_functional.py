@@ -143,7 +143,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
                 conf_service, SpeechRecognitionSphinx4ConfigureSrv)
         
         req = SpeechRecognitionSphinx4ConfigureSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['αθηνά', 'έλεγχος']
         req.grammar = []
         req.sentences = []

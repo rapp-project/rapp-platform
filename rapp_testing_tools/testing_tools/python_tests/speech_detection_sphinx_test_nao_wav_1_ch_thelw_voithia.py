@@ -42,7 +42,7 @@ class RappInterfaceTest:
   def __init__(self):
     self.rappCloud = RappCloud()
     self.file_uri = __path__  + '/../test_data/thelw-voithia.wav'
-    self.language = 'gr'
+    self.language = 'el'
     self.audio_source = 'nao_wav_1_ch'
     self.words = [u'θελω', u'βοηθεια']
     self.sentences = self.words

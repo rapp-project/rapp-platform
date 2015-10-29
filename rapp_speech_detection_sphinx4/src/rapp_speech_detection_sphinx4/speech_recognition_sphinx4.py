@@ -72,7 +72,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self.english_support = EnglishSupport()
     self.word_mapping = {}
 
-    self.language = 'gr'
+    self.language = 'el'
     self.words = []
     self.grammar = []
     self.sentences = []
@@ -235,7 +235,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
             return res
 
     # Greek language
-    elif self.language == "gr":
+    elif self.language == "el":
       print "Language set to Greek"
       # Whole dictionary utilization
       if len(self.words) == 0:

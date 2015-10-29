@@ -34,7 +34,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = []
         req.sentences = req.words
@@ -58,7 +58,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         
         for i in range(0, 40):
           req = SpeechRecognitionSphinx4TotalSrvRequest()
-          req.language = 'gr'
+          req.language = 'el'
           req.words = ['ναι', 'όχι']
           req.grammar = []
           req.sentences = req.words
@@ -103,7 +103,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = []
         req.sentences = req.words + ['mine']
@@ -125,7 +125,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = req.words + ['mine']
         req.sentences = req.words
@@ -147,7 +147,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = req.words
         req.sentences = req.words
@@ -169,7 +169,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = req.words
         req.sentences = req.words
@@ -191,7 +191,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = req.words
         req.sentences = req.words
@@ -213,7 +213,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = req.words
         req.sentences = req.words
@@ -236,7 +236,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
         req = SpeechRecognitionSphinx4TotalSrvRequest()
-        req.language = 'gr'
+        req.language = 'el'
         req.words = ['ναι', 'όχι']
         req.grammar = []
         req.sentences = req.words
