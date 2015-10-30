@@ -94,7 +94,7 @@ register_master_interface();
  * @param query Ontology query given in a string format
  * @return Results.
  */
-service record_cognitive_test_performance( {user: '', test: '',
+service record_cognitive_test_performance( {user: '', test_instance: '',
   score: 0} )
 {
   var startT = new Date().getTime();
@@ -110,7 +110,7 @@ service record_cognitive_test_performance( {user: '', test: '',
 
       var args = {
         username: user,
-        test:     test,
+        test:     test_instance,
         score:    parseInt(score)
       };
 

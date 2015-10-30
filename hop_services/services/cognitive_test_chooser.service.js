@@ -90,7 +90,7 @@ register_master_interface();
  *
  * @param query Ontology query (String).
  */
-service cognitive_test_chooser( {user: '', testType: ''} )
+service cognitive_test_chooser( {user: '', test_type: ''} )
 {
   var startT = new Date().getTime();
   var execTime = 0;
@@ -106,7 +106,7 @@ service cognitive_test_chooser( {user: '', testType: ''} )
 
      var args = {
        username: user,
-       testType: testType
+       testType: test_type
      };
 
       var respFlag = false;
@@ -321,7 +321,7 @@ function craft_response(rosbridge_msg)
   //console.log(msg)
 
   var response = {questions: [], possib_ans: [], correct_ans: [],
-    test_instance: '', test_type: '', test_sub_type: '', error: ''};
+    test_instance: '', test_type: '', test_subtype: '', error: ''};
   var logMsg = '';
 
   if (call_result)
@@ -331,7 +331,7 @@ function craft_response(rosbridge_msg)
     response.correct_ans = correctAnswers;
     response.test_instance = test;
     response.test_type = testType;
-    response.test_sub_type = testSubType;
+    response.test_subtype = testSubType;
     for (var ii = 0; ii < answers.length; ii++)
     {
       response.possib_ans.push( answers[ii].s )
@@ -371,7 +371,7 @@ function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure';
   var response = {questions: [], answers: [], correct_answers: [],
-    test: '', test_type: '', test_sub_type: '', error: ''};
+    test: '', test_type: '', test_subtype: '', error: ''};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
