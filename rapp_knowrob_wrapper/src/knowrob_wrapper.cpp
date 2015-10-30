@@ -925,7 +925,7 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res; 
   
   std::string path = getenv("HOME");
-  path=path+std::string("/rapp-platform-files/");
+  path=path+std::string("/rapp_platform_files/");
   
   if(req.file_url.empty())   // || req.file_url==std::string("")
   {
@@ -987,16 +987,18 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   
   //std::string path = ros::package::getPath("rapp_knowrob_wrapper");
   std::string path = getenv("HOME");
-  path=path+std::string("/rapp-platform-files/");
+  path=path+std::string("/rapp_platform_files/");
     
   req.file_url=path+req.file_url;
   const char * c = req.file_url.c_str();  
   if(!checkIfFileExists(c))
   {
     res.success=false;
-    res.trace.push_back(std::string("File does not exist in provided file path"));
+    res.trace.push_back(std::string("File does not exist in provided file path: '") 
+      + std::string(req.file_url) + std::string("'"));
     res.trace.push_back(req.file_url);
-    res.error=std::string("File does not exist in provided file path");
+    res.error=std::string("File does not exist in provided file path: '"
+      + std::string(req.file_url) + std::string("'"));
     return res; 
   }
   std::string query = std::string("rdf_load('") + req.file_url + std::string("')");

@@ -28,7 +28,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
                 subclasses_of_service, testSelectorSrv)
 
         req = testSelectorSrvRequest()
-        req.username="cognitiveExerciseSystemTestUser1"        
+        req.username="rapp"        
         req.testType="ArithmeticCts"
         response = test_service(req)     
         self.assertEqual(response.success, True)  

@@ -171,7 +171,8 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
     res=knowrob_wrapper.loadOntologyQuery(req);
     if(res.success!=true)
     {
-      ROS_ERROR("Ontology backup was not loaded.. Continuing with empty ontology");    
+      ROS_ERROR("Ontology backup was not loaded.. Continuing with empty ontology");  
+      ROS_ERROR_STREAM(res.error);  
     }
     else
     {
