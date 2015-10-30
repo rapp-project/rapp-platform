@@ -44,7 +44,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
 
         req = recordUserCognitiveTestPerformanceSrvRequest()
         req.username="cognitiveExerciseSystemTestUser1"        
-        req.test="ArithmeticCts_TaVWzXre"
+        req.test="ArithmeticCts_stXqnGrc"
         req.score=10
         response = test_service(req)     
         self.assertEqual(response.success, True)  

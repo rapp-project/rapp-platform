@@ -8,7 +8,6 @@ string test_type
 string[] tests
 string[] scores
 string[] difficulty
-string[] variation
 string[] timestamps
 string[] trace
 bool success 

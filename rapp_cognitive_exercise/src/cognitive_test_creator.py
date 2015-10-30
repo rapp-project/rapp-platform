@@ -136,7 +136,7 @@ class CognitiveTestCreator:
       if(flag):        
         #res.trace.append("test seems good")
         #xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"+"var"+d["variationID"][0]+".xml"
-        xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"
+        xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]
 
 
         

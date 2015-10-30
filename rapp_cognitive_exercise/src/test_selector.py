@@ -115,7 +115,7 @@ class TestSelector:
         res.success=False
         return res  
       userLanguage=fetchDataSrvResponse.res_data[0].s[0];
-      print userLanguage      
+      #print userLanguage      
       #
       
       
@@ -235,7 +235,7 @@ class TestSelector:
         res.success=False
         return res      
 
-      print "after tests........."
+      #print "after tests........."
       #Filter the tests according to the determined difficulty
       success,testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,res)
       
@@ -250,11 +250,10 @@ class TestSelector:
       finalTestname=""
       finalTestFilePath=""
       if(noUserPerformanceRecordsExist):
-        print "inside no records"
+        #print "inside no records"
         finalTestname=random.choice(testsOfTypeOrdered.keys())  
         finalTest=testsOfTypeOrdered[finalTestname]
-        finalTestFilePath=finalTest[0][0]   
-        print finalTestFilePath  
+        finalTestFilePath=finalTest[0][0]            
       else:          
         testsOfTypeOrderedCopy=testsOfTypeOrdered.copy()        
         for k, v in userPerfOrganizedByTimestamp.items():
@@ -296,13 +295,13 @@ class TestSelector:
     return res    
     
   def retrieveDataFromTestXml(self,finalTestFilePath,res,userLanguage):
-    print "inside xml"
+    #print "inside xml"
     tree = ET.parse(finalTestFilePath)
     root = tree.getroot()
     res.testType=root.find("testType").text.encode('UTF-8')
     res.testSubType=root.find("testSubType").text.encode('UTF-8')
     language=root.find('Languages')
-    print userLanguage
+    #print userLanguage
     #language=language.find(userLanguage)
     
     for question in language.find(userLanguage):            
@@ -316,7 +315,7 @@ class TestSelector:
   def organizeUserPerformance(self,userPerf):
     d=OrderedDict()
     for i in range(len(userPerf.tests)):
-      tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i],userPerf.variation[i]]      
+      tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i]]      
       d[int(userPerf.timestamps[i])]=[tlist]
       #testTypesDict[s]=['1']
     d=OrderedDict(sorted(d.items(), key=lambda t: t[0], reverse=True))

@@ -417,7 +417,7 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
   //std::string timestamp=std::string("2");
   //std::string query = std::string("rdf_has(__,knowrob:user,knowrob:'")+req.ontology_alias+std::string("'),rdf_has(B,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>")+timestamp+std::string(",rdf_has(__,knowrob:score,literal(type(_, SC))),P");
   //query=std::string("rdf_has(__,knowrob:user,knowrob:'Person_pQmhNKHv'),rdf_has(B,rdf:type,knowrob:'Arithmetic'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>2,rdf_has(__,knowrob:score,literal(type(_, SC)))");
-  std::string query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Var,Dif,Timestamp,SC,P)");
+  std::string query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Dif,Timestamp,SC,P)");
   //query=std::string("owl_subclass_of(A,knowrob:'FoodOrDrink')");
 
 
@@ -438,7 +438,7 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
   std::vector<std::string> query_ret_tests;  
   std::vector<std::string> query_ret_scores; 
   std::vector<std::string> query_ret_difficulty; 
-  std::vector<std::string> query_ret_variation; 
+  //std::vector<std::string> query_ret_variation; 
   std::vector<std::string> query_ret_timestamps; 
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
     it != results.end() ; it++)
@@ -448,8 +448,8 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     std::string temp_query_tests=bdg["B"];
     query_ret_tests.push_back(temp_query_tests);   
     
-    std::string temp_query_variation=bdg["Var"];
-    query_ret_variation.push_back(temp_query_variation);
+    //std::string temp_query_variation=bdg["Var"];
+    //query_ret_variation.push_back(temp_query_variation);
     
     std::string temp_query_difficulty=bdg["Dif"];
     query_ret_difficulty.push_back(temp_query_difficulty);
@@ -465,7 +465,7 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     res.tests.push_back(query_ret_tests[i]);
     res.scores.push_back(query_ret_scores[i]);
     res.difficulty.push_back(query_ret_difficulty[i]);
-    res.variation.push_back(query_ret_variation[i]);
+    //res.variation.push_back(query_ret_variation[i]);
     res.timestamps.push_back(query_ret_timestamps[i]);
   }
   
