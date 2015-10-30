@@ -344,7 +344,7 @@ function renameFile(file, dest)
       fs.renameSync(sourcePath, destPath);
     }
     catch(e){
-      console.error("Failed to rename file [%s] --> [%s] , ErrorCode: [%s]",
+      console.log("Failed to rename file [%s] --> [%s] , ErrorCode: [%s]",
         sourcePath, destPath, e);
       return false;
     }
@@ -380,8 +380,9 @@ function copyFile(file, dest)
       fs.writeFileSync(destPath, fs.readFileSync(sourcePath));
     }
     catch(e){
-      console.error("Failed to copy file [%s] --> [%s] . ErrorCode: {}",
-        sourcePath, destPath, e);
+      console.error("Failed to copy file [%s] --> [%s].",
+        sourcePath, destPath);
+      console.log(e)
       return false;
     }
     return true;

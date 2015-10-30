@@ -80,8 +80,8 @@ var __workerId = {};
 /* --------------------------------- */
 
 /* -----------< File cache configuration >--------------- */
-Cache_.setCacheDir(__servicesCacheDir);
-Cache_.createCacheDir();
+Cache_.createCacheDir(__servicesCacheDir);
+Cache_.createCacheDir(__serverCacheDir);
 /* ------------------------------------------------------ */
 
 var color = {
