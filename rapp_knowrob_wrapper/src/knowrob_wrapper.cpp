@@ -183,140 +183,10 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
   }
    
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
-  dmp.file_url=std::string("/owl/currentVersion.owl");
+  dmp.file_url=std::string("/currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
   return ontology_alias; 
 }
-
-
-//std::vector<std::string> KnowrobWrapper::checkIfClassExists(std::string classValue) //checked
-//{
-  //std::string query = std::string("owl_direct_subclass_of(knowrob:'") + 
-  //classValue + std::string("',A)");
-  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-
-  //std::vector<std::string> report;
-
-  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    //it != results.end() ; it++)
-  //{
-    //json_prolog::PrologBindings bdg = *it;
-    //report.push_back(bdg["A"]);
-  //}
-  
-  //if(report.size()==0)
-  //{
-    //report.clear();
-    //report.push_back(std::string("Class entered: ") + classValue + std::string("  Either class does not exist or you used the Thing class which is not allowed"));
-    //return report;
-  //}
-  //else
-  //{
-    //report.clear();
-    //report.push_back(std::string("True"));
-  //}
-  //return report;
-  
-//}
-
-//check if instance exists
-
-
-//std::vector<std::string> KnowrobWrapper::checkIfAttributeAllowed(std::string subject, std::string predicate, std::string object) //checked
-//{
-  //std::vector<std::string> report;
-  //std::string check=std::string("not ok");
-  ////check if subject exists
-  ////check if object exists
-  //std::vector<std::string> tempSplit;
-  //tempSplit=split(subject,"_");
-  //std::string subjectClass=tempSplit[0];
-  //tempSplit=split(object,"_");
-  //std::string objectClass=tempSplit[0];
-  
-  
-  //std::string query = std::string("rdf_has(knowrob:'") + 
-  //predicate + std::string("',rdfs:domain,A)");
-  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-
-  ////std::vector<std::string> ret;
-
-  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    //it != results.end() ; it++)
-  //{
-    //json_prolog::PrologBindings bdg = *it;
-    ////ret.push_back(bdg["A"]);
-    //std::string temp1 = bdg["A"];
-    //tempSplit=split(temp1,"#");
-    //if(tempSplit.size()>1)
-    //{
-      //report.push_back(tempSplit[1]);
-      //if(tempSplit[1]==subjectClass)
-      //{
-        //check=std::string("Ok");        
-      //}        
-    //}    
-  //}  
-  //if(report.size()==0)
-  //{
-    ////report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
-    //report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY subject (domains) "));
-    //return report;
-  //}  
-  //else if(check!=std::string("Ok"))
-  //{
-    //report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject+ std::string("  ...possible subjects are listed below..."));
-    //return report;
-  //}
-  
-  //report.clear();
-  //check=std::string("not ok");
-  
-  //query = std::string("rdf_has(knowrob:'") + 
-  //predicate + std::string("',rdfs:range,A)");
-  //results = pl.query(query.c_str());
-
-  ////std::vector<std::string> ret;
-
-  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    //it != results.end() ; it++)
-  //{
-    //json_prolog::PrologBindings bdg = *it;
-    ////ret.push_back(bdg["A"]);
-    //std::string temp1 = bdg["A"];
-    //tempSplit=split(temp1,"#");
-    //if(tempSplit.size()>1)
-    //{
-      //report.push_back(tempSplit[1]);
-      //if(tempSplit[1]==objectClass)
-      //{
-        //check=std::string("Ok");        
-      //}        
-    //}    
-  //}
-  //if(report.size()==0)
-  //{
-    ////report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
-    //report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY object (range)"));
-    //return report;
-  //}  
-  //else if(check!=std::string("Ok"))
-  //{
-    //report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for object (range) : ") +object+ std::string("  ...possible subjects are listed below..."));
-    //return report;
-  //}
-  
-  //report.clear();
-  //report.push_back("True");
-  //return report;
-  
-//}
-
-//createCognitiveTest service
-//returnAllCognitiveTestsOfType service
-//recorduserCognitveTestperformance service
-
-
 
 rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response KnowrobWrapper::record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req)
 {  
@@ -364,10 +234,11 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
   }
   
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
-  dmp.file_url=std::string("/owl/currentVersion.owl");
+  dmp.file_url=std::string("currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
+
 
 rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response KnowrobWrapper::create_cognitve_tests(rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request req)
 {   
@@ -432,25 +303,26 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     //tmp_test_name=(query_ret_tests[i]);
   }
   
-  //std::cout << res.test_name<<"/n";
+
   std::string tmp_test_name;
   tmp_test_name.assign(res.test_name.c_str());
   std::vector<std::string> test_created=split(tmp_test_name,std::string("#"));
-  //std::cout << res.test_name<<"/n";
-  //if(test_created.size()==2)
-  //{      
-    //for(unsigned int i=0 ; i < req.supported_languages.size(); i++)
-    //{
-      //query=std::string("rdf_assert(knowrob:'")+test_created[1]+std::string("',knowrob:supportedLanguages,knowrob:'")+req.supported_languages[i]+std::string("')");
-      //results = pl.query(query.c_str());
-    //}  
-  //}  
+
+  if(test_created.size()==2)
+  {      
+    for(unsigned int i=0 ; i < req.supported_languages.size(); i++)
+    {
+      query=std::string("rdf_assert(knowrob:'")+test_created[1]+std::string("',knowrob:supportedLanguages,knowrob:'")+req.supported_languages[i]+std::string("')");
+      results = pl.query(query.c_str());
+    }  
+  }  
   
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
-  dmp.file_url=std::string("/owl/currentVersion.owl");
+  dmp.file_url=std::string("currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
+
 
 rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapper::cognitive_tests_of_type(rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request req)
 {  
@@ -462,7 +334,14 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
     res.error=std::string("Error, test_type empty");
     return res;
   }
-  std::string query = std::string("cognitiveTestsOfType(knowrob:'")+req.test_type+std::string("',B,Var,Path,Dif,Sub)");
+  if(req.test_language==std::string(""))
+  {
+    res.success=false;
+    res.trace.push_back("Error, language empty");
+    res.error=std::string("Error, language empty");
+    return res;
+  }
+  std::string query = std::string("cognitiveTestsOfType(knowrob:'")+req.test_type+std::string("',B,Path,Dif,Sub,knowrob:'")+req.test_language+std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 
   char status = results.getStatus();
@@ -480,7 +359,7 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
   std::vector<std::string> query_ret_tests;  
   std::vector<std::string> query_ret_scores; 
   std::vector<std::string> query_ret_difficulty; 
-  std::vector<std::string> query_ret_variation; 
+  //std::vector<std::string> query_ret_variation; 
   std::vector<std::string> query_ret_file_paths; 
   std::vector<std::string> query_ret_subtypes; 
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
@@ -491,8 +370,8 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
     std::string temp_query_tests=bdg["B"];
     query_ret_tests.push_back(temp_query_tests);   
     
-    std::string temp_query_variation=bdg["Var"];    
-    query_ret_variation.push_back(temp_query_variation);
+    //std::string temp_query_variation=bdg["Var"];    
+    //query_ret_variation.push_back(temp_query_variation);
     
     std::string temp_query_file_paths=bdg["Path"];
     query_ret_file_paths.push_back(temp_query_file_paths);
@@ -509,7 +388,7 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
   {
     res.tests.push_back(query_ret_tests[i]);  
     res.difficulty.push_back(query_ret_difficulty[i]);
-    res.variation.push_back(query_ret_variation[i]);
+    //res.variation.push_back(query_ret_variation[i]);
     res.file_paths.push_back(query_ret_file_paths[i]);
     res.subtype.push_back(query_ret_subtypes[i]);
   }
@@ -641,7 +520,7 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
   }
   
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
-  dmp.file_url=std::string("/owl/currentVersion.owl");
+  dmp.file_url=std::string("currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
@@ -669,7 +548,7 @@ rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrappe
   res.success=true;
   
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
-  dmp.file_url=std::string("/owl/currentVersion.owl");
+  dmp.file_url=std::string("currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
   return res;
 }
@@ -1035,83 +914,18 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
       
   //}
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
-  dmp.file_url=std::string("/owl/currentVersion.owl");
+  dmp.file_url=std::string("currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
   
   return res;  
 }
 
-
-//rapp_platform_ros_communications::assertRetractAttributeSrv::Response KnowrobWrapper::assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req)
-//{
-  
-  //rapp_platform_ros_communications::assertRetractAttributeSrv::Response res; 
-  //if(res.attribute_names.size()!=res.attribute_values.size())
-  //{
-      //res.success=false;
-      //s.data=std::string("Error, attribute_names and attribute_values sizes are not equal");
-      //res.trace.push_back(s);
-      //return res;
-  //}
-  ////ROS_WARN("Knowdfsdfsdlized");
-  //std::string query = std::string("valueToAttribute_withCheck(knowrob:'") +   //instanceFromClass_withCheck
-    //args[0] + std::string("',knowrob:'")+args[1]+std::string("',knowrob:'")+args[2]+std::string("')");
-  //ret.push_back(query);
- //// return ret;
-  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-  
-  
-
-  ////std::vector<std::string> ret;
-  //ret.clear();
-  ////json_prolog::PrologQueryProxy thj;
-
-  ////results.finish();
-  ////json_prolog::PrologQueryProxy::iterator it;
-  ////it.requestNextSolution();
-  //char status = results.getStatus();
-  //if(status==0)
-  //{
-    //ret.push_back(std::string("Assign Value Failed, you either supplied non existant instances, or wrong attribute for the instances"));
-  //}
-  //else if(status==3)
-  //{
-    //ret.push_back(std::string("Success"));
-  //}  
-  ////ROS_ERROR("Status %d", status);
-  ////for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
-    ////it != results.end() ; it++)
-  ////{
-    //////json_prolog::PrologNextSolutionResponse resp; 
-    //////json_prolog::PrologQueryProxy::iterator::requestNextSolution();
-    //////it::requestNextSolution();
-    ////json_prolog::PrologBindings bdg = *it;
-    //////it.
-    //////it.requestNextSolution();
-    
-    ////ret.push_back(bdg["A"]);
-  ////}
-  
-  ////json_prolog::PrologQueryProxy::iterator it2 =results.end();
-  //return ret;
-
-  
-  ////for(unsigned int i = 2 ; i < args.size() ; i=i+2)
-  ////{
-    //////rdf_assert(knowrob:'Person_qdaDeDZn',knowrob:worksAtFacility,knowrob:'HumanOccupationConstruct_pQmhNKHv')
-    ////query = std::string("rdf_assert(knowrob:'") +     instanceName[1] + std::string("',knowrob:") +args[i] +  
-    ////std::string(",knowrob:'") + args[i+1] +  std::string("'")  ;
-    ////results = pl.query(query.c_str());
-  ////}
-
-  ////return ret;
-//}
-
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res; 
   
-  std::string path = ros::package::getPath("rapp_knowrob_wrapper");
+  std::string path = getenv("HOME");
+  path=path+std::string("/rapp-platform-files/");
   
   if(req.file_url.empty())   // || req.file_url==std::string("")
   {
@@ -1171,7 +985,9 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   }  
      
   
-  std::string path = ros::package::getPath("rapp_knowrob_wrapper");
+  //std::string path = ros::package::getPath("rapp_knowrob_wrapper");
+  std::string path = getenv("HOME");
+  path=path+std::string("/rapp-platform-files/");
     
   req.file_url=path+req.file_url;
   const char * c = req.file_url.c_str();  
@@ -1316,3 +1132,197 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
   return res;
 }
 
+
+//std::vector<std::string> KnowrobWrapper::checkIfClassExists(std::string classValue) //checked
+//{
+  //std::string query = std::string("owl_direct_subclass_of(knowrob:'") + 
+  //classValue + std::string("',A)");
+  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+
+  //std::vector<std::string> report;
+
+  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    //it != results.end() ; it++)
+  //{
+    //json_prolog::PrologBindings bdg = *it;
+    //report.push_back(bdg["A"]);
+  //}
+  
+  //if(report.size()==0)
+  //{
+    //report.clear();
+    //report.push_back(std::string("Class entered: ") + classValue + std::string("  Either class does not exist or you used the Thing class which is not allowed"));
+    //return report;
+  //}
+  //else
+  //{
+    //report.clear();
+    //report.push_back(std::string("True"));
+  //}
+  //return report;
+  
+//}
+
+//check if instance exists
+
+
+//std::vector<std::string> KnowrobWrapper::checkIfAttributeAllowed(std::string subject, std::string predicate, std::string object) //checked
+//{
+  //std::vector<std::string> report;
+  //std::string check=std::string("not ok");
+  ////check if subject exists
+  ////check if object exists
+  //std::vector<std::string> tempSplit;
+  //tempSplit=split(subject,"_");
+  //std::string subjectClass=tempSplit[0];
+  //tempSplit=split(object,"_");
+  //std::string objectClass=tempSplit[0];
+  
+  
+  //std::string query = std::string("rdf_has(knowrob:'") + 
+  //predicate + std::string("',rdfs:domain,A)");
+  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+
+  ////std::vector<std::string> ret;
+
+  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    //it != results.end() ; it++)
+  //{
+    //json_prolog::PrologBindings bdg = *it;
+    ////ret.push_back(bdg["A"]);
+    //std::string temp1 = bdg["A"];
+    //tempSplit=split(temp1,"#");
+    //if(tempSplit.size()>1)
+    //{
+      //report.push_back(tempSplit[1]);
+      //if(tempSplit[1]==subjectClass)
+      //{
+        //check=std::string("Ok");        
+      //}        
+    //}    
+  //}  
+  //if(report.size()==0)
+  //{
+    ////report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
+    //report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY subject (domains) "));
+    //return report;
+  //}  
+  //else if(check!=std::string("Ok"))
+  //{
+    //report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject+ std::string("  ...possible subjects are listed below..."));
+    //return report;
+  //}
+  
+  //report.clear();
+  //check=std::string("not ok");
+  
+  //query = std::string("rdf_has(knowrob:'") + 
+  //predicate + std::string("',rdfs:range,A)");
+  //results = pl.query(query.c_str());
+
+  ////std::vector<std::string> ret;
+
+  //for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    //it != results.end() ; it++)
+  //{
+    //json_prolog::PrologBindings bdg = *it;
+    ////ret.push_back(bdg["A"]);
+    //std::string temp1 = bdg["A"];
+    //tempSplit=split(temp1,"#");
+    //if(tempSplit.size()>1)
+    //{
+      //report.push_back(tempSplit[1]);
+      //if(tempSplit[1]==objectClass)
+      //{
+        //check=std::string("Ok");        
+      //}        
+    //}    
+  //}
+  //if(report.size()==0)
+  //{
+    ////report=std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for subject (domains) : ") +subject;
+    //report.push_back(std::string("ERROR, attribute: ")+predicate+ std::string(" does not take ANY object (range)"));
+    //return report;
+  //}  
+  //else if(check!=std::string("Ok"))
+  //{
+    //report.insert(report.begin(),std::string("ERROR, attribute: ")+predicate+ std::string(" does not exist for object (range) : ") +object+ std::string("  ...possible subjects are listed below..."));
+    //return report;
+  //}
+  
+  //report.clear();
+  //report.push_back("True");
+  //return report;
+  
+//}
+
+//createCognitiveTest service
+//returnAllCognitiveTestsOfType service
+//recorduserCognitveTestperformance service
+
+
+
+//rapp_platform_ros_communications::assertRetractAttributeSrv::Response KnowrobWrapper::assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req)
+//{
+  
+  //rapp_platform_ros_communications::assertRetractAttributeSrv::Response res; 
+  //if(res.attribute_names.size()!=res.attribute_values.size())
+  //{
+      //res.success=false;
+      //s.data=std::string("Error, attribute_names and attribute_values sizes are not equal");
+      //res.trace.push_back(s);
+      //return res;
+  //}
+  ////ROS_WARN("Knowdfsdfsdlized");
+  //std::string query = std::string("valueToAttribute_withCheck(knowrob:'") +   //instanceFromClass_withCheck
+    //args[0] + std::string("',knowrob:'")+args[1]+std::string("',knowrob:'")+args[2]+std::string("')");
+  //ret.push_back(query);
+ //// return ret;
+  //json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+  
+  
+
+  ////std::vector<std::string> ret;
+  //ret.clear();
+  ////json_prolog::PrologQueryProxy thj;
+
+  ////results.finish();
+  ////json_prolog::PrologQueryProxy::iterator it;
+  ////it.requestNextSolution();
+  //char status = results.getStatus();
+  //if(status==0)
+  //{
+    //ret.push_back(std::string("Assign Value Failed, you either supplied non existant instances, or wrong attribute for the instances"));
+  //}
+  //else if(status==3)
+  //{
+    //ret.push_back(std::string("Success"));
+  //}  
+  ////ROS_ERROR("Status %d", status);
+  ////for(json_prolog::PrologQueryProxy::iterator it = results.begin() ; 
+    ////it != results.end() ; it++)
+  ////{
+    //////json_prolog::PrologNextSolutionResponse resp; 
+    //////json_prolog::PrologQueryProxy::iterator::requestNextSolution();
+    //////it::requestNextSolution();
+    ////json_prolog::PrologBindings bdg = *it;
+    //////it.
+    //////it.requestNextSolution();
+    
+    ////ret.push_back(bdg["A"]);
+  ////}
+  
+  ////json_prolog::PrologQueryProxy::iterator it2 =results.end();
+  //return ret;
+
+  
+  ////for(unsigned int i = 2 ; i < args.size() ; i=i+2)
+  ////{
+    //////rdf_assert(knowrob:'Person_qdaDeDZn',knowrob:worksAtFacility,knowrob:'HumanOccupationConstruct_pQmhNKHv')
+    ////query = std::string("rdf_assert(knowrob:'") +     instanceName[1] + std::string("',knowrob:") +args[i] +  
+    ////std::string(",knowrob:'") + args[i+1] +  std::string("'")  ;
+    ////results = pl.query(query.c_str());
+  ////}
+
+  ////return ret;
+//}

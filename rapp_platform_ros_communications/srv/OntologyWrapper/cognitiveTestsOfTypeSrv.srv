@@ -2,12 +2,12 @@
 Header header
 # General string for simple queries
 string test_type
+string test_language
 ---
 # The results of the query
 string[] tests
 string[] file_paths
 string[] difficulty
-string[] variation
 string[] subtype
 string[] trace
 bool success 

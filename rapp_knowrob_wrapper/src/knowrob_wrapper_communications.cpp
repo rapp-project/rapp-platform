@@ -160,7 +160,7 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
 
 
 
-  req.file_url=std::string("/owl/currentVersion.owl");  
+  req.file_url=std::string("currentOntologyVersion.owl");  
   //const char * c = req.file_url.c_str();  
   //if(!checkIfFileExists(c))
   //{

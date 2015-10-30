@@ -56,7 +56,10 @@ from rapp_platform_ros_communications.srv import (
   userPerformanceCognitveTestsSrvResponse,
   cognitiveTestsOfTypeSrv,
   cognitiveTestsOfTypeSrvRequest,
-  cognitiveTestsOfTypeSrvResponse
+  cognitiveTestsOfTypeSrvResponse,
+  fetchDataSrv,
+  fetchDataSrvRequest,
+  fetchDataSrvResponse
   )
   
 from rapp_platform_ros_communications.msg import ( 
@@ -68,14 +71,14 @@ class TestSelector:
   def chooserFunction(self,req):
     currentTimestamp = int(time.time()) #15552000000 for last 3 months
     
-    try:
+    try:      
       res = testSelectorSrvResponse()       
       #obtain user's ontology alias. It will be created if it does not exist in case of invalid username it will be caught
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
       if(not serv_topic):
-        rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
-        res.trace.append("mysql_wrapper_rapp_read_data topic param not found")
-        res.error="mysql_wrapper_rapp_read_data topic param not found"
+        rospy.logerror("rapp_knowrob_wrapper_create_ontology_alias param not found")
+        res.trace.append("rapp_knowrob_wrapper_create_ontology_alias param not found")
+        res.error="rapp_knowrob_wrapper_create_ontology_alias param not found"
         res.success=False
         return res
       rospy.wait_for_service(serv_topic)
@@ -88,6 +91,33 @@ class TestSelector:
         res.error=createOntologyAliasResponse.error
         res.success=False
         return res     
+      
+      
+      #get user language        
+      serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+      if(not serv_topic):
+        rospy.logerror("rapp_mysql_wrapper_user_fetch_data_topic param not found")
+        res.trace.append("rapp_mysql_wrapper_user_fetch_data_topic param not found")
+        res.error="mysql_wrapper_rapp_read_data topic param not found"
+        res.success=False
+        return res
+      rospy.wait_for_service(serv_topic)
+      knowrob_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+      fetchDataSrvReq = fetchDataSrvRequest()
+      fetchDataSrvReq.req_cols=["language"]
+      fetchDataSrvReq.where_data=[StringArrayMsg(s=["username",req.username])]
+      #print fetchDataSrvReq.where_data
+      fetchDataSrvResponse = knowrob_service(fetchDataSrvReq)
+      if(fetchDataSrvResponse.success.data!=True):
+        #print fetchDataSrvResponse.res_data[0].s[0];
+        res.trace.extend(fetchDataSrvResponse.trace)
+        res.error=fetchDataSrvResponse.trace[0]
+        res.success=False
+        return res  
+      userLanguage=fetchDataSrvResponse.res_data[0].s[0];
+      print userLanguage      
+      #
+      
       
       #Check if test type exists (if a test type is provided)
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_subclasses_of_topic')
@@ -195,6 +225,7 @@ class TestSelector:
         return res
       cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
       cognitiveTestsOfTypeSrvReq.test_type=req.testType
+      cognitiveTestsOfTypeSrvReq.test_language=userLanguage
       knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)       
       cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
 
@@ -204,6 +235,7 @@ class TestSelector:
         res.success=False
         return res      
 
+      print "after tests........."
       #Filter the tests according to the determined difficulty
       success,testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,res)
       
@@ -218,9 +250,11 @@ class TestSelector:
       finalTestname=""
       finalTestFilePath=""
       if(noUserPerformanceRecordsExist):
+        print "inside no records"
         finalTestname=random.choice(testsOfTypeOrdered.keys())  
         finalTest=testsOfTypeOrdered[finalTestname]
-        finalTestFilePath=finalTest[0][0]          
+        finalTestFilePath=finalTest[0][0]   
+        print finalTestFilePath  
       else:          
         testsOfTypeOrderedCopy=testsOfTypeOrdered.copy()        
         for k, v in userPerfOrganizedByTimestamp.items():
@@ -246,7 +280,7 @@ class TestSelector:
       localPackagePath=rospack.get_path('rapp_cognitive_exercise')
       finalTestFilePath=localPackagePath+finalTestFilePath
       res.trace.append(finalTestFilePath)      
-      self.retrieveDataFromTestXml(finalTestFilePath,res)            
+      self.retrieveDataFromTestXml(finalTestFilePath,res,userLanguage)            
       res.success=True  
        
     except IndexError:
@@ -260,13 +294,17 @@ class TestSelector:
       res.error="IO Error, cant open file or read data"
     return res    
     
-  def retrieveDataFromTestXml(self,finalTestFilePath,res):
+  def retrieveDataFromTestXml(self,finalTestFilePath,res,userLanguage):
+    print "inside xml"
     tree = ET.parse(finalTestFilePath)
     root = tree.getroot()
     res.testType=root.find("testType").text.encode('UTF-8')
     res.testSubType=root.find("testSubType").text.encode('UTF-8')
+    language=root.find('Languages')
+    print userLanguage
+    #language=language.find(userLanguage)
     
-    for question in root.find('Questions'):            
+    for question in language.find(userLanguage):            
       res.questions.append(question.find("body").text.encode('UTF-8'))
       res.correctAnswers.append(question.find("correctAnswer").text.encode('UTF-8'))
       line=StringArrayMsg()
@@ -302,7 +340,7 @@ class TestSelector:
     else:      
       for i in range(len(testsOfType.tests)):
         if(testsOfType.difficulty[i]==chosenDif):			
-          tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.variation[i],testsOfType.subtype[i]]
+          tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i]]
           d[testsOfType.tests[i]]=[tlist]
           
       if(not len(d)>0):
@@ -313,3 +351,7 @@ class TestSelector:
       else: 
         success=True
       return success,d       
+      
+ 
+
+  

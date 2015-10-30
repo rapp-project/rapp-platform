@@ -3,7 +3,7 @@
   <testType>ArithmeticCts</testType>
   <testSubType>BasicArithmeticCts</testSubType>
   <Languages>
-    <Greek>
+    <el>
       <Question name="Q1">
         <body>Πόσο κάνει εφτά και δύο;</body>
         <answer>
@@ -68,8 +68,8 @@
         </answer>
         <correctAnswer>εφτά</correctAnswer>
       </Question>
-    </Greek>
-    <English>
+    </el>
+    <en>
       <Question name="Q1">
         <body>How much is seven plus two?</body>
         <answer>
@@ -134,7 +134,7 @@
         </answer>
         <correctAnswer>seven</correctAnswer>
       </Question>
-    </English>
+    </en>
   </Languages>
-  <name>ArithmeticCts_ibAhvmeY</name>
+  <name>ArithmeticCts_pQmhNKHv</name>
 </cognitiveTest>

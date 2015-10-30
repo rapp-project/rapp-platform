@@ -216,6 +216,7 @@ CREATE TABLE `tblUser` (
   `lastname` varchar(128) NOT NULL,
   `email` varchar(254) NOT NULL,
   `email_id` int(12) DEFAULT NULL,
+  `language` varchar(32) NOT NULL,
   `ontology_alias` varchar(32) DEFAULT NULL,
   `pwd` char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   `usrgroup` int(1) NOT NULL DEFAULT '5',
@@ -231,7 +232,7 @@ CREATE TABLE `tblUser` (
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-insert into tblUser(username, firstname, lastname) values('rapp', 'rapp', 'rapp');
+insert into tblUser(username, firstname, lastname, language) values('rapp', 'rapp', 'rapp', 'el');
 --
 -- Table structure for table `tblUserDir`
 --
