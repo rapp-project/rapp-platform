@@ -40,7 +40,6 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.language = 'el'
     self.text = u'Καλησπέρα. Είμαι ο ναο.'
-    self.audioDataSize = 79204
     self.destDir = '/tmp/'
     # Set the valid results
 
@@ -59,7 +58,7 @@ class RappInterfaceTest:
     # Get the returned data
     audioData = response['audioData']
     # Check if the returned data are equal to the expected
-    if len(audioData) == self.audioDataSize:
+    if len(audioData) > 0:
         with open(self.destDir + response['basename'], 'wb') as f1:
             f1.write(audioData)
         return [True, self.elapsed_time]

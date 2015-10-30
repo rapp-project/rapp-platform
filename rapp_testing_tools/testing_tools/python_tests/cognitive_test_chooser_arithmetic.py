@@ -60,7 +60,7 @@ class RappInterfaceTest:
     # Get the returned data
     test_instance = response['test_instance']
     test_type = response['test_type']
-    test_sub_type = response['test_sub_type']
+    test_sub_type = response['test_subtype']
     questions = response['questions']
     possib_ans = response['possib_ans']
     correct_ans = response['correct_ans']

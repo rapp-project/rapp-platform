@@ -40,7 +40,6 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.language = 'el'
     self.text = u'Καλησπέρα. Είμαι ο ναο.'
-    self.audioDataSize = 79204
     self.destFilePath = '/tmp/ttsClient.wav'
     # Set the valid results
 
@@ -58,7 +57,7 @@ class RappInterfaceTest:
         return [response['error'], self.elapsed_time]
 
     # Check if the returned data are equal to the expected
-    if os.path.getsize(self.destFilePath) == self.audioDataSize:
+    if os.path.getsize(self.destFilePath) > 0:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + 'Invalid size of audio data', self.elapsed_time]
