@@ -148,8 +148,8 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId);
-    var resp_msg = craft_error_response();
-    return resp_msg;
+    var response = craft_error_response();
+    return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );

@@ -152,7 +152,7 @@ service qr_detection ( {file_uri:''} )
     var response = craft_error_response();
     execTime = new Date().getTime() - startT;
     postMessage( craft_slaveMaster_msg('execTime', execTime) );
-    return response;
+    return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );

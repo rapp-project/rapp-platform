@@ -153,8 +153,8 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId); // Dismiss the unique identity key
-    var resp_msg = craft_error_response();
-    return resp_msg;
+    var response = craft_error_response();
+    return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -511,4 +511,15 @@ function craft_slaveMaster_msg(msgId, msg)
     data: msg
   }
   return msg;
+}
+
+
+function isJson(str){
+  try{
+    JSON.parse(str);
+  }
+  catch(e){
+    return false
+  }
+  return true
 }

@@ -149,7 +149,7 @@ service face_detection ( {file_uri:''} )
     Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId);
     var response = craft_error_response();
-    return response;
+    return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );

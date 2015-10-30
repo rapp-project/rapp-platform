@@ -60,7 +60,6 @@ var Path = require('path');
 
 //var module_path = Path.resolve(__dirname + '/../modules')
 var module_path = __dirname + '/../modules/';
-//console.log(module_path);
 
 var Fs = require( module_path + 'fileUtils.js' );
 var hop = require('hop');
