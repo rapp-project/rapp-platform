@@ -1,5 +1,5 @@
 /*!
- * @file set_denoise_profile.service.js
+ * @file set_noise_profile.service.js
  * @brief Set-Denoise-Profile hop front-end service.
  *
  */
@@ -53,7 +53,7 @@ var user = process.env.LOGNAME;
 var __configPath = '../config/';
 var srvEnv = require( __configPath + 'env/hop-services.json' );
 var pathsEnv = require( __configPath + 'env/paths.json' )
-var __hopServiceName = 'set_denoise_profile';
+var __hopServiceName = 'set_noise_profile';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
 var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
@@ -93,13 +93,13 @@ register_master_interface();
 
 
 /*!
- * @brief Set denoise profile (per-user) hop front-end service
+ * @brief Set noise profile (per-user) hop front-end service
  * @param noise_audio_fileUri
  * @param audio_file_type
  * @param user
  * @TODO Rename noise_audio_fileUri --> fileUrl
  */
-service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
+service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
 {
   // For security reasons, if file_uri is not defined under the server_cache_dir
   // do not operate. HOP server stores the files under the __serverCacheDir
@@ -360,7 +360,7 @@ service set_denoise_profile( {file_uri:'', audio_source:'', user:''}  )
 
 /*!
  * @brief Crafts the form/format for the message to be returned
- * from set_denoise_profile hop-service.
+ * from set_noise_profile hop-service.
  * @param srvMsg Return message from ROS Service.
  * return Message to be returned from the hop-service
  */

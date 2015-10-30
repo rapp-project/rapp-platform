@@ -47,7 +47,7 @@ class RappInterfaceTest:
   def execute(self):
 
     start_time = timeit.default_timer()
-    response = self.rappCloud.set_denoise_profile(self.file_uri, \
+    response = self.rappCloud.set_noise_profile(self.file_uri, \
         self.audio_source, self.user)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time

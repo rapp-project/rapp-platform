@@ -23,7 +23,7 @@
     "retries": 3,
     "ros_srv_name": "/rapp/rapp_face_detection/detect_faces"
   },
-  "set_denoise_profile": {
+  "set_noise_profile": {
     "Mode": "Deploy",
     "timeout": 5000,
     "retries": 3,
