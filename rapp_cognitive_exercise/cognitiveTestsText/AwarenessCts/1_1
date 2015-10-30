@@ -2,7 +2,7 @@ testType:AwarenessCts
 testSubType:TimeDayYearCts
 difficulty:1
 
-language:Greek
+language:el
 
 question:Τι μέρα είναι σήμερα;
 answers:The RApp is responsible for finding the correct answer
@@ -16,7 +16,7 @@ question:Ποιά χρονιά έχουμε φέτος;
 answers:The RApp is responsible for finding the correct answer
 correctAnswer:The RApp is responsible for finding the correct answer
 
-language:English
+language:en
 
 question:What day of the week is it?
 answers:The RApp is responsible for finding the correct answer

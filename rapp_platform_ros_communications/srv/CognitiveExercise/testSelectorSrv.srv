@@ -6,6 +6,7 @@ string error
 string test
 string testType
 string testSubType
+string language
 string[] trace
 string[] questions
 rapp_platform_ros_communications/StringArrayMsg[] answers

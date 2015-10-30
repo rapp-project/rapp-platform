@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:TransactionChangeCts
 difficulty:1
 
-language:Greek
+language:el
 
 question:Αγοράζουμε ένα ψωμί που κάνει εξήντα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης; 
 answers:ένα ευρώ και είκοσι λεπτά,δύο ευρώ και δέκα λεπτά,ένα ευρώ και σαράντα λεπτά,εξήντα λεπτά
@@ -12,7 +12,7 @@ question:Αγοράζουμε ένα γάλα που κάνει ένα ευρώ 
 answers:ένα ευρώ και πέντε λεπτά,δύο ευρώ και ενενήντα λεπτά,ένα ευρώ και ενενήντα λεπτά,ενενήντα λεπτά
 correctAnswer:ενενήντα λεπτά
 
-language:English
+language:en
 
 question:We buy a loaf of bread which costs sixty cents and we pay with a two euro coin. How much change do we get back? 
 answers:one euro and twenty cents,two euros and ten cents,one euro and forty cents,sixty cents

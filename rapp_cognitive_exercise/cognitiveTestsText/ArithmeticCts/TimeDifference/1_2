@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:TimeDifferenceCts
 difficulty:1
 
-language:Greek
+language:el
 
 question:Έχουμε ραντεβού στο γιατρό στις εφτά και είκοσι πέντε το απόγευμα. Φτάνουμε στις εφτά και τελικά ο γιατρός μας δέχεται μετά από τριάντα πέντε λεπτά. Τι ώρα μας δέχτηκε τελικά ο γιατρός; 
 answers:εφτά και δεκαπέντε,εφτά και τριάντα πέντε,οκτώ και τριάντα,εφτά
@@ -12,7 +12,7 @@ question:Το βράδυ έχουμε να πάμε σε ένα πάρτυ πο�
 answers:πενήντα λεπτά,σαράντα λεπτά,τριάντα λεπτά,ογδόντα λεπτά
 correctAnswer:σαράντα λεπτά
 
-language:English
+language:en
 
 question:You have an appointment with the doctor at twenty five minutes past seven in the evening. You reach his office by seven and the doctor takes you in after twenty minutes. At what time did the doctor take you in? 
 answers:fifteen minutes past seven,thirty five minutes past seven,thirty minutes past eight,seven

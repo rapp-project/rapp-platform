@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:BasicArithmeticCts
 difficulty:3
 
-language:Greek
+language:el
 
 question:Πόσο κάνει δεκατρία και δεκαοκτώ;
 answers:τριάντα,τριάντα ένα,τριάντα δύο,δεκατρία
@@ -20,7 +20,7 @@ question:Πόσο κάνει ογδόντα δύο και είκοσι τρία;
 answers:ενενήντα πέντε,εκατόν πέντε,εκατόν δέκα τέσσερα,εκατόν δέκα πέντε
 correctAnswer:εκατόν πέντε
 
-language:English
+language:en
 
 question:How much is thirteen plus eighteen?
 answers:thirty,thirty one,thirty two,thirteen

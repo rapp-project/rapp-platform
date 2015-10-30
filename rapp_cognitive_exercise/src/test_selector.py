@@ -280,7 +280,8 @@ class TestSelector:
       localPackagePath=rospack.get_path('rapp_cognitive_exercise')
       finalTestFilePath=localPackagePath+finalTestFilePath
       res.trace.append(finalTestFilePath)      
-      self.retrieveDataFromTestXml(finalTestFilePath,res,userLanguage)            
+      self.retrieveDataFromTestXml(finalTestFilePath,res,userLanguage)
+      res.language=userLanguage            
       res.success=True  
        
     except IndexError:

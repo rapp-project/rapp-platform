@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ReasoningCts</testType>
+  <testSubType>WordRememberingCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ. Τις συγκράτησες;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>Θα μου επαναλάβεις τώρα τις λέξεις σε παρακαλώ;</body>
+        <answer>
+          <body>μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ</body>
+        </answer>
+        <correctAnswer>μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?</body>
+        <answer>
+          <body>yes</body>
+        </answer>
+        <answer>
+          <body>no</body>
+        </answer>
+        <correctAnswer>yes</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>painter window newspaper happiness curtaine bus kids fear mother gel. Did you grasp them?</body>
+        <answer>
+          <body>yes</body>
+        </answer>
+        <answer>
+          <body>no</body>
+        </answer>
+        <correctAnswer>yes</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>Will you please repeat the words?</body>
+        <answer>
+          <body>painter window newspaper happiness curtaine bus kids fear mother gel</body>
+        </answer>
+        <correctAnswer>painter window newspaper happiness curtaine bus kids fear mother gel</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>ReasoningCts_qdaDeDZn</name>
+</cognitiveTest>

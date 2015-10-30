@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:TransactionChangeCts
 difficulty:2
 
-language:Greek
+language:el
 
 question:Αγοράζουμε ένα κιλό ντομάτες που κάνουν ένα ευρώ και είκοσι λεπτά και δίνουμε ένα χαρτονόμισμα των πέντε ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης; 
 answers:τέσσερα ευρώ και εβδομήντα λεπτά,τρία ευρώ και ογδόντα λεπτά,δύο ευρώ και ογδόντα λεπτά,ογδόντα λεπτά
@@ -12,7 +12,7 @@ question:Αγοράζουμε ένα κουτί γλυκά που κάνει ο�
 answers:ένα ευρώ και δεκαπέντε λεπτά,δύο ευρώ και δέκα λεπτά,ένα ευρώ και δέκα λεπτά,σαράντα λεπτά
 correctAnswer:ένα ευρώ και δέκα λεπτά
 
-language:English
+language:en
 
 question:We buy one kilo of tomatoes which costs one euro and twenty cents and we pay with a five euro bill. How much change do we get back?  
 answers:four euros and seventy cents,three euros and eighty cents,two euros and eighty cents,eighty cents

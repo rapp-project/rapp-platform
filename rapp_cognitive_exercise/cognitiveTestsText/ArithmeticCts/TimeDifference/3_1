@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:TimeDifferenceCts
 difficulty:3
 
-language:Greek
+language:el
 
 question:Πρέπει να πάρετε την αντιβίωση σας στις οκτώ το πρωί και μετά ανά εξάωρο ακριβώς. Το μεσημέρι το ξεχνάτε και παίρνετε το χάπι σας με καθυστέρηση μιας ώρας. Τι ώρα θα το πάρετε το απόγευμα τηρώντας αυστηρά το εξάωρο; 
 answers:εννιά,δέκα,οκτώ,έντεκα
@@ -12,7 +12,7 @@ question:Το βράδυ κανονίσατε να πάτε σινεμά με φ
 answers:ναι,όχι
 correctAnswer:όχι
 
-language:English
+language:en
 
 question:You are to take your antibiotics pill at eight in the morning and every six hours afterwards. You get the next dose in the evening one hour late. At what time will you now take the next dose at night while keeping the six hour difference between doses? 
 answers:nine,ten,right,eleven

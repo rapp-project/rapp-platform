@@ -1,7 +1,7 @@
 testType:ReasoningCts
 testSubType:StoryTellingCts
 difficulty:1
-language:Greek
+language:el
 
 question:Θα σου διηγηθώ τώρα μια ιστορία και μετά θα σου κάνω κάποιες ερωτήσεις για να δούμε αν κατάλαβες. Είσαι έτοιμος να ξεκινήσω; 
 answers:ναι,όχι

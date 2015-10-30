@@ -191,7 +191,7 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
 rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response KnowrobWrapper::record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req)
 {  
   rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response res;
-  if(req.test==std::string("") || req.score<1 || req.timestamp<1 || req.patient_ontology_alias==std::string("") || req.test==std::string(""))
+  if(req.test==std::string("") || req.score<0 || req.timestamp<1 || req.patient_ontology_alias==std::string("") || req.test==std::string(""))
   {
     res.success=false;
     res.trace.push_back("Error, one or more arguments not provided or out of range.  Test score and timestamp are positive integers >0");
@@ -243,7 +243,7 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
 rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response KnowrobWrapper::create_cognitve_tests(rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request req)
 {   
   rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response res;
-  if(req.test_type==std::string("") || req.test_difficulty<1 || req.test_variation<1 || req.test_path==std::string("") || req.test_subtype==std::string(""))
+  if(req.test_type==std::string("") || req.test_difficulty<1 || req.test_path==std::string("") || req.test_subtype==std::string(""))
   {
     res.success=false;
     res.trace.push_back("Error, one or more arguments not provided or out of range. Test variation and test difficulty are positive integers >0");
@@ -265,12 +265,12 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     return res; 
   }
     
-  std::string variation = intToString(req.test_variation);
+  //std::string variation = intToString(req.test_variation);
   std::string difficulty = intToString(req.test_difficulty);
   //res.trace.push_back(variation);
   //res.trace.push_back(difficulty);
   //return res;
-  std::string query = std::string("createCognitiveTest(knowrob:'")+req.test_type+std::string("',B,'")+variation+std::string("','")+difficulty+std::string("','")+req.test_path+std::string("',knowrob:'")+req.test_subtype+std::string("')");
+  std::string query = std::string("createCognitiveTest(knowrob:'")+req.test_type+std::string("',B,'")+difficulty+std::string("','")+req.test_path+std::string("',knowrob:'")+req.test_subtype+std::string("')");
   
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
 

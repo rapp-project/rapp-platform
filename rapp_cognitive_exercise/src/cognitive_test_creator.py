@@ -86,7 +86,7 @@ class CognitiveTestCreator:
               flag=False
               res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size") 
               break
-            print "tt "+tmp[1]
+            #print "tt "+tmp[1]
             supportedLanguages.append(tmp[1])
             listQuestions.append(questions.copy())
             questions.clear()
@@ -101,7 +101,7 @@ class CognitiveTestCreator:
             if(tmp[0] == "question"):
               count=count+1;
               tmp[0]=tmp[0]+str(count)
-              print tmp[1]
+              #print tmp[1]
               questions[tmp[0]]=tmp[1]
             elif(tmp[0]=="answers"):
               tmp[0]=tmp[0]+str(count)
@@ -124,7 +124,7 @@ class CognitiveTestCreator:
         flag=False
         res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size") 
       else:
-        print questions
+        #print questions
         listQuestions.append(questions.copy())
         questions.clear()
         listAnswers.append(answers.copy())
@@ -132,7 +132,7 @@ class CognitiveTestCreator:
         listCorrectAnswers.append(correctAnswers.copy())
         correctAnswers.clear()
       xmlFileName=""
-      print "reading finished"
+      #print "reading finished"
       if(flag):        
         #res.trace.append("test seems good")
         #xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"+"var"+d["variationID"][0]+".xml"
@@ -150,7 +150,7 @@ class CognitiveTestCreator:
         #ET.SubElement(root, "Questions")
         Languages=ET.SubElement(root,"Languages")
         #print "count "+str(count)
-        print len(listQuestions)
+        #print len(listQuestions)
         for l in range(1,len(listQuestions)):
           #print supportedLanguages[l-1]
           questions=listQuestions[l]
@@ -168,7 +168,7 @@ class CognitiveTestCreator:
             nm="question"+str(i)
             #print nm
             #print questions[nm]
-            print questions
+            #print questions
             ET.SubElement(Q, "body").text = questions[nm].decode('UTF-8')#[0]
             nm="answers"+str(i)
             answs=answers[nm].split(",")
@@ -184,36 +184,37 @@ class CognitiveTestCreator:
 
         
         #get the cognitive test_id
-        serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
-        if(not serv_topic):
-          rospy.logerror("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
-          res.trace.append("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
-          res.error="rapp_knowrob_wrapper_cognitive_tests_of_type not found"
-          res.success=False
-          return res
-        cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
-        cognitiveTestsOfTypeSrvReq.test_type=d["testType"][0]
-        knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)       
-        cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
+        #serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
+        #if(not serv_topic):
+          #rospy.logerror("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
+          #res.trace.append("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
+          #res.error="rapp_knowrob_wrapper_cognitive_tests_of_type not found"
+          #res.success=False
+          #return res
+        #cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
+        #cognitiveTestsOfTypeSrvReq.test_type=d["testType"][0]
+        #knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)       
+        #cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
         
-        calculatedVariationID=1
-        if(cognitiveTestsOfTypeResponse.success==True):     
-          maxidlist=[]
-          for test_i in range(len(cognitiveTestsOfTypeResponse.subtype)):
-            tmp=cognitiveTestsOfTypeResponse.subtype[test_i].split("#")
-            tmpSubtype=tmp[1]            
-            if (tmpSubtype==d["testSubType"][0] and cognitiveTestsOfTypeResponse.difficulty[test_i]==d["difficulty"][0]):
-              maxidlist.append(cognitiveTestsOfTypeResponse.variation[test_i])
-          #print maxidlist
-          if (len(maxidlist)>0):
-            maxidlist=map(int, maxidlist)
-            calculatedVariationID=max(maxidlist)+1
-          #print calculatedVariationID           
+        #calculatedVariationID=1
+        #if(cognitiveTestsOfTypeResponse.success==True):     
+          #maxidlist=[]
+          #for test_i in range(len(cognitiveTestsOfTypeResponse.subtype)):
+            #tmp=cognitiveTestsOfTypeResponse.subtype[test_i].split("#")
+            #tmpSubtype=tmp[1]            
+            #if (tmpSubtype==d["testSubType"][0] and cognitiveTestsOfTypeResponse.difficulty[test_i]==d["difficulty"][0]):
+              #maxidlist.append(cognitiveTestsOfTypeResponse.variation[test_i])
+          ##print maxidlist
+          #if (len(maxidlist)>0):
+            #maxidlist=map(int, maxidlist)
+            #calculatedVariationID=max(maxidlist)+1
+          ##print calculatedVariationID           
         
-        #
+        ##############
         
         localPackagePath=rospack.get_path('rapp_cognitive_exercise')
-        inNodeName="/cognitiveTests/"+xmlFileName+"_var"+str(calculatedVariationID)+".xml"
+        #inNodeName="/cognitiveTests/"+xmlFileName+"_var"+str(calculatedVariationID)+".xml"
+        inNodeName="/cognitiveTests/"+xmlFileName+".xml"
         localPackagePath=localPackagePath+inNodeName
         tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
         
@@ -227,7 +228,7 @@ class CognitiveTestCreator:
           return res
         createTestReq=createCognitiveExerciseTestSrvRequest()
         createTestReq.test_type=d["testType"][0]
-        createTestReq.test_variation=calculatedVariationID#int(d["variationID"][0])
+        #createTestReq.test_variation=calculatedVariationID#int(d["variationID"][0])
         createTestReq.test_difficulty=int(d["difficulty"][0])
         createTestReq.test_subtype=d["testSubType"][0]
         createTestReq.test_path=inNodeName   
@@ -241,7 +242,7 @@ class CognitiveTestCreator:
           os.remove(localPackagePath)
           return res       
         ontologyName=createCognitiveTestResponse.test_name
-        print ontologyName
+        #print ontologyName
         tmp=ontologyName.split("#")
         ontologyName=tmp[1]
         

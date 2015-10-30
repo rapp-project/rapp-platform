@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:TimeDifferenceCts
 difficulty:2
 
-language:Greek
+language:el
 
 question:Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις έξι και δεκαπέντε. Οι διαφημίσεις δεν λένε να τελειώσουν και έχει πάει έξι και τριάντα τρία χωρίς ακόμη να έχει αρχίσει. Πόση ώρα καθυστέρησε; 
 answers:είκοσι οκτώ λεπτά,δεκαοκτώ λεπτά,δώδεκα λεπτά,είκοσι ένα λεπτά
@@ -12,7 +12,7 @@ question:Έχετε ραντεβού με την παρέα σας το απόγ
 answers:πέντε και τριάντα τρία,πέντε και είκοσι τρία,πέντε και είκοσι πέντε,πέντε και τριάντα
 correctAnswer:πέντε και τριάντα τρία
 
-language:English
+language:en
 
 question:Your favorite tv show stast at fifteen minutes past six in the evening. The commercials seem endless, it is already thirty three minutes past six and the show has not started yet. How much time is it late? 
 answers:twenty eight minutes,eighteen minutes,twelve minutes,twenty one minutes

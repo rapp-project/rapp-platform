@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ReasoningCts</testType>
+  <testSubType>StoryTellingCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Θα σου διηγηθώ τώρα μια ιστορία και μετά θα σου κάνω κάποιες ερωτήσεις για να δούμε αν κατάλαβες. Είσαι έτοιμος να ξεκινήσω;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Κάθε Σάββατο, η Μαίρη και η οικογένεια της πηγαίνουν στη θάλασσα. Η Μαίρη λατρεύει τη θάλασσα! Μένουν μακρυά από την θάλασσα αλλά μία φορά τη βδομάδα, η οικογένεια μπαίνει στο αυτοκίνητο και ο πατέρας της Μαίρης οδηγεί δύο ώρες μέχρι να φτάσουν. Οι γονείς της Μαίρης αγαπούν κι αυτοί τη θάλασσα. Η Μαίρη έχει κι έναν αδερφό, τον Αλέξανδρο, που επίσης αγαπάει τη θάλασσα. Είναι μεγάλο πρόβλημα ωστόσο να πηγαίνουν κάθε βδομάδα στη θάλασσα. Ο πατέρας της Μαίρης κουράζεται να οδηγεί τόσες ώρες. Και η υπόλοιπη οικογένεια κουράζεται επίσης τόσες ώρες στο αυτοκίνητο. Η Μαίρη και ο αδερφός της πηγαίνουν και στο κολυμβητήριο αλλά δεν είναι το ίδιο. Στενοχωριούνται που δεν μπορούν να πηγαινουν στη θάλασσα όσο συχνά θέλουν. Μια μέρα, ο αδερφός της Μάιρης είχε μιαν ιδέα! «Πρέπει να μετακομίσουμε δίπλα στη θάλασσα» είπε. « Μπορούμε να μετακομίσουμε σε ένα σπίτι που να είναι κοντά στη θάλασσα». Η Μαίρη βρήκε την ιδέα υπέροχη! Και μαμά της Μαίρης χάρηκε με την ιδέα. Ο πατέρας της Μαίρης δεν χάρηκε καθόλου. Αν μετακομίσουν κοντά στη θάλασσα θα πρέπει να οδηγεί καθε μέρα δύο ώρες για να πάει στη δουλειά του. Η ιστορία τελείωσε, να προχωρήσω στις ερωτήσεις;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>Η οικογένεια της Μαίρης πηγαίνει στην θάλασσα κάθε Κυριακή;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>όχι</correctAnswer>
+      </Question>
+      <Question name="Q4">
+        <body>Η Μαίρη πηγαίνει στην παραλία με τον σκύλο της;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>όχι</correctAnswer>
+      </Question>
+      <Question name="Q5">
+        <body>Η Μαίρη λατρεύει την θάλασσα;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q6">
+        <body>Ο πατέρας της Μαίρης οδηγεί ια ώρα για να φτάσουν στην θάλασσα;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>όχι</correctAnswer>
+      </Question>
+      <Question name="Q7">
+        <body>Οι γονείς της Μαίρης δεν αγαπούν την θάλασσα;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q8">
+        <body>Η Μαίρη έχει έναν αδερφό, τον Αλέξανδρο, που αγαπάει επίσης τη θάλασσα;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q9">
+        <body>Η οικογένεια της Μαίρης κουράζεται από την οδήγηση ως τη θάλασσα;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>ναι</correctAnswer>
+      </Question>
+      <Question name="Q10">
+        <body>Η Μαίρη και ο αδερφός της πηγαίνουν στο κολυμβητήριο και είναι το ίδιο ακριβώς με την θάλασσα;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>όχι</correctAnswer>
+      </Question>
+      <Question name="Q11">
+        <body>Η Μαίρη είχε μιαν ιδέα</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>όχι</correctAnswer>
+      </Question>
+      <Question name="Q12">
+        <body>Όλη η οικογένεια χάρηκε με αυτή την ιδέα;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>όχι</correctAnswer>
+      </Question>
+    </el>
+  </Languages>
+  <name>ReasoningCts_bneXbLGX</name>
+</cognitiveTest>

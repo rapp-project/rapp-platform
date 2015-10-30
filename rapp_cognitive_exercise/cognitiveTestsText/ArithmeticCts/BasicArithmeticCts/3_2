@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:BasicArithmeticCts
 difficulty:3
 
-language:Greek
+language:el
 
 question:Πόσο κάνει εβδομήντα ένα και είκοσι τρία;
 answers:εκατόν τέσσερα,ογδόντα τέσσερα,ενενήντα τρία,ενενήντα τέσσερα
@@ -20,7 +20,7 @@ question:Πόσο κάνει σαράντα εννιά και δεκατρία;
 answers:εβδομήντα δύο,πενήντα ένα,πενήντα δύο,εξήντα δύο
 correctAnswer:εξήντα δύο
 
-language:English
+language:en
 
 question:How much is seventy one plus twenty three?
 answers:one hundred four,eighty four,ninety three,ninety four

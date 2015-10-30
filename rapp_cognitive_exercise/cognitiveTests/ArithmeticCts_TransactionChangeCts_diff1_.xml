@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <testSubType>TransactionChangeCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Αγοράζουμε ένα ψωμί που κάνει εξήντα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης;</body>
+        <answer>
+          <body>ένα ευρώ και είκοσι λεπτά</body>
+        </answer>
+        <answer>
+          <body>δύο ευρώ και δέκα λεπτά</body>
+        </answer>
+        <answer>
+          <body>ένα ευρώ και σαράντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>εξήντα λεπτά</body>
+        </answer>
+        <correctAnswer>ένα ευρώ και σαράντα λεπτά</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Αγοράζουμε ένα γάλα που κάνει ένα ευρώ και δέκα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+        <answer>
+          <body>ένα ευρώ και πέντε λεπτά</body>
+        </answer>
+        <answer>
+          <body>δύο ευρώ και ενενήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>ένα ευρώ και ενενήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>ενενήντα λεπτά</body>
+        </answer>
+        <correctAnswer>ενενήντα λεπτά</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>We buy a loaf of bread which costs sixty cents and we pay with a two euro coin. How much change do we get back?</body>
+        <answer>
+          <body>one euro and twenty cents</body>
+        </answer>
+        <answer>
+          <body>two euros and ten cents</body>
+        </answer>
+        <answer>
+          <body>one euro and forty cents</body>
+        </answer>
+        <answer>
+          <body>sixty cents</body>
+        </answer>
+        <correctAnswer>one euro and forty cents</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>We buy a carton of milk which costs one euro and ten cents and we pay with a two euro coin. How much change do we get back?</body>
+        <answer>
+          <body>one euro and five cents</body>
+        </answer>
+        <answer>
+          <body>two euros and ninety cents</body>
+        </answer>
+        <answer>
+          <body>one euro and ninety cents</body>
+        </answer>
+        <answer>
+          <body>ninety cents</body>
+        </answer>
+        <correctAnswer>ninety cents</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>ArithmeticCts_FWcHvbLr</name>
+</cognitiveTest>

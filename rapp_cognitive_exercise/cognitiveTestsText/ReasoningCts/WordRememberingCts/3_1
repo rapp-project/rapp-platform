@@ -2,7 +2,7 @@ testType:ReasoningCts
 testSubType:WordRememberingCts
 difficulty:3
 
-language:Greek
+language:el
 
 question:Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;
 answers:ναι,όχι
@@ -16,7 +16,7 @@ question:Θα μου επαναλάβεις τώρα τις λέξεις σε π
 answers:μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ
 correctAnswer:μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ
 
-language:English
+language:en
 
 question:I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?
 answers:yes,no

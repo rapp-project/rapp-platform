@@ -2,7 +2,7 @@ testType:ArithmeticCts
 testSubType:BasicArithmeticCts
 difficulty:1
 
-language:Greek
+language:el
 
 question:Πόσο κάνει τρία και τέσσερα;
 answers:τρία,εννιά,τέσσερα,εφτά
@@ -20,7 +20,7 @@ question:Πόσο κάνει ένα και πέντε;
 answers:δύο,έξι,πέντε,εφτά
 correctAnswer:έξι
 
-language:English
+language:en
 
 question:How much is three plus four?
 answers:three,nine,four,seven
