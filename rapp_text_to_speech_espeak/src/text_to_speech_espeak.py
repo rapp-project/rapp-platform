@@ -70,8 +70,16 @@ class TextToSpeechEspeak:
     if req.audio_output == '':
         res.error = 'Text2Speech: Audio output not specified'
         return res
+    
+    speed = 130 # upper limit = 180
+    pitch = 50 # upper limit = 99
+    if lang == 'el':
+        lang = 'mb-gr2'
+        speed = 160
+        pitch = 99
 
-    command = 'espeak -s 130 -v ' + lang + ' --stdout \'' + req.text + '\' -w ' +\
+    command = 'espeak -p ' + str(pitch) + ' -s ' + str(speed) + \
+            ' -v ' + lang + ' --stdout \'' + req.text + '\' -w ' +\
             req.audio_output
     output = os.system(command)
     if output != 0:
