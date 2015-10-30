@@ -80,18 +80,40 @@ class EnglishSupport(GlobalParams):
   # status is either error (string) or True (bool)
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     enhanced_words = {}
+    print words
     for word in words:
-      index = self.english_dict_mapping.find("\n" + word + " ")
-      if  index == -1:
-        raise RappError("ERROR: Word " + word + " does not exist in the English Dictionary")
+      inner_words = []
+      inner_phonemes = []
+      if "-" not in word: # Check for conjoined english words
+        index = self.english_dict_mapping.find("\n" + word + " ")
+        if index == -1:
+           raise RappError("ERROR: Word " + word +\
+                    " does not exist in the English Dictionary")
+        else:
+          self.english_dict_file.seek(index + 1)
+          line = self.english_dict_file.readline()
+          line = line[:-1]
+          split_line = line.split(" ")
+          inner_phonemes = split_line[1:]
+
       else:
-        self.english_dict_file.seek(index + 1) # +1 because of the extra \n
-        line = self.english_dict_file.readline()
-        line = line[:-1] # to erase the \n
-        split_line = line.split(" ")
-        enhanced_words[split_line[0]] = []
-        for i in range(1, len(split_line)):
-          enhanced_words[split_line[0]].append(split_line[i])
+        inner_words = word.split("-")
+        for in_w in inner_words:
+          index = self.english_dict_mapping.find("\n" + in_w + " ")
+          if  index == -1:
+            raise RappError("ERROR: Word " + in_w +\
+                    " does not exist in the English Dictionary")
+          else:
+            self.english_dict_file.seek(index + 1) # +1 because of the extra \n
+            line = self.english_dict_file.readline()
+            line = line[:-1] # to erase the \n
+            split_line = line.split(" ")
+
+            #enhanced_words[split_line[0]] = []
+            for i in range(1, len(split_line)):
+              inner_phonemes.append(split_line[i])
+      enhanced_words[word] = inner_phonemes
+
     try:
         self.limited_sphinx_configuration= \
             self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
