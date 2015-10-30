@@ -44,6 +44,7 @@ class Sphinx4Wrapper(GlobalParams):
 
   def __init__(self):
     self.conf = ''
+    self.sphinxDied = False
     GlobalParams.__init__(self)
     self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
     self.energy_denoise_topic = \
@@ -85,34 +86,11 @@ class Sphinx4Wrapper(GlobalParams):
     print conf['jar_path']
     self.p = subprocess.Popen(["java", "-cp", conf['jar_path'], \
             "Sphinx4"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
-    #print "Respawning sphinx (pid: " + str( self.p.pid ) + ")"
 
-    self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
-    self.readLine()
-
-    self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
-    self.readLine()
-
-    self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
-            conf['grammar_folder'] + '\r\n')
-    self.readLine()
-
-    self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
-    self.readLine()
-
-    self.p.stdin.write("languageModel#" + conf['language_model'] + '\r\n')
-    self.readLine()
-
-    if(conf['grammar_disabled']):
-      self.p.stdin.write("disableGrammar#\r\n")
-    else:
-      self.p.stdin.write("enableGrammar#\r\n")
-    self.readLine()
-
-    self.p.stdin.write("forceConfiguration#\r\n")
-    self.readLine()
+    self.configureSphinx( conf )
 
   def configureSphinx(self, conf):
+    self.conf = conf
     self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
     self.readLine()
     self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
@@ -272,6 +250,9 @@ class Sphinx4Wrapper(GlobalParams):
 
         new_audio_file = next_audio_file
         words = self.callSphinxJava(new_audio_file)
+        if self.sphinxDied == True:
+            self.sphinxDied = False
+            break
 
         if len(words) == 0 or (len(words) == 1 and words[0] == ""):
             tries += 1
@@ -336,6 +317,7 @@ class Sphinx4Wrapper(GlobalParams):
         if("CatchedException" in line):
             rospy.logerr(line)
             self.respawnSphinx()
+            self.sphinxDied = True
             return words
 
       if (time.time() - start_time > 10):
@@ -344,10 +326,10 @@ class Sphinx4Wrapper(GlobalParams):
     return words
 
   def respawnSphinx(self):
-    rospy.logwarn("Respawning sphinx (pid: " + str( self.p.pid ) + ")")
+    #rospy.logwarn("Respawning sphinx")
     self.p.kill()
     time.sleep(2)
     self.initializeSphinx( self.conf )
-    rospy.logwarn("Respawned sphinx (pid: " + str( self.p.pid ) + ")")
+    #rospy.logwarn("Respawned sphinx")
 
 
