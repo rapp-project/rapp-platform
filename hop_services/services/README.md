@@ -1,13 +1,32 @@
+RAPP Platform Front-End Web Services
+-------------------------------------
+
 ## Synopsis
 
-Containes RAPP Platform web services developed using hOP web broker.
+Containes RAPP Platform web services developed using [HOP web broker](https://github.com/manuel-serrano/hop).
 These services are used in order to communicate with the RAPP Platform ecosystem
 and access RIC(RAPP Improvement Center) AI modules.
+
+| Platform Services                 | Description   |
+| :-------------------------------: | :-----------: |
+| face_detection                    |  Performs face detection on given input image frame                        |
+| qr_detection                      |  Performs face detection on given input image frame                        |
+| text_to_speech                    |  Performs text-to-speech on given input plain text                         |
+| denoise_profile                   |  Used in order to perform given user's audio profile                       |
+| speech_detection_sphix4           |  Performs speech-detection using the Platform integrated Sphinx4 engine    |
+| speech_detection_google           |  Performs speech-detection using the Platform integrated Google engine     |
+| available_services                |  Returns a list of the Platform available services (up-to-date)            |
+| ontology_subclasses_of            |  Perform Ontology, subclasses-of, query                                    |
+| ontology_superclasses_of          |  Perform Ontology, superclasses-of, query                                  |
+| ontology_is_supsuperclass_of      |  Perform Ontology, is-subsuperclass-of, query                              |
+| cognitive_test_chooser            |  Returns a Cognitive Exercise literal that describes the test              |
+| record_cognitive_test_performance |  Record user's performance on given Cognitive Exercise                     |
 
 
 ## Services
 
-#### [qr_detection( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/qr_detection.service.js)
+
+#### QR-Detection
 
 ```
 qr_detection ( {file_uri: ''} )
@@ -44,7 +63,7 @@ qr_detection ( {file_uri: ''} )
 
 
 
-#### [face_detection( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/face_detection.service.js)
+#### Face-Detection
 
   ```
   face_detection ( {file_uri: ''} )
@@ -87,13 +106,12 @@ qr_detection ( {file_uri: ''} )
   >   error: ''
   > }
 
-------------------------------
+
 
 ### Speech Detection related services.
+---------------------------------------
 
-------------------------------
-
-#### [set_denoise_profile( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/set_denoise_profile.service.js)
+#### Denoise Audio Profile
 
   ```
   set_denoise_profile ( {file_uri: '', audio_source: '', user: ''} )
@@ -131,7 +149,7 @@ qr_detection ( {file_uri: ''} )
   > }
 
 
-#### [speech_detection_sphinx4( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/speech_detection_sphinx4.service.js) 
+#### Speech-Detection-Sphinx4
 
   ```
   speech_detection_sphinx4 ( { file_uri: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''})
@@ -170,7 +188,7 @@ qr_detection ( {file_uri: ''} )
   - **'words[]'**: A vector that contains the "words-found"
 
 
-#### [speech_detection_google( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/speech_detection_google.service.js) 
+#### Speech-Detection-Google
 
   ```
   speech_detection_sphinx4 ( { file_uri: '', audio_source: '',  user: '', language: ''} )
@@ -207,13 +225,13 @@ qr_detection ( {file_uri: ''} )
   - **'alternatives[[]]'**: Alternative sentences. e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...]
 
 
-------------------------------
 
 ### Ontology related services.
-
 ------------------------------
 
-#### [ontology_subclasses_of( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_subclasses_of.service.js)
+The following Platform services give access to the Platform integrated Ontology system.
+
+#### Ontology-SubClasses-Of
 
   ```
   ontology_subclasses_of ( { query: ''} )
@@ -245,7 +263,7 @@ qr_detection ( {file_uri: ''} )
   > }
 
 
-#### [ontology_superclasses_of( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_superclasses_of.service.js)
+#### Ontology-SuperClasses-Of
 
   ```
   ontology_superclasses_of ( { query: ''} )
@@ -268,7 +286,7 @@ qr_detection ( {file_uri: ''} )
     and returned to the client.
 
 
-#### [ontology_is_subsuperclass_of( ) ](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/ontology_is_subsuperclass_of.service.js)
+#### Ontology-Is-SubSuperClass-Of
 
   ```
     ontology_is_subsuperclass_of ( { parent_class: '', child_class: '', recursive: false } )
@@ -293,13 +311,11 @@ qr_detection ( {file_uri: ''} )
     and returned to the client.
 
 
-------------------------------
 
 ### Text-To-Speech (tts) related services
+-----------------------------------------
 
-------------------------------
-
-#### [text_to_speech( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/text_to_speech.service.js)
+#### Text-To-Speech
 
   ```
     text_to_speech( { text: '', language: ''} )
@@ -325,22 +341,20 @@ qr_detection ( {file_uri: ''} )
   - **'error'**: If error was encountered, an error message is pushed in this field.
 
 
-------------------------------
 
-### Cognitive Exercises related services.
+### Cognitive Exercises related services
+-----------------------------------------
 
-------------------------------
-
-#### [cognitive_test_chooser( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/cognitive_test_chooser.service.js)
+#### Cognitive-Test-Selector
 
   ```
-  cognitive_test_chooser( { user: '', testType: '' } )
+  cognitive_test_chooser( { username: '', testType: '' } )
   ```
 
 
   **Input parameters**
 
-  - **'user'**: Username of client used to retrieve information from database.
+  - **'username'**: Username of client used to retrieve information from database.
     e.g "klpanagi"
   - **'testType'**: Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
 
@@ -350,48 +364,22 @@ qr_detection ( {file_uri: ''} )
   The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
   the received data.
 
-  > { questions: [], possib_ans: [], correct_ans: [], test_instance: '', test_type: '', test_sub_type: '' error: '' }
+  > { questions: [], answers: [], correctAnswers: [], test: '', error: '' }
 
   - **'questions'**: The exercise set of questions.
-  - **'possib_ans'**:  The set of answers for each question. vector<vector<string>>
-  - **'correct_ans'**: The set of correct answers for each question. vector<string>
-  - **'test_instance'**: Returned test name. For example, 'ArithmeticCts_askw0Snwk'
-  - **'test_type'**: Cognitive exercise class/type. Explained [here](https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise)
-  - **'test_sub_type'**: Cognitive exercise sub-type. Explained [here](https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise)
+  - **'answers'**:  The set of answers for each question. vector<vector<string>>
+  - **'correctAnswers'**: The set of correct answers for each question. vector<string>
+  - **'test'**: Returned test name. For example, 'ArithmeticCts_askw0Snwk'
   - **'error'**: If error was encountered, an error message is pushed in this field.
 
-
-#### [record_cognitive_test_performace( )](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/record_cognitive_test_performace.service.js)
-
-  ```
-  record_cognitive_test_performace( { user: '', test: '', testType: '', score: 0 } )
-  ```
-
-
-  **Input parameters**
-
-  - **'user'**: Username of client used to retrieve information from database.
-    e.g "klpanagi"
-  - **'test'**: The full cognitive test entry name as reported by the **cognitive_test_chooser()**.
-  - **'testType'**: Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
-  - **'score'**: User's performance score on given test entry.
-
-
-  **Response/Return-Data**
-
-  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
-  the received data.
-
-  > { performance_entry: '', error: '' }
-
-  - **'performace_entry'**: User's cognitive test performance entry.
-  - **'error'**: If error was encountered, an error message is pushed in this field.
 
 
 ### Health - RAPP Platform Status
+---------------------------------
 
+For RAPP developers.
 
-#### [rapp_platform_status](https://github.com/rapp-project/rapp-platform/blob/hop_services/hop_services/services/rapp_platform_status.service.js)
+#### Rapp-Platform-Status
 
   ```
   rapp_platform_status()
