@@ -44,6 +44,7 @@
  * Loaded module variables declerations start with Capital letters.
  */
 
+__POP_LOG_WINDOWS = false;
 
 var modulePath = __dirname + '/../../modules/'
 var configPath = __dirname + '/../../config/';
@@ -54,6 +55,7 @@ var Logger_ = require( './logger.js' );
 var Cache_ = require( './cache.js' );
 var hop = require('hop');
 var Fs = require( modulePath + 'fileUtils.js' );
+var exec = require('child_process').exec;
 
 var pathsEnv = require( configPath + 'env/paths.json' )
 
@@ -84,6 +86,8 @@ Cache_.createCacheDir(__servicesCacheDir);
 Cache_.createCacheDir(__serverCacheDir);
 /* ------------------------------------------------------ */
 
+var __child_processes = {};
+
 var color = {
   success:  '\033[1;32m',
   error:    '\033[1;31m',
@@ -94,12 +98,26 @@ var color = {
 }
 
 
+function popLogWindow(logFile){
+  var cmd = 'xterm -e tail -f ' + logFile;
+  __child_processes[logFile] = exec(cmd, function(error, stdout, stderr){
+    //console.log('stdout: ' + stdout);
+    //console.log('stderr: ' + stderr);
+    if(error !== null){
+      console.log('child process exec error: ' + error)
+    }
+  })
+}
+
 /*!
  * @brief Registers given worker to logger.
  */
 function registerToLogger(workerName)
 {
-  Logger_.createLogFile(workerName);
+  logFilePath = Logger_.createLogFile(workerName);
+  if(logFilePath != undefined && __POP_LOG_WINDOWS){
+    popLogWindow(logFilePath);
+  }
 };
 
 

@@ -87,7 +87,7 @@ function createLogFile( workerName )
   if ( logFileExists(logFilePath) )
   {
     console.log(color.error + '[Error]' + color.clear + ' - Log File {%s} already exists!!!');
-    return false;
+    return undefined;
   }
 
   // Evaluate write methods on given log file.
@@ -96,9 +96,9 @@ function createLogFile( workerName )
     __logFiles.push(logFilePath);
     // Create and initiate a new write stream for this logfile.
     __logFileStreams[logFilePath] = new FileStreams.WriteStream(logFilePath);
-    return true;
+    return logFilePath;
   }
-  return false;
+  return undefined;
 };
 
 
@@ -133,9 +133,14 @@ function logFileExists(logFile)
 }
 
 
+function registeredLogFiles(){
+  return __logFiles;
+}
+
 // Module Exports
 module.exports = {
   appendToLogFile: appendToLogFile,
   createLogFile: createLogFile,
   createLogDir: createLogDir,
+  registeredLogFiles: registeredLogFiles
 }
