@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="2">
   <name>rapp_platform</name>
   <version>0.0.1</version>
   <description>The rapp-platform metapackage</description>
@@ -10,15 +10,15 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <run_depend>rapp_server</run_depend>
-  <run_depend>rapp_email</run_depend>
-  <run_depend>rapp_face_detection</run_depend>
-  <run_depend>rapp_knowrob_wrapper</run_depend>
-  <run_depend>rapp_mysql_wrapper</run_depend>
-  <run_depend>rapp_platform_ros_communications</run_depend>
-  <run_depend>rapp_qr_detection</run_depend>
-  <run_depend>rapp_speech_detection_google</run_depend>
-  <run_depend>test_auxiliary_files</run_depend>
+  <depend>rapp_server</depend>
+  <depend>rapp_email</depend>
+  <depend>rapp_face_detection</depend>
+  <depend>rapp_knowrob_wrapper</depend>
+  <depend>rapp_mysql_wrapper</depend>
+  <depend>rapp_platform_ros_communications</depend>
+  <depend>rapp_qr_detection</depend>
+  <depend>rapp_speech_detection_google</depend>
+  <depend>test_auxiliary_files</depend>
 
   <export>
     <metapackage/>

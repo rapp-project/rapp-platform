@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="2">
   <name>rapp_knowrob_wrapper</name>
   <version>0.0.1</version>
   <description>The auxiliary rapp_knowrob_wrapper package</description>
@@ -10,18 +10,10 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>roscpp</build_depend>
-  <build_depend>roslib</build_depend>
-  <build_depend>rostest</build_depend>
-  <build_depend>std_msgs</build_depend>
-  <build_depend>rapp_platform_ros_communications</build_depend>
-  <build_depend>json_prolog</build_depend>
-
-  <run_depend>roscpp</run_depend>
-  <run_depend>roslib</run_depend>
-  <run_depend>rostest</run_depend>
-  <run_depend>std_msgs</run_depend>
-  <run_depend>rapp_platform_ros_communications</run_depend>
-  <run_depend>json_prolog</run_depend>
-
+  <depend>roscpp</depend>
+  <depend>roslib</depend>
+  <depend>rostest</depend>
+  <depend>std_msgs</depend>
+  <depend>rapp_platform_ros_communications</depend>
+  <depend>json_prolog</depend>
 </package>
