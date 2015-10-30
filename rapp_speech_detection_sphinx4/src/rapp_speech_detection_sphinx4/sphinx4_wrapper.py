@@ -150,7 +150,7 @@ class Sphinx4Wrapper(GlobalParams):
       manipulation['sox_denoising'] = True
       manipulation['sox_denoising_scale'] = 0.15
       manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['detect_silence_threshold'] = 3.0
       manipulation['energy_denoising'] = True
       manipulation['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_4_ch":
@@ -158,29 +158,29 @@ class Sphinx4Wrapper(GlobalParams):
       manipulation['sox_denoising'] = True
       manipulation['sox_denoising_scale'] = 0.15
       manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['detect_silence_threshold'] = 3.0
       manipulation['energy_denoising'] = True
       manipulation['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_1_ch":
       manipulation['sox_denoising'] = True
       manipulation['sox_denoising_scale'] = 0.15
       manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['detect_silence_threshold'] = 3.0
       manipulation['energy_denoising'] = True
       manipulation['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_1_ch_denoised":
       manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['detect_silence_threshold'] = 3.0
       manipulation['energy_denoising'] = True
       manipulation['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_1_ch_only_sox":
       manipulation['sox_denoising'] = True
       manipulation['sox_denoising_scale'] = 0.15
       manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['detect_silence_threshold'] = 3.0
     elif audio_type == "nao_wav_1_ch_denoised_only_sox":
       manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 0.25
+      manipulation['detect_silence_threshold'] = 3.0
 
     return manipulation
 
