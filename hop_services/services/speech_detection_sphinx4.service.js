@@ -154,7 +154,7 @@ service speech_detection_sphinx4(
       cpFilePath + ']';
 
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-    //Fs.rmFile(file_uri);
+    Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId); // Dismiss the unique identity key
     var response = craft_error_response();
     return hop.HTTPResponseJson(response);

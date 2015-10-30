@@ -35,13 +35,19 @@
 
 
 /*--------------Load required modules-----------*/
-var hop = require('hop');
 var __modulePath = '../modules/';
-var __configPath = '../config/';
+var __configPath = __dirname + '/../config/';
+
+var hop = require('hop');
+var fs = require('fs');
+var Fs = require( __modulePath + 'fileUtils.js' );
+
+var pathsEnv = require( __configPath + 'env/paths.json' )
 var ROS = require( __modulePath + 'RosBridgeJS/src/Rosbridge.js' );
 var rosbridgeEnv = require( __configPath + 'env/rosbridge.json' );
 var testDataPath = __dirname +
-  '../../rapp_testing_tools/testing_tools/test_data';
+  '/../../rapp_testing_tools/testing_tools/test_data/';
+var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 /*----------------------------------------------*/
 
 import service available_services();
@@ -232,9 +238,9 @@ service rapp_platform_status(  )
 service testService(srvName)
 {
   var response = {success: false, output: undefined, input: undefined};
+  console.log(srvName)
   if(srvName in srvMap){
     var results = srvMap[srvName]();
-    console.log(results.output)
     response = {
       success: results.success,
       output: results.output,
@@ -256,11 +262,14 @@ var srvMap = {
   'ontology_subclasses_of': test_ontology_subclassesOf,
   'ontology_superclasses_of': test_ontology_superclassesOf,
   'ontology_is_subsuperclass_of': test_ontology_is_subsuperclassOf,
-  //'speech_detection_sphinx4': test_speech_detection_sphinx4,
-  //'speech_detection_google': test_speech_detection_google,
-  //'face_detection': test_face_detection,
-  //'qr_detection': test_qr_detection,
-  //'text_to_speech': test_text_to_speech
+  'set_noise_profile': test_denoise_profile,
+  'speech_detection_sphinx4': test_sphinx4,
+  'speech_detection_google': test_speech_detection_google,
+  'face_detection': test_face_detection,
+  'qr_detection': test_qr_detection,
+  'text_to_speech': test_tts,
+  'record_cognitive_test_performance': test_record_cognitive_performance,
+  'cognitive_test_chooser': test_cognitive_test_chooser
 }
 
 
@@ -269,6 +278,7 @@ var srvMap = {
  *                          Per service Tests.
  *****************************************************************************
  */
+
 
 function test_ontology_subclassesOf(){
   import service ontology_subclasses_of();
@@ -335,8 +345,34 @@ function test_ontology_is_subsuperclassOf(){
   }
   var validResult = true;
   var response = undefined;
-  var webService = hop.webService('http://' + hop.hostname + ':' +
-    hop.port + '/hop/' + s);
+  var webService = hop.webService(service_url(s));
+  var srv = webService(args);
+  try{
+    response = srv.postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response}
+  return {success: success, output: results, input: args};
+}
+
+function test_denoise_profile(){
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'set_noise_profile';
+  var testFileSrc = testDataPath + 'denoise_source.wav';
+  var testFileDest = __serverCacheDir + 'status_test_denoise.wav';
+  Fs.copyFile(testFileSrc, testFileDest);
+  var args = {
+    'file_uri': testFileDest,
+    'audio_source': 'nao_wav_1_ch',
+    'user': 'rapp'
+  }
+  var webService = hop.webService(service_url(s));
   var srv = webService(args);
   try{
     response = srv.postSync();
@@ -351,7 +387,198 @@ function test_ontology_is_subsuperclassOf(){
 }
 
 
+function test_sphinx4(){
+  import service speech_detection_sphinx4();
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'speech_detection_sphinx4';
+  var testFileSrc = testDataPath + 'yes-no.wav';
+  var testFileDest = __serverCacheDir + 'status_test_sphinx.wav';
+  Fs.copyFile(testFileSrc, testFileDest);
+  var args = {
+    language: 'en',
+    audio_source: 'nao_wav_1_ch',
+    words: ['yes', 'no'],
+    sentences: ['yes', 'no'],
+    grammar: [],
+    user: 'rapp',
+    file_uri: testFileDest
+  }
+  try{
+    response = speech_detection_sphinx4(args).postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response}
+  return {success: success, output: results, input: args};
+}
+
+
+function test_speech_detection_google(){
+  import service speech_detection_google();
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'speech_detection_google';
+  var testFileSrc = testDataPath + 'speech_detection_samples/' +
+    'recording_sentence1.ogg';
+  var testFileDest = __serverCacheDir + 'status_test_google.ogg';
+  Fs.copyFile(testFileSrc, testFileDest);
+  var args = {
+    language: 'en',
+    audio_source: 'nao_ogg',
+    user: 'rapp',
+    file_uri: testFileDest
+  }
+  try{
+    response = speech_detection_google(args).postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response}
+  return {success: success, output: results, input: args};
+
+}
+
+
+function test_face_detection(){
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'face_detection';
+  var testFileSrc = testDataPath + 'Lenna.png';
+  var testFileDest = __serverCacheDir + 'status_test_lenna.png';
+  Fs.copyFile(testFileSrc, testFileDest);
+  var args = {
+    'file_uri': testFileDest,
+  }
+  var webService = hop.webService(service_url(s));
+  var srv = webService(args);
+  try{
+    response = srv.postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response}
+  return {success: success, output: results, input: args};
+}
+
+
+function test_qr_detection(){
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'qr_detection';
+  var testFileSrc = testDataPath + 'qr_code_rapp.jpg';
+  var testFileDest = __serverCacheDir + 'status_test_qr.jpg';
+  Fs.copyFile(testFileSrc, testFileDest);
+  var args = {
+    'file_uri': testFileDest,
+  }
+  var webService = hop.webService(service_url(s));
+  var srv = webService(args);
+  try{
+    response = srv.postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response}
+  return {success: success, output: results, input: args};
+}
+
+function test_tts(){
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'text_to_speech';
+  var args = {
+    'language': 'el',
+    'text': 'Καλησπέρα'
+  }
+  var webService = hop.webService(service_url(s));
+  var srv = webService(args);
+  try{
+    response = srv.postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {
+    results = response;
+    results['payload'] = 'This is the hidden payload field!!';
+  }
+  return {success: success, output: results, input: args};
+}
+
+
+function test_record_cognitive_performance(){
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'record_cognitive_test_performance';
+  var args = {
+    'user': 'rapp',
+    'test': 'ArithmeticCts_obzxzwaP',
+    'score': 50
+  }
+  var webService = hop.webService(service_url(s));
+  var srv = webService(args);
+  try{
+    response = srv.postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response;}
+  return {success: success, output: results, input: args};
+}
+
+
+function test_cognitive_test_chooser(){
+  var success = true;
+  var results = undefined;
+  var response = undefined;
+  var s = 'cognitive_test_chooser';
+  var args = {
+    'user': 'rapp',
+    'testType': 'ArithmeticCts'
+  }
+  var webService = hop.webService(service_url(s));
+  var srv = webService(args);
+  try{
+    response = srv.postSync();
+  }
+  catch(e){
+    console.log(e);
+    results = e;
+    success = false;
+  }
+  if(success) {results = response;}
+  return {success: success, output: results, input: args};
+}
+
 /****************************************************************************/
+
+function service_url(srvName){
+  return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
+}
 
 function loopInf(){
   setTimeout(function(){
