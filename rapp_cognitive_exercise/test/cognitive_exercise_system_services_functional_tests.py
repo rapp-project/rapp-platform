@@ -43,7 +43,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
                 subclasses_of_service, recordUserCognitiveTestPerformanceSrv)
 
         req = recordUserCognitiveTestPerformanceSrvRequest()
-        req.username="cognitiveExerciseSystemTestUser1"        
+        req.username="rapp"        
         req.test="ArithmeticCts_stXqnGrc"
         req.score=10
         response = test_service(req)     

@@ -232,7 +232,7 @@ CREATE TABLE `tblUser` (
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-insert into tblUser(username, firstname, lastname, language) values('rapp', 'rapp', 'rapp', 'el');
+insert into tblUser(username, firstname, lastname, ontology_alias, language) values('rapp', 'rapp', 'rapp', 'Person_DpphmPqg', 'el');
 --
 -- Table structure for table `tblUserDir`
 --
