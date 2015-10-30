@@ -6,6 +6,7 @@ int32 test_difficulty
 int32 test_variation
 string test_path
 string test_subtype
+string[] supported_languages
 ---
 # The results of the query
 string test_name

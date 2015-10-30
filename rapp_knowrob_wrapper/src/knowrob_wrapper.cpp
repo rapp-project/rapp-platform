@@ -393,7 +393,7 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     res.error=std::string("Test file does not exist in provided file path");
     return res; 
   }
-  
+    
   std::string variation = intToString(req.test_variation);
   std::string difficulty = intToString(req.test_difficulty);
   //res.trace.push_back(variation);
@@ -425,10 +425,25 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     std::string temp_query_tests=bdg["B"];
     query_ret_tests.push_back(temp_query_tests);  
   }
+  
   for(unsigned int i = 0 ; i < query_ret_tests.size() ; i++)
   {
     res.test_name=(query_ret_tests[i]);  
+    //tmp_test_name=(query_ret_tests[i]);
   }
+  
+  std::cout << res.test_name<<"/n";
+  std::string tmp_test_name=res.test_name;
+  std::vector<std::string> test_created=split(tmp_test_name,std::string("#"));
+  std::cout << res.test_name<<"/n";
+  //if(test_created.size()==2)
+  //{      
+    //for(unsigned int i=0 ; i < req.supported_languages.size(); i++)
+    //{
+      //query=std::string("rdf_assert(knowrob:'")+test_created[1]+std::string("',knowrob:supportedLanguages,knowrob:'")+req.supported_languages[i]+std::string("')");
+      //results = pl.query(query.c_str());
+    //}  
+  //}  
   
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
   dmp.file_url=std::string("/owl/currentVersion.owl");
