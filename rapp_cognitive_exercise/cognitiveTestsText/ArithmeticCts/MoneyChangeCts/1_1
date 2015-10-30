@@ -1,0 +1,23 @@
+testType:ArithmeticCts
+testSubType:TransactionChangeCts
+difficulty:1
+
+language:Greek
+
+question:Αγοράζουμε ένα ψωμί που κάνει ογδόντα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης; 
+answers:ένα ευρώ και είκοσι λεπτά,δύο ευρώ και είκοσι λεπτά,ένα ευρώ και δέκα λεπτά,ογδόντα λεπτά
+correctAnswer:ένα ευρώ και είκοσι λεπτά
+
+question:Αγοράζουμε ένα γάλα που κάνει ένα ευρώ και είκοσι λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα πάρουμε πίσω;
+answers:ένα ευρώ και είκοσι λεπτά,δύο ευρώ και δέκα λεπτά,ένα ευρώ και δέκα λεπτά,ογδόντα λεπτά
+correctAnswer:ογδόντα λεπτά
+
+language:English
+
+question:We buy a loaf of bread which costs eighty cents and we pay with a two euro coin. How much change do we get back? 
+answers:one euro and twenty cents,two euros and twenty cents,one euro and ten cents,eighty cents
+correctAnswer:one euro and twenty cents
+
+question:We buy a carton of milk which costs one euro and twenty cents and we pay with a two euro coin. How much change do we get back?
+answers:one euro and twenty cents,one euro and twenty cents,one euro and ten cents,eighty cents
+correctAnswer:eighty cents

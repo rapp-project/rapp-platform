@@ -1,0 +1,39 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+difficulty:3
+
+language:Greek
+
+question:Πόσο κάνει εβδομήντα ένα και είκοσι τρία;
+answers:εκατόν τέσσερα,ογδόντα τέσσερα,ενενήντα τρία,ενενήντα τέσσερα
+correctAnswer:ενενήντα τέσσερα
+
+question:Πόσο κάνει έντεκα και τριάντα πέντε;
+answers:σαράντα έξι,τριάντα έξι,σαράντα εφτά,τριάντα εφτά
+correctAnswer:σαράντα έξι
+
+question:Πόσο κάνει σαράντα πέντε και εβδομήντα τρία;
+answers:εκατόν οκτώ,ενενήντα οκτώ,εκατόν είκοσι οκτώ,εκατόν δέκα οκτώ
+correctAnswer:εκατόν δέκα οκτώ
+
+question:Πόσο κάνει σαράντα εννιά και δεκατρία;
+answers:εβδομήντα δύο,πενήντα ένα,πενήντα δύο,εξήντα δύο
+correctAnswer:εξήντα δύο
+
+language:English
+
+question:How much is seventy one plus twenty three?
+answers:one hundred four,eighty four,ninety three,ninety four
+correctAnswer:ninety four
+
+question:How much is eleven plus thirty five?
+answers:forty six,thirty six,forty seven,thirty seven
+correctAnswer:forty six
+
+question:How much is forty five plus seventy three?
+answers:one hundred eight,ninety eight,one hundred twenty eight,one hundred eighteen
+correctAnswer:one hundred eighteen
+
+question:How much is forty nine plus thirteen?
+answers:seventy two,sixty two,fifty two,fifty one
+correctAnswer:sixty two

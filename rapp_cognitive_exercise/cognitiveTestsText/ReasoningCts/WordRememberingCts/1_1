@@ -1,0 +1,31 @@
+testType:ReasoningCts
+testSubType:WordRememberingCts
+difficulty:1
+
+language:Greek
+
+question:Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;
+answers:ναι,όχι
+correctAnswer:ναι
+
+question:μπάλα σημαία δέντρο. Τις συγκράτησες;
+answers:ναι,όχι
+correctAnswer:ναι
+
+question:Θα μου επαναλάβεις τώρα τις λέξεις σε παρακαλώ;
+answers:μπάλα σημαία δέντρο
+correctAnswer:μπάλα σημαία δέντρο
+
+language:English
+
+question:I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?
+answers:yes,no
+correctAnswer:yes
+
+question:ball flag tree. Did you grasp them?
+answers:yes,no
+correctAnswer:yes
+
+question:Will you please repeat the words?
+answers:ball flag tree
+correctAnswer:ball flag tree

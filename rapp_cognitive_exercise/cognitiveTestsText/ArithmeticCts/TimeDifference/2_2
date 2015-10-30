@@ -1,0 +1,23 @@
+testType:ArithmeticCts
+testSubType:TimeDifferenceCts
+difficulty:2
+
+language:Greek
+
+question:Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις έξι και δεκαπέντε. Οι διαφημίσεις δεν λένε να τελειώσουν και έχει πάει έξι και τριάντα έξι χωρίς ακόμη να έχει αρχίσει. Πόση ώρα καθυστέρησε; 
+answers:είκοσι οκτώ λεπτά,δεκαοκτώ λεπτά,δώδεκα λεπτά,είκοσι ένα λεπτά
+correctAnswer:είκοσι ένα λεπτά
+
+question:Έχετε ραντεβού με την παρέα σας το απόγευμα στις πέντε και δέκα αλλά καθυστερείτε τριάντα τρία λεπτά ακριβώς. Τι ώρα φτάνετε;
+answers:πέντε και τριάντα τρία,πέντε και σαράντα τρία,πέντε και είκοσι πέντε,πέντε και τριάντα
+correctAnswer:πέντε και σαράντα τρία
+
+language:English
+
+question:Your favorite tv show stast at fifteen minutes past six in the evening. The commercials seem endless, it is already thirty six minutes past six and the show has not started yet. How much time is it late? 
+answers:twenty eight minutes,eighteen minutes,twelve minutes,twenty one minutes
+correctAnswer:twenty one minutes
+
+question:You are to meet your friends at ten minutes past five in the evening but you are thirty three minutes late. At what time do you meet your friends?
+answers:thirty three minutes past five,fourty three minutes past five, twenty five minutes past five,thirty minutes past five
+correctAnswer:fourty three minutes past five

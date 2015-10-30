@@ -1,0 +1,23 @@
+testType:ArithmeticCts
+testSubType:TimeDifferenceCts
+difficulty:1
+
+language:Greek
+
+question:Έχουμε ραντεβού στο γιατρό στις εφτά και δεκαπέντε το απόγευμα. Φτάνουμε στις εφτά και τελικά ο γιατρός μας δέχεται μετά από είκοσι πέντε λεπτά. Τι ώρα μας δέχτηκε τελικά ο γιατρός; 
+answers:εφτά και είκοσι πέντε,εφτά και τριάντα πέντε,οκτώ και τριάντα,εφτά
+correctAnswer:εφτά και είκοσι πέντε
+
+question:Το βράδυ έχουμε να πάμε σε ένα πάρτυ που ξεκινάει στις οκτώ αλλά μας βρίσκει κίνηση και τελικά φτάνουμε στις οκτώ και πενήντα. Πόση ώρα έχουμε καθυστερήσει;
+answers:πενήντα λεπτά,σαράντα λεπτά,τριάντα λεπτά,ογδόντα λεπτά
+correctAnswer:πενήντα λεπτά
+
+language:English
+
+question:You have an appointment with the doctor at fifteen minutes past seven in the evening. You reach his office by seven and the doctor takes you in after twenty five minutes. At what time did the doctor take you in? 
+answers:twenty five past seven,thirty past seven,thirty five past seven,seven
+correctAnswer:twenty five past seven
+
+question:You are going to a party tonight that starts at eight but you get stuck in the traffic and so you get to the party at ten minutes before nine. How much time are you late?
+answers:fifty minutes,forty minutes,thirty minutes,eighty minutes
+correctAnswer:fifty minutes

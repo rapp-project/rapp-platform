@@ -1,0 +1,31 @@
+testType:ReasoningCts
+testSubType:WordRememberingCts
+difficulty:3
+
+language:Greek
+
+question:Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;
+answers:ναι,όχι
+correctAnswer:ναι
+
+question:μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ. Τις συγκράτησες;
+answers:ναι,όχι
+correctAnswer:ναι
+
+question:Θα μου επαναλάβεις τώρα τις λέξεις σε παρακαλώ;
+answers:μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ
+correctAnswer:μπογιατζής παράθυρο εφημερίδα χαρά κουρτίνες λεωφορείο παιδιά φόβος μητέρα ζελέ
+
+language:English
+
+question:I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?
+answers:yes,no
+correctAnswer:yes
+
+question:painter window newspaper happiness curtaine bus kids fear mother gel. Did you grasp them?
+answers:yes,no
+correctAnswer:yes
+
+question:Will you please repeat the words?
+answers:painter window newspaper happiness curtaine bus kids fear mother gel
+correctAnswer:painter window newspaper happiness curtaine bus kids fear mother gel

@@ -1,0 +1,23 @@
+testType:ArithmeticCts
+testSubType:TransactionChangeCts
+difficulty:3
+
+language:Greek
+
+question:Αγοράζουμε μία μπλούζα που κάνει είκοσι δύο ευρώ και ογδόντα λεπτά και ενα παντελόνι που κάνει δεκατέσσερα ευρώ και τριάντα λεπτά και δίνουμε ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα μας δώσει ο πωλητής;
+answers:δώδεκα ευρώ και εξήντα λεπτά,δεκατρία ευρώ και ενενήντα λεπτά,έντεκα ευρώ και εβδομήντα λεπτά,δώδεκα ευρώ και ενενήντα λεπτά
+correctAnswer:δώδεκα ευρώ και ενενήντα λεπτά
+
+question:Αγοράζουμε ένα λούτρινο αρκουδάκι που κάνει δεκαπέντε ευρώ και εξήντα λεπτά και μία κούκλα που κάνει δεκαοκτώ ευρώ και πενήντα λεπτά και δίνουμε ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;
+answers:δεκαπέντε ευρώ και δεκαπέντε λεπτά,δώδεκα ευρώ και ενενήντα λεπτά,δεκαπέντε ευρώ και ενενήντα λεπτά,δεκατέσσερα ευρώ ογδόντα λεπτά
+correctAnswer:δεκαπέντε ευρώ και ενενήντα λεπτά
+
+language:English
+
+question:We buy a blouse which costs two euros and eighty cents and a pair of trousers which costs fourteen euros and thirty cents and we pay with a fifty euro bill. How much change do we get back? 
+answers:twelve euros and sixty cents,thirteen euros and ninety cents,eleven euros and seventy cents,twelve euros and ninety cents
+correctAnswer:twelve euros and ninety cents
+
+question:We buy a teddy bear which costs fifteen euro and sixty cents and a doll which costs eighteen euro and fifty cents and we pay with a fifty euro bill. How much change do we get back? 
+answers:fifteen euros and fifteen cents,twelve euros and ninety cents,fifteen euros and ninety cents,fourteen euros and eighy cents
+correctAnswer:fifteen euros and ninety cents

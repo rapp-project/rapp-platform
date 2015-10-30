@@ -1,0 +1,39 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+difficulty:1
+
+language:Greek
+
+question:Πόσο κάνει τρία και τέσσερα;
+answers:τρία,εννιά,τέσσερα,εφτά
+correctAnswer:εφτά
+
+question:Πόσο κάνει ένα και τέσσερα;
+answers:τέσσερα,εννιά,πέντε,εφτά
+correctAnswer:πέντε
+
+question:Πόσο κάνει έξι και ένα;
+answers:ένα,εννιά,πέντε,εφτά
+correctAnswer:εφτά
+
+question:Πόσο κάνει ένα και πέντε;
+answers:δύο,έξι,πέντε,εφτά
+correctAnswer:έξι
+
+language:English
+
+question:How much is three plus four?
+answers:three,nine,four,seven
+correctAnswer:seven
+
+question:How much is one plus four?
+answers:four,nine,five,seven
+correctAnswer:five
+
+question:How much is six plus one?
+answers:one,nine,five,seven
+correctAnswer:seven
+
+question:How much is one plus five?
+answers:two,six,five,seven
+correctAnswer:six
