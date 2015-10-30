@@ -1,0 +1,15 @@
+testType:ArithmeticCts
+testSubType:TimeDifferenceCts
+difficulty:3
+language:English
+
+question:You are to take your antibiotics pill at nine in the morning and every six hours afterwards. You get the next dose in the evening one hour late. At what time will you now take the next dose at night while keeping the six hour difference between doses? 
+answers:nine,ten,eight,eleven
+correctAnswer:ten
+
+question:You are going to the movies tonight with your friends. The movie starts a quarter to nine but before going to the cinema you need to pick up some dry cleaning. At fifteen past eight you reach the dry cleaner but you spend thirty five minutes there. Will you get to the cinema before the movie starts?
+answers:yes,no
+correctAnswer:no
+
+
+

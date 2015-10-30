@@ -1,0 +1,24 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+difficulty:1
+language:English
+
+question:How much is seven plus two?
+answers:three,nine,five,seven
+correctAnswer:nine
+
+question:How much is four plus four?
+answers:eight,nine,five,seven
+correctAnswer:eight
+
+question:How much is six plus three?
+answers:eight,nine,four,seven
+correctAnswer:nine
+
+question:How much is two plus five?
+answers:two,nine,five,seven
+correctAnswer:seven
+
+
+
+

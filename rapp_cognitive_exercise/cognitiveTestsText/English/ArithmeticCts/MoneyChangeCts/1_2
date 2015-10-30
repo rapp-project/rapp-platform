@@ -1,0 +1,15 @@
+testType:ArithmeticCts
+testSubType:TransactionChangeCts
+difficulty:1
+language:English
+
+question:We buy a loaf of bread which costs sixty cents and we pay with a two euro coin. How much change do we get back? 
+answers:one euro and twenty cents,two euros and ten cents,one euro and forty cents,sixty cents
+correctAnswer:one euro and forty cents
+
+question:We buy a carton of milk which costs one euro and ten cents and we pay with a two euro coin. How much change do we get back?
+answers:one euro and five cents,two euros and ninety cents,one euro and ninety cents,ninety cents
+correctAnswer:ninety cents
+
+
+

@@ -1,0 +1,12 @@
+testType:ArithmeticCts
+testSubType:TransactionChangeCts
+difficulty:3
+language:English
+
+question:We buy a blouse which costs two euros and ninety cents and a pair of trousers which costs sixteen euros and fourty cents and we pay with a fifty euro bill. How much change do we get back?
+answers:eleven euros and seventy cents,thirteen euros and ninety cents,ten euros and seventy cents,eleven euros and ninety cents
+correctAnswer:ten euros and seventy cents
+
+question:We buy a teddy bear which costs twelve euro and thirty cents and a doll which costs twenty eight euro and fifty cents and we pay with a fifty euro bill. How much change do we get back? 
+answers:ten euros and twenty cents,nine euros and twenty cents,nine euros and ninety cents,eight euros and twenty cents
+correctAnswer:eight euros and twenty cents

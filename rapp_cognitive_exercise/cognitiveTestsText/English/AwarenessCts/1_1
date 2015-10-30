@@ -1,0 +1,20 @@
+testType:AwarenessCts
+testSubType:TimeDayYearCts
+difficulty:1
+language:English
+
+question:What day of the week is it?
+answers:The RApp is responsible for finding the correct answer
+correctAnswer:The RApp is responsible for finding the correct answer
+
+question:What year is it?
+answers:The RApp is responsible for finding the correct answer
+correctAnswer:The RApp is responsible for finding the correct answer
+
+question:What month is it?
+answers:The RApp is responsible for finding the correct answer
+correctAnswer:The RApp is responsible for finding the correct answer
+
+
+
+

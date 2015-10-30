@@ -1,0 +1,15 @@
+testType:ArithmeticCts
+testSubType:TimeDifferenceCts
+difficulty:2
+language:English
+
+question:Your favorite tv show stast at fifteen minutes past six in the evening. The commercials seem endless, it is already thirty three minutes past six and the show has not started yet. How much time is it late? 
+answers:twenty eight minutes,eighteen minutes,twelve minutes,twenty one minutes
+correctAnswer:eighteen minutes
+
+question:You are to meet your friends at ten minutes past five in the evening but you are twenty three minutes late. At what time do you meet your friends?
+answers:thirty three minutes past five,twenty three minutes past five,twenty five minutes past five,thirty minutes past five
+correctAnswer:thirty three minutes past five
+
+
+

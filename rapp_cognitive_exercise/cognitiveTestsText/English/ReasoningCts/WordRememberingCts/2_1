@@ -1,0 +1,16 @@
+testType:ReasoningCts
+testSubType:WordRememberingCts
+difficulty:2
+language:English
+
+question:I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?  
+answers:yes,no
+correctAnswer:yes
+
+question:chair elephant plate fruit water. Did you grasp them?
+answers:yes,no
+correctAnswer:yes
+
+question:Will you please repeat the words?
+answers:chair elephant plate fruit water
+correctAnswer:chair elephant plate fruit water

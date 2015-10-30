@@ -432,10 +432,11 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     //tmp_test_name=(query_ret_tests[i]);
   }
   
-  std::cout << res.test_name<<"/n";
-  std::string tmp_test_name=res.test_name;
+  //std::cout << res.test_name<<"/n";
+  std::string tmp_test_name;
+  tmp_test_name.assign(res.test_name.c_str());
   std::vector<std::string> test_created=split(tmp_test_name,std::string("#"));
-  std::cout << res.test_name<<"/n";
+  //std::cout << res.test_name<<"/n";
   //if(test_created.size()==2)
   //{      
     //for(unsigned int i=0 ; i < req.supported_languages.size(); i++)

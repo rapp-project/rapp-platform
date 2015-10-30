@@ -1,0 +1,15 @@
+testType:ArithmeticCts
+testSubType:TimeDifferenceCts
+difficulty:1
+language:English
+
+question:You have an appointment with the doctor at twenty five minutes past seven in the evening. You reach his office by seven and the doctor takes you in after twenty minutes. At what time did the doctor take you in? 
+answers:fifteen minutes past seven,thirty five minutes past seven,thirty minutes past eight,seven
+correctAnswer:thirty five minutes past seven
+
+question:You are going to a party tonight that starts at eight but you get stuck in the traffic and so you get to the party at twenty minutes before nine. How much time are you late?
+answers:fifty minutes,fourty minutes,thirty minutes,eighty minutes
+correctAnswer:fourty minutes
+
+
+

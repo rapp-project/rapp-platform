@@ -1,0 +1,26 @@
+testType:ArithmeticCts
+testSubType:BasicArithmeticCts
+difficulty:2
+language:Greek
+
+question:Πόσο κάνει οκτώ και εννιά;
+answers:δεκατέσσερα,δεκαέξι,οκτώ,δεκαεφτά
+correctAnswer:δεκαεφτά
+
+question:Πόσο κάνει εννιά και έντεκα;
+answers:είκοσι τρία,δεκαεννιά,έντεκα,είκοσι
+correctAnswer:είκοσι
+
+question:Πόσο κάνει έντεκα και τρία;
+answers:δεκατέσσερα,δεκαέξι,δεκαεφτά,δεκαπέντε
+correctAnswer:δεκατέσσερα
+
+question:Πόσο κάνει δώδεκα και τρία;
+answers:δεκαεννιά,δεκαπέντε,δεκαέξι,είκοσι ένα
+correctAnswer:δεκαπέντε
+
+
+
+
+
+

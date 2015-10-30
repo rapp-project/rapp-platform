@@ -1,0 +1,16 @@
+testType:ReasoningCts
+testSubType:WordRememberingCts
+difficulty:1
+language:English
+
+question:I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready? 
+answers:yes,no
+correctAnswer:yes
+
+question:ball flag tree. Did you grasp them?
+answers:yes,no
+correctAnswer:yes
+
+question:Will you please repeat the words?
+answers:ball flag tree
+correctAnswer:ball flag tree

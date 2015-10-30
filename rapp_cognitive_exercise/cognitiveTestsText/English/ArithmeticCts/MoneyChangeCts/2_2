@@ -1,0 +1,12 @@
+testType:ArithmeticCts
+testSubType:TransactionChangeCts
+difficulty:2
+language:English
+
+question:We buy one kilo of tomatoes which costs one euro and twenty cents and we pay with a five euro bill. How much change do we get back?  
+answers:four euros and seventy cents,three euros and eighty cents,two euros and eighty cents,eighty cents
+correctAnswer:three euros and eighty cents
+
+question:We buy a box of sweets which costs eight euro and ninety cents and we pay with a ten euro bill. How much change do we get back? 
+answers:one euro and fifteen cents,two euros and ten cents,one euro and ten cents,forty cents
+correctAnswer:one euro and ten cents
