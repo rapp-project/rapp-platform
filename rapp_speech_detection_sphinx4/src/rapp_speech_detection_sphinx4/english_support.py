@@ -33,6 +33,7 @@ import mmap
 from global_parameters import GlobalParams
 from rapp_exceptions import RappError
 from limited_vocabulary_creator import *
+from rapp_tools import *
 
 class EnglishSupport(GlobalParams):
 
@@ -70,7 +71,7 @@ class EnglishSupport(GlobalParams):
     try:
       self.english_dict_file = open(self.english_dictionary, 'r')
     except IOError:
-      print "English dictionary could not be opened!"
+      rapp_print("English dictionary could not be opened!")
     # Create a mapping of the file
     self.english_dict_mapping = mmap.mmap(self.english_dict_file.fileno(), 0, \
         access = mmap.ACCESS_READ)
@@ -80,7 +81,7 @@ class EnglishSupport(GlobalParams):
   # status is either error (string) or True (bool)
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     enhanced_words = {}
-    print words
+    rapp_print(words)
     for word in words:
       inner_words = []
       inner_phonemes = []

@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys
+from rapp_tools import *
 
 class RappError(Exception):
   """Error handling in RAPP"""

@@ -34,6 +34,7 @@ import time
 from greek_support import *
 from english_support import *
 from sphinx4_wrapper import *
+from rapp_tools import *
 
 from global_parameters import GlobalParams
 
@@ -170,7 +171,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
   def speechRecognition(self, req):
     res = SpeechRecognitionSphinx4SrvResponse()
     words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user)
-    print words
+    rapp_print (words)
     # Error handling - Must be implemented with exceptions
     if len(words) == 1 and "Error:" in words[0]:
       res.error = words[0]
@@ -179,7 +180,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
 
     for word in words:
       if self.language != "en":
-        print "Word: #" + word + "#"
+        rapp_print ("Word: #" + word + "#")
         if word == "" or word == '<unk>':
           continue
         res.words.append(self.word_mapping[word])
@@ -213,10 +214,10 @@ class SpeechRecognitionSphinx4(GlobalParams):
 
     # English language
     if self.language == 'en':
-      print "Language set to English"
+      rapp_print ("Language set to English")
       # Whole dictionary utilization
       if len(self.words) == 0:
-        print "Generic model used"
+        rapp_print ("Generic model used")
         # success is either True (bool) or error (string)
         try:
             conf = self.english_support.getGenericConfiguration()
@@ -225,7 +226,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
             return res
       # Limited dictionary utilization
       else:
-        print "Limited model used"
+        rapp_print ("Limited model used")
         # success is either True (bool) or error (string)
         try:
             conf = self.english_support.getLimitedVocebularyConfiguration(\
@@ -236,14 +237,14 @@ class SpeechRecognitionSphinx4(GlobalParams):
 
     # Greek language
     elif self.language == "el":
-      print "Language set to Greek"
+      rapp_print ("Language set to Greek")
       # Whole dictionary utilization
       if len(self.words) == 0:
-        print "Generic model used"
+        rapp_print ("Generic model used")
         # TODO
       # Limited dictionary utilization
       else:
-        print "Words to be recognized (" + str(len(self.words)) + "):"
+        rapp_print ("Words to be recognized (" + str(len(self.words)) + "):")
         # success is either True (bool) or error (string)
         try:
             [conf, eng_w] = self.greek_support.getLimitedVocebularyConfiguration(\
@@ -254,15 +255,15 @@ class SpeechRecognitionSphinx4(GlobalParams):
 
         for ew in eng_w:
           self.word_mapping[ew] = eng_w[ew]
-        print self.word_mapping
+        rapp_print (self.word_mapping)
 
     else:
       res.error = "Wrong language"
       return res
 
     # Actual sphinx4 configuration
-    print "Configuration: \n"
-    print conf
+    rapp_print ("Configuration: \n")
+    rapp_print (conf)
     self.sphinx4.configureSphinx(conf)
     return res
 
