@@ -1,34 +1,102 @@
+RAPP Testing Tools
+------------------
+
+
 ## Synopsis
 
-This directory includes testing tools related to HOP Web Services located under the RAPP Platform, instructions to deploy the unit and functional tests, as well as the data needed.
+Testing tools used for RAPP Platform integration tests.
 
-### Unit and functional tests
+All tests use the RappCloud python module in order to communicate with RAPP Platform AI modules.
 
-In order to deploy the unit and functional tests do the following:
 
-```
-cd ~/rapp_platform/rapp-platform-catkin-ws/
-catkin_make run_tests -j1
-```
+## Tests Directory
 
-In order to deploy the tests of a single ROS package (e.g. face detection), perform the following:
+By default, this package containes basic written tests. These tests are located
+under:
 
-```
-cd ~/rapp_platform/rapp-platform-catkin-ws/
-catkin_make run_tests_rapp_face_detection -j1
+```shell
+<rapp_testing_tools_package_dir>/scripts/default_tests
 ```
 
-The ```rapp_face_detection``` postfix is the name of the corresponding ROS package's name.
 
-### Integration testing
+## Executing Tests
 
-Follow the instructions here: https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/testing_tools/README.md
+RAPP testing tools uses the rapp_run_test.py script in order to execute
+developed tests. That is the actually the testing engine.
 
-### Directories
+Arguments:
+- -i **<test_name>** : Define test to run (use python test file full name).
+- -n **<number_of_calls>** : Define number of test calls.
+- -t : Run the test threaded which means that multible invocations can be done.
+simultaneous.
 
-- testing_tools : Tools for testing HOP web services and furthermore RIC AI modules.
+**Note:**
+If no test_name is provided as argument, all tests located under tests paths
+are executed!!
+
+There are two ways of executing developed tests:
+- Execute directly.
+- Execute using the ROS framework.
+
+### Using the python executable directly (rapp_run_test.py)
+
+The below example executes the qr_detection_test_1, five times in sequential
+mode.
+
+```shell
+./rapp_run_test.py -i qr_detection_test_1.py -n 5
+```
+
+### Using ROS framework
+
+The below example executes all tests, once.
+
+```shell
+rosrun rapp_testing_tools rapp_run_test.py
+```
+
+
+## Developing Tests
+
+A template.py is located under the default_tests directory
+
+```shell
+scripts/default_tests
+```
+
+Also several tests have already been developed, located under the default_tests
+directory, and can be used as a reference for developing new tests.
+
+
+### Where to store developed tests
+
+By default, developed tests are stored under scripts/default_tests. Though
+developers can define different directory paths where tests are stored.
+
+In order to define external tests directories, developers have to append that path
+into the params.yaml configuration file. This file is located under the config/
+directory in this package.
+
+Lets say for example that you want to store tests under:
+
+```shell
+~/rapp_integration_tests_external
+```
+
+In order to define to testing-engine to search into that directory for developed tests,
+that path have to e defined into  **params.yaml** file:
+
+```yaml
+tests_path:
+  - '~/rapp_integration_tests_external'
+```
+
 
 ## Contributors
 
-- Konstaninos Panayiotou, **[klpanagi@gmail.com]**
-- Manos Tsardoulias, **[etsardou@gmail.com]**
+- Konstantinos Panayiotou, [klpanagi@gmail.com]
+- Manos Tsardoulias. [etsardou@gmail.com]
+
+
+## Contact
+- Konstantinos Panayiotou, [klpanagi@gmail.com]
