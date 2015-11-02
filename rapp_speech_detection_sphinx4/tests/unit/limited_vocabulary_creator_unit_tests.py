@@ -75,9 +75,9 @@ class TestAudioProcessing(unittest.TestCase):
         grammar = grammar_folder + 'custom.gram'
         with open(grammar) as f:
             grams = f.readlines()
-        self.assertEqual('public <cmd1>=autos;\n' in grams, True)
-        self.assertEqual('public <cmd2>=dyskolo;\n' in grams, True)
-        self.assertEqual('public <cmd3>=autos dyskolo;\n' in grams, True)
+        self.assertEqual('public <cmd1>="autos";\n' in grams, True)
+        self.assertEqual('public <cmd2>="dyskolo";\n' in grams, True)
+        self.assertEqual('public <cmd3>="autos dyskolo";\n' in grams, True)
 
 
     def test_noSentences(self):
