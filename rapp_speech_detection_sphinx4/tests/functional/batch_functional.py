@@ -56,7 +56,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         test_service = rospy.ServiceProxy(
             conf_service, SpeechRecognitionSphinx4TotalSrv)
         
-        for i in range(0, 40):
+        for i in range(0, 10):
           req = SpeechRecognitionSphinx4TotalSrvRequest()
           req.language = 'el'
           req.words = ['ναι', 'όχι']
