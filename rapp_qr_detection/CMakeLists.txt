@@ -40,6 +40,10 @@ target_link_libraries(qr_detector_lib
   ${catkin_LIBRARIES}
   zbar
   )
+add_dependencies(qr_detector_lib
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
 
 ## ROS node executable
 add_executable(qr_detection_ros_node 

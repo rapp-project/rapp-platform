@@ -38,6 +38,10 @@ add_library(face_detector_lib
 target_link_libraries(face_detector_lib
   ${catkin_LIBRARIES}
   )
+add_dependencies(face_detector_lib
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
 
 ## ROS node executable
 add_executable(face_detection_ros_node 
