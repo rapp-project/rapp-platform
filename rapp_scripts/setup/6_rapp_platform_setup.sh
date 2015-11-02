@@ -18,6 +18,9 @@ echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo \e[0m"
 git clone git@github.com:rapp-project/rapp-platform.git
 git clone git@github.com:rapp-project/rapp-api.git
 
+cd rapp-api/python
+sudo pip install -r dependencies.txt
+
 catkin_init_workspace
 
 echo "source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend" >> ~/.bashrc

@@ -6,7 +6,6 @@ sudo apt-get -y install python-scipy
 sudo apt-get -y install bison
 sudo apt-get -y install sox 
 sudo apt-get -y install flac 
-sudo apt-get -y install mbrola*
 cd $HOME/rapp_platform
 git clone git@github.com:skerit/cmusphinx
 cd cmusphinx/cmuclmtk
