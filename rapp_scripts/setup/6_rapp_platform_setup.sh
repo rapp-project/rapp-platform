@@ -24,6 +24,7 @@ sudo pip install -r dependencies.txt
 catkin_init_workspace
 
 echo "source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend" >> ~/.bashrc
+echo "export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python" >> ~/.bashrc
 source ~/.bashrc
 
 # catkin_make rapp-platform
