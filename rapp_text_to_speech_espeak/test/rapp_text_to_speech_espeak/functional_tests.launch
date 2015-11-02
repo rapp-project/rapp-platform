@@ -2,6 +2,6 @@
    <node name="rapp_text_to_speech_espeak_node" pkg="rapp_text_to_speech_espeak" type="text_to_speech_espeak.py" output="screen"/>
   <rosparam file="$(find rapp_text_to_speech_espeak)/cfg/rapp_text_to_speech_espeak_params.yaml" 
     command="load" />
-  <test time-limit="20" test-name="text_to_speech_espeak_functional" pkg="rapp_text_to_speech_espeak" type="functional_tests.py" /> 
+  <test time-limit="100" test-name="text_to_speech_espeak_functional" pkg="rapp_text_to_speech_espeak" type="functional_tests.py" /> 
  </launch> 
  
