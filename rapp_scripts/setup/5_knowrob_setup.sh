@@ -1,5 +1,9 @@
 #!/bin/bash 
 
+# Move the ontology file to the proper place
+mkdir ~/rapp_platform_files
+cp currentOntologyVersion.owl ~/rapp_platform_files/
+
 # Download and install KnowRob
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Knowrob \e[0m"
 sudo apt-get install -y swi-prolog swi-prolog-java
