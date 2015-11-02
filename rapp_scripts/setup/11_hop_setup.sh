@@ -26,7 +26,7 @@ make
 make test
 make compile-bee
 sudo make install
-sudo make -y install-bee
+sudo make install-bee
 cd ..
 cd hop
 ./configure
