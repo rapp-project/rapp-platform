@@ -6,3 +6,4 @@ sudo apt-get install -y vim
 sudo apt-get install -y git gitg
 sudo apt-get install -y espeak
 sudo apt-get install -y mbrola*
+sudo apt-get install -y python-pip
