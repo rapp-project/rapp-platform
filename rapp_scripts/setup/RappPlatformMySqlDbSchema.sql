@@ -33,6 +33,15 @@ CREATE TABLE `tblAppsRobots` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tblAppsRobots`
+--
+
+LOCK TABLES `tblAppsRobots` WRITE;
+/*!40000 ALTER TABLE `tblAppsRobots` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblAppsRobots` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tblDep`
 --
 
@@ -46,6 +55,15 @@ CREATE TABLE `tblDep` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblDep`
+--
+
+LOCK TABLES `tblDep` WRITE;
+/*!40000 ALTER TABLE `tblDep` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblDep` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tblEmail`
@@ -66,6 +84,15 @@ CREATE TABLE `tblEmail` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tblEmail`
+--
+
+LOCK TABLES `tblEmail` WRITE;
+/*!40000 ALTER TABLE `tblEmail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblEmail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tblLibrary`
 --
 
@@ -80,6 +107,15 @@ CREATE TABLE `tblLibrary` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblLibrary`
+--
+
+LOCK TABLES `tblLibrary` WRITE;
+/*!40000 ALTER TABLE `tblLibrary` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblLibrary` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tblModel`
@@ -98,8 +134,18 @@ CREATE TABLE `tblModel` (
   `picture` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uid` (`model_str`,`manufacturer`,`version`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblModel`
+--
+
+LOCK TABLES `tblModel` WRITE;
+/*!40000 ALTER TABLE `tblModel` DISABLE KEYS */;
+INSERT INTO `tblModel` VALUES (1,'rapp','rapp',1.000000000,'rapp','rapp','rapp');
+/*!40000 ALTER TABLE `tblModel` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tblNews`
@@ -116,6 +162,15 @@ CREATE TABLE `tblNews` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblNews`
+--
+
+LOCK TABLES `tblNews` WRITE;
+/*!40000 ALTER TABLE `tblNews` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblNews` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tblPackage`
@@ -135,6 +190,15 @@ CREATE TABLE `tblPackage` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tblPackage`
+--
+
+LOCK TABLES `tblPackage` WRITE;
+/*!40000 ALTER TABLE `tblPackage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblPackage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tblRapp`
 --
 
@@ -147,7 +211,7 @@ CREATE TABLE `tblRapp` (
   `version` decimal(18,9) NOT NULL,
   `arch` varchar(5) NOT NULL,
   `lang` varchar(3) NOT NULL,
-  `owner` varchar(32) NOT NULL,
+  `owner` int(12) NOT NULL,
   `directory` varchar(128) NOT NULL,
   `enabled` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -155,9 +219,18 @@ CREATE TABLE `tblRapp` (
   UNIQUE KEY `uid` (`rapp`,`version`,`arch`),
   KEY `fk_owner` (`owner`),
   KEY `id_2` (`id`),
-  CONSTRAINT `tblRapp_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tblUser` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+  CONSTRAINT `tblRapp_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tblUser` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblRapp`
+--
+
+LOCK TABLES `tblRapp` WRITE;
+/*!40000 ALTER TABLE `tblRapp` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblRapp` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tblRappsModelsVersion`
@@ -181,6 +254,15 @@ CREATE TABLE `tblRappsModelsVersion` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tblRappsModelsVersion`
+--
+
+LOCK TABLES `tblRappsModelsVersion` WRITE;
+/*!40000 ALTER TABLE `tblRappsModelsVersion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblRappsModelsVersion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tblRobot`
 --
 
@@ -199,8 +281,17 @@ CREATE TABLE `tblRobot` (
   KEY `fk_model` (`model`),
   CONSTRAINT `tblRobot_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `tblUser` (`id`),
   CONSTRAINT `tblRobot_ibfk_2` FOREIGN KEY (`model`) REFERENCES `tblModel` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblRobot`
+--
+
+LOCK TABLES `tblRobot` WRITE;
+/*!40000 ALTER TABLE `tblRobot` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblRobot` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tblUser`
@@ -229,10 +320,19 @@ CREATE TABLE `tblUser` (
   UNIQUE KEY `uid` (`firstname`,`lastname`,`email_id`),
   KEY `tblUser_ibfk_1` (`email_id`),
   CONSTRAINT `tblUser_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `tblEmail` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-insert into tblUser(username, firstname, lastname, ontology_alias, language) values('rapp', 'rapp', 'rapp', 'Person_DpphmPqg', 'el');
+--
+-- Dumping data for table `tblUser`
+--
+
+LOCK TABLES `tblUser` WRITE;
+/*!40000 ALTER TABLE `tblUser` DISABLE KEYS */;
+INSERT INTO `tblUser` VALUES (25,'rapp','rapp','rapp','',NULL,'el','Person_DpphmPqg','',5,'2015-11-02 08:47:32','0000-00-00 00:00:00',0,'\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0');
+/*!40000 ALTER TABLE `tblUser` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `tblUserDir`
 --
@@ -252,6 +352,15 @@ CREATE TABLE `tblUserDir` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `tblUserDir`
+--
+
+LOCK TABLES `tblUserDir` WRITE;
+/*!40000 ALTER TABLE `tblUserDir` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblUserDir` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tblUserRelations`
 --
 
@@ -269,6 +378,15 @@ CREATE TABLE `tblUserRelations` (
   CONSTRAINT `tblUserRelations_ibfk_2` FOREIGN KEY (`user_id2`) REFERENCES `tblUser` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblUserRelations`
+--
+
+LOCK TABLES `tblUserRelations` WRITE;
+/*!40000 ALTER TABLE `tblUserRelations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblUserRelations` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `tblUsersOntologyInstances`
@@ -291,6 +409,15 @@ CREATE TABLE `tblUsersOntologyInstances` (
   CONSTRAINT `tblUsersOntologyInstances_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tblUser` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblUsersOntologyInstances`
+--
+
+LOCK TABLES `tblUsersOntologyInstances` WRITE;
+/*!40000 ALTER TABLE `tblUsersOntologyInstances` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tblUsersOntologyInstances` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -301,4 +428,4 @@ CREATE TABLE `tblUsersOntologyInstances` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-01 13:51:42
+-- Dump completed on 2015-11-02 10:54:43

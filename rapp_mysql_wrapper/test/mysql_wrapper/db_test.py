@@ -65,10 +65,10 @@ class TestDbWrapper(unittest.TestCase):
     req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
     entry1=StringArrayMsg()    
     #entry1=[string("'3'"),string("'1800000'"), string("'1'"),string("'1'"), string("'2014-11-23 09:04:13'")]
-    entry1=["'3'","'1800000'", "'1'","'1'", "'2014-11-23 09:04:13'"]
+    entry1=["'3'","'1800000'", "'1'","'25'", "'2014-11-23 09:04:13'"]
     entry2=StringArrayMsg()    
     #entry2=[string("'4'"),string("'1900000'"), string("'1'"),string("'1'"), string("'2014-11-23 07:04:13'")]
-    entry2=["'4'","'1900000'", "'1'","'1'", "'2014-11-23 07:04:13'"]
+    entry2=["'4'","'1900000'", "'1'","'25'", "'2014-11-23 07:04:13'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     
     response = db_service(req.req_cols,req.req_data)
@@ -411,9 +411,9 @@ class TestDbWrapper(unittest.TestCase):
     req = writeDataSrv()
     req.req_cols=["rapp","version","arch","lang","owner","directory","enabled","timestamp"]
     entry1=StringArrayMsg()    
-    entry1=["'testingDB1'","'1.01'","'15'","'1'","'admin'","'testingDB1'","'0'","'555'"]
+    entry1=["'testingDB1'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
     entry2=StringArrayMsg()    
-    entry2=["'testingDB2'","'1.01'","'15'","'1'","'admin'","'testingDB1'","'0'","'555'"]
+    entry2=["'testingDB2'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     
     response = db_service(req.req_cols,req.req_data)
@@ -504,9 +504,9 @@ class TestDbWrapper(unittest.TestCase):
     #req.req_cols=[String("id"),String("macddr"), String("model"),String("owner"), String("timestamp")]
     req.req_cols=["macddr", "model","owner", "timestamp"]
     entry1=StringArrayMsg()   
-    entry1=["'1800000'", "'1'","'1'", "'2014-11-23 09:04:13'"]
+    entry1=["'1800000'", "'1'","'25'", "'2014-11-23 09:04:13'"]
     entry2=StringArrayMsg()    
-    entry2=["'1900000'", "'1'","'1'", "'2014-11-23 07:04:13'"]
+    entry2=["'1900000'", "'1'","'25'", "'2014-11-23 07:04:13'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     
     response = db_service(req.req_cols,req.req_data)
