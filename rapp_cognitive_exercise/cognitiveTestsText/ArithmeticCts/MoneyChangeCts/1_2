@@ -4,20 +4,20 @@ difficulty:1
 
 language:el
 
-question:Αγοράζουμε ένα ψωμί που κάνει εξήντα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης; 
+question:Αγοράζουμε ένα ψωμί που κάνει εξήντα λεπτά; και δίνουμε; ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα μας δώσει ο φούρναρης; 
 answers:ένα ευρώ και είκοσι λεπτά,δύο ευρώ και δέκα λεπτά,ένα ευρώ και σαράντα λεπτά,εξήντα λεπτά
 correctAnswer:ένα ευρώ και σαράντα λεπτά
 
-question:Αγοράζουμε ένα γάλα που κάνει ένα ευρώ και δέκα λεπτά και δίνουμε ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα πάρουμε πίσω;
+question:Αγοράζουμε ένα γάλα που κάνει ένα ευρώ και δέκα λεπτά; και δίνουμε; ένα κέρμα των δύο ευρώ. Πόσα ρέστα θα πάρουμε πίσω;
 answers:ένα ευρώ και πέντε λεπτά,δύο ευρώ και ενενήντα λεπτά,ένα ευρώ και ενενήντα λεπτά,ενενήντα λεπτά
 correctAnswer:ενενήντα λεπτά
 
 language:en
 
-question:We buy a loaf of bread which costs sixty cents and we pay with a two euro coin. How much change do we get back? 
+question:We buy a loaf of bread which costs sixty cents; and we pay with a two euro coin. How much change do we get back? 
 answers:one euro and twenty cents,two euros and ten cents,one euro and forty cents,sixty cents
 correctAnswer:one euro and forty cents
 
-question:We buy a carton of milk which costs one euro and ten cents and we pay with a two euro coin. How much change do we get back?
+question:We buy a carton of milk which costs one euro and ten cents; and we pay with a two euro coin. How much change do we get back?
 answers:one euro and five cents,two euros and ninety cents,one euro and ninety cents,ninety cents
 correctAnswer:ninety cents

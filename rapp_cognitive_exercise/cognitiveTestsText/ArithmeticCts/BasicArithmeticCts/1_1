@@ -4,36 +4,36 @@ difficulty:1
 
 language:el
 
-question:Πόσο κάνει εφτά και δύο;
+question:Πόσο κάνει; εφτά και δύο;
 answers:τρία,εννιά,πέντε,εφτά
 correctAnswer:εννιά
 
-question:Πόσο κάνει τέσσερα και τέσσερα;
+question:Πόσο κάνει; τέσσερα και τέσσερα;
 answers:οκτώ,εννιά,πέντε,εφτά
 correctAnswer:οκτώ
 
-question:Πόσο κάνει έξι και τρία;
+question:Πόσο κάνει; έξι και τρία;
 answers:οκτώ,εννιά,τέσσερα,εφτά
 correctAnswer:εννιά
 
-question:Πόσο κάνει δύο και πέντε;
+question:Πόσο κάνει; δύο και πέντε;
 answers:δύο,εννιά,πέντε,εφτά
 correctAnswer:εφτά
 
 language:en
 
-question:How much is seven plus two?
+question:How much is; seven plus two?
 answers:three,nine,five,seven
 correctAnswer:nine
 
-question:How much is four plus four?
+question:How much is; four plus four?
 answers:eight,nine,five,seven
 correctAnswer:eight
 
-question:How much is six plus three?
+question:How much is; six plus three?
 answers:eight,nine,four,seven
 correctAnswer:nine
 
-question:How much is two plus five?
+question:How much is; two plus five?
 answers:two,nine,five,seven
 correctAnswer:seven

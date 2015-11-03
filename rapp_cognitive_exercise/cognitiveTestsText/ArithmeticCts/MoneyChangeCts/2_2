@@ -4,20 +4,20 @@ difficulty:2
 
 language:el
 
-question:Αγοράζουμε ένα κιλό ντομάτες που κάνουν ένα ευρώ και είκοσι λεπτά και δίνουμε ένα χαρτονόμισμα των πέντε ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης; 
+question:Αγοράζουμε ένα κιλό ντομάτες που κάνουν ένα ευρώ και είκοσι λεπτά; και δίνουμε; ένα χαρτονόμισμα των πέντε ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης; 
 answers:τέσσερα ευρώ και εβδομήντα λεπτά,τρία ευρώ και ογδόντα λεπτά,δύο ευρώ και ογδόντα λεπτά,ογδόντα λεπτά
 correctAnswer:τρία ευρώ και ογδόντα λεπτά
 
-question:Αγοράζουμε ένα κουτί γλυκά που κάνει οκτώ ευρώ και ενενήντα λεπτά και δίνουμε ένα χαρτονόμισμα των δέκα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;
+question:Αγοράζουμε ένα κουτί γλυκά που κάνει οκτώ ευρώ και ενενήντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των δέκα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;
 answers:ένα ευρώ και δεκαπέντε λεπτά,δύο ευρώ και δέκα λεπτά,ένα ευρώ και δέκα λεπτά,σαράντα λεπτά
 correctAnswer:ένα ευρώ και δέκα λεπτά
 
 language:en
 
-question:We buy one kilo of tomatoes which costs one euro and twenty cents and we pay with a five euro bill. How much change do we get back?  
+question:We buy one kilo of tomatoes which costs one euro and twenty cents; and we pay with a five euro bill. How much change do we get back?  
 answers:four euros and seventy cents,three euros and eighty cents,two euros and eighty cents,eighty cents
 correctAnswer:three euros and eighty cents
 
-question:We buy a box of sweets which costs eight euro and ninety cents and we pay with a ten euro bill. How much change do we get back? 
+question:We buy a box of sweets which costs eight euro and ninety cents; and we pay with a ten euro bill. How much change do we get back? 
 answers:one euro and fifteen cents,two euros and ten cents,one euro and ten cents,forty cents
 correctAnswer:one euro and ten cents

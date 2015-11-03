@@ -4,7 +4,7 @@ difficulty:2
 
 language:el
 
-question:Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;
+question:Θα σου πω μερικές λέξεις; και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;
 answers:ναι,όχι
 correctAnswer:ναι
 
@@ -18,7 +18,7 @@ correctAnswer:καρέκλα ελέφαντας πιάτο φρούτα νερό
 
 language:en
 
-question:I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?
+question:I am going to say a few words; and then I am going to ask you to repeat them in the same order. Are you ready?
 answers:yes,no
 correctAnswer:yes
 

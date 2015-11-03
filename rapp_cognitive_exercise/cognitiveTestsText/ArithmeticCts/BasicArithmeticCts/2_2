@@ -4,36 +4,36 @@ difficulty:2
 
 language:el
 
-question:Πόσο κάνει οκτώ και εννιά;
+question:Πόσο κάνει; οκτώ και εννιά;
 answers:δεκατέσσερα,δεκαέξι,οκτώ,δεκαεφτά
 correctAnswer:δεκαεφτά
 
-question:Πόσο κάνει εννιά και έντεκα;
+question:Πόσο κάνει; εννιά και έντεκα;
 answers:είκοσι τρία,δεκαεννιά,έντεκα,είκοσι
 correctAnswer:είκοσι
 
-question:Πόσο κάνει έντεκα και τρία;
+question:Πόσο κάνει; έντεκα και τρία;
 answers:δεκατέσσερα,δεκαέξι,δεκαεφτά,δεκαπέντε
 correctAnswer:δεκατέσσερα
 
-question:Πόσο κάνει δώδεκα και τρία;
+question:Πόσο κάνει; δώδεκα και τρία;
 answers:δεκαεννιά,δεκαπέντε,δεκαέξι,είκοσι ένα
 correctAnswer:δεκαπέντε
 
 language:en
 
-question:How much is eight plus nine?
+question:How much is; eight plus nine?
 answers:fourteen,sixteen,eight,seventeen
 correctAnswer:seventeen
 
-question:How much is nine plus eleven?
+question:How much is; nine plus eleven?
 answers:twenty three,nineteen,eleven,twenty
 correctAnswer:twenty
 
-question:How much is eleven plus three?
+question:How much is; eleven plus three?
 answers:fourteen,sixteen,seventeen,fifteen
 correctAnswer:fourteen
 
-question:How much is twelve plus three?
+question:How much is; twelve plus three?
 answers:nineteen,fifteen,sixteen,twenty one
 correctAnswer:fifteen

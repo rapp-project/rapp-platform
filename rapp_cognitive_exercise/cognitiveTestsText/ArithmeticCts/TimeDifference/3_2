@@ -4,20 +4,20 @@ difficulty:3
 
 language:el
 
-question:Πρέπει να πάρετε την αντιβίωση σας στις εννιά το πρωί και μετά ανά εξάωρο ακριβώς. Το μεσημέρι το ξεχνάτε και παίρνετε το χάπι σας με καθυστέρηση μιας ώρας. Τι ώρα θα το πάρετε το απόγευμα τηρώντας αυστηρά το εξάωρο; 
+question:Πρέπει να πάρετε την αντιβίωση σας στις; εννιά το πρωί; και μετά ανά εξάωρο ακριβώς. Το μεσημέρι το ξεχνάτε; και παίρνετε το χάπι σας με καθυστέρηση; μιας ώρας. Τι ώρα θα το πάρετε το απόγευμα; τηρώντας αυστηρά το εξάωρο; 
 answers:εννιά,δέκα,οκτώ,έντεκα
 correctAnswer:δέκα
 
-question:Το βράδυ κανονίσατε να πάτε σινεμά με φίλους στην παράσταση των οκτώ και σαράντα πέντε αλλά πρώτα πρέπει να περάσετε από το καθαριστήριο για να αφήσετε κάποια ρούχα. Στις οκτώ και δεκαπέντε φτάνετε στο καθαριστήριο αλλά έχει ουρά και τελικά περιμένετε τριάντα πέντε λεπτά. Προλαβαίνετε την έναρξη της ταινίας;
+question:Το βράδυ κανονίσατε να πάτε σινεμά με φίλους; στην παράσταση των; οκτώ και σαράντα—πέντε; αλλά πρώτα πρέπει να περάσετε από το καθαριστήριο; για να αφήσετε κάποια ρούχα. Στις οκτώ και δεκα—πέντε; φτάνετε στο καθαριστήριο αλλά έχει ουρά; και τελικά περιμένετε; τριάντα—πέντε λεπτά. Προλαβαίνετε την έναρξη της ταινίας;
 answers:ναι,όχι
 correctAnswer:όχι
 
 language:en
 
-question:You are to take your antibiotics pill at nine in the morning and every six hours afterwards. You get the next dose in the evening one hour late. At what time will you now take the next dose at night while keeping the six hour difference between doses? 
+question:You are to take your antibiotics pill at; nine in the morning and; every six hours afterwards. You get the next dose in the evening one hour late. At what time; will you now take the next dose at night; while keeping the six hour difference between doses? 
 answers:nine,ten,eight,eleven
 correctAnswer:ten
 
-question:You are going to the movies tonight with your friends. The movie starts a quarter to nine but before going to the cinema you need to pick up some dry cleaning. At fifteen past eight you reach the dry cleaner but you spend thirty five minutes there. Will you get to the cinema before the movie starts?
+question:You are going to the movies tonight with your friends. The movie starts; a quarter to nine; but before going to the cinema you need to pick up some dry cleaning. At fifteen past eight; you reach the dry cleaner but you spend; thirty five minutes there. Will you get to the cinema before the movie starts?
 answers:yes,no
 correctAnswer:no
