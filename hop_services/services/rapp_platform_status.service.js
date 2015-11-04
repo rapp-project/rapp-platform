@@ -45,8 +45,10 @@ var Fs = require( __modulePath + 'fileUtils.js' );
 var pathsEnv = require( __configPath + 'env/paths.json' )
 var ROS = require( __modulePath + 'RosBridgeJS/src/Rosbridge.js' );
 var rosbridgeEnv = require( __configPath + 'env/rosbridge.json' );
+
 var testDataPath = __dirname +
-  '/../../rapp_testing_tools/testing_tools/test_data/';
+  '/../../rapp_testing_tools/scripts/default_tests/test_data/';
+
 var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 /*----------------------------------------------*/
 
@@ -105,22 +107,22 @@ service rapp_platform_status(  )
     ' align="center">HOP Web Services</p></h2>';
 
 
-  for(index = 0 ; index < rappRosServices.length ; index++)
+  for(var index = 0 ; index < rappRosServices.length ; index++)
   {
     rapp_srv_literal += "<option>" +   rappRosServices[index] + '</option>';
   }
 
-  for(index = 0 ; index < platformActiveNodes.length ; index++)
+  for(var index = 0 ; index < platformActiveNodes.length ; index++)
   {
     nodes_literal += "<option>" + platformActiveNodes[index] + '</option>';
   }
 
-  for(index = 0 ; index < platformActiveNodes.length ; index++)
+  for(var index = 0 ; index < platformActiveNodes.length ; index++)
   {
     topics_literal += "<option>" + platformActiveTopics[index] + '</option>';
   }
 
-  for(index = 0 ; index < platformHopServices.length ; index++)
+  for(var index = 0 ; index < platformHopServices.length ; index++)
   {
     hop_srv_literal += "<option>" + platformHopServices[index] + '</option>';
   }
@@ -191,7 +193,7 @@ service rapp_platform_status(  )
           <button type='button' class='btn btn-primary btn-block btn-lg' onclick=~{
             var callSrv = selectedHopSrv;
             var retObj = ${testService}(callSrv).postSync();
-            console.log(retObj)
+            //console.log(retObj)
             var success = retObj.success;
             var srvResponse = retObj.output;
             var inputParams = retObj.input;
@@ -238,7 +240,8 @@ service rapp_platform_status(  )
 service testService(srvName)
 {
   var response = {success: false, output: undefined, input: undefined};
-  console.log(srvName)
+  console.log('[Rapp-Platform-Status]: Invoking test for service --> ' +
+    srvName)
   if(srvName in srvMap){
     var results = srvMap[srvName]();
     response = {
@@ -312,7 +315,6 @@ function test_ontology_superclassesOf(){
     query: 'Oven'
   }
   var response = ontology_superclasses_of(args).postSync();
-  console.log(response)
   var success = true;
   var valid_results = [
     'http://knowrob.org/kb/knowrob.owl#Box-Container',
