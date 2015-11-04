@@ -61,11 +61,11 @@ class TransformAudio:
         if target_type == 'flac':
             command = 'flac -f --channels=' + str( target_channels ) + \
                     ' --sample-rate=' + str( target_rate ) + " " + source_name + ' -o ' + \
-                    target_name + " --totally-silent"
-            os.system( command )
+                    target_name + " --totally-silent --channel-map=none"
+            flac_status = os.system( command )
 
 
-            if os.path.isfile( target_name ) != True :
+            if os.path.isfile( target_name ) != True or flac_status != 0 :
                 raise Exception( "Error: flac command malfunctioned. File path was"\
                         + source_name )
         else:
