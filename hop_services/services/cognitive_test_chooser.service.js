@@ -318,9 +318,9 @@ function craft_response(rosbridge_msg)
   var test = msg.values.test;
   var testType = msg.values.testType;
   var testSubType = msg.values.testSubType;
-  //console.log(msg)
+  var language = msg.values.language;
 
-  var response = {questions: [], possib_ans: [], correct_ans: [],
+  var response = {lang: '', questions: [], possib_ans: [], correct_ans: [],
     test_instance: '', test_type: '', test_subtype: '', error: ''};
   var logMsg = '';
 
@@ -332,6 +332,8 @@ function craft_response(rosbridge_msg)
     response.test_instance = test;
     response.test_type = testType;
     response.test_subtype = testSubType;
+    response.lang = language;
+
     for (var ii = 0; ii < answers.length; ii++)
     {
       response.possib_ans.push( answers[ii].s )
@@ -370,7 +372,7 @@ function craft_response(rosbridge_msg)
 function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure';
-  var response = {questions: [], answers: [], correct_answers: [],
+  var response = {lang: '', questions: [], answers: [], correct_answers: [],
     test: '', test_type: '', test_subtype: '', error: ''};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
