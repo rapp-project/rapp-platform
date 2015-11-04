@@ -38,7 +38,10 @@ from rapp_platform_ros_communications.srv import(
     AudioProcessingDenoiseSrv,
     AudioProcessingDenoiseSrvRequest,
     AudioProcessingDetectSilenceSrv,
-    AudioProcessingDetectSilenceSrvRequest
+    AudioProcessingDetectSilenceSrvRequest,
+    AudioProcessingTransformAudioSrv,
+    AudioProcessingTransformAudioSrvResponse,
+    AudioProcessingTransformAudioSrvRequest
     )
 
 class Sphinx4Wrapper(GlobalParams):
@@ -197,21 +200,46 @@ class Sphinx4Wrapper(GlobalParams):
     # Get processing profile
     profile = self.createProcessingProfile(audio_source)
 
+
+
+    audio_trans_topic = rospy.get_param("rapp_audio_processing_transform_audio_topic")
+    audio_transform_srv = rospy.ServiceProxy( audio_trans_topic, \
+            AudioProcessingTransformAudioSrv )
+    transform_req = AudioProcessingTransformAudioSrvRequest()
+    transform_req.source_type = audio_source
+    transform_req.source_name = prev_audio_file
+    transform_req.target_type = 'wav'
+
     # Check if sox_transform is needed
     if profile['sox_transform'] == True:
       next_audio_file += "_transformed.wav"
-      command = "sox " + prev_audio_file + " " + next_audio_file
-      com_res = os.system(command)
-      if com_res != 0:
-        return ["Error: sox malfunctioned"]
+      transform_req.target_name = next_audio_file
+
+      trans_response = audio_transform_srv( transform_req )
+
+      if trans_response.error != 'success':
+          raise RappError( 'Audio transformation error: ' + error )
+
+      #command = "sox " + prev_audio_file + " " + next_audio_file
+      #com_res = os.system(command)
+      #if com_res != 0:
+        #return ["Error: sox malfunctioned"]
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
     if profile['sox_channels_and_rate'] == True:
       next_audio_file += "_mono16k.wav"
-      command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
-      com_res = os.system(command)
-      if com_res != 0:
-        return ["Error: sox malfunctioned"]
+      transform_req.target_name = next_audio_file
+      transform_req.target_channels = 1
+      transform_req.target_rate = 16000
+
+      trans_response = audio_transform_srv( transform_req )
+
+      if trans_response.error != 'success':
+          raise RappError( 'Audio transformation error: ' + error )
+      #command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
+      #com_res = os.system(command)
+      #if com_res != 0:
+        #return ["Error: sox malfunctioned"]
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
     if profile['sox_denoising'] == True:
