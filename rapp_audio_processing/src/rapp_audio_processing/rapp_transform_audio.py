@@ -36,9 +36,12 @@ class TransformAudio:
     def transform_audio(self, source_type, source_name, \
             target_type, target_name, target_channels, target_rate ):
 
-        if not os.path.isfile( source_name ):
-            error = "Error: file " + source_name + ' not found'
-            return [ error, '' ]
+
+        try:
+            self.assertArgs( source_type, source_name, target_type, \
+                    target_name, target_channels, target_rate )
+        except Exception as e:
+            return [ str(e), '' ]
 
         try:
             status = self.validateSourceType( source_type, source_name )
@@ -54,14 +57,35 @@ class TransformAudio:
         return [ 'success', target_name ]
 
 
+    def assertArgs(self, source_type, source_name, target_type, target_name, \
+            target_channels, target_rate ):
+
+        if not os.path.isfile( source_name ):
+            raise Exception( "Error: file \'" + source_name + '\' not found' )
+        if target_name == '':
+            raise Exception( "Error: target filename not provided" )
+        if target_type == '':
+            raise Exception( "Error: target type not provided" )
+        if target_rate < 0:
+            raise Exception( "Error: target_rate can not be negative" )
+        if target_channels < 0:
+            raise Exception( "Error: target_channels can not be negative" )
+        if target_channels > 8:
+            raise Exception( "Error: target_channels can not be greater than 8" )
 
     def convertType(self, source_type, source_name, target_type, target_name, \
             target_channels, target_rate ):
 
+        channels = ''
+        rate = ''
         if target_type == 'flac':
-            command = 'flac -f --channels=' + str( target_channels ) + \
-                    ' --sample-rate=' + str( target_rate ) + " " + source_name + ' -o ' + \
-                    target_name + " --totally-silent --channel-map=none"
+            if target_channels != 0:
+                channels = '--channels=' + str( target_channels )
+            if target_rate != 0:
+                rate = '--sample-rate=' + str( target_rate )
+
+            command = 'flac -f ' + channels + ' ' + rate + " " + source_name + \
+                ' -o ' + target_name + " --totally-silent --channel-map=none"
             flac_status = os.system( command )
 
 
@@ -69,10 +93,16 @@ class TransformAudio:
                 raise Exception( "Error: flac command malfunctioned. File path was"\
                         + source_name )
         else:
-            command = "sox " + source_name + " -c " + str( target_channels ) + " -r " + \
-                    str( target_rate ) + " " + target_name
+            if target_channels != 0:
+                channels = '-c ' + str( target_channels )
+            if target_rate != 0:
+                rate = '-r ' + str( target_rate )
+            command = "sox " + source_name + " " + channels + " " + rate + \
+                    " " + target_name
 
-            if os.system( command ):
+            sox_status = os.system( command )
+
+            if os.path.isfile( target_name ) != True or sox_status:
                 raise Exception( "Error: SoX malfunctioned. File path was" + \
                         source_name )
 
