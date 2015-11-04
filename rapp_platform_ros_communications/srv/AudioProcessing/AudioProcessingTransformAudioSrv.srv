@@ -2,8 +2,8 @@ string source_type
 string source_name
 string target_type
 string target_name
-uint target_channels
-uint target_rate
+uint8 target_channels
+uint32 target_rate
 
 ---
 

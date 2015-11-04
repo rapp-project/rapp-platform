@@ -5,7 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   message_runtime
   std_msgs
-  geometry_msgs  
+  geometry_msgs
 )
 
 ################################################
@@ -13,10 +13,10 @@ find_package(catkin REQUIRED COMPONENTS
 ################################################
 
 ## Generate messages in the 'msg' folder
-add_message_files( 
-  FILES 
-  StringArrayMsg.msg 
-) 
+add_message_files(
+  FILES
+  StringArrayMsg.msg
+)
 
 ## Generate services in the 'srv' folder
 add_service_files(
@@ -32,12 +32,12 @@ add_service_files(
   /DbWrapper/writeDataSrv.srv
   /DbWrapper/deleteDataSrv.srv
   /DbWrapper/whatRappsCanRunSrv.srv
-  
+
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
   /OntologyWrapper/ontologyIsSubSuperClassOfSrv.srv
   /OntologyWrapper/ontologyLoadDumpSrv.srv
-  /OntologyWrapper/ontologyInstancesOfSrv.srv 
+  /OntologyWrapper/ontologyInstancesOfSrv.srv
   /OntologyWrapper/assertRetractAttributeSrv.srv
   /OntologyWrapper/returnUserInstancesOfClassSrv.srv
   /OntologyWrapper/createOntologyAliasSrv.srv
@@ -45,15 +45,15 @@ add_service_files(
   /OntologyWrapper/createCognitiveExerciseTestSrv.srv
   /OntologyWrapper/cognitiveTestsOfTypeSrv.srv
   /OntologyWrapper/recordUserPerformanceCognitiveTestsSrv.srv
- 
+
   /FaceDetection/FaceDetectionRosSrv.srv
-  
+
   /QrDetection/QrDetectionRosSrv.srv
-  
-  /SpeechDetectionGoogleWrapper/SpeechToTextSrv.srv  
-  
+
+  /SpeechDetectionGoogleWrapper/SpeechToTextSrv.srv
+
   /MailManagement/MailSend.srv
-  
+
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4Srv.srv
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4ConfigureSrv.srv
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4TotalSrv.srv
@@ -61,6 +61,7 @@ add_service_files(
   /AudioProcessing/AudioProcessingDenoiseSrv.srv
   /AudioProcessing/AudioProcessingSetNoiseProfileSrv.srv
   /AudioProcessing/AudioProcessingDetectSilenceSrv.srv
+  /AudioProcessing/AudioProcessingTransformAudioSrv.srv
 
   /TextToSpeechEspeak/TextToSpeechSrv.srv
 )
@@ -85,7 +86,7 @@ catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES rapp_platform_ros_communications
 #  CATKIN_DEPENDS other_catkin_pkg
-  CATKIN_DEPENDS 
+  CATKIN_DEPENDS
     message_generation
     message_runtime
     std_msgs
