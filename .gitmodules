@@ -1,0 +1,3 @@
+[submodule "hop_services/modules/RosBridgeJS"]
+	path = hop_services/modules/RosBridgeJS
+	url = git@github.com:klpanagi/RosBridgeJS.git
