@@ -2,9 +2,9 @@
 
 ###
 # MIT License (MIT)
-
+#
 # Copyright (c) <2014> <Rapp Project EU>
-
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -22,11 +22,12 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
-# Authors: Konstantinos Panayiotou, Manos Tsardoulias
-# contact: klpanagi@gmail.com, etsardou@iti.gr
 #
-##
+# Authors: Konstantinos Panayiotou, Manos Tsardoulias
+# contact: klpanagi@gmail.com
+#
+###
+
 
 # color list
 colors ()
@@ -52,7 +53,11 @@ colors ()
 }; colors
 
 
-## Get this script file directory name ##
+################################################################################
+############################# Configure HOP Server #############################
+################################################################################
+
+## Get this script file directory name
 CURRENTDIR=$(dirname ${BASH_SOURCE[0]})
 
 ## Set executable paths ##
@@ -60,19 +65,18 @@ SERVICEDIR=${CURRENTDIR}/services
 JSFILE=init.js
 JSEXECPATH=${SERVICEDIR}/${JSFILE}
 CFG_DIR=${CURRENTDIR}/config
-##########################
 
-## Hop Web Server run on this $PORT ##
+## Hop Web Server run on this port
 PORT=9001
 
-## Define the scheduler type to be used ##
+## Define the scheduler type to be used
 SCHEDULER="accept-many"
 
 ## Maximum number of handling HTTP requests.
 MAXTHREADS=100
 
-## Logging definitions ##
-# Timestamp to be added onto log file name #
+## Logging definitions
+# Timestamp to be added onto log file name
 TIMESTAMP=`date -d "today" +"%Y%m%d%H%M"`
 LOGDIR="/home/${USER}/.hop/log/server"
 LOGFILENAME="hop-server-${TIMESTAMP}.log"
@@ -81,31 +85,30 @@ CAPTUREFILE="/home/${USER}/capturefile.log"
 CLIENTOUTPUT="/home/${USER}/client-output.log"
 USE_CAPTUREFILE=false
 USE_CLIENTOUTPUT=false
-#########################
 
 ## File caching configurations
 CACHEDIR="/home/${USER}/.hop/cache/server"
 CLEARCACHE=true
-##############################
 
 ## HOP Server Configurations.
 FAST_SERVER_EVENT=false
 REPORT_EXECTIME=false
-##############################
 
 ## Verbosity ##
 VERB_LEVEL=1 #10 Default
 DEBUG_LEVEL=1 #10 Default
 WARN_LEVEL=1 #10 Default
 SECURITY_LEVEL=0
-#################
 
 ##      HOP RC      ##
 USERS=${CFG_DIR}/users.js
 RC_FILE=${USERS}
-############
 
-########## Assign arguments for Hop execution ##########
+
+################################################################################
+########################## Assign HOP Server parameters ########################
+################################################################################
+
 FLAGS=" -v${VERB_LEVEL} "
 FLAGS+=" -g${DEBUG_LEVEL} "
 FLAGS+=" -w${WARN_LEVEL} "
@@ -140,7 +143,9 @@ if [ ${REPORT_EXECTIME} = true ]; then
 fi
 
 FLAGS+=" --rc-file ${RC_FILE} "
-#########################################################
+
+################################################################################
+################################################################################
 
 ## If log directory does not exist... Maybe create it?!! ##
 if [ ! -d ${LOGDIR} ]; then
@@ -160,7 +165,10 @@ fi
   #mkdir -p ${CACHEDIR}
 #fi
 
-## Inform on HOP configuration ##
+
+################# [ Inform on HOP registered configurations ] ##################
+################################################################################
+
 echo -e "${BYELLOW}Hop configuration parameters passed:${BLUE}"
 echo -e "  * Http-Port: ${PORT}"
 echo -e "  * Server Cache directory: ${CACHEDIR}"
@@ -174,11 +182,14 @@ echo -e "  * Debug level: ${DEBUG_LEVEL}"
 echo -e "  * Warning level: ${WARN_LEVEL}"
 echo -e "  * Security level: ${SECURITY_LEVEL}"
 echo -e "${RESET}"
-################################
 
-#export NODE_PATH=$NODE_PATH:`pwd`/modules
+################################################################################
+################################################################################
+
 
 echo -e "${BYELLOW}Initialing Hop Web Server and registering Web Services${RESET}"
 set -o xtrace
+# Do not detach!!
 hop ${FLAGS} ${JSEXECPATH}
 set +o xtrace
+##### ...
