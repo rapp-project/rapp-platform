@@ -222,7 +222,7 @@ class AudioProcessing:
       res = AudioProcessingTransformAudioSrvResponse()
 
       [ res.error, res.fullpath ] = \
-          self.transform_audio_module.transformAudio( \
+          self.transform_audio_module.transform_audio( \
               req.source_type, req.source_name, req.target_type, \
               req.target_name, req.target_channels, req.target_rate )
 
