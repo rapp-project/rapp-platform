@@ -65,7 +65,7 @@ from rapp_energy_denoise import EnergyDenoise
 from rapp_sox_denoise import SoxDenoise
 from rapp_utilities import Utilities
 from rapp_set_noise_profile import SetNoiseProfile
-from rapp_transform_audio import TranformAudio
+from rapp_transform_audio import TransformAudio
 
 class AudioProcessing:
 
@@ -89,7 +89,7 @@ class AudioProcessing:
     self.detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
     self.transform_audio_topic = \
-        rospy.get_param("rapp_audio_processing_transform_audio")
+        rospy.get_param("rapp_audio_processing_transform_audio_topic")
     self.threads = \
         rospy.get_param("rapp_audio_processing_threads")
 

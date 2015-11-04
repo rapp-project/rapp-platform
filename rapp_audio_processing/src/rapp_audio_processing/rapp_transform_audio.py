@@ -27,6 +27,9 @@
 # contact: aris.thallas@gmail.com
 
 import os
+from scipy.io import wavfile
+
+#from rapp_exceptions import RappError
 
 class TransformAudio:
 
@@ -38,14 +41,15 @@ class TransformAudio:
             error = "Error: file " + source_name + ' not found'
             return [ error, '' ]
 
-        status = validateSourceType( source_type, source_name )
+        status = self.validateSourceType( source_type, source_name )
         if status != 'valid':
             return [ status, '' ]
 
         try:
-            convertType(self, source_type, source_name, target_type, \
+            self.convertType( source_type, source_name, target_type, \
                     target_name, target_channels, target_rate )
-        except RappError as e:
+        #except RappError as e:
+        except IOError as e:
             error = e.value
             return [ error, '' ]
 
@@ -56,24 +60,27 @@ class TransformAudio:
     def convertType(self, source_type, source_name, target_type, target_name, \
             target_channels, target_rate ):
 
-        if target_type == 'flac'
-            command = 'flac -f --channels=' + target_channels + \
-                    ' --sample-rate=' + target_rate + source_name + ' -o ' + \
+        if target_type == 'flac':
+            command = 'flac -f --channels=' + str( target_channels ) + \
+                    ' --sample-rate=' + str( target_rate ) + " " + source_name + ' -o ' + \
                     target_name
 
+            # This is not working
             if os.system( command ):
-                raise RappError( "Error: flac command malfunctioned. File path was"\
+                #raise RappError( "Error: flac command malfunctioned. File path was"\
+                raise IOError( "Error: flac command malfunctioned. File path was"\
                         + source_name )
         else:
-            command = "sox " + source_name + " -c " target_channels + ' -r ' + \
-                    target_rate + target_name
+            command = "sox " + source_name + " -c " + target_channels + " -r " + \
+                    target_rate + " " + target_name
 
             if os.system( command ):
-                raise RappError( "Error: SoX malfunctioned. File path was" + \
+                #raise RappError( "Error: SoX malfunctioned. File path was" + \
+                raise IOError( "Error: SoX malfunctioned. File path was" + \
                         source_name )
 
 
-    def validateSourceType( audio_type, name ):
+    def validateSourceType( self, source_type, name ):
 
         [ source_file_name, source_extention ] = os.path.splitext( name )
 

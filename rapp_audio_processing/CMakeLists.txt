@@ -11,10 +11,10 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
   LIBRARIES
-  CATKIN_DEPENDS 
-    roscpp 
+  CATKIN_DEPENDS
+    roscpp
     roslib
-    rospy 
+    rospy
     std_msgs
     rapp_platform_ros_communications
 )
@@ -26,12 +26,13 @@ include_directories(
 )
 
 if (CATKIN_ENABLE_TESTING)
-  # Unit 
+  # Unit
   catkin_add_nosetests(tests/unit/set_noise_profile_unit_tests.py)
   catkin_add_nosetests(tests/unit/utilities_unit_tests.py)
   catkin_add_nosetests(tests/unit/detect_silence_unit_tests.py)
   catkin_add_nosetests(tests/unit/denoise_unit_tests.py)
   catkin_add_nosetests(tests/unit/energy_denoise_unit_tests.py)
+  catkin_add_nosetests(tests/unit/transform_audio_unit_tests.py)
   # Functional
   add_rostest(tests/functional/set_noise_profile_functional.launch)
 endif()
