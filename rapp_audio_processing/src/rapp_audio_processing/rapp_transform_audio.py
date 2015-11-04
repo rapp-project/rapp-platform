@@ -29,7 +29,6 @@
 import os
 from scipy.io import wavfile
 
-#from rapp_exceptions import RappError
 
 class TransformAudio:
 
@@ -41,17 +40,16 @@ class TransformAudio:
             error = "Error: file " + source_name + ' not found'
             return [ error, '' ]
 
-        status = self.validateSourceType( source_type, source_name )
-        if status != 'valid':
-            return [ status, '' ]
+        try:
+            status = self.validateSourceType( source_type, source_name )
+        except Exception as e:
+            return [ str(e), '' ]
 
         try:
             self.convertType( source_type, source_name, target_type, \
                     target_name, target_channels, target_rate )
-        #except RappError as e:
-        except IOError as e:
-            error = e.value
-            return [ error, '' ]
+        except Exception as e:
+            return [ str(e), '' ]
 
         return [ 'success', target_name ]
 
@@ -63,20 +61,19 @@ class TransformAudio:
         if target_type == 'flac':
             command = 'flac -f --channels=' + str( target_channels ) + \
                     ' --sample-rate=' + str( target_rate ) + " " + source_name + ' -o ' + \
-                    target_name
+                    target_name + " --totally-silent"
+            os.system( command )
 
-            # This is not working
-            if os.system( command ):
-                #raise RappError( "Error: flac command malfunctioned. File path was"\
-                raise IOError( "Error: flac command malfunctioned. File path was"\
+
+            if os.path.isfile( target_name ) != True :
+                raise Exception( "Error: flac command malfunctioned. File path was"\
                         + source_name )
         else:
-            command = "sox " + source_name + " -c " + target_channels + " -r " + \
-                    target_rate + " " + target_name
+            command = "sox " + source_name + " -c " + str( target_channels ) + " -r " + \
+                    str( target_rate ) + " " + target_name
 
             if os.system( command ):
-                #raise RappError( "Error: SoX malfunctioned. File path was" + \
-                raise IOError( "Error: SoX malfunctioned. File path was" + \
+                raise Exception( "Error: SoX malfunctioned. File path was" + \
                         source_name )
 
 
@@ -85,30 +82,26 @@ class TransformAudio:
         [ source_file_name, source_extention ] = os.path.splitext( name )
 
         if source_type == 'nao_ogg':
-            if source_extention != 'ogg':
-                return "Error: ogg type selected but file is of another type"
-            return 'valid'
+            if source_extention != '.ogg':
+                raise Exception( "Error: ogg type selected but file is of another type" )
 
         elif source_type == "nao_wav_1_ch" or source_type == 'headset':
             if source_extention != ".wav":
-                return "Error: wav type 1 channel selected but file is of another type"
+                raise Exception( "Error: wav type 1 channel selected but file is of another type" )
 
             samp_freq, signal = wavfile.read( name )
             if len( signal.shape ) != 1:
                 error = ("Error: wav 1 ch declared but the audio file has " +\
                 str(signal.shape[1]) + ' channels')
-                return error
-            return 'valid'
+                raise Exception( error )
 
         elif source_type == "nao_wav_4_ch":
             if source_extention != ".wav":
-                return "Error: wav type 4 channels selected but file is of another type"
+                raise Exception( "Error: wav type 4 channels selected but file is of another type" )
 
             samp_freq, signal = wavfile.read( name )
             if len(signal.shape) != 2 or signal.shape[1] != 4:
-                return "Error: wav 4 ch declared but the audio file has not 4 channels"
-
-            return "valid"
+                raise Exception( "Error: wav 4 ch declared but the audio file has not 4 channels" )
 
         else:
-            return "Non valid noise audio type"
+            raise Exception( "Non valid noise audio type" )
