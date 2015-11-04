@@ -10,7 +10,7 @@
 ===============     Statistical Language Modeling Toolkit     ===============
 =============================================================================
 This is a 3-gram language model, based on a vocabulary of 4 words,
-  which begins "</s>", "<s>", "hello"...
+  which begins "</s>", "<s>", "nai"...
 This is a CLOSED-vocabulary model
   (OOVs eliminated from training data and are forbidden in test data)
 Good-Turing discounting was applied.
@@ -55,19 +55,19 @@ ngram 3=4
 \1-grams:
 -0.7782 </s>	-0.1761
 -0.3010 <s>	-0.5229
--0.7782 hello	-0.3979
--0.7782 this	0.0000
+-0.7782 nai	-0.3979
+-0.7782 o'xi	0.0000
 
 \2-grams:
 -0.1761 </s> <s> -0.0792
--0.3979 <s> hello 0.1761
--0.3979 <s> this -0.2218
--0.1761 hello </s> 0.1761
+-0.3979 <s> nai 0.1761
+-0.3979 <s> o'xi -0.2218
+-0.1761 nai </s> 0.1761
 
 \3-grams:
--0.3010 </s> <s> this 
--0.3010 <s> hello </s> 
--0.3010 <s> this </s> 
--0.3010 hello </s> <s> 
+-0.3010 </s> <s> o'xi 
+-0.3010 <s> nai </s> 
+-0.3010 <s> o'xi </s> 
+-0.3010 nai </s> <s> 
 
 \end\
