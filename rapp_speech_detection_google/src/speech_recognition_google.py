@@ -148,10 +148,10 @@ class SpeechToTextGoogle:
     # Check if file is flac. If not convert it
     new_audio = file_path
 
-
     audio_trans_topic = rospy.get_param("rapp_audio_processing_transform_audio_topic")
     audio_transform_srv = rospy.ServiceProxy( audio_trans_topic, AudioProcessingTransformAudioSrv )
 
+    cleanup = []
 
     transform_req = AudioProcessingTransformAudioSrvRequest()
     transform_req.source_type = audio_file_type
@@ -165,46 +165,8 @@ class SpeechToTextGoogle:
     trans_response = audio_transform_srv( transform_req )
 
     if trans_response.error != 'success':
-        raise RappError( error )
-
-    # Transform it to wav, 1 channel
-    cleanup = []
-    #if audio_file_type == 'nao_ogg':
-        #if ".ogg" not in new_audio:
-            #raise RappError("Error: ogg type selected but file is of another type")
-        #new_audio += ".wav"
-        #com_res = os.system("sox " + file_path + " " + new_audio)
-        #if com_res != 0:
-            #raise RappError("Error: Server sox malfunctioned")
-        #cleanup.append(new_audio)
-
-    #elif audio_file_type == "nao_wav_1_ch" or audio_file_type == 'headset':
-        #if ".wav" not in new_audio:
-            #raise RappError("Error: wav type 1 channel selected but file is of another type")
-        #samp_freq, signal = wavfile.read(new_audio)
-        #if len(signal.shape) != 1:
-            #raise RappError("Error: wav 1 ch declared but the audio file has " +\
-                #str(signal.shape[1]) + ' channels')
-
-    #elif audio_file_type == "nao_wav_4_ch":
-        #if ".wav" not in new_audio:
-            #raise RappError("Error: wav type 4 channels selected but file is of another type")
-        #samp_freq, signal = wavfile.read(new_audio)
-        #if len(signal.shape) != 2 or signal.shape[1] != 4:
-            #raise RappError("Error: wav 4 ch declared but the audio file has not 4 channels")
-        #new_audio += "_1ch.wav"
-        #com_res = os.system("sox " + file_path + " -c 1 -r 16000 " + \
-            #new_audio)
-        #if com_res != 0:
-            #raise RappError("Error: Server sox malfunctioned")
-        #cleanup.append(new_audio)
-
-    #else:
-        #msg = ''
-        #msg = "Non valid noise audio type"
-        #for f in cleanup:
-            #os.system('rm ' + f)
-        #raise RappError(msg)
+        raise RappError( trans_response.error )
+    cleanup.append(new_audio)
 
     # Denoise if necessary
     prev_audio_file = new_audio
@@ -272,13 +234,21 @@ class SpeechToTextGoogle:
             # must implement a fallback function to clear redundant files
 
     # Transform to flac
-    newer_audio = prev_audio_file + '.flac'
-    command = 'flac -f --channels=1 --sample-rate=16000 '\
-            + new_audio + ' -o ' + newer_audio
+    transform_req = AudioProcessingTransformAudioSrvRequest()
+    transform_req.source_type = 'headset'
+    transform_req.source_name = new_audio
+    transform_req.target_type = 'flac'
+    newer_audio = new_audio + '.flac'
+    transform_req.target_name = newer_audio
+    transform_req.target_channels = 1
+    transform_req.target_rate = 16000
+
+    trans_response = audio_transform_srv( transform_req )
     cleanup.append(newer_audio)
-    if os.system(command):
-        raise RappError("Error: flac command malfunctioned. File path was"\
-                + new_audio)
+
+    if trans_response.error != 'success':
+        raise RappError( trans_response.error )
+
 
     # Open the file
     with open(newer_audio, "r") as f:

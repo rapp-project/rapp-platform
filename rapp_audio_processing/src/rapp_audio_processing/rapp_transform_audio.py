@@ -44,7 +44,7 @@ class TransformAudio:
             return [ str(e), '' ]
 
         try:
-            status = self.validateSourceType( source_type, source_name )
+            self.validateSourceType( source_type, source_name )
         except Exception as e:
             return [ str(e), '' ]
 
