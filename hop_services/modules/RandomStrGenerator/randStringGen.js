@@ -1,7 +1,5 @@
 /*!
  * @file randStringGen.js
- * @brief Write to files through WriteStreams.
- * @TODO Read through read streams
  */
 
 
@@ -37,7 +35,8 @@
 
 
 function randStringGen ( _length, _charsArray ) {
-  var charsArray_ = _charsArray || "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+  var charsArray_ = _charsArray ||
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
   var stringLength_ = _length || 5;
   var cache_ = new Object();
 
@@ -65,7 +64,8 @@ function randStringGen ( _length, _charsArray ) {
   this.removeCached = function ( _key )
   {
     if( cache_[ _key.toString() ] !== undefined ){
-      delete cache_[ _key.toString() ]; //remove string "_key" from cached random strings.
+      //remove string "_key" from cached random strings.
+      delete cache_[ _key.toString() ];
       //console.log( 'String [%s] removed from cached unique strings', _key);
     }
   };

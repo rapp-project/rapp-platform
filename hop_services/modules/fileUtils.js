@@ -36,6 +36,11 @@
 var fs = require('fs');
 var path = require('path');
 
+var colors = {
+  error:    '\033[1;31m',
+  success:  '\033[1;32m',
+  clear:    '\033[0m'
+}
 
 /*!
  * @brief Resolve input path to absolute path.
@@ -338,8 +343,7 @@ function renameFile(file, dest)
     {return false};
 
   // Check if source file exists and destination directory also exists.
-  if ( fs.existsSync(sourcePath) )
-  {
+  if ( fs.existsSync(sourcePath) ){
     try{
       fs.renameSync(sourcePath, destPath);
     }
@@ -350,7 +354,12 @@ function renameFile(file, dest)
     }
     return true;
   }
-  else {return false;}
+  else {
+    console.error(colors.error + '** [Error]: Copy file [%s] --> [%s].' +
+      ' File does not exist!!!' + colors.clear, sourcePath, destPath)
+    // If source file does not exist return false.
+    return false;
+  }
 }
 
 
@@ -373,8 +382,7 @@ function copyFile(file, dest)
   if ( destDir == false || fs.existsSync(destDir) == false ) {return false};
 
   // Check if source file exists and destination directory also exists.
-  if( fs.existsSync( sourcePath ) )
-  {
+  if( fs.existsSync( sourcePath ) ){
     try{
       //fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
       fs.writeFileSync(destPath, fs.readFileSync(sourcePath));
@@ -387,7 +395,12 @@ function copyFile(file, dest)
     }
     return true;
   }
-  else {return false;}  // If source file does not exist return false.
+  else {
+    console.error(colors.error + '** [Error]: Copy file [%s] --> [%s].' +
+      ' File does not exist!!!' + colors.clear, sourcePath, destPath)
+    // If source file does not exist return false.
+    return false;
+  }
 }
 
 
