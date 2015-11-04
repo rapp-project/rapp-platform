@@ -6,3 +6,4 @@ from rapp_energy_denoise import EnergyDenoise
 from rapp_sox_denoise import SoxDenoise
 from rapp_utilities import Utilities
 from rapp_set_noise_profile import SetNoiseProfile
+from rapp_transform_audio import TranformAudio

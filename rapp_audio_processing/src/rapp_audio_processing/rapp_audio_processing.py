@@ -41,7 +41,10 @@ from rapp_platform_ros_communications.srv import (
   AudioProcessingSetNoiseProfileSrvResponse,
 
   AudioProcessingDetectSilenceSrv,
-  AudioProcessingDetectSilenceSrvResponse
+  AudioProcessingDetectSilenceSrvResponse,
+
+  AudioProcessingTransformAudioSrv,
+  AudioProcessingTransformAudioSrvResponse
   )
 
 from rapp_platform_ros_communications.srv import (
@@ -62,6 +65,7 @@ from rapp_energy_denoise import EnergyDenoise
 from rapp_sox_denoise import SoxDenoise
 from rapp_utilities import Utilities
 from rapp_set_noise_profile import SetNoiseProfile
+from rapp_transform_audio import TranformAudio
 
 class AudioProcessing:
 
@@ -73,16 +77,19 @@ class AudioProcessing:
     self.sox_denoise_module = SoxDenoise()
     self.utilities_module = Utilities()
     self.set_noise_profile_module = SetNoiseProfile()
+    self.transform_audio_module= TransformAudio()
 
     # Parameters acquisition
-    self.set_noise_profile_topic = rospy.get_param(\
-            "rapp_audio_processing_set_noise_profile_topic")
+    self.set_noise_profile_topic = \
+        rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
     self.denoise_topic = \
         rospy.get_param("rapp_audio_processing_denoise_topic")
     self.energy_denoise_topic = \
         rospy.get_param("rapp_audio_processing_energy_denoise_topic")
     self.detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
+    self.transform_audio_topic = \
+        rospy.get_param("rapp_audio_processing_transform_audio")
     self.threads = \
         rospy.get_param("rapp_audio_processing_threads")
 
@@ -94,6 +101,8 @@ class AudioProcessing:
       rospy.logerror("Audio processing energy denoise topic param not found")
     if(not self.detect_silence_topic):
       rospy.logerror("Audio processing detect silence topic param not found")
+    if(not self.transform_audio_topic):
+      rospy.logerror("Audio processing noise transform audio topic param not found")
     if not self.threads:
       rospy.logerror("Audio processing threads param not found")
 
@@ -112,7 +121,7 @@ class AudioProcessing:
     for i in range(0, self.threads):
         rospy.Service(self.set_noise_profile_topic + '_' + str(i),\
         AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
-    # Create sox denoise services 
+    # Create sox denoise services
     self.denoise_service = rospy.Service( \
         self.denoise_topic, AudioProcessingDenoiseSrv, \
         self.denoise)
@@ -135,6 +144,12 @@ class AudioProcessing:
         rospy.Service(self.detect_silence_topic + '_' + str(i),\
         AudioProcessingDetectSilenceSrv,
         self.detect_silence)
+    # Create transform audio services
+    self.transform_audio = rospy.Service( self.transform_audio_topic, \
+        AudioProcessingTransformAudioSrv, self.transform_audio)
+    for i in range(0, self.threads):
+        rospy.Service( self.transform_audio_topic + '_' + str(i), \
+            AudioProcessingTransformAudioSrv, self.transform_audio)
 
     self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
 
@@ -201,6 +216,17 @@ class AudioProcessing:
     else:
         res.success = "false"
     return res
+
+  # Service callback for audio transformation
+  def transform_audio(self, req):
+      res = AudioProcessingTransformAudioSrvResponse()
+
+      [ res.error, res.fullpath ] = \
+          self.transform_audio_module.transformAudio( \
+              req.source_type, req.source_name, req.target_type, \
+              req.target_name, req.target_channels, req.target_rate )
+
+      return res
 
 
   # Cleanup method
