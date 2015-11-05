@@ -6,7 +6,7 @@ RAPP Testing Tools
 
 Testing tools used for RAPP Platform integration tests.
 
-All tests use the RappCloud python module in order to communicate with RAPP Platform AI modules.
+All tests use the RappCloud python module (python RAPP-API) in order to communicate with RAPP Platform AI modules.
 
 
 ## Tests Directory
@@ -21,14 +21,12 @@ under:
 
 ## Executing Tests
 
-RAPP testing tools uses the rapp_run_test.py script in order to execute
-developed tests. That is the actually the testing engine.
+The rapp_run_test.py script is used in order to execute developed tests.
 
-Arguments:
+Execution time arguments:
 - -i **<test_name>** : Define test to run (use python test file full name).
 - -n **<number_of_calls>** : Define number of test calls.
-- -t : Run the test threaded which means that multible invocations can be done.
-simultaneous.
+- -t : Run the test in threaded mode which means that multible invocations can be done, simultaneous. Each test execution is handled by a standalone thread.
 
 **Note:**
 If no test_name is provided as argument, all tests located under tests paths
@@ -38,7 +36,7 @@ There are two ways of executing developed tests:
 - Execute directly.
 - Execute using the ROS framework.
 
-### Using the python executable directly (rapp_run_test.py)
+### Using the python executable, directly.
 
 The below example executes the qr_detection_test_1, five times in sequential
 mode.
