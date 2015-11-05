@@ -33,6 +33,8 @@ import os
 from global_parameters import GlobalParams
 from rapp_exceptions import RappError
 
+from rapp_tools import *
+
 class LimitedVocabularyCreator(GlobalParams):
 
   def __init__(self):
@@ -70,10 +72,10 @@ class LimitedVocabularyCreator(GlobalParams):
   def createConfigurationFiles(self, words, grammar, sentences):
     tmp_configuration = self.sphinx_configuration
 
-    print "Creating configuration files with parameters:"
-    print "Words: " + str(words)
-    print "Sentences: " + str(sentences)
-    print "Grammar: " + str(grammar)
+    rapp_print( "Creating configuration files with parameters:" )
+    rapp_print( "Words: " + str(words) )
+    rapp_print( "Sentences: " + str(sentences) )
+    rapp_print( "Grammar: " + str(grammar) )
     # Create custom dictionary file
     tmp_configuration['dictionary'] = self.languages_package + 'custom.dict'
     custom_dict = open(tmp_configuration['dictionary'], 'w')
@@ -137,10 +139,16 @@ class LimitedVocabularyCreator(GlobalParams):
     custom_sentences.close()
 
     # Run script to fix the language model
-    print "Sphinx: Creating language model files\n"
-    bash_file = self.language_models_url + "/greekPack/run.sh"
-    bash_command = "cp " + bash_file + " " + self.languages_package + \
-        " && cd " + self.languages_package + " && bash run.sh"
+    rapp_print( "Sphinx: Creating language model files\n" )
+    if self.allow_sphinx_output == True:
+        bash_file = self.language_models_url + "/greekPack/run.sh"
+        bash_command = "cp " + bash_file + " " + self.languages_package + \
+            " && cd " + self.languages_package + " && bash run.sh"
+    else:
+        bash_file = self.language_models_url + "/greekPack/run_silent.sh"
+        bash_command = "cp " + bash_file + " " + self.languages_package + \
+            " && cd " + self.languages_package + " && bash run_silent.sh"
+
     os.system(bash_command)
 
     return tmp_configuration

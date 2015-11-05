@@ -56,8 +56,6 @@ class Sphinx4Wrapper(GlobalParams):
     self.detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
 
-    self.print_sphinx_debug_lines = False
-
     if(not self.denoise_topic):
       rospy.logerror("Audio processing denoise topic not found")
     if(not self.energy_denoise_topic):
@@ -76,20 +74,30 @@ class Sphinx4Wrapper(GlobalParams):
   # Helper function for getting input from Sphinx
   def readLine(self):
     line = self.p.stdout.readline()
-    if self.print_sphinx_debug_lines == True:
-      print line
+    if self.allow_sphinx_output == True:
+      rapp_print( line )
     return line
 
   # Perform Sphinx4 initialization. For now it is initialized with the
   # reduced Greek model
   def initializeSphinx(self, conf):
     if self.conf == '':
-        self.conf = conf
+      self.conf = conf
     #self.conf = conf
 
     rapp_print(str(conf['jar_path']))
-    self.p = subprocess.Popen(["java", "-cp", conf['jar_path'], \
-            "Sphinx4"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
+
+    if self.allow_sphinx_output == True:
+        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4"], \
+            stdin = subprocess.PIPE, stdout = subprocess.PIPE )
+    else:
+        try:
+          from subprocess import DEVNULL
+        except ImportError:
+          DEVNULL = open(os.devnull, 'wb')
+
+        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4"], \
+            stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = DEVNULL )
 
     self.configureSphinx( conf )
 
@@ -334,8 +342,6 @@ class Sphinx4Wrapper(GlobalParams):
     words = []
     while(True):
       line = self.readLine()
-      #print 'Reading Line'
-      #print line
       if(len(line)>0):
         if(line[0]=="#"):
           stripped_down_line = line[1:-1].split(" ")

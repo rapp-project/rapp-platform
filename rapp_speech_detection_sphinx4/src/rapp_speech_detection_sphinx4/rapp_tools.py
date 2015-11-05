@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import rospy
 
 def rapp_print(var):
-    print '\033[94m\033[4m' + str(var) + '\033[0m'
+    rospy.logdebug( str(var) )

@@ -13,3 +13,4 @@ class GlobalParams:
     self.acoustic_models_url = self.rospack.get_path("rapp_sphinx4_acoustic_models")
     self.acoustic_models_url += "/english_acoustic_model"
     self.sphinx_jar_file = 'sphinx4-core-1.0-20150630.174404-9.jar'
+    self.allow_sphinx_output = False
