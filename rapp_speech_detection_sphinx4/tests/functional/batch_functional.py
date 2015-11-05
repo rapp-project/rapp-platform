@@ -32,7 +32,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
@@ -44,7 +44,8 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
         response = test_service(req)
         self.assertEqual( response.error, '' )
-        self.assertEqual( response.words, ['ναι', 'όχι', 'ναι'])
+        if ( response.words != ['ναι', 'όχι', 'ναι'] ):
+            self.assertEqual( 'Word miss-match', '' )
 
     def test_batchService_stress(self):
         rospack = rospkg.RosPack()
@@ -55,7 +56,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         for i in range(0, 10):
           req = SpeechRecognitionSphinx4TotalSrvRequest()
           req.language = 'el'
@@ -68,7 +69,8 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
           response = test_service(req)
           self.assertEqual( response.error, '' )
-          self.assertEqual( response.words, ['ναι', 'όχι', 'ναι'])
+          if ( response.words != ['ναι', 'όχι', 'ναι'] ):
+              self.assertEqual( 'Word miss-match', '' )
 
     def test_batchServiceErrorLanguage(self):
         rospack = rospkg.RosPack()
@@ -79,7 +81,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'en'
         req.words = ['ναι', 'όχι']
@@ -101,7 +103,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
@@ -123,7 +125,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
@@ -145,7 +147,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
@@ -167,7 +169,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
@@ -189,7 +191,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
@@ -211,11 +213,10 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
-        req.grammar = req.words
         req.sentences = req.words
         req.path = aux + '/nai_sample.wav'
         req.audio_source = 'nao_wav_1_ch_denoised'
@@ -223,7 +224,8 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
         response = test_service(req)
         self.assertEqual( response.error, '' )
-        self.assertEqual( response.words, ['ναι'] )
+        if ( response.words != ['ναι'] ):
+            self.assertEqual( 'Word miss-match', '' )
 
     def test_batchServiceOgg(self):
         rospack = rospkg.RosPack()
@@ -234,7 +236,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
             conf_service, SpeechRecognitionSphinx4TotalSrv)
-        
+
         req = SpeechRecognitionSphinx4TotalSrvRequest()
         req.language = 'el'
         req.words = ['ναι', 'όχι']
@@ -246,7 +248,8 @@ class SpeechDetSphinx4Func(unittest.TestCase):
 
         response = test_service(req)
         self.assertEqual( response.error, '' )
-        self.assertEqual( response.words, ['ναι'] )
+        if ( response.words != ['ναι', 'όχι', 'ναι'] ):
+            self.assertEqual( 'Word miss-match', '' )
 
 if __name__ == '__main__':
     import rosunit
