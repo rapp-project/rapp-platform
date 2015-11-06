@@ -28,6 +28,7 @@
 
 import sys
 import subprocess
+import socket
 import time
 import os
 from global_parameters import GlobalParams
@@ -73,7 +74,7 @@ class Sphinx4Wrapper(GlobalParams):
 
   # Helper function for getting input from Sphinx
   def readLine(self):
-    line = self.p.stdout.readline()
+    line = self.socket_connection.recv(1024)
     if self.allow_sphinx_output == True:
       rapp_print( line )
     return line
@@ -87,39 +88,53 @@ class Sphinx4Wrapper(GlobalParams):
 
     rapp_print(str(conf['jar_path']))
 
+    self.createSocket()
+
     if self.allow_sphinx_output == True:
-        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4"], \
-            stdin = subprocess.PIPE, stdout = subprocess.PIPE )
+        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", "44444"] )
     else:
         try:
           from subprocess import DEVNULL
         except ImportError:
           DEVNULL = open(os.devnull, 'wb')
 
-        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4"], \
-            stdin = subprocess.PIPE, stdout = subprocess.PIPE, stderr = DEVNULL )
+        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4" , "44444"], \
+            stdout = DEVNULL, stderr = DEVNULL )
+
+    self.socket_connection, addr = self.sphinx_socket.accept()
+
+
 
     self.configureSphinx( conf )
 
+  def createSocket(self):
+    HOST = '127.0.0.1'
+    PORT = 44444
+    #self.sphinx_socket = socket.socket( socket.AF_UNIX, socket.SOCK_STREAM ) # Create Unix Socket 
+    self.sphinx_socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM ) # Create Unix Socket 
+    self.sphinx_socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    self.sphinx_socket.bind( (HOST, PORT) )
+    self.sphinx_socket.listen( 1 )
+
   def configureSphinx(self, conf):
     self.conf = conf
-    self.p.stdin.write("configurationPath#" + conf['configuration_path'] + '\r\n')
+    self.socket_connection.sendall("configurationPath#" + conf['configuration_path'] + '\r\n')
     self.readLine()
-    self.p.stdin.write("acousticModel#" + conf['acoustic_model'] + '\r\n')
+    self.socket_connection.sendall("acousticModel#" + conf['acoustic_model'] + '\r\n')
     self.readLine()
-    self.p.stdin.write("grammarName#" + conf['grammar_name'] + "#" + \
+    self.socket_connection.sendall("grammarName#" + conf['grammar_name'] + "#" + \
             conf['grammar_folder'] + '\r\n')
     self.readLine()
-    self.p.stdin.write("dictionary#" + conf['dictionary'] + '\r\n')
+    self.socket_connection.sendall("dictionary#" + conf['dictionary'] + '\r\n')
     self.readLine()
-    self.p.stdin.write("languageModel#" + conf['language_model'] + '\r\n')
+    self.socket_connection.sendall("languageModel#" + conf['language_model'] + '\r\n')
     self.readLine()
     if(conf['grammar_disabled']):
-      self.p.stdin.write("disableGrammar#\r\n")
+      self.socket_connection.sendall("disableGrammar#\r\n")
     else:
-      self.p.stdin.write("enableGrammar#\r\n")
+      self.socket_connection.sendall("enableGrammar#\r\n")
     self.readLine()
-    self.p.stdin.write("forceConfiguration#\r\n")
+    self.socket_connection.sendall("forceConfiguration#\r\n")
     self.readLine()
 
   def createProcessingProfile(self, audio_type):
@@ -335,8 +350,8 @@ class Sphinx4Wrapper(GlobalParams):
     return energy_denoise_res.success
 
   def callSphinxJava(self,new_audio_file):
-    self.p.stdin.write("start\r\n")
-    self.p.stdin.write("audioInput#" + new_audio_file + "\r\n")
+    self.socket_connection.sendall("start\r\n")
+    self.socket_connection.sendall("audioInput#" + new_audio_file + "\r\n")
     start_time = time.time()
     self.readLine()
     words = []
