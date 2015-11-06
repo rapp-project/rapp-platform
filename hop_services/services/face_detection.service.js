@@ -48,7 +48,8 @@ var Fs = require( __modulePath + 'fileUtils.js' );
 var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
 var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
-var RosParam = require(__modulePath + 'ros/rosParam.js')
+var RosParam = require(__modulePath + 'ros/rosParam.js');
+var ROS = require( '/home/klpanagi/Desktop/RosBridgeJS/src/Rosbridge.js');
 /* ----------------------------------------------------------------------- */
 
 /* ------------< Load and set basic configuration parameters >-------------*/
@@ -67,11 +68,15 @@ var rosSrvThreads = 0;  // Default is set at zero (0)
 /* -------------------------< ROS service pool >-------------------------- */
 var rosSrvPool = undefined;
 
-rosParam.getParam_async('/rapp_face_detection_threads', function(data){
-  if(data > 0)
-  {
-    rosSrvThreads = data;
-    rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
+var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
+  function(){
+    ros.getParam('/rapp_face_detection_threads', function(data){
+      if(data > 0)
+    {
+      rosSrvThreads = data;
+      rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
+    }
+    });
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -81,13 +86,12 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = srvEnv[__hopServiceName].timeout; // ms
 var maxTries = srvEnv[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
-
+// Register communication interface with the master-process
 register_master_interface();
 
 
@@ -100,9 +104,10 @@ register_master_interface();
  */
 service face_detection ( {file_uri:''} )
 {
-  // For security reasons, if file_uri is not defined under the server_cache_dir
-  // do not operate. HOP server stores the files under the __serverCacheDir
-  // directory.
+  /**For security reasons, if file_uri is not defined under the
+   * server_cache_dir do not operate. HOP server stores the files under the
+   * __serverCacheDir directory.
+   */
   if( file_uri.indexOf(__serverCacheDir) === -1 )
   {
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
@@ -115,19 +120,28 @@ service face_detection ( {file_uri:''} )
     }
     return hop.HTTPResponseJson(response);
   }
+  /* ----------------------------------------------------------------------- */
+
+  // Assign a unique identification key for this service call.
+  var unqCallId = randStrGen.createUnique();
+
   var startT = new Date().getTime();
   var execTime = 0;
-  // Check if this service uses a threaPool and assign the relevant ros_service.
+
+  /** Check if this service uses a threaPool. If true, use the threadPool
+   * module in order to use service with current minimum bandwidth.
+   */
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
   else {var rosSrvCall = rosSrvName;}
   console.log(rosSrvCall);
+  /* ------------------------------------------------------------------- */
+
   postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall +
     '}') );
   var logMsg = 'Image stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var unqCallId = randStrGen.createUnique();
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
@@ -156,96 +170,69 @@ service face_detection ( {file_uri:''} )
   /*-------------------------------------------------------------------------*/
 
 
-  // Asynchronous http response
-  /*----------------------------------------------------------------- */
+  /**
+   * Asynchronous http response
+   */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-     var args = {
-       /* Image path to perform faceDetection, used as input to the
-        *  Face Detection ROS Node Service
-        */
-       "imageFilename": cpFilePath
-     };
-
+      /**
+       * These variables define information on service call.
+       */
       var respFlag = false;
       var wsError = false;
-      var rosbridge_msg = craft_rosbridge_msg(args, rosSrvCall, unqCallId)
+      var retries = 0;
+      /* --------------------------------------------------- */
+
+      // Define Ros Service request arguments here.
+      var args = {
+        "imageFilename": cpFilePath
+      };
 
       /**
-       * ---- Catch exception on initiating websocket.
-       *  -- Return to client immediately on exception thrown.
+       * Define the service response callback here!!
+       * This callback function will be passed into the rosbridge service
+       * controller and will be called as long as the response from rosbridge
+       * websocket server arrives.
+       */
+      function callback(data){
+        respFlag = true;
+        // Remove this call id from random string generator cache.
+        randStrGen.removeCached(unqCallId);
+        // Remove cached file. Release resources.
+        Fs.rmFile(cpFilePath);
+        //console.log(data);
+        // Craft client response using ros service ws response.
+        var response = craft_response(data);
+        // Asynchronous response to client.
+        sendResponse( hop.HTTPResponseJson(response) )
+      }
+      /* -------------------------------------------------------- */
+
+      /**
+       * Add service calling into try/catch block in order to catch
+       * rosbridge connection errors
        */
       try{
-        var rosWS = new WebSocket('ws://localhost:9090');
-
-        // Register WebSocket.onopen callback
-        rosWS.onopen = function(){
-          var logMsg = 'Connection to rosbridge established';
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
-          this.send(JSON.stringify(rosbridge_msg));
-        }
-        // Register WebSocket.onclose callback
-        rosWS.onclose = function(){
-          var logMsg = 'Connection to rosbridge closed';
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
-        }
-        // Register WebSocket.message callback
-        rosWS.onmessage = function(event){
-          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-          var logMsg = 'Received message from rosbridge';
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-          //console.log(event.value);
-          Fs.rmFile(cpFilePath);
-          respFlag = true; // Raise Response-Received Flag
-
-          // Dismiss the unique call identity key for current client.
-          randStrGen.removeCached( unqCallId );
-          var response = craft_response(event.value);
-          sendResponse( hop.HTTPResponseJson(response));
-          execTime = new Date().getTime() - startT;
-          postMessage( craft_slaveMaster_msg('execTime', execTime) );
-          this.close(); // Close websocket
-          rosWS = undefined; // Ensure deletion of websocket
-        }
-        rosWS.onerror = function(e){
-          if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-          rosWS = undefined;
-          wsError = true;
-
-          var logMsg = 'Websocket' +
-            'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-          Fs.rmFile(cpFilePath);
-          var response = craft_error_response();
-          sendResponse( hop.HTTPResponseJson(response));
-          execTime = new Date().getTime() - startT;
-          postMessage( craft_slaveMaster_msg('execTime', execTime) );
-        }
+        ros.callService(rosSrvCall, args, callback);
       }
       catch(e){
-        if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-        rosWS = undefined;
         wsError = true;
-
-        var logMsg = 'ERROR: Cannot open websocket' +
-          'to rosbridge [ws//localhost:9090]\r\n' + e;
-        postMessage( craft_slaveMaster_msg('log', logMsg) );
-
+        // Remove this call id from random string generator cache.
+        randStrGen.removeCached(unqCallId);
+        // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
+        // craft error response
         var response = craft_error_response();
-        sendResponse( hop.HTTPResponseJson(response));
-        execTime = new Date().getTime() - startT;
-        postMessage( craft_slaveMaster_msg('execTime', execTime) );
-        return;
+        // Asynchronous response to client.
+        sendResponse( hop.HTTPResponseJson(response) );
       }
-      /*------------------------------------------------------------------ */
+      /* -------------------------------------------------------- */
 
-      var retries = 0;
-
-      // Set Timeout wrapping function
+      /**
+       * Set Timeout wrapping function.
+       * Polling in defined time-cycle. Catch timeout connections etc...
+       */
       function asyncWrap(){
         setTimeout( function(){
 
@@ -258,7 +245,10 @@ service face_detection ( {file_uri:''} )
              'Retry-' + retries;
            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-           /* - Fail to receive message from rosbridge. Return to client */
+           /**
+            * Fail. Did not receive message from rosbridge.
+            * Return to client.
+            */
            if (retries >= maxTries)
            {
              if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
@@ -268,8 +258,6 @@ service face_detection ( {file_uri:''} )
 
              Fs.rmFile(cpFilePath);
 
-             rosWS.close();
-             rosWS = undefined;
              //  Close websocket before return
              execTime = new Date().getTime() - startT;
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
@@ -277,78 +265,7 @@ service face_detection ( {file_uri:''} )
              sendResponse( hop.HTTPResponseJson(response));
              return;
            }
-
-           if (rosWS != undefined) { rosWS.close(); }
-           rosWS = undefined;
-
-           /* ------------< Re-connect to Rosbridge >------------*/
-           try{
-             rosWS = new WebSocket('ws://localhost:9090');
-
-             /* -----------< Redefine WebSocket callbacks >----------- */
-             rosWS.onopen = function(){
-               var logMsg = 'Connection to rosbridge established';
-               postMessage( craft_slaveMaster_msg('log', logMsg) );
-               this.send(JSON.stringify(rosbridge_msg));
-             }
-
-             rosWS.onclose = function(){
-               var logMsg = 'Connection to rosbridge closed';
-               postMessage( craft_slaveMaster_msg('log', logMsg) );
-             }
-
-             rosWS.onmessage = function(event){
-               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-               var logMsg = 'Received message from rosbridge';
-               postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-               //Remove the uniqueID so it can be reused
-               randStrGen.removeCached( unqCallId );
-               Fs.rmFile(cpFilePath);
-
-               respFlag = true;
-               execTime = new Date().getTime() - startT;
-               postMessage( craft_slaveMaster_msg('execTime', execTime) );
-               var response = craft_response(event.value);
-               sendResponse( hop.HTTPResponseJson(response));
-               this.close(); // Close websocket
-               rosWS = undefined; // Decostruct websocket
-             }
-             rosWS.onerror = function(e){
-               if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-               rosWS = undefined;
-               wsError = true;
-
-               var logMsg = 'Websocket' +
-                 'to rosbridge [ws//localhost:9090] got error...\r\n' + e;
-               postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-               Fs.rmFile(cpFilePath);
-               var response = craft_error_response();
-               sendResponse( hop.HTTPResponseJson(response));
-               execTime = new Date().getTime() - startT;
-               postMessage( craft_slaveMaster_msg('execTime', execTime) );
-             }
-           }
-           catch(e){
-             if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-             rosWS = undefined;
-             wsError = true;
-
-             var logMsg = 'ERROR: Cannot open websocket' +
-               'to rosbridge --> [ws//localhost:9090]';
-             postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-             Fs.rmFile(cpFilePath);
-
-             execTime = new Date().getTime() - startT;
-             postMessage( craft_slaveMaster_msg('execTime', execTime) );
-             var response = craft_error_response();
-             sendResponse( hop.HTTPResponseJson(response));
-             return;
-           }
-
-         }
+                    }
          /*--------------------------------------------------------*/
          asyncWrap();
 
@@ -367,53 +284,40 @@ service face_detection ( {file_uri:''} )
  */
 function craft_response(rosbridge_msg)
 {
-  var msg = JSON.parse(rosbridge_msg);
-  var faces_up_left = msg.values.faces_up_left
-  var faces_down_right = msg.values.faces_down_right;
-  var call_result = msg.result;
-  var error = msg.values.error;
+  var msg = rosbridge_msg;
+  var faces_up_left = msg.faces_up_left;
+  var faces_down_right = msg.faces_down_right;
+  var error = msg.error;
   var numFaces = faces_up_left.length;
   var logMsg = '';
   var crafted_msg = { faces: [], error: '' };
 
-  if (call_result)
+  for (var ii = 0; ii < numFaces; ii++)
   {
-    for (var ii = 0; ii < numFaces; ii++)
-    {
-      var face = {
-        up_left_point: {x: 0, y:0},
-        down_right_point: {x: 0, y: 0}
-      };
-      face.up_left_point.x = faces_up_left[ii].point.x;
-      face.up_left_point.y = faces_up_left[ii].point.y;
-      face.down_right_point.x = faces_down_right[ii].point.x;
-      face.down_right_point.y = faces_down_right[ii].point.y;
-      crafted_msg.faces.push( face );
-    }
+    var face = {
+      up_left_point: {x: 0, y:0},
+      down_right_point: {x: 0, y: 0}
+    };
+    face.up_left_point.x = faces_up_left[ii].point.x;
+    face.up_left_point.y = faces_up_left[ii].point.y;
+    face.down_right_point.x = faces_down_right[ii].point.x;
+    face.down_right_point.y = faces_down_right[ii].point.y;
+    crafted_msg.faces.push( face );
+  }
 
-    crafted_msg.error = error;
-    logMsg = 'Returning to client.';
+  crafted_msg.error = error;
+  logMsg = 'Returning to client.';
 
-    if (error != '')
-    {
-      logMsg += ' ROS service [' + rosSrvName + '] error'
-        ' ---> ' + error;
-    }
-    else
-    {
-      logMsg += ' ROS service [' + rosSrvName + '] returned with success'
-    }
+  if (error != '')
+  {
+    logMsg += ' ROS service [' + rosSrvName + '] error'
+      ' ---> ' + error;
   }
   else
   {
-    logMsg = 'Communication with ROS service ' + rosSrvName +
-      'failed. Unsuccesful call! Returning to client with error' +
-      ' ---> RAPP Platform Failure';
-    crafted_msg.error = 'RAPP Platform Failure';
+    logMsg += ' ROS service [' + rosSrvName + '] returned with success'
   }
-
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-  //console.log(crafted_msg.faces);
   return crafted_msg;
 };
 
@@ -431,24 +335,6 @@ function craft_error_response()
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   return crafted_msg;
-}
-
-
-/*!
- * @brief Crafts ready to send, rosbridge message.
- *   Can be used by any service!!!!
- */
-function craft_rosbridge_msg(args, service_name, id)
-{
-
-  var rosbrige_msg = {
-    'op': 'call_service',
-    'service': service_name,
-    'args': args,
-    'id': id
-  };
-
-  return rosbrige_msg;
 }
 
 
