@@ -48,8 +48,7 @@ var Fs = require( __modulePath + 'fileUtils.js' );
 var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
 var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
-var RosParam = require(__modulePath + 'ros/rosParam.js');
-var ROS = require( '/home/klpanagi/Desktop/RosBridgeJS/src/Rosbridge.js');
+var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
 /* ----------------------------------------------------------------------- */
 
 /* ------------< Load and set basic configuration parameters >-------------*/
@@ -57,12 +56,11 @@ var srvEnv = require( __configPath + 'env/hop-services.json' )
 var pathsEnv = require( __configPath + 'env/paths.json' )
 var __hopServiceName = 'face_detection';
 var __hopServiceId = null;
-var __cacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
+var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
 var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 /* ----------------------------------------------------------------------- */
 
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
-var rosParam = new RosParam({});
 var rosSrvThreads = 0;  // Default is set at zero (0)
 
 /* -------------------------< ROS service pool >-------------------------- */
@@ -70,13 +68,15 @@ var rosSrvPool = undefined;
 
 var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
   function(){
-    ros.getParam('/rapp_face_detection_threads', function(data){
-      if(data > 0)
-    {
-      rosSrvThreads = data;
-      rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
-    }
-    });
+    ros.getParam('/rapp_face_detection_threads',
+      function(data){
+        if(data > 0)
+        {
+          rosSrvThreads = data;
+          rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
+        }
+      }
+    );
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -94,6 +94,11 @@ var maxTries = srvEnv[__hopServiceName].retries;
 // Register communication interface with the master-process
 register_master_interface();
 
+var colors = {
+  error:    '\033[1;31m',
+  success:  '\033[1;31m',
+  clear:    '\033[0m'
+}
 
 /*!
  * @brief Face Detection HOP Service Core.
@@ -113,7 +118,8 @@ service face_detection ( {file_uri:''} )
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
         " Abortion for security reasons.";
     postMessage( craft_slaveMaster_msg('log', errorMsg) );
-    console.log(errorMsg);
+    console.log(colors.error + '[Face-Detection]: ' + errorMsg + colors.clear);
+
     var response = {
       faces: [],
       error: errorMsg
@@ -133,7 +139,7 @@ service face_detection ( {file_uri:''} )
    */
   if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
   else {var rosSrvCall = rosSrvName;}
-  console.log(rosSrvCall);
+  //console.log(rosSrvCall);
   /* ------------------------------------------------------------------- */
 
   postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall +
@@ -145,7 +151,7 @@ service face_detection ( {file_uri:''} )
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
-  var cpFilePath = __cacheDir + fileName.split('.')[0] + '-'  + unqCallId +
+  var cpFilePath = __servicesCacheDir + fileName.split('.')[0] + '-'  + unqCallId +
     '.' + fileName.split('.')[1];
   cpFilePath = Fs.resolve_path(cpFilePath);
   /* ---------------------------------------------------------------- */
@@ -180,6 +186,7 @@ service face_detection ( {file_uri:''} )
        * These variables define information on service call.
        */
       var respFlag = false;
+      var retClientFlag = false;
       var wsError = false;
       var retries = 0;
       /* --------------------------------------------------- */
@@ -189,6 +196,7 @@ service face_detection ( {file_uri:''} )
         "imageFilename": cpFilePath
       };
 
+
       /**
        * Define the service response callback here!!
        * This callback function will be passed into the rosbridge service
@@ -197,6 +205,7 @@ service face_detection ( {file_uri:''} )
        */
       function callback(data){
         respFlag = true;
+        if(retClientFlag) {return}
         // Remove this call id from random string generator cache.
         randStrGen.removeCached(unqCallId);
         // Remove cached file. Release resources.
@@ -206,6 +215,7 @@ service face_detection ( {file_uri:''} )
         var response = craft_response(data);
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) )
+        retClientFlag = true;
       }
       /* -------------------------------------------------------- */
 
@@ -217,6 +227,8 @@ service face_detection ( {file_uri:''} )
         ros.callService(rosSrvCall, args, callback);
       }
       catch(e){
+        // maybe useless. Leave it here for safety reasons.
+        if(retClientFlag) {return}
         wsError = true;
         // Remove this call id from random string generator cache.
         randStrGen.removeCached(unqCallId);
@@ -226,6 +238,7 @@ service face_detection ( {file_uri:''} )
         var response = craft_error_response();
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
+        retClientFlag = true;
       }
       /* -------------------------------------------------------- */
 
@@ -236,6 +249,10 @@ service face_detection ( {file_uri:''} )
       function asyncWrap(){
         setTimeout( function(){
 
+         /**
+          * If received message from rosbridge websocket server or an error
+          * on websocket connection, stop timeout events.
+          */
          if (respFlag || wsError) { return; }
          else{
            retries += 1;
@@ -263,6 +280,7 @@ service face_detection ( {file_uri:''} )
              postMessage( craft_slaveMaster_msg('execTime', execTime) );
              var response = craft_error_response();
              sendResponse( hop.HTTPResponseJson(response));
+             retClientFlag = true;
              return;
            }
                     }
@@ -284,12 +302,13 @@ service face_detection ( {file_uri:''} )
  */
 function craft_response(rosbridge_msg)
 {
-  var msg = rosbridge_msg;
-  var faces_up_left = msg.faces_up_left;
-  var faces_down_right = msg.faces_down_right;
-  var error = msg.error;
+  var faces_up_left = rosbridge_msg.faces_up_left;
+  var faces_down_right = rosbridge_msg.faces_down_right;
+  var error = rosbridge_msg.error;
   var numFaces = faces_up_left.length;
+
   var logMsg = '';
+
   var crafted_msg = { faces: [], error: '' };
 
   for (var ii = 0; ii < numFaces; ii++)
@@ -318,6 +337,7 @@ function craft_response(rosbridge_msg)
     logMsg += ' ROS service [' + rosSrvName + '] returned with success'
   }
   postMessage( craft_slaveMaster_msg('log', logMsg) );
+
   return crafted_msg;
 };
 
@@ -371,7 +391,7 @@ function exec_master_command(msg)
       __hopServiceId = data;
       break;
     case 2065:
-      __cacheDir = data;
+      __servicesCacheDir = data;
       break;
     default:
       break;
