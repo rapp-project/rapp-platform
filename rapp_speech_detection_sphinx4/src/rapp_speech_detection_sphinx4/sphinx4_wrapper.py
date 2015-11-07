@@ -48,7 +48,7 @@ from rapp_platform_ros_communications.srv import(
 class Sphinx4Wrapper(GlobalParams):
 
   def __init__(self):
-    self.conf = ''
+    self._conf = ''
     self.sphinxDied = False
     GlobalParams.__init__(self)
     self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
@@ -56,6 +56,8 @@ class Sphinx4Wrapper(GlobalParams):
         rospy.get_param("rapp_audio_processing_energy_denoise_topic")
     self.detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
+    self.audio_trans_topic = \
+        rospy.get_param("rapp_audio_processing_transform_audio_topic")
 
     if(not self.denoise_topic):
       rospy.logerror("Audio processing denoise topic not found")
@@ -63,6 +65,8 @@ class Sphinx4Wrapper(GlobalParams):
       rospy.logerror("Audio processing energy denoise topic not found")
     if(not self.detect_silence_topic):
       rospy.logerror("Audio processing detect silence topic not found")
+    if(not self.audio_trans_topic):
+      rospy.logerror("Audio processing transform audio topic not found")
 
     self.denoise_service = rospy.ServiceProxy(\
               self.denoise_topic, AudioProcessingDenoiseSrv)
@@ -70,7 +74,8 @@ class Sphinx4Wrapper(GlobalParams):
               self.energy_denoise_topic, AudioProcessingDenoiseSrv)
     self.detect_silence_service = rospy.ServiceProxy(\
               self.detect_silence_topic, AudioProcessingDetectSilenceSrv)
-
+    self.audio_transform_srv = rospy.ServiceProxy( \
+        self.audio_trans_topic, AudioProcessingTransformAudioSrv )
 
   # Helper function for getting input from Sphinx
   def readLine(self):
@@ -82,42 +87,36 @@ class Sphinx4Wrapper(GlobalParams):
   # Perform Sphinx4 initialization. For now it is initialized with the
   # reduced Greek model
   def initializeSphinx(self, conf):
-    if self.conf == '':
-      self.conf = conf
-    #self.conf = conf
 
     rapp_print(str(conf['jar_path']))
 
     self.createSocket()
 
     if self.allow_sphinx_output == True:
-        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", "44444"] )
+        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)] )
     else:
         try:
           from subprocess import DEVNULL
         except ImportError:
           DEVNULL = open(os.devnull, 'wb')
 
-        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4" , "44444"], \
+        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)], \
             stdout = DEVNULL, stderr = DEVNULL )
 
-    self.socket_connection, addr = self.sphinx_socket.accept()
-
-
+    self.socket_connection, addr = self._sphinx_socket.accept()
 
     self.configureSphinx( conf )
 
   def createSocket(self):
-    HOST = '127.0.0.1'
-    PORT = 44444
-    #self.sphinx_socket = socket.socket( socket.AF_UNIX, socket.SOCK_STREAM ) # Create Unix Socket 
-    self.sphinx_socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM ) # Create Unix Socket 
-    self.sphinx_socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    self.sphinx_socket.bind( (HOST, PORT) )
-    self.sphinx_socket.listen( 1 )
+    HOST = self.socket_host
+    self._sphinx_socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM ) # Create Unix Socket
+    self._sphinx_socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    self._sphinx_socket.bind( (HOST, 0) )
+    self._sphinx_socket_PORT = self._sphinx_socket.getsockname()[1]
+    self._sphinx_socket.listen( 1 )
 
   def configureSphinx(self, conf):
-    self.conf = conf
+    self._conf = conf
     self.socket_connection.sendall("configurationPath#" + conf['configuration_path'] + '\r\n')
     self.readLine()
     self.socket_connection.sendall("acousticModel#" + conf['acoustic_model'] + '\r\n')
@@ -224,10 +223,6 @@ class Sphinx4Wrapper(GlobalParams):
     profile = self.createProcessingProfile(audio_source)
 
 
-
-    audio_trans_topic = rospy.get_param("rapp_audio_processing_transform_audio_topic")
-    audio_transform_srv = rospy.ServiceProxy( audio_trans_topic, \
-            AudioProcessingTransformAudioSrv )
     transform_req = AudioProcessingTransformAudioSrvRequest()
     transform_req.source_type = audio_source
     transform_req.source_name = prev_audio_file
@@ -238,7 +233,7 @@ class Sphinx4Wrapper(GlobalParams):
       next_audio_file += "_transformed.wav"
       transform_req.target_name = next_audio_file
 
-      trans_response = audio_transform_srv( transform_req )
+      trans_response = self.audio_transform_srv( transform_req )
 
       if trans_response.error != 'success':
           raise RappError( 'Audio transformation error: ' + error )
@@ -255,7 +250,7 @@ class Sphinx4Wrapper(GlobalParams):
       transform_req.target_channels = 1
       transform_req.target_rate = 16000
 
-      trans_response = audio_transform_srv( transform_req )
+      trans_response = self.audio_transform_srv( transform_req )
 
       if trans_response.error != 'success':
           raise RappError( 'Audio transformation error: ' + error )
@@ -379,7 +374,7 @@ class Sphinx4Wrapper(GlobalParams):
     #rospy.logwarn("Respawning sphinx")
     self.p.kill()
     time.sleep(2)
-    self.initializeSphinx( self.conf )
+    self.initializeSphinx( self._conf )
     #rospy.logwarn("Respawned sphinx")
 
 
