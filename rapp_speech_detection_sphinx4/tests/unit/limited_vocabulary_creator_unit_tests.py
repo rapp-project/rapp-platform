@@ -72,7 +72,7 @@ class TestAudioProcessing(unittest.TestCase):
         self.assertEqual('<s> dyskolo </s>\n' in sentences, True)
 
         # Check grammar
-        grammar = grammar_folder + 'custom.gram'
+        grammar = os.path.join( grammar_folder, 'custom.gram' )
         with open(grammar) as f:
             grams = f.readlines()
         self.assertEqual('public <cmd1>="autos";\n' in grams, True)

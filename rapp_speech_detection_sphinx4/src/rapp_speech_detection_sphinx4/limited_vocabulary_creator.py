@@ -28,6 +28,9 @@
 
 import rospy
 import sys
+import tempfile
+import atexit
+import shutil
 import os
 
 from global_parameters import GlobalParams
@@ -40,10 +43,15 @@ class LimitedVocabularyCreator(GlobalParams):
   def __init__(self):
     GlobalParams.__init__(self)
 
-    self.languages_package = self.language_models_url + "/tmp_language_pack/"
+    if not os.path.exists( self.tmp_language_models_url ):
+      rospy.logwarn( "Language temporary directory does not exist. Path: " + \
+          self.tmp_language_models_url )
+      os.makedirs(self.tmp_language_models_url)
 
-    if not os.path.exists(self.languages_package):
-      os.makedirs(self.languages_package)
+    self.languages_package = tempfile.mkdtemp( prefix='tmp_language_pack_', dir = self.tmp_language_models_url )
+
+    atexit.register(shutil.rmtree, self.languages_package)
+
 
     self.sphinx_configuration = { \
       'jar_path' : ".:" + self.sphinx_jar_files_url + \
@@ -77,7 +85,8 @@ class LimitedVocabularyCreator(GlobalParams):
     rapp_print( "Sentences: " + str(sentences) )
     rapp_print( "Grammar: " + str(grammar) )
     # Create custom dictionary file
-    tmp_configuration['dictionary'] = self.languages_package + 'custom.dict'
+    tmp_configuration['dictionary'] = os.path.join( self.languages_package, \
+        'custom.dict' )
     custom_dict = open(tmp_configuration['dictionary'], 'w')
     for word in words:
       tmp_line = word
@@ -93,8 +102,8 @@ class LimitedVocabularyCreator(GlobalParams):
       tmp_configuration['grammar_disabled'] = False
     tmp_configuration['grammar_name'] = 'custom'
     tmp_configuration['grammar_folder'] = self.languages_package
-    custom_grammar = open(tmp_configuration['grammar_folder'] +
-        tmp_configuration['grammar_name'] + '.gram', 'w')
+    custom_grammar = open(os.path.join( tmp_configuration['grammar_folder'], \
+        tmp_configuration['grammar_name']) + '.gram', 'w')
     custom_grammar.write('#JSGF V1.0;\n')
     custom_grammar.write("grammar " + tmp_configuration['grammar_name'] + ';\n')
     counter = 1
@@ -120,9 +129,9 @@ class LimitedVocabularyCreator(GlobalParams):
     # Fix sentences / language model
     # Check sentences: All words must exist in sentences
     # Continue with the sentences setup
-    tmp_configuration['language_model'] = self.languages_package + \
-      "sentences.lm.bin"
-    custom_sentences = open(self.languages_package + 'sentences.txt', 'w')
+    tmp_configuration['language_model'] = os.path.join( self.languages_package, \
+      "sentences.lm.bin" )
+    custom_sentences = open(self.languages_package + '/sentences.txt', 'w')
     if len(sentences) != 0:
       for sent in sentences:
         # Split sentence

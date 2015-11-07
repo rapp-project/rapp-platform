@@ -40,7 +40,7 @@ class EnglishSupport(GlobalParams):
   def __init__(self):
     GlobalParams.__init__(self)
 
-    self.generic_sphinx_configuration = {}
+    #self.generic_sphinx_configuration = {}
     self.limited_sphinx_configuration = {}
 
     self.vocabulary = LimitedVocabularyCreator()

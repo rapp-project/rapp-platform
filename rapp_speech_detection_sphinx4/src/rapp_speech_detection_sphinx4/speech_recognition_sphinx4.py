@@ -35,6 +35,7 @@ from greek_support import *
 from english_support import *
 from sphinx4_wrapper import *
 from rapp_tools import *
+from sphinx4_configuration_params import *
 
 from global_parameters import GlobalParams
 
@@ -71,14 +72,11 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self.sphinx4 = Sphinx4Wrapper()
     self.greek_support = GreekSupport()
     self.english_support = EnglishSupport()
+    self._configuration_params = SphinxConfigurationParams()
     self.word_mapping = {}
 
-    self.language = 'el'
-    self.words = []
-    self.grammar = []
-    self.sentences = []
-
-    self.serv_topic = rospy.get_param("rapp_speech_detection_sphinx4_detect_speech_topic")
+    self.serv_topic = \
+        rospy.get_param("rapp_speech_detection_sphinx4_detect_speech_topic")
     self.serv_configuration_topic = \
         rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
     self.serv_batch_topic = \
@@ -89,7 +87,8 @@ class SpeechRecognitionSphinx4(GlobalParams):
 
     #---------------------------Check db authentication------------------------#
     if self.use_db_authentication == True:
-      self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
+      self.serv_db_topic = \
+          rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
       self.authentication_service = rospy.ServiceProxy(\
               self.serv_db_topic, fetchDataSrv)
 
@@ -179,7 +178,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
       return res
 
     for word in words:
-      if self.language != "en":
+      if self._configuration_params._language != "en":
         rapp_print ("Word: #" + word + "#")
         if word == "" or word == '<unk>':
           continue
@@ -196,27 +195,27 @@ class SpeechRecognitionSphinx4(GlobalParams):
     conf = {} # Dummy initialization
     reconfigure = False
 
-    if self.language != req.language:
+    if self._configuration_params._language != req.language:
       reconfigure = True
-    if self.words != req.words:
+    elif self._configuration_params._words != req.words:
       reconfigure = True
-    if self.grammar != req.grammar:
+    elif self._configuration_params._grammar != req.grammar:
       reconfigure = True
-    if self.sentences != req.sentences:
+    elif self._configuration_params._sentences != req.sentences:
       reconfigure = True
-    self.language = req.language
-    self.words = req.words
-    self.grammar = req.grammar
-    self.sentences = req.sentences
+    self._configuration_params._language = req.language
+    self._configuration_params._words = req.words
+    self._configuration_params._grammar = req.grammar
+    self._configuration_params._sentences = req.sentences
 
     if reconfigure == False:
       return res
 
     # English language
-    if self.language == 'en':
+    if self._configuration_params._language == 'en':
       rapp_print ("Language set to English")
       # Whole dictionary utilization
-      if len(self.words) == 0:
+      if len(self._configuration_params._words) == 0:
         rapp_print ("Generic model used")
         # success is either True (bool) or error (string)
         try:
@@ -230,25 +229,30 @@ class SpeechRecognitionSphinx4(GlobalParams):
         # success is either True (bool) or error (string)
         try:
             conf = self.english_support.getLimitedVocebularyConfiguration(\
-                self.words, self.grammar, self.sentences)
+                self._configuration_params._words, \
+                self._configuration_params._grammar, \
+                self._configuration_params._sentences)
         except RappError as e:
             res.error = e.value
             return res
 
     # Greek language
-    elif self.language == "el":
+    elif self._configuration_params._language == "el":
       rapp_print ("Language set to Greek")
       # Whole dictionary utilization
-      if len(self.words) == 0:
+      if len(self._configuration_params._words) == 0:
         rapp_print ("Generic model used")
         # TODO
       # Limited dictionary utilization
       else:
-        rapp_print ("Words to be recognized (" + str(len(self.words)) + "):")
+        rapp_print ("Words to be recognized (" + \
+            str(len(self._configuration_params._words)) + "):")
         # success is either True (bool) or error (string)
         try:
             [conf, eng_w] = self.greek_support.getLimitedVocebularyConfiguration(\
-                self.words, self.grammar, self.sentences)
+                self._configuration_params._words, \
+                self._configuration_params._grammar, \
+                self._configuration_params._sentences)
         except RappError as e:
             res.error = e.value
             return res
