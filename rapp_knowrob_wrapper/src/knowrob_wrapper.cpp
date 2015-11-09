@@ -67,6 +67,16 @@ std::string intToString (int a)
     return temp.str();
 }
 
+
+std::string SplitFilename (const std::string& str)
+{
+  size_t found;
+  //cout << "Splitting: " << str << endl;
+  found=str.find_last_of("/\\");
+  return str.substr(0,found);
+  //cout << " folder: " << str.substr(0,found) << endl;
+  //cout << " file: " << str.substr(found+1) << endl;
+}
 //bool checkIfFileExists(const char* fname)
 //{
   //if( access( fname, F_OK ) != -1 ) {
@@ -935,16 +945,27 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
     res.error=std::string("Empty file path");
     return res; 
   }  
+  size_t pathDepth = std::count(req.file_url.begin(), req.file_url.end(), '/');  
+  std::string str2 ("/");
+  std::size_t found = req.file_url.find(str2);
+  if (found!=std::string::npos && pathDepth>1)
+  {
+    std::string folderFromPath=SplitFilename(req.file_url);
+    const char * c = folderFromPath.c_str();  
+    if(!checkIfFileExists(c))
+    {
+      res.success=false;
+      res.trace.push_back(std::string("Path does not exist, invalid folder?"));
+      res.trace.push_back(req.file_url);
+      res.error=std::string("Path does not exist, invalid folder?");
+      return res; 
+    }
+  }
+    
+  
+  
   req.file_url=path+req.file_url;
-  //const char * c = req.file_url.c_str();  
-  //if(!checkIfFileExists(c))
-  //{
-    //res.success=false;
-    //res.trace.push_back(std::string("File does not exist in provided file path"));
-    //res.trace.push_back(req.file_url);
-    //res.error=std::string("File does not exist in provided file path");
-    //return res; 
-  //}
+
   
   std::string query = std::string("rdf_save('") + req.file_url + std::string("')");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
