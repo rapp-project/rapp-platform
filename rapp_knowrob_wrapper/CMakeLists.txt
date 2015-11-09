@@ -71,4 +71,5 @@ if (CATKIN_ENABLE_TESTING)
   # functional tests
   add_rostest(tests/functional/sub_super_class_functional_tests.launch)
   add_rostest(tests/functional/cognitive_exercise_system_knowrob_services_functional_tests.launch)
+  add_rostest(tests/functional/load_dump_ontology_functional_tests.launch)
 endif()
