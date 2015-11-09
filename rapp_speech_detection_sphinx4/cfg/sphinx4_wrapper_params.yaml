@@ -3,3 +3,5 @@ rapp_speech_detection_sphinx4_configuration_topic: /rapp/rapp_speech_detection_s
 rapp_speech_detection_sphinx4_total_topic: /rapp/rapp_speech_detection_sphinx4/batch_speech_to_text
 
 rapp_speech_detection_sphinx4_use_db_authentication: true
+
+rapp_speech_detection_threads: 2

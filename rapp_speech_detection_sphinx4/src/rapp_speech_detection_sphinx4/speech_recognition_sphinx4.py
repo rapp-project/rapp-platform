@@ -23,8 +23,8 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
-# Authors: Athanassios Kintsakis, Manos Tsardoulias
-# contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
+# Authors: Athanassios Kintsakis, Aris Thallas Manos Tsardoulias
+# contact: akintsakis@issel.ee.auth.gr, aris.thallas@{iti.gr, gmail.com}, etsardou@iti.gr
 
 import rospy
 import sys
@@ -75,12 +75,12 @@ class SpeechRecognitionSphinx4(GlobalParams):
     self._configuration_params = SphinxConfigurationParams()
     self.word_mapping = {}
 
-    self.serv_topic = \
-        rospy.get_param("rapp_speech_detection_sphinx4_detect_speech_topic")
-    self.serv_configuration_topic = \
-        rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
-    self.serv_batch_topic = \
-        rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
+    #self.serv_topic = \
+        #rospy.get_param("rapp_speech_detection_sphinx4_detect_speech_topic")
+    #self.serv_configuration_topic = \
+        #rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
+    #self.serv_batch_topic = \
+        #rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
 
     self.use_db_authentication = rospy.get_param(\
         "rapp_speech_detection_sphinx4_use_db_authentication")
@@ -92,23 +92,23 @@ class SpeechRecognitionSphinx4(GlobalParams):
       self.authentication_service = rospy.ServiceProxy(\
               self.serv_db_topic, fetchDataSrv)
 
-    if(not self.serv_topic):
-      rospy.logerror("Sphinx4 Speech detection topic param not found")
-    if(not self.serv_configuration_topic):
-      rospy.logerror("Sphinx4 Speech detection configuration topic param not found")
-    if(not self.serv_batch_topic):
-      rospy.logerror("Sphinx4 Speech detection batch topic param not found")
+    #if(not self.serv_topic):
+      #rospy.logerror("Sphinx4 Speech detection topic param not found")
+    #if(not self.serv_configuration_topic):
+      #rospy.logerror("Sphinx4 Speech detection configuration topic param not found")
+    #if(not self.serv_batch_topic):
+      #rospy.logerror("Sphinx4 Speech detection batch topic param not found")
     if(not self.use_db_authentication):
       rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
 
-    self.speech_recognition_service = rospy.Service(self.serv_topic, \
-        SpeechRecognitionSphinx4Srv, self.speechRecognition)
-    self.speech_recognition_configuration_service = rospy.Service( \
-        self.serv_configuration_topic, SpeechRecognitionSphinx4ConfigureSrv, \
-        self.configureSpeechRecognition)
-    self.speech_recognition_batch_service = rospy.Service( \
-        self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
-        self.speechRecognitionBatch)
+    #self.speech_recognition_service = rospy.Service(self.serv_topic, \
+        #SpeechRecognitionSphinx4Srv, self.speechRecognition)
+    #self.speech_recognition_configuration_service = rospy.Service( \
+        #self.serv_configuration_topic, SpeechRecognitionSphinx4ConfigureSrv, \
+        #self.configureSpeechRecognition)
+    #self.speech_recognition_batch_service = rospy.Service( \
+        #self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
+        #self.speechRecognitionBatch)
 
     total_path = ".:" + self.sphinx_jar_files_url + \
         "/" + self.sphinx_jar_file + ":" \
