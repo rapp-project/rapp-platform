@@ -191,56 +191,58 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Define Ros Service request arguments here.
+      // Declare Ros Service request arguments here.
       var args = {
         'noise_audio_file': cpFilePath,
          'audio_file_type': audio_source,
          'user': user
       };
 
+
       /**
-       * Define the service response callback here!!
+       * Declare the service response callback here!!
        * This callback function will be passed into the rosbridge service
-       * controller and will be called as long as the response from rosbridge
+       * controller and will be called when a response from rosbridge
        * websocket server arrives.
        */
       function callback(data){
         respFlag = true;
-        if(retClientFlag) {return}
+        if( retClientFlag ) { return }
         // Remove this call id from random string generator cache.
-        randStrGen.removeCached(unqCallId);
+        randStrGen.removeCached( unqCallId );
         // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
         //console.log(data);
         // Craft client response using ros service ws response.
-        var response = craft_response(data);
+        var response = craft_response( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) )
         retClientFlag = true;
       }
-      /* -------------------------------------------------------- */
 
       /**
-       * Add service calling into try/catch block in order to catch
-       * rosbridge connection errors
+       * Declare the onerror callback.
+       * The onerror callack function will be called by the service
+       * controller as soon as an error occures, on service request.
        */
-      try{
-        ros.callService(rosSrvCall, args, callback);
-      }
-      catch(e){
-        if(retClientFlag) {return}
-        wsError = true;
+      function onerror(e){
+        respFlag = true;
+        if( retClientFlag ) { return }
         // Remove this call id from random string generator cache.
-        randStrGen.removeCached(unqCallId);
+        randStrGen.removeCached( unqCallId );
         // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
         // craft error response
         var response = craft_error_response();
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
+        sendResponse( hop.HTTPResponseJson(response) )
         retClientFlag = true;
       }
+
       /* -------------------------------------------------------- */
+
+      ros.callService(rosSrvCall, args,
+        {success: callback, fail: onerror});
 
       /**
        * Set Timeout wrapping function.
@@ -253,45 +255,46 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
           * If received message from rosbridge websocket server or an error
           * on websocket connection, stop timeout events.
           */
-         if (respFlag || wsError) { return; }
-         else{
-           retries += 1;
+          if ( respFlag || wsError || retClientFlag ) { return; }
 
-           var logMsg = 'Reached rosbridge response timeout' + '---> [' +
-             timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
-             'Retry-' + retries;
-           postMessage( craft_slaveMaster_msg('log', logMsg) );
+          retries += 1;
 
-           /**
-            * Fail. Did not receive message from rosbridge.
-            * Return to client.
-            */
-           if (retries >= maxTries)
-           {
-             retClientFlag = true;
-             if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
-             var logMsg = 'Reached max_retries [' + maxTries + ']' +
-               ' Could not receive response from rosbridge...';
-             postMessage( craft_slaveMaster_msg('log', logMsg) );
+          var logMsg = 'Reached rosbridge response timeout' + '---> [' +
+            timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
+            'Retry-' + retries;
+          postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-             Fs.rmFile(cpFilePath);
+          /**
+           * Fail. Did not receive message from rosbridge.
+           * Return to client.
+           */
+          if ( retries >= maxTries )
+          {
+            if( rosSrvThreads ) {rosSrvPool.release(rosSrvCall);}
 
-             //  Close websocket before return
-             execTime = new Date().getTime() - startT;
-             postMessage( craft_slaveMaster_msg('execTime', execTime) );
-             var response = craft_error_response();
-             sendResponse( hop.HTTPResponseJson(response));
-             return;
-           }
-                    }
-         /*--------------------------------------------------------*/
-         asyncWrap();
+            var logMsg = 'Reached max_retries [' + maxTries + ']' +
+              ' Could not receive response from rosbridge...';
+            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-       }, timeout);
-     }
-     asyncWrap();
-/*============================================================================*/
-   }, this );
+            // Remove cached file. Release resources.
+            Fs.rmFile(cpFilePath);
+
+            execTime = new Date().getTime() - startT;
+            postMessage( craft_slaveMaster_msg('execTime', execTime) );
+
+            var response = craft_error_response();
+            sendResponse( hop.HTTPResponseJson(response));
+            retClientFlag = true;
+            return;
+          }
+          /*--------------------------------------------------------*/
+          asyncWrap();
+
+        }, timeout);
+      }
+      asyncWrap();
+      /*=================================================================*/
+    }, this );
 };
 
 
