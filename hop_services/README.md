@@ -20,7 +20,7 @@ In order to run HOP Web Server and the registered HOP Web Services, execute  **r
 ```
 
 Every js file defined under the services/ directory with a .service.js extension is considered to be
-a HOP Web Service js executable file. HOP Server is responsible for registering those services, on initiation process.
+a HOP Web Service js executable file. HOP Server is responsible for registering those services, on run-time, as workers.
 
 
 **Note**: Do not change HOP Server configuration parameters, unless you know what you are doing!!

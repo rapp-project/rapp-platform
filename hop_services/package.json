@@ -1,0 +1,12 @@
+{
+  "name": "rapp_platform_hop_web_services",
+  "version": "0.3.0",
+  "description": "RAPP Platform front-end web services implemented under HOP server and hopjs",
+  "main": "services/init.js",
+  "scripts": {
+    "test": "",
+    "start": "bash run.sh"
+  },
+  "author": "Konstantinos Panayiotou <klpanagi@gmail.com>",
+  "license": "MIT"
+}
