@@ -1,9 +1,13 @@
-/*!
- * @file srvChooser
- * @brief Choose from availabe ros service list.
+/**
+ * @file
+ *
+ * When a RAPP Platform ROS Node serves requests in threading mode, use this
+ * implementation in order to assign client-requests to a currently
+ * available ROS-Service.
+ *
  */
 
-/**
+/***
  *  MIT License (MIT)
  *
  *  Copyright (c) <2014> <Rapp Project EU>
@@ -32,17 +36,25 @@
  *
  */
 
+
+/**
+ * ROS threaded service pool.
+ * @constructor
+ * @param {string} rosSrv ROS Service base name. (For example /rapp_detect_faces)
+ * @param {int} poolSize Service pool size.
+ */
 function SrvPool ( rosSrv, poolSize ){
   this.stackSize = poolSize || 10;
   this.base = rosSrv;
   this.cache = [];
   this.clients = [];
   // Initialize all as available (0)
-  for(var ii = 0; ii < this.stackSize; ii++){this.cache[ii] = 0};
+  for(var ii = 0; ii < this.stackSize; ii++) {this.cache[ii] = 0;}
 
 
-  /*!
-   * @brief Allocate for service with this index.
+  /**
+   * Allocate service with this index. Append into the stack.
+   * @param {int} index Service index to push into the stack.
    */
   this.allocate = function( index )
   {
@@ -50,8 +62,10 @@ function SrvPool ( rosSrv, poolSize ){
   };
 
 
-  /*!
-   * @brief DeAllocate for service with this index.
+  /***
+   * DeAllocate/release service with this index from the stack.
+   * @param {int} index Service index to deallocate from stack.
+   * (0, 1, ..., numThreads)
    */
   this.deallocate = function( index )
   {
@@ -59,7 +73,7 @@ function SrvPool ( rosSrv, poolSize ){
   };
 
 
-  /*!
+  /***
    * @brief Checks if is currently allocated or released.
    * @param index Index number from 0 to stackSize.
    */
@@ -68,24 +82,29 @@ function SrvPool ( rosSrv, poolSize ){
     if( this.cache[index] ){return true;}
     return false;
   };
-};
+}
 
 
+/**
+ * Returns available service's name based on current stack state.
+ */
 SrvPool.prototype.getAvailable = function()
 {
-  /**
-   * @brief Simple implementation. Iterate through cache[] and return
+  /***
+   * Simple implementation. Iterate through cache[] and return
    * the first available (not allocated).
    */
   var srvName = this.base;
-  var clientAssigned = false
+  if(this.stackSize === 0) { return srvName; }
+
+  var clientAssigned = false;
   for( var ii = 0; ii < this.stackSize; ii++ )
   {
     if(!this.isAllocated(ii))
     {
       srvName += '_' + ii;
-      //Allocate
       clientAssigned = true;
+      //Allocate into the stack.
       this.allocate(ii);
       break;
     }
@@ -97,7 +116,7 @@ SrvPool.prototype.getAvailable = function()
     srvName += '_' + randomPickup;
   }
 
-  // If all are avilable then return to base srv. this.base
+  // If all are available then return to base srv. this.base
   return srvName;
 };
 
@@ -108,7 +127,5 @@ SrvPool.prototype.release = function(srvName)
   this.deallocate(idx);
 };
 
-/**
- * Module exports
- */
+
 module.exports = SrvPool;
