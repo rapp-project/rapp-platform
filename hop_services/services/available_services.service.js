@@ -1,10 +1,14 @@
-/*!
- * @file available_services.service.js
- * @brief Returns available hop services located on RAPP Platform
+/**
+ * @file
+ *
+ * [Available-Services] RAPP Platform front-end web service.
+ *
+ *  @author Konstantinos Panayiotou
+ *  @copyright Rapp Project EU 2014
  */
 
 
-/**
+/***
  *  MIT License (MIT)
  *
  *  Copyright (c) <2014> <Rapp Project EU>
@@ -34,14 +38,12 @@
  */
 
 
-//"use strict";
-
 
 /*---------Sets required file Paths-------------*/
 var __DEBUG__ = false;
 var user = process.env.LOGNAME;
 var __configPath = '../config/';
-var srvEnv = require( __configPath + 'env/hop-services.json' )
+var srvEnv = require( __configPath + 'env/hop-services.json' );
 var __hopServiceName = 'available_services';
 var __hopServiceId = null;
 var __availableServices = [];
@@ -56,12 +58,12 @@ var scanTimer = srvEnv[__hopServiceName].scan_time * 60 * 1000;  // Minutes
 /* --------------------------------------------------------------- */
 
 var color = {
-  error:    '\033[1;31m',
-  success:  '\033[1;32m',
-  ok:       '\033[34m',
-  yellow:   '\033[33m',
-  clear:    '\033[0m'
-}
+  error:    String.fromCharCode(0x1B) + '[1;31m',
+  success:  String.fromCharCode(0x1B) + '[1;32m',
+  ok:       String.fromCharCode(0x1B) + '[34m',
+  yellow:   String.fromCharCode(0x1B) + '[33m',
+  clear:    String.fromCharCode(0x1B) + '[0m'
+};
 
 
 register_master_interface();
@@ -78,7 +80,7 @@ register_master_interface();
 
   console.log(msg);
 
-  for(s in srvEnv){
+  for(var s in srvEnv){
     if(s === __hopServiceName){
       __availableServices.push(s);
       continue;
@@ -89,22 +91,22 @@ register_master_interface();
     var webService = hop.webService('http://' + hop.hostname + ':' + hop.port +
       '/hop/' + s);
     var srv = webService(args);
+
     try{
       response = srv.postSync();
     }
     catch(e){
       console.log(color.error + "\n ---> [Failed]: " + s + color.clear +
         "\n");
-      continue
+      continue;
     }
-      console.log(color.success + "\n ---> [OK]: " + s + color.clear +
-        "\n");
+    console.log(color.success + "\n ---> [OK]: " + s + color.clear + "\n");
     __availableServices.push(s);
   }
 
-  console.log(color.ok + "\n <UpRunning Services>" + color.clear)
+  console.log(color.ok + "\n <UpRunning Services>" + color.clear);
 
-  for(i in __availableServices){
+  for(var i in __availableServices){
     console.log("    *[%s] - %s", i, __availableServices[i]);
   }
 
@@ -112,14 +114,25 @@ register_master_interface();
     '\n------------------------------------------------------------' +
     '\n------------------------------------------------------------\n' +
     color.clear;
-  console.log(msg)
+  console.log(msg);
 
   setTimeout(function(){
     scanServices();
   }, scanTimer);
-})()
+})();
 
 
+/**
+ * [Available-Services], RAPP Platform Front-End Web Service.
+ * Returns a list of currently available RAPP Platform Web Services.
+ *
+ * @function available_services
+ *
+ * @returns JSON HTTPResponse object.
+ *  <p><b>services: [_list_of_available_platform_services_],
+ *      error: "_error_msg_"</p></b>
+ *
+ */
 service available_services (  )
 {
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
@@ -153,7 +166,7 @@ function register_master_interface()
 
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-  }
+  };
 
   onmessage = function(msg){
     if (__DEBUG__)
@@ -161,7 +174,7 @@ function register_master_interface()
       console.log("Service [%s] received message from master process",
         hopServiceName);
       console.log("Msg -->", msg.data);
-    };
+    }
     /* -------< Add to log file >---------- */
     var logMsg = 'Received message from master process --> [' +
       msg.data + ']';
@@ -169,7 +182,7 @@ function register_master_interface()
     /* ------------------------------------ */
 
     exec_master_command(msg.data);
-  }
+  };
 
   // On initialization inform master and append to log file
   var logMsg = "Initiated worker";
@@ -194,12 +207,12 @@ function exec_master_command(msg)
 
 function craft_slaveMaster_msg(msgId, msg)
 {
-  var msg = {
+  var _msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg
-  }
-  return msg;
+  };
+  return _msg;
 }
 
