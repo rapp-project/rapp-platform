@@ -584,25 +584,22 @@ function service_url(srvName){
 
 function loopInf(){
   setTimeout(function(){
-    if( !ros.connected() ){ros.connect(rosbridgeEnv.ip_addr, rosbridgeEnv.port)}
-    else{
-      ros.getServices(function(data){
-        platformActiveServices = data;
-        //console.log(data)
-        rappRosServices = [];
-        for(i in platformActiveServices){
-          if(platformActiveServices[i].indexOf("rapp") > -1){
-            rappRosServices.push(platformActiveServices[i])
-          }
+    ros.getServices(function(data){
+      platformActiveServices = data;
+      //console.log(data)
+      rappRosServices = [];
+      for(i in platformActiveServices){
+        if(platformActiveServices[i].indexOf("rapp") > -1){
+          rappRosServices.push(platformActiveServices[i])
         }
-      })
-      ros.getNodes(function(data){
-        platformActiveNodes = data;
-      })
-      ros.getTopics(function(data){
-        platformActiveTopics = data;
-      })
-    }
+      }
+    })
+    ros.getNodes(function(data){
+      platformActiveNodes = data;
+    })
+    ros.getTopics(function(data){
+      platformActiveTopics = data;
+    })
     available_services().post( function( response ){
       platformHopServices = response.services;
       //console.log(response.services)

@@ -45,7 +45,6 @@ var __DEBUG__ = false;
 var hop = require('hop');
 var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
-var RosParam = require(__modulePath + 'ros/rosParam.js')
 var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
 /* ----------------------------------------------------------------------- */
 

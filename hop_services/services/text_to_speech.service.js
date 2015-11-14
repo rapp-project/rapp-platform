@@ -36,7 +36,7 @@
 
 //"use strict";
 
-var __modulePath = '../modules/'
+var __modulePath = '../modules/';
 var __configPath = '../config/';
 var user = process.env.LOGNAME;
 var __DEBUG__ = false;
@@ -51,8 +51,8 @@ var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
 /* ----------------------------------------------------------------------- */
 
 /* ------------< Load and set basic configuration parameters >-------------*/
-var srvEnv = require( __configPath + 'env/hop-services.json' )
-var pathsEnv = require( __configPath + 'env/paths.json' )
+var srvEnv = require( __configPath + 'env/hop-services.json' );
+var pathsEnv = require( __configPath + 'env/paths.json' );
 var __hopServiceName = 'text_to_speech';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
@@ -64,7 +64,7 @@ var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
 var rosSrvThreads = 0;  // Default is set at zero (0)
 
 /* -------------------------< ROS service pool >-------------------------- */
-var rosSrvPool = undefined;
+//var rosSrvPool = undefined;
 
 var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
   function(){
@@ -156,7 +156,7 @@ service text_to_speech ( {text: '', language: ''} )
        */
       function callback(data){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         //console.log(data);
@@ -164,7 +164,7 @@ service text_to_speech ( {text: '', language: ''} )
         // Craft client response using ros service ws response.
         var response = craft_response( data, audioOutPath );
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
@@ -175,12 +175,12 @@ service text_to_speech ( {text: '', language: ''} )
        */
       function onerror(e){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         var response = craft_error_response();
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
@@ -217,7 +217,7 @@ service text_to_speech ( {text: '', language: ''} )
           {
             if( rosSrvThreads ) {rosSrvPool.release(rosSrvCall);}
 
-            var logMsg = 'Reached max_retries [' + maxTries + ']' +
+            logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -237,7 +237,7 @@ service text_to_speech ( {text: '', language: ''} )
       asyncWrap();
       /*=================================================================*/
     }, this );
-};
+}
 
 
 /*!
@@ -253,16 +253,16 @@ function craft_response(rosbridge_msg, audioFilePath)
 
   logMsg = 'Returning to client.';
 
-  if (error != '')
+  if (error !== '')
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error'
+    logMsg += ' ROS service [' + rosSrvName + '] error' +
       ' ---> ' + error;
     response.error = error;
   }
   else
   {
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
-    if( audioFile = Fs.read_file_sync(audioFilePath) )
+    if( (audioFile = Fs.read_file_sync(audioFilePath)) )
     {
       response.payload = audioFile.data.toString('base64');
       response.basename = audioFile.basename;
@@ -270,12 +270,12 @@ function craft_response(rosbridge_msg, audioFilePath)
       // Remove local file immediately.
       Fs.rmFile(audioFilePath);
     }
-    else { response.error = 'RAPP Platform Failure' }
+    else { response.error = 'RAPP Platform Failure'; }
   }
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   //console.log(crafted_msg)
   return response;
-};
+}
 
 
 /*!
@@ -300,7 +300,7 @@ function register_master_interface()
     console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-  }
+  };
 
   // Register onmessage callback function
   onmessage = function(msg){
@@ -309,14 +309,14 @@ function register_master_interface()
       console.log("Service [%s] received message from master process",
         __hopServiceName);
       console.log("Msg -->", msg.data);
-    };
+    }
 
     var logMsg = 'Received message from master process --> [' +
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
     exec_master_command(msg.data);
-  }
+  };
 
   // On initialization inform master and append to log file
   var logMsg = "Initiated worker";
@@ -344,11 +344,11 @@ function exec_master_command(msg)
 
 function craft_slaveMaster_msg(msgId, msg)
 {
-  var msg = {
+  var _msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg
-  }
-  return msg;
+  };
+  return _msg;
 }
