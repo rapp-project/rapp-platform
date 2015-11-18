@@ -214,11 +214,13 @@ def get_test_files(args, paths):
         files = args.fileName  # Input test files from arguments
 
     for f in files:
+        print f
         f = f.replace('default_tests/', '')
         clean_file = f.split('.')
         if len(clean_file) == 1:
             pass
-        elif clean_file[1] == "pyc" or clean_file[0] == "template" :
+        elif clean_file[1] == "pyc" or clean_file[0] == "template" or \
+            len(clean_file) > 2:
             continue
         tests.append(clean_file[0])
 
