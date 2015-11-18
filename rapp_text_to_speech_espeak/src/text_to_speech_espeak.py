@@ -46,16 +46,8 @@ class TextToSpeechEspeak:
     if(not self.serv_topic):
         rospy.logerror("Text to speech espeak topic param not found")
 
-    self.threads = rospy.get_param("rapp_text_to_speech_espeak_threads")
-    if not self.threads:
-        rospy.logerror("Text to speech espeak threads param not found")
-        self.threads = 0
-
     self.serv = rospy.Service(self.serv_topic, \
         TextToSpeechSrv, self.text_to_speech_callback)
-    for i in range(0, self.threads):
-        rospy.Service(self.serv_topic + '_' + str(i), \
-            TextToSpeechSrv, self.text_to_speech_callback)
 
   # The service callback  
   def text_to_speech_callback(self, req):
