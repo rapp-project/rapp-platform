@@ -90,8 +90,6 @@ class AudioProcessing:
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
     self.transform_audio_topic = \
         rospy.get_param("rapp_audio_processing_transform_audio_topic")
-    self.threads = \
-        rospy.get_param("rapp_audio_processing_threads")
 
     if(not self.set_noise_profile_topic):
       rospy.logerror("Audio processing noise profiling topic param not found")
@@ -103,8 +101,6 @@ class AudioProcessing:
       rospy.logerror("Audio processing detect silence topic param not found")
     if(not self.transform_audio_topic):
       rospy.logerror("Audio processing noise transform audio topic param not found")
-    if not self.threads:
-      rospy.logerror("Audio processing threads param not found")
 
     # Check for denoising debug mode. DO NOT make this true when in production
     self.energy_denoising_debug = False
@@ -118,38 +114,21 @@ class AudioProcessing:
     # Create set noise profile services
     self.set_noise_profile_service = rospy.Service(self.set_noise_profile_topic, \
         AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
-    for i in range(0, self.threads):
-        rospy.Service(self.set_noise_profile_topic + '_' + str(i),\
-        AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
-    # Create sox denoise services
+      # Create sox denoise services
     self.denoise_service = rospy.Service( \
         self.denoise_topic, AudioProcessingDenoiseSrv, \
         self.denoise)
-    for i in range(0, self.threads):
-        rospy.Service(self.denoise_topic + '_' + str(i),\
-        AudioProcessingDenoiseSrv, self.denoise)
     # Create energy denoise services
     self.energy_denoise_service = rospy.Service( \
         self.energy_denoise_topic, AudioProcessingDenoiseSrv, \
-        self.energy_denoise)
-    for i in range(0, self.threads):
-        rospy.Service(self.energy_denoise_topic + '_' + str(i),\
-        AudioProcessingDenoiseSrv,
         self.energy_denoise)
     # Create detect silence services
     self.detect_silence_service = rospy.Service( \
         self.detect_silence_topic, AudioProcessingDetectSilenceSrv, \
         self.detect_silence)
-    for i in range(0, self.threads):
-        rospy.Service(self.detect_silence_topic + '_' + str(i),\
-        AudioProcessingDetectSilenceSrv,
-        self.detect_silence)
     # Create transform audio services
     self.transform_audio = rospy.Service( self.transform_audio_topic, \
         AudioProcessingTransformAudioSrv, self.transform_audio)
-    for i in range(0, self.threads):
-        rospy.Service( self.transform_audio_topic + '_' + str(i), \
-            AudioProcessingTransformAudioSrv, self.transform_audio)
 
     self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
 
