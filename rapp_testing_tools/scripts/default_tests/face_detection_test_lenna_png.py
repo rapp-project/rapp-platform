@@ -28,6 +28,8 @@
 
 import os
 import timeit
+import rospkg
+from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -38,7 +40,10 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/test_data/Lenna.png'
+    rospack = rospkg.RosPack()
+    pkgDir = rospack.get_path('rapp_testing_tools')
+    self.file_uri = join(pkgDir, 'test_data', 'Lenna.png')
+
     self.valid_faces = [{
         'up_left_point': {'y': 201.0, 'x': 213.0},
         'down_right_point': {'y': 378.0, 'x': 390.0}

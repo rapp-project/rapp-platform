@@ -29,6 +29,8 @@
 
 import os
 import timeit
+import rospkg
+from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -39,15 +41,19 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/test_data/qr_samples/hardNearQr.jpg'
+    rospack = rospkg.RosPack()
+    pkgDir = rospack.get_path('rapp_testing_tools')
+    self.file_uri = join(pkgDir, 'test_data',
+        'qr_samples', 'hardNearQr.jpg')
+
     self.valid_results = {
         'qr_centers': [{'y': 552, 'x': 645}],
         'qr_messages': ['This QR will be used to check the algorithmic robustness as it is quite small'],
         'error': ''
     }
 
-  def execute(self):
 
+  def execute(self):
     start_time = timeit.default_timer()
     response = self.rappCloud.qr_detection(self.file_uri)
     end_time = timeit.default_timer()

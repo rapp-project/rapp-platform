@@ -29,6 +29,8 @@
 
 import os
 import timeit
+import rospkg
+from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -39,7 +41,10 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/test_data/yes-no.wav'
+    rospack = rospkg.RosPack()
+    pkgDir = rospack.get_path('rapp_testing_tools')
+    self.file_uri = join(pkgDir, 'test_data', 'yes-no.wav')
+
     self.language = 'en'
     self.audio_source = 'nao_wav_1_ch'
     self.words = [u'yes', u'no']
@@ -48,8 +53,8 @@ class RappInterfaceTest:
     self.user = 'rapp'
     self.valid_words_found = [u'yes', u'no']
 
-  def execute(self):
 
+  def execute(self):
     start_time = timeit.default_timer()
     response = self.rappCloud.speech_detection_sphinx4(\
         self.language,\

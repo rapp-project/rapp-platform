@@ -29,6 +29,8 @@
 
 import os
 import timeit
+import rospkg
+from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -39,7 +41,10 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/test_data/thelw-voithia.wav'
+    rospack = rospkg.RosPack()
+    pkgDir = rospack.get_path('rapp_testing_tools')
+    self.file_uri = join(pkgDir, 'test_data', 'thelw-voithia.wav')
+
     self.language = 'el'
     self.audio_source = 'nao_wav_1_ch'
     self.words = [u'θελω', u'βοηθεια']

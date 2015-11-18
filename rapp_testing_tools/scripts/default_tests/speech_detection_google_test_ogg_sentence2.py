@@ -29,6 +29,8 @@
 
 import os
 import timeit
+import rospkg
+from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -39,7 +41,11 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.file_uri = __path__  + '/test_data/speech_detection_samples/recording_sentence2.ogg'
+    rospack = rospkg.RosPack()
+    pkgDir = rospack.get_path('rapp_testing_tools')
+    self.file_uri = join(pkgDir, 'test_data',
+        'speech_detection_samples', 'recording_sentence2.ogg')
+
     self.language = 'en'
     self.audio_source = 'nao_ogg'
     self.user = 'rapp'
@@ -53,8 +59,8 @@ class RappInterfaceTest:
         # ['check', 'minus']
     # ]
 
-  def execute(self):
 
+  def execute(self):
     start_time = timeit.default_timer()
     response = self.rappCloud.speech_detection_google(\
         self.file_uri,\
