@@ -1,4 +1,5 @@
 [submodule "hop_services/modules/RosBridgeJS"]
-	path = hop_services/modules/RosBridgeJS
-	url = git@github.com:klpanagi/RosBridgeJS.git
-        branch = master
+  path = hop_services/modules/RosBridgeJS
+  url = git@github.com:klpanagi/RosBridgeJS.git
+  branch = master
+  ignore = dirty
