@@ -23,7 +23,7 @@ class SpeechToTextFunc(unittest.TestCase):
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
         req.filename = rospack.get_path('rapp_testing_tools') + \
-                '/testing_tools/test_data/yes-no.wav'
+                '/test_data/yes-no.wav'
         req.audio_type = 'nao_wav_1_ch'
         req.user = 'rapp'
         req.language = 'en'
@@ -43,7 +43,7 @@ class SpeechToTextFunc(unittest.TestCase):
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
         req.filename = rospack.get_path('rapp_testing_tools') + \
-                '/testing_tools/test_data/speech_detection_samples/recording_monday.ogg'
+                '/test_data/speech_detection_samples/recording_monday.ogg'
         req.audio_type = 'nao_ogg'
         req.user = 'rapp'
         req.language = 'en'
@@ -62,7 +62,7 @@ class SpeechToTextFunc(unittest.TestCase):
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
         req.filename = rospack.get_path('rapp_testing_tools') + \
-                '/testing_tools/test_data/Lenna.png'
+                '/test_data/Lenna.png'
         req.audio_type = 'nao_wav_1_ch'
         req.user = 'rapp'
         req.language = 'en'
@@ -83,7 +83,7 @@ class SpeechToTextFunc(unittest.TestCase):
         stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)
         req = SpeechToTextSrvRequest()
         req.filename = rospack.get_path('rapp_testing_tools') + \
-                '/testing_tools/test_data/something.flac'
+                '/test_data/something.flac'
         req.audio_type = 'nao_wav_1_ch'
         req.user = 'rapp'
         req.language = 'en'
