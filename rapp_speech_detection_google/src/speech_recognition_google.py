@@ -68,17 +68,9 @@ class SpeechToTextGoogle:
     if(not self.serv_topic):
         rospy.logerror("Speech detection google topic param not found")
 
-    self.threads = rospy.get_param("rapp_speech_detection_google_threads")
-    if not self.threads:
-        rospy.logerror("Speech detection google threads param not found")
-        self.threads = 0
-
     self.serv = rospy.Service(self.serv_topic, \
         SpeechToTextSrv, self.speech_to_text_callback)
-    for i in range(0, self.threads):
-        rospy.Service(self.serv_topic + '_' + str(i), \
-            SpeechToTextSrv, self.speech_to_text_callback)
-
+    
   # The service callback
   def speech_to_text_callback(self, req):
 
