@@ -37,7 +37,7 @@
 //"use strict";
 
 
-var __modulePath = __dirname + '/../modules/'
+var __modulePath = __dirname + '/../modules/';
 var __configPath = __dirname + '/../config/';
 var user = process.env.LOGNAME;
 var __DEBUG__ = false;
@@ -47,13 +47,12 @@ var hop = require('hop');
 var Fs = require( __modulePath + 'fileUtils.js' );
 var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
-var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
 var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
 /* ----------------------------------------------------------------------- */
 
 /* ------------< Load and set basic configuration parameters >-------------*/
-var srvEnv = require( __configPath + 'env/hop-services.json' )
-var pathsEnv = require( __configPath + 'env/paths.json' )
+var srvEnv = require( __configPath + 'env/hop-services.json' );
+var pathsEnv = require( __configPath + 'env/paths.json' );
 var __hopServiceName = 'face_detection';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
@@ -61,22 +60,12 @@ var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 /* ----------------------------------------------------------------------- */
 
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
-var rosSrvThreads = 0;  // Default is set at zero (0)
 
 /* -------------------------< ROS service pool >-------------------------- */
-var rosSrvPool = undefined;
 
 var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
   function(){
-    ros.getParam('/rapp_face_detection_threads',
-      function(data){
-        if(data > 0)
-        {
-          rosSrvThreads = data;
-          rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
-        }
-      }
-    );
+    // .
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -98,7 +87,7 @@ var colors = {
   error:    '\033[1;31m',
   success:  '\033[1;31m',
   clear:    '\033[0m'
-}
+};
 
 /*!
  * @brief Face Detection HOP Service Core.
@@ -123,7 +112,7 @@ service face_detection ( {file_uri:''} )
     var response = {
       faces: [],
       error: errorMsg
-    }
+    };
     return hop.HTTPResponseJson(response);
   }
   /* ----------------------------------------------------------------------- */
@@ -134,15 +123,7 @@ service face_detection ( {file_uri:''} )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  /** Check if this service uses a threaPool. If true, use the threadPool
-   * module in order to use service with current minimum bandwidth.
-   */
-  if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
-  else {var rosSrvCall = rosSrvName;}
-  //console.log(rosSrvCall);
-  /* ------------------------------------------------------------------- */
-
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall +
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
     '}') );
   var logMsg = 'Image stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -158,9 +139,8 @@ service face_detection ( {file_uri:''} )
 
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(file_uri, cpFilePath) == false)
+  if (Fs.renameFile(file_uri, cpFilePath) === false)
   {
-    if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
@@ -239,7 +219,7 @@ service face_detection ( {file_uri:''} )
 
       /* -------------------------------------------------------- */
 
-      ros.callService(rosSrvCall, args,
+      ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
       /**
@@ -268,8 +248,6 @@ service face_detection ( {file_uri:''} )
            */
           if ( retries >= maxTries )
           {
-            if( rosSrvThreads ) {rosSrvPool.release(rosSrvCall);}
-
             var logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );

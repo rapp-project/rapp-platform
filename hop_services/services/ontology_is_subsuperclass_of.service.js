@@ -44,34 +44,23 @@ var __DEBUG__ = false;
 var hop = require('hop');
 var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
-var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
 var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
 /* ----------------------------------------------------------------------- */
 
 
 /* ------------< Load and set basic configuration parameters >-------------*/
-var srvEnv = require( __configPath + 'env/hop-services.json' )
+var srvEnv = require( __configPath + 'env/hop-services.json' );
 var __hopServiceName = 'ontology_is_subsuperclass_of';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
-var rosSrvThreads = 0;
 
 /* -------------------------< ROS service pool >-------------------------- */
-var rosSrvPool = undefined;
 
 var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
   function(){
-    ros.getParam('/rapp_ontology_subsuperclasses_of_threads',
-      function(data){
-        if(data > 0)
-        {
-          rosSrvThreads = data;
-          rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
-        }
-      }
-    );
+    // .
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -107,15 +96,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
   var startT = new Date().getTime();
   var execTime = 0;
 
-  /** Check if this service uses a threaPool. If true, use the threadPool
-   * module in order to use service with current minimum bandwidth.
-   */
-  if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
-  else {var rosSrvCall = rosSrvName;}
-  //console.log(rosSrvCall);
-  /* ------------------------------------------------------------------- */
-
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall + '}') );
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName + '}') );
   /**** Boolean parameters are passed as strings onto the URL payload ****/
 
   /* -- Handling string to boolean casting -- */
@@ -179,7 +160,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
       /* -------------------------------------------------------- */
 
-      ros.callService(rosSrvCall, args,
+      ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
       /**
@@ -208,9 +189,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
            */
           if ( retries >= maxTries )
           {
-            if( rosSrvThreads ) {rosSrvPool.release(rosSrvCall);}
-
-            var logMsg = 'Reached max_retries [' + maxTries + ']' +
+            logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -230,7 +209,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
       asyncWrap();
       /*=================================================================*/
     }, this );
-};
+}
 
 
 

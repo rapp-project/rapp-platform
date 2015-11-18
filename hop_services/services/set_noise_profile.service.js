@@ -46,13 +46,12 @@ var hop = require('hop');
 var Fs = require( __modulePath + 'fileUtils.js' );
 var RandStringGen = require( __modulePath +
   'RandomStrGenerator/randStringGen.js');
-var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
 var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
 /*----------------------------------------------*/
 
 /*---------Sets required file Paths-------------*/
 var srvEnv = require( __configPath + 'env/hop-services.json' );
-var pathsEnv = require( __configPath + 'env/paths.json' )
+var pathsEnv = require( __configPath + 'env/paths.json' );
 var __hopServiceName = 'set_noise_profile';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
@@ -61,22 +60,11 @@ var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 
 /*----<Load modules used by the service>----*/
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
-var rosSrvThreads = 0;
 
-/* -------------------------< ROS service pool >-------------------------- */
-var rosSrvPool = undefined;
-
+// Initiate connection to rosbridge_websocket_server
 var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
   function(){
-    ros.getParam('/rapp_audio_processing_threads',
-      function(data){
-        if(data > 0)
-        {
-          rosSrvThreads = data;
-          rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
-        }
-      }
-    );
+    // .
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -124,7 +112,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
 
     var response = {
       error: errorMsg
-    }
+    };
     return hop.HTTPResponseJson(response);
   }
   /* ----------------------------------------------------------------------- */
@@ -135,15 +123,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  /** Check if this service uses a threaPool. If true, use the threadPool
-   * module in order to use service with current minimum bandwidth.
-   */
-  if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
-  else {var rosSrvCall = rosSrvName;}
-  //console.log(rosSrvCall);
-  /* ------------------------------------------------------------------- */
-
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvCall +
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
     '}') );
   var logMsg = 'Audio data file stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
@@ -159,9 +139,8 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
 
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(file_uri, cpFilePath) == false)
+  if (Fs.renameFile(file_uri, cpFilePath) === false)
   {
-    if(rosSrvThreads) {rosSrvPool.release(rosSrvCall);}
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
@@ -241,7 +220,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
 
       /* -------------------------------------------------------- */
 
-      ros.callService(rosSrvCall, args,
+      ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
       /**
@@ -270,9 +249,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
            */
           if ( retries >= maxTries )
           {
-            if( rosSrvThreads ) {rosSrvPool.release(rosSrvCall);}
-
-            var logMsg = 'Reached max_retries [' + maxTries + ']' +
+            logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -295,7 +272,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
       asyncWrap();
       /*=================================================================*/
     }, this );
-};
+}
 
 
 

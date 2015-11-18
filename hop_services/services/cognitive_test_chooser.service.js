@@ -47,34 +47,23 @@ var __DEBUG__ = false;
 var hop = require('hop');
 var RandStringGen = require ( __modulePath +
   'RandomStrGenerator/randStringGen.js' );
-var RosSrvPool = require(__modulePath + 'ros/srvPool.js');
 var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
 /* ----------------------------------------------------------------------- */
 
 
 /* ------------< Load and set basic configuration parameters >-------------*/
-var srvEnv = require( __configPath + 'env/hop-services.json' )
+var srvEnv = require( __configPath + 'env/hop-services.json' );
 var __hopServiceName = 'cognitive_test_chooser';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
-var rosSrvThreads = 0;
 
 /* -------------------------< ROS service pool >-------------------------- */
-var rosSrvPool = undefined;
 
 var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
   function(){
-    ros.getParam('/rapp_cognitive_test_chooser_threads',
-      function(data){
-        if(data > 0)
-        {
-          rosSrvThreads = data;
-          rosSrvPool = new RosSrvPool(rosSrvName, rosSrvThreads);
-        }
-      }
-    );
+    // .
   }
 });
 /* ----------------------------------------------------------------------- */
@@ -133,16 +122,10 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  /** Check if this service uses a threaPool. If true, use the threadPool
-   * module in order to use service with current minimum bandwidth.
-   */
-  if(rosSrvThreads) {var rosSrvCall = rosSrvPool.getAvailable();}
-  else {var rosSrvCall = rosSrvName;}
-  //console.log(rosSrvCall);
   /* ------------------------------------------------------------------- */
 
   postMessage( craft_slaveMaster_msg('log', 'client-request {' +
-    rosSrvCall + '}') );
+    rosSrvName + '}') );
 
   /*----------------------------------------------------------------- */
   return hop.HTTPResponseAsync(
@@ -171,7 +154,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
        */
       function callback(data){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         //console.log(data);
@@ -179,7 +162,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
         // Craft client response using ros service ws response.
         var response = craft_response( data );
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
@@ -190,18 +173,18 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
        */
       function onerror(e){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         var response = craft_error_response();
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
       /* -------------------------------------------------------- */
 
-      ros.callService(rosSrvCall, args,
+      ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
       /**
@@ -230,9 +213,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
            */
           if ( retries >= maxTries )
           {
-            if( rosSrvThreads ) {rosSrvPool.release(rosSrvCall);}
-
-            var logMsg = 'Reached max_retries [' + maxTries + ']' +
+            logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -252,7 +233,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
       asyncWrap();
       /*=================================================================*/
     }, this );
-};
+}
 
 
 
