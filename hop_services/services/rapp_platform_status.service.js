@@ -42,7 +42,7 @@ var hop = require('hop');
 var fs = require('fs');
 var Fs = require( __modulePath + 'fileUtils.js' );
 
-var pathsEnv = require( __configPath + 'env/paths.json' )
+var pathsEnv = require( __configPath + 'env/paths.json' );
 var ROS = require( __modulePath + 'RosBridgeJS/src/Rosbridge.js' );
 var rosbridgeEnv = require( __configPath + 'env/rosbridge.json' );
 
@@ -53,7 +53,13 @@ var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
 /*----------------------------------------------*/
 
 import service available_services();
-var ros = new ROS(rosbridgeEnv.ip_addr, rosbridgeEnv.port);
+
+// Initiate connection to rosbridge_websocket_server
+var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
+  function(){
+    // .
+  }
+});
 
 var platformActiveServices = [];
 var platformActiveNodes = [];
