@@ -44,7 +44,7 @@ class SpeechRecognitionSphinx4HandlerNode():
   def __init__(self):
 
     self._threads = \
-        rospy.get_param("rapp_speech_detection_threads")
+        rospy.get_param("rapp_speech_detection_sphinx4_threads")
 
     # Initialize Speech Recognition Processes
     self._availableProcesses = [{
