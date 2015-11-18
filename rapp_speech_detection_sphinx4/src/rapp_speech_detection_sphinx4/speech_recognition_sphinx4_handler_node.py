@@ -28,6 +28,7 @@
 
 import rospy
 import sys
+import time
 import threading
 
 from speech_recognition_sphinx4 import *
@@ -63,11 +64,6 @@ class SpeechRecognitionSphinx4HandlerNode():
     self.speech_recognition_batch_service = rospy.Service( \
         self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
         self.handleSpeechRecognition)
-    for i in range(0, self._threads):
-       rospy.Service( \
-          self.serv_batch_topic + "_" + str(i), \
-          SpeechRecognitionSphinx4TotalSrv, \
-          self.handleSpeechRecognition)
 
   def handleSpeechRecognition(self, req):
 
@@ -91,6 +87,7 @@ class SpeechRecognitionSphinx4HandlerNode():
           proc['running'] = False
 
           return total_res
+      time.sleep(0.1)
       #rospy.logerr( "Waiting for process" )
 
     #rospy.logerr( "Could not find available processes" )
