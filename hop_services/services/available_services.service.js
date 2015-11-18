@@ -122,16 +122,18 @@ register_master_interface();
 
 
 /**
- * [Available-Services], RAPP Platform Front-End Web Service.
- * Returns a list of currently available RAPP Platform Web Services.
+ *  [Available-Services], RAPP Platform Front-End Web Service.
+ *  Returns a list of currently available RAPP Platform Web Services.
  *
- * @function available_services
+ *  @function available_services
  *
- * @returns JSON HTTPResponse object.
- *  <p><b>
- *    services: [],
- *    error: ""
- *  </p></b>
+ *  @param {Object} args - Service input arguments (literal). Empty literal.
+ *
+ *  @returns {Object} response - JSON HTTPResponse object.
+ *  @returns {Array} response.services - List of RAPP Platform available
+ *  services.
+ *  @returns {String} response.error - Error message string to be filled
+ *  when an error has been occured during service call.
  *
  */
 service available_services (  )
@@ -154,11 +156,13 @@ function craft_response()
   return response;
 }
 
+
 function craft_error_respose()
 {
   var response= {services: [], error: 'RAPP Platform Failure'};
   return response;
 }
+
 
 function register_master_interface()
 {

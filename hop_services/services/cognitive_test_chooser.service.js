@@ -86,12 +86,13 @@ register_master_interface();
 
 /**
  *  [Cognitive-Test-Chooser] RAPP Platform front-end web service.
- *  <p>Receives requests for cognitive-exercises selection</p>
+ *  <p>Serves requests for cognitive-exercise selection</p>
  *
  *  @function cognitive_test_chooser
  *
- *  @param {string} user Registered username.
- *  @param {string} test_type Exercise test-type to request.
+ *  @param {Object} args - Service input arguments (literal).
+ *  @param {String} args.user - Registered username.
+ *  @param {String} args.test_type - Exercise test-type to request.
  *  Currently available test types are:
  *  <p>
  *  <ul>
@@ -107,11 +108,21 @@ register_master_interface();
  *  </p>
  *
  *
- *  @returns JSON HTTPResponse object.
- *  <p><b>
- *    lang: '', questions: [], possib_ans: [], correct_ans: [],
- *    test_instance: '', test_type: '', test_subtype: '', error: ''
- *  </p></b>
+ *  @returns {Object} response - JSON HTTPResponse Object.
+ *  @returns {String} response.lang - Language.
+ *  @returns {Array} response.questions - Vector of questions, for selected
+ *  exercise.
+ *  @returns {Array} response.possib_ans - Array of possible answers, for
+ *  selected exercise.
+ *  @returns {Array} response.correct_ans - Vector of correct answers, for
+ *  selected exercise.
+ *  @returns {String} response.test_instance - Selected Exercise's
+ *  test instance name.
+ *  @returns {String} response.test_type - Test-type of selected exercise.
+ *  @returns {String} response.test_subtype - Test-subtype of selected
+ *  exercise.
+ *  @returns {String} response.error - Error message string to be filled
+ *  when an error has been occured during service call.
  *
  */
 service cognitive_test_chooser( {user: '', test_type: ''} )
