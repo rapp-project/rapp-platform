@@ -15,7 +15,7 @@ int main(int argc, char ** argv)
   {
     threads = 1;
   }
-  ros::MultiThreadedSpinner spinner(threads + 1); //Plus the standard one
+  ros::MultiThreadedSpinner spinner(threads); //Plus the standard one
   spinner.spin();
   return 0;
 }

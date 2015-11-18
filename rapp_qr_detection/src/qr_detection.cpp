@@ -6,27 +6,9 @@ QrDetection::QrDetection(void)
   {
     ROS_ERROR("Qr detection topic param does not exist");
   }
-  int qr_detection_threads = 0;
-  if(!nh_.getParam("/rapp_qr_detection_threads", qr_detection_threads))
-  {
-    ROS_ERROR("Qr detection threads param not existent");
-  }
   // Creating the service server concerning the face detection functionality
   qrDetectionService_ = nh_.advertiseService(qrDetectionTopic_, 
     &QrDetection::qrDetectionCallback, this);
-
-  char init = '0';
-  for(unsigned int i = 0 ; i < (unsigned int)qr_detection_threads ; i++)
-  {
-    qrDetectionServiceThreads_.push_back(
-      nh_.advertiseService(
-        qrDetectionTopic_ + std::string("_") + char(init + i),
-        &QrDetection::qrDetectionCallback, 
-        this
-      )
-    );  
-  }
-
 }
 
 bool QrDetection::qrDetectionCallback(
