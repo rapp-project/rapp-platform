@@ -86,7 +86,6 @@ register_master_interface();
       continue;
     }
     var response = undefined;
-    //var args = srvEnv[s].args;
     var args = {};
     var webService = hop.webService('http://' + hop.hostname + ':' + hop.port +
       '/hop/' + s);
@@ -129,8 +128,10 @@ register_master_interface();
  * @function available_services
  *
  * @returns JSON HTTPResponse object.
- *  <p><b>services: [_list_of_available_platform_services_],
- *      error: "_error_msg_"</p></b>
+ *  <p><b>
+ *    services: [],
+ *    error: ""
+ *  </p></b>
  *
  */
 service available_services (  )

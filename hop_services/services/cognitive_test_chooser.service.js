@@ -1,9 +1,14 @@
-/*!
- * @file cognitive_test_chooser.service.js
+/**
+ * @file
  *
+ * [Cognitive-Test-Chooser] RAPP Platform front-end web service.
+ *
+ *  @author Konstantinos Panayiotou
+ *  @copyright Rapp Project EU 2014
  */
 
-/**
+
+/***
  *  MIT License (MIT)
  *
  *  Copyright (c) <2014> <Rapp Project EU>
@@ -32,8 +37,6 @@
  *
  */
 
-
-//"use strict";
 
 var __modulePath = __dirname + '/../modules/';
 var __configPath = __dirname + '/../config/';
@@ -92,10 +95,35 @@ var maxTries = srvEnv[__hopServiceName].retries;
 register_master_interface();
 
 
-/*!
- * @brief Ontology SubclassOf query, HOP Service.
+/**
+ *  [Cognitive-Test-Chooser] RAPP Platform front-end web service.
+ *  <p>Receives requests for cognitive-exercises selection</p>
  *
- * @param query Ontology query (String).
+ *  @function cognitive_test_chooser
+ *
+ *  @param {string} user Registered username.
+ *  @param {string} test_type Exercise test-type to request.
+ *  Currently available test types are:
+ *  <p>
+ *  <ul>
+ *    <li>ArithmericCts</li>
+ *    <li>ReasoningCts</li>
+ *    <li>AwarenessCts</li>
+ *  </ul>
+ *  </p>
+ *  <p>
+ *    By passing an empty string (''), the RAPP Platform Cognitive Exercises
+ *    System is responsible to return a test based on previous user's
+ *    performances.
+ *  </p>
+ *
+ *
+ *  @returns JSON HTTPResponse object.
+ *  <p><b>
+ *    lang: '', questions: [], possib_ans: [], correct_ans: [],
+ *    test_instance: '', test_type: '', test_subtype: '', error: ''
+ *  </p></b>
+ *
  */
 service cognitive_test_chooser( {user: '', test_type: ''} )
 {
@@ -294,7 +322,7 @@ function craft_error_response()
   var errorMsg = 'RAPP Platform Failure';
   var response = {
     lang: '', questions: [],
-    answers: [], correct_answers: [],
+    possib_ans: [], correct_ans: [],
     test_instance: '', test_type: '',
     test_subtype: '', error: errorMsg
   };
