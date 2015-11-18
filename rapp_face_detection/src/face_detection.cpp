@@ -2,34 +2,13 @@
 
 FaceDetection::FaceDetection(void)
 {
-  int threads;
   if(!nh_.getParam("/rapp_face_detection_detect_faces_topic", faceDetectionTopic_))
   {
     ROS_ERROR("Face detection topic param does not exist");
   }
-  if(!nh_.getParam("/rapp_face_detection_threads", threads))
-  {
-    ROS_ERROR("Face detection threads param not found");
-    threads = 0;
-  }
-  else if(threads < 0)
-  {
-    threads = 0;
-  }
   // Creating the service server concerning the face detection functionality
   faceDetectionService_ = nh_.advertiseService(faceDetectionTopic_, 
     &FaceDetection::faceDetectionCallback, this);
-  char init = '0';
-  for(unsigned int i = 0 ; i < (unsigned int)threads ; i++)
-  {
-    faceDetectionThreadServices_.push_back(
-      nh_.advertiseService(
-        faceDetectionTopic_ + std::string("_") + char(init + i),
-        &FaceDetection::faceDetectionCallback, 
-        this
-      )
-    );  
-  }
 }
 
 bool FaceDetection::faceDetectionCallback(
