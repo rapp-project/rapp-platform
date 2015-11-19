@@ -357,7 +357,7 @@ class Sphinx4Wrapper(GlobalParams):
           stripped_down_line = line[1:-1].split(" ")
           for word in stripped_down_line:
             words.append(word)
-        if(line=="stopPython\n"):
+        if("stopPython\n" in line):
           break
         if("CatchedException" in line):
             rospy.logerr(line)
