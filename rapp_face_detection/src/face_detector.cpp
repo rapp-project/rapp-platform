@@ -24,23 +24,17 @@ std::vector<cv::Rect> FaceDetector::detectFaces(const cv::Mat& input_img)
   cv::cvtColor(input_img, grayscale_img, CV_BGR2GRAY);
   cv::equalizeHist(grayscale_img, grayscale_img);
 
-
   // Detect Front Faces
   std::string haar_file_path =
     "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml";
   front_faces = detectFaces( grayscale_img, haar_file_path );
-  //std::cout << "Faces size: " << front_faces.size() << std::endl;
-
 
   // Detect Profile Faces
   haar_file_path = "/usr/share/opencv/haarcascades/haarcascade_profileface.xml";
   profile_faces = detectFaces( grayscale_img, haar_file_path );
-  //std::cout << "AngleFaces size: " << profile_faces.size() << std::endl;
 
   // Identify unique faces
   final_faces = identifyUniqueFaces( front_faces, profile_faces );
-
-  //std::cout << "Final size: " << front_faces.size() << std::endl << std::endl;
 
   return final_faces;
 }
@@ -93,30 +87,21 @@ std::vector<cv::Rect> FaceDetector::identifyUniqueFaces(
       const std::vector<cv::Rect> firstFaceVector,
       const std::vector<cv::Rect> secondFaceVector)
 {
-  std::vector<cv::Rect> initial, unique;
-  initial = firstFaceVector;
+  std::vector<cv::Rect> final_faces;
 
-  for (unsigned int j = 0; j < secondFaceVector.size() ; j++)
+  final_faces = firstFaceVector;
+
+  final_faces.insert( final_faces.end(), secondFaceVector.begin(),
+    secondFaceVector.end() );
+
+  int size = final_faces.size();
+  for( unsigned int i = 0; i < size; i++ )
   {
-    bool exists = false;
-    for (unsigned int i = 0; i < firstFaceVector.size() ; i++)
-    {
-      if ( firstFaceVector[i] == secondFaceVector[j] )
-      {
-        exists = true;
-        break;
-      }
-    }
-    if ( !exists )
-    {
-      unique.push_back( secondFaceVector[j] );
-    }
+    final_faces.push_back( final_faces[i] );
   }
-  std::cout << "Unique size: " << unique.size() << std::endl;
+  groupRectangles( final_faces, 1, 0.2 );
 
-  initial.insert( initial.end(), unique.begin(), unique.end() );
-
-  return initial;
+  return final_faces;
 }
 
 std::vector<cv::Rect> FaceDetector::findFaces(std::string file_name)
