@@ -1,10 +1,15 @@
-/*!
- * @file rapp_platform_status.service.js
- * @brief Returns available hop services located on RAPP Platform
+/**
+ * @file
+ *
+ * [RAPP Platform Status]. Serves HTML objects. Invoke this service through
+ * your favourite Web-Browser.
+ *
+ *  @author Konstantinos Panayiotou
+ *  @copyright Rapp Project EU 2014
  */
 
 
-/**
+/***
  *  MIT License (MIT)
  *
  *  Copyright (c) <2014> <Rapp Project EU>
@@ -67,51 +72,81 @@ var platformActiveTopics = [];
 var platformHopServices = [];
 var rappRosServices  = [];
 var pollCycle = 1000; // 10 sec
-var refreshRate__ = '30'; // seconds
 
 
 loopInf();
 
-var navbar =
-    '<div class="navbar navbar-inverse navbar-fixed-top">' +
-      '<div class="navbar-inner">' +
-        '<div class="container">' +
-          '<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">' +
-            '<a class="btn btn-success" href="#">RAPP Platform Status</a>' +
-          '</button>' +
-        '</div>' +
-      '</div>' +
-    '</div>';
+
+function navbar(){
+  return <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <a class="btn btn-success" href="#">RAPP Platform Status</a>
+        </button>
+      </div>
+    </div>
+  </div>;
+}
 
 
+function fillLabel(labelName){
+  var lblText = '';
+  var contClass = '';
+  switch(labelName){
+    case "ros-nodes": 
+      lblText = "RAPP Platform ROS-Nodes";
+      contClass =
+        (platformActiveNodes.length > 1) ? "bg-success" : "bg-danger";
+      break;
+    case "ros-services":
+      lblText = "RAPP Platform ROS-Services";
+      contClass =
+        (platformActiveServices.length > 1) ? "bg-success" : "bg-danger";
+      break;
+    case "ros-topics":
+      lblText = "RAPP Platform ROS-Topics";
+      contClass =
+        (platformActiveTopics.length > 1) ? "bg-success" : "bg-danger";
+      break;
+    case "hop-services":
+      lblText = "RAPP Platform HOP web services";
+      contClass= "bg-info";
+      break;
+    default:
+      break;
+  }
+
+  return <h2 align="center">
+    <p class=${contClass} align="center">${lblText}</p>
+    </h2>
+  ;
+}
+
+
+function headerHtml(){
+  return  <head>
+    ~{ var selectedHopSrv = ''; }
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <meta charset="utf-8"/>
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+  </head>
+  ; 
+}
 
 
 service rapp_platform_status(  )
 {
-  var srv_class = (platformActiveServices.length > 1) ? "bg-success" : "bg-danger";
-  var nodes_class = (platformActiveNodes.length > 1) ? "bg-success" : "bg-danger";
-  var topics_class = (platformActiveTopics.length > 1) ? "bg-success" : "bg-danger";
-  var hop_class = "bg-info";
-
   var rapp_srv_literal = '';
   var services_literal = '';
   var nodes_literal = '';
   var topics_literal = '';
   var hop_srv_literal = '';
-
-  var nodes_label =
-    '<h2 align="center"><p class=' + nodes_class +
-    ' align="center">ROS Nodes</p></h2>';
-  var rapp_services_label =
-    '<h2 align="center"><p class=' + srv_class +
-    ' align="center">ROS Services</p></h2>';
-  var topics_label =
-    '<h2 align="center"><p class=' + topics_class +
-    ' align="center">ROS Topics</p></h2>';
-  var hop_srv_label =
-    '<h2 align="center"><p class=' + hop_class +
-    ' align="center">HOP Web Services</p></h2>';
-
 
   for(var index = 0 ; index < rappRosServices.length ; index++)
   {
@@ -135,50 +170,33 @@ service rapp_platform_status(  )
 
 
   return <html lang="en">
-    <head>
-      ~{ var selectedHopSrv = ''; }
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-      <meta charset="utf-8"/>
-      <meta name="viewpoint" content="width=device-width, initial-scale=1">
-      <meta http-equiv="refresh" content=${refreshRate__} >
-      <style>
-        body {
-          padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-        }
-      </style>
-    </head>
+    ${headerHtml()}
     <body>
-      ${navbar}
+      ${navbar()}
       <div class='jumbotron' align='center'>
-        <h1>RAPP Platform information</h1>
-        <div>
-          To work, roscore and rosbridge_websocket must be executed
-        </div>
+        <h1>RAPP Platform Status</h1>
       </div>
       <div class='col-md-4' style='word-wrap:break-word;'>
         <div class='row-fluid'>
-          ${rapp_services_label}
+          ${fillLabel("ros-services")}
           <select id='SrvBox' class="form-control" onchange=~{
-            var selected = this.options[this.selectedIndex].value
-              alert(selected)
+            var selected = this.options[this.selectedIndex].value;
             }>
             ${rapp_srv_literal}
           </select>
         </div>
         <div class='row-fluid'>
-          ${nodes_label}
+          ${fillLabel("ros-nodes")}
           <select id='NodesBox' class="form-control" onchange=~{
             var selected = this.options[this.selectedIndex].value
-              //alert(selected)
             }>
             ${nodes_literal}
           </select>
         </div>
         <div class='row-fluid'>
-          ${topics_label}
+          ${fillLabel("ros-topics")}
           <select id='TopicsBox' class="form-control" onchange=~{
             var selected = this.options[this.selectedIndex].value
-              //alert(selected)
             }>
             ${topics_literal}
           </select>
@@ -187,10 +205,9 @@ service rapp_platform_status(  )
       <div class='container-fluid'>
       <div class='col-md-4 text-centered' style='word-wrap:break-word;'>
         <div class='row-fluid'>
-          ${hop_srv_label}
+          ${fillLabel("hop-services")}
           <select id='HopSrvBox' class="form-control" onchange=~{
             selectedHopSrv = this.options[this.selectedIndex].value
-              //alert(selected)
             }>
             ${hop_srv_literal}
           </select>
