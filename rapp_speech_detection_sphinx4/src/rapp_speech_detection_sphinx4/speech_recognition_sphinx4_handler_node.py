@@ -29,6 +29,7 @@
 import rospy
 import sys
 import time
+import hashlib
 import threading
 
 from speech_recognition_sphinx4 import *
@@ -50,7 +51,8 @@ class SpeechRecognitionSphinx4HandlerNode():
     # Initialize Speech Recognition Processes
     self._availableProcesses = [{
       'sphinx': SpeechRecognitionSphinx4(), \
-      'running': False \
+      'running': False, \
+      'configuration_hash': 0\
       } for i in range(self._threads)]
 
     self._lock = threading.Lock()
@@ -69,18 +71,41 @@ class SpeechRecognitionSphinx4HandlerNode():
 
     total_res = SpeechRecognitionSphinx4TotalSrvResponse()
 
+    request_hash = self.calculateRequestHash( req )
+    #rospy.loginfo(request_hash)
+
     #rospy.logerr( "Locking mutex" )
     self._lock.acquire()
     #rospy.logerr( "Mutex acquired" )
 
     while True:
+
+      # Search for available Sphinx with similar configuration
+      for proc in self._availableProcesses:
+        if proc['running'] == False and \
+           proc['configuration_hash'] == request_hash:
+
+          #rospy.logerr( "Found process with same configuration" )
+          #rospy.logerr( proc )
+
+          proc['running'] = True
+          self._lock.release()
+          total_res = proc['sphinx'].speechRecognitionBatch( req )
+
+          proc['running'] = False
+
+          return total_res
+
+      # Search for available Sphinx
       for proc in self._availableProcesses:
         if proc['running'] == False:
+
+          proc['configuration_hash'] = request_hash
+          proc['running'] = True
 
           #rospy.logerr( "Found process" )
           #rospy.logerr( proc )
 
-          proc['running'] = True
           self._lock.release()
           total_res = proc['sphinx'].speechRecognitionBatch( req )
 
@@ -93,6 +118,17 @@ class SpeechRecognitionSphinx4HandlerNode():
     #rospy.logerr( "Could not find available processes" )
     #self._lock.release()
     #return total_res
+
+  def calculateRequestHash(self, req):
+    hash_object = hashlib.sha1()
+    hash_object.update( req.language )
+    for word in req.words:
+      hash_object.update( word )
+    for gram in req.grammar:
+      hash_object.update( gram )
+    for sent in req.sentences:
+      hash_object.update( sent )
+    return hash_object.hexdigest()
 
 
 if __name__ == "__main__":
