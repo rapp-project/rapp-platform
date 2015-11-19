@@ -55,7 +55,8 @@ class SpeechRecognitionSphinx4HandlerNode():
       'configuration_hash': 0\
       } for i in range(self._threads)]
 
-    self._lock = threading.Lock()
+    self._lock = threading.Condition()
+    self._threadCounter = 0
 
     self.serv_batch_topic = \
         rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
@@ -72,52 +73,48 @@ class SpeechRecognitionSphinx4HandlerNode():
     total_res = SpeechRecognitionSphinx4TotalSrvResponse()
 
     request_hash = self.calculateRequestHash( req )
-    #rospy.loginfo(request_hash)
 
-    #rospy.logerr( "Locking mutex" )
     self._lock.acquire()
-    #rospy.logerr( "Mutex acquired" )
+    self._threadCounter += 1
+    if self._threadCounter > self._threads:
+      self._lock.wait()
 
-    while True:
+    # Search for available Sphinx with similar configuration
+    for proc in self._availableProcesses:
+      if proc['running'] == False and \
+         proc['configuration_hash'] == request_hash:
 
-      # Search for available Sphinx with similar configuration
-      for proc in self._availableProcesses:
-        if proc['running'] == False and \
-           proc['configuration_hash'] == request_hash:
+        proc['running'] = True
+        self._lock.release()
+        total_res = proc['sphinx'].speechRecognitionBatch( req )
 
-          #rospy.logerr( "Found process with same configuration" )
-          #rospy.logerr( proc )
+        self._lock.acquire()
+        proc['running'] = False
+        self._threadCounter -= 1
+        if self._threadCounter >= self._threads:
+          self._lock.notify()
+        self._lock.release()
 
-          proc['running'] = True
-          self._lock.release()
-          total_res = proc['sphinx'].speechRecognitionBatch( req )
+        return total_res
 
-          proc['running'] = False
+    # Search for available Sphinx
+    for proc in self._availableProcesses:
+      if proc['running'] == False:
 
-          return total_res
+        proc['configuration_hash'] = request_hash
+        proc['running'] = True
 
-      # Search for available Sphinx
-      for proc in self._availableProcesses:
-        if proc['running'] == False:
+        self._lock.release()
+        total_res = proc['sphinx'].speechRecognitionBatch( req )
 
-          proc['configuration_hash'] = request_hash
-          proc['running'] = True
+        self._lock.acquire()
+        proc['running'] = False
+        self._threadCounter -= 1
+        if self._threadCounter >= self._threads:
+          self._lock.notify()
+        self._lock.release()
 
-          #rospy.logerr( "Found process" )
-          #rospy.logerr( proc )
-
-          self._lock.release()
-          total_res = proc['sphinx'].speechRecognitionBatch( req )
-
-          proc['running'] = False
-
-          return total_res
-      time.sleep(0.1)
-      #rospy.logerr( "Waiting for process" )
-
-    #rospy.logerr( "Could not find available processes" )
-    #self._lock.release()
-    #return total_res
+        return total_res
 
   def calculateRequestHash(self, req):
     hash_object = hashlib.sha1()
