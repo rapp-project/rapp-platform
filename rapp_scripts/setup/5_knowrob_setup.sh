@@ -43,7 +43,7 @@ KnowrobPath="${RappPlatformPath}/knowrob_catkin_ws"
 
 # Check if the rapp_platform_files directory exists and create if not.
 if [ ! -d "${RappPlatformFilesPath}" ]; then
-  mkdir ${RappPlatformFilesPath}
+  mkdir -p ${RappPlatformFilesPath}
 fi
 
 # Move the ontology file to the proper place
