@@ -1,26 +1,18 @@
 #!/usr/bin/env python
 
-#MIT License (MIT)
+#Copyright 2015 RAPP
 
-#Copyright (c) <2014> <Rapp Project EU>
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+    #http://www.apache.org/licenses/LICENSE-2.0
 
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
 
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
@@ -41,18 +33,18 @@ from rapp_platform_ros_communications.srv import (
   updateDataSrvResponse
   )
 
-from rapp_platform_ros_communications.msg import ( 
-  StringArrayMsg 
-  ) 
+from rapp_platform_ros_communications.msg import (
+  StringArrayMsg
+  )
 
 
-from std_msgs.msg import ( 
+from std_msgs.msg import (
   String
-  ) 
+  )
 
-class TestDbWrapper(unittest.TestCase):     
-  
-  
+class TestDbWrapper(unittest.TestCase):
+
+
   def testDBError(self):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_write_data_topic')
     if(not serv_topic):
@@ -63,17 +55,17 @@ class TestDbWrapper(unittest.TestCase):
     req.req_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
     #req.req_cols=[String("id"),String("macddr"), String("model"),String("owner"), String("timestamp")]
     req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
-    entry1=StringArrayMsg()    
+    entry1=StringArrayMsg()
     #entry1=[string("'3'"),string("'1800000'"), string("'1'"),string("'1'"), string("'2014-11-23 09:04:13'")]
     entry1=["'3'","'1800000'", "'1'","'25'", "'2014-11-23 09:04:13'"]
-    entry2=StringArrayMsg()    
+    entry2=StringArrayMsg()
     #entry2=[string("'4'"),string("'1900000'"), string("'1'"),string("'1'"), string("'2014-11-23 07:04:13'")]
     entry2=["'4'","'1900000'", "'1'","'25'", "'2014-11-23 07:04:13'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-    
+
     response = db_service(req.req_cols,req.req_data)
     self.assertEqual(response.trace[0],"Database Error 1054: Unknown column 'idsd' in 'field list'")
-    self.assertFalse(response.success.data)  
+    self.assertFalse(response.success.data)
 
   def testNullInputError(self):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
@@ -87,8 +79,8 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
-    self.assertFalse(response.success.data)    
-    
+    self.assertFalse(response.success.data)
+
 
   #def testSubmitCorrectQuery(self):
     #serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
@@ -99,7 +91,7 @@ class TestDbWrapper(unittest.TestCase):
     #req = DbWrapperSrv()
     #req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="email_id")]
     ##req.return_cols=[String(data="*")]
-    #entry1=StringArrayMsg()    
+    #entry1=StringArrayMsg()
     #entry1=[String(data="username"), String(data="admin")]
     #entry2=StringArrayMsg()
     #entry2=[String(data="firstname"), String(data="Alex")]
@@ -108,7 +100,7 @@ class TestDbWrapper(unittest.TestCase):
     #response = db_service(req.return_cols,req.req_data)
     #print "Report "+response.report.data
     #for i in range(len(response.res_cols)):
-      #sys.stdout.write(response.res_cols[i].data+" ")      
+      #sys.stdout.write(response.res_cols[i].data+" ")
     #sys.stdout.write('\n')
     #for i in range(len(response.res_data)):
       #for j in range(len(response.res_data[i].s)):
@@ -124,7 +116,7 @@ class TestDbWrapper(unittest.TestCase):
     #self.assertEqual(response.res_data[0].s[0].data,"1")
     #self.assertEqual(response.res_data[0].s[1].data,"admin")
     #self.assertEqual(response.res_data[0].s[3].data,"0")
-  
+
   #def testSubmitIncompleteQuery(self):
     #serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
     #if(not serv_topic):
@@ -133,11 +125,11 @@ class TestDbWrapper(unittest.TestCase):
     #db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     #req = DbWrapperSrv()
     #req.return_cols=[]#[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]
-    #entry1=StringArrayMsg() 
+    #entry1=StringArrayMsg()
     ##entry1=[]
-    #entry1=[String(data="username")]       
-    #entry2=StringArrayMsg()    
-    #entry2=[] 
+    #entry1=[String(data="username")]
+    #entry2=StringArrayMsg()
+    #entry2=[]
     #req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     #response = db_service(req.return_cols,req.req_data)
     #self.assertFalse(response.success.data)
@@ -150,8 +142,8 @@ class TestDbWrapper(unittest.TestCase):
     #rospy.wait_for_service(serv_topic)
     #db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
     #req = DbWrapperSrv()
-    #req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]    
-    #entry1=StringArrayMsg()    
+    #req.return_cols=[String(data="id"), String(data="username"), String(data="firstname"), String(data="otinanai")]
+    #entry1=StringArrayMsg()
     #entry1=[String(data="username"), String(data="admin")]
     #entry2=StringArrayMsg()
     #entry2=[String(data="firstname"), String(data="Alex")]
@@ -161,16 +153,16 @@ class TestDbWrapper(unittest.TestCase):
     #errorStart=response.report.data[0:14]
     #print errorStart
     #self.assertEqual(errorStart,"Database Error")
-    
+
   #def testSubmitCorrectReturnAllColumnQuery(self):
     #serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
     #if(not serv_topic):
       #rospy.logerror("Speech detection topic param not found")
     #rospy.wait_for_service(serv_topic)
     #db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
-    #req = DbWrapperSrv()    
+    #req = DbWrapperSrv()
     #req.return_cols=[String(data="*")]
-    #entry1=StringArrayMsg()    
+    #entry1=StringArrayMsg()
     #entry1=[String(data="username"), String(data="admin")]
     #entry2=StringArrayMsg()
     #entry2=[String(data="firstname"), String(data="Alex")]
@@ -178,7 +170,7 @@ class TestDbWrapper(unittest.TestCase):
     #response = db_service(req.return_cols,req.req_data)
     #print "Report "+response.report.data
     #for i in range(len(response.res_cols)):
-      #sys.stdout.write(response.res_cols[i].data+" ")      
+      #sys.stdout.write(response.res_cols[i].data+" ")
     #sys.stdout.write('\n')
     #for i in range(len(response.res_data)):
       #for j in range(len(response.res_data[i].s)):
@@ -197,20 +189,20 @@ class TestDbWrapper(unittest.TestCase):
     #self.assertEqual(response.res_cols[7].data,"created")
     #self.assertEqual(response.res_cols[8].data,"accessed")
     #self.assertEqual(response.res_cols[9].data,"enabled")
-    #self.assertEqual(response.res_cols[10].data,"activation")    
+    #self.assertEqual(response.res_cols[10].data,"activation")
     #self.assertEqual(response.res_data[0].s[9].data,"1")
     #self.assertEqual(response.res_data[0].s[4].data,"0")
     #self.assertEqual(response.res_data[0].s[0].data,"1")
-    
+
   #def testSubmitMoreLinesQuery(self):
     #serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
     #if(not serv_topic):
       #rospy.logerror("Speech detection topic param not found")
     #rospy.wait_for_service(serv_topic)
     #db_service = rospy.ServiceProxy(serv_topic, DbWrapperSrv)
-    #req = DbWrapperSrv()    
+    #req = DbWrapperSrv()
     #req.return_cols=[String(data="*")]
-    #entry1=StringArrayMsg()    
+    #entry1=StringArrayMsg()
     #entry1=[String(data="firstname"), String(data="Alex")]
     #req.req_data=[StringArrayMsg(s=entry1)]
     #response = db_service(req.return_cols,req.req_data)
@@ -220,7 +212,7 @@ class TestDbWrapper(unittest.TestCase):
     #self.assertEqual(response.res_data[0].s[4].data,"0")
     #self.assertEqual(response.res_data[1].s[0].data,"2")
     #self.assertEqual(response.res_data[1].s[5].data,"486d18ed96603f0bbae4567y2c98cc80750402b28c1d4069d5df7c570ded0307")
-    
+
   #test TblUser
   def testTblUserWriteReadDeleteCheck(self):
     #Write
@@ -232,15 +224,15 @@ class TestDbWrapper(unittest.TestCase):
     req = writeDataSrv()
     req.req_cols=["username","firstname","lastname","email","email_id","ontology_alias","pwd","usrgroup","created","accessed","enabled","activation"]
     #req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
-    entry1=StringArrayMsg()    
+    entry1=StringArrayMsg()
     entry1=["'testingDB1'","'testingDB1'","'testingDB1'","'test@test'","NULL","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
-    entry2=StringArrayMsg()    
+    entry2=StringArrayMsg()
     entry2=["'testingDB2'","'testingDB2'","'testingDB1'","'test@test'","NULL","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-    
+
     response = db_service(req.req_cols,req.req_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)     
+    self.assertTrue(response.success.data)
     #Read what was written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
     if(not serv_topic):
@@ -253,9 +245,9 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)    
+    self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB2")    
+    self.assertEqual(response.res_data[1].s[0],"testingDB2")
     #Update written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_update_data_topic')
     if(not serv_topic):
@@ -268,7 +260,7 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.set_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)       
+    self.assertTrue(response.success.data)
     #Read again
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
     if(not serv_topic):
@@ -283,7 +275,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB1")    
+    self.assertEqual(response.res_data[1].s[0],"testingDB1")
     #Delete updated
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_delete_data_topic')
     if(not serv_topic):
@@ -295,7 +287,7 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)   
+    self.assertTrue(response.success.data)
     #Check if it was deleted
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
     if(not serv_topic):
@@ -306,11 +298,11 @@ class TestDbWrapper(unittest.TestCase):
     req.req_cols=["firstname","lastname"]
     entry1=["firstname","testingDB1"]
     req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)    
+    response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
-    
+
   #test TblModel
   def testTblModelWriteReadDeleteCheck(self):
     #Write
@@ -322,15 +314,15 @@ class TestDbWrapper(unittest.TestCase):
     req = writeDataSrv()
     req.req_cols=["model_str","manufacturer","version","arch","os","picture"]
     #req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
-    entry1=StringArrayMsg()    
+    entry1=StringArrayMsg()
     entry1=["'testingDB1'","'testingDB1'","'10.1'","'test'","'test'","'test'"]
-    entry2=StringArrayMsg()    
+    entry2=StringArrayMsg()
     entry2=["'testingDB2'","'testingDB1'","'10.1'","'test'","'test'","'test'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-    
+
     response = db_service(req.req_cols,req.req_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)     
+    self.assertTrue(response.success.data)
     #Read what was written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
     if(not serv_topic):
@@ -343,9 +335,9 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)    
+    self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB2")    
+    self.assertEqual(response.res_data[1].s[0],"testingDB2")
     #Update written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_model_update_data_topic')
     if(not serv_topic):
@@ -358,7 +350,7 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.set_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)       
+    self.assertTrue(response.success.data)
     #Read again
     serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
     if(not serv_topic):
@@ -373,7 +365,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[1],"testingDB1")
-    self.assertEqual(response.res_data[1].s[1],"testingDB1")    
+    self.assertEqual(response.res_data[1].s[1],"testingDB1")
     #Delete updated
     serv_topic = rospy.get_param('rapp_mysql_wrapper_model_delete_data_topic')
     if(not serv_topic):
@@ -385,7 +377,7 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)   
+    self.assertTrue(response.success.data)
     #Check if it was deleted
     serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
     if(not serv_topic):
@@ -396,7 +388,7 @@ class TestDbWrapper(unittest.TestCase):
     req.req_cols=["model_str","manufacturer"]
     entry1=["model_str","testingDB1"]
     req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)    
+    response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
@@ -410,15 +402,15 @@ class TestDbWrapper(unittest.TestCase):
     db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
     req = writeDataSrv()
     req.req_cols=["rapp","version","arch","lang","owner","directory","enabled","timestamp"]
-    entry1=StringArrayMsg()    
+    entry1=StringArrayMsg()
     entry1=["'testingDB1'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
-    entry2=StringArrayMsg()    
+    entry2=StringArrayMsg()
     entry2=["'testingDB2'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-    
+
     response = db_service(req.req_cols,req.req_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)  
+    self.assertTrue(response.success.data)
 
     #Read what was written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
@@ -432,9 +424,9 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)    
+    self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB2")    
+    self.assertEqual(response.res_data[1].s[0],"testingDB2")
     #Update written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_update_data_topic')
     if(not serv_topic):
@@ -447,7 +439,7 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.set_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)       
+    self.assertTrue(response.success.data)
     #Read again
     serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
     if(not serv_topic):
@@ -462,7 +454,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB3")    
+    self.assertEqual(response.res_data[1].s[0],"testingDB3")
     #Delete updated
     serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_delete_data_topic')
     if(not serv_topic):
@@ -474,7 +466,7 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)   
+    self.assertTrue(response.success.data)
     #Check if it was deleted
     serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
     if(not serv_topic):
@@ -485,10 +477,10 @@ class TestDbWrapper(unittest.TestCase):
     req.req_cols=["rapp","directory"]
     entry1=["directory","testingDB1"]
     req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)    
+    response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
-    self.assertTrue((len(response.res_data)<1)) 
+    self.assertTrue((len(response.res_data)<1))
 
 
   #test tbRobot
@@ -503,16 +495,16 @@ class TestDbWrapper(unittest.TestCase):
     req.req_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
     #req.req_cols=[String("id"),String("macddr"), String("model"),String("owner"), String("timestamp")]
     req.req_cols=["macddr", "model","owner", "timestamp"]
-    entry1=StringArrayMsg()   
+    entry1=StringArrayMsg()
     entry1=["'1800000'", "'1'","'25'", "'2014-11-23 09:04:13'"]
-    entry2=StringArrayMsg()    
+    entry2=StringArrayMsg()
     entry2=["'1900000'", "'1'","'25'", "'2014-11-23 07:04:13'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-    
+
     response = db_service(req.req_cols,req.req_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)    
-    
+    self.assertTrue(response.success.data)
+
     #Read what was written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
     if(not serv_topic):
@@ -525,9 +517,9 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)    
+    self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"1800000")
-    #self.assertEqual(response.res_data[1].s[0].data,"extreme3")    
+    #self.assertEqual(response.res_data[1].s[0].data,"extreme3")
     #Update written
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_update_data_topic')
     if(not serv_topic):
@@ -540,7 +532,7 @@ class TestDbWrapper(unittest.TestCase):
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.set_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)       
+    self.assertTrue(response.success.data)
     #Read again
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
     if(not serv_topic):
@@ -555,7 +547,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertEqual(response.res_data[0].s[0],"1800000")
-    self.assertEqual(response.res_data[1].s[0],"1900000")    
+    self.assertEqual(response.res_data[1].s[0],"1900000")
     #Delete updated
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_delete_data_topic')
     if(not serv_topic):
@@ -563,13 +555,13 @@ class TestDbWrapper(unittest.TestCase):
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
     req = deleteDataSrv()
-    
+
     entry1=["timestamp","2014-11-23 09:04:13"]
     entry2=["model","1"]
     req.where_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
     response = db_service(req.where_data)
     self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)   
+    self.assertTrue(response.success.data)
     #Check if it was deleted
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
     if(not serv_topic):
@@ -580,12 +572,12 @@ class TestDbWrapper(unittest.TestCase):
     req.req_cols=["macddr","model"]
     entry1=["timestamp","2014-11-23 09:04:13"]
     req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)    
+    response = db_service(req.req_cols,req.where_data)
     self.assertEqual(response.trace[0],"Success")
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
-    
-    
+
+
   ##test tblAppsRobots
   #def testTblAppsRobotsRead(self):
     ##Read
@@ -600,11 +592,11 @@ class TestDbWrapper(unittest.TestCase):
     #req.where_data=[StringArrayMsg(s=entry1)]
     #response = db_service(req.req_cols,req.where_data)
     #self.assertEqual(response.trace[0].data,"Success")
-    #self.assertTrue(response.success.data)    
+    #self.assertTrue(response.success.data)
     #self.assertEqual(response.res_data[0].s[0].data,"1")
-    #self.assertEqual(response.res_data[0].s[1].data,"1")  
-    
-    
+    #self.assertEqual(response.res_data[0].s[1].data,"1")
+
+
   ##test tblUsersOntologyInstances
   #def testTblUsersOntologyInstancesRead(self):
     ##Read
@@ -619,10 +611,10 @@ class TestDbWrapper(unittest.TestCase):
     #req.req_data=[StringArrayMsg(s=entry1)]
     #response = db_service(req.return_cols,req.req_data)
     #self.assertEqual(response.report.data,"Success")
-    #self.assertTrue(response.success.data)    
+    #self.assertTrue(response.success.data)
     #self.assertEqual(response.res_data[0].s[1].data,"ontology_something")
-    #self.assertEqual(response.res_data[0].s[2].data,"instance_something")  
-    
+    #self.assertEqual(response.res_data[0].s[2].data,"instance_something")
+
   ##test viewUsersRobotsApps
   #def testviewUsersRobotsAppsRead(self):
     ##Read
@@ -637,10 +629,10 @@ class TestDbWrapper(unittest.TestCase):
     #req.req_data=[StringArrayMsg(s=entry1)]
     #response = db_service(req.return_cols,req.req_data)
     #self.assertEqual(response.report.data,"Success")
-    #self.assertTrue(response.success.data)    
+    #self.assertTrue(response.success.data)
     #self.assertEqual(response.res_data[0].s[1].data,"1")
-    #self.assertEqual(response.res_data[0].s[2].data,"1")  
-    #self.assertEqual(response.res_data[0].s[2].data,"1") 
+    #self.assertEqual(response.res_data[0].s[2].data,"1")
+    #self.assertEqual(response.res_data[0].s[2].data,"1")
 
 
 if __name__ == '__main__':
