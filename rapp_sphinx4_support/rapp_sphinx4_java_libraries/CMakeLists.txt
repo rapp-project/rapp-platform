@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rapp_sphinx4_java_libraries)
+set(ROS_BUILD_TYPE Release)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
