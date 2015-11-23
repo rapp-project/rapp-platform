@@ -1,6 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#Copyright 2015 RAPP
+
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+
+    #http://www.apache.org/licenses/LICENSE-2.0
+
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+
+# Authors: Manos Tsardoulias
+# contact: etsardou@iti.gr
+
 PKG='rapp_audio_processing'
 
 import sys
@@ -26,7 +43,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
                 conf_service, AudioProcessingSetNoiseProfileSrv)
-        
+
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_ogg'
         req.noise_audio_file = aux + '/silence_ogg_d05_a1.ogg'
@@ -44,7 +61,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(\
                 conf_service, AudioProcessingSetNoiseProfileSrv)
-        
+
         for i in range(0, 100):
             req = AudioProcessingSetNoiseProfileSrvRequest()
             req.audio_file_type = 'nao_ogg'
@@ -61,7 +78,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(conf_service, AudioProcessingSetNoiseProfileSrv)
-        
+
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_1_ch'
         req.noise_audio_file = aux + '/silence_sample.wav'
@@ -77,7 +94,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(conf_service, AudioProcessingSetNoiseProfileSrv)
-        
+
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_4_ch'
         req.noise_audio_file = aux + '/silence_wav_d05_a1.wav'
@@ -93,7 +110,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(conf_service, AudioProcessingSetNoiseProfileSrv)
-        
+
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_6_ch'
         req.noise_audio_file = aux + '/silence_wav_d05_a1.wav'
@@ -109,7 +126,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(conf_service, AudioProcessingSetNoiseProfileSrv)
-        
+
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_4_ch'
         req.noise_audio_file = aux + '/silence_wav_d05_a1_nope.wav'
@@ -125,7 +142,7 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
         rospy.wait_for_service(conf_service)
         test_service = rospy.ServiceProxy(conf_service, AudioProcessingSetNoiseProfileSrv)
-        
+
         req = AudioProcessingSetNoiseProfileSrvRequest()
         req.audio_file_type = 'nao_wav_4_ch'
         req.noise_audio_file = aux + '/silence_wav_d05_a1.wav'

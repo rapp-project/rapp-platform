@@ -1,4 +1,22 @@
 #! /usr/bin/env python
+# -*- encode: utf-8 -*-
+
+#Copyright 2015 RAPP
+
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+
+    #http://www.apache.org/licenses/LICENSE-2.0
+
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+
+# Authors: Manos Tsardoulias
+# contact: etsardou@iti.gr
 
 import sys
 import unittest
@@ -10,15 +28,15 @@ from scipy.io import wavfile
 
 roslib.load_manifest("rapp_audio_processing")
 
-from rapp_audio_processing import SoxDenoise 
+from rapp_audio_processing import SoxDenoise
 
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
         rospack = rospkg.RosPack()
         self.auxiliary_files_url = rospack.get_path("rapp_testing_tools") +\
                 '/test_data'
-        self.sox_denoise_module = SoxDenoise() 
-    
+        self.sox_denoise_module = SoxDenoise()
+
     def tearDown(self):
         self.sox_denoise_module = None
         self.rospack = None
@@ -29,7 +47,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = 0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -61,7 +79,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = 0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -77,7 +95,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'panagiotis'
         audio_type = 'nao_wav_1_ch'
         scale = 0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -93,7 +111,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_7_ch'
         scale = 0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -108,7 +126,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = -0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -123,7 +141,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = -0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -138,7 +156,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_4_ch'
         scale = -0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -153,7 +171,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_ogg'
         scale = -0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -168,7 +186,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_4_ch'
         scale = -0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -183,7 +201,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_ogg'
         scale = -0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\
@@ -198,7 +216,7 @@ class TestAudioProcessing(unittest.TestCase):
         user = 'rapp'
         audio_type = 'nao_wav_1_ch'
         scale = -0.2
-    
+
         result = self.sox_denoise_module.soxDenoise(\
                 user,\
                 audio_type,\

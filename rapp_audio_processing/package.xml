@@ -4,9 +4,10 @@
   <version>0.0.0</version>
   <description>The rapp_audio_processing package</description>
 
-  <maintainer email="etsardou@iti.gr">etsardou@iti.gr</maintainer>
+  <maintainer email="etsardou@iti.gr">Manos Tsardoulias</maintainer>
+  <maintainer email="aris.thallas@iti.gr">Aris Thallas</maintainer>
 
-  <license>TODO</license>
+  <license>APACHE 2.0</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   

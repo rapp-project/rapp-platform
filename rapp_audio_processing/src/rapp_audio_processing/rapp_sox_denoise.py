@@ -1,27 +1,19 @@
 #!/usr/bin/env python
 # -*- encode: utf-8 -*-
 
-#MIT License (MIT)
+#Copyright 2015 RAPP
 
-#Copyright (c) <2014> <Rapp Project EU>
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+    #http://www.apache.org/licenses/LICENSE-2.0
 
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
 
 # Authors: Manos Tsardoulias
 # contact: etsardou@iti.gr
@@ -33,9 +25,9 @@ from pylab import *
 from scipy.io import wavfile
 
 class SoxDenoise :
- 
+
   # Service callback for detecting silence
-  def soxDenoise(self, user, audio_type, audio_file, denoised_audio_file, scale):     
+  def soxDenoise(self, user, audio_type, audio_file, denoised_audio_file, scale):
     if not os.path.isfile(audio_file):
         return "The audio file does not exist"
 
@@ -51,14 +43,14 @@ class SoxDenoise :
 
     directory = os.path.expanduser("~/rapp_platform_files/audio_processing/") + user
     noise_profile = directory + "/noise_profile/noise_profile_" + audio_type
-    
+
     if not os.path.isfile(noise_profile):
         return "No noise profile for the " + audio_type + " type exists"
-    
+
     command = "sox " + audio_file + " " + denoised_audio_file +\
             " noisered " + noise_profile + " " + str(scale)
     com_res = os.system(command)
-    
+
     if com_res != 0:
         return "System sox malfunctioned"
     else:
