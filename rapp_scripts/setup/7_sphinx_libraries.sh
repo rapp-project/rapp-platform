@@ -1,23 +1,63 @@
+#!/bin/bash
+
+##
+# MIT License (MIT)
+
+# Copyright (c) <2014> <Rapp Project EU>
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+# Authors: Manos Tsardoulias
+# Contact: etsardou@iti.gr
+##
+
+# Explicity check the result of each command and return with fail status if
+# an error occures.
+set -e
+
+RappPlatformPath="${HOME}/rapp_platform"
+cmusphinxUrl="git@github.com:skerit/cmusphinx"
+sphinxbaseUrl="https://github.com/cmusphinx/sphinxbase.git"
+
 #download and compile sphinx4 extra libraries
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Libraries \e[0m"
 sudo apt-get -y install swig
 sudo apt-get -y install autoconf
 sudo apt-get -y install python-scipy
 sudo apt-get -y install bison
-sudo apt-get -y install sox 
-sudo apt-get -y install flac 
-cd $HOME/rapp_platform
-git clone git@github.com:skerit/cmusphinx
+sudo apt-get -y install sox
+sudo apt-get -y install flac
+
+cd ${RappPlatformPath}
+git clone ${cmusphinxUrl}
 cd cmusphinx/cmuclmtk
 ./autogen.sh
 make
 sudo make install
 
-cd $HOME/rapp_platform
-git clone https://github.com/cmusphinx/sphinxbase.git
+cd ${RappPlatformPath}
+git clone ${sphinxbaseUrl}
 cd sphinxbase
 ./autogen.sh
 make
 sudo make install
-cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_speech_detection_sphinx4/src
-bash buildJava.sh
+cd ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_speech_detection_sphinx4/src
+bash buildJava.sh > /dev/null 2>&1
+
+set +e
