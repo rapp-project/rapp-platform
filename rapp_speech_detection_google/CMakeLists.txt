@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rapp_speech_detection_google)
+set(ROS_BUILD_TYPE Release)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
-  rostest 
+  rostest
   rapp_platform_ros_communications
 )
 
@@ -26,7 +27,7 @@ catkin_package(
 )
 
 include_directories(
-  ${catkin_INCLUDE_DIRS}  
+  ${catkin_INCLUDE_DIRS}
 )
 
 ###########
