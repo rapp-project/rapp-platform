@@ -74,6 +74,6 @@ echo "export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/
 source ~/.bashrc
 
 # catkin_make rapp-platform
-cd ${RappPlatformWs} && catkin_make
+cd ${RappPlatformWs} && catkin_make -j1
 
 set +e
