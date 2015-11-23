@@ -1,28 +1,19 @@
 #!/usr/bin/env python
 # -*- encode: utf-8 -*-
 
+#Copyright 2015 RAPP
 
-#MIT License (MIT)
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
 
-#Copyright (c) <2014> <Rapp Project EU>
+    #http://www.apache.org/licenses/LICENSE-2.0
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
-
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
 
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
@@ -46,18 +37,18 @@ from rapp_platform_ros_communications.srv import (
   cognitiveTestsOfTypeSrvRequest,
   cognitiveTestsOfTypeSrvResponse
   )
-  
-from rapp_platform_ros_communications.msg import ( 
-  StringArrayMsg 
+
+from rapp_platform_ros_communications.msg import (
+  StringArrayMsg
   )
 
-class CognitiveTestCreator: 
-  
-  def testCreator(self,req):   
+class CognitiveTestCreator:
+
+  def testCreator(self,req):
     res=cognitiveTestCreatorSrvResponse()
     fname=req.inputFile
-    
-      
+
+
     d=dict()
     questions=dict()
     answers=dict()
@@ -78,13 +69,13 @@ class CognitiveTestCreator:
           tmp=s.split(":")
           #print tmp[1]
           if(tmp[0] == "Difficulty" or tmp[0]=="variationID"):
-            if (not self.is_int(tmp[1])):               
+            if (not self.is_int(tmp[1])):
               res.trace.append("error, difficulty or variation ID is not an integer")
-              flag=False              
-          if(tmp[0] == "language"):
-            if(not len(questions)==len(answers)==len(correctAnswers)):     
               flag=False
-              res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size") 
+          if(tmp[0] == "language"):
+            if(not len(questions)==len(answers)==len(correctAnswers)):
+              flag=False
+              res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size")
               break
             #print "tt "+tmp[1]
             supportedLanguages.append(tmp[1])
@@ -96,8 +87,8 @@ class CognitiveTestCreator:
             correctAnswers.clear()
             questionsStart=True
             flag=True
-            count=0            
-          elif(questionsStart):    
+            count=0
+          elif(questionsStart):
             if(tmp[0] == "question"):
               count=count+1;
               tmp[0]=tmp[0]+str(count)
@@ -109,20 +100,20 @@ class CognitiveTestCreator:
             elif(tmp[0]=="correctAnswer"):
               tmp[0]=tmp[0]+str(count)
               if(tmp[1] not in answers["answers"+str(count)]):
-                flag=False                
+                flag=False
                 res.trace.append("Correct Answer not in answers in Question "+str(count) +" in test "+fname )
-                break                
-              correctAnswers[tmp[0]]=tmp[1]            
+                break
+              correctAnswers[tmp[0]]=tmp[1]
             else:
-              flag=False              
+              flag=False
               res.trace.append("field other than questions,answers,correctAnswer found")
-              break                
-          else:                     
+              break
+          else:
             d[tmp[0]]=[tmp[1]]
-          
-      if(not len(questions)==len(answers)==len(correctAnswers)):     
+
+      if(not len(questions)==len(answers)==len(correctAnswers)):
         flag=False
-        res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size") 
+        res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size")
       else:
         #print questions
         listQuestions.append(questions.copy())
@@ -133,13 +124,13 @@ class CognitiveTestCreator:
         correctAnswers.clear()
       xmlFileName=""
       #print "reading finished"
-      if(flag):        
+      if(flag):
         #res.trace.append("test seems good")
         #xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"+"var"+d["variationID"][0]+".xml"
         xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]
 
 
-        
+
         #print xmlFileName
         root = ET.Element("cognitiveTest")
         #ET.SubElement(root, "name").text = ontologyName
@@ -163,7 +154,7 @@ class CognitiveTestCreator:
           for i in range(1,count+1):
             nm="Q"+str(i)
             #ET.SubElement(Questions, "Question", name=nm)
-            
+
             Q=ET.SubElement(currentLanguage, "Question", name=nm)
             nm="question"+str(i)
             #print nm
@@ -176,13 +167,13 @@ class CognitiveTestCreator:
               A=ET.SubElement(Q, "answer")
               ET.SubElement(A, "body").text = j.decode('UTF-8')
             nm="correctAnswer"+str(i)
-            corrAnswer=correctAnswers[nm]  
-            ET.SubElement(Q, "correctAnswer").text = corrAnswer.decode('UTF-8') 
-                  
-        tree = ET.ElementTree(root) 
+            corrAnswer=correctAnswers[nm]
+            ET.SubElement(Q, "correctAnswer").text = corrAnswer.decode('UTF-8')
+
+        tree = ET.ElementTree(root)
         rospack = rospkg.RosPack()
 
-        
+
         #get the cognitive test_id
         #serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
         #if(not serv_topic):
@@ -193,31 +184,31 @@ class CognitiveTestCreator:
           #return res
         #cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
         #cognitiveTestsOfTypeSrvReq.test_type=d["testType"][0]
-        #knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)       
+        #knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)
         #cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
-        
+
         #calculatedVariationID=1
-        #if(cognitiveTestsOfTypeResponse.success==True):     
+        #if(cognitiveTestsOfTypeResponse.success==True):
           #maxidlist=[]
           #for test_i in range(len(cognitiveTestsOfTypeResponse.subtype)):
             #tmp=cognitiveTestsOfTypeResponse.subtype[test_i].split("#")
-            #tmpSubtype=tmp[1]            
+            #tmpSubtype=tmp[1]
             #if (tmpSubtype==d["testSubType"][0] and cognitiveTestsOfTypeResponse.difficulty[test_i]==d["difficulty"][0]):
               #maxidlist.append(cognitiveTestsOfTypeResponse.variation[test_i])
           ##print maxidlist
           #if (len(maxidlist)>0):
             #maxidlist=map(int, maxidlist)
             #calculatedVariationID=max(maxidlist)+1
-          ##print calculatedVariationID           
-        
+          ##print calculatedVariationID
+
         ##############
-        
+
         localPackagePath=rospack.get_path('rapp_cognitive_exercise')
         #inNodeName="/cognitiveTests/"+xmlFileName+"_var"+str(calculatedVariationID)+".xml"
         inNodeName="/cognitiveTests/"+xmlFileName+".xml"
         localPackagePath=localPackagePath+inNodeName
         tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
-        
+
         serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')
         if(not serv_topic):
           rospy.logerror("rapp_knowrob_wrapper_create_cognitve_tests not found")
@@ -231,35 +222,35 @@ class CognitiveTestCreator:
         #createTestReq.test_variation=calculatedVariationID#int(d["variationID"][0])
         createTestReq.test_difficulty=int(d["difficulty"][0])
         createTestReq.test_subtype=d["testSubType"][0]
-        createTestReq.test_path=inNodeName   
+        createTestReq.test_path=inNodeName
         createTestReq.supported_languages=supportedLanguages
-        knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)       
+        knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)
         createCognitiveTestResponse = knowrob_service(createTestReq)
-        if(createCognitiveTestResponse.success!=True):     
+        if(createCognitiveTestResponse.success!=True):
           res.trace.extend(createCognitiveTestResponse.trace)
           res.error=createCognitiveTestResponse.error
           res.success=False
           os.remove(localPackagePath)
-          return res       
+          return res
         ontologyName=createCognitiveTestResponse.test_name
         #print ontologyName
         tmp=ontologyName.split("#")
         ontologyName=tmp[1]
-        
+
         tree = ET.parse(localPackagePath)
         root = tree.getroot()
         ET.SubElement(root, "name").text = ontologyName
         self.indent(root)
-        os.remove(localPackagePath)        
-        #localPackagePath=localPackagePath+"_var"+str(calculatedVariationID)+".xml"        
+        os.remove(localPackagePath)
+        #localPackagePath=localPackagePath+"_var"+str(calculatedVariationID)+".xml"
         tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
-        
+
         res.success=True
       else:
-        #print "test "+fname +" is broken" 
-        res.error="test "+fname +" is broken" 
-        res.success=False     
-        
+        #print "test "+fname +" is broken"
+        res.error="test "+fname +" is broken"
+        res.success=False
+
     #except IndexError:
       #print "test "+fname +" is broken"
      # res.error="IndexError.. test "+fname +" is broken"
@@ -268,16 +259,16 @@ class CognitiveTestCreator:
       #print "IO Error, cannot open test file or write xml file"
       res.error="IO Error, cannot open test file or write xml file"
       res.success=False
-      
+
     return res
-  
+
   def is_int(self,s):
       try:
           int(s)
           return True
       except ValueError:
           return False
-          
+
   def indent(self, elem, level=0):
       i = "\n" + level*"  "
       if len(elem):

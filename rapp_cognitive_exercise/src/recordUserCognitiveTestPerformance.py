@@ -1,27 +1,19 @@
 #!/usr/bin/env python
 # -*- encode: utf-8 -*-
 
-#MIT License (MIT)
+#Copyright 2015 RAPP
 
-#Copyright (c) <2014> <Rapp Project EU>
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+    #http://www.apache.org/licenses/LICENSE-2.0
 
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
 
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
@@ -47,18 +39,18 @@ from rapp_platform_ros_communications.srv import (
   recordUserPerformanceCognitiveTestsSrvRequest,
   recordUserPerformanceCognitiveTestsSrvResponse
   )
-  
-from rapp_platform_ros_communications.msg import ( 
-  StringArrayMsg 
-  ) 
+
+from rapp_platform_ros_communications.msg import (
+  StringArrayMsg
+  )
 
 class RecordUserCognitiveTestPerformance:
 
   def recordPerformance(self,req):
     try:
-      res = recordUserCognitiveTestPerformanceSrvResponse() 
-      
-       
+      res = recordUserCognitiveTestPerformanceSrvResponse()
+
+
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
       if(not serv_topic):
         rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
@@ -69,24 +61,24 @@ class RecordUserCognitiveTestPerformance:
       rospy.wait_for_service(serv_topic)
       knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
       createOntologyAliasReq = createOntologyAliasSrvRequest()
-      createOntologyAliasReq.username=req.username    
+      createOntologyAliasReq.username=req.username
       createOntologyAliasResponse = knowrob_service(createOntologyAliasReq)
       if(createOntologyAliasResponse.success!=True):
         res.trace=createOntologyAliasResponse.trace
         res.error=createOntologyAliasResponse.error
         res.success=False
         return res
-      
+
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')
       if(not serv_topic):
         rospy.logerror("rapp_knowrob_wrapper_user_performance_cognitve_tests")
         res.trace.append("mysql_wrapper_rapp_read_data topic param not found")
         res.error="mysql_wrapper_rapp_read_data topic param not found"
         res.success=False
-        return res    
-        
-            
-      
+        return res
+
+
+
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_record_user_cognitive_tests_performance')
       if(not serv_topic):
         rospy.logerror("rapp_knowrob_wrapper_record_user_cognitive_tests_performance not found")
@@ -97,7 +89,7 @@ class RecordUserCognitiveTestPerformance:
       rospy.wait_for_service(serv_topic)
       knowrob_service = rospy.ServiceProxy(serv_topic, recordUserPerformanceCognitiveTestsSrv)
       userPerformanceEntry = recordUserPerformanceCognitiveTestsSrvRequest()
-      userPerformanceEntry.test=req.test 
+      userPerformanceEntry.test=req.test
       #userPerformanceEntry.test_type=req.testType
       userPerformanceEntry.patient_ontology_alias=createOntologyAliasResponse.ontology_alias
       userPerformanceEntry.timestamp=int(time.time())
@@ -112,19 +104,19 @@ class RecordUserCognitiveTestPerformance:
       else:
         res.success=True
         res.userCognitiveTestPerformanceEntry=userPerformanceEntryResponse.cognitive_test_performance_entry
-        
-    
+
+
     except IndexError:
       res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success=False
       #print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
-      print "Error: can\'t find login file or read data" 
+      print "Error: can\'t find login file or read data"
       res.success=False
       res.trace.append("Error: can\'t find login file or read data")
     return res
 
- 
 
-    
-    
+
+
+

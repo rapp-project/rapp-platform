@@ -6,7 +6,7 @@
 
   <maintainer email="akintsakis@issel.ee.auth.gr">Athanassios Kintsakis</maintainer>
 
-  <license>MIT</license>
+  <license>APACHE 2.0</license>
 
   <buildtool_depend>catkin</buildtool_depend>
 

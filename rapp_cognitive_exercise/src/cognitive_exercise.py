@@ -1,27 +1,19 @@
 #!/usr/bin/env python
 # -*- encode: utf-8 -*-
 
-#MIT License (MIT)
+#Copyright 2015 RAPP
 
-#Copyright (c) <2014> <Rapp Project EU>
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+    #http://www.apache.org/licenses/LICENSE-2.0
 
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
 
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
@@ -41,7 +33,7 @@ from recordUserCognitiveTestPerformance import RecordUserCognitiveTestPerformanc
 from cognitive_test_creator import CognitiveTestCreator
 
 from rapp_platform_ros_communications.srv import (
-  testSelectorSrv,  
+  testSelectorSrv,
   testSelectorSrvResponse,
   createOntologyAliasSrv,
   createOntologyAliasSrvRequest,
@@ -51,54 +43,54 @@ from rapp_platform_ros_communications.srv import (
   cognitiveTestCreatorSrv,
   cognitiveTestCreatorSrvResponse
   )
-  
-from rapp_platform_ros_communications.msg import ( 
-  StringArrayMsg 
-  ) 
-    
-from std_msgs.msg import ( 
-  String 
-  ) 
 
-class CognitiveExercise: 
-  
-  def __init__(self):   
+from rapp_platform_ros_communications.msg import (
+  StringArrayMsg
+  )
+
+from std_msgs.msg import (
+  String
+  )
+
+class CognitiveExercise:
+
+  def __init__(self):
     #tblUser services launch
     self.serv_topic = rospy.get_param("rapp_cognitive_exercise_chooser_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_cognitive_exercise_chooser_topic not found")   
-    self.serv=rospy.Service(self.serv_topic, testSelectorSrv, self.chooserDataHandler) 
-    
+      rospy.logerror("rapp_cognitive_exercise_chooser_topic not found")
+    self.serv=rospy.Service(self.serv_topic, testSelectorSrv, self.chooserDataHandler)
+
     self.serv_topic = rospy.get_param("rapp_cognitive_exercise_record_user_cognitive_test_performance_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_cognitive_exercise_record_user_cognitive_test_performance_topic not found")   
-    self.serv=rospy.Service(self.serv_topic, recordUserCognitiveTestPerformanceSrv, self.recordUserCognitiveTestPerformanceDataHandler) 
-           
+      rospy.logerror("rapp_cognitive_exercise_record_user_cognitive_test_performance_topic not found")
+    self.serv=rospy.Service(self.serv_topic, recordUserCognitiveTestPerformanceSrv, self.recordUserCognitiveTestPerformanceDataHandler)
+
     self.serv_topic = rospy.get_param("rapp_cognitive_test_creator_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_cognitive_test_creator_topic not found")   
-    self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.rcognitiveTestCreatorDataHandler) 
-            
-  #tblUser callbacks    
-  def chooserDataHandler(self,req):     
+      rospy.logerror("rapp_cognitive_test_creator_topic not found")
+    self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.rcognitiveTestCreatorDataHandler)
+
+  #tblUser callbacks
+  def chooserDataHandler(self,req):
     res = testSelectorSrvResponse()
-    it = TestSelector()    
-    res=it.chooserFunction(req) 
-    return res    
-    
-  def recordUserCognitiveTestPerformanceDataHandler(self,req):     
+    it = TestSelector()
+    res=it.chooserFunction(req)
+    return res
+
+  def recordUserCognitiveTestPerformanceDataHandler(self,req):
     res = recordUserCognitiveTestPerformanceSrvResponse()
-    it = RecordUserCognitiveTestPerformance()    
-    res=it.recordPerformance(req) 
-    return res   
-    
-  def rcognitiveTestCreatorDataHandler(self,req):     
+    it = RecordUserCognitiveTestPerformance()
+    res=it.recordPerformance(req)
+    return res
+
+  def rcognitiveTestCreatorDataHandler(self,req):
     res = cognitiveTestCreatorSrvResponse()
-    it = CognitiveTestCreator()    
-    res=it.testCreator(req) 
-    return res  
-    
-if __name__ == "__main__": 
+    it = CognitiveTestCreator()
+    res=it.testCreator(req)
+    return res
+
+if __name__ == "__main__":
   rospy.init_node('CognitiveExercise')
-  CognitiveExerciseNode = CognitiveExercise() 
+  CognitiveExerciseNode = CognitiveExercise()
   rospy.spin()

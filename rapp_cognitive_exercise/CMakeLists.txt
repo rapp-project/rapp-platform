@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rapp_cognitive_exercise)
+set(ROS_BUILD_TYPE Release)
 
 ## Find catkin macros and libraries
 find_package(catkin REQUIRED COMPONENTS
