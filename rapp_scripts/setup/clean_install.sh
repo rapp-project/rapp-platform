@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 
 ##
 # MIT License (MIT)
@@ -33,7 +33,7 @@
 # 14.04 install.
 
 #--------------------------------- Updates -----------------------------------#
-bash ./1_system_updates.sh || \
+./1_system_updates.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on system_updates";
     exit 1;
@@ -41,7 +41,7 @@ bash ./1_system_updates.sh || \
 sudo ldconfig
 source ~/.bashrc
 #-------------------------------- ROS setup ----------------------------------#
-bash ./2_ros_setup.sh || \
+./2_ros_setup.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on installing ROS";
     exit 1;
@@ -49,7 +49,7 @@ bash ./2_ros_setup.sh || \
 sudo ldconfig
 source ~/.bashrc
 #------------------------ Auxiliary packages install -------------------------#
-bash ./3_auxiliary_packages_setup.sh || \
+./3_auxiliary_packages_setup.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on installing auxiliary_packages";
     exit 1;
@@ -57,7 +57,7 @@ bash ./3_auxiliary_packages_setup.sh || \
 sudo ldconfig
 source ~/.bashrc
 #-------------------------------Github repos setup----------------------------#
-bash ./4_rosjava_setup.sh || \
+./4_rosjava_setup.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on installing rosjava";
     exit 1;
@@ -65,7 +65,7 @@ bash ./4_rosjava_setup.sh || \
 sudo ldconfig
 source ~/.bashrc
 
-bash ./5_knowrob_setup.sh || \
+./5_knowrob_setup.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on knowrob setup";
     exit 1;
@@ -73,7 +73,7 @@ bash ./5_knowrob_setup.sh || \
 sudo ldconfig
 source ~/.bashrc
 
-bash ./6_rapp_platform_setup.sh || \
+./6_rapp_platform_setup.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on rapp-platform setup";
     exit 1;
@@ -81,7 +81,7 @@ bash ./6_rapp_platform_setup.sh || \
 sudo ldconfig
 source ~/.bashrc
 
-bash ./7_sphinx_libraries.sh || \
+./7_sphinx_libraries.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on sphinx-libs setup";
     exit 1;
@@ -89,7 +89,7 @@ bash ./7_sphinx_libraries.sh || \
 sudo ldconfig
 source ~/.bashrc
 #-------------------------------MySQLsetup------------------------------------#
-bash ./8_mysql_install.sh || \
+./8_mysql_install.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on installing mysql";
     exit 1;
@@ -97,7 +97,7 @@ bash ./8_mysql_install.sh || \
 sudo ldconfig
 source ~/.bashrc
 
-sudo bash ./9_create_rapp_mysql_db.sh || \
+bash ./9_create_rapp_mysql_db.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on creating Rapp-db";
     exit 1;
@@ -105,7 +105,7 @@ sudo bash ./9_create_rapp_mysql_db.sh || \
 sudo ldconfig
 source ~/.bashrc
 
-bash ./10_create_rapp_mysql_users.sh || \
+./10_create_rapp_mysql_users.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on creating db-users";
     exit 1;
@@ -113,7 +113,7 @@ bash ./10_create_rapp_mysql_users.sh || \
 sudo ldconfig
 source ~/.bashrc
 #-------------------------------- HOP setup ----------------------------------#
-bash ./11_hop_setup.sh || \
+./11_hop_setup.sh || \
   {
     echo -e "[Error]: RAPP Platform installation failed on installing HOP";
     exit 1;

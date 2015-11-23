@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 
 ##
 # MIT License (MIT)
@@ -54,11 +54,10 @@ rosdep update
 
 # Setup environment
 echo -e "\e[1m\e[103m\e[31m [RAPP] Setup ROS environment \e[0m"
-append="source /opt/ros/indigo/setup.bash"
+append="source /opt/ros/indigo/setup.bash --extend"
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Load ROS environment variables\n${append}" \
   >> ~/.bashrc
-source ~/.bashrc
 
 # Install rosbridge_server. This will allow third party clients (web clients)
 # to connect to ROS.

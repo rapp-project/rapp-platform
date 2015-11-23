@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 
 ##
 # MIT License (MIT)
@@ -31,14 +31,9 @@
 #  Install mysql.
 ##
 
-# Explicity check the result of each command and return with fail status if
-# an error occures.
-set -e
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL install \e[0m"
 
 # Setup sources list
 sudo apt-get -y install mysql-client mysql-server
 sudo apt-get -y install python-mysqldb
-
-set +e

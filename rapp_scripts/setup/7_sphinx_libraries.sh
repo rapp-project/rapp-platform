@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ie
 
 ##
 # MIT License (MIT)
@@ -27,9 +27,6 @@
 # Contact: etsardou@iti.gr
 ##
 
-# Explicity check the result of each command and return with fail status if
-# an error occures.
-set -e
 
 RappPlatformPath="${HOME}/rapp_platform"
 cmusphinxUrl="git@github.com:skerit/cmusphinx"
@@ -59,5 +56,3 @@ make
 sudo make install
 cd ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_speech_detection_sphinx4/src
 bash buildJava.sh > /dev/null 2>&1
-
-set +e

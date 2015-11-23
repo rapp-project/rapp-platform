@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ie
 
 ##
 # MIT License (MIT)
@@ -26,10 +26,6 @@
 # Authors: Konstantinos Panyiotou
 # Contact: klpanagi@gmail.com
 ##
-
-# Explicity check the result of each command and return with fail status if
-# an error occures.
-set -e
 
 
 RappPlatformPath="${HOME}/rapp_platform"
@@ -77,5 +73,3 @@ sudo make install
 #mkdir -p $HOME/.config/hop
 #cd $curr/hop_init
 #cp  $HOME/.config/hop/
-
-set +e

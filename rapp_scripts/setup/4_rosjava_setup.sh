@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ie
 
 ##
 # MIT License (MIT)
@@ -31,25 +31,30 @@
 #  Installation of ros-indigo-desktop.
 ##
 
+RosjavaPath="${HOME}/rapp_platform/rosjava"
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Rosjava \e[0m"
 
 ### [Download and install rosjava for KnowRob to work] ###
 sudo apt-get update # Update aptitude package manager indexes.
 sudo apt-get install -y python-wstool
+
 # Create directory
-mkdir -p $HOME/rapp_platform/rosjava
-wstool init -j4 $HOME/rapp_platform/rosjava/src rosjava.rosinstall
-source /opt/ros/indigo/setup.bash
-cd $HOME/rapp_platform/rosjava
+if [ -d ${RosjavaPath} ]; then
+  rm -rf ${RosjavaPath}
+fi
+mkdir -p ${RosjavaPath}
+
+# Fetch repositories rosjava depends on, using the provided .rosinstall file.
+wstool init -j4 ${RosjavaPath}/src rosjava.rosinstall
+cd ${RosjavaPath}
 
 # Update rosdep with rosjava dependencies and install them.
 rosdep update
-rosdep install --from-paths src -i -y || { echo -e "[Error]: Failed to install rosjava dependencies"; exit 1; }
-source ~/.bashrc
+rosdep install --from-paths src -i -y
 
 # Build rosjava
-catkin_make || { echo -e "[Error]: Failed to build rosjava"; exit 1; }
+catkin_make
 
 # Append into user's .bashrc
 append="source ~/rapp_platform/rosjava/devel/setup.bash --extend"
@@ -59,5 +64,3 @@ grep -q "${append}" ~/.bashrc || echo -e          \
 append="export JAVA_HOME=/usr/lib/jvm/default-java"
 grep -q "${append}" ~/.bashrc || echo -e "${append}" >> ~/.bashrc
 echo 'export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/amd64/server:$LD_LIBRARY_PATH' >> ~/.bashrc
-
-source ~/.bashrc

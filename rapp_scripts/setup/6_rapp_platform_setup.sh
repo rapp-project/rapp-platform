@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ie
 
 ##
 # MIT License (MIT)
@@ -31,15 +31,11 @@
 #  Build Rapp Platform onto the system.
 ##
 
-# Explicity check the result of each command and return with fail status if
-# an error occures.
-set -e
 
 RappPlatformWs="${HOME}/rapp_platform/rapp-platform-catkin-ws"
 
 # Install libzbar used by the qr_detection module.
 sudo apt-get install -y libzbar-dev
-source ~/.bashrc
 sudo ldconfig
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Create Github folders \e[0m"
@@ -69,11 +65,7 @@ append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Rapp Platform\n${append}"                        \
   >> ~/.bashrc
-source ~/.bashrc
 echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python' >> ~/.bashrc
-source ~/.bashrc
 
 # catkin_make rapp-platform
 cd ${RappPlatformWs} && catkin_make -j1
-
-set +e

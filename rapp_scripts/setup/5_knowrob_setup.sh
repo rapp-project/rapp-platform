@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ie
 
 ##
 # MIT License (MIT)
@@ -33,9 +33,6 @@
 #    http://www.knowrob.org/
 ##
 
-# Explicity check the result of each command and return with fail status if
-# an error occures.
-set -e
 
 RappPlatformPath="${HOME}/rapp_platform"
 RappPlatformFilesPath="${HOME}/rapp_platform_files"
@@ -61,7 +58,7 @@ append="export SWI_HOME_DIR=/usr/lib/swi-prolog"
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Knowrob\n${append}"                        \
   >> ~/.bashrc
-source ~/.bashrc
+
 
 # Create directories to place knowrob catkin workspace
 if [ -d "${KnowrobPath}" ]; then
@@ -70,11 +67,12 @@ fi
 
 mkdir -p ${KnowrobPath} && cd ${KnowrobPath}
 mkdir src && cd src
-sudo ldconfig
-source ~/.bashrc
 
 # Initialize knowrob catkin workspace
 catkin_init_workspace
+cd ..
+catkin_make
+cd src
 
 # Fetch knowrob sources
 git clone https://github.com/rapp-project/knowrob.git
@@ -89,9 +87,3 @@ append="source ${KnowrobPath}/devel/setup.bash --extend"
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Knowrob\n${append}"                        \
   >> ~/.bashrc
-source ~/.bashrc
-
-sudo ldconfig
-source ~/.bashrc
-
-set +e
