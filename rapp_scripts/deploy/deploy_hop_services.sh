@@ -14,5 +14,6 @@ export JAVA_HOME=/usr/lib/jvm/default-java
 export SWI_HOME_DIR=/usr/lib/swi-prolog
 export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/amd64/server:$LD_LIBRARY_PATH
 
-HOP_SERVICES_PATH=$HOME/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/hop_services/run.sh
-bash $HOP_SERVICES_PATH
+HOP_SERVICES_PATH=$HOME/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/hop_services/
+cd  $HOP_SERVICES_PATH
+npm start

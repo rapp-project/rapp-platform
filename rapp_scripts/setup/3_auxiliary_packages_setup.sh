@@ -45,3 +45,5 @@ sudo apt-get install -y espeak
 sudo apt-get install -y mbrola*
 # Python package manager.
 sudo apt-get install -y python-pip
+#
+sudo apt-get install -y npm nodejs

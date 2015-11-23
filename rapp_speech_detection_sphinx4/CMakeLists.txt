@@ -32,7 +32,6 @@ if (CATKIN_ENABLE_TESTING)
   catkin_add_nosetests(tests/unit/limited_vocabulary_creator_unit_tests.py)
 
   # Functional
-  add_rostest(tests/functional/configure_functional.launch)
   add_rostest(tests/functional/batch_functional.launch)
 
 endif()
