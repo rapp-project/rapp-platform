@@ -1,27 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#MIT License (MIT)
+#Copyright 2015 RAPP
 
-#Copyright (c) <2014> <Rapp Project EU>
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+    #http://www.apache.org/licenses/LICENSE-2.0
 
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
 
 # Authors: Athanassios Kintsakis, Manos Tsardoulias
 # contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
@@ -42,7 +34,7 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4TotalSrv,
   SpeechRecognitionSphinx4TotalSrvResponse,
   SpeechRecognitionSphinx4TotalSrvRequest,
-  
+
   AudioProcessingDenoiseSrv,
   AudioProcessingDenoiseSrvResponse,
   AudioProcessingDenoiseSrvRequest
@@ -58,31 +50,31 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-class SpeechRecognitionTester: 
+class SpeechRecognitionTester:
 
   def setup_two_words_voc(self):
     spreq = SpeechRecognitionSphinx4ConfigureSrvRequest()
     spreq.language = 'el'
     spreq.words = []
     spreq.words.append(u'οχι')
-    spreq.words.append(u'ναι') 
-    spreq.words.append(u'αρκετα') 
-    spreq.words.append(u'ειμαι') 
-    spreq.words.append(u'εισαι') 
-    spreq.words.append(u'ειναι') 
-    spreq.words.append(u'φουρνος') 
-    spreq.words.append(u'γιατρος') 
-    #spreq.words.append(u'κατσε') 
-    #spreq.words.append(u'χαπια') 
-    #spreq.words.append(u'χαπι') 
-    #spreq.words.append(u'ρομποτ') 
-    #spreq.words.append(u'στειλε') 
-    #spreq.words.append(u'στειλεις') 
+    spreq.words.append(u'ναι')
+    spreq.words.append(u'αρκετα')
+    spreq.words.append(u'ειμαι')
+    spreq.words.append(u'εισαι')
+    spreq.words.append(u'ειναι')
+    spreq.words.append(u'φουρνος')
+    spreq.words.append(u'γιατρος')
+    #spreq.words.append(u'κατσε')
+    #spreq.words.append(u'χαπια')
+    #spreq.words.append(u'χαπι')
+    #spreq.words.append(u'ρομποτ')
+    #spreq.words.append(u'στειλε')
+    #spreq.words.append(u'στειλεις')
     spreq.sentences = spreq.words
     spreq.grammar = spreq.words
     return spreq
 
-  def __init__(self):   
+  def __init__(self):
 
     self.conf_sp_ser_top = \
         rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
@@ -100,7 +92,7 @@ class SpeechRecognitionTester:
     self.spreq = self.setup_two_words_voc()
     self.spreq.grammar = []
     self.spee_req = SpeechRecognitionSphinx4TotalSrvRequest()
-   
+
     if not (len(sys.argv) == 2 or len(sys.argv) == 4):
       print "Invalid number of arguments"
       return
@@ -118,7 +110,7 @@ class SpeechRecognitionTester:
     for i in range(0, replays):
       [notrec, failed ] = self.run(files, folder)
       #self.run(notrec + failed, folder)
-    
+
   def run(self, files, folder):
     success = 0
     total = 0
@@ -130,7 +122,7 @@ class SpeechRecognitionTester:
     response = []
 
     for f in files:
-      
+
       toprint = ""
 
       response = []
@@ -171,14 +163,14 @@ class SpeechRecognitionTester:
       self.spee_req.path = folder + f
       #self.spee_req.audio_source = 'headset'
       self.spee_req.audio_source = 'nao_wav_1_ch_only_sox'
-      #self.spee_req.audio_source = 'nao_wav_1_ch' 
-    
+      #self.spee_req.audio_source = 'nao_wav_1_ch'
+
       res = self.conf_sp_ser(self.spee_req)
 
       toprint += os.path.basename(self.spee_req.path) + " : "
       for word in res.words:
         toprint +="'" + word + "' "
-      
+
       ok = False
       while not ok:
         ok = True
@@ -187,7 +179,7 @@ class SpeechRecognitionTester:
             del res.words[i + 1]
             ok = False
             break;
-        
+
       total += 1
       if len(res.words) == 1:
         total_recognize += 1
@@ -201,12 +193,12 @@ class SpeechRecognitionTester:
         didnt_recognize += 1
         toprint = bcolors.WARNING + toprint + bcolors.ENDC
         not_recognized.append(f)
-      
+
       print toprint,
       if total_recognize != 0:
         print " / " + str(success * 1.0 / total_recognize * 100.0) + "%",
       print " / " + str(didnt_recognize*1.0 / total * 100.0) + "%"
-      
+
       # For debugging purposes
       #break
     print "-----Not recognized------"
@@ -215,7 +207,7 @@ class SpeechRecognitionTester:
     print "-----Errors------"
     for f in failed:
       print f
-    
+
     print "Total files: " + str(total)
     print "Recognized: " + str(total_recognize)
     print "Not recognized: " + str(didnt_recognize)
@@ -223,10 +215,10 @@ class SpeechRecognitionTester:
     print "Fails: " + str(len(failed))
 
     return [not_recognized, failed]
-      
+
 
 # Main function
-if __name__ == "__main__": 
+if __name__ == "__main__":
   rospy.init_node('SpeechRecognitionTester')
   SpeechRecognitionTesterNode = SpeechRecognitionTester()
   #rospy.spin()

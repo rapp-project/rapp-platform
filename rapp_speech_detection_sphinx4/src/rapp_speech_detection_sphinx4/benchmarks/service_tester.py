@@ -1,27 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#MIT License (MIT)
+#Copyright 2015 RAPP
 
-#Copyright (c) <2014> <Rapp Project EU>
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+    #http://www.apache.org/licenses/LICENSE-2.0
 
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
 
 # Authors: Athanassios Kintsakis, Manos Tsardoulias
 # contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
@@ -40,7 +32,7 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4TotalSrvRequest
   )
 
-class SpeechRecognitionTester: 
+class SpeechRecognitionTester:
 
   def setup_fifty_words_voc(self):
     spreq = SpeechRecognitionSphinx4ConfigureSrvRequest()
@@ -96,7 +88,7 @@ class SpeechRecognitionTester:
     spreq.words.append(u'χτές')
     spreq.words.append(u'αύριο')
     spreq.words.append(u'ο')
- 
+
     spreq.sentences = []
     spreq.sentences.append(u'όχι δε θυμάμαι')
     spreq.sentences.append(u'ναι στείλε ιμέηλ')
@@ -190,7 +182,7 @@ class SpeechRecognitionTester:
     spreq.grammar.append(u'(ίσως όχι)')
     spreq.grammar.append(u'(ίσως ναι)')
     spreq.grammar.append(u'(ναι ίσως)')
- 
+
     return spreq
 
   def setup_two_words_voc(self):
@@ -199,15 +191,15 @@ class SpeechRecognitionTester:
     spreq.words = []
     spreq.words.append(u'όχι')
     spreq.words.append(u'ναι')
-   
+
     spreq.sentences = []
     spreq.sentences.append(u'όχι')
     spreq.sentences.append(u'ναι')
-  
+
     spreq.grammar = []
     spreq.grammar.append(u'(όχι)')
     spreq.grammar.append(u'(ναι)')
-   
+
     return spreq
 
   def perform_experiment(self, file_path, int_words, grammar,\
@@ -233,7 +225,7 @@ class SpeechRecognitionTester:
 
     for i in range(0, experiments_number):
       self.counter += 1
-      spee_req.path = file_path   
+      spee_req.path = file_path
       spee_req.audio_source = audio_source
       res = self.conf_sp_ser(spee_req)
       print res
@@ -287,12 +279,12 @@ class SpeechRecognitionTester:
     else:
       return max(self.lcs(xstr, ys), self.lcs(xs, ystr), key=len)
 
-  def __init__(self):    
-     
+  def __init__(self):
+
     self.conf_sp_ser = rospy.ServiceProxy(\
         '/ric/speech_detection_sphinx4_batch',\
         SpeechRecognitionSphinx4TotalSrv)
-    
+
     self.two_words_res = [u'ναι', u'όχι', u'ναι']
     self.six_words_res = [u'ναι', u'μπορεί', u'δε', u'ξέρω', u'ίσως', u'όχι']
     self.fifty_words_res = ['πώς', 'σε', 'λένε', 'δε', 'θυμάμαι', 'ποιός', 'είσαι',\
@@ -302,22 +294,22 @@ class SpeechRecognitionTester:
 
     self.total_mean = 0.0
     self.counter = 0
-   
+
     noftests = 1
 
     # Must add grammar in the arguments
     filename = "/home/etsardou/recordings/benchmark_recordings/nao_ogg/original_ogg/nao_ogg_d05_a3.ogg"
     self.perform_experiment(filename, 50, "no_gr", noftests, "nao_ogg")
-  
+
     #filename = "/home/etsardou/recordings/benchmark_recordings/nao_wav/original_4_ch_48kHz/nao_wav_d05_a3.wav"
     #self.perform_experiment(filename, 50, "no_gr", noftests, "nao_wav_4_ch")
-    
+
     for el in self.overall_score:
       print el + " : " + str(self.overall_score[el]*100.0) + " %"
     print "Final overall: " + str(self.total_mean / self.counter * 100.0) + "%"
 
 # Main function
-if __name__ == "__main__": 
+if __name__ == "__main__":
   rospy.init_node('SpeechRecognitionTester')
   SpeechRecognitionTesterNode = SpeechRecognitionTester()
   #rospy.spin()

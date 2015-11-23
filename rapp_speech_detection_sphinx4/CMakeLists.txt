@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rapp_speech_detection_sphinx4)
+set(ROS_BUILD_TYPE Release)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -11,10 +12,10 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
   LIBRARIES
-  CATKIN_DEPENDS 
-    roscpp 
+  CATKIN_DEPENDS
+    roscpp
     roslib
-    rospy 
+    rospy
     std_msgs
     rapp_platform_ros_communications
 )

@@ -6,7 +6,7 @@
 
   <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
 
-  <license>TODO</license>
+  <license>APACHE 2.0</license>
 
   <buildtool_depend>catkin</buildtool_depend>
 

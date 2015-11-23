@@ -1,5 +1,19 @@
 #! /usr/bin/env python
 
+#Copyright 2015 RAPP
+
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+
+    #http://www.apache.org/licenses/LICENSE-2.0
+
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+
 import sys
 import unittest
 import roslib
@@ -12,8 +26,8 @@ from rapp_speech_detection_sphinx4 import RappError
 
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
-        self.module = LimitedVocabularyCreator() 
-    
+        self.module = LimitedVocabularyCreator()
+
     def tearDown(self):
         self.module = None
 
@@ -24,12 +38,12 @@ class TestAudioProcessing(unittest.TestCase):
         words['dyskolo'] = ['D','IH','S','K','OW','L','OW']
         grammar = ['autos', 'dyskolo', 'autos dyskolo']
         sentences = ['autos', 'dyskolo']
-        
+
         try:
             conf = self.module.createConfigurationFiles(words, grammar, sentences)
         except RappError as e:
             self.assertEqual(e.value, True)
-            
+
         # Check if files are there
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')
