@@ -1,5 +1,19 @@
 #!/usr/bin/env python
 
+#Copyright 2015 RAPP
+
+#Licensed under the Apache License, Version 2.0 (the "License");
+#you may not use this file except in compliance with the License.
+#You may obtain a copy of the License at
+
+    #http://www.apache.org/licenses/LICENSE-2.0
+
+#Unless required by applicable law or agreed to in writing, software
+#distributed under the License is distributed on an "AS IS" BASIS,
+#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#See the License for the specific language governing permissions and
+#limitations under the License.
+
 PKG='rapp_knowrob_wrapper'
 
 import sys
@@ -26,7 +40,7 @@ class OntologyFunc(unittest.TestCase):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
-        
+
         test_service = rospy.ServiceProxy(\
                 subclasses_of_service, ontologySubSuperClassesOfSrv)
 
@@ -43,7 +57,7 @@ class OntologyFunc(unittest.TestCase):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
-        
+
         test_service = rospy.ServiceProxy(\
                 subclasses_of_service, ontologySubSuperClassesOfSrv)
         for i in range(0,100):
@@ -59,7 +73,7 @@ class OntologyFunc(unittest.TestCase):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
-        
+
         test_service = rospy.ServiceProxy(\
                 subclasses_of_service, ontologySubSuperClassesOfSrv)
 
@@ -75,7 +89,7 @@ class OntologyFunc(unittest.TestCase):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
-        
+
         test_service = rospy.ServiceProxy(\
                 subclasses_of_service, ontologySubSuperClassesOfSrv)
 
@@ -95,7 +109,7 @@ class OntologyFunc(unittest.TestCase):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
         rospy.wait_for_service(subclasses_of_service)
-        
+
         test_service = rospy.ServiceProxy(\
                 subclasses_of_service, ontologySubSuperClassesOfSrv)
 
@@ -113,7 +127,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologySubSuperClassesOfSrv)
 
@@ -127,7 +141,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologySubSuperClassesOfSrv)
 
@@ -147,7 +161,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologySubSuperClassesOfSrv)
 
@@ -162,7 +176,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologySubSuperClassesOfSrv)
 
@@ -179,7 +193,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
@@ -195,7 +209,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
@@ -211,7 +225,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
@@ -227,7 +241,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
@@ -243,7 +257,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
@@ -261,7 +275,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
@@ -279,7 +293,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
@@ -297,7 +311,7 @@ class OntologyFunc(unittest.TestCase):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
         rospy.wait_for_service(service_name)
-        
+
         test_service = rospy.ServiceProxy(\
                 service_name, ontologyIsSubSuperClassOfSrv)
 
