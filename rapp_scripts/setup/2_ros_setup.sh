@@ -63,3 +63,5 @@ source ~/.bashrc
 # Install rosbridge_server. This will allow third party clients (web clients)
 # to connect to ROS.
 sudo apt-get install -y ros-indigo-rosbridge-server
+sudo apt-get install -y ros-indigo-global-planner
+sudo apt-get install -y ros-indigo-map-server
