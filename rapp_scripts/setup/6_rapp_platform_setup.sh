@@ -70,7 +70,7 @@ grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Rapp Platform\n${append}"                        \
   >> ~/.bashrc
 source ~/.bashrc
-echo "export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python" >> ~/.bashrc
+echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python' >> ~/.bashrc
 source ~/.bashrc
 
 # catkin_make rapp-platform
