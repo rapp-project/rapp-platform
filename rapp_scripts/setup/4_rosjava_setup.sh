@@ -58,6 +58,6 @@ grep -q "${append}" ~/.bashrc || echo -e          \
   >> ~/.bashrc
 append="export JAVA_HOME=/usr/lib/jvm/default-java"
 grep -q "${append}" ~/.bashrc || echo -e "${append}" >> ~/.bashrc
-echo "export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/amd64/server:$LD_LIBRARY_PATH" >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/default-java/jre/lib/amd64/server:$LD_LIBRARY_PATH' >> ~/.bashrc
 
 source ~/.bashrc
