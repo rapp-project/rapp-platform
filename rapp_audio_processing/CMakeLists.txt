@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rapp_audio_processing)
+set(ROS_BUILD_TYPE Release)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
