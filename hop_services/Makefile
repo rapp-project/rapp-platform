@@ -7,7 +7,7 @@ jshint:
 
 doc:
 	mkdir doc/
-	jsdoc -c doc_conf.json
+	jsdoc -c config/doc_conf.json
 
 clean:
 	rm -rf doc/
