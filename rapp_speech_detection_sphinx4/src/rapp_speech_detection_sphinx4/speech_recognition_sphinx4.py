@@ -15,7 +15,7 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-# Authors: Athanassios Kintsakis, Aris Thallas Manos Tsardoulias
+# Authors: Athanassios Kintsakis, Aris Thallas, Manos Tsardoulias
 # contact: akintsakis@issel.ee.auth.gr, aris.thallas@{iti.gr, gmail.com}, etsardou@iti.gr
 
 import rospy

@@ -15,16 +15,18 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-# Authors: Athanassios Kintsakis, Manos Tsardoulias
-# contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
+# Authors: Athanassios Kintsakis, Aris Thallas, Manos Tsardoulias
+# contact: akintsakis@issel.ee.auth.gr, aris.thallas@{iti.gr, gmail.com}, etsardou@iti.gr
 
 
 import rospy
 import sys
+import re
 import mmap
 
 from global_parameters import GlobalParams
 from rapp_exceptions import RappError
+from english_support import *
 from limited_vocabulary_creator import *
 from rapp_tools import *
 
@@ -60,6 +62,7 @@ class GreekSupport(GlobalParams):
       'grammar_disabled' : True
       }
 
+    self._english_support = EnglishSupport()
     # Open the generic english dictionary file
     # NOTE: Fix this according to the Greek generic dictionary
     #try:
@@ -322,44 +325,86 @@ class GreekSupport(GlobalParams):
       englified_words.append(eng_w)
     return englified_words
 
+
+  def separateEngGrWords(self, words, grammar, sentences):
+
+    english_words = []
+    english_grammar = []
+    english_sentences = []
+    greek_words = []
+    greek_grammar = []
+    greek_sentences = []
+
+    for word in words:
+      if re.match('[a-zA-Z\-]', word):
+        rapp_print( "English word: " + str(word) )
+        english_words.append( word )
+      else:
+        rapp_print( "Greek word: " + str(word) )
+        greek_words.append( word )
+
+    for word in grammar:
+      if re.match('[a-zA-Z\-]', word):
+        rapp_print( "English grammar: " + str(word) )
+        english_grammar.append( word )
+      else:
+        rapp_print( "Greek grammar: " + str(word) )
+        greek_grammar.append( word )
+
+    for word in sentences:
+      if re.match('[a-zA-Z\-]', word):
+        rapp_print( "English sentence: " + str(word) )
+        english_sentences.append( word )
+      else:
+        rapp_print( "Greek sentence: " + str(word) )
+        greek_sentences.append( word )
+
+    return [ english_words, english_grammar, english_sentences, greek_words, \
+    greek_grammar, greek_sentences ]
+
+
   # Returns [conf, englified, status]
   # - conf is the configuration
   # - englified is a dictionary of the englified words
   # - status is either error (string) or True (bool)
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
-    enhanced_words = {}
-    # NOTE: The following should work with the Greek generic dictionary
-    #for word in words:
-      #index = self.english_dict_mapping.find("\n" + word + " ")
-      #if  index == -1:
-        #print "ERROR: Word " + word + " does not exist in the English Dictionary"
-      #else:
-        #self.english_dict_file.seek(index + 1) # +1 because of the extra \n
-        #line = self.english_dict_file.readline()
-        #line = line[:-1] # to erase the \n
-        #split_line = line.split(" ")
-        #enhanced_words[split_line[0]] = []
-        #for i in range(1, len(split_line)):
-          #enhanced_words[split_line[0]].append(split_line[i])
 
-    [tr_words, englified] = self.transformWords(words)
-    #for w in tr_words:
-      #print w + " = "
-      #for p in tr_words[w]:
-        #print p + ' '
-      #print "\n"
-    #for en in englified:
-      #print en + " " + englified[en] + '\n'
-    englified_grammar = self.englify_words(grammar)
-    englified_sentences = self.englify_words(sentences)
+    # Seperate English for Greek words
+    [ english_words, english_grammar, english_sentences, \
+      greek_words, greek_grammar, greek_sentences ] = \
+      self.separateEngGrWords( words, grammar, sentences )
+
+    # Get phonemes for Greek words and dictionary for Englified->Greek mapping
+    [englified_phonems_dict, englified_to_greek_dict] = \
+        self.transformWords( greek_words )
+
+    # Append english words to Englified->Greek mapping dictionary
+    for word in english_words:
+      englified_to_greek_dict.update( {word: word} )
+
+    # Get phonemes for English words
+    english_phonem_dict = self._english_support.getWordPhonemes( english_words )
+
+    # Englify Greek grammar and sentences
+    englified_grammar = self.englify_words(greek_grammar)
+    englified_sentences = self.englify_words(greek_sentences)
+
+
+    # Join English and Greek processed files
+    final_phoneme_dict = english_phonem_dict
+    final_phoneme_dict.update(englified_phonems_dict)
+    final_sentences = englified_sentences + english_sentences
+    final_grammar = english_grammar + englified_grammar
+
     try:
         self.limited_sphinx_configuration = \
-            self.vocabulary.createConfigurationFiles(tr_words, englified_grammar , \
-            englified_sentences)
+            self.vocabulary.createConfigurationFiles( \
+              final_phoneme_dict, final_grammar, final_sentences
+            )
     except RappError as e:
         raise RappError(e.value)
 
-    return [self.limited_sphinx_configuration, englified]
+    return [self.limited_sphinx_configuration, englified_to_greek_dict]
 
   def getGenericConfiguration(self):
     return self.generic_sphinx_configuration

@@ -14,8 +14,8 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-# Authors: Athanassios Kintsakis, Manos Tsardoulias
-# contact: akintsakis@issel.ee.auth.gr, etsardou@iti.gr
+# Authors: Athanassios Kintsakis, Aris Thallas, Manos Tsardoulias
+# contact: akintsakis@issel.ee.auth.gr, aris.thallas@{iti.gr, gmail.com}, etsardou@iti.gr
 
 
 import rospy
@@ -68,12 +68,8 @@ class EnglishSupport(GlobalParams):
     self.english_dict_mapping = mmap.mmap(self.english_dict_file.fileno(), 0, \
         access = mmap.ACCESS_READ)
 
-  # Returns [conf, status]
-  # conf is the configuration
-  # status is either error (string) or True (bool)
-  def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
+  def getWordPhonemes(self, words):
     enhanced_words = {}
-    rapp_print(words)
     for word in words:
       inner_words = []
       inner_phonemes = []
@@ -106,6 +102,16 @@ class EnglishSupport(GlobalParams):
             for i in range(1, len(split_line)):
               inner_phonemes.append(split_line[i])
       enhanced_words[word] = inner_phonemes
+
+    return enhanced_words
+
+  # Returns [conf, status]
+  # conf is the configuration
+  # status is either error (string) or True (bool)
+  def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
+    rapp_print(words)
+
+    enhanced_words = self.getWordPhonemes( words )
 
     try:
         self.limited_sphinx_configuration= \

@@ -16,6 +16,14 @@
 
 import sys
 import rospy
+import inspect
 
 def rapp_print(var):
-    rospy.logdebug( str(var) )
+
+  callerframerecord = inspect.stack()[1]
+
+  frame = callerframerecord[0]
+  info = inspect.getframeinfo(frame)
+
+  rospy.logdebug( '[ FUNCTION: ' + info.function + ', LINE: ' + \
+      str(info.lineno) + ' ]: ' + str(var) )
