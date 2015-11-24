@@ -265,6 +265,30 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         if ( response.words != ['ναι', 'όχι', 'ναι'] ):
             self.assertEqual( 'Word miss-match', '' )
 
+    def test_batchServiceMultilanguage(self):
+        rospack = rospkg.RosPack()
+        aux = rospack.get_path('rapp_testing_tools') + '/test_data'
+
+        conf_service = rospy.get_param(\
+            "rapp_speech_detection_sphinx4_total_topic")
+        rospy.wait_for_service(conf_service)
+        test_service = rospy.ServiceProxy(\
+            conf_service, SpeechRecognitionSphinx4TotalSrv)
+
+        req = SpeechRecognitionSphinx4TotalSrvRequest()
+        req.language = 'el'
+        req.words = ['στειλε', 'mail']
+        req.grammar = []
+        req.sentences = req.words
+        req.path = aux + '/steile_mail.wav'
+        req.audio_source = 'headset'
+        req.user = 'rapp'
+
+        response = test_service(req)
+        self.assertEqual( response.error, '' )
+        if ( response.words != ['στειλε', 'mail'] ):
+            self.assertEqual( 'Word miss-match', '' )
+
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'SpeechDetSphinx4Func', SpeechDetSphinx4Func)
