@@ -75,7 +75,7 @@ class SpeechToTextGoogle:
                 req.user,\
                 req.audio_type,\
                 req.language)
-        print transcripts
+        #print transcripts
     except RappError as e:
         res.error = e.value
         return res
