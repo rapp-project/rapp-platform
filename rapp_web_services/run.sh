@@ -101,8 +101,8 @@ WARN_LEVEL=1 #10 Default
 SECURITY_LEVEL=0
 
 ##      HOP RC      ##
-USERS=${CFG_DIR}/users.js
-RC_FILE=${USERS}
+RC_FILENAME="hoprc.js"
+RC_FILE="${CFG_DIR}/${RC_FILENAME}"
 
 
 ################################################################################
