@@ -76,8 +76,15 @@ class CognitiveExercise:
       rospy.logerror("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
     rospy.wait_for_service(self.serv_topic)
     
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_record_user_cognitive_tests_performance')
+    if(not serv_topic):
+      rospy.logerror("rapp_knowrob_wrapper_record_user_cognitive_tests_performance not found") 
+    rospy.wait_for_service(serv_topic)    
     
-    
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')
+    if(not serv_topic):
+      rospy.logerror("rapp_knowrob_wrapper_create_cognitve_tests not found")
+    rospy.wait_for_service(serv_topic) 
 
     self.serv_topic = rospy.get_param("rapp_cognitive_exercise_chooser_topic")
     if(not self.serv_topic):

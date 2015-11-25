@@ -47,8 +47,7 @@ class CognitiveTestCreator:
   def testCreator(self,req):
     res=cognitiveTestCreatorSrvResponse()
     fname=req.inputFile
-
-
+    
     d=dict()
     questions=dict()
     answers=dict()
@@ -59,7 +58,8 @@ class CognitiveTestCreator:
     supportedLanguages=[]
     flag=False
     questionsStart=False
-    count=0
+    count=0    
+    
     try:
       with open(fname) as f:
         content = f.readlines()
@@ -67,7 +67,6 @@ class CognitiveTestCreator:
         if (":" in s):
           s=s.strip()
           tmp=s.split(":")
-          #print tmp[1]
           if(tmp[0] == "Difficulty" or tmp[0]=="variationID"):
             if (not self.is_int(tmp[1])):
               res.trace.append("error, difficulty or variation ID is not an integer")
@@ -77,7 +76,6 @@ class CognitiveTestCreator:
               flag=False
               res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size")
               break
-            #print "tt "+tmp[1]
             supportedLanguages.append(tmp[1])
             listQuestions.append(questions.copy())
             questions.clear()
@@ -115,7 +113,6 @@ class CognitiveTestCreator:
         flag=False
         res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size")
       else:
-        #print questions
         listQuestions.append(questions.copy())
         questions.clear()
         listAnswers.append(answers.copy())
@@ -123,44 +120,23 @@ class CognitiveTestCreator:
         listCorrectAnswers.append(correctAnswers.copy())
         correctAnswers.clear()
       xmlFileName=""
-      #print "reading finished"
       if(flag):
-        #res.trace.append("test seems good")
-        #xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_"+"var"+d["variationID"][0]+".xml"
         xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]
-
-
-
-        #print xmlFileName
         root = ET.Element("cognitiveTest")
-        #ET.SubElement(root, "name").text = ontologyName
-        ET.SubElement(root, "testType").text = d["testType"][0]
-        #ET.SubElement(root, "variationID").text = d["variationID"][0]
-        #ET.SubElement(root, "difficulty").text = d["difficulty"][0]
+        ET.SubElement(root, "testType").text = d["testType"][0] 
         ET.SubElement(root, "testSubType").text = d["testSubType"][0]
-        #ET.SubElement(root, "Questions")
         Languages=ET.SubElement(root,"Languages")
-        #print "count "+str(count)
-        #print len(listQuestions)
+        
         for l in range(1,len(listQuestions)):
-          #print supportedLanguages[l-1]
-          questions=listQuestions[l]
-          #print questions
-          answers=listAnswers[l]
-          #print answers
-          correctAnswers=listCorrectAnswers[l]
-          #print correctAnswers
+          questions=listQuestions[l] 
+          answers=listAnswers[l]    
+          correctAnswers=listCorrectAnswers[l] 
           currentLanguage=ET.SubElement(Languages, supportedLanguages[l-1])
           for i in range(1,count+1):
             nm="Q"+str(i)
-            #ET.SubElement(Questions, "Question", name=nm)
-
             Q=ET.SubElement(currentLanguage, "Question", name=nm)
             nm="question"+str(i)
-            #print nm
-            #print questions[nm]
-            #print questions
-            ET.SubElement(Q, "body").text = questions[nm].decode('UTF-8')#[0]
+            ET.SubElement(Q, "body").text = questions[nm].decode('UTF-8')
             nm="answers"+str(i)
             answs=answers[nm].split(",")
             for j in answs:
@@ -172,6 +148,87 @@ class CognitiveTestCreator:
 
         tree = ET.ElementTree(root)
         rospack = rospkg.RosPack()
+
+
+        localPackagePath=rospack.get_path('rapp_cognitive_exercise')
+        inNodeName="/cognitiveTests/"+xmlFileName+".xml"
+        localPackagePath=localPackagePath+inNodeName
+        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
+
+        serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')
+        #if(not serv_topic):
+          #rospy.logerror("rapp_knowrob_wrapper_create_cognitve_tests not found")
+          #res.trace.append("rapp_knowrob_wrapper_create_cognitve_tests not found")
+          #res.error="rapp_knowrob_wrapper_create_cognitve_tests not found"
+          #res.success=False
+          #os.remove(localPackagePath)
+          #return res
+          
+        createTestReq=createCognitiveExerciseTestSrvRequest()
+        createTestReq.test_type=d["testType"][0]
+        createTestReq.test_difficulty=int(d["difficulty"][0])
+        createTestReq.test_subtype=d["testSubType"][0]
+        createTestReq.test_path=inNodeName
+        createTestReq.supported_languages=supportedLanguages
+        knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)
+        createCognitiveTestResponse = knowrob_service(createTestReq)
+        if(createCognitiveTestResponse.success!=True):
+          res.trace.extend(createCognitiveTestResponse.trace)
+          res.error=createCognitiveTestResponse.error
+          res.success=False
+          os.remove(localPackagePath)
+          return res
+          
+        ontologyName=createCognitiveTestResponse.test_name
+        tmp=ontologyName.split("#")
+        ontologyName=tmp[1]
+
+        tree = ET.parse(localPackagePath)
+        root = tree.getroot()
+        ET.SubElement(root, "name").text = ontologyName
+        self.indent(root)
+        os.remove(localPackagePath)
+        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
+        res.success=True
+        
+      else:
+        res.error="test "+fname +" is broken"
+        res.success=False
+
+    except IndexError:
+      #print "test "+fname +" is broken"
+      res.error="IndexError.. test "+fname +" is broken"
+      res.success=False
+    except IOError:
+      #print "IO Error, cannot open test file or write xml file"
+      res.error="IO Error, cannot open test file or write xml file"
+      res.success=False
+
+    return res
+
+  def is_int(self,s):
+      try:
+          int(s)
+          return True
+      except ValueError:
+          return False
+
+  def indent(self, elem, level=0):
+      i = "\n" + level*"  "
+      if len(elem):
+          if not elem.text or not elem.text.strip():
+              elem.text = i + "  "
+          if not elem.tail or not elem.tail.strip():
+              elem.tail = i
+          for elem in elem:
+              self.indent(elem, level+1)
+          if not elem.tail or not elem.tail.strip():
+              elem.tail = i
+      else:
+          if level and (not elem.tail or not elem.tail.strip()):
+              elem.tail = i
+
+
 
 
         #get the cognitive test_id
@@ -202,84 +259,3 @@ class CognitiveTestCreator:
           ##print calculatedVariationID
 
         ##############
-
-        localPackagePath=rospack.get_path('rapp_cognitive_exercise')
-        #inNodeName="/cognitiveTests/"+xmlFileName+"_var"+str(calculatedVariationID)+".xml"
-        inNodeName="/cognitiveTests/"+xmlFileName+".xml"
-        localPackagePath=localPackagePath+inNodeName
-        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
-
-        serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')
-        if(not serv_topic):
-          rospy.logerror("rapp_knowrob_wrapper_create_cognitve_tests not found")
-          res.trace.append("rapp_knowrob_wrapper_create_cognitve_tests not found")
-          res.error="rapp_knowrob_wrapper_create_cognitve_tests not found"
-          res.success=False
-          os.remove(localPackagePath)
-          return res
-        createTestReq=createCognitiveExerciseTestSrvRequest()
-        createTestReq.test_type=d["testType"][0]
-        #createTestReq.test_variation=calculatedVariationID#int(d["variationID"][0])
-        createTestReq.test_difficulty=int(d["difficulty"][0])
-        createTestReq.test_subtype=d["testSubType"][0]
-        createTestReq.test_path=inNodeName
-        createTestReq.supported_languages=supportedLanguages
-        knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)
-        createCognitiveTestResponse = knowrob_service(createTestReq)
-        if(createCognitiveTestResponse.success!=True):
-          res.trace.extend(createCognitiveTestResponse.trace)
-          res.error=createCognitiveTestResponse.error
-          res.success=False
-          os.remove(localPackagePath)
-          return res
-        ontologyName=createCognitiveTestResponse.test_name
-        #print ontologyName
-        tmp=ontologyName.split("#")
-        ontologyName=tmp[1]
-
-        tree = ET.parse(localPackagePath)
-        root = tree.getroot()
-        ET.SubElement(root, "name").text = ontologyName
-        self.indent(root)
-        os.remove(localPackagePath)
-        #localPackagePath=localPackagePath+"_var"+str(calculatedVariationID)+".xml"
-        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
-
-        res.success=True
-      else:
-        #print "test "+fname +" is broken"
-        res.error="test "+fname +" is broken"
-        res.success=False
-
-    #except IndexError:
-      #print "test "+fname +" is broken"
-     # res.error="IndexError.. test "+fname +" is broken"
-      #res.success=False
-    except IOError:
-      #print "IO Error, cannot open test file or write xml file"
-      res.error="IO Error, cannot open test file or write xml file"
-      res.success=False
-
-    return res
-
-  def is_int(self,s):
-      try:
-          int(s)
-          return True
-      except ValueError:
-          return False
-
-  def indent(self, elem, level=0):
-      i = "\n" + level*"  "
-      if len(elem):
-          if not elem.text or not elem.text.strip():
-              elem.text = i + "  "
-          if not elem.tail or not elem.tail.strip():
-              elem.tail = i
-          for elem in elem:
-              self.indent(elem, level+1)
-          if not elem.tail or not elem.tail.strip():
-              elem.tail = i
-      else:
-          if level and (not elem.tail or not elem.tail.strip()):
-              elem.tail = i

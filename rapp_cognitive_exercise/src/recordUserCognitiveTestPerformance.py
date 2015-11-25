@@ -49,16 +49,8 @@ class RecordUserCognitiveTestPerformance:
   def recordPerformance(self,req):
     try:
       res = recordUserCognitiveTestPerformanceSrvResponse()
-
-
+      
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
-      if(not serv_topic):
-        rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
-        res.trace.append("mysql_wrapper_rapp_read_data topic param not found")
-        res.error="mysql_wrapper_rapp_read_data topic param not found"
-        res.success=False
-        return res
-      rospy.wait_for_service(serv_topic)
       knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
       createOntologyAliasReq = createOntologyAliasSrvRequest()
       createOntologyAliasReq.username=req.username
@@ -69,32 +61,15 @@ class RecordUserCognitiveTestPerformance:
         res.success=False
         return res
 
-      serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')
-      if(not serv_topic):
-        rospy.logerror("rapp_knowrob_wrapper_user_performance_cognitve_tests")
-        res.trace.append("mysql_wrapper_rapp_read_data topic param not found")
-        res.error="mysql_wrapper_rapp_read_data topic param not found"
-        res.success=False
-        return res
-
-
-
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_record_user_cognitive_tests_performance')
-      if(not serv_topic):
-        rospy.logerror("rapp_knowrob_wrapper_record_user_cognitive_tests_performance not found")
-        res.trace.append("rapp_knowrob_wrapper_record_user_cognitive_tests_performance topic param not found")
-        res.error="rapp_knowrob_wrapper_record_user_cognitive_tests_performance topic param not found"
-        res.success=False
-        return res
-      rospy.wait_for_service(serv_topic)
       knowrob_service = rospy.ServiceProxy(serv_topic, recordUserPerformanceCognitiveTestsSrv)
       userPerformanceEntry = recordUserPerformanceCognitiveTestsSrvRequest()
       userPerformanceEntry.test=req.test
-      #userPerformanceEntry.test_type=req.testType
       userPerformanceEntry.patient_ontology_alias=createOntologyAliasResponse.ontology_alias
       userPerformanceEntry.timestamp=int(time.time())
       userPerformanceEntry.score=req.score
       userPerformanceEntryResponse = knowrob_service(userPerformanceEntry)
+      
       if(userPerformanceEntryResponse.success!=True):
         res.trace=userPerformanceEntryResponse.trace
         res.trace.append("Submitting query to ontology failed, either test or user ontology alias do not exist or test not of the given type")
@@ -105,11 +80,9 @@ class RecordUserCognitiveTestPerformance:
         res.success=True
         res.userCognitiveTestPerformanceEntry=userPerformanceEntryResponse.cognitive_test_performance_entry
 
-
     except IndexError:
       res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success=False
-      #print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
     except IOError:
       print "Error: can\'t find login file or read data"
       res.success=False
