@@ -16,11 +16,15 @@
 
 import sys
 
+## @class RappError
+# Inherits Exception and is used to catch only RAPP-specific exceptions
 class RappError(Exception):
   """Error handling in RAPP"""
 
+  ## Default contructor
   def __init__(self, value):
     self.value = value
 
+  ## Returns the error in a string form
   def __str__(self):
     return repr(self.value)

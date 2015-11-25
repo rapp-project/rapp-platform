@@ -27,8 +27,11 @@ from rapp_platform_ros_communications.srv import (
   SpeechToTextSrvRequest
   )
 
+## @class SpeechToTextFunc
+# Inherits the unittest.TestCase class in order to offer functional tests functionality
 class SpeechToTextFunc(unittest.TestCase):
 
+    ## Tests Google ASR with a NAO captured wav file, 1 channel. Should return yes and no
     def test_wavFile(self):
         rospack = rospkg.RosPack()
         google_service = rospy.get_param(\
@@ -49,6 +52,7 @@ class SpeechToTextFunc(unittest.TestCase):
         self.assertEqual( 'yes' in response.words, True)
         self.assertEqual( 'no' in response.words, True)
 
+    ## Tests Google ASR with a NAO recorded ogg file. Should return "Monday"
     def test_wavFile_2(self):
         rospack = rospkg.RosPack()
         google_service = rospy.get_param(\
@@ -68,6 +72,7 @@ class SpeechToTextFunc(unittest.TestCase):
         self.assertEqual( words_basic, 1)
         self.assertEqual( 'Monday' in response.words, True)
 
+    ## Tests Google ASR with an image. Should return nothing
     def test_imageFile(self):
         rospack = rospkg.RosPack()
         google_service = rospy.get_param(\
@@ -89,6 +94,7 @@ class SpeechToTextFunc(unittest.TestCase):
         # Check number of alternatives
         self.assertEqual( len(response.alternatives), 0)
 
+    ## Tests Google ASR with a missing file. Should return nothing
     def test_notExistentFile(self):
         rospack = rospkg.RosPack()
         google_service = rospy.get_param(\
@@ -104,14 +110,13 @@ class SpeechToTextFunc(unittest.TestCase):
         response = stt_service(req)
         words_basic = len(response.words)
 
-        # self.assertEqual(response.words, 1)
-
         # Check number of words
         self.assertEqual( words_basic, 0)
 
         # Check number of alternatives
         self.assertEqual( len(response.alternatives), 0)
 
+## The main function. Initializes the Google ASR functional tests
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'SpeechToTextFunc', SpeechToTextFunc)

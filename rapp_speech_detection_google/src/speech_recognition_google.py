@@ -52,8 +52,11 @@ from rapp_platform_ros_communications.msg import (
 
 from rapp_exceptions import RappError
 
+## @class SpeechToTextGoogle
+# Implements calls the Google ASR API
 class SpeechToTextGoogle:
 
+  ## Default contructor. Declares the service callback
   def __init__(self):
     # Speech recognition service published
     self.serv_topic = rospy.get_param("rapp_speech_detection_google_detect_speech_topic")
@@ -63,7 +66,8 @@ class SpeechToTextGoogle:
     self.serv = rospy.Service(self.serv_topic, \
         SpeechToTextSrv, self.speech_to_text_callback)
 
-  # The service callback
+  ## @brief The service callback
+  # @param req [SpeechToTextSrvRequest] The ROS service request
   def speech_to_text_callback(self, req):
 
     res = SpeechToTextSrvResponse()
@@ -110,7 +114,12 @@ class SpeechToTextGoogle:
     return res
 
 
-  #NOTE The audio file should be flac to work.
+  ## @brief Performs the call to Google API
+  # @param file_path [string] The audio file
+  # @param user [string] The username
+  # @param audio_type [string] Used to check if denoising is needed. Can be one of headset, nao_ogg, nao_wav_1_ch, nao_wav_4_ch
+  # @param language [string] The language in which the ASR will be performed
+  # @return The transcript from Google
   def speech_to_text(self, file_path, user, audio_file_type, language):
 
     # Check the user
@@ -270,6 +279,7 @@ class SpeechToTextGoogle:
             raise RappError("Error: Removal of temporary file malfunctioned")
     return jsdata
 
+## The main function. Creates a SpeechToTextGoogle object
 if __name__ == "__main__":
   rospy.init_node('speech_to_text_ros_node')
   speech_to_text_node = SpeechToTextGoogle()
