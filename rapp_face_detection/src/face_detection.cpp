@@ -17,8 +17,13 @@ limitations under the License.
 
 #include <face_detection/face_detection.h>
 
+
+/** 
+ * @brief Default constructor. Performs initializations.
+ */
 FaceDetection::FaceDetection(void)
 {
+  // Fetching the service topic URI parameter
   if(!nh_.getParam("/rapp_face_detection_detect_faces_topic", faceDetectionTopic_))
   {
     ROS_ERROR("Face detection topic param does not exist");
@@ -28,6 +33,12 @@ FaceDetection::FaceDetection(void)
     &FaceDetection::faceDetectionCallback, this);
 }
 
+/**
+ * @brief Serves the face detection ROS service callback
+ * @param req [rapp_platform_ros_communications::FaceDetectionRosSrv::Request&] The ROS service request
+ * @param res [rapp_platform_ros_communications::FaceDetectionRosSrv::Response&] The ROS service response
+ * @return bool - The success status of the call
+ */
 bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Request& req,
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)

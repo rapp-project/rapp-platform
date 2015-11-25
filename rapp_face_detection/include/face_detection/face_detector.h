@@ -34,7 +34,9 @@ class FaceDetector
 {
   public:
 
-    // Default constructor
+    /** 
+     * @brief Default constructor
+     */
     FaceDetector(void);
 
     /**

@@ -17,6 +17,10 @@ limitations under the License.
 
 #include <face_detection/face_detection.h>
 
+/**
+ * @brief The executable's main function.
+ * Creates a ROS multispinner to enable concurrent requests and declares a FaceDetection object
+ */
 int main(int argc, char ** argv)
 {
   ros::init(argc, argv, "face_detection_node");

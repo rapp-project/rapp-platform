@@ -30,7 +30,10 @@ from rapp_platform_ros_communications.srv import (
 
 
 class FaceDetFunc(unittest.TestCase):
+    """Handles the face detection functional tests
+    """
 
+    ## Tests face detection with Lenna image. Should return 1 face
     def test_faceExists(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -43,6 +46,7 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1 )
 
+    ## Tests face detection with a NAO captured image. Should return 1 face
     def test_faceExists_realistic(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -55,6 +59,7 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1 )
 
+    ## Tests face detection with a NAO captured image from almost 2 meters. Should return 1 face
     def test_faceExists_realistic_2(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -67,6 +72,7 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1 )
 
+    ## Stress test for face detection. 20 calls in a row
     def test_faceExists_stress(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -80,6 +86,7 @@ class FaceDetFunc(unittest.TestCase):
             faces_num = len(response.faces_up_left)
             self.assertEqual( faces_num, 1 )
 
+    ## Tests face detection with an image that does not contain faces. Should return 0 faces
     def test_faceDoesNotExist(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -92,6 +99,7 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 0 )
 
+    ## Tests face detection with a non existent image. Should return 0 faces
     def test_fileDoesNotExist(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -104,6 +112,7 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 0 )
 
+    ## Tests face detection with an audio file. Should not crush an return 0 faces
     def test_fileExistsButItAudio(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
@@ -116,7 +125,7 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 0 )
 
-
+## The main function. Initializes the functional tests
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'FaceDetFunc', FaceDetFunc)

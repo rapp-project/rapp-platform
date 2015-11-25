@@ -24,30 +24,42 @@ limitations under the License.
 
 #include <face_detection/face_detector.h>
 
+/**
+ * @class FaceDetection
+ * @brief Class FaceDetection uptakes the task of handling the ROS service callbacks
+ */
 class FaceDetection
 {
   public:
 
-    // Default constructor
+    /** 
+     * @brief Default constructor
+     */
     FaceDetection(void);
 
+    /**
+     * @brief Serves the face detection ROS service callback
+     * @param req [rapp_platform_ros_communications::FaceDetectionRosSrv::Request&] The ROS service request
+     * @param res [rapp_platform_ros_communications::FaceDetectionRosSrv::Response&] The ROS service response
+     * @return bool - The success status of the call
+     */
     bool faceDetectionCallback(
       rapp_platform_ros_communications::FaceDetectionRosSrv::Request& req,
       rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res
       );
 
   private:
-    // The ROS node handle
+    /**< The ROS node handle */
     ros::NodeHandle nh_;
 
-    // The service server
+    /**< The face detection service server */
     ros::ServiceServer faceDetectionService_;
-    std::vector<ros::ServiceServer> faceDetectionThreadServices_;
 
-    // Topic nomeclarure
+    /**< Member variable holding the face detection ROS service topic */
     std::string faceDetectionTopic_;
 
+    /**< Object of type FaceDetector */
     FaceDetector face_detector_;
 };
 
-#endif
+#endif // RAPP_FACE_DETECTION_NODE
