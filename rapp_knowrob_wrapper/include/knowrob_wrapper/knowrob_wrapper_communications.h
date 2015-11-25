@@ -19,19 +19,21 @@ limitations under the License.
 ******************************************************************************/
 
 #include <knowrob_wrapper/knowrob_wrapper.h>
-//#include <rapp_platform_ros_communications/OntologySimpleQuerySrv.h>
-//#include <rapp_platform_ros_communications/DbWrapperSrv.h>
-//#include <rapp_platform_ros_communications/StringArrayMsg.h>
 #include <ros/ros.h>
 
 class KnowrobWrapperCommunications
 {
   private:
+    /**< The ROS node handle */
     ros::NodeHandle nh_;
+    
+    /**< Object of type knowrob_wrapper */
     KnowrobWrapper knowrob_wrapper;
 
-
+    /**< The subclasses_of service server */
     ros::ServiceServer subclasses_of_service_;
+    
+    /**< Member variable holding the subclasses_of ROS service topic */
     std::string subclasses_of_service_topic_;
 
     ros::ServiceServer superclasses_of_service_;
@@ -70,8 +72,6 @@ class KnowrobWrapperCommunications
     ros::ServiceServer clear_user_cognitive_tests_performance_records_service_;
     std::string clear_user_cognitive_tests_performance_records_topic_;
 
-
-
     //ros::ServiceServer userInstancesFromClassService_;
     //std::string userInstancesFromClassServiceTopic_;
 
@@ -80,20 +80,29 @@ class KnowrobWrapperCommunications
     //ros::ServiceServer instanceFromClassService_;
     //std::string instanceFromClassServiceTopic_;
 
-
-
   public:
 
     KnowrobWrapperCommunications();
-
+    
+	/** 
+	* @brief Serves the subclassesOf ROS service callback 
+	* @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
+	* @param res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+	* @return bool - The success status of the call 
+	*/ 
     bool subclassesOfCallback(
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res);
-
+      
+	/** 
+	* @brief Serves the superlassesOf ROS service callback 
+	* @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
+	* @param res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+	* @return bool - The success status of the call 
+	*/ 
     bool superclassesOfCallback(
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
       rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res);
-
 
     bool isSubSuperclassOfCallback(
       rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request& req,
@@ -139,8 +148,6 @@ class KnowrobWrapperCommunications
       rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
       rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res);
 
-
-
     //bool userInstancesFromClassCallback(
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
@@ -148,6 +155,4 @@ class KnowrobWrapperCommunications
     //bool assignAttributeValueCallback(
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
-
-
 };

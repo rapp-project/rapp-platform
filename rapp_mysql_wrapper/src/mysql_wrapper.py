@@ -164,9 +164,9 @@ class MySQLdbWrapper:
     self.serv=rospy.Service(self.serv_topic, whatRappsCanRunSrv, self.whatRappsCanRunDataHandler)
 
   ## @brief Implements the general write data to table function
-  # @param req [writeDataSrvRequest] The input arguments of the service as defined in the writeDataSrv
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
   # @param tblName [string] the table name
-  # @return res [writeDataSrvResponse] The output arguments of the service as defined in the writeDataSrv
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def writeData(self,req,tblName):
     try:
       res = writeDataSrvResponse()
@@ -205,9 +205,9 @@ class MySQLdbWrapper:
     return res
 
   ## @brief Implements the general delete data from table function
-  # @param req [deleteDataSrvRequest] The input arguments of the service as defined in the deleteDataSrv
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
   # @param tblName [string] the table name
-  # @return res [deleteDataSrvResponse] The output arguments of the service as defined in the deleteDataSrv
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def deleteData(self,req,tblName):
     try:
       res = deleteDataSrvResponse()
@@ -236,9 +236,9 @@ class MySQLdbWrapper:
     return res
 
   ## @brief Implements the general update data from table function
-  # @param req [updateDataSrvRequest] The input arguments of the service as defined in the updateDataSrv
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
   # @param tblName [string] the table name
-  # @return res [updateDataSrvResponse] The output arguments of the service as defined in the updateDataSrv
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def updateData(self,req,tblName):
     try:
       res = updateDataSrvResponse()
@@ -269,9 +269,9 @@ class MySQLdbWrapper:
     return res
 
   ## @brief Implements the general fetch data from table function
-  # @param req [fetchDataSrvRequest] The input arguments of the service as defined in the fetchDataSrv
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
   # @param tblName [string] the table name
-  # @return res [fetchDataSrvResponse] The output arguments of the service as defined in the fetchDataSrv
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def fetchData(self,req,tblName):
     try:
       res = fetchDataSrvResponse()
@@ -312,9 +312,9 @@ class MySQLdbWrapper:
     return res
 
   ## @brief Implements the whatRappsCanRun service
-  # @param req [whatRappsCanRunSrvRequest] The input arguments of the service as defined in the whatRappsCanRunSrv
+  # @param req [rapp_platform_ros_communications::whatRappsCanRunSrvResponse::Request&] The ROS service request
   # @param tblName [string] the table name
-  # @return res [whatRappsCanRunSrvResponse] The output arguments of the service as defined in the whatRappsCanRunSrv
+  # @param res [rapp_platform_ros_communications::whatRappsCanRunSrvResponse::Response&] The ROS service response
   def whatRappsCanRun(self,req,tblName):
     try:
       res = whatRappsCanRunSrvResponse()
@@ -422,208 +422,208 @@ class MySQLdbWrapper:
       print "Error %d: %s" % (e.args[0],e.args[1])
 
   ## @brief The tbl user fetch data service callback
-  # @param req [fetchDataSrvRequest] The ROS service request
-  # @return res [fetchDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblUserFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblUser")
     return res
 
   ## @brief The tbl user write data service callback
-  # @param req [writeDataSrvRequest] The ROS service request
-  # @return res [writeDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def tblUserWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblUser")
     return res
 
   ## @brief The tbl user delete data service callback
-  # @param req [deleteDataSrvRequest] The ROS service request
-  # @return res [deleteDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblUserDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblUser")
     return res
 
   ## @brief The tbl user update data service callback
-  # @param req [updateDataSrvRequest] The ROS service request
-  # @return res [updateDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblUserUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblUser")
     return res
 
   ## @brief The tbl model fetch data service callback
-  # @param req [fetchDataSrvRequest] The ROS service request
-  # @return res [fetchDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblModelFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblModel")
     return res
 
   ## @brief The tbl model write data service callback
-  # @param req [writeDataSrvRequest] The ROS service request
-  # @return res [writeDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataSrvResponse::Response&] The ROS service response
   def tblModelWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblModel")
     return res
 
   ## @brief The tbl model delete data service callback
-  # @param req [deleteDataSrvRequest] The ROS service request
-  # @return res [deleteDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblModelDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblModel")
     return res
 
   ## @brief The tbl model update data service callback
-  # @param req [updateDataSrvRequest] The ROS service request
-  # @return res [updateDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblModelUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblModel")
     return res
 
   ## @brief The tbl rapp fetch data service callback
-  # @param req [fetchDataSrvRequest] The ROS service request
-  # @return res [fetchDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblRappFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblRapp")
     return res
 
   ## @brief The tbl rapp write data service callback
-  # @param req [writeDataSrvRequest] The ROS service request
-  # @return res [writeDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def tblRappWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblRapp")
     return res
 
   ## @brief The tbl rapp delete data service callback
-  # @param req [deleteDataSrvRequest] The ROS service request
-  # @return res [deleteDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblRappDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblRapp")
     return res
 
   ## @brief The tbl rapp update data service callback
-  # @param req [updateDataSrvRequest] The ROS service request
-  # @return res [updateDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblRappUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblRapp")
     return res
 
   ## @brief The tbl robot fetch data service callback
-  # @param req [fetchDataSrvRequest] The ROS service request
-  # @return res [fetchDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblRobotFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblRobot")
     return res
 
   ## @brief The tbl robot write data service callback
-  # @param req [writeDataSrvRequest] The ROS service request
-  # @return res [writeDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def tblRobotWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblRobot")
     return res
 
   ## @brief The tbl robot delete data service callback
-  # @param req [deleteDataSrvRequest] The ROS service request
-  # @return res [deleteDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblRobotDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblRobot")
     return res
 
   ## @brief The tbl robot update data service callback
-  # @param req [updateDataSrvRequest] The ROS service request
-  # @return res [updateDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblRobotUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblRobot")
     return res
 
   ## @brief The tbl appsRobots fetch data service callback
-  # @param req [fetchDataSrvRequest] The ROS service request
-  # @return res [fetchDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblAppsRobotsFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblAppsRobots")
     return res
 
   ## @brief The tbl appsRobots write data service callback
-  # @param req [writeDataSrvRequest] The ROS service request
-  # @return res [writeDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def tblAppsRobotsWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblAppsRobots")
     return res
 
   ## @brief The tbl appsRobots delete data service callback
-  # @param req [deleteDataSrvRequest] The ROS service request
-  # @return res [deleteDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblAppsRobotsDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblAppsRobots")
     return res
 
   ## @brief The tbl appsRobots update data service callback
-  # @param req [updateDataSrvRequest] The ROS service request
-  # @return res [updateDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblAppsRobotsUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblAppsRobots")
     return res
 
   ## @brief The tbl usersOntologyInstances fetch data service callback
-  # @param req [fetchDataSrvRequest] The ROS service request
-  # @return res [fetchDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblUsersOntologyInstancesFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblUsersOntologyInstances")
     return res
 
   ## @brief The tbl usersOntologyInstances write data service callback
-  # @param req [writeDataSrvRequest] The ROS service request
-  # @return res [writeDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def tblUsersOntologyInstancesWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblUsersOntologyInstances")
     return res
 
   ## @brief The tbl usersOntologyInstances delete data service callback
-  # @param req [deleteSrvRequest] The ROS service request
-  # @return res [deleteSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblUsersOntologyInstancesDeleteDataHandler(self,req):
     res = deleteSrvResponse()
     res=self.deleteData(req,"tblUsersOntologyInstances")
     return res
     
   ## @brief The tbl usersOntologyInstances update data service callback
-  # @param req [updateDataSrvRequest] The ROS service request
-  # @return res [updateDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblUsersOntologyInstancesUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblUsersOntologyInstances")
     return res
 
   ## @brief The view usersRobotsApps fetch data service callback
-  # @param req [fetchDataSrvRequest] The ROS service request
-  # @return res [fetchDataSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def viewUsersRobotsAppsFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"usersrobotsapps")
     return res
 
   ## @brief The what rappRappCanRun service callback
-  # @param req [whatRappsCanRunSrvRequest] The ROS service request
-  # @return res [whatRappsCanRunSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::whatRappsCanRunSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::whatRappsCanRunSrvRequest::Response&] The ROS service response
   def whatRappsCanRunDataHandler(self,req):
     res = whatRappsCanRunSrvResponse()
     res=self.whatRappsCanRun(req,"tblRappsModelsVersion")

@@ -17,23 +17,6 @@ limitations under the License.
   contact: akintsakis@issel.ee.auth.gr
 
 ******************************************************************************/
-
-
-//subclassesOf  done tested
-//superclassesOf  done tested
-//loadontology  done tested
-//dumpoontology done tested
-//createinstance  done  tested
-//getintancesOfUser
-//attributesOfObject
-//assignAttribute
-//retractAttribute
-//getSubjects
-//getObjects
-
-
-
-
 #include <knowrob_wrapper/knowrob_wrapper.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -43,16 +26,9 @@ limitations under the License.
 
 KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh):nh_(nh)
 {
-  //mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::writeDataSrv>("ric/db/mysql_wrapper_service/tblUsersOntologyInstancesWriteData");
   mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::writeDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_write_data");
   mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::fetchDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_fetch_data");
   mysql_update_client = nh_.serviceClient<rapp_platform_ros_communications::updateDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_update_data");
-
-  //rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
-  //rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
-
-
-  //res=KnowrobWrapper::dumpOntologyQuery(req);
 }
 std::string intToString (int a)
 {
@@ -61,23 +37,12 @@ std::string intToString (int a)
     return temp.str();
 }
 
-
 std::string SplitFilename (const std::string& str)
 {
   size_t found;
-  //cout << "Splitting: " << str << endl;
   found=str.find_last_of("/\\");
   return str.substr(0,found);
-  //cout << " folder: " << str.substr(0,found) << endl;
-  //cout << " file: " << str.substr(found+1) << endl;
 }
-//bool checkIfFileExists(const char* fname)
-//{
-  //if( access( fname, F_OK ) != -1 ) {
-      //return true;
-  //}
-  //return false;
-//}
 
 bool checkIfFileExists(const char *fileName)
 {
@@ -97,12 +62,9 @@ std::vector<std::string> split(std::string str, std::string sep){
     return arr;
 }
 
-
 std::string KnowrobWrapper::get_ontology_alias(std::string user_id)
 {
   std::string ontology_alias;
-  //user_id=std::string("FAIL   ")+std::string("'")+user_id+std::string("'");
-  //return user_id;
   rapp_platform_ros_communications::fetchDataSrv srv;
   rapp_platform_ros_communications::StringArrayMsg ros_string_array;
   std::vector<std::string> req_cols;
@@ -126,7 +88,6 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id)
       return ontology_alias;
     }
     ontology_alias=srv.response.res_data[0].s[0];
-    //IF IF DISABLED, this is an overwrite to renew the ALIAS everytime.. this will be on as long as the ontology is not saved.
     if(ontology_alias==std::string("None"))
     {
       ontology_alias=create_ontology_alias_for_new_user(user_id);
@@ -148,7 +109,6 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
     ontology_alias=std::string("User was uninitialized (had no ontology alias), and initilization failed on ontology level");
     return ontology_alias;
   }
-
 
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ;
     it != results.end() ; it++)
@@ -214,8 +174,6 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
   if(status==0)
   {
     res.success=false;
-    //res.trace.push_back(std::string("Test type/subtype combination invalid. Either test type does not exist, or test sub type does not exist or if they exist the subtype does not correspond to the type"));
-    //res.error=std::string("Test type/subtype combination invalid. Either test type does not exist, or test sub type does not exist or if they exist the subtype does not correspond to the type");
     res.trace.push_back(std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias"));
     res.error=std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias");
     return res;
@@ -236,7 +194,6 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
   {
     res.cognitive_test_performance_entry=(query_ret_tests[i]);
   }
-
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
   dmp.file_url=std::string("currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
@@ -256,8 +213,6 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
   }
 
   std::string path = ros::package::getPath("rapp_cognitive_exercise");
-  //res.trace.push_back(path);
-  //req.test_path=path+req.test_path;
   std::string temp_check_path=path+req.test_path;
   const char * c = temp_check_path.c_str();
   if(!checkIfFileExists(c))
@@ -268,22 +223,13 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
     res.error=std::string("Test file does not exist in provided file path");
     return res;
   }
-
-  //std::string variation = intToString(req.test_variation);
   std::string difficulty = intToString(req.test_difficulty);
-  //res.trace.push_back(variation);
-  //res.trace.push_back(difficulty);
-  //return res;
   std::string query = std::string("createCognitiveTest(knowrob:'")+req.test_type+std::string("',B,'")+difficulty+std::string("','")+req.test_path+std::string("',knowrob:'")+req.test_subtype+std::string("')");
-
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-
   char status = results.getStatus();
   if(status==0)
   {
     res.success=false;
-    //res.trace.push_back(std::string("Test type/subtype combination invalid. Either test type does not exist, or test sub type does not exist or if they exist the subtype does not correspond to the type"));
-    //res.error=std::string("Test type/subtype combination invalid. Either test type does not exist, or test sub type does not exist or if they exist the subtype does not correspond to the type");
     res.trace.push_back(std::string("Test insertion into ontology FAILED, possible error is test type/subtype invalid"));
     res.error=std::string("Test insertion into ontology FAILED, possible error is test type/subtype invalid");
     return res;
@@ -304,10 +250,7 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
   for(unsigned int i = 0 ; i < query_ret_tests.size() ; i++)
   {
     res.test_name=(query_ret_tests[i]);
-    //tmp_test_name=(query_ret_tests[i]);
   }
-
-
   std::string tmp_test_name;
   tmp_test_name.assign(res.test_name.c_str());
   std::vector<std::string> test_created=split(tmp_test_name,std::string("#"));
@@ -320,7 +263,6 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
       results = pl.query(query.c_str());
     }
   }
-
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
   dmp.file_url=std::string("currentOntologyVersion.owl");
   KnowrobWrapper::dumpOntologyQuery(dmp);
@@ -363,7 +305,6 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
   std::vector<std::string> query_ret_tests;
   std::vector<std::string> query_ret_scores;
   std::vector<std::string> query_ret_difficulty;
-  //std::vector<std::string> query_ret_variation;
   std::vector<std::string> query_ret_file_paths;
   std::vector<std::string> query_ret_subtypes;
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ;
@@ -374,9 +315,6 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
     std::string temp_query_tests=bdg["B"];
     query_ret_tests.push_back(temp_query_tests);
 
-    //std::string temp_query_variation=bdg["Var"];
-    //query_ret_variation.push_back(temp_query_variation);
-
     std::string temp_query_file_paths=bdg["Path"];
     query_ret_file_paths.push_back(temp_query_file_paths);
 
@@ -385,21 +323,16 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
 
     std::string temp_query_subtypes=bdg["Sub"];
     query_ret_subtypes.push_back(temp_query_subtypes);
-
-
   }
   for(unsigned int i = 0 ; i < query_ret_tests.size() ; i++)
   {
     res.tests.push_back(query_ret_tests[i]);
     res.difficulty.push_back(query_ret_difficulty[i]);
-    //res.variation.push_back(query_ret_variation[i]);
     res.file_paths.push_back(query_ret_file_paths[i]);
     res.subtype.push_back(query_ret_subtypes[i]);
   }
-
   return res;
 }
-
 
 rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::user_performance_cognitve_tests(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req)
 {
@@ -418,15 +351,8 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     res.error=std::string("Error, test type empty");
     return res;
   }
-  //std::string timestamp=std::string("2");
-  //std::string query = std::string("rdf_has(__,knowrob:user,knowrob:'")+req.ontology_alias+std::string("'),rdf_has(B,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>")+timestamp+std::string(",rdf_has(__,knowrob:score,literal(type(_, SC))),P");
-  //query=std::string("rdf_has(__,knowrob:user,knowrob:'Person_pQmhNKHv'),rdf_has(B,rdf:type,knowrob:'Arithmetic'),rdf_has(__,knowrob:type,B),rdf_has(B,knowrob:variation,literal(type(_, Var))),rdf_has(__,knowrob:timestamp,literal(type(_, Timestamp))),Timestamp>2,rdf_has(__,knowrob:score,literal(type(_, SC)))");
   std::string query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Dif,Timestamp,SC,P)");
-  //query=std::string("owl_subclass_of(A,knowrob:'FoodOrDrink')");
-
-
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-
   char status = results.getStatus();
   if(status==0)
   {
@@ -442,7 +368,6 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
   std::vector<std::string> query_ret_tests;
   std::vector<std::string> query_ret_scores;
   std::vector<std::string> query_ret_difficulty;
-  //std::vector<std::string> query_ret_variation;
   std::vector<std::string> query_ret_timestamps;
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ;
     it != results.end() ; it++)
@@ -451,16 +376,13 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
 
     std::string temp_query_tests=bdg["B"];
     query_ret_tests.push_back(temp_query_tests);
-
-    //std::string temp_query_variation=bdg["Var"];
-    //query_ret_variation.push_back(temp_query_variation);
-
+    
     std::string temp_query_difficulty=bdg["Dif"];
     query_ret_difficulty.push_back(temp_query_difficulty);
-
+    
     std::string temp_query_timestamps=bdg["Timestamp"];
     query_ret_timestamps.push_back(temp_query_timestamps);
-
+    
     std::string temp_query_scores=bdg["SC"];
     query_ret_scores.push_back(temp_query_scores);
   }
@@ -469,13 +391,11 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     res.tests.push_back(query_ret_tests[i]);
     res.scores.push_back(query_ret_scores[i]);
     res.difficulty.push_back(query_ret_difficulty[i]);
-    //res.variation.push_back(query_ret_variation[i]);
     res.timestamps.push_back(query_ret_timestamps[i]);
   }
 
   return res;
 }
-
 
 rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req)
 {
@@ -496,7 +416,6 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     if(status==0)
     {
       res.success=false;
-      //res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
       res.error=std::string("No performance records exist for the user or invalid user or invalid test type");
       return res;
     }
@@ -513,7 +432,6 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     if(status==0)
     {
       res.success=false;
-      //res.trace.push_back(std::string("Class: ")+req.ontology_class+std::string(" does not exist"));
       res.error=std::string("No performance records exist for the user or invalid user or invalid test type");
       return res;
     }
@@ -596,7 +514,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
     it != results.end() ; it++)
   {
     json_prolog::PrologBindings bdg = *it;
-    //start code to remove duplicates
+    //start remove duplicates
     int i;
     int logic=0;
     std::string temp_query_result=bdg["A"];
@@ -614,18 +532,13 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
       {
         query_ret.push_back(temp_query_result);
       }
-      //end
+      //end removing duplicates
     }
-
   }
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
     res.results.push_back(query_ret[i]);
   }
-
-  //fortesting, remember to DELETE!
-  //std::string kati =get_ontology_alias(std::string("1"));
-  //res.results.push_back(kati);
   return res;
 }
 
@@ -667,7 +580,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
     it != results.end() ; it++)
   {
     json_prolog::PrologBindings bdg = *it;
-    //start code to remove duplicates
+    //start remove duplicates
     int i;
     int logic=0;
     std::string temp_query_result=bdg["A"];
@@ -685,9 +598,8 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
       {
         query_ret.push_back(temp_query_result);
       }
-      //end
+      //end removing duplicates
     }
-
   }
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
@@ -1148,6 +1060,14 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
 
   return res;
 }
+
+//bool checkIfFileExists(const char* fname)
+//{
+  //if( access( fname, F_OK ) != -1 ) {
+      //return true;
+  //}
+  //return false;
+//}
 
 
 //std::vector<std::string> KnowrobWrapper::checkIfClassExists(std::string classValue) //checked

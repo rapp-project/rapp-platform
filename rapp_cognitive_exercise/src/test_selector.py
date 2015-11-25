@@ -67,9 +67,9 @@ class TestSelector:
   lookBackTimeStamp=15552000000 #15552000000 for last 3 months    
 
   ## @brief The callback function of the cognitive exercise chooser service, all other functions of the class are called from within this function
-  # @param req [testSelectorSrvReq] The input arguments of the service as defined in the testSelectorSrv
-  #
-  # @return res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  ## @brief The cognitive exercise chooser service callback
+  # @param req [rapp_platform_ros_communications::testSelectorSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
   # @exception Exception IndexError
   # @exception Exception AIOError
   def chooserFunction(self,req):

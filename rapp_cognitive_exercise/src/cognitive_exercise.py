@@ -92,7 +92,7 @@ class CognitiveExercise:
       rospy.logerror("rapp_knowrob_wrapper_create_cognitve_tests not found")
     rospy.wait_for_service(serv_topic) 
 
-	#Declare Callbacks
+    #Declare Callbacks
     self.serv_topic = rospy.get_param("rapp_cognitive_exercise_chooser_topic")
     if(not self.serv_topic):
       rospy.logerror("rapp_cognitive_exercise_chooser_topic not found")
@@ -109,8 +109,8 @@ class CognitiveExercise:
     self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.rcognitiveTestCreatorDataHandler)
 
   ## @brief The cognitive exercise chooser service callback
-  # @param req [testSelectorSrvRequest] The ROS service request
-  # @param res [testSelectorSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_communications::testSelectorSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
   def chooserDataHandler(self,req):
     res = testSelectorSrvResponse()
     it = TestSelector()
@@ -118,16 +118,16 @@ class CognitiveExercise:
     return res
     
   ## @brief The record user cognitive test performance service callback
-  # @param req [recordUserCognitiveTestPerformanceSrvRequest] The ROS service request
-  # @param res [recordUserCognitiveTestPerformanceSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvRequest::recordUserCognitiveTestPerformanceSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvResponse::recordUserCognitiveTestPerformanceSrvResponse::Response&] The ROS service response
   def recordUserCognitiveTestPerformanceDataHandler(self,req):
     res = recordUserCognitiveTestPerformanceSrvResponse()
     it = RecordUserCognitiveTestPerformance()
     res=it.recordPerformance(req)
     return res
   ## @brief The cognitive test creator service callback
-  # @param req [cognitiveTestCreatorSrvRequest] The ROS service request
-  # @param res [cognitiveTestCreatorSrvResponse] The ROS service response
+  # @param req [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvRequest::cognitiveTestCreatorSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvResponse::cognitiveTestCreatorSrvResponse::Response&] The ROS service response
   def rcognitiveTestCreatorDataHandler(self,req):
     res = cognitiveTestCreatorSrvResponse()
     it = CognitiveTestCreator()

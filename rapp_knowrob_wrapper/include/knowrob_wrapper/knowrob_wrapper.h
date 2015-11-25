@@ -24,9 +24,7 @@ limitations under the License.
 #include <rapp_platform_ros_communications/fetchDataSrv.h>
 #include <rapp_platform_ros_communications/writeDataSrv.h>
 #include <rapp_platform_ros_communications/updateDataSrv.h>
-
 #include <rapp_platform_ros_communications/StringArrayMsg.h>
-
 #include <rapp_platform_ros_communications/createInstanceSrv.h>
 #include <rapp_platform_ros_communications/ontologyInstancesOfSrv.h>
 #include <rapp_platform_ros_communications/ontologyLoadDumpSrv.h>
@@ -55,31 +53,22 @@ class KnowrobWrapper
     std::string get_ontology_alias(std::string user_id);
     std::string create_ontology_alias_for_new_user(std::string user_id);
 
-
     rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
     rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req);
 
     rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  isSubSuperclassOfQuery(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req);
-        //std::vector<std::string> createInstanceQuery(std::string caller_arguments);
     rapp_platform_ros_communications::createInstanceSrv::Response createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req);
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req);
     rapp_platform_ros_communications::assertRetractAttributeSrv::Response assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req);
 
     rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response user_instances_of_class(rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request req);
-
     rapp_platform_ros_communications::createOntologyAliasSrv::Response create_ontology_alias(rapp_platform_ros_communications::createOntologyAliasSrv::Request req);
-
     rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response user_performance_cognitve_tests(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req);
-
     rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response create_cognitve_tests(rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request req);
-
     rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response cognitive_tests_of_type(rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request req);
-
     rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req);
-
     rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req);
-
 
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
     //std::vector<std::string> checkIfClassExists(std::string classValue);

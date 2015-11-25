@@ -32,11 +32,7 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
 {
   ros::service::waitForService("json_prolog/query", -1);
   ros::service::waitForService("rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_write_data", -1);
-  ros::service::waitForService("rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_fetch_data", -1);
-  //ros::service::waitForService("rapp_mysql_wrapper_users_ontology_instances_fetch_data_topic", -1);
-  //ros::service::waitForService("rapp_mysql_wrapper_users_ontology_instances_write_data_topic", -1);
-
-  //ros::service::waitForService("json_prolog/query", -1);  for DB service
+  ros::service::waitForService("rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_fetch_data", -1); 
 
   if(!nh_.getParam("/rapp_knowrob_wrapper_subclasses_of_topic", subclasses_of_service_topic_))
   {
@@ -58,8 +54,6 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   }
   is_subsuperclass_of_service_ = nh_.advertiseService(is_subsuperclass_of_service_topic_,
     &KnowrobWrapperCommunications::isSubSuperclassOfCallback, this);
-
-
 
   if(!nh_.getParam("/rapp_knowrob_wrapper_create_instance_topic", createInstanceServiceTopic_))
   {
@@ -148,20 +142,9 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
     //&KnowrobWrapperCommunications::assignAttributeValueCallback, this);
 
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
-  //rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
-  //std::string path = ros::package::getPath("rapp_knowrob_wrapper");
-
-
 
   req.file_url=std::string("currentOntologyVersion.owl");
-  //const char * c = req.file_url.c_str();
-  //if(!checkIfFileExists(c))
-  //{
-    //ROS_ERROR("Ontology backup was not loaded, backup file does not exist.. Continuing with empty ontology");
-  //}
-  //else
-  //{
     res=knowrob_wrapper.loadOntologyQuery(req);
     if(res.success!=true)
     {
@@ -172,15 +155,15 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
     {
       ROS_INFO("Ontology backup successfully loaded");
     }
- // }
-
-
-  //ROS_ERROR(path);
-
-
-  ROS_INFO("KnowRob ROS wrapper initialized");
+  ROS_INFO("KnowRob ROS wrapper initialized");  
 }
 
+/** 
+* @brief Serves the subclassesOf ROS service callback 
+* @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::subclassesOfCallback(
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
@@ -189,6 +172,12 @@ bool KnowrobWrapperCommunications::subclassesOfCallback(
   return true;
 }
 
+/** 
+* @brief Serves the superlassesOf ROS service callback 
+* @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::superclassesOfCallback(
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request& req,
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response& res)
@@ -197,7 +186,12 @@ bool KnowrobWrapperCommunications::superclassesOfCallback(
   return true;
 }
 
-
+/** 
+* @brief Serves the isSubSuperclassOf ROS service callback 
+* @param req [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::isSubSuperclassOfCallback(
   rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request& req,
   rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response& res)
@@ -206,8 +200,12 @@ bool KnowrobWrapperCommunications::isSubSuperclassOfCallback(
   return true;
 }
 
-
-
+/** 
+* @brief Serves the isSubSuperclassOf ROS service callback 
+* @param req [rapp_platform_ros_communications::createInstanceSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::createInstanceSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::createInstanceCallback(
   rapp_platform_ros_communications::createInstanceSrv::Request& req,
   rapp_platform_ros_communications::createInstanceSrv::Response& res)
@@ -216,6 +214,12 @@ bool KnowrobWrapperCommunications::createInstanceCallback(
   return true;
 }
 
+/** 
+* @brief Serves the dumpOntology ROS service callback 
+* @param req [rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::dumpOntologyCallback(
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res)
@@ -224,6 +228,12 @@ bool KnowrobWrapperCommunications::dumpOntologyCallback(
   return true;
 }
 
+/** 
+* @brief Serves the loadOntology ROS service callback 
+* @param req [rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::loadOntologyCallback(
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request& req,
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response& res)
@@ -232,6 +242,12 @@ bool KnowrobWrapperCommunications::loadOntologyCallback(
   return true;
 }
 
+/** 
+* @brief Serves the create_ontology_alias ROS service callback 
+* @param req [rapp_platform_ros_communications::createOntologyAliasSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::createOntologyAliasSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::create_ontology_alias_callback(
   rapp_platform_ros_communications::createOntologyAliasSrv::Request& req,
   rapp_platform_ros_communications::createOntologyAliasSrv::Response& res)
@@ -240,6 +256,12 @@ bool KnowrobWrapperCommunications::create_ontology_alias_callback(
   return true;
 }
 
+/** 
+* @brief Serves the user_instances_of_class ROS service callback 
+* @param req [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::user_instances_of_class_callback(
   rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request& req,
   rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response& res)
@@ -248,6 +270,12 @@ bool KnowrobWrapperCommunications::user_instances_of_class_callback(
   return true;
 }
 
+/** 
+* @brief Serves the user_performance_cognitve_tests ROS service callback 
+* @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::user_performance_cognitve_tests_callback(
   rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
   rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res)
@@ -256,6 +284,12 @@ bool KnowrobWrapperCommunications::user_performance_cognitve_tests_callback(
   return true;
 }
 
+/** 
+* @brief Serves the create_cognitve_tests ROS service callback 
+* @param req [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::create_cognitve_tests_callback(
   rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request& req,
   rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response& res)
@@ -264,6 +298,12 @@ bool KnowrobWrapperCommunications::create_cognitve_tests_callback(
   return true;
 }
 
+/** 
+* @brief Serves the cognitive_tests_of_type ROS service callback 
+* @param req [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::cognitive_tests_of_type_callback(
   rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request& req,
   rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response& res)
@@ -272,6 +312,12 @@ bool KnowrobWrapperCommunications::cognitive_tests_of_type_callback(
   return true;
 }
 
+/** 
+* @brief Serves the record_user_cognitive_tests_performance ROS service callback 
+* @param req [rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::record_user_cognitive_tests_performance_callback(
   rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request& req,
   rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response& res)
@@ -280,6 +326,12 @@ bool KnowrobWrapperCommunications::record_user_cognitive_tests_performance_callb
   return true;
 }
 
+/** 
+* @brief Serves the clear_user_cognitive_tests_performance_records ROS service callback 
+* @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
 bool KnowrobWrapperCommunications::clear_user_cognitive_tests_performance_records_callback(
   rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
   rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res)
@@ -287,8 +339,6 @@ bool KnowrobWrapperCommunications::clear_user_cognitive_tests_performance_record
   res=knowrob_wrapper.clear_user_cognitive_tests_performance_records(req);
   return true;
 }
-
-
 
 //bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
   //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
