@@ -1,54 +1,61 @@
-/*!
- * @file init.js
- * @brief Initiates services found in services direcory on the same port.
- *  Each Service runs on a different worker.
+/***
+ * Copyright 2015 RAPP
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Authors: Konstantinos Panayiotou
+ * Contact: klpanagi@gmail.com
+ *
  */
+
 
 /**
- *  MIT License (MIT)
+ * @file
  *
- *  Copyright (c) <2014> <Rapp Project EU>
+ *  Parse Services directory. Files with a:
+ *    .service.js
+ *  extension are loaded and registered, as HOP Web services,
+ *  under the HOP server.
  *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to deal
- *  in the Software without restriction, including without limitation the rights
- *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
+ *  This source file is loaded by the HOP server on execution-time.
  *
- *  The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
- *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- *  THE SOFTWARE.
- *
- *
- *  Authors: Konstantinos Panayiotou
- *  Contact: klpanagi@gmail.com
- *
+ *  @author Konstantinos Panayiotou
+ *  @copyright Rapp Project EU 2015
  */
 
 
-
-// ------------------- GLOBALS ------------------- //
 var __DEBUG__ = false;
 
-var user = process.env.LOGNAME;
+var hop = require('hop');
+var path = require('path');
+
+var hostname = hop.hostname;
+var port = hop.port;
+
+var __includeDir = path.join(__dirname, '..', 'modules');
+
+var Fs = require( path.join(__includeDir, 'fileUtils.js') );
+
+var WorkerHandler = require( path.join(__includeDir, 'WorkerHandler',
+    'workerHandler.js') );
 
 var color = {
-  success:  '\033[1;32m',
-  error:    '\033[1;31m',
-  ok:       '\033[1;34m',
-  yellow:   '\033[33m',
-  clear:    '\033[0m',
-  cyan:     '\033[36m'
-}
-
+  error:    String.fromCharCode(0x1B) + '[1;31m',
+  success:  String.fromCharCode(0x1B) + '[1;32m',
+  ok:       String.fromCharCode(0x1B) + '[34m',
+  yellow:   String.fromCharCode(0x1B) + '[33m',
+  clear:    String.fromCharCode(0x1B) + '[0m'
+};
 
 //  Hop services list by name
 var srvList = [];
@@ -56,22 +63,13 @@ var srvList = [];
 var srvFileList = [];
 
 
-var Path = require('path');
-
-//var module_path = Path.resolve(__dirname + '/../modules')
-var module_path = __dirname + '/../modules/';
-
-var Fs = require( module_path + 'fileUtils.js' );
-var hop = require('hop');
-
-// --------- Initiate Master Module ---------- //
-var WorkerHandler = require( module_path + 'WorkerHandler/' + 'workerHandler.js' );
-// ------------------------------------------- //
-
-var hostname = hop.hostname;
-var port = hop.port;
-// ---------------------------------------------- //
-
+/***
+ *  Parse directories where services are stored. Javascript files with a:
+ *    .service.js
+ *  extension are imported and registered as HOP Web Services,
+ *  under the HOP Server.
+ *
+ */
 parse_services_dir(__dirname);
 
 
@@ -82,7 +80,7 @@ function parse_services_dir(dir)
 
   // Loop through files list and search for worker services declered files
   for (var i in workerFileList){
-    if ( Path.extname( workerFileList[i] ) == '.js' ){
+    if ( path.extname( workerFileList[i] ) == '.js' ){
       var regexp = /.service.js/g;
       // If match then it is a hop service file.
       if ( workerFileList[i].match(regexp) ){
