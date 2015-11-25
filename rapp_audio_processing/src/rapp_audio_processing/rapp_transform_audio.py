@@ -21,32 +21,57 @@
 import os
 from scipy.io import wavfile
 
+## @class TransformAudio
+# @brief Provides audio type tranformation functionalities
+#
+# Allows the transformation of an audio file to a different format. Supports
+# the alteration of the type (i.e. headset, nao_wav_1_ch etc.), the sample
+# rate, the audio channel number, the audio format and the audio name.
 class TransformAudio:
 
+    ## @brief Performs the audio transformation
+    # @param source_type [string] The source audio file's type
+    # @param source_name [string] The source audio file's name
+    # @param target_type [string] The target audio file's type
+    # @param target_name [string] The target audio file's name
+    # @param target_channels [string] The target audio's channel number
+    # @param target_rate [string] The target audio's sample rate
+    #
+    # @return status [string] The status of the transformation prcedure
+    # @return filename [string] The name of the produced file
     def transform_audio(self, source_type, source_name, \
             target_type, target_name, target_channels, target_rate ):
 
         try:
-            self.assertArgs( source_type, source_name, target_type, \
+            self._assertArgs( source_type, source_name, target_type, \
                     target_name, target_channels, target_rate )
         except Exception as e:
             return [ str(e), '' ]
 
         try:
-            self.validateSourceType( source_type, source_name )
+            self._validateSourceType( source_type, source_name )
         except Exception as e:
             return [ str(e), '' ]
 
         try:
-            self.convertType( source_type, source_name, target_type, \
+            self._convertType( source_type, source_name, target_type, \
                     target_name, target_channels, target_rate )
         except Exception as e:
             return [ str(e), '' ]
 
         return [ 'success', target_name ]
 
-
-    def assertArgs(self, source_type, source_name, target_type, target_name, \
+    ## @brief Verifies the existence of the required arguments
+    # @param source_type [string] The source audio file's type
+    # @param source_name [string] The source audio file's name
+    # @param target_type [string] The target audio file's type
+    # @param target_name [string] The target audio file's name
+    # @param target_channels [string] The target audio's channel number
+    # @param target_rate [string] The target audio's sample rate
+    #
+    # @return void Required arguments are present
+    # @exception Exception Arguments are invalid
+    def _assertArgs(self, source_type, source_name, target_type, target_name, \
             target_channels, target_rate ):
 
         if not os.path.isfile( source_name ):
@@ -62,7 +87,17 @@ class TransformAudio:
         if target_channels > 8:
             raise Exception( "Error: target_channels can not be greater than 8" )
 
-    def convertType(self, source_type, source_name, target_type, target_name, \
+    ## @brief Performs audio conversion
+    # @param source_type [string] The source audio file's type
+    # @param source_name [string] The source audio file's name
+    # @param target_type [string] The target audio file's type
+    # @param target_name [string] The target audio file's name
+    # @param target_channels [string] The target audio's channel number
+    # @param target_rate [string] The target audio's sample rate
+    #
+    # @return [ void ] Conversion performed successfully
+    # @exception Exception Conversion malfunction
+    def _convertType(self, source_type, source_name, target_type, target_name, \
             target_channels, target_rate ):
 
         channels = ''
@@ -96,7 +131,13 @@ class TransformAudio:
                         source_name )
 
 
-    def validateSourceType( self, source_type, name ):
+    ## @brief Validates that the provided audio type match the file extension
+    # @param source_type [string] The source audio file's type
+    # @param name [string] The source audio file's name
+    #
+    # @return void Audio type matches file type
+    # @exception Exception Audio type/file type mismatch
+    def _validateSourceType( self, source_type, name ):
 
         [ source_file_name, source_extention ] = os.path.splitext( name )
 
