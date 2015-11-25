@@ -1,5 +1,5 @@
 <launch>
-  <node name="rapp_cognitive_exercise_node" pkg="rapp_cognitive_exercise" type="cognitive_exercise.py" output="screen" />
+  <node name="rapp_cognitive_exercise_node" pkg="rapp_cognitive_exercise" type="cognitive_exercise main.py" output="screen" />
   <rosparam file="$(find rapp_cognitive_exercise)/cfg/rapp_cognitive_exercise_params.yaml" 
     command="load" />
 </launch>

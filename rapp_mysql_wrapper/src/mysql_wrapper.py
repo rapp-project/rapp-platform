@@ -558,7 +558,4 @@ class MySQLdbWrapper:
     return res
   #viewUsersRobotsApps
 
-if __name__ == "__main__":
-  rospy.init_node('MySQLWrapper')
-  MySQLWrapperNode = MySQLdbWrapper()
-  rospy.spin()
+

@@ -55,7 +55,30 @@ from std_msgs.msg import (
 class CognitiveExercise:
 
   def __init__(self):
-    #tblUser services launch
+    
+    self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
+    if(not self.serv_topic):
+      rospy.logerror("rapp_knowrob_wrapper_create_ontology_alias param not found")
+    rospy.wait_for_service(self.serv_topic)
+    
+    self.serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_user_fetch_data_topic param not found")
+    rospy.wait_for_service(self.serv_topic)
+    
+    self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')
+    if(not self.serv_topic):
+      rospy.logerror("rapp_knowrob_wrapper_user_performance_cognitve_tests topic not foud")
+    rospy.wait_for_service(self.serv_topic)
+    
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
+    if(not serv_topic):
+      rospy.logerror("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
+    rospy.wait_for_service(self.serv_topic)
+    
+    
+    
+
     self.serv_topic = rospy.get_param("rapp_cognitive_exercise_chooser_topic")
     if(not self.serv_topic):
       rospy.logerror("rapp_cognitive_exercise_chooser_topic not found")
@@ -71,7 +94,6 @@ class CognitiveExercise:
       rospy.logerror("rapp_cognitive_test_creator_topic not found")
     self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.rcognitiveTestCreatorDataHandler)
 
-  #tblUser callbacks
   def chooserDataHandler(self,req):
     res = testSelectorSrvResponse()
     it = TestSelector()
@@ -90,7 +112,3 @@ class CognitiveExercise:
     res=it.testCreator(req)
     return res
 
-if __name__ == "__main__":
-  rospy.init_node('CognitiveExercise')
-  CognitiveExerciseNode = CognitiveExercise()
-  rospy.spin()

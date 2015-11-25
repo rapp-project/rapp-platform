@@ -48,6 +48,20 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, True)  
         
+    def test_chooser_no_type(self):
+        subclasses_of_service = rospy.get_param(\
+                "rapp_cognitive_exercise_chooser_topic")
+        rospy.wait_for_service(subclasses_of_service)
+        
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, testSelectorSrv)
+    
+        req = testSelectorSrvRequest()
+        req.username="rapp"        
+        req.testType=""
+        response = test_service(req)     
+        self.assertEqual(response.success, True)  
+        
         
     def test_record_user_performance_basic(self):
         subclasses_of_service = rospy.get_param(\
