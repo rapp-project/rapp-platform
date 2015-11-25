@@ -24,30 +24,42 @@ limitations under the License.
 
 #include <qr_detection/qr_detector.h>
 
+/**
+ * @class QrDetection
+ * @brief Uptakes the task of setting up the ROS service callbacks towards qr detection
+ */
 class QrDetection
 {
   public:
 
-    // Default constructor
+    /** 
+     * @brief Default constructor 
+     */
     QrDetection(void);
 
+    /**
+     * @brief The qr detection ROS service callback
+     * @param req [rapp_platform_ros_communications::QrDetectionRosSrv::Request&] The service request
+     * @param res [rapp_platform_ros_communications::QrDetectionRosSrv::Response&] The service response
+     * @return bool - The success status of the call
+     */
     bool qrDetectionCallback(
       rapp_platform_ros_communications::QrDetectionRosSrv::Request& req,
       rapp_platform_ros_communications::QrDetectionRosSrv::Response& res
       );
 
   private:
-    // The ROS node handle
+    /**< The ROS node handle */
     ros::NodeHandle nh_;
 
-    // The service server
+    /**< The service server */
     ros::ServiceServer qrDetectionService_;
-    std::vector<ros::ServiceServer> qrDetectionServiceThreads_;
 
-    // Topic nomeclarure
+    /**< Topic nomeclarure. Holds the qr detection ROS service topic URI */
     std::string qrDetectionTopic_;
 
+    /**< Object of QrDetection type */
     QrDetector qr_detector_;
 };
 
-#endif
+#endif // RAPP_QR_DETECTION_NODE

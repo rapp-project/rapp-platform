@@ -17,22 +17,30 @@ limitations under the License.
 
 #include <qr_detection/qr_detector.h>
 
-
+/** 
+ * @brief Default constructor 
+ */
 QrDetector::QrDetector(void)
 {
 }
 
+/**
+ * @brief Loads an image into a cv::Mat structure
+ * @param file_name [std::string] The file URI
+ * @return cv::Mat
+ */
 cv::Mat QrDetector::loadImage(std::string file_name)
 {
   cv::Mat img = cv::imread(file_name);
   return img;
 }
 
-void QrDetector::detectQrs(
-  const cv::Mat& input_frame,
-  std::vector<cv::Point> &qr_points,
-  std::vector<std::string> &qr_messages
-  )
+/**
+ * @brief Detects QRs in a cv::Mat
+ * @param img [const cv::Mat&] The input image in cv::Mat form
+ * @return std::vector<QrCode> The detected QR codes
+ */
+std::vector<QrCode> QrDetector::detectQrs(const cv::Mat& input_frame)
 {
   cv::Mat gray_frame;
 
@@ -63,43 +71,43 @@ void QrDetector::detectQrs(
   scanner.set_config(zbar::ZBAR_QRCODE, zbar::ZBAR_CFG_ENABLE, 1);
   scanner.scan(image);
 
+  std::vector<QrCode> qrs;
   for (zbar::Image::SymbolIterator symbol = image.symbol_begin();
     symbol != image.symbol_end(); ++symbol)
   {
     //QrCode detected_code;
-    qr_messages.push_back(symbol->get_data());
+    QrCode temp_qr;
+    temp_qr.message = symbol->get_data();
 
-    cv::Point detected_center;
     for(int i = 0; i < symbol->get_location_size(); i++)
     {
-      detected_center.x += symbol->get_location_x(i);
-      detected_center.y += symbol->get_location_y(i);
+      temp_qr.center.x += symbol->get_location_x(i);
+      temp_qr.center.y += symbol->get_location_y(i);
     }
 
-    detected_center.x /= symbol->get_location_size();
-    detected_center.y /= symbol->get_location_size();
+    temp_qr.center.x /= symbol->get_location_size();
+    temp_qr.center.y /= symbol->get_location_size();
 
-    qr_points.push_back(detected_center);
+    qrs.push_back(temp_qr);
   }
-
+  return qrs;
 }
 
-void QrDetector::findQrs(
-  std::string file_name,
-  std::vector<cv::Point> &qr_points,
-  std::vector<std::string> &qr_messages)
+/**
+ * @brief Detects QRs in an image file
+ * @param file_name [std::string] The input image URI
+ * @return std::vector<QrCode> The detected QR codes
+ */
+std::vector<QrCode> QrDetector::findQrs(std::string file_name)
 {
-  qr_points.clear();
-  qr_messages.clear();
-
   cv::Mat input_frame;
 
   input_frame = loadImage(file_name);
 
   if( input_frame.empty() )
   {
-    return;
+    return std::vector<QrCode>();
   }
 
-  detectQrs(input_frame, qr_points, qr_messages);
+  return detectQrs(input_frame);
 }

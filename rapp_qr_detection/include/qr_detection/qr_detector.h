@@ -25,36 +25,53 @@ limitations under the License.
 #include <opencv2/objdetect/objdetect.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
+// QR detection utilized the zbar library
 #include <zbar.h>
 
+/**
+ * @class QrCode
+ * @brief Structure holding the essential info for a QR code
+ */
 struct QrCode
 {
-  cv::Point qrcode_center;
-  std::string qrcode_desc;
+  cv::Point center;
+  std::string message;
 };
 
+/**
+ * @class QrDetector
+ * @brief Provides the QR detection functionality
+ */
 class QrDetector
 {
   public:
 
-    // Default constructor
+    /** 
+     * @brief Default constructor 
+     */
     QrDetector(void);
 
+    /**
+     * @brief Detects QRs in an image file
+     * @param file_name [std::string] The input image URI
+     * @return std::vector<QrCode> The detected QR codes
+     */
+    std::vector<QrCode> findQrs(std::string file_name);
+
+    /**
+     * @brief Detects QRs in a cv::Mat
+     * @param img [const cv::Mat&] The input image in cv::Mat form
+     * @return std::vector<QrCode> The detected QR codes
+     */
+    std::vector<QrCode> detectQrs(const cv::Mat& img);
+
+  private:
+    /**
+     * @brief Loads an image into a cv::Mat structure
+     * @param file_name [std::string] The file URI
+     * @return cv::Mat
+     */
     cv::Mat loadImage(std::string file_name);
-
-    void detectQrs(
-      const cv::Mat& img,
-      std::vector<cv::Point> &qr_points,
-      std::vector<std::string> &qr_messages
-      );
-
-    void findQrs(
-      std::string file_name,
-      std::vector<cv::Point> &qr_points,
-      std::vector<std::string> &qr_messages
-      );
-
-    ~QrDetector(){}
 };
 
-#endif
+#endif // RAPP_QR_DETECTOR_NODE

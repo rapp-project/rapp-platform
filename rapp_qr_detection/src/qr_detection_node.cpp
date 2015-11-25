@@ -17,6 +17,11 @@ limitations under the License.
 
 #include <qr_detection/qr_detection.h>
 
+/**
+ * @brief The main function.
+ * Retrieves the threads parameter in order to enable concurrent service
+ * invocation
+ */
 int main(int argc, char ** argv)
 {
   ros::init(argc, argv, "qr_detection_node");
@@ -32,7 +37,7 @@ int main(int argc, char ** argv)
   {
     threads = 1;
   }
-  ros::MultiThreadedSpinner spinner(threads); //Plus the standard one
+  ros::MultiThreadedSpinner spinner(threads);
   spinner.spin();
   return 0;
 }

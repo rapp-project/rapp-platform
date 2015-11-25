@@ -27,8 +27,11 @@ from rapp_platform_ros_communications.srv import (
   QrDetectionRosSrvRequest
   )
 
+## @class QrDetFunc
+# Supports the deployment of QR detection functional tests
 class QrDetFunc(unittest.TestCase):
-
+    
+    ## Tests QR detection with an image containing a QR. Should return 1 qr
     def test_qrExists(self):
         rospack = rospkg.RosPack()
         qr_service = rospy.get_param("rapp_qr_detection_detect_qrs_topic")
@@ -41,6 +44,7 @@ class QrDetFunc(unittest.TestCase):
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 1 )
 
+    ## Stress test for the QR detection. Performs 100 consecutive calls
     def test_qrExists_stress(self):
         rospack = rospkg.RosPack()
         qr_service = rospy.get_param("rapp_qr_detection_detect_qrs_topic")
@@ -54,6 +58,7 @@ class QrDetFunc(unittest.TestCase):
             qr_num = len(response.qr_messages)
             self.assertEqual( qr_num, 1 )
 
+    ## Tests qr detection with an image containing a face. Should return 0 qrs
     def test_qrNotExists(self):
         rospack = rospkg.RosPack()
         qr_service = rospy.get_param("rapp_qr_detection_detect_qrs_topic")
@@ -66,6 +71,7 @@ class QrDetFunc(unittest.TestCase):
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 0 )
 
+    ## Tests qr detection with a non-existent image. Should return 0 qrs
     def test_fileNotExists(self):
         rospack = rospkg.RosPack()
         qr_service = rospy.get_param("rapp_qr_detection_detect_qrs_topic")
@@ -78,6 +84,7 @@ class QrDetFunc(unittest.TestCase):
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 0 )
 
+    ## Tests qr detection with an audio file. Should return 0 qrs
     def test_fileIsAudio(self):
         rospack = rospkg.RosPack()
         qr_service = rospy.get_param("rapp_qr_detection_detect_qrs_topic")
@@ -90,6 +97,7 @@ class QrDetFunc(unittest.TestCase):
         qr_num = len(response.qr_messages)
         self.assertEqual( qr_num, 0 )
 
+## The main function. Initializes the functional tests
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'QrDetFunc', QrDetFunc)

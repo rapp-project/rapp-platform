@@ -17,6 +17,9 @@ limitations under the License.
 
 #include <qr_detection/qr_detection.h>
 
+/** 
+ * @brief Default constructor 
+ */
 QrDetection::QrDetection(void)
 {
   if(!nh_.getParam("/rapp_qr_detection_detect_qrs_topic", qrDetectionTopic_))
@@ -28,22 +31,27 @@ QrDetection::QrDetection(void)
     &QrDetection::qrDetectionCallback, this);
 }
 
+/**
+ * @brief The qr detection ROS service callback
+ * @param req [rapp_platform_ros_communications::QrDetectionRosSrv::Request&] The service request
+ * @param res [rapp_platform_ros_communications::QrDetectionRosSrv::Response&] The service response
+ * @return bool - The success status of the call
+ */
 bool QrDetection::qrDetectionCallback(
   rapp_platform_ros_communications::QrDetectionRosSrv::Request& req,
   rapp_platform_ros_communications::QrDetectionRosSrv::Response& res)
 {
-  std::vector<cv::Point> qr_points;
-  std::vector<std::string> qr_messages;
-  qr_detector_.findQrs(req.imageFilename, qr_points, qr_messages);
+  std::vector<QrCode> qrs;
+  qrs = qr_detector_.findQrs(req.imageFilename);
 
-  for(unsigned int i = 0 ; i < qr_points.size() ; i++)
+  for(unsigned int i = 0 ; i < qrs.size() ; i++)
   {
     geometry_msgs::PointStamped qr_center;
 
-    qr_center.point.x = qr_points[i].x;
-    qr_center.point.y = qr_points[i].y;
+    qr_center.point.x = qrs[i].center.x;
+    qr_center.point.y = qrs[i].center.y;
 
-    res.qr_messages.push_back(qr_messages[i]);
+    res.qr_messages.push_back(qrs[i].message);
     res.qr_centers.push_back(qr_center);
   }
 

@@ -1,3 +1,4 @@
 rapp_qr_detection_detect_qrs_topic: /rapp/rapp_qr_detection/detect_qrs
 
+# Parameter holding the number of concurrent calls qr detection can serve
 rapp_qr_detection_threads: 10
