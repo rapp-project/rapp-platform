@@ -37,21 +37,19 @@
  *
  */
 
-
-
-/*---------Sets required file Paths-------------*/
 var __DEBUG__ = false;
-var user = process.env.LOGNAME;
-var __configPath = '../config/';
-var srvEnv = require( __configPath + 'env/hop-services.json' );
+
+var hop = require('hop');
+var path = require('path');
+
+var __configDir = path.join(__dirname,'..', 'config');
+
+var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
+
 var __hopServiceName = 'available_services';
 var __hopServiceId = null;
 var __availableServices = [];
-/*----------------------------------------------*/
 
-/*--------------Load required modules-----------*/
-var hop = require('hop');
-/*----------------------------------------------*/
 
 /* -- Set timer values for websocket communication to rosbridge -- */
 var scanTimer = srvEnv[__hopServiceName].scan_time * 60 * 1000;  // Minutes
@@ -66,6 +64,7 @@ var color = {
 };
 
 
+// Register communication interface with the master-process
 register_master_interface();
 
 

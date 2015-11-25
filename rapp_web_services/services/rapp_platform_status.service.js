@@ -38,24 +38,26 @@
  *
  */
 
-
-/*--------------Load required modules-----------*/
-var __modulePath = '../modules/';
-var __configPath = __dirname + '/../config/';
+var __DEBUG__ = false;
 
 var hop = require('hop');
-var fs = require('fs');
-var Fs = require( __modulePath + 'fileUtils.js' );
+var path = require('path');
 
-var pathsEnv = require( __configPath + 'env/paths.json' );
-var ROS = require( __modulePath + 'RosBridgeJS/src/Rosbridge.js' );
-var rosbridgeEnv = require( __configPath + 'env/rosbridge.json' );
+var __includeDir = path.join(__dirname, '..', 'modules');
+var __configDir = path.join(__dirname, '..', 'config');
 
-var testDataPath = __dirname +
-  '/../../rapp_testing_tools/scripts/default_tests/test_data/';
+var Fs = require( path.join(__includeDir, 'fileUtils.js') );
+
+var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+    'Rosbridge.js') );
+
+var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
+var rosbridgeEnv = require( path.join(__configDir, 'env', 'rosbridge.json' ) );
+
+var testDataPath = path.join(__dirname, '..', '..', 'rapp_testing_tools',
+  'scripts', 'default_tests', 'test_data');
 
 var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
-/*----------------------------------------------*/
 
 import service available_services();
 

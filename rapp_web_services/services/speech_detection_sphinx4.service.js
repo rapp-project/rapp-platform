@@ -32,26 +32,27 @@
  *
  */
 
-
-//"use strict";
-
-
-var __modulePath = '../modules/';
-var __configPath = '../config/';
-var user = process.env.LOGNAME;
 var __DEBUG__ = false;
 
-/* --------------------------< Load required modules >---------------------*/
 var hop = require('hop');
-var Fs = require( __modulePath + 'fileUtils.js' );
-var RandStringGen = require ( __modulePath +
-  'RandomStrGenerator/randStringGen.js' );
-var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
-/*-------------------------------------------------------------------------*/
+var path = require('path');
 
-/* ------------< Load and set basic configuration parameters >-------------*/
-var srvEnv = require( __configPath + 'env/hop-services.json' );
-var pathsEnv = require( __configPath + 'env/paths.json' );
+var __includeDir = path.join(__dirname, '..', 'modules');
+var __configDir = path.join(__dirname, '..', 'config');
+
+var Fs = require( path.join(__includeDir, 'fileUtils.js') );
+
+var RandStringGen = require ( path.join(__includeDir, 'RandomStrGenerator',
+    'randStringGen.js') );
+
+var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+    'Rosbridge.js') );
+
+var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
+var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
+
+
+/* ------------< Load and set global configuration parameters >-------------*/
 var __hopServiceName = 'speech_detection_sphinx4';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
@@ -66,7 +67,6 @@ var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
     // .
   }
 });
-/* ----------------------------------------------------------------------- */
 
 /*----<Random String Generator configurations---->*/
 var stringLength = 5;
@@ -78,11 +78,14 @@ var timeout = srvEnv[__hopServiceName].timeout; // ms
 var maxTries = srvEnv[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
-var colors = {
-  error:    '\033[1;31m',
-  success:  '\033[1;31m',
-  clear:    '\033[0m'
-}
+var color = {
+  error:    String.fromCharCode(0x1B) + '[1;31m',
+  success:  String.fromCharCode(0x1B) + '[1;32m',
+  ok:       String.fromCharCode(0x1B) + '[34m',
+  yellow:   String.fromCharCode(0x1B) + '[33m',
+  clear:    String.fromCharCode(0x1B) + '[0m'
+};
+
 
 // Register communication interface with the master-process
 register_master_interface();

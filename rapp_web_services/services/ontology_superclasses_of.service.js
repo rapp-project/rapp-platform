@@ -33,38 +33,36 @@
  *
  */
 
-
-//"use strict";
-
-var __modulePath = '../modules/';
-var __configPath = '../config/';
-var user = process.env.LOGNAME;
 var __DEBUG__ = false;
 
-/* --------------------------< Load required modules >---------------------*/
 var hop = require('hop');
-var RandStringGen = require ( __modulePath +
-  'RandomStrGenerator/randStringGen.js' );
-var ROS = require( __modulePath + '/RosBridgeJS/src/Rosbridge.js');
-/* ----------------------------------------------------------------------- */
+var path = require('path');
+
+var __includeDir = path.join(__dirname, '..', 'modules');
+var __configDir = path.join(__dirname,'..', 'config');
+
+var RandStringGen = require ( path.join(__includeDir, 'RandomStrGenerator',
+    'randStringGen.js') );
+
+var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+    'Rosbridge.js') );
+
+var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
 
 
 /* ------------< Load and set basic configuration parameters >-------------*/
-var srvEnv = require( __configPath + 'env/hop-services.json' );
 var __hopServiceName = 'ontology_superclasses_of';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
 
-/* -------------------------< ROS service pool >-------------------------- */
-
+// Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
   function(){
     // .
   }
 });
-/* ----------------------------------------------------------------------- */
 
 
 /*----------------< Random String Generator configurations >---------------*/
