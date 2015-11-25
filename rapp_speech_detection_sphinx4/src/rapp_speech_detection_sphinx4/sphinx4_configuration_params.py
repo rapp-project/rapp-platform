@@ -20,20 +20,28 @@
 
 from global_parameters import GlobalParams
 
+## @class SphinxConfigurationParams
+# @brief Contains the parameters required for the Sphinx configuration
 class SphinxConfigurationParams(GlobalParams):
 
-
+  ## @brief Initializes an empty configuration (constructor)
   def __init__(self):
       GlobalParams.__init__(self)
 
-      self._configuration = ''
-
+      ## The language of the request
       self._language = 'el'
+      ## The words to be identified
       self._words = []
+      ## Sphinx grammar attribute
       self._grammar = []
+      ## Sphinx sentence attribute
       self._sentences = []
 
 
+  ## @brief Checks if a SphinxConfigurationParams instance equals self
+  #
+  # @param params [SphinxConfigurationParams] The class instance
+  # @param status [bool] True if configurations match
   def equals(self, params):
     if ( self._language == params.language and \
       self._words == params.words and \

@@ -37,69 +37,114 @@ from rapp_platform_ros_communications.srv import(
     AudioProcessingTransformAudioSrvRequest
     )
 
+## @class Sphinx4Wrapper
+# @brief Contains the Sphinx subprocess and is responsible for configuring Sphinx and performing the recognition request.
+#
+# Initializes a Sphinx.java subprocess and creates an IPC using sockets.
+# It is responsible for interacting with Sphinx via the socket to send
+# configuration params/instructions and initialize a recognition procedure.
 class Sphinx4Wrapper(GlobalParams):
 
+  ## Constructor
+  # Initiates service clients
   def __init__(self):
-    self._conf = ''
-    self.sphinxDied = False
     GlobalParams.__init__(self)
-    self.denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
-    self.energy_denoise_topic = \
+    ## Sphinx configuration
+    self._conf = ''
+    ## Sphinx status flag
+    self._sphinxDied = False
+
+    ## The IPC socket
+    self._sphinx_socket = None
+    ## The IPC socket port
+    self._sphinx_socket_PORT = None
+
+    ## The Sphinx subprocess
+    self._sphinxSubprocess = None
+
+    # Denoise service topic name
+    denoise_topic = rospy.get_param("rapp_audio_processing_denoise_topic")
+    # Energy denoise service topic name
+    energy_denoise_topic = \
         rospy.get_param("rapp_audio_processing_energy_denoise_topic")
-    self.detect_silence_topic = \
+    # Detect silence service topic name
+    detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
-    self.audio_trans_topic = \
+    # Transform audio service topic name
+    audio_trans_topic = \
         rospy.get_param("rapp_audio_processing_transform_audio_topic")
 
-    if(not self.denoise_topic):
+    if(not denoise_topic):
       rospy.logerror("Audio processing denoise topic not found")
-    if(not self.energy_denoise_topic):
+    if(not energy_denoise_topic):
       rospy.logerror("Audio processing energy denoise topic not found")
-    if(not self.detect_silence_topic):
+    if(not detect_silence_topic):
       rospy.logerror("Audio processing detect silence topic not found")
-    if(not self.audio_trans_topic):
+    if(not audio_trans_topic):
       rospy.logerror("Audio processing transform audio topic not found")
 
-    self.denoise_service = rospy.ServiceProxy(\
-              self.denoise_topic, AudioProcessingDenoiseSrv)
-    self.energy_denoise_service = rospy.ServiceProxy(\
-              self.energy_denoise_topic, AudioProcessingDenoiseSrv)
-    self.detect_silence_service = rospy.ServiceProxy(\
-              self.detect_silence_topic, AudioProcessingDetectSilenceSrv)
-    self.audio_transform_srv = rospy.ServiceProxy( \
-        self.audio_trans_topic, AudioProcessingTransformAudioSrv )
+    ## @brief Denoise service client
+    #
+    # rapp_audio_processing.rapp_audio_processing.AudioProcessing::denoise
+    self._denoise_service = rospy.ServiceProxy(\
+              denoise_topic, AudioProcessingDenoiseSrv)
 
-  # Helper function for getting input from Sphinx
-  def readLine(self):
+    ## @brief Energy denoise service client
+    #
+    # rapp_audio_processing.rapp_audio_processing.AudioProcessing::energy_denoise
+    self._energy_denoise_service = rospy.ServiceProxy(\
+              energy_denoise_topic, AudioProcessingDenoiseSrv)
+
+    ## @brief Detect silence service client
+    #
+    # rapp_audio_processing.rapp_audio_processing.AudioProcessing::detect_silence
+    self._detect_silence_service = rospy.ServiceProxy(\
+              detect_silence_topic, AudioProcessingDetectSilenceSrv)
+
+    ## @brief Transform audio service client
+    #
+    # rapp_audio_processing.rapp_audio_processing.AudioProcessing::transform_audio
+    self._audio_transform_srv = rospy.ServiceProxy( \
+        audio_trans_topic, AudioProcessingTransformAudioSrv )
+
+  ## Helper function for getting input from IPC with Sphinx subprocess
+  #
+  # @return line [string] A buffer read from socket
+  def _readLine(self):
     line = self.socket_connection.recv(1024)
     if self.allow_sphinx_output == True:
       rapp_print( line )
     return line
 
-  # Perform Sphinx4 initialization. For now it is initialized with the
-  # reduced Greek model
+  ## Perform Sphinx4 initialization
+  # Initiates Sphinx subprocess, sets up socket IPC and configures Sphinx subprocess
+  #
+  # @param conf [dictionary] Contains the configuration parameters
   def initializeSphinx(self, conf):
 
     rapp_print(str(conf['jar_path']))
 
-    self.createSocket()
+    self._createSocket()
 
     if self.allow_sphinx_output == True:
-        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)] )
+        self._sphinxSubprocess = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)] )
     else:
         try:
           from subprocess import DEVNULL
         except ImportError:
           DEVNULL = open(os.devnull, 'wb')
 
-        self.p = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)], \
+        self._sphinxSubprocess = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)], \
             stdout = DEVNULL, stderr = DEVNULL )
 
     self.socket_connection, addr = self._sphinx_socket.accept()
 
     self.configureSphinx( conf )
 
-  def createSocket(self):
+  ## Creates socket IPC between self and Sphinx subprocess
+  # Creates the socket server with a system provided port, which is pass as an
+  # argument to the created subprocess.
+  def _createSocket(self):
     HOST = self.socket_host
     self._sphinx_socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM ) # Create Unix Socket
     self._sphinx_socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -107,82 +152,99 @@ class Sphinx4Wrapper(GlobalParams):
     self._sphinx_socket_PORT = self._sphinx_socket.getsockname()[1]
     self._sphinx_socket.listen( 1 )
 
+  ## Perform Sphinx4 configuration
+  #
+  # @param conf [dictionary] Contains the configuration parameters
   def configureSphinx(self, conf):
     self._conf = conf
     self.socket_connection.sendall("configurationPath#" + conf['configuration_path'] + '\r\n')
-    self.readLine()
+    self._readLine()
     self.socket_connection.sendall("acousticModel#" + conf['acoustic_model'] + '\r\n')
-    self.readLine()
+    self._readLine()
     self.socket_connection.sendall("grammarName#" + conf['grammar_name'] + "#" + \
             conf['grammar_folder'] + '\r\n')
-    self.readLine()
+    self._readLine()
     self.socket_connection.sendall("dictionary#" + conf['dictionary'] + '\r\n')
-    self.readLine()
+    self._readLine()
     self.socket_connection.sendall("languageModel#" + conf['language_model'] + '\r\n')
-    self.readLine()
+    self._readLine()
     if(conf['grammar_disabled']):
       self.socket_connection.sendall("disableGrammar#\r\n")
     else:
       self.socket_connection.sendall("enableGrammar#\r\n")
-    self.readLine()
+    self._readLine()
     self.socket_connection.sendall("forceConfiguration#\r\n")
-    self.readLine()
+    self._readLine()
 
-  def createProcessingProfile(self, audio_type):
-    manipulation = {}
-    manipulation['sox_transform'] = False
-    manipulation['sox_channels_and_rate'] = False
-    manipulation['sox_denoising'] = False
-    manipulation['sox_denoising_scale'] = 0.0
-    manipulation['detect_silence'] = False
-    manipulation['detect_silence_threshold'] = 0.0
-    manipulation['energy_denoising'] = False
-    manipulation['energy_denoising_init_scale'] = 0.0
+  ## Creates audio profile based on the audio type for processing purposes.
+  # Defines a set of audio processing procedures (i.e. denoising) to be
+  # performed on the audio file and the parameters of the procedures.
+  # Aims to improve to audio file quality to improve speech recognition results.
+  #
+  # @param audio_type [string] The audio type
+  #
+  # @return processingProfile [dictionary] The profile attributes
+  def _createProcessingProfile(self, audio_type):
+    processingProfile = {}
+    processingProfile['sox_transform'] = False
+    processingProfile['sox_channels_and_rate'] = False
+    processingProfile['sox_denoising'] = False
+    processingProfile['sox_denoising_scale'] = 0.0
+    processingProfile['detect_silence'] = False
+    processingProfile['detect_silence_threshold'] = 0.0
+    processingProfile['energy_denoising'] = False
+    processingProfile['energy_denoising_init_scale'] = 0.0
 
     if audio_type == "headset":
       pass
     elif audio_type == "nao_ogg":
-      manipulation['sox_transform'] = True
-      manipulation['sox_denoising'] = True
-      manipulation['sox_denoising_scale'] = 0.15
-      manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 3.0
-      manipulation['energy_denoising'] = True
-      manipulation['energy_denoising_init_scale'] = 0.125
+      processingProfile['sox_transform'] = True
+      processingProfile['sox_denoising'] = True
+      processingProfile['sox_denoising_scale'] = 0.15
+      processingProfile['detect_silence'] = True
+      processingProfile['detect_silence_threshold'] = 3.0
+      processingProfile['energy_denoising'] = True
+      processingProfile['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_4_ch":
-      manipulation['sox_channels_and_rate'] = True
-      manipulation['sox_denoising'] = True
-      manipulation['sox_denoising_scale'] = 0.15
-      manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 3.0
-      manipulation['energy_denoising'] = True
-      manipulation['energy_denoising_init_scale'] = 0.125
+      processingProfile['sox_channels_and_rate'] = True
+      processingProfile['sox_denoising'] = True
+      processingProfile['sox_denoising_scale'] = 0.15
+      processingProfile['detect_silence'] = True
+      processingProfile['detect_silence_threshold'] = 3.0
+      processingProfile['energy_denoising'] = True
+      processingProfile['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_1_ch":
-      manipulation['sox_denoising'] = True
-      manipulation['sox_denoising_scale'] = 0.15
-      manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 3.0
-      manipulation['energy_denoising'] = True
-      manipulation['energy_denoising_init_scale'] = 0.125
+      processingProfile['sox_denoising'] = True
+      processingProfile['sox_denoising_scale'] = 0.15
+      processingProfile['detect_silence'] = True
+      processingProfile['detect_silence_threshold'] = 3.0
+      processingProfile['energy_denoising'] = True
+      processingProfile['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_1_ch_denoised":
-      manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 3.0
-      manipulation['energy_denoising'] = True
-      manipulation['energy_denoising_init_scale'] = 0.125
+      processingProfile['detect_silence'] = True
+      processingProfile['detect_silence_threshold'] = 3.0
+      processingProfile['energy_denoising'] = True
+      processingProfile['energy_denoising_init_scale'] = 0.125
     elif audio_type == "nao_wav_1_ch_only_sox":
-      manipulation['sox_denoising'] = True
-      manipulation['sox_denoising_scale'] = 0.15
-      manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 3.0
+      processingProfile['sox_denoising'] = True
+      processingProfile['sox_denoising_scale'] = 0.15
+      processingProfile['detect_silence'] = True
+      processingProfile['detect_silence_threshold'] = 3.0
     elif audio_type == "nao_wav_1_ch_denoised_only_sox":
-      manipulation['detect_silence'] = True
-      manipulation['detect_silence_threshold'] = 3.0
+      processingProfile['detect_silence'] = True
+      processingProfile['detect_silence_threshold'] = 3.0
 
-    return manipulation
+    return processingProfile
 
 
-  # Performs the speech recognition and returns a list of words
-  def performSpeechRecognition(self, audio_file, audio_source, user):
+  ## Performs the speech recognition and returns a list of words
+  #
+  # @param audio_file [string] The audio file's name
+  # @param audio_type [string] The audio file's type
+  #
+  # @returns words [list::string] The result words
+  # @exception RappError Audio transformation error
+  def performSpeechRecognition(self, audio_file, audio_type, user):
     # Check if path exists
     if os.path.isfile(audio_file) == False:
       return ["Error: Something went wrong with the local audio storage\
@@ -199,8 +261,8 @@ class Sphinx4Wrapper(GlobalParams):
     if audio_file_folder[-1] != "/":
       audio_file_folder += "/"
 
-    # Check that the audio_source is legit
-    if audio_source not in [\
+    # Check that the audio_type is legit
+    if audio_type not in [\
         "headset", \
         "nao_ogg", \
         "nao_wav_4_ch", \
@@ -212,11 +274,10 @@ class Sphinx4Wrapper(GlobalParams):
       return ["Error: Audio source unrecognized"]
 
     # Get processing profile
-    profile = self.createProcessingProfile(audio_source)
-
+    profile = self._createProcessingProfile(audio_type)
 
     transform_req = AudioProcessingTransformAudioSrvRequest()
-    transform_req.source_type = audio_source
+    transform_req.source_type = audio_type
     transform_req.source_name = prev_audio_file
     transform_req.target_type = 'wav'
 
@@ -225,15 +286,12 @@ class Sphinx4Wrapper(GlobalParams):
       next_audio_file += "_transformed.wav"
       transform_req.target_name = next_audio_file
 
-      trans_response = self.audio_transform_srv( transform_req )
+      trans_response = self._audio_transform_srv( transform_req )
 
       if trans_response.error != 'success':
-          raise RappError( 'Audio transformation error: ' + error )
+          return [ 'Audio transformation error: ' + error ]
+          #raise RappError( 'Audio transformation error: ' + error )
 
-      #command = "sox " + prev_audio_file + " " + next_audio_file
-      #com_res = os.system(command)
-      #if com_res != 0:
-        #return ["Error: sox malfunctioned"]
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
     if profile['sox_channels_and_rate'] == True:
@@ -242,14 +300,11 @@ class Sphinx4Wrapper(GlobalParams):
       transform_req.target_channels = 1
       transform_req.target_rate = 16000
 
-      trans_response = self.audio_transform_srv( transform_req )
+      trans_response = self._audio_transform_srv( transform_req )
 
       if trans_response.error != 'success':
-          raise RappError( 'Audio transformation error: ' + error )
-      #command = "sox " + prev_audio_file + " -r 16000 -c 1 " + next_audio_file
-      #com_res = os.system(command)
-      #if com_res != 0:
-        #return ["Error: sox malfunctioned"]
+          return [ 'Audio transformation error: ' + error ]
+          #raise RappError( 'Audio transformation error: ' + error )
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
     if profile['sox_denoising'] == True:
@@ -257,10 +312,10 @@ class Sphinx4Wrapper(GlobalParams):
       den_request = AudioProcessingDenoiseSrvRequest()
       den_request.audio_file = prev_audio_file
       den_request.denoised_audio_file = next_audio_file
-      den_request.audio_type = audio_source
+      den_request.audio_type = audio_type
       den_request.user = user
       den_request.scale = profile['sox_denoising_scale']
-      den_response = self.denoise_service(den_request)
+      den_response = self._denoise_service(den_request)
       if den_response.success != "true":
         return ["Error:" + den_response.success]
       audio_to_be_erased.append(next_audio_file)
@@ -270,7 +325,7 @@ class Sphinx4Wrapper(GlobalParams):
       silence_req = AudioProcessingDetectSilenceSrvRequest()
       silence_req.audio_file = prev_audio_file
       silence_req.threshold = profile['detect_silence_threshold']
-      silence_res = self.detect_silence_service(silence_req)
+      silence_res = self._detect_silence_service(silence_req)
       rapp_print("Silence detection results: " + str(silence_res))
       if silence_res.silence == "true":
         return ["Error: No speech detected. RSD = " + str(silence_res.level)]
@@ -280,7 +335,7 @@ class Sphinx4Wrapper(GlobalParams):
         # Perform energy denoising as well
         if profile['energy_denoising'] == True:
           next_audio_file = prev_audio_file + "_energy_denoised.wav"
-          dres = self.performEnergyDenoising(next_audio_file, prev_audio_file, \
+          dres = self._performEnergyDenoising(next_audio_file, prev_audio_file, \
                   profile['energy_denoising_init_scale'] + tries * 0.125)
           if dres != "true":
             return ["Error:" + dres]
@@ -288,9 +343,9 @@ class Sphinx4Wrapper(GlobalParams):
           prev_audio_file = next_audio_file
 
         new_audio_file = next_audio_file
-        words = self.callSphinxJava(new_audio_file)
-        if self.sphinxDied == True:
-            self.sphinxDied = False
+        words = self._callSphinxJava(new_audio_file)
+        if self._sphinxDied == True:
+            self._sphinxDied = False
             break
 
         if len(words) == 0 or (len(words) == 1 and words[0] == ""):
@@ -325,25 +380,38 @@ class Sphinx4Wrapper(GlobalParams):
       if com_res != 0:
         return ["Error: Server rm malfunctioned"]
 
-
     return words
 
-  def performEnergyDenoising(self, next_audio_file, prev_audio_file, scale):
+  ## Perform energy denoise.
+  # Calls energy denoise service
+  # rapp_audio_processing.rapp_audio_processing.AudioProcessing::energy_denoise
+  # (see also rapp_audio_processing.rapp_energy_denoise.EnergyDenoise::energyDenoise)
+  #
+  # @param audio_file [string] The audio file path
+  # @param scale [float] The scale parameter for the denoising procedure
+  #
+  # @returns file_path [string] THe path of the denoised file
+  def _performEnergyDenoising(self, next_audio_file, audio_file, scale):
     energy_denoise_req = AudioProcessingDenoiseSrvRequest()
-    energy_denoise_req.audio_file = prev_audio_file
+    energy_denoise_req.audio_file = audio_file
     energy_denoise_req.denoised_audio_file = next_audio_file
     energy_denoise_req.scale = scale
-    energy_denoise_res = self.energy_denoise_service(energy_denoise_req)
+    energy_denoise_res = self._energy_denoise_service(energy_denoise_req)
     return energy_denoise_res.success
 
-  def callSphinxJava(self,new_audio_file):
+  ## Communicate with Sphinx subprocess to initiate recognition and fetch results.
+  #
+  # @param audio_file [string] The audio file path
+  #
+  # @return words [list::string] The Sphinx result
+  def _callSphinxJava(self, audio_file):
     self.socket_connection.sendall("start\r\n")
-    self.socket_connection.sendall("audioInput#" + new_audio_file + "\r\n")
+    self.socket_connection.sendall("audioInput#" + audio_file + "\r\n")
     start_time = time.time()
-    self.readLine()
+    self._readLine()
     words = []
     while(True):
-      line = self.readLine()
+      line = self._readLine()
       if(len(line)>0):
         if(line[0]=="#"):
           stripped_down_line = line[1:-1].split(" ")
@@ -353,8 +421,8 @@ class Sphinx4Wrapper(GlobalParams):
           break
         if("CatchedException" in line):
             rospy.logerr(line)
-            self.respawnSphinx()
-            self.sphinxDied = True
+            self._respawnSphinx()
+            self._sphinxDied = True
             return words
 
       if (time.time() - start_time > 10):
@@ -362,9 +430,10 @@ class Sphinx4Wrapper(GlobalParams):
         break
     return words
 
-  def respawnSphinx(self):
+  ## Respawns Sphinx subprocess, if it terminates abruptly
+  def _respawnSphinx(self):
     #rospy.logwarn("Respawning sphinx")
-    self.p.kill()
+    self._sphinxSubprocess.kill()
     time.sleep(2)
     self.initializeSphinx( self._conf )
     #rospy.logwarn("Respawned sphinx")
