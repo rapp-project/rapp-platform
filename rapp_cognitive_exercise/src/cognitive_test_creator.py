@@ -44,6 +44,10 @@ from rapp_platform_ros_communications.msg import (
 
 class CognitiveTestCreator:
 
+  ## @brief The callback function of the cognitive test creator service, it reads the cognitive test from the text file, converts it to xml and registers it on the ontology
+  # @param s [cognitiveTestCreatorSrvRequest] The input arguments of the service as defined in the cognitiveTestCreatorSrv
+  #
+  # @return bool [cognitiveTestCreatorSrvResponse] The output arguments of the service as defined in the cognitiveTestCreatorSrv
   def testCreator(self,req):
     res=cognitiveTestCreatorSrvResponse()
     fname=req.inputFile
@@ -149,21 +153,12 @@ class CognitiveTestCreator:
         tree = ET.ElementTree(root)
         rospack = rospkg.RosPack()
 
-
         localPackagePath=rospack.get_path('rapp_cognitive_exercise')
         inNodeName="/cognitiveTests/"+xmlFileName+".xml"
         localPackagePath=localPackagePath+inNodeName
         tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
 
-        serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')
-        #if(not serv_topic):
-          #rospy.logerror("rapp_knowrob_wrapper_create_cognitve_tests not found")
-          #res.trace.append("rapp_knowrob_wrapper_create_cognitve_tests not found")
-          #res.error="rapp_knowrob_wrapper_create_cognitve_tests not found"
-          #res.success=False
-          #os.remove(localPackagePath)
-          #return res
-          
+        serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')          
         createTestReq=createCognitiveExerciseTestSrvRequest()
         createTestReq.test_type=d["testType"][0]
         createTestReq.test_difficulty=int(d["difficulty"][0])
@@ -206,13 +201,21 @@ class CognitiveTestCreator:
 
     return res
 
+  ## @brief Checks if string can be converted to an integer
+  # @param s [string] The input string
+  #
+  # @return bool [bool] True if string can be converted to an integer, otherwise false
   def is_int(self,s):
       try:
           int(s)
           return True
       except ValueError:
           return False
-
+          
+  ## @brief Formats the xml file so as to be human readable
+  # @param elem [tree] The xml in element tree mode
+  #
+  # @return elem [tree] The xml in element tree mode
   def indent(self, elem, level=0):
       i = "\n" + level*"  "
       if len(elem):

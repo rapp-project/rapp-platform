@@ -44,8 +44,18 @@ from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
 
+## @class RecordUserCognitiveTestPerformance
+# @brief Provides the necessary functions for selecting a cognitive exercise test
+#
+# It implements the cognitive exercise record user cognitive test performance service
 class RecordUserCognitiveTestPerformance:
 
+  ## @brief The callback function of the cognitive exercise record user cognitive test performance service
+  # @param req [recordUserCognitiveTestPerformanceSrvReq] The input arguments of the service as defined in the recordUserCognitiveTestPerformanceSrv
+  #
+  # @return res [recordUserCognitiveTestPerformanceSrvResponse] The output arguments of the service as defined in the recordUserCognitiveTestPerformanceSrv
+  # @exception Exception IndexError
+  # @exception Exception AIOError
   def recordPerformance(self,req):
     try:
       res = recordUserCognitiveTestPerformanceSrvResponse()

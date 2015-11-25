@@ -21,6 +21,7 @@
 import rospy
 from cognitive_exercise import CognitiveExercise
 
+## @brief The main function that initiates the CognitiveExercise ROS Node  
 if __name__ == "__main__":
   rospy.init_node('CognitiveExercise')
   CognitiveExerciseNode = CognitiveExercise()

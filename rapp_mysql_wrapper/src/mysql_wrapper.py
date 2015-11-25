@@ -177,9 +177,7 @@ class MySQLdbWrapper:
         else:
           values=values+",("+self.constructCommaColumns(req.req_data[i].s)+")"
 
-      #print values
       query="Insert into "+tblName+" "+ returncols+" values "+values
-      #print query
       cur.execute("LOCK TABLES "+tblName+" WRITE")
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
@@ -300,8 +298,6 @@ class MySQLdbWrapper:
       res.trace.append("Error: can\'t find login file or read data")
     return res
 
-
-
   def whatRappsCanRun(self,req,tblName):
     #generic db read function
     try:
@@ -309,20 +305,14 @@ class MySQLdbWrapper:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');
       cur = con.cursor()
-      #returncols=self.constructCommaColumns(req.req_cols)
-      #print returncols
-      #where=self.constructAndQuery(req.where_data)
-      #print where
-      #query="SELECT "+returncols+" FROM "+tblName+where
       query="SELECT rapp_id from tblRappsModelsVersion where model_id='"+req.model_id+"' and minimum_coreagent_version<='"+req.core_agent_version+"'";
-      #print "fetch called"
       cur.execute(query)
       result_set = cur.fetchall()
       for i in range(len(result_set)):
         line=StringArrayMsg()
         for j in range(len(result_set[i])):
           temp_s=String(result_set[i][j])
-          line.s.append((str(result_set[i][j])))#=line.s+[String(data=temp_s)]
+          line.s.append((str(result_set[i][j])))
         res.res_data.append(line)
       con.close()
       res.success.data=True
@@ -387,7 +377,6 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
 
-
   def getLogin(self):
     #Loads file with db credentials
     fh = open("/etc/db_credentials", "r")
@@ -396,7 +385,6 @@ class MySQLdbWrapper:
     db_password=fh.readline()
     db_password=db_password.split()[0]
     return db_username,db_password
-
 
   def checkConnection(self):
     #checks connectivity to the DB

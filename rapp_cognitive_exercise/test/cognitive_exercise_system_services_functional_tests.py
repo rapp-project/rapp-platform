@@ -31,9 +31,11 @@ from rapp_platform_ros_communications.srv import (
   testSelectorSrvResponse
   )
 
+## @class CognitiveExerciseFunc 
+# Inherits the unittest.TestCase class in order to offer functional tests functionality 
 class CognitiveExerciseFunc(unittest.TestCase):
 
-    # Subclasses_of tests
+    ## Tests the cognitive exercise test chooser service when test type is provided
     def test_chooser_basic(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
@@ -48,6 +50,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, True)  
         
+    ## Tests the cognitive exercise test chooser service when test type is not provided  
     def test_chooser_no_type(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
@@ -60,9 +63,9 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.username="rapp"        
         req.testType=""
         response = test_service(req)     
-        self.assertEqual(response.success, True)  
-        
-        
+        self.assertEqual(response.success, True)    
+              
+    ## Tests the record user cognitive exercise test performance service  
     def test_record_user_performance_basic(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_cognitive_exercise_record_user_cognitive_test_performance_topic")
@@ -78,7 +81,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, True)  
   
-    
+## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'CognitiveExerciseFunc', CognitiveExerciseFunc)

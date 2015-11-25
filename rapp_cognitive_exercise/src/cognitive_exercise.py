@@ -54,8 +54,12 @@ from std_msgs.msg import (
 
 class CognitiveExercise:
 
-  def __init__(self):
-    
+  ## @brief Default contructor
+  #
+  # Waits for services the node depends on and declares the callbacks of the node's services
+  def __init__(self):    
+	  
+	# Dependencies
     self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
     if(not self.serv_topic):
       rospy.logerror("rapp_knowrob_wrapper_create_ontology_alias param not found")
@@ -86,6 +90,7 @@ class CognitiveExercise:
       rospy.logerror("rapp_knowrob_wrapper_create_cognitve_tests not found")
     rospy.wait_for_service(serv_topic) 
 
+	#Declare Callbacks
     self.serv_topic = rospy.get_param("rapp_cognitive_exercise_chooser_topic")
     if(not self.serv_topic):
       rospy.logerror("rapp_cognitive_exercise_chooser_topic not found")
@@ -101,18 +106,23 @@ class CognitiveExercise:
       rospy.logerror("rapp_cognitive_test_creator_topic not found")
     self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.rcognitiveTestCreatorDataHandler)
 
+  ## @brief The cognitive exercise chooser service callback
+  # @param req [testSelectorSrvRequest] The ROS service request
   def chooserDataHandler(self,req):
     res = testSelectorSrvResponse()
     it = TestSelector()
     res=it.chooserFunction(req)
     return res
-
+    
+  ## @brief The record user cognitive test performance service callback
+  # @param req [recordUserCognitiveTestPerformanceSrvRequest] The ROS service request
   def recordUserCognitiveTestPerformanceDataHandler(self,req):
     res = recordUserCognitiveTestPerformanceSrvResponse()
     it = RecordUserCognitiveTestPerformance()
     res=it.recordPerformance(req)
     return res
-
+  ## @brief The cognitive test creator service callback
+  # @param req [cognitiveTestCreatorSrvRequest] The ROS service request
   def rcognitiveTestCreatorDataHandler(self,req):
     res = cognitiveTestCreatorSrvResponse()
     it = CognitiveTestCreator()
