@@ -27,6 +27,8 @@ from scipy.io import wavfile
 # Allows the transformation of an audio file to a different format. Supports
 # the alteration of the type (i.e. headset, nao_wav_1_ch etc.), the sample
 # rate, the audio channel number, the audio format and the audio name.
+# Handles transform audio service callback
+# (rapp_audio_processing.rapp_audio_processing.AudioProcessing::transform_audio)
 class TransformAudio:
 
     ## @brief Performs the audio transformation
@@ -69,7 +71,6 @@ class TransformAudio:
     # @param target_channels [string] The target audio's channel number
     # @param target_rate [string] The target audio's sample rate
     #
-    # @return void Required arguments are present
     # @exception Exception Arguments are invalid
     def _assertArgs(self, source_type, source_name, target_type, target_name, \
             target_channels, target_rate ):
@@ -95,7 +96,6 @@ class TransformAudio:
     # @param target_channels [string] The target audio's channel number
     # @param target_rate [string] The target audio's sample rate
     #
-    # @return [ void ] Conversion performed successfully
     # @exception Exception Conversion malfunction
     def _convertType(self, source_type, source_name, target_type, target_name, \
             target_channels, target_rate ):
@@ -135,7 +135,6 @@ class TransformAudio:
     # @param source_type [string] The source audio file's type
     # @param name [string] The source audio file's name
     #
-    # @return void Audio type matches file type
     # @exception Exception Audio type/file type mismatch
     def _validateSourceType( self, source_type, name ):
 

@@ -36,8 +36,10 @@ from rapp_platform_ros_communications.srv import (
 # @brief Maintains Sphinx instances to perform speech recognition
 #
 # Maintains a number of child processes to perform speech recognition utilizing
-# Sphinx4. Provides ros services and handles the requests according to the
-# child processes' status.
+# Sphinx4
+# (rapp_speech_detection_sphinx4.speech_recognition_sphinx4.SpeechRecognitionSphinx4).
+# Provides ros services and handles the requests according to the child
+# processes' status.
 class SpeechRecognitionSphinx4HandlerNode():
 
   ## @brief Initializes the subprocesses and the services (constructor)
@@ -60,15 +62,14 @@ class SpeechRecognitionSphinx4HandlerNode():
     ## Total service callback threads waiting to execute
     self._threadCounter = 0
 
-    ## Ros service topic for sphinx speech recognition
-    self._serv_batch_topic = \
+    serv_batch_topic = \
         rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
-    if(not self._serv_batch_topic):
+    if(not serv_batch_topic):
       rospy.logerror("Sphinx4 Speech detection batch topic param not found")
 
     ## Ros service server for sphinx speech recognition
     self._speech_recognition_batch_service = rospy.Service( \
-        self._serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
+        serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
         self.handleSpeechRecognitionCallback)
 
   ## @brief The callback to perform speech recognition
