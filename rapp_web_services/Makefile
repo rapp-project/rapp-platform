@@ -6,11 +6,12 @@ jshint:
 	jshint services
 
 doc:
-	mkdir doc/
-	jsdoc -c config/doc_conf.json
+	npm install
+	npm run doc-gen
 
 clean:
 	rm -rf doc/
+	rm -rf node_modules/
 
 
 .PHONY: jshint

@@ -5,8 +5,17 @@
   "main": "services/init.js",
   "scripts": {
     "test": "",
-    "start": "bash run.sh"
+    "start": "bash run.sh",
+    "doc-gen": "jsdoc -c config/doc_conf.json",
+    "doc-view": "${BROWSER} doc/index.html"
   },
   "author": "Konstantinos Panayiotou <klpanagi@gmail.com>",
-  "license": "MIT"
+  "devDependencies": {
+    "jsdoc": "latest",
+    "jshint": "latest"
+  },
+  "bin": {
+    "jsdoc": "./node_modules/jsdoc/jsdoc.js"
+  },
+  "license": "Apache Licence v2"
 }

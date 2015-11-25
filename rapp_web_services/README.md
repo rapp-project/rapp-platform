@@ -38,6 +38,18 @@ a HOP Web Service js executable file. HOP Server is responsible for registering 
 Use the [rapp_platform_testing_tools](https://github.com/rapp-project/rapp-platform/tree/hop_services/rapp_testing_tools) package.
 
 
+## Documentation
+
+This package's source-code is documented using the [JSDoc](https://github.com/jsdoc3/jsdoc) javascript documentation generator.
+
+Gererate documentation:
+
+```shell
+make doc
+```
+
+Generated doc files are located under the **doc/** directory.
+
 ## Contributors
 
 - Konstaninos Panayiotou, [ klpanagi@gmail.com ]
