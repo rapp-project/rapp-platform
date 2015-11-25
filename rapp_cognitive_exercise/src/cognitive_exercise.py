@@ -52,6 +52,8 @@ from std_msgs.msg import (
   String
   )
 
+## @class CognitiveExercise
+# @brief The Cognitive exercise ros node
 class CognitiveExercise:
 
   ## @brief Default contructor
@@ -108,6 +110,7 @@ class CognitiveExercise:
 
   ## @brief The cognitive exercise chooser service callback
   # @param req [testSelectorSrvRequest] The ROS service request
+  # @param res [testSelectorSrvResponse] The ROS service response
   def chooserDataHandler(self,req):
     res = testSelectorSrvResponse()
     it = TestSelector()
@@ -116,6 +119,7 @@ class CognitiveExercise:
     
   ## @brief The record user cognitive test performance service callback
   # @param req [recordUserCognitiveTestPerformanceSrvRequest] The ROS service request
+  # @param res [recordUserCognitiveTestPerformanceSrvResponse] The ROS service response
   def recordUserCognitiveTestPerformanceDataHandler(self,req):
     res = recordUserCognitiveTestPerformanceSrvResponse()
     it = RecordUserCognitiveTestPerformance()
@@ -123,6 +127,7 @@ class CognitiveExercise:
     return res
   ## @brief The cognitive test creator service callback
   # @param req [cognitiveTestCreatorSrvRequest] The ROS service request
+  # @param res [cognitiveTestCreatorSrvResponse] The ROS service response
   def rcognitiveTestCreatorDataHandler(self,req):
     res = cognitiveTestCreatorSrvResponse()
     it = CognitiveTestCreator()

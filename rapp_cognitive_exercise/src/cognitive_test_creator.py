@@ -42,6 +42,10 @@ from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
 
+## @class CognitiveTestCreator
+# @brief Provides the necessary functions for the cognitive test creator service
+#
+# It implements the cognitive test creator service
 class CognitiveTestCreator:
 
   ## @brief The callback function of the cognitive test creator service, it reads the cognitive test from the text file, converts it to xml and registers it on the ontology

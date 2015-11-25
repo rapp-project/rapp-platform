@@ -41,9 +41,14 @@ from rapp_platform_ros_communications.msg import (
 from std_msgs.msg import (
   String
   )
-
+  
+## @class MySQLdbWrapper
+# @brief The mysql wrapper ros node
 class MySQLdbWrapper:
 
+  ## @brief Default contructor
+  #
+  # Declares the callbacks of the node's services
   def __init__(self):
     #tblUser services launch
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
@@ -158,9 +163,11 @@ class MySQLdbWrapper:
       rospy.logerror("rapp_mysql_wrapper_what_rapps_can_run Not found error")
     self.serv=rospy.Service(self.serv_topic, whatRappsCanRunSrv, self.whatRappsCanRunDataHandler)
 
-
+  ## @brief Implements the general write data to table function
+  # @param req [writeDataSrvRequest] The input arguments of the service as defined in the writeDataSrv
+  # @param tblName [string] the table name
+  # @return res [writeDataSrvResponse] The output arguments of the service as defined in the writeDataSrv
   def writeData(self,req,tblName):
-    #generic db write function
     try:
       res = writeDataSrvResponse()
       db_username,db_password=self.getLogin()
@@ -197,8 +204,11 @@ class MySQLdbWrapper:
       res.trace.append("Error: can\'t find login file or read data")
     return res
 
+  ## @brief Implements the general delete data from table function
+  # @param req [deleteDataSrvRequest] The input arguments of the service as defined in the deleteDataSrv
+  # @param tblName [string] the table name
+  # @return res [deleteDataSrvResponse] The output arguments of the service as defined in the deleteDataSrv
   def deleteData(self,req,tblName):
-    #generic db delete function
     try:
       res = deleteDataSrvResponse()
       db_username,db_password=self.getLogin()
@@ -225,8 +235,11 @@ class MySQLdbWrapper:
       res.trace.append("Error: can\'t find login file or read data")
     return res
 
+  ## @brief Implements the general update data from table function
+  # @param req [updateDataSrvRequest] The input arguments of the service as defined in the updateDataSrv
+  # @param tblName [string] the table name
+  # @return res [updateDataSrvResponse] The output arguments of the service as defined in the updateDataSrv
   def updateData(self,req,tblName):
-    #generic db update function
     try:
       res = updateDataSrvResponse()
       db_username,db_password=self.getLogin()
@@ -255,26 +268,26 @@ class MySQLdbWrapper:
       res.trace.append("Error: can\'t find login file or read data")
     return res
 
+  ## @brief Implements the general fetch data from table function
+  # @param req [fetchDataSrvRequest] The input arguments of the service as defined in the fetchDataSrv
+  # @param tblName [string] the table name
+  # @return res [fetchDataSrvResponse] The output arguments of the service as defined in the fetchDataSrv
   def fetchData(self,req,tblName):
-    #generic db read function
     try:
       res = fetchDataSrvResponse()
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');
       cur = con.cursor()
       returncols=self.constructCommaColumns(req.req_cols)
-      #print returncols
       where=self.constructAndQuery(req.where_data)
-      #print where
       query="SELECT "+returncols+" FROM "+tblName+where
-      #print "fetch called"
       cur.execute(query)
       result_set = cur.fetchall()
       for i in range(len(result_set)):
         line=StringArrayMsg()
         for j in range(len(result_set[i])):
           temp_s=String(result_set[i][j])
-          line.s.append((str(result_set[i][j])))#=line.s+[String(data=temp_s)]
+          line.s.append((str(result_set[i][j])))
         res.res_data.append(line)
 
       con.close()
@@ -298,8 +311,11 @@ class MySQLdbWrapper:
       res.trace.append("Error: can\'t find login file or read data")
     return res
 
+  ## @brief Implements the whatRappsCanRun service
+  # @param req [whatRappsCanRunSrvRequest] The input arguments of the service as defined in the whatRappsCanRunSrv
+  # @param tblName [string] the table name
+  # @return res [whatRappsCanRunSrvResponse] The output arguments of the service as defined in the whatRappsCanRunSrv
   def whatRappsCanRun(self,req,tblName):
-    #generic db read function
     try:
       res = whatRappsCanRunSrvResponse()
       db_username,db_password=self.getLogin()
@@ -331,12 +347,13 @@ class MySQLdbWrapper:
       res.trace.append("Error: can\'t find login file or read data")
     return res
 
+  ## @brief Places commas between columns and constructs a string
+  # @param cols [list] the input columns
+  # @return returncols [string] the output string
   def constructCommaColumns(self,cols):
     #assisting function. adds commas between columns
     if (len(cols)<1):
-      #print "return cols empty"
       return ""
-
     elif (cols[0]=="*"):
       return "*"
     else:
@@ -348,8 +365,10 @@ class MySQLdbWrapper:
             returncols=returncols+","+cols[i]
       return returncols
 
+  ## @brief Construcs the where= ..and where=... clause
+  # @param cols [list] the columns needed to construct the clause
+  # @return returnquery [string] the And clause
   def constructAndQuery(self,cols):
-    #assisting function. constructs the where=... and where=... part of a query
     returnquery=""
     if(len(cols)==0):
       return ""
@@ -362,8 +381,9 @@ class MySQLdbWrapper:
       returnquery=" WHERE "+returnquery
       return returnquery
 
+  ## @brief Gets the columns of the table
+  # @return Columns [list] the columns of the table
   def getTableColumnNames(self,tblName):
-    #returns the column names of a table
     db_username,db_password=self.getLogin()
     try:
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');
@@ -377,8 +397,9 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
 
-  def getLogin(self):
-    #Loads file with db credentials
+  ## @brief Loads login details from file
+  # @return [ void ] Login details loaded successfully
+  def getLogin(self): 
     fh = open("/etc/db_credentials", "r")
     db_username=fh.readline()
     db_username=db_username.split( )[0]
@@ -386,8 +407,9 @@ class MySQLdbWrapper:
     db_password=db_password.split()[0]
     return db_username,db_password
 
+  ## @brief Checks connectivity to the DB
+  # @return [ void ] Connection performed successfully
   def checkConnection(self):
-    #checks connectivity to the DB
     try:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore')
@@ -399,151 +421,213 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
 
-  #tblUser callbacks
+  ## @brief The tbl user fetch data service callback
+  # @param req [fetchDataSrvRequest] The ROS service request
+  # @return res [fetchDataSrvResponse] The ROS service response
   def tblUserFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblUser")
     return res
 
+  ## @brief The tbl user write data service callback
+  # @param req [writeDataSrvRequest] The ROS service request
+  # @return res [writeDataSrvResponse] The ROS service response
   def tblUserWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblUser")
     return res
 
+  ## @brief The tbl user delete data service callback
+  # @param req [deleteDataSrvRequest] The ROS service request
+  # @return res [deleteDataSrvResponse] The ROS service response
   def tblUserDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblUser")
     return res
 
+  ## @brief The tbl user update data service callback
+  # @param req [updateDataSrvRequest] The ROS service request
+  # @return res [updateDataSrvResponse] The ROS service response
   def tblUserUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblUser")
     return res
-  #end tblUser callbacks
 
-  #tblModel callbacks
+  ## @brief The tbl model fetch data service callback
+  # @param req [fetchDataSrvRequest] The ROS service request
+  # @return res [fetchDataSrvResponse] The ROS service response
   def tblModelFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblModel")
     return res
 
+  ## @brief The tbl model write data service callback
+  # @param req [writeDataSrvRequest] The ROS service request
+  # @return res [writeDataSrvResponse] The ROS service response
   def tblModelWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblModel")
     return res
 
+  ## @brief The tbl model delete data service callback
+  # @param req [deleteDataSrvRequest] The ROS service request
+  # @return res [deleteDataSrvResponse] The ROS service response
   def tblModelDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblModel")
     return res
 
+  ## @brief The tbl model update data service callback
+  # @param req [updateDataSrvRequest] The ROS service request
+  # @return res [updateDataSrvResponse] The ROS service response
   def tblModelUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblModel")
     return res
-  #end tblModel callbacks
 
-  #tblRapp callbacks
+  ## @brief The tbl rapp fetch data service callback
+  # @param req [fetchDataSrvRequest] The ROS service request
+  # @return res [fetchDataSrvResponse] The ROS service response
   def tblRappFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblRapp")
     return res
 
+  ## @brief The tbl rapp write data service callback
+  # @param req [writeDataSrvRequest] The ROS service request
+  # @return res [writeDataSrvResponse] The ROS service response
   def tblRappWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblRapp")
     return res
 
+  ## @brief The tbl rapp delete data service callback
+  # @param req [deleteDataSrvRequest] The ROS service request
+  # @return res [deleteDataSrvResponse] The ROS service response
   def tblRappDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblRapp")
     return res
 
+  ## @brief The tbl rapp update data service callback
+  # @param req [updateDataSrvRequest] The ROS service request
+  # @return res [updateDataSrvResponse] The ROS service response
   def tblRappUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblRapp")
     return res
-  #end tblRapp callbacks
 
-  #tblRobot callbacks
+  ## @brief The tbl robot fetch data service callback
+  # @param req [fetchDataSrvRequest] The ROS service request
+  # @return res [fetchDataSrvResponse] The ROS service response
   def tblRobotFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblRobot")
     return res
 
+  ## @brief The tbl robot write data service callback
+  # @param req [writeDataSrvRequest] The ROS service request
+  # @return res [writeDataSrvResponse] The ROS service response
   def tblRobotWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblRobot")
     return res
 
+  ## @brief The tbl robot delete data service callback
+  # @param req [deleteDataSrvRequest] The ROS service request
+  # @return res [deleteDataSrvResponse] The ROS service response
   def tblRobotDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblRobot")
     return res
 
+  ## @brief The tbl robot update data service callback
+  # @param req [updateDataSrvRequest] The ROS service request
+  # @return res [updateDataSrvResponse] The ROS service response
   def tblRobotUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblRobot")
     return res
-  #end tblRapp callbacks
 
-
-  #tblAppsRobots callbacks
+  ## @brief The tbl appsRobots fetch data service callback
+  # @param req [fetchDataSrvRequest] The ROS service request
+  # @return res [fetchDataSrvResponse] The ROS service response
   def tblAppsRobotsFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblAppsRobots")
     return res
 
+  ## @brief The tbl appsRobots write data service callback
+  # @param req [writeDataSrvRequest] The ROS service request
+  # @return res [writeDataSrvResponse] The ROS service response
   def tblAppsRobotsWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblAppsRobots")
     return res
 
+  ## @brief The tbl appsRobots delete data service callback
+  # @param req [deleteDataSrvRequest] The ROS service request
+  # @return res [deleteDataSrvResponse] The ROS service response
   def tblAppsRobotsDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
     res=self.deleteData(req,"tblAppsRobots")
     return res
 
+  ## @brief The tbl appsRobots update data service callback
+  # @param req [updateDataSrvRequest] The ROS service request
+  # @return res [updateDataSrvResponse] The ROS service response
   def tblAppsRobotsUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblAppsRobots")
     return res
-  #end tblAppsRobots callbacks
 
-  #tblUsersOntologyInstances callbacks
+  ## @brief The tbl usersOntologyInstances fetch data service callback
+  # @param req [fetchDataSrvRequest] The ROS service request
+  # @return res [fetchDataSrvResponse] The ROS service response
   def tblUsersOntologyInstancesFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"tblUsersOntologyInstances")
     return res
 
+  ## @brief The tbl usersOntologyInstances write data service callback
+  # @param req [writeDataSrvRequest] The ROS service request
+  # @return res [writeDataSrvResponse] The ROS service response
   def tblUsersOntologyInstancesWriteDataHandler(self,req):
     res = writeDataSrvResponse()
     res=self.writeData(req,"tblUsersOntologyInstances")
     return res
 
+  ## @brief The tbl usersOntologyInstances delete data service callback
+  # @param req [deleteSrvRequest] The ROS service request
+  # @return res [deleteSrvResponse] The ROS service response
   def tblUsersOntologyInstancesDeleteDataHandler(self,req):
     res = deleteSrvResponse()
     res=self.deleteData(req,"tblUsersOntologyInstances")
     return res
-
+    
+  ## @brief The tbl usersOntologyInstances update data service callback
+  # @param req [updateDataSrvRequest] The ROS service request
+  # @return res [updateDataSrvResponse] The ROS service response
   def tblUsersOntologyInstancesUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
     res=self.updateData(req,"tblUsersOntologyInstances")
     return res
-  #end tblAppsRobots callbacks
 
-  #viewUsersRobotsApps callbacks
+  ## @brief The view usersRobotsApps fetch data service callback
+  # @param req [fetchDataSrvRequest] The ROS service request
+  # @return res [fetchDataSrvResponse] The ROS service response
   def viewUsersRobotsAppsFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
     res=self.fetchData(req,"usersrobotsapps")
     return res
-  #viewUsersRobotsApps
 
-  #viewUsersRobotsApps callbacks
+  ## @brief The what rappRappCanRun service callback
+  # @param req [whatRappsCanRunSrvRequest] The ROS service request
+  # @return res [whatRappsCanRunSrvResponse] The ROS service response
   def whatRappsCanRunDataHandler(self,req):
     res = whatRappsCanRunSrvResponse()
     res=self.whatRappsCanRun(req,"tblRappsModelsVersion")
     return res
-  #viewUsersRobotsApps
+
 
 

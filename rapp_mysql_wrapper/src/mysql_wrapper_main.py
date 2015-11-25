@@ -20,6 +20,7 @@
 import rospy
 from mysql_wrapper import MySQLdbWrapper
 
+## @brief The main function that initiates the rapp mysql wrapper ROS Node  
 if __name__ == "__main__":
   rospy.init_node('MySQLWrapper')
   MySQLWrapperNode = MySQLdbWrapper()

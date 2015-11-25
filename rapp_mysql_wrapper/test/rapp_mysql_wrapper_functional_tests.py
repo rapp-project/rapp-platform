@@ -42,9 +42,10 @@ from std_msgs.msg import (
   String
   )
 
+## @class TestDbWrapper 
+# Inherits the unittest.TestCase class in order to offer functional tests functionality 
 class TestDbWrapper(unittest.TestCase):
-
-
+  ## Tests the rapp_mysql_wrapper_user_write_data service when an invalid column is provided 
   def testDBError(self):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_write_data_topic')
     if(not serv_topic):
@@ -67,6 +68,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.trace[0],"Database Error 1054: Unknown column 'idsd' in 'field list'")
     self.assertFalse(response.success.data)
 
+  ## Tests the rapp_mysql_wrapper_robot_fetch_data_ service when null input is provided 
   def testNullInputError(self):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
     if(not serv_topic):
@@ -213,7 +215,7 @@ class TestDbWrapper(unittest.TestCase):
     #self.assertEqual(response.res_data[1].s[0].data,"2")
     #self.assertEqual(response.res_data[1].s[5].data,"486d18ed96603f0bbae4567y2c98cc80750402b28c1d4069d5df7c570ded0307")
 
-  #test TblUser
+  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblUser
   def testTblUserWriteReadDeleteCheck(self):
     #Write
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_write_data_topic')
@@ -303,7 +305,8 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
 
-  #test TblModel
+
+  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblModel
   def testTblModelWriteReadDeleteCheck(self):
     #Write
     serv_topic = rospy.get_param('rapp_mysql_wrapper_model_write_data_topic')
@@ -312,8 +315,7 @@ class TestDbWrapper(unittest.TestCase):
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
     req = writeDataSrv()
-    req.req_cols=["model_str","manufacturer","version","arch","os","picture"]
-    #req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
+    req.req_cols=["model_str","manufacturer","version","arch","os","picture"] 
     entry1=StringArrayMsg()
     entry1=["'testingDB1'","'testingDB1'","'10.1'","'test'","'test'","'test'"]
     entry2=StringArrayMsg()
@@ -393,6 +395,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success.data)
     self.assertTrue((len(response.res_data)<1))
 
+  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblRapp
   def testTblRappWriteReadDeleteCheck(self):
     #Write
     serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_write_data_topic')
@@ -483,7 +486,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue((len(response.res_data)<1))
 
 
-  #test tbRobot
+  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblRobot
   def testTblRobotWriteReadDeleteCheck(self):
     #Write
     serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_write_data_topic')
@@ -634,7 +637,7 @@ class TestDbWrapper(unittest.TestCase):
     #self.assertEqual(response.res_data[0].s[2].data,"1")
     #self.assertEqual(response.res_data[0].s[2].data,"1")
 
-
+## The main function. Initializes the Rapp mysql wrapper functional tests
 if __name__ == '__main__':
   import rosunit
   rosunit.unitrun(PKG, 'TestDbWrapper', TestDbWrapper)
