@@ -32,39 +32,54 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4TotalSrvResponse
   )
 
-
+## @class SpeechRecognitionSphinx4HandlerNode
+# @brief Maintains Sphinx instances to perform speech recognition
+#
+# Maintains a number of child processes to perform speech recognition utilizing
+# Sphinx4. Provides ros services and handles the requests according to the
+# child processes' status.
 class SpeechRecognitionSphinx4HandlerNode():
 
+  ## @brief Initializes the subprocesses and the services (constructor)
   def __init__(self):
 
+    ## The number of child subprocesses.
     self._threads = \
         rospy.get_param("rapp_speech_detection_sphinx4_threads")
 
-    # Initialize Speech Recognition Processes
+    ## The subprocesses structure that contains information used for the
+    # subprocess handling
     self._availableProcesses = [{
       'sphinx': SpeechRecognitionSphinx4(), \
       'running': False, \
       'configuration_hash': 0\
       } for i in range(self._threads)]
 
+    ## Thread conditional variable used for the subprocess scheduling
     self._lock = threading.Condition()
+    ## Total service callback threads waiting to execute
     self._threadCounter = 0
 
-    self.serv_batch_topic = \
+    ## Ros service topic for sphinx speech recognition
+    self._serv_batch_topic = \
         rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
-    if(not self.serv_batch_topic):
+    if(not self._serv_batch_topic):
       rospy.logerror("Sphinx4 Speech detection batch topic param not found")
 
-    # Initialize Service
-    self.speech_recognition_batch_service = rospy.Service( \
-        self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
-        self.handleSpeechRecognition)
+    ## Ros service server for sphinx speech recognition
+    self._speech_recognition_batch_service = rospy.Service( \
+        self._serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
+        self.handleSpeechRecognitionCallback)
 
-  def handleSpeechRecognition(self, req):
+  ## @brief The callback to perform speech recognition
+  #
+  # @param req [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvRequest] The service request
+  # @return res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvResponse] The service response
+  def handleSpeechRecognitionCallback(self, req):
 
-    total_res = SpeechRecognitionSphinx4TotalSrvResponse()
+    res = SpeechRecognitionSphinx4TotalSrvResponse()
 
-    request_hash = self.calculateRequestHash( req )
+    request_hash = self._calculateRequestHash( req )
 
     self._lock.acquire()
     self._threadCounter += 1
@@ -78,7 +93,7 @@ class SpeechRecognitionSphinx4HandlerNode():
 
         proc['running'] = True
         self._lock.release()
-        total_res = proc['sphinx'].speechRecognitionBatch( req )
+        res = proc['sphinx'].speechRecognitionBatch( req )
 
         self._lock.acquire()
         proc['running'] = False
@@ -87,7 +102,7 @@ class SpeechRecognitionSphinx4HandlerNode():
           self._lock.notify()
         self._lock.release()
 
-        return total_res
+        return res
 
     # Search for available Sphinx
     for proc in self._availableProcesses:
@@ -97,7 +112,7 @@ class SpeechRecognitionSphinx4HandlerNode():
         proc['running'] = True
 
         self._lock.release()
-        total_res = proc['sphinx'].speechRecognitionBatch( req )
+        res = proc['sphinx'].speechRecognitionBatch( req )
 
         self._lock.acquire()
         proc['running'] = False
@@ -106,9 +121,17 @@ class SpeechRecognitionSphinx4HandlerNode():
           self._lock.notify()
         self._lock.release()
 
-        return total_res
+        return res
 
-  def calculateRequestHash(self, req):
+  ## @brief Calculates the service request sha1 hash for process handling purposes
+  #
+  # Hash is used to identify common request configurations for proper subprocess selection.
+  # (Requests with common requests do not require reconfiguration reducing computation time)
+  #
+  # @param req [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvRequest] The service request
+  #
+  # @return hexdigest [string] The hash digest containing only hexadecimal digits
+  def _calculateRequestHash(self, req):
     hash_object = hashlib.sha1()
     hash_object.update( req.language )
     for word in req.words:
