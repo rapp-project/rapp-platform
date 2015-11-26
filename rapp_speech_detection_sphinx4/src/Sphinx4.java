@@ -13,6 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+ * Authors: Thanos Kintsakis, Manos Tsardoulias, Aris Thallas
+
 ******************************************************************************/
 
 import edu.cmu.sphinx.api.Configuration;
@@ -36,9 +38,13 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
- * Fix licence
- * Authors: Thanos Kintsakis, Manos Tsardoulias
+/*!
+ * @class Sphinx4
+ * @brief Performs speech recognition employing Sphinx
+ *
+ * Communicates with rapp_speech_detection_sphinx4.sphinx4_wrapper.Sphinx4Wrapper
+ * via socket to configure Sphinx and perform the speech recognition and
+ * returns the result.
  */
 public class Sphinx4 {
 
@@ -69,6 +75,7 @@ public class Sphinx4 {
   public static boolean grammar_enabled = false;
   public static boolean grammar_enabled_prev = false;
 
+  //! Updates the Sphinx configuration
   public static void updateConfiguration() throws IOException{
     boolean new_info = false;
     if(dictionary_path != dictionary_path_prev){
@@ -118,6 +125,12 @@ public class Sphinx4 {
     }
   }
 
+  /*! @brief The main function
+   *
+   * Creates the Sphinx process and awaits commands from
+   * rapp_speech_detection_sphinx4.sphinx4_wrapper.Sphinx4Wrapper
+   * to update the cconfiguration or perform the recognition.
+   */
   public static void main(String[] args) throws IOException {
 
     int socketPort;
