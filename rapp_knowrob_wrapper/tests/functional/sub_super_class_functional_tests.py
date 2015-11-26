@@ -33,9 +33,11 @@ from rapp_platform_ros_communications.srv import (
   ontologyIsSubSuperClassOfSrvResponse
   )
 
+## @class OntologyFunc 
+# Inherits the unittest.TestCase class in order to offer functional tests functionality 
 class OntologyFunc(unittest.TestCase):
 
-    # Subclasses_of tests
+    ## Tests Subclasses_of existent class
     def test_subclasses_of_existent_class(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
@@ -52,7 +54,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(prefix + 'MicrowaveOven' in response.results, True)
         self.assertEqual(prefix + 'ToasterOven' in response.results, True)
 
-    # Subclasses_of tests
+    ## Tests Subclasses_of existent class stress
     def test_subclasses_of_existent_class_stress(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
@@ -69,6 +71,7 @@ class OntologyFunc(unittest.TestCase):
             self.assertEqual(prefix + 'MicrowaveOven' in response.results, True)
             self.assertEqual(prefix + 'ToasterOven' in response.results, True)
 
+    ## Tests Subclass_of non existent class
     def test_subclasses_of_non_existent_class(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
@@ -85,6 +88,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'Class: Podosfairo does not exist')
 
+	## Tests Subclass_of existent class recursive
     def test_subclasses_of_existent_class_recursive(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
@@ -105,6 +109,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, True)
         self.assertEqual(response.error, "")
 
+	## Tests Subclass_of non existent class recursive
     def test_subclasses_of_non_existent_class_recursive(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_subclasses_of_topic")
@@ -122,7 +127,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'Class: Podosfairo does not exist')
 
-    # Superclasses_of tests
+    ## Tests Superclasses_of existent class
     def test_superclasses_of_existent_class(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
@@ -137,6 +142,7 @@ class OntologyFunc(unittest.TestCase):
         prefix = 'http://www.w3.org/2002/07/owl#'
         self.assertEqual(prefix + 'Thing' in response.results, True)
 
+	## Tests Superclasses_of existent class recursive
     def test_superclasses_of_existent_class_recursive(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
@@ -157,6 +163,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(prefix_2 + \
                 'HouseholdAppliance' in response.results, True)
 
+	## Tests Superclasses_of non existent class
     def test_superclasses_of_non_existent_class(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
@@ -172,6 +179,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, "Class: NotExistent does not exist")
 
+	## Tests Superclasses_of non existent class recursive
     def test_superclasses_of_non_existent_class_recursive(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_superclasses_of_topic")
@@ -188,7 +196,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, "Class: NotExistent does not exist")
 
-    # Is sub-superclasses_of tests
+    ## Tests sub-superclasses_of existent class direct
     def test_sub_superclasses_of_existent_class_direct(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -205,6 +213,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.result, True)
 
+	## Tests sub-superclasses_of existent class indirect
     def test_sub_superclasses_of_existent_class_indirect(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -221,6 +230,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.result, False)
 
+	## Tests sub-superclasses_of existent class direct recursive
     def test_sub_superclasses_of_existent_class_direct_recursive(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -237,6 +247,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.result, True)
 
+	## Tests sub-superclasses_of existent class indirect recursive
     def test_sub_superclasses_of_existent_class_indirect_recursive(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -253,6 +264,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.result, True)
 
+	## Tests sub-superclasses_of non existent class
     def test_sub_superclasses_of_non_existent_class(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -271,6 +283,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, "Class: Aoua does not exist")
 
+	## Tests sub-superclasses_of existent class recursive
     def test_sub_superclasses_of_existent_class_recursive(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -289,6 +302,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, "Class: Aoua does not exist")
 
+	## Tests sub-superclasses_of non existent classes
     def test_sub_superclasses_of_non_existent_classes(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -307,6 +321,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.error, "Class: Aoua does not exist")
         self.assertEqual(response.result, False)
 
+	## Tests sub-superclasses_of existent classes
     def test_sub_superclasses_of_existent_classes_recursive(self):
         service_name = rospy.get_param(\
                 "rapp_knowrob_wrapper_is_subsuperclass_of_topic")
@@ -325,6 +340,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, "Class: Aoua does not exist")
 
+## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'OntologyFunc', OntologyFunc)

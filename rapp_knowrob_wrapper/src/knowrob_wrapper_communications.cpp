@@ -20,14 +20,11 @@ limitations under the License.
 
 #include <knowrob_wrapper/knowrob_wrapper_communications.h>
 #include <ros/package.h>
-bool checkIfFileExists(const char* fname)
-{
-  if( access( fname, F_OK ) != -1 ) {
-      return true;
-  }
-  return false;
-}
 
+/**  
+* @brief Default constructor 
+* Waits for services it depends on and declares the knowrob wrapper services callbacks
+*/ 
 KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_)
 {
   ros::service::waitForService("json_prolog/query", -1);
@@ -201,7 +198,7 @@ bool KnowrobWrapperCommunications::isSubSuperclassOfCallback(
 }
 
 /** 
-* @brief Serves the isSubSuperclassOf ROS service callback 
+* @brief Serves the createInstance ROS service callback 
 * @param req [rapp_platform_ros_communications::createInstanceSrv::Request&] The ROS service request 
 * @param res [rapp_platform_ros_communications::createInstanceSrv::Response&] The ROS service response 
 * @return bool - The success status of the call 

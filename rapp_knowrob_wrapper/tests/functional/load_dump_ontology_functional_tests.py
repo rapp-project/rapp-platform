@@ -28,9 +28,11 @@ from rapp_platform_ros_communications.srv import (
   ontologyLoadDumpSrvResponse
   )
 
+## @class OntologyFunc 
+# Inherits the unittest.TestCase class in order to offer functional tests functionalit
 class OntologyFunc(unittest.TestCase):
 
-    # Subclasses_of tests
+    ## Test load ontology from existent file
     def test_load_existent(self):
         service = rospy.get_param(\
                 "rapp_knowrob_wrapper_load_ontology_topic")
@@ -43,7 +45,8 @@ class OntologyFunc(unittest.TestCase):
         req.file_url="currentOntologyVersion.owl"
         response = test_service(req)
         self.assertEqual(response.success, True)
-
+        
+	## Test load ontology from non existent file
     def test_load_nonexistent(self):
         service = rospy.get_param(\
                 "rapp_knowrob_wrapper_load_ontology_topic")
@@ -57,7 +60,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.success, False)
 
-
+	## Test dump ontology with correct path
     def test_dump_correct_path(self):
         service = rospy.get_param(\
                 "rapp_knowrob_wrapper_dump_ontology_topic")
@@ -71,6 +74,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.success, True)
 
+	## Test dump ontology with invalid path
     def test_dump_invalid_path(self):
         service = rospy.get_param(\
                 "rapp_knowrob_wrapper_dump_ontology_topic")
@@ -84,7 +88,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.success, False)
 
-
+## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'OntologyFunc', OntologyFunc)

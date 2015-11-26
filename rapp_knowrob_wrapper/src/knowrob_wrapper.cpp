@@ -24,12 +24,21 @@ limitations under the License.
 #include <ros/package.h>
 #include <fstream>
 
+/**  
+* @brief Default constructor 
+*/ 
 KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh):nh_(nh)
 {
   mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::writeDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_write_data");
   mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::fetchDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_fetch_data");
   mysql_update_client = nh_.serviceClient<rapp_platform_ros_communications::updateDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_update_data");
 }
+
+/** 
+* @brief Converts integer to string 
+* @param a [int] The input integer 
+* @return out [string] The output string 
+*/ 
 std::string intToString (int a)
 {
     std::ostringstream temp;
@@ -37,6 +46,11 @@ std::string intToString (int a)
     return temp.str();
 }
 
+/** 
+* @brief Keeps only the final folder or file from a path
+* @param str [string&] The input path 
+* @return out [string] The output filename 
+*/ 
 std::string SplitFilename (const std::string& str)
 {
   size_t found;
@@ -44,12 +58,23 @@ std::string SplitFilename (const std::string& str)
   return str.substr(0,found);
 }
 
+/** 
+* @brief Checks if path exists
+* @param fileName [char*] The input path 
+* @return out [bool] True if file exists 
+*/
 bool checkIfFileExists(const char *fileName)
 {
     std::ifstream infile(fileName);
     return infile.good();
 }
 
+/** 
+* @brief Splits string by delimiter
+* @param str [string] The input string 
+* @param sep [string] The delimiter
+* @return arr [std::vector<std::string>] A vector with the string parts as splitted by the delimiter 
+*/
 std::vector<std::string> split(std::string str, std::string sep){
     char* cstr=const_cast<char*>(str.c_str());
     char* current;
@@ -62,6 +87,11 @@ std::vector<std::string> split(std::string str, std::string sep){
     return arr;
 }
 
+/** 
+* @brief Returns the ontology alias of the user
+* @param user_id [string] The username of the user 
+* @return ontology_alias [string] The ontology_alias of the user or possible error
+*/
 std::string KnowrobWrapper::get_ontology_alias(std::string user_id)
 {
   std::string ontology_alias;
@@ -96,6 +126,11 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id)
   return ontology_alias;
 }
 
+/** 
+* @brief Creates a new ontology alias for a user
+* @param user_id [string] The username of the user 
+* @return ontology_alias [string] The ontology_alias of the user or possible error
+*/
 std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_id)
 {
   std::string ontology_alias;
@@ -152,6 +187,11 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
   return ontology_alias;
 }
 
+/** 
+* @brief Implements the record_user_cognitive_tests_performance ROS service 
+* @param req [rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response KnowrobWrapper::record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req)
 {
   rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response res;
@@ -200,7 +240,11 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
   return res;
 }
 
-
+/** 
+* @brief Implements the create_cognitve_tests ROS service 
+* @param req [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response KnowrobWrapper::create_cognitve_tests(rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request req)
 {
   rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response res;
@@ -269,7 +313,11 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
   return res;
 }
 
-
+/** 
+* @brief Implements the cognitive_tests_of_type ROS service 
+* @param req [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapper::cognitive_tests_of_type(rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request req)
 {
   rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response res;
@@ -334,6 +382,11 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
   return res;
 }
 
+/** 
+* @brief Implements the user_performance_cognitve_tests ROS service 
+* @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::user_performance_cognitve_tests(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req)
 {
   rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response res;
@@ -397,6 +450,11 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
   return res;
 }
 
+/** 
+* @brief Implements the clear_user_cognitive_tests_performance_records ROS service 
+* @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req)
 {
   rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response res;
@@ -447,6 +505,11 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
   return res;
 }
 
+/** 
+* @brief Implements the create_ontology_alias ROS service 
+* @param req [rapp_platform_ros_communications::createOntologyAliasSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::createOntologyAliasSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrapper::create_ontology_alias(rapp_platform_ros_communications::createOntologyAliasSrv::Request req)
 {
   rapp_platform_ros_communications::createOntologyAliasSrv::Response res;
@@ -475,7 +538,11 @@ rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrappe
   return res;
 }
 
-
+/** 
+* @brief Implements the subclassesOf ROS service 
+* @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response KnowrobWrapper::subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
@@ -542,7 +609,11 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
   return res;
 }
 
-
+/** 
+* @brief Implements the superclassesOf ROS service 
+* @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+*/  
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  KnowrobWrapper::superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
@@ -608,6 +679,11 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response  Knowro
   return res;
 }
 
+/** 
+* @brief Implements the isSubSuperclass ROS service 
+* @param req [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response&] The ROS service response 
+*/  
 rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  KnowrobWrapper::isSubSuperclassOfQuery(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req)
 {
   rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response res;
@@ -673,6 +749,11 @@ rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response  Knowro
   return res;
 }
 
+/** 
+* @brief Implements the createInstance ROS service 
+* @param req [rapp_platform_ros_communications::createInstanceSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::createInstanceSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req)
 {
   rapp_platform_ros_communications::createInstanceSrv::Response res;
@@ -699,7 +780,6 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
     res.error=ontology_alias;
     return res;
   }
-
   //res.trace.push_back(ontology_alias);
   ////if(req.attribute_name.size()!=req.attribute_value.size())
   ////{
@@ -836,6 +916,11 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
   return res;
 }
 
+/** 
+* @brief Implements the dumpOntology ROS service 
+* @param req [rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
@@ -896,13 +981,15 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 
 }
 
+/** 
+* @brief Implements the loadOntology ROS service 
+* @param req [rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)
 {
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
-
-
-
-  if(req.file_url.empty())   // || req.file_url==std::string("")
+  if(req.file_url.empty())
   {
     res.success=false;
     res.trace.push_back(std::string("Empty file path"));
@@ -911,11 +998,8 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
     return res;
   }
 
-
-  //std::string path = ros::package::getPath("rapp_knowrob_wrapper");
   std::string path = getenv("HOME");
   path=path+std::string("/rapp_platform_files/");
-
   req.file_url=path+req.file_url;
   const char * c = req.file_url.c_str();
   if(!checkIfFileExists(c))
@@ -934,8 +1018,6 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   if(status==0)
   {
     res.success=false;
-    //std_msgs::String temp_std_msgs_string;
-    //temp_std_msgs_string.data=std::string("Ontology dump failed");
     res.trace.push_back(std::string("Ontology load failed"));
     res.error=std::string("Ontology load failed");
     return res;
@@ -947,7 +1029,11 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
   return res;
 }
 
-
+/** 
+* @brief Implements the returnUserInstancesOfClass ROS service 
+* @param req [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response&] The ROS service response 
+*/ 
 rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response KnowrobWrapper::user_instances_of_class(rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request req)
 {
   rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response res;
@@ -966,10 +1052,6 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
     return res;
   }
   std::string ontology_alias=get_ontology_alias(req.username);
-  //res.trace.push_back(ontology_alias);
-
-
-
   std::string query = std::string("rdf_has(knowrob:'") + ontology_alias + std::string("',knowrob:'belongsToUser',A)");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   char status = results.getStatus();
@@ -990,7 +1072,7 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
     it != results.end() ; it++)
   {
     json_prolog::PrologBindings bdg = *it;
-    //start code to remove duplicates
+    //start removing duplicates
     int i;
     int logic=0;
     std::string temp_query_result=bdg["A"];
@@ -1006,8 +1088,7 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
     {
       query_ret.push_back(temp_query_result);
     }
-
-    //end
+    //end removing duplicates
   }
   for(unsigned int i = 0 ; i < query_ret.size() ; i++)
   {
@@ -1198,7 +1279,11 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
 //recorduserCognitveTestperformance service
 
 
-
+/** 
+* @brief Implements the assertRetractAttribute ROS service 
+* @param req [rapp_platform_ros_communications::assertRetractAttributeSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::assertRetractAttributeSrv::Response&] The ROS service response 
+*/ 
 //rapp_platform_ros_communications::assertRetractAttributeSrv::Response KnowrobWrapper::assertAttributeValue(rapp_platform_ros_communications::assertRetractAttributeSrv::Request req)
 //{
 

@@ -36,9 +36,11 @@ from rapp_platform_ros_communications.srv import (
   userPerformanceCognitveTestsSrvResponse
   )
 
+## @class OntologyFunc 
+# Inherits the unittest.TestCase class in order to offer functional tests functionality 
 class OntologyFunc(unittest.TestCase):
 
-    # Subclasses_of tests
+    ## Test cognitive tests of existent type
     def test_cognitive_tests_of_existent_type(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_cognitive_tests_of_type")
@@ -56,6 +58,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(prefix + 'ArithmeticCts_MewmmEsP' in response.tests, True)
         self.assertEqual(response.success, True)
 
+	## Test cognitive tests of non existent type
     def test_cognitive_tests_of_nonexistent_type(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_cognitive_tests_of_type")
@@ -71,6 +74,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'No tests of given type exist')
 
+	## Test user performance of existent user and test type
     def test_user_performance_existent_user_and_test(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_user_performance_cognitve_tests")
@@ -89,6 +93,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(prefix + 'ArithmeticCts_tDjYwuhx' in response.tests, True)
         #self.assertEqual(prefix + 'ArithmeticCts_TaVWzXre' in response.tests, True)
 
+	## Test user performance of nonexistent user and test type
     def test_user_performance_nonexistent_user_and_test(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_user_performance_cognitve_tests")
@@ -104,6 +109,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'No performance records exist for the user or invalid user or invalid test type')
 
+	## Test record user performance of existent user and test type
     #def test_record_user_performance_existing_test_and_user(self):
         #subclasses_of_service = rospy.get_param(\
                 #"rapp_knowrob_wrapper_record_user_cognitive_tests_performance")
@@ -121,6 +127,7 @@ class OntologyFunc(unittest.TestCase):
         #response = test_service(req)
         #self.assertEqual(response.success, True)
 
+	## Test record user performance of nonexistent user and test type
     def test_record_user_performance_nonexisting_test_and_user(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_record_user_cognitive_tests_performance")
@@ -138,6 +145,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'Test performance entry insertion into ontology FAILED, either invalid test or patient alias')
 
+	## Test create existent cognitive test
     #def test_create_existent_cognitive_test(self):
         #subclasses_of_service = rospy.get_param(\
                 #"rapp_knowrob_wrapper_create_cognitve_tests")
@@ -154,6 +162,7 @@ class OntologyFunc(unittest.TestCase):
         #response = test_service(req)
         #self.assertEqual(response.success, True)
 
+	## Test create non existent cognitive test
     def test_create_nonexistent_cognitive_test(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_create_cognitve_tests")
@@ -173,6 +182,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'Test insertion into ontology FAILED, possible error is test type/subtype invalid')
 
+	## Test create non existent cognitive test with invalid xml path
     def test_create_nonexistent_cognitive_test_xml_path_nonexistent(self):
         subclasses_of_service = rospy.get_param(\
                 "rapp_knowrob_wrapper_create_cognitve_tests")
@@ -190,7 +200,7 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'Test file does not exist in provided file path')
 
-
+## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'OntologyFunc', OntologyFunc)
