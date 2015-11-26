@@ -24,9 +24,18 @@ import os
 from pylab import *
 from scipy.io import wavfile
 
+## @class EnergyDenoise
+# Performs energy denoising on an audio file
 class EnergyDenoise:
 
-  # Method for energy-based denoising
+  ## Performs energy-based denoising
+  #
+  # Handles service callback
+  # rapp_audio_processing.AudioProcessing#energyDenoiseCallback
+  #
+  # @param audio_file          [string] Audio file path
+  # @param scale               [float] Energy denoise scale
+  # @param denoised_audio_file [string] Path to write denoised audio file
   def energyDenoise(self, audio_file, scale, denoised_audio_file, energy_denoising_debug):
     if not os.path.isfile(audio_file):
         return False

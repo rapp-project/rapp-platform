@@ -24,9 +24,20 @@ import os
 from pylab import *
 from scipy.io import wavfile
 
+## @class DetectSilence
+# Performs silence detection on an audio file
 class DetectSilence:
 
-# Service callback for detecting silence
+  ## Detects silence
+  #
+  # Handles service callback
+  # rapp_audio_processing.AudioProcessing#detectSilenceCallback
+  #
+  # @param audio_file [string] Audio file path
+  # @param threshold  [float] Silence threshold
+  #
+  # @return rsd_sq      [float] Noise relative standard deviation
+  # @return has_silence [bool] Indicates the existence of silence
   def detectSilence(self, audio_file, threshold):
     if not os.path.isfile(audio_file):
         return [-1, False]

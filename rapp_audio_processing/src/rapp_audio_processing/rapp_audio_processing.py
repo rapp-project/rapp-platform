@@ -59,77 +59,92 @@ from rapp_utilities import Utilities
 from rapp_set_noise_profile import SetNoiseProfile
 from rapp_transform_audio import TransformAudio
 
+## @class AudioProcessing
+# Provides audio processing utilities
+#
+# Implements service servers to perform denoising, audio transformation etc.
 class AudioProcessing:
 
-  # Constructor performing initializations
+  ## Constructor performing initializations
   def __init__(self):
 
-    self.detect_silence_module = DetectSilence()
-    self.energy_denoise_module = EnergyDenoise()
-    self.sox_denoise_module = SoxDenoise()
-    self.utilities_module = Utilities()
-    self.set_noise_profile_module = SetNoiseProfile()
-    self.transform_audio_module= TransformAudio()
+    ## Instantiates rapp_detect_silence.DetectSilence
+    self._detect_silence_module = DetectSilence()
+    ## Instantiates rapp_energy_denoise.EnergyDenoise
+    self._energy_denoise_module = EnergyDenoise()
+    ## Instantiates rapp_sox_denoise.SoxDenoise
+    self._sox_denoise_module = SoxDenoise()
+    ## Instantiates rapp_utilities.Utilities
+    self._utilities_module = Utilities()
+    ## Instantiates rapp_set_noise_profile.SetNoiseProfile
+    self._set_noise_profile_module = SetNoiseProfile()
+    ## Instantiates rapp_transform_audio.TransformAudio
+    self._transform_audio_module= TransformAudio()
 
     # Parameters acquisition
-    self.set_noise_profile_topic = \
+    set_noise_profile_topic = \
         rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
-    self.denoise_topic = \
+    denoise_topic = \
         rospy.get_param("rapp_audio_processing_denoise_topic")
-    self.energy_denoise_topic = \
+    energy_denoise_topic = \
         rospy.get_param("rapp_audio_processing_energy_denoise_topic")
-    self.detect_silence_topic = \
+    detect_silence_topic = \
         rospy.get_param("rapp_audio_processing_detect_silence_topic")
-    self.transform_audio_topic = \
+    transform_audio_topic = \
         rospy.get_param("rapp_audio_processing_transform_audio_topic")
 
-    if(not self.set_noise_profile_topic):
+    if(not set_noise_profile_topic):
       rospy.logerror("Audio processing noise profiling topic param not found")
-    if(not self.denoise_topic):
+    if(not denoise_topic):
       rospy.logerror("Audio processing denoise topic param not found")
-    if(not self.energy_denoise_topic):
+    if(not energy_denoise_topic):
       rospy.logerror("Audio processing energy denoise topic param not found")
-    if(not self.detect_silence_topic):
+    if(not detect_silence_topic):
       rospy.logerror("Audio processing detect silence topic param not found")
-    if(not self.transform_audio_topic):
+    if(not transform_audio_topic):
       rospy.logerror("Audio processing noise transform audio topic param not found")
 
     # Check for denoising debug mode. DO NOT make this true when in production
-    self.energy_denoising_debug = False
-    self.energy_denoising_debug = \
+    ## Energy denoising degug flag
+    self._energy_denoising_debug = False
+    self._energy_denoising_debug = \
         rospy.get_param("rapp_audio_processing_energy_denoising_debug")
-    if not self.energy_denoising_debug:
-      self.energy_denoising_debug = False
+    if not self._energy_denoising_debug:
+      self._energy_denoising_debug = False
     else:
-      self.energy_denoising_debug = True
+      self._energy_denoising_debug = True
 
     # Create set noise profile services
-    self.set_noise_profile_service = rospy.Service(self.set_noise_profile_topic, \
-        AudioProcessingSetNoiseProfileSrv, self.setNoiseProfile)
+    set_noise_profile_service = rospy.Service(set_noise_profile_topic, \
+        AudioProcessingSetNoiseProfileSrv, self.setNoiseProfileCallback)
       # Create sox denoise services
-    self.denoise_service = rospy.Service( \
-        self.denoise_topic, AudioProcessingDenoiseSrv, \
-        self.denoise)
+    denoise_service = rospy.Service( \
+        denoise_topic, AudioProcessingDenoiseSrv, \
+        self.denoiseCallback)
     # Create energy denoise services
-    self.energy_denoise_service = rospy.Service( \
-        self.energy_denoise_topic, AudioProcessingDenoiseSrv, \
-        self.energy_denoise)
+    energy_denoise_service = rospy.Service( \
+        energy_denoise_topic, AudioProcessingDenoiseSrv, \
+        self.energyDenoiseCallback)
     # Create detect silence services
-    self.detect_silence_service = rospy.Service( \
-        self.detect_silence_topic, AudioProcessingDetectSilenceSrv, \
-        self.detect_silence)
+    detect_silence_service = rospy.Service( \
+        detect_silence_topic, AudioProcessingDetectSilenceSrv, \
+        self.detectSilenceCallback)
     # Create transform audio services
-    self.transform_audio = rospy.Service( self.transform_audio_topic, \
-        AudioProcessingTransformAudioSrv, self.transform_audio)
+    transform_audio = rospy.Service( transform_audio_topic, \
+        AudioProcessingTransformAudioSrv, self.transformAudioCallback)
 
-    self.serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
 
-# Service callback for setting noise profile
-  def setNoiseProfile(self, req):
+  ## Service callback for setting noise profile
+  #
+  # @param req [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingSetNoiseProfileSrv] The set noise profile request
+  #
+  # @return res [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingSetNoiseProfileSrvResponse] The set noise profile response
+  def setNoiseProfileCallback(self, req):
     res = AudioProcessingSetNoiseProfileSrvResponse()
 
     #-------------------------Check with database-------------------------#
-    authentication_service = rospy.ServiceProxy(self.serv_db_topic, fetchDataSrv)
+    serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
+    authentication_service = rospy.ServiceProxy(serv_db_topic, fetchDataSrv)
     req_db = fetchDataSrv()
     req_db.req_cols=["username"]
     entry1=["username", req.user]
@@ -142,7 +157,7 @@ class AudioProcessing:
       return res
 
     #-------------------------set noise profile-------------------------#
-    ret = self.set_noise_profile_module.setNoise_profile(\
+    ret = self._set_noise_profile_module.setNoise_profile(\
             req.user,\
             req.noise_audio_file,\
             req.audio_file_type)
@@ -154,10 +169,14 @@ class AudioProcessing:
         res.error = ret
     return res
 
-  # Service callback for handling denoising
-  def denoise(self, req):
+  ## Service callback for denoising
+  #
+  # @param req [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingDenoiseSrv] The denoise request
+  #
+  # @return res [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingDenoiseSrvResponse] The denoise response
+  def denoiseCallback(self, req):
     res = AudioProcessingDenoiseSrvResponse()
-    res.success = self.sox_denoise_module.soxDenoise(\
+    res.success = self._sox_denoise_module.soxDenoise(\
             req.user,\
             req.audio_type,\
             req.audio_file,\
@@ -165,10 +184,14 @@ class AudioProcessing:
             req.scale)
     return res
 
-  # Service callback for detecting silence
-  def detect_silence(self, req):
+  ## Service callback for Detecting silence
+  #
+  # @param req [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingDetectSilence] The detect silence request
+  #
+  # @return res [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingDetectSilenceSrvResponse] The detect silence response
+  def detectSilenceCallback(self, req):
     res = AudioProcessingDetectSilenceSrvResponse()
-    [res.level, res.silence] = self.detect_silence_module.detectSilence(\
+    [res.level, res.silence] = self._detect_silence_module.detectSilence(\
             req.audio_file, req.threshold)
     if res.silence == True:
         res.silence = "true"
@@ -176,33 +199,36 @@ class AudioProcessing:
         res.silence = "false"
     return res
 
-  # Service callback for energy denoising
-  def energy_denoise(self, req):
+  ## Service callback for Energy denoising
+  #
+  # @param req [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingDenoiseSrv] The denoise request
+  #
+  # @return res [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingDenoiseSrvResponse] The energy denoise response
+  def energyDenoiseCallback(self, req):
     res = AudioProcessingDenoiseSrvResponse()
-    output = self.energy_denoise_module.energyDenoise(\
+    output = self._energy_denoise_module.energyDenoise(\
           req.audio_file, req.scale, req.denoised_audio_file,\
-          self.energy_denoising_debug)
+          self._energy_denoising_debug)
     if output == True:
         res.success = "true"
     else:
         res.success = "false"
     return res
 
-  # Service callback for audio transformation
-  def transform_audio(self, req):
+  ## Service callback for Audio transformation
+  #
+  # @param req [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingTransformAudioSrv] The transform audio request
+  #
+  # @return res [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingTransformAudioSrvResponse] The transform audio response
+  def transformAudioCallback(self, req):
       res = AudioProcessingTransformAudioSrvResponse()
 
       [ res.error, res.fullpath ] = \
-          self.transform_audio_module.transform_audio( \
+          self._transform_audio_module.transform_audio( \
               req.source_type, req.source_name, req.target_type, \
               req.target_name, req.target_channels, req.target_rate )
 
       return res
-
-
-  # Cleanup method
-  def cleanup(self, clean):
-    return self.utilities_module.cleanup(clean)
 
 # Main function
 if __name__ == "__main__":

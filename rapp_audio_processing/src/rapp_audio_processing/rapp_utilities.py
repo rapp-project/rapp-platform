@@ -22,9 +22,13 @@ import sys
 import time
 import os
 
+## @class Utilities
+# Provides audio processing utilities
 class Utilities:
 
-  # Service callback for detecting silence
+  ## Removes a number of files
+  #
+  # @param files [list::string] The to be deleted files' paths
   def cleanup(self, files):
     for f in files:
       if os.path.isfile(f) == False:

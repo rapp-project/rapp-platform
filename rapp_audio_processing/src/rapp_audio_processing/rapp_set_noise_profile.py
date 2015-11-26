@@ -26,12 +26,22 @@ from scipy.io import wavfile
 
 from rapp_utilities import Utilities
 
+## @class SetNoiseProfile
+# Evaluates the noise profile for an audio file
 class SetNoiseProfile:
 
+  ## Performs initializations
   def __init__(self):
     self.utilities = Utilities()
 
-  # Service callback for detecting silence
+  ## Evaluates the audio profile
+  #
+  # Handles service callback
+  # rapp_audio_processing.AudioProcessing#setNoiseProfileCallback
+  #
+  # @param user             [string] The system user, for environmental variable access
+  # @param noise_audio_file [string] Noise audio file path
+  # @param audio_type       [string] Noise audio file's type
   def setNoise_profile(self, user, noise_audio_file, audio_file_type):
 
     cleanup = []

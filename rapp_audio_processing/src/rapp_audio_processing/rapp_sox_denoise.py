@@ -24,9 +24,20 @@ import os
 from pylab import *
 from scipy.io import wavfile
 
+## @class SoxDenoise
+# Performs denoising on an audio file employing Sox application
 class SoxDenoise :
 
-  # Service callback for detecting silence
+  ## Performs denoising employing Sox apllication
+  #
+  # Handles service callback
+  # rapp_audio_processing.AudioProcessing#denoiseCallback
+  #
+  # @param user                [string] The system user, for environmental variable access
+  # @param audio_file          [string] Audio file path
+  # @param audio_type          [string] Audio file's type
+  # @param denoised_audio_file [string] Path to write denoised audio file
+  # @param scale               [float] Energy denoise scale
   def soxDenoise(self, user, audio_type, audio_file, denoised_audio_file, scale):
     if not os.path.isfile(audio_file):
         return "The audio file does not exist"
