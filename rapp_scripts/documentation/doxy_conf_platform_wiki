@@ -1,0 +1,31 @@
+DOXYFILE_ENCODING                 = UTF-8
+PROJECT_NAME                      = "RAPP Platform Wiki"
+PROJECT_NUMBER                    =
+PROJECT_BRIEF                     =
+PROJECT_LOGO                      = ./RAPP_logo.png
+
+OUTPUT_DIRECTORY                  = ./platform_wiki
+EXTRACT_ALL                       = YES
+EXTRACT_PRIVATE                   = YES
+EXTRACT_PACKAGE                   = YES
+EXTRACT_STATIC                    = YES
+EXTRACT_LOCAL_METHODS             = YES
+
+SORT_BRIEF_DOCS                   = YES
+SORT_MEMBERS_CTORS_1ST            = YES
+
+WARN_NO_PARAMDOC                  = YES
+
+INPUT                             = ./rapp-platform.wiki
+
+RECURSIVE                         = YES
+
+SOURCE_BROWSER                    = YES
+
+DOCSET_PUBLISHER_NAME             = RAPP
+GENERATE_TREEVIEW                 = YES
+ENUM_VALUES_PER_LINE              = 1
+
+HAVE_DOT                          = YES
+
+LATEX_CMD_NAME                    = pdflatex

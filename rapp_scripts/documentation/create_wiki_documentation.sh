@@ -18,7 +18,7 @@
 # Contact: aris.thallas@{iti.gr, gmail.com}
 
 DOC_PATH="${HOME}/rapp_platform_files/documentation"
-DOC_FILE="platform_source"
+DOC_FILE="platform_wiki"
 
 LATEX_PATH="${DOC_PATH}/${DOC_FILE}/latex"
 
@@ -27,14 +27,25 @@ if [ -d ${DOC_PATH}/${DOC_FILE} ]; then
   rm -rf ${DOC_PATH}/${DOC_FILE}
 fi
 
+
+if [ -d ./rapp-platform.wiki ]; then
+  rm -rf ./rapp-platform.wiki
+fi
+echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Wiki repository\e[0m"
+git clone git@github.com:rapp-project/rapp-platform.wiki.git &> /dev/null;
+
+
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Source Documentation\e[0m"
 
-if [ ! -d ${DOC_PATH} ]; then
-  mkdir -p ${DOC_PATH}
+if [ ! -d ${doc_path} ]; then
+  mkdir -p ${doc_path}
 fi
 
 echo -e "\e[1m\e[103m\e[31m[RAPP] Executing Doxygen\e[0m"
-doxygen doxy_conf_platform &> /dev/null
+doxygen doxy_conf_platform_wiki &> /dev/null
+
+echo -e "\e[1m\e[103m\e[31m[RAPP] Removing Wiki repository\e[0m"
+rm -rf ./rapp-platform.wiki
 
 if [ -d ${DOC_FILE} ]; then
 
@@ -50,3 +61,5 @@ if [ -d ${DOC_FILE} ]; then
 else
   echo -e "\e[1;90m\e[101m[RAPP] Error in Doxygen\e[0m"
 fi
+
+
