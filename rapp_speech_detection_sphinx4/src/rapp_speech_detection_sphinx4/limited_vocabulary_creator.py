@@ -30,27 +30,30 @@ from rapp_exceptions import RappError
 
 from rapp_tools import *
 
+## @class LimitedVocabularyCreator
+# @brief Creates temporary configuration files for the input limited vocabulary
 class LimitedVocabularyCreator(GlobalParams):
 
+  ## Performs initializations
   def __init__(self):
     GlobalParams.__init__(self)
 
-    if not os.path.exists( self.tmp_language_models_url ):
+    if not os.path.exists( self._tmp_language_models_url ):
       rospy.logwarn( "Language temporary directory does not exist. Path: " + \
-          self.tmp_language_models_url )
-      os.makedirs(self.tmp_language_models_url)
+          self._tmp_language_models_url )
+      os.makedirs(self._tmp_language_models_url)
 
-    self.languages_package = tempfile.mkdtemp( prefix='tmp_language_pack_', dir = self.tmp_language_models_url )
+    self.languages_package = tempfile.mkdtemp( prefix='tmp_language_pack_', dir = self._tmp_language_models_url )
 
     atexit.register(shutil.rmtree, self.languages_package)
 
 
     self.sphinx_configuration = { \
-      'jar_path' : ".:" + self.sphinx_jar_files_url + \
-            "/" + self.sphinx_jar_file + ":" \
-            + self.sphinx_package_url + "/src", \
-      'configuration_path' : self.language_models_url + "/greekPack/default.config.xml", \
-      'acoustic_model' : self.acoustic_models_url, \
+      'jar_path' : ".:" + self._sphinx_jar_files_url + \
+            "/" + self._sphinx_jar_file + ":" \
+            + self._sphinx_package_url + "/src", \
+      'configuration_path' : self._language_models_url + "/greekPack/default.config.xml", \
+      'acoustic_model' : self._acoustic_models_url, \
       'grammar_name' : '', \
       'grammar_folder' : '', \
       'dictionary' : '', \
@@ -59,16 +62,21 @@ class LimitedVocabularyCreator(GlobalParams):
       }
 
 
-  # Creates temporary configuration files for the input limited vocabulary
+  ## Creates temporary configuration files for the input limited vocabulary
+  #
   # The 'words' input argument is of the form:
   # words = {
   #           'word1_en_chars': [phonem1, phonem2,...],
   #           'word2_en_chars': [phonem1, phonem2,...]
   #           ...
   #         }
-  # Returns [conf, status]
-  # conf is the final configuration
-  # status is either the error (string) or True (bool)
+  #
+  # @param words      [list::string] The set of words to be identified
+  # @param grammar    [list::string] The Sphinx grammar parameter
+  # @param sentences  [list::string] The Sphinx sentences parameter
+  #
+  # @return conf   [dictionary] The final configuration
+  # @return status [string] Either the error (string) or True (bool)
   def createConfigurationFiles(self, words, grammar, sentences):
     tmp_configuration = self.sphinx_configuration
 
@@ -141,12 +149,12 @@ class LimitedVocabularyCreator(GlobalParams):
 
     # Run script to fix the language model
     rapp_print( "Sphinx: Creating language model files\n" )
-    if self.allow_sphinx_output == True:
-        bash_file = self.language_models_url + "/greekPack/run.sh"
+    if self._allow_sphinx_output == True:
+        bash_file = self._language_models_url + "/greekPack/run.sh"
         bash_command = "cp " + bash_file + " " + self.languages_package + \
             " && cd " + self.languages_package + " && bash run.sh"
     else:
-        bash_file = self.language_models_url + "/greekPack/run_silent.sh"
+        bash_file = self._language_models_url + "/greekPack/run_silent.sh"
         bash_command = "cp " + bash_file + " " + self.languages_package + \
             " && cd " + self.languages_package + " && bash run_silent.sh"
 

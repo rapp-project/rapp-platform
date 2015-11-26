@@ -112,7 +112,7 @@ class Sphinx4Wrapper(GlobalParams):
   # @return line [string] A buffer read from socket
   def _readLine(self):
     line = self.socket_connection.recv(1024)
-    if self.allow_sphinx_output == True:
+    if self._allow_sphinx_output == True:
       rapp_print( line )
     return line
 
@@ -126,7 +126,7 @@ class Sphinx4Wrapper(GlobalParams):
 
     self._createSocket()
 
-    if self.allow_sphinx_output == True:
+    if self._allow_sphinx_output == True:
         self._sphinxSubprocess = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)] )
     else:
         try:
@@ -145,7 +145,7 @@ class Sphinx4Wrapper(GlobalParams):
   # Creates the socket server with a system provided port, which is pass as an
   # argument to the created subprocess.
   def _createSocket(self):
-    HOST = self.socket_host
+    HOST = self._socket_host
     self._sphinx_socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM ) # Create Unix Socket
     self._sphinx_socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self._sphinx_socket.bind( (HOST, 0) )
@@ -388,7 +388,7 @@ class Sphinx4Wrapper(GlobalParams):
   # (see also rapp_audio_processing.rapp_energy_denoise.EnergyDenoise::energyDenoise)
   #
   # @param audio_file [string] The audio file path
-  # @param scale [float] The scale parameter for the denoising procedure
+  # @param scale      [float] The scale parameter for the denoising procedure
   #
   # @returns file_path [string] THe path of the denoised file
   def _performEnergyDenoising(self, next_audio_file, audio_file, scale):

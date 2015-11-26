@@ -74,7 +74,7 @@ class SpeechRecognitionSphinx4HandlerNode():
 
   ## @brief The callback to perform speech recognition
   #
-  # @param req [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvRequest] The service request
+  # @param req  [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvRequest] The service request
   # @return res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvResponse] The service response
   def handleSpeechRecognitionCallback(self, req):
 

@@ -27,60 +27,78 @@ from rapp_exceptions import RappError
 from limited_vocabulary_creator import *
 from rapp_tools import *
 
+## @class EnglishSupport
+# @brief Allows the creation of configuration files for English Sphinx speech recognition
 class EnglishSupport(GlobalParams):
 
+  ## Performs initializations
   def __init__(self):
     GlobalParams.__init__(self)
 
-    #self.generic_sphinx_configuration = {}
-    self.limited_sphinx_configuration = {}
+    ## The limited vocabulary creator
+    #
+    # Instantiates limited_vocabulary_creator.LimitedVocabularyCreator
+    self._vocabulary = LimitedVocabularyCreator()
 
-    self.vocabulary = LimitedVocabularyCreator()
     # TODO: Split the rapp_sphinx4_java_libraries package into libraries and
     # language models
-    self.english_dictionary = self.language_models_url + \
+    english_dictionary = self._language_models_url + \
         "/englishPack/cmudict-en-us.dict"
 
     jar_path = ".:" + \
-        self.sphinx_jar_files_url + \
-        "/" + self.sphinx_jar_file + ":" \
-            + self.sphinx_package_url + "/src"
+        self._sphinx_jar_files_url + \
+        "/" + self._sphinx_jar_file + ":" \
+            + self._sphinx_package_url + "/src"
 
     # Grammar is dummy here..
-    # NOTE: Check acoustic model!!
-    self.generic_sphinx_configuration = { \
+    ## The generic Sphinx configuration
+    #
+    # @note Check acoustic model!!
+    self._generic_sphinx_configuration = { \
       'jar_path' : jar_path, \
-      'configuration_path' : self.language_models_url + "/greekPack/default.config.xml", \
-      'acoustic_model' : self.acoustic_models_url, \
+      'configuration_path' : self._language_models_url + "/greekPack/default.config.xml", \
+      'acoustic_model' : self._acoustic_models_url, \
       'grammar_name' : 'hello', \
-      'grammar_folder' : self.language_models_url + "/greekPack/", \
-      'dictionary' : self.language_models_url + "/englishPack/cmudict-en-us.dict", \
-      'language_model' : self.language_models_url + "/englishPack/en-us.lm.bin", \
+      'grammar_folder' : self._language_models_url + "/greekPack/", \
+      'dictionary' : self._language_models_url + "/englishPack/cmudict-en-us.dict", \
+      'language_model' : self._language_models_url + "/englishPack/en-us.lm.bin", \
       'grammar_disabled' : True
       }
 
+    ## The English dictionary file
+    #
+    # Located in path global_parameters.GlobalParams#_language_models_url +
+    # "/englishPack/cmudict-en-us.dict"
+    self._english_dict_file = None
+    ## The mmap of the English dictionary file contents
+    self._english_dict_mapping = None
+
     # Open the generic english dictionary file
     try:
-      self.english_dict_file = open(self.english_dictionary, 'r')
+      self._english_dict_file = open(english_dictionary, 'r')
     except IOError:
       rapp_print("English dictionary could not be opened!")
     # Create a mapping of the file
-    self.english_dict_mapping = mmap.mmap(self.english_dict_file.fileno(), 0, \
+    self._english_dict_mapping = mmap.mmap(self._english_dict_file.fileno(), 0, \
         access = mmap.ACCESS_READ)
 
+  ## Compute the English word phonemes
+  #
+  # @param words [list::string] The set of English words
+  # @return enhanced_words  [dictionary] The English word->phonemes mapping
   def getWordPhonemes(self, words):
     enhanced_words = {}
     for word in words:
       inner_words = []
       inner_phonemes = []
       if "-" not in word: # Check for conjoined english words
-        index = self.english_dict_mapping.find("\n" + word + " ")
+        index = self._english_dict_mapping.find("\n" + word + " ")
         if index == -1:
            raise RappError("ERROR: Word " + word +\
                     " does not exist in the English Dictionary")
         else:
-          self.english_dict_file.seek(index + 1)
-          line = self.english_dict_file.readline()
+          self._english_dict_file.seek(index + 1)
+          line = self._english_dict_file.readline()
           line = line[:-1]
           split_line = line.split(" ")
           inner_phonemes = split_line[1:]
@@ -88,13 +106,13 @@ class EnglishSupport(GlobalParams):
       else:
         inner_words = word.split("-")
         for in_w in inner_words:
-          index = self.english_dict_mapping.find("\n" + in_w + " ")
+          index = self._english_dict_mapping.find("\n" + in_w + " ")
           if  index == -1:
             raise RappError("ERROR: Word " + in_w +\
                     " does not exist in the English Dictionary")
           else:
-            self.english_dict_file.seek(index + 1) # +1 because of the extra \n
-            line = self.english_dict_file.readline()
+            self._english_dict_file.seek(index + 1) # +1 because of the extra \n
+            line = self._english_dict_file.readline()
             line = line[:-1] # to erase the \n
             split_line = line.split(" ")
 
@@ -105,21 +123,28 @@ class EnglishSupport(GlobalParams):
 
     return enhanced_words
 
-  # Returns [conf, status]
-  # conf is the configuration
-  # status is either error (string) or True (bool)
+  ## Computes the Limited English Configuration
+  #
+  # @param words      [list::string] The set of words to be identified
+  # @param grammar    [list::string] The Sphinx grammar parameter
+  # @param sentences  [list::string] The Sphinx sentences parameter
+  #
+  # @return limited_sphinx_configuration [dictionary] The Limited English configuration
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     rapp_print(words)
 
     enhanced_words = self.getWordPhonemes( words )
 
     try:
-        self.limited_sphinx_configuration= \
-            self.vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
+        limited_sphinx_configuration= \
+            self._vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
     except RappError as e:
         raise RappError(e.value)
 
-    return self.limited_sphinx_configuration
+    return limited_sphinx_configuration
 
+  ## Returns the Generic English Configuration
+  #
+  # @return #_generic_sphinx_configuration [dictionary] The Generic English configuration
   def getGenericConfiguration(self):
-    return self.generic_sphinx_configuration
+    return self._generic_sphinx_configuration

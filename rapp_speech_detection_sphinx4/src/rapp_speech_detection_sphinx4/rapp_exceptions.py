@@ -16,6 +16,8 @@
 
 from rapp_tools import *
 
+## @class RappError
+# Provides a RAPP specific exception
 class RappError(Exception):
   """Error handling in RAPP"""
 

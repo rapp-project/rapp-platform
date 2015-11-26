@@ -55,82 +55,89 @@ from std_msgs.msg import (
   String
   )
 
+## @class SpeechRecognitionSphinx4
+# @brief Provides a complete Rapp Sphinx Entity.
+#
+# Maintains a complete Rapp Sphinx Entity for the
+# speech_recognition_sphinx4_handler_node.SpeechRecognitionSphinx4HandlerNode
+# to perform the speech recognition.
 class SpeechRecognitionSphinx4(GlobalParams):
 
-  # Constructor performing initializations
+  ## Constructor performing initializations
   def __init__(self):
     GlobalParams.__init__(self)
 
-    self.sphinx4 = Sphinx4Wrapper()
-    self.greek_support = GreekSupport()
-    self.english_support = EnglishSupport()
+    ## The sphinx wrapper communicates with the actual Sphinx.java process
+    #
+    # (see sphinx4_wrapper.Sphinx4Wrapper)
+    self._sphinx4 = Sphinx4Wrapper()
+    ## Greek_support creates necessary files for Greek speech recognition
+    #
+    # (see greek_support.GreekSupport)
+    self._greek_support = GreekSupport()
+    ## English creates necessary files for english speech recognition
+    #
+    # (see english_support.EnglishSupport)
+    self._english_support = EnglishSupport()
+    ## The Sphinx configuration parameters
+    #
+    # (see sphinx4_configuration_params.SphinxConfigurationParams)
     self._configuration_params = SphinxConfigurationParams()
-    self.word_mapping = {}
 
-    #self.serv_topic = \
-        #rospy.get_param("rapp_speech_detection_sphinx4_detect_speech_topic")
-    #self.serv_configuration_topic = \
-        #rospy.get_param("rapp_speech_detection_sphinx4_configuration_topic")
-    #self.serv_batch_topic = \
-        #rospy.get_param("rapp_speech_detection_sphinx4_total_topic")
+    ## A dictionary to transform the englified greek words to actual greek words
+    self._word_mapping = {}
 
-    self.use_db_authentication = rospy.get_param(\
+    ## Defines whether database authentication should be used
+    self._use_db_authentication = rospy.get_param(\
         "rapp_speech_detection_sphinx4_use_db_authentication")
 
     #---------------------------Check db authentication------------------------#
-    if self.use_db_authentication == True:
-      self.serv_db_topic = \
+    if self._use_db_authentication == True:
+      serv_db_topic = \
           rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
-      self.authentication_service = rospy.ServiceProxy(\
-              self.serv_db_topic, fetchDataSrv)
+      ## The database authentication service client
+      #
+      # Used to identify user performed the speech recognition request.
+      # (see mysql_wrapper.MySQLdbWrapper.fetchData)
+      self._authentication_service = rospy.ServiceProxy(\
+              serv_db_topic, fetchDataSrv)
 
-    #if(not self.serv_topic):
-      #rospy.logerror("Sphinx4 Speech detection topic param not found")
-    #if(not self.serv_configuration_topic):
-      #rospy.logerror("Sphinx4 Speech detection configuration topic param not found")
-    #if(not self.serv_batch_topic):
-      #rospy.logerror("Sphinx4 Speech detection batch topic param not found")
-    if(not self.use_db_authentication):
+    if(not self._use_db_authentication):
       rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
 
-    #self.speech_recognition_service = rospy.Service(self.serv_topic, \
-        #SpeechRecognitionSphinx4Srv, self.speechRecognition)
-    #self.speech_recognition_configuration_service = rospy.Service( \
-        #self.serv_configuration_topic, SpeechRecognitionSphinx4ConfigureSrv, \
-        #self.configureSpeechRecognition)
-    #self.speech_recognition_batch_service = rospy.Service( \
-        #self.serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
-        #self.speechRecognitionBatch)
 
-    total_path = ".:" + self.sphinx_jar_files_url + \
-        "/" + self.sphinx_jar_file + ":" \
-            + self.sphinx_package_url + "/src"
+    total_path = ".:" + self._sphinx_jar_files_url + \
+        "/" + self._sphinx_jar_file + ":" \
+            + self._sphinx_package_url + "/src"
 
-    self.sphinx_configuration = { \
+    sphinx_configuration = { \
       'jar_path' : total_path, \
-      'configuration_path' : self.language_models_url + "/greekPack/default.config.xml", \
-      'acoustic_model' : self.acoustic_models_url , \
+      'configuration_path' : self._language_models_url + "/greekPack/default.config.xml", \
+      'acoustic_model' : self._acoustic_models_url , \
       'grammar_name' : 'hello', \
-      'grammar_folder' : self.language_models_url + "/greekPack/", \
-      'dictionary' : self.language_models_url + "/greekPack/custom.dict", \
-      'language_model' : self.language_models_url + "/greekPack/sentences.lm.bin", \
+      'grammar_folder' : self._language_models_url + "/greekPack/", \
+      'dictionary' : self._language_models_url + "/greekPack/custom.dict", \
+      'language_model' : self._language_models_url + "/greekPack/sentences.lm.bin", \
       'grammar_disabled' : True
       }
-    self.sphinx4.initializeSphinx(self.sphinx_configuration)
+    self._sphinx4.initializeSphinx(sphinx_configuration)
 
-  # Service callback for handling sphinx4 configuration AND speech recognition
+  ## Performs Sphinx4 configuration and speech recognition
+  #
+  # @param req  [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvRequest] The speech recognition request
+  # @return res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvResponse] The speech recognition response
   def speechRecognitionBatch(self, req):
 
     total_res = SpeechRecognitionSphinx4TotalSrvResponse()
 
     #-------------------------Check with database-------------------------#
-    if self.use_db_authentication == True:
+    if self._use_db_authentication == True:
       req_db = fetchDataSrv()
       req_db.req_cols=["username"]
       entry1=["username", req.user]
       req_db.where_data=[StringArrayMsg(s=entry1)]
 
-      resp = self.authentication_service(req_db.req_cols, req_db.where_data)
+      resp = self._authentication_service(req_db.req_cols, req_db.where_data)
       if resp.success.data != True or len(resp.res_data) == 0:
         total_res.error = "Non authenticated user"
         return total_res
@@ -144,7 +151,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     conf_req.sentences = req.sentences
 
     conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
-    conf_res = self.configureSpeechRecognition(conf_req)
+    conf_res = self._configureSpeechRecognition(conf_req)
     total_res.error = conf_res.error
     if conf_res.error != '':
         total_res.error = total_res.error + '\n' + conf_res.error
@@ -153,15 +160,18 @@ class SpeechRecognitionSphinx4(GlobalParams):
     spee_req.path = req.path
     spee_req.audio_source = req.audio_source
     spee_req.user = req.user
-    spee_res = self.speechRecognition(spee_req)
+    spee_res = self._speechRecognition(spee_req)
     total_res.words = spee_res.words
     total_res.error = spee_res.error
     return total_res
 
-  # Service callback for handling speech recognition
-  def speechRecognition(self, req):
+  ## Performs Sphinx4 speech recognition
+  #
+  # @param req  [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4SrvRequest] The speech recognition request
+  # @return res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4SrvResponse] The speech recognition response
+  def _speechRecognition(self, req):
     res = SpeechRecognitionSphinx4SrvResponse()
-    words = self.sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user)
+    words = self._sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user)
     rapp_print (words)
     # Error handling - Must be implemented with exceptions
     if len(words) == 1 and "Error:" in words[0]:
@@ -174,14 +184,17 @@ class SpeechRecognitionSphinx4(GlobalParams):
         rapp_print ("Word: #" + word + "#")
         if word == "" or word == '<unk>':
           continue
-        res.words.append(self.word_mapping[word])
+        res.words.append(self._word_mapping[word])
       else:
         res.words.append(word.replace("'"," "))
 
     return res;
 
-  # Service callback dedicated for Sphinx4 configuration
-  def configureSpeechRecognition(self, req):
+  ## Performs Sphinx4 configuration
+  #
+  # @param req  [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4ConfigureSrvRequest] The sphinx configuration request
+  # @return res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4ConfigureSrvRequest] The sphinx configuration response
+  def _configureSpeechRecognition(self, req):
     res = SpeechRecognitionSphinx4ConfigureSrvResponse()
     res.error = ''
     conf = {} # Dummy initialization
@@ -211,7 +224,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
         rapp_print ("Generic model used")
         # success is either True (bool) or error (string)
         try:
-            conf = self.english_support.getGenericConfiguration()
+            conf = self._english_support.getGenericConfiguration()
         except RappError as e:
             res.error = e.value
             return res
@@ -220,7 +233,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
         rapp_print ("Limited model used")
         # success is either True (bool) or error (string)
         try:
-            conf = self.english_support.getLimitedVocebularyConfiguration(\
+            conf = self._english_support.getLimitedVocebularyConfiguration(\
                 self._configuration_params._words, \
                 self._configuration_params._grammar, \
                 self._configuration_params._sentences)
@@ -241,7 +254,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
             str(len(self._configuration_params._words)) + "):")
         # success is either True (bool) or error (string)
         try:
-            [conf, eng_w] = self.greek_support.getLimitedVocebularyConfiguration(\
+            [conf, eng_w] = self._greek_support.getLimitedVocebularyConfiguration(\
                 self._configuration_params._words, \
                 self._configuration_params._grammar, \
                 self._configuration_params._sentences)
@@ -249,9 +262,10 @@ class SpeechRecognitionSphinx4(GlobalParams):
             res.error = e.value
             return res
 
+        self._word_mapping = {}
         for ew in eng_w:
-          self.word_mapping[ew] = eng_w[ew]
-        rapp_print (self.word_mapping)
+          self._word_mapping[ew] = eng_w[ew]
+        rapp_print (self._word_mapping)
 
     else:
       res.error = "Wrong language"
@@ -260,7 +274,7 @@ class SpeechRecognitionSphinx4(GlobalParams):
     # Actual sphinx4 configuration
     rapp_print ("Configuration: \n")
     rapp_print (conf)
-    self.sphinx4.configureSphinx(conf)
+    self._sphinx4.configureSphinx(conf)
     return res
 
 # Main function
