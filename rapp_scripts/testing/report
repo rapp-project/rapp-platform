@@ -1,5 +1,0 @@
-1) FAIL: test_noSentences (limited_vocabulary_creator_unit_tests.TestAudioProcessing)
-Traceback (most recent call last):
-/home/manos/Development/rapp_ws/src/rapp-platform/rapp_speech_detection_sphinx4/tests/unit/limited_vocabulary_creator_unit_tests.py line 120 in test_noSentences
-self.assertEqual(dict_words[0], 'ekei EH K IHn')
-AssertionError: 'kserw K S EH R OWn' != 'ekei EH K IHn'
