@@ -6,7 +6,7 @@ set(ROS_BUILD_TYPE Release)
 find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
-  rostest 
+  rostest
   rapp_platform_ros_communications
 )
 
@@ -29,13 +29,13 @@ catkin_package(
 )
 
 include_directories(
-  ${catkin_INCLUDE_DIRS}  
+  ${catkin_INCLUDE_DIRS}
 )
 
 ###########
 ## Build ##
 ###########
 if (CATKIN_ENABLE_TESTING)
-  #catkin_add_nosetests(test/cognitive_exercise_system_services_functional_tests.py)
-  add_rostest(test/cognitive_exercise_system_services_functional_tests.launch)
+  #catkin_add_nosetests(tests/cognitive_exercise_system_services_functional_tests.py)
+  add_rostest(tests/cognitive_exercise_system_services_functional_tests.launch)
 endif()

@@ -64,7 +64,7 @@ add_dependencies(qr_detection_ros_node
 if (CATKIN_ENABLE_TESTING)
   # unit tests
   catkin_add_gtest(qr_detection_unit_test
-    test/qr_detection/unit_tests.cpp
+    tests/qr_detection/unit_tests.cpp
     )
   target_link_libraries(qr_detection_unit_test
     ${catkin_LIBRARIES}
@@ -73,5 +73,5 @@ if (CATKIN_ENABLE_TESTING)
     )
 
   # functional tests
-  add_rostest(test/qr_detection/functional_tests.launch)
+  add_rostest(tests/qr_detection/functional_tests.launch)
 endif()

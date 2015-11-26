@@ -1,7 +1,0 @@
-<launch> 
-   <node type="face_detection_ros_node" pkg="rapp_face_detection" name="rapp_face_detection"/> 
-   <test time-limit="100" test-name="face_detection_functional" pkg="rapp_face_detection" type="functional_tests.py"/> 
-  <rosparam file="$(find rapp_face_detection)/cfg/face_detection_params.yaml" 
-    command="load" />
- </launch> 
- 

@@ -34,5 +34,5 @@ include_directories(
 ## Build ##
 ###########
 if (CATKIN_ENABLE_TESTING)
-  add_rostest(test/speech_to_text/functional_tests.launch)
+  add_rostest(tests/speech_to_text/functional_tests.launch)
 endif()

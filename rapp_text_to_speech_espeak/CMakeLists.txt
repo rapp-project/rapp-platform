@@ -34,5 +34,5 @@ include_directories(
 ## Build ##
 ###########
 if (CATKIN_ENABLE_TESTING)
-  add_rostest(test/rapp_text_to_speech_espeak/functional_tests.launch)
+  add_rostest(tests/rapp_text_to_speech_espeak/functional_tests.launch)
 endif()

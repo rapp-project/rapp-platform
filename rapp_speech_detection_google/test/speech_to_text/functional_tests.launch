@@ -1,9 +1,0 @@
-<launch> 
-   <node name="rapp_speech_detection_google_node" pkg="rapp_speech_detection_google" type="speech_recognition_google.py" output="screen"/>
-  <rosparam file="$(find rapp_speech_detection_google)/cfg/rapp_speech_detection_google_params.yaml" 
-    command="load" />
-  <test time-limit="100" test-name="speech_to_text_functional" pkg="rapp_speech_detection_google" type="functional_tests.py" /> 
-  <include file="$(find rapp_audio_processing)/launch/audio_processing.launch" />
-  <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
- </launch> 
- 

@@ -1,5 +1,0 @@
-<launch> 
-  <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
-  <test time-limit="100" test-name="rapp_mysql_wrapper_services_functional" pkg="rapp_mysql_wrapper" type="rapp_mysql_wrapper_functional_tests.py"/> 
- </launch> 
- 
