@@ -1,0 +1,7 @@
+<launch> 
+  <node name="rapp_qr_detection_node" pkg="rapp_qr_detection" type="qr_detection_ros_node" />
+  <rosparam file="$(find rapp_qr_detection)/cfg/qr_detection_params.yaml" 
+    command="load" />
+   <test time-limit="100" test-name="qr_detection_functional" pkg="rapp_qr_detection" type="functional_tests.py"/> 
+ </launch> 
+ 
