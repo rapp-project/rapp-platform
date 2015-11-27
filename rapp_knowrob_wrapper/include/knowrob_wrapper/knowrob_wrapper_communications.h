@@ -237,13 +237,13 @@ class KnowrobWrapperCommunications
 
 	/** 
 	* @brief Serves the clear_user_cognitive_tests_performance_records ROS service callback 
-	* @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
-	* @param res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+	* @param req [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request&] The ROS service request 
+	* @param res [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response&] The ROS service response 
 	* @return bool - The success status of the call 
 	*/ 
     bool clear_user_cognitive_tests_performance_records_callback(
-      rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request& req,
-      rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response& res);
+      rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request& req,
+      rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response& res);
 
     //bool userInstancesFromClassCallback(
       //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,

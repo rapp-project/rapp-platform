@@ -46,6 +46,7 @@ add_service_files(
   /OntologyWrapper/createCognitiveExerciseTestSrv.srv
   /OntologyWrapper/cognitiveTestsOfTypeSrv.srv
   /OntologyWrapper/recordUserPerformanceCognitiveTestsSrv.srv
+  /OntologyWrapper/clearUserPerformanceCognitveTestsSrv.srv
 
   /FaceDetection/FaceDetectionRosSrv.srv
 

@@ -195,11 +195,11 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
 rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response KnowrobWrapper::record_user_cognitive_tests_performance(rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req)
 {
   rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response res;
-  if(req.test==std::string("") || req.score<0 || req.timestamp<1 || req.patient_ontology_alias==std::string("") || req.test==std::string(""))
+  if(req.test==std::string("") || req.score<0 || req.score>100 || req.timestamp<1 || req.patient_ontology_alias==std::string("") || req.test==std::string(""))
   {
     res.success=false;
-    res.trace.push_back("Error, one or more arguments not provided or out of range.  Test score and timestamp are positive integers >0");
-    res.error=std::string("Error, one or more arguments not provided or out of range.  Test score and timestamp are positive integers >0");
+    res.trace.push_back("Error, one or more arguments not provided or out of range. Test score is >=0 and <=100 and timestamp is positive integers");
+    res.error=std::string("Error, one or more arguments not provided or out of range. Test score is >=0 and <=100 and timestamp is positive integers");
     return res;
   }
   std::string timestamp = intToString(req.timestamp);
@@ -452,20 +452,20 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
 
 /** 
 * @brief Implements the clear_user_cognitive_tests_performance_records ROS service 
-* @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
-* @return res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+* @param req [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request&] The ROS service request 
+* @return res [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response&] The ROS service response 
 */ 
-rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req)
+rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response KnowrobWrapper::clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request req)
 {
-  rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response res;
-  if(req.ontology_alias==std::string(""))
+  rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response res;
+  if(req.username==std::string(""))
   {
     res.success=false;
     res.trace.push_back("Error, ontology alias empty");
     res.error=std::string("Error, ontology alias empty");
     return res;
   }
-  std::string currentAlias=get_ontology_alias(req.ontology_alias);
+  std::string currentAlias=get_ontology_alias(req.username);
   if(req.test_type==std::string(""))
   {
     std::string query=std::string("rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'")+currentAlias+std::string("'),rdf_retractall(P,L,S)");

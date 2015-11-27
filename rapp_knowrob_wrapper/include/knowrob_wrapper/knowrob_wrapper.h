@@ -37,6 +37,7 @@ limitations under the License.
 #include <rapp_platform_ros_communications/createCognitiveExerciseTestSrv.h>
 #include <rapp_platform_ros_communications/cognitiveTestsOfTypeSrv.h>
 #include <rapp_platform_ros_communications/recordUserPerformanceCognitiveTestsSrv.h>
+#include <rapp_platform_ros_communications/clearUserPerformanceCognitveTestsSrv.h>
 
 /** 
 * @class KnowrobWrapper 
@@ -174,10 +175,10 @@ class KnowrobWrapper
 
 	/** 
 	* @brief Implements the clear_user_cognitive_tests_performance_records ROS service 
-	* @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
-	* @return res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+	* @param req [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request&] The ROS service request 
+	* @return res [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response&] The ROS service response 
 	*/ 
-    rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req);
+    rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request req);
 
     //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
     //std::vector<std::string> checkIfClassExists(std::string classValue);

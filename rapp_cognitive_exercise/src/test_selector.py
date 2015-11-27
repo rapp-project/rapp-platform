@@ -76,7 +76,11 @@ class TestSelector:
 
     try:
       res = testSelectorSrvResponse()
-      currentTimestamp = int(time.time()) 
+      currentTimestamp = int(time.time())       
+ 
+      returnWithError,modifier1,modifier2=self.loadParamDifficultyModifiers(res)
+      if(returnWithError):
+        return res
         
       returnWithError,userOntologyAlias=self.getUserOntologyAlias(req.username,res)
       if(returnWithError):
@@ -101,7 +105,7 @@ class TestSelector:
         else:
           testType=req.testType
       
-      chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.organizeUserPerformanceByTimestampAndDetermineTestDifficulty(testType,userOntologyAlias,currentTimestamp,self.lookBackTimeStamp,res)
+      chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.organizeUserPerformanceByTimestampAndDetermineTestDifficulty(testType,userOntologyAlias,currentTimestamp,self.lookBackTimeStamp,res,modifier1,modifier2)
             
       returnWithError,testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res)      
       if(returnWithError):
@@ -214,11 +218,13 @@ class TestSelector:
   # @param currentTimestamp [int] The timestamp at the time of the service call
   # @param lookBackTimeStamp [int] The look back timestamp. Default value is 3 months back from current time
   # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param modifier1 [int] The first difficulty modifier
+  # @param modifier2 [int] The second difficulty modifier
   #
   # @return chosenDif [string] The chosen difficulty setting
   # @return noUserPerformanceRecordsExist [bool] True if no user performance records exit for the user for the given test type
   # @return userPerfOrganizedByTimestamp [OrderedDict] The user's performance records in a dictionary, ordered by timestamp  
-  def organizeUserPerformanceByTimestampAndDetermineTestDifficulty(self,testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res):
+  def organizeUserPerformanceByTimestampAndDetermineTestDifficulty(self,testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2):
     noUserPerformanceRecordsExist=False;
     chosenDif="1"
     userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
@@ -245,9 +251,9 @@ class TestSelector:
       res.trace.append("user score :"+str(userScore))
       if(userScore==0):
         chosenDif="1"
-      elif(userScore<0.75*100):
+      elif(userScore<modifier1):
         chosenDif="1"
-      elif(userScore<0.75*2*100):
+      elif(userScore<modifier2):
         chosenDif="2"
       else:   #(userScore>0.75*3*100)
         chosenDif="3"
@@ -410,5 +416,30 @@ class TestSelector:
       return True,""
     return False,createOntologyAliasResponse.ontology_alias
 
-
+  ## @brief Load the difficulty modifiers from the ros yaml file  
+  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  #
+  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
+  # @return modifier1 [int] The first difficulty modifier
+  # @return modifier2 [int] The second difficulty modifier
+  def loadParamDifficultyModifiers(self,res):
+    modifier1 = rospy.get_param('rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2')
+    if(not modifier1):
+      rospy.logerror("rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2 param not found")
+      res.trace.extend("rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2 param not found")
+      res.error="rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2 param not found"
+      res.success=False
+      returnWithError=True;
+      return True,"",""
+    modifier2 = rospy.get_param('rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3')  
+    if(not modifier2):
+      rospy.logerror("rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3 param not found")
+      res.trace.extend("rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3 param not found")
+      res.error="rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3 param not found"
+      res.success=False
+      returnWithError=True;
+      return True,"",""
+    modifier1=int(modifier1)
+    modifier2=int(modifier2)
+    return False,modifier1,modifier2
 
