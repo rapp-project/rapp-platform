@@ -6,16 +6,17 @@
   "scripts": {
     "test": "",
     "start": "bash run.sh",
-    "doc-gen": "jsdoc -c config/doc_conf.json",
+    "doc-gen": "jsdoc -c config/jsdoc.conf.json -t ./node_modules/ink-docstrap/template",
     "doc-view": "${BROWSER} doc/index.html"
   },
   "author": "Konstantinos Panayiotou <klpanagi@gmail.com>",
   "devDependencies": {
-    "jsdoc": "latest",
-    "jshint": "latest"
+    "ink-docstrap": "~0.5.2",
+    "jshint": "~2.9.1-rc1",
+    "jsdoc": "~3.4.0"
   },
   "bin": {
-    "jsdoc": "./node_modules/jsdoc/jsdoc.js"
+    "jsdoc": "./node_modules/.bin/jsdoc.js"
   },
   "license": "Apache Licence v2"
 }
