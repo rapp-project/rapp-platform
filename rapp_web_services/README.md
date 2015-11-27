@@ -1,4 +1,4 @@
-HOP Web Services
+RAPP Platform Web Services
 ----------------
 
 ## Synopsis
