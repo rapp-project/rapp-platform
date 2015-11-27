@@ -1,3 +1,5 @@
+Documentation about the RAPP Face detection: [Wiki Page](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Audio-Processing)
+
 #Methodology
 
 The audio processing node was created in order to perform necessary operations for the speech recognition modules to operate for all audio cases. Even though both the Google and Sphinx4 speech recognition modules were functional when the input was captured from a headset, the same did not happen with the audio captured from the NAO robot.
