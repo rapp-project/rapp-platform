@@ -35,7 +35,7 @@ echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Wiki repository\e[0m"
 git clone git@github.com:rapp-project/rapp-platform.wiki.git &> /dev/null;
 
 
-echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Source Documentation\e[0m"
+echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Wiki Documentation\e[0m"
 
 if [ ! -d ${doc_path} ]; then
   mkdir -p ${doc_path}
@@ -54,7 +54,7 @@ if [ -d ${DOC_FILE} ]; then
   echo -e "\e[1m\e[103m\e[31m[RAPP] Creating LaTeX pdf\e[0m"
   cd ${LATEX_PATH}
   make &> /dev/null;
-  mv refman.pdf ../platform_source.pdf;
+  mv refman.pdf ../platform_wiki.pdf;
 
   echo -e "\e[1m\e[103m\e[31m[RAPP] Finished Cleanly. Documentation can be accessed in:\e[0m"
   echo -e "\e[1m${DOC_PATH}/${DOC_FILE}\e[0m"
