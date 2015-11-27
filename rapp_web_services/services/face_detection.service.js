@@ -20,7 +20,7 @@
 
 
 /**
- * @file
+ * @fileOverview
  *
  * [Face-Detection] RAPP Platform front-end web service.
  *
@@ -88,12 +88,21 @@ var color = {
 register_master_interface();
 
 
-/*!
- * @brief Face Detection HOP Service Core.
+/**
+ *  [Face-Detection] RAPP Platform front-end web service.
+ *  <p> Serves requests for face_detection on given input image frame.</p>
  *
- * @param file_uri Path of uploaded image file. Returned by hop server.
- * @return Message response from faceDetection ROS Service.
+ *  @function face_detection
  *
+ *  @param {Object} args - Service input arguments (object literal).
+ *  @param {String} file_uri - System uri path of transfered (client) file-data
+ *  declared in multipart/form-data post field. The file_uri is handled and
+ *  forwared to this service, as input argument, by the HOP front-end server.
+ *
+ *  @returns {Object} response - JSON HTTPResponse Object.
+ *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {String} response.error - Error message string to be filled
+ *  when an error has been occured during service call.
  */
 service face_detection ( {file_uri:''} )
 {
@@ -184,7 +193,7 @@ service face_detection ( {file_uri:''} )
        */
       function callback(data){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         // Remove cached file. Release resources.
@@ -193,7 +202,7 @@ service face_detection ( {file_uri:''} )
         // Craft client response using ros service ws response.
         var response = craft_response( data );
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
@@ -204,7 +213,7 @@ service face_detection ( {file_uri:''} )
        */
       function onerror(e){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         // Remove cached file. Release resources.
@@ -212,7 +221,7 @@ service face_detection ( {file_uri:''} )
         // craft error response
         var response = craft_error_response();
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
@@ -247,7 +256,7 @@ service face_detection ( {file_uri:''} )
            */
           if ( retries >= maxTries )
           {
-            var logMsg = 'Reached max_retries [' + maxTries + ']' +
+            logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
@@ -270,13 +279,20 @@ service face_detection ( {file_uri:''} )
       asyncWrap();
       /*=================================================================*/
     }, this );
-};
+}
 
 
-/*!
- * @brief Crafts the form/format for the message to be returned
- * @param rosbridge_msg Return message from ROS Service.
- * return Message to be returned from service.
+/**
+ * @namespace face
+ * @property up_left_point - Face bounding box, up-left-point
+ */
+
+
+/***
+ * Crafts the form/format for the message to be returned to client.
+ *
+ *  @param {Object} rosbridge_msg - Rosbridge response message.
+ *
  */
 function craft_response(rosbridge_msg)
 {
@@ -291,10 +307,14 @@ function craft_response(rosbridge_msg)
 
   for (var ii = 0; ii < numFaces; ii++)
   {
+    /** @namespace */
     var face = {
+      /** Face bounding box, up-left-point in cartesian coordinates */
       up_left_point: {x: 0, y:0},
+      /** Face bounding box, down-right-point in cartesian coordinates */
       down_right_point: {x: 0, y: 0}
     };
+
     face.up_left_point.x = faces_up_left[ii].point.x;
     face.up_left_point.y = faces_up_left[ii].point.y;
     face.down_right_point.x = faces_down_right[ii].point.x;
@@ -305,28 +325,28 @@ function craft_response(rosbridge_msg)
   crafted_msg.error = error;
   logMsg = 'Returning to client.';
 
-  if (error != '')
+  if (error !== '')
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error'
+    logMsg += ' ROS service [' + rosSrvName + '] error' +
       ' ---> ' + error;
   }
   else
   {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success'
+    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   return crafted_msg;
-};
+}
 
 
-/*!
- * @brief Crafts response message on Platform Failure
+/***
+ *  Crafts response message on Platform Failure.
  */
 function craft_error_response()
 {
   // Add here to be returned literal
-  var errorMsg = 'RAPP Platform Failure'
+  var errorMsg = 'RAPP Platform Failure';
   var crafted_msg = {faces: [], error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
@@ -336,14 +356,26 @@ function craft_error_response()
 }
 
 
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
+ */
 function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] termination...", __hopServiceName);
+    console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-  }
+  };
 
   // Register onmessage callback function
   onmessage = function(msg){
@@ -351,39 +383,41 @@ function register_master_interface()
     {
       console.log("Service [%s] received message from master process",
         __hopServiceName);
-      console.log(" - [Msg]: %s", msg.data);
-    };
+      console.log("Msg -->", msg.data);
+    }
 
-    exec_master_command(msg.data);
-  }
+    var logMsg = 'Received message from master process --> [' +
+      msg.data + ']';
+    postMessage( craft_slaveMaster_msg('log', logMsg) );
+
+    var cmd = msg.cmdId;
+    var data = msg.data;
+    switch (cmd)
+    {
+      case 2055:  // Set worker ID
+        __hopServiceId = data;
+        break;
+      default:
+        break;
+    }
+  };
+
+  // On initialization inform master and append to log file
+  var logMsg = "Initiated worker";
+  postMessage( craft_slaveMaster_msg('log', logMsg) );
 }
 
 
-function exec_master_command(msg)
-{
-  var cmd = msg.cmdId;
-  var data = msg.data;
-  switch (cmd)
-  {
-    case 2055:  // Set worker ID
-      __hopServiceId = data;
-      break;
-    case 2065:
-      __servicesCacheDir = data;
-      break;
-    default:
-      break;
-  }
-}
-
-
+/***
+ *  Returns master-process comm msg literal.
+ */
 function craft_slaveMaster_msg(msgId, msg)
 {
-  var msg = {
+  var _msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg
-  }
-  return msg;
+  };
+  return _msg;
 }

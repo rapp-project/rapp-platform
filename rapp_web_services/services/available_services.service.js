@@ -60,6 +60,10 @@ var color = {
 register_master_interface();
 
 
+/***
+ *  Scan services for up-and-running available services.
+ *  Scan timer value is used triggers this function invocation.
+ */
 (function scanServices(){
   __availableServices.length = 0;
 
@@ -112,6 +116,7 @@ register_master_interface();
 })();
 
 
+
 /**
  *  [Available-Services], RAPP Platform Front-End Web Service.
  *  Returns a list of currently available RAPP Platform Web Services.
@@ -155,29 +160,50 @@ function craft_error_respose()
 }
 
 
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
+ */
 function register_master_interface()
 {
+  // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", hopServiceName);
-
+    console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
 
+  // Register onmessage callback function
   onmessage = function(msg){
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        hopServiceName);
+        __hopServiceName);
       console.log("Msg -->", msg.data);
     }
-    /* -------< Add to log file >---------- */
+
     var logMsg = 'Received message from master process --> [' +
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-    /* ------------------------------------ */
 
-    exec_master_command(msg.data);
+    var cmd = msg.cmdId;
+    var data = msg.data;
+    switch (cmd)
+    {
+      case 2055:  // Set worker ID
+        __hopServiceId = data;
+        break;
+      default:
+        break;
+    }
   };
 
   // On initialization inform master and append to log file
@@ -186,21 +212,9 @@ function register_master_interface()
 }
 
 
-function exec_master_command(msg)
-{
-  var cmd = msg.cmdId;
-  var data = msg.data;
-  switch (cmd)
-  {
-    case 'id':  // Set worker ID
-      __hopServiceId = data;
-      break;
-    default:
-      break;
-  }
-}
-
-
+/***
+ *  Returns master-process comm msg literal.
+ */
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
@@ -211,4 +225,3 @@ function craft_slaveMaster_msg(msgId, msg)
   };
   return _msg;
 }
-

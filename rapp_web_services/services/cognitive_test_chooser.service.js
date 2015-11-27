@@ -149,7 +149,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
       };
 
 
-      /**
+      /***
        * Declare the service response callback here!!
        * This callback function will be passed into the rosbridge service
        * controller and will be called when a response from rosbridge
@@ -169,7 +169,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
         retClientFlag = true;
       }
 
-      /**
+      /***
        * Declare the onerror callback.
        * The onerror callack function will be called by the service
        * controller as soon as an error occures, on service request.
@@ -239,11 +239,26 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
 }
 
 
-
-/*!
- * @brief Crafts the form/format for the message to be returned to client
- * @param rosbridge_msg Return message from rosbridge
- * @return Message to be returned from service
+/***
+ * Crafts the form/format for the message to be returned to client.
+ *
+ *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
+ *  @returns {Object} response - JSON HTTPResponse Object.
+ *  @returns {String} response.lang - Language.
+ *  @returns {Array} response.questions - Vector of questions, for selected
+ *  exercise.
+ *  @returns {Array} response.possib_ans - Array of possible answers, for
+ *  selected exercise.
+ *  @returns {Array} response.correct_ans - Vector of correct answers, for
+ *  selected exercise.
+ *  @returns {String} response.test_instance - Selected Exercise's
+ *  test instance name.
+ *  @returns {String} response.test_type - Test-type of selected exercise.
+ *  @returns {String} response.test_subtype - Test-subtype of selected
+ *  exercise.
+ *  @returns {String} response.error - Error message string to be filled
+ *  when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
@@ -259,6 +274,7 @@ function craft_response(rosbridge_msg)
   var language = rosbridge_msg.language;
 
   var logMsg = 'Returning to client.';
+
 
   var response = {
     lang: '', questions: [],
@@ -276,20 +292,19 @@ function craft_response(rosbridge_msg)
 
   for (var ii = 0; ii < answers.length; ii++)
   {
-    response.possib_ans.push( answers[ii].s )
+    response.possib_ans.push( answers[ii].s );
   }
 
   if (!success)
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error'
-      ' ---> ' + error;
+    logMsg += ' ROS service [' + rosSrvName + '] error ---> ' + error;
     //console.log(error)
     response.error = (!error && trace.length) ?
       trace[trace.length - 1] : error;
   }
   else
   {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success'
+    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
 
   //console.log(response);
@@ -298,8 +313,8 @@ function craft_response(rosbridge_msg)
 }
 
 
-/*!
- * @brief Crafts response message on Platform Failure
+/***
+ *  Crafts response message on Platform Failure.
  */
 function craft_error_response()
 {
@@ -318,6 +333,18 @@ function craft_error_response()
 }
 
 
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
+ */
 function register_master_interface()
 {
   // Register onexit callback function
@@ -325,7 +352,7 @@ function register_master_interface()
     console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-  }
+  };
 
   // Register onmessage callback function
   onmessage = function(msg){
@@ -334,14 +361,23 @@ function register_master_interface()
       console.log("Service [%s] received message from master process",
         __hopServiceName);
       console.log("Msg -->", msg.data);
-    };
+    }
 
     var logMsg = 'Received message from master process --> [' +
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    exec_master_command(msg.data);
-  }
+    var cmd = msg.cmdId;
+    var data = msg.data;
+    switch (cmd)
+    {
+      case 2055:  // Set worker ID
+        __hopServiceId = data;
+        break;
+      default:
+        break;
+    }
+  };
 
   // On initialization inform master and append to log file
   var logMsg = "Initiated worker";
@@ -349,28 +385,16 @@ function register_master_interface()
 }
 
 
-function exec_master_command(msg)
-{
-  var cmd = msg.cmdId;
-  var data = msg.data;
-  switch (cmd)
-  {
-    case 2055:  // Set worker ID
-      __hopServiceId = data;
-      break;
-    default:
-      break;
-  }
-}
-
-
+/***
+ *  Returns master-process comm msg literal.
+ */
 function craft_slaveMaster_msg(msgId, msg)
 {
-  var msg = {
+  var _msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg
-  }
-  return msg;
+  };
+  return _msg;
 }
