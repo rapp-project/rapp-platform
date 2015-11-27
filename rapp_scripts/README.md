@@ -1,4 +1,4 @@
-Documentation about the RAPP Audio Processing: [Wiki Page](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Scripts)
+Documentation about the RAPP Scripts: [Wiki Page](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Scripts)
 
 The ```rapp_scripts``` folder contains scripts necessary for operations related to the RAPP Platform. The scripts are divided into four folders:
 
