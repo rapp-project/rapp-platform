@@ -63,6 +63,8 @@ add_service_files(
   /AudioProcessing/AudioProcessingTransformAudioSrv.srv
 
   /TextToSpeechEspeak/TextToSpeechSrv.srv
+
+  /ImageProcessing/FindObjectsSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
