@@ -550,6 +550,14 @@ aside a.button {
   font-size: 21px;
   background: transparent url(../images/download-button.png) 0 0 no-repeat;
 }
+section a.button {
+  display: block;
+  width: 138px;
+  padding-left: 64px;
+  margin-bottom: 20px;
+  font-size: 21px;
+  background: transparent url(../images/documentation-button.png) 0 0 no-repeat;
+}
 
 code, pre {
   margin-bottom: 30px;
