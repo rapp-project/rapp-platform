@@ -18,6 +18,7 @@ html {
 
 body {
   margin: 0;
+  text-align: justify;
 }
 
 /* HTML5 display definitions
@@ -417,6 +418,7 @@ optgroup {
  */
 
 table {
+  border: 0px
   border-spacing: 0;
   border-collapse: collapse;
 }
@@ -530,6 +532,10 @@ a.button small {
   display: block;
   font-size: 11px;
 }
+a.button medium {
+  display: block;
+  font-size: 18px;
+}
 header a.button {
   position: absolute;
   top: 0;
@@ -589,7 +595,7 @@ hr {
 
 table {
   width: 100%;
-  border: 1px solid #ebebeb;
+  border: 0px solid #ebebeb;
 }
 
 th {
