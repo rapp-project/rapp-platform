@@ -115,6 +115,8 @@ add_service_files(
   /ApplicationAuthentication/UserLoginSrv.srv
   /ApplicationAuthentication/AddNewUserFromStoreSrv.srv
   /ApplicationAuthentication/AddNewUserFromPlatformSrv.srv
+
+  /ImageProcessing/FindObjectsSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
