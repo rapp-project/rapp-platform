@@ -19,7 +19,7 @@
  */
 
 
-/**
+/***
  * @fileOverview
  *
  * [Face-Detection] RAPP Platform front-end web service.
@@ -95,9 +95,11 @@ register_master_interface();
  *  @function face_detection
  *
  *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} file_uri - System uri path of transfered (client) file-data
+ *  @param {String} file_uri - System uri path of transfered (client) file, as
  *  declared in multipart/form-data post field. The file_uri is handled and
  *  forwared to this service, as input argument, by the HOP front-end server.
+ *  Clients are responsible to declare this field in the multipart/form-data
+ *  post field.
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
  *  @returns {Array} response.faces - An array of face-objects.
@@ -106,9 +108,10 @@ register_master_interface();
  */
 service face_detection ( {file_uri:''} )
 {
-  /**For security reasons, if file_uri is not defined under the
-   * server_cache_dir do not operate. HOP server stores the files under the
-   * __serverCacheDir directory.
+  /***
+   *  For security reasons, if file_uri is not defined under the
+   *  server_cache_dir do not operate. HOP server stores the files under the
+   *  __serverCacheDir directory.
    */
   if( file_uri.indexOf(__serverCacheDir) === -1 )
   {
@@ -164,13 +167,13 @@ service face_detection ( {file_uri:''} )
   /*-------------------------------------------------------------------------*/
 
 
-  /**
+  /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-      /**
+      /***
        * These variables define information on service call.
        */
       var respFlag = false;
@@ -185,7 +188,7 @@ service face_detection ( {file_uri:''} )
       };
 
 
-      /**
+      /***
        * Declare the service response callback here!!
        * This callback function will be passed into the rosbridge service
        * controller and will be called when a response from rosbridge
@@ -206,7 +209,7 @@ service face_detection ( {file_uri:''} )
         retClientFlag = true;
       }
 
-      /**
+      /***
        * Declare the onerror callback.
        * The onerror callack function will be called by the service
        * controller as soon as an error occures, on service request.
@@ -230,14 +233,14 @@ service face_detection ( {file_uri:''} )
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
-      /**
+      /***
        * Set Timeout wrapping function.
        * Polling in defined time-cycle. Catch timeout connections etc...
        */
       function asyncWrap(){
         setTimeout( function(){
 
-         /**
+         /***
           * If received message from rosbridge websocket server or an error
           * on websocket connection, stop timeout events.
           */
@@ -250,7 +253,7 @@ service face_detection ( {file_uri:''} )
             'Retry-' + retries;
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          /**
+          /***
            * Fail. Did not receive message from rosbridge.
            * Return to client.
            */
@@ -282,10 +285,6 @@ service face_detection ( {file_uri:''} )
 }
 
 
-/**
- * @namespace face
- * @property up_left_point - Face bounding box, up-left-point
- */
 
 
 /***
@@ -307,11 +306,12 @@ function craft_response(rosbridge_msg)
 
   for (var ii = 0; ii < numFaces; ii++)
   {
-    /** @namespace */
+    /***
+     * @namespace face
+     * @property up_left_point - Face bounding box, up-left-point
+     */
     var face = {
-      /** Face bounding box, up-left-point in cartesian coordinates */
       up_left_point: {x: 0, y:0},
-      /** Face bounding box, down-right-point in cartesian coordinates */
       down_right_point: {x: 0, y: 0}
     };
 

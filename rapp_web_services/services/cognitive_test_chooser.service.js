@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  * [Cognitive-Test-Chooser] RAPP Platform front-end web service.
  *
@@ -85,19 +85,16 @@ register_master_interface();
  *  @param {Object} args - Service input arguments (literal).
  *  @param {String} args.user - Registered username.
  *  @param {String} args.test_type - Exercise test-type to request.
+ *
  *  Currently available test types are:
- *  <p>
  *  <ul>
  *    <li>ArithmericCts</li>
  *    <li>ReasoningCts</li>
  *    <li>AwarenessCts</li>
  *  </ul>
- *  </p>
- *  <p>
  *    By passing an empty string (''), the RAPP Platform Cognitive Exercises
  *    System is responsible to return a test based on previous user's
  *    performances.
- *  </p>
  *
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
@@ -134,7 +131,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-      /**
+      /***
        * These variables define information on service call.
        */
       var respFlag = false;
@@ -190,14 +187,14 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
-      /**
+      /***
        * Set Timeout wrapping function.
        * Polling in defined time-cycle. Catch timeout connections etc...
        */
       function asyncWrap(){
         setTimeout( function(){
 
-         /**
+         /***
           * If received message from rosbridge websocket server or an error
           * on websocket connection, stop timeout events.
           */
@@ -210,7 +207,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
             'Retry-' + retries;
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          /**
+          /***
            * Fail. Did not receive message from rosbridge.
            * Return to client.
            */

@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  * [Available-Services] RAPP Platform front-end web service.
  *
