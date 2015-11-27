@@ -1,13 +1,16 @@
 REPORTER = spec
 
-all: jshint doc
+all:  doc deps
 
 jshint:
 	jshint services
 
-doc:
-	npm install
+doc:  deps
+	rm -rf doc/
 	npm run doc-gen
+
+deps:
+	npm install
 
 clean:
 	rm -rf doc/
