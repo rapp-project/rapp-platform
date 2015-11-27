@@ -1,4 +1,4 @@
-Documentation about the RAPP Face detection: [Wiki Page](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Audio-Processing)
+Documentation about the RAPP Audio Processing: [Wiki Page](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Audio-Processing)
 
 #Methodology
 
