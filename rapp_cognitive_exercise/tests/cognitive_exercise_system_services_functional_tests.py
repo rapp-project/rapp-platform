@@ -28,7 +28,10 @@ from rapp_platform_ros_communications.srv import (
   recordUserCognitiveTestPerformanceSrvResponse,
   testSelectorSrv,
   testSelectorSrvRequest,
-  testSelectorSrvResponse
+  testSelectorSrvResponse,
+  cognitiveTestCreatorSrv,
+  cognitiveTestCreatorSrvRequest,
+  cognitiveTestCreatorSrvResponse
   )
 
 ## @class CognitiveExerciseFunc 
@@ -37,12 +40,12 @@ class CognitiveExerciseFunc(unittest.TestCase):
 
     ## Tests the cognitive exercise test chooser service when test type is provided
     def test_chooser_basic(self):
-        subclasses_of_service = rospy.get_param(\
+        ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
-        rospy.wait_for_service(subclasses_of_service)
+        rospy.wait_for_service(ros_service)
         
         test_service = rospy.ServiceProxy(\
-                subclasses_of_service, testSelectorSrv)
+                ros_service, testSelectorSrv)
 
         req = testSelectorSrvRequest()
         req.username="rapp"        
@@ -52,12 +55,12 @@ class CognitiveExerciseFunc(unittest.TestCase):
         
     ## Tests the cognitive exercise test chooser service when test type is not provided  
     def test_chooser_no_type(self):
-        subclasses_of_service = rospy.get_param(\
+        ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
-        rospy.wait_for_service(subclasses_of_service)
+        rospy.wait_for_service(ros_service)
         
         test_service = rospy.ServiceProxy(\
-                subclasses_of_service, testSelectorSrv)
+                ros_service, testSelectorSrv)
     
         req = testSelectorSrvRequest()
         req.username="rapp"        
@@ -67,12 +70,12 @@ class CognitiveExerciseFunc(unittest.TestCase):
               
     ## Tests the record user cognitive exercise test performance service  
     def test_record_user_performance_basic(self):
-        subclasses_of_service = rospy.get_param(\
+        ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_record_user_cognitive_test_performance_topic")
-        rospy.wait_for_service(subclasses_of_service)
+        rospy.wait_for_service(ros_service)
         
         test_service = rospy.ServiceProxy(\
-                subclasses_of_service, recordUserCognitiveTestPerformanceSrv)
+                ros_service, recordUserCognitiveTestPerformanceSrv)
 
         req = recordUserCognitiveTestPerformanceSrvRequest()
         req.username="rapp"        
@@ -80,6 +83,20 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.score=10
         response = test_service(req)     
         self.assertEqual(response.success, True)  
+        
+    def test_cognitive_test_creat_of_invalid_path(self):
+        ros_service = rospy.get_param(\
+                "rapp_cognitive_test_creator_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, cognitiveTestCreatorSrv)
+
+        req = cognitiveTestCreatorSrvRequest()
+        req.inputFile="someInvalidPath"
+        response = test_service(req)     
+        self.assertEqual(response.success, False)  
+        self.assertEqual(response.error, "IO Error, cannot open test file or write xml file")
   
 ## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':
