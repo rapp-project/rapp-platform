@@ -43,12 +43,12 @@ def capitalizePackage(packageName):
 def main():
 
   platform_dirs = os.walk( testFolder ).next()[1]
+  if os.path.exists('./documentation2.html'):
+    os.remove('./documentation2.html')
 
   for packageName in platform_dirs:
 
-    print packageName
     packageTransformedName = capitalizePackage( packageName )
-    print packageTransformedName
 
     html = open( './documentation2.html', 'a' )
     html.write( '<li> ' + packageTransformedName + ' Tests </li>' + '\n <ul> \n' )
@@ -63,7 +63,8 @@ def main():
     pdf = '_'.join(pdf)
     pdf += '.pdf'
 
-    html.write( '<li><a href="' + testPackagePath + pdf + '">PDF from Doxygen</a></li>\n' )
+    html.write( '<li><a href="' + os.path.join( testPackagePath,  pdf ) + \
+        '">PDF from Doxygen</a></li>\n' )
     html.write( '</ul>\n' )
     html.close()
 
