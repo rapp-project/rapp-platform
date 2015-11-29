@@ -1,0 +1,43 @@
+;*---------------------------------------------------------------------*/
+;*                  HOP Web Broker basic configuration                 */
+;*---------------------------------------------------------------------*/
+
+;; Allow anonymous local requests.
+(hop-service-access-control-set! (lambda (req svc) (http-request-local? req)))
+(hop-path-access-control-set! (lambda (req svc) (http-request-local? req)))
+
+;*---------------------------------------------------------------------*/
+;*                        Proxying                                     */
+;*---------------------------------------------------------------------*/
+
+(hop-enable-proxying-set! #t)
+
+;; Forbidding remote clients to use Hop as proxy
+;; and permitting all local clients to use it
+(hop-proxy-allow-remote-client-set! #f)
+(hop-proxy-authentication-set! #f)
+
+;; proxy remote authentication. Set hop-proxy-allow-remote-client to #t
+;; to allow remote clients use HOP broker as proxy server.
+;(hop-proxy-remote-authentication-set! #t)
+
+;; proxy IP mask
+(hop-proxy-ip-mask-set! "255.255.255.255")
+
+;*---------------------------------------------------------------------*/
+;*                    Server aliases ...                               */
+;*---------------------------------------------------------------------*/
+
+;(hop-server-aliases-add! "<YOUR-ALIASES-HOSTNAME>")
+
+;*---------------------------------------------------------------------*/
+;*                      Multithreading - Deprecated                    */
+;*---------------------------------------------------------------------*/
+
+;; The number of running threads accepting connections
+;(hop-max-accept-thread-set! 8)
+
+;; The number of running threads handling answer
+;(hop-max-reply-thread-set! 12)
+
+
