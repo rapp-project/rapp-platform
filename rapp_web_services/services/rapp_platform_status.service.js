@@ -48,7 +48,7 @@ var rosbridgeEnv = require( path.join(__configDir, 'env', 'rosbridge.json' ) );
 var testDataPath = path.join(__dirname, '..', '..', 'rapp_testing_tools',
   'scripts', 'default_tests', 'test_data');
 
-var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
+var __serverCacheDir = Fs.resolvePath( pathsEnv.cache_dir_server );
 
 import service available_services();
 

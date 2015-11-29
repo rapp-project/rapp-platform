@@ -52,7 +52,7 @@ var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
 /* ------------< Load and set global configuration parameters >-------------*/
 var __hopServiceName = 'text_to_speech';
 var __hopServiceId = null;
-var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
+var __servicesCacheDir = Fs.resolvePath( pathsEnv.cache_dir_services );
 var audioOutFormat = 'wav';
 var basenamePrefix = 'tts_';
 /* ------------------------------------------------------------------------ */
@@ -117,7 +117,7 @@ service text_to_speech ( {text: '', language: ''} )
     '}') );
 
   // Rename file. Add uniqueId value
-  var audioOutPath = Fs.resolve_path(
+  var audioOutPath = Fs.resolvePath(
     __servicesCacheDir + basenamePrefix + unqCallId + '.' + audioOutFormat
     );
 
@@ -255,7 +255,7 @@ function craft_response(rosbridge_msg, audioFilePath)
   else
   {
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
-    if( (audioFile = Fs.read_file_sync(audioFilePath)) )
+    if( (audioFile = Fs.readFileSync(audioFilePath)) )
     {
       response.payload = audioFile.data.toString('base64');
       response.basename = audioFile.basename;

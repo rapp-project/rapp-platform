@@ -91,7 +91,7 @@ function createLogFile( workerName )
   }
 
   // Evaluate write methods on given log file.
-  if ( Fs.write_file_sync(logFilePath, "") == true )
+  if ( Fs.writeFileSync(logFilePath, "") == true )
   {
     __logFiles.push(logFilePath);
     // Create and initiate a new write stream for this logfile.

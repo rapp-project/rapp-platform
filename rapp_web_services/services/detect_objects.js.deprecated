@@ -124,7 +124,7 @@ service detect_objects ( {file_uri:'', limit: ''} )
   var cpFilePath = __cacheDir + fileName.split('.')[0] + '-'  + unqCallId +
     '.' + fileName.split('.')[1];
 
-  cpFilePath = Fs.resolve_path(cpFilePath);
+  cpFilePath = Fs.resolvePath(cpFilePath);
   /* ---------------------------------------------------------------- */
 
   /* --------------------- Handle transferred file ------------------------- */

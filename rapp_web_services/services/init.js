@@ -76,7 +76,7 @@ parse_services_dir(__dirname);
 function parse_services_dir(dir)
 {
   // Load files from located under given as input directory (dir)
-  var workerFileList = Fs.ls_sync( dir );
+  var workerFileList = Fs.lsSync( dir );
 
   // Loop through files list and search for worker services declered files
   for (var i in workerFileList){

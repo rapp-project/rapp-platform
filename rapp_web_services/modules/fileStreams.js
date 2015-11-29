@@ -72,7 +72,7 @@ WriteStream.prototype.close = function( _callack )
 
 WriteStream.prototype.create = function( streamEndPoint )
 {
-  var absFilePath = Fs.resolve_path( streamEndPoint );
+  var absFilePath = Fs.resolvePath( streamEndPoint );
   try{
     this.wstream_ = fs.createWriteStream( absFilePath );
   }

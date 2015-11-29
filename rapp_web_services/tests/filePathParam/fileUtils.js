@@ -42,7 +42,7 @@ var path = require('path');
  * @param _path Path to be resolved to absolute.
  * @return Resolved absolute path.
  */
-function resolve_path( _path )
+function resolvePath( _path )
 {
   var regexp = /~/g;
   var newPath = '';
@@ -61,7 +61,7 @@ function resolve_path( _path )
 
 
 /*!
- * @brief Wrapping Node.js read_file_sync function.
+ * @brief Wrapping Node.js readFileSync function.
  * @param _file File to be read, specified by path.
  * @param _encoding Encoding type of returned data
  *  readen from the specified file. Can be one of the following:
@@ -72,7 +72,7 @@ function resolve_path( _path )
  *
  * @return Returns data readen from file.
  */
-function read_file_sync( _fileUrl, _encoding )
+function readFileSync( _fileUrl, _encoding )
 {
   var file = {
     data: undefined,
@@ -84,7 +84,7 @@ function read_file_sync( _fileUrl, _encoding )
       kilobytes: undefined,
     }
   }
-  var fileAbsPath = resolve_path( _fileUrl );
+  var fileAbsPath = resolvePath( _fileUrl );
   if( fs.existsSync( fileAbsPath ) )
   {
     file.absolutePath = fileAbsPath;
@@ -134,14 +134,14 @@ function read_file_sync( _fileUrl, _encoding )
 
 
 /*!
- * @brief Wrapping Node.js write_file_sync function
+ * @brief Wrapping Node.js writeFileSync function
  * @param _dest Destination file name to write the data, specified by path.
  * @param _data Data to be written.
  * @return Undefined.
  */
-function write_file_sync( _destUrl, _data )
+function writeFileSync( _destUrl, _data )
 {
-  var path =  resolve_path( _destUrl );
+  var path =  resolvePath( _destUrl );
   if( fs.existsSync( path ) ){
     console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
   }
@@ -169,7 +169,7 @@ function write_file_sync( _destUrl, _data )
  */
 function createDir(dirPath)
 {
-  var dir = resolve_path(dirPath);
+  var dir = resolvePath(dirPath);
   if ( fs.existsSync(dir) ) { return true; }
 
   try{
@@ -188,7 +188,7 @@ function createDir(dirPath)
  */
 function createDirRecur(dirPath)
 {
-  dirPath = resolve_path(dirPath);
+  dirPath = resolvePath(dirPath);
   if ( fs.existsSync(dirPath) ) { return true; }
   if( createDir(dirPath) == false )
   {
@@ -208,7 +208,7 @@ function createDirRecur(dirPath)
  */
 function rmFile(_file)
 {
-  var filePath =  resolve_path(_file);
+  var filePath =  resolvePath(_file);
   if( fs.existsSync(filePath) && isFile(filePath) )
   {
     fs.unlinkSync(filePath);
@@ -228,10 +228,10 @@ function rmFile(_file)
  * @param _dir Directory path. Works both with relative and absolute paths.
  * @return List of the contents of the specific directory (Array).
  */
-function ls_sync( _dir )
+function lsSync( _dir )
 {
   var fileList = [];
-  var dir = resolve_path( _dir );
+  var dir = resolvePath( _dir );
   var files = fs.readdirSync(dir);
   for(var i in files)
   {
@@ -277,7 +277,7 @@ function text2File ( _data, _filePath ){
 
 function appendLine( str, dest )
 {
-  var destPath = resolve_path(dest);
+  var destPath = resolvePath(dest);
   fs.appendFileSync(destPath, str + '\n');
 }
 
@@ -288,7 +288,7 @@ function appendLine( str, dest )
  * @return Size of the file in bytes.
  */
 function fileSize( _fileURL ) {
-  var path =  resolve_path( _fileURL );
+  var path =  resolvePath( _fileURL );
   var stats = fs.statSync( path );
   var filesize_bytes = stats["size"];
  return filesize_bytes;
@@ -305,7 +305,7 @@ function load_json_file(filename, encoding) {
     // default moduleencoding is utf8
     if (typeof (encoding) == 'undefined') encoding = 'utf8';
     // read file sync
-    var contents = fs.read_file_sync(filename, encoding);
+    var contents = fs.readFileSync(filename, encoding);
     // parse contents as JSON
     return JSON.parse(contents);
     //
@@ -324,8 +324,8 @@ function load_json_file(filename, encoding) {
  */
 function renameFile(file, dest)
 {
-  var sourcePath = resolve_path(file);
-  var destPath = resolve_path(dest);
+  var sourcePath = resolvePath(file);
+  var destPath = resolvePath(dest);
   var destDir = parentDir(destPath);
 
   // If source file and destination file match then do not proceed.
@@ -361,8 +361,8 @@ function renameFile(file, dest)
  */
 function copyFile(file, dest)
 {
-  var sourcePath = resolve_path(file);
-  var destPath = resolve_path(dest);
+  var sourcePath = resolvePath(file);
+  var destPath = resolvePath(dest);
   var destDir = parentDir(destPath);
 
   // If source file and destination file match then do not proceed.
@@ -397,7 +397,7 @@ function copyFile(file, dest)
  */
 function parentDir(_path)
 {
-  var absPath = resolve_path(_path);
+  var absPath = resolvePath(_path);
   try
   {
     var parentDir = path.dirname(absPath);
@@ -413,7 +413,7 @@ function parentDir(_path)
 
 function isDirectory(_path)
 {
-  var dirPath = resolve_path(_path);
+  var dirPath = resolvePath(_path);
   var isDir = false;
   if( fs.existsSync(_path) ) {isDir = fs.lstatSync(_path).isDirectory();}
   return isDir;
@@ -422,7 +422,7 @@ function isDirectory(_path)
 
 function isFile(_path)
 {
-  var filePath = resolve_path(_path);
+  var filePath = resolvePath(_path);
   var isFile = false;
   if( fs.existsSync(_path) ) {isFile = fs.lstatSync(_path).isFile();}
   console.log(isFile)
@@ -433,11 +433,11 @@ function isFile(_path)
  * This module exports.
  */
 module.exports = {
-  resolve_path: resolve_path,
-  read_file_sync: read_file_sync,
-  write_file_sync: write_file_sync,
+  resolvePath: resolvePath,
+  readFileSync: readFileSync,
+  writeFileSync: writeFileSync,
   rmFile: rmFile,
-  ls_sync: ls_sync,
+  lsSync: lsSync,
   text2File: text2File,
   appendLine: appendLine,
   fileSize: fileSize,

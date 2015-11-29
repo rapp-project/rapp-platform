@@ -60,12 +60,12 @@ var exec = require('child_process').exec;
 var pathsEnv = require( configPath + 'env/paths.json' )
 
 /* -------------------- Cache directories ------------------------ */
-var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
-var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
+var __servicesCacheDir = Fs.resolvePath( pathsEnv.cache_dir_services );
+var __serverCacheDir = Fs.resolvePath( pathsEnv.cache_dir_server );
 /* --------------------------------------------------------------- */
 
 /* ----------------< Logging configuration >---------------- */
-var __logDirBase = Fs.resolve_path( pathsEnv.log_dir );
+var __logDirBase = Fs.resolvePath( pathsEnv.log_dir );
 var __logDir = __logDirBase + RunTime_.getDate() + '/';
 Logger_.createLogDir(__logDir);  // Create log directory if it does not exist.
 /* --------------------------------------------------------- */

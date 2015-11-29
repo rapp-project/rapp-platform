@@ -52,8 +52,8 @@ var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
 /* ------------< Load and set global configuration parameters >-------------*/
 var __hopServiceName = 'qr_detection';
 var __hopServiceId = null;
-var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
-var __serverCacheDir = Fs.resolve_path( pathsEnv.cache_dir_server );
+var __servicesCacheDir = Fs.resolvePath( pathsEnv.cache_dir_services );
+var __serverCacheDir = Fs.resolvePath( pathsEnv.cache_dir_server );
 /* ----------------------------------------------------------------------- */
 
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
@@ -148,7 +148,7 @@ service qr_detection ( {file_uri:''} )
 
   var cpFilePath = __servicesCacheDir + fileName.split('.')[0] + '-'  + unqCallId +
     '.' + fileName.split('.')[1];
-  cpFilePath = Fs.resolve_path(cpFilePath);
+  cpFilePath = Fs.resolvePath(cpFilePath);
   /* ---------------------------------------------------------------- */
 
   /* --------------------- Handle transferred file ------------------------- */
