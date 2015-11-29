@@ -3,9 +3,8 @@ RAPP Platform Front-End Web Services
 
 ## Synopsis
 
-Containes RAPP Platform web services developed using [HOP web broker](https://github.com/manuel-serrano/hop).
-These services are used in order to communicate with the RAPP Platform ecosystem
-and access RIC(RAPP Improvement Center) AI modules.
+**RAPP Platform Web Services** are developed under the  [HOP web broker](https://github.com/manuel-serrano/hop).
+These services are used in order to communicate with the RAPP Platform ecosystem and access RIC(RAPP Improvement Center) AI modules.
 
 | Platform Services                 | Description   |
 | :-------------------------------: | :-----------: |
@@ -32,7 +31,7 @@ and access RIC(RAPP Improvement Center) AI modules.
 qr_detection ( {file_uri: ''} )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - file_uri: Destination where the posted file data (**image file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -41,7 +40,7 @@ qr_detection ( {file_uri: ''} )
 file = {'file_uri': open(<to-send-file-path>, 'rb')}
 ```
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -70,7 +69,7 @@ Response Sample:
 face_detection ( {file_uri: ''} )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - file_uri: Destination where the posted file data (**image file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -79,7 +78,7 @@ face_detection ( {file_uri: ''} )
 file = {'file_uri': open(<to-send-file-path>, 'rb')}
 ```
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -120,7 +119,7 @@ Response Sample:
 set_denoise_profile ( {file_uri: '', audio_source: '', user: ''} )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -133,7 +132,7 @@ file = {'file_uri': open(<to-send-file-path>, 'rb')}
 - **'user'**: User’s name. Used for per-user profile denoise configurations.
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -153,7 +152,7 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 speech_detection_sphinx4 ( { file_uri: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''})
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -169,7 +168,7 @@ file = {'file_uri': open(<to-send-file-path>, 'rb')}
 - **'user'**: User’s name. Used for per-user profile denoise configurations.
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -187,7 +186,7 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 speech_detection_sphinx4 ( { file_uri: '', audio_source: '',  user: '', language: ''} )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -200,7 +199,7 @@ file = {'file_uri': open(<to-send-file-path>, 'rb')}
 - **'user'**: User’s name. Used for per-user profile denoise configurations.
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -226,12 +225,12 @@ The following Platform services give access to the Platform integrated Ontology 
 ontology_subclasses_of ( { query: ''} )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'query'**: The query to the ontology database.
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -261,12 +260,12 @@ the received data.
 ontology_superclasses_of ( { query: ''} )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'query'**: The query to the ontology database.
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -284,14 +283,14 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 ontology_is_subsuperclass_of ( { parent_class: '', child_class: '', recursive: false } )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'parent_class'**: The parent class name.
 - **'child_class'**: The child class name.
 - **'recursive'**: Defines if a recursive procedure will be used (true/false).
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -314,13 +313,13 @@ the received data.
 text_to_speech( { text: '', language: ''} )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'text'**: Input text to translate to audio data.
 - **'language'**: Language to be used for the TTS module. Valid values are currently **el** and **en**
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -346,13 +345,13 @@ cognitive_test_chooser( { user: '', test_type: '' } )
 ```
 
 
-**Input parameters**
+##### Input parameters
 
 - **'user'**: Username of client used to retrieve information from database. e.g "klpanagi"
 - **'test_type'**: Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
 
 
- **Response/Return-Data**
+##### Response/Return-Data
 
  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
  the received data.
@@ -376,14 +375,14 @@ cognitive_test_chooser( { user: '', test_type: '' } )
 record_cognitive_test_performance( { user: '', test_instance: '', score: 0 } )
 ```
 
-**Input parameters**
+##### Input parameters
 
 - **'user'**: Username of client used to retrieve information from database. e.g "klpanagi"
 - **'test_instance'**: Cognitive Exercise test instance. The full cognitive test entry name as reported by the **cognitive_test_chooser()**.
 - **'score'**: User's performance score on given test entry.
 
 
-**Response/Return-Data**
+##### Response/Return-Data
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -409,20 +408,20 @@ rapp_platform_status()
 Invoke this service from your favourite web browser:
 
 ```javascript
-{rapp_platform_address}/9001/hop/rapp_platform_status
+<rapp_platform_pub_ipaddr>/9001/hop/rapp_platform_status
 ```
 
 
 ## Tests
 
-Developed tests and testing tools are currently located under:
+Developed tests and testing tools are currently located under the [rapp_testing_tools](https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools) package:
 
 ```shell
-rapp-platform/rapp_testing_tools/
+$ <path_to_rapp_platform_repo>/rapp_testing_tools/
 ```
 
 ## Contributors
 
-- Konstaninos Panayiotou, **[klpanagi@gmail.com]**
-- Manos Tsardoulias, **[etsardou@gmail.com]**
-- Vincent Prunet, **[vincent.prunet@inria.fr]**
+- Konstaninos Panayiotou, [klpanagi@gmail.com]
+- Manos Tsardoulias, [etsardou@gmail.com]
+- Vincent Prunet, [vincent.prunet@inria.fr]
