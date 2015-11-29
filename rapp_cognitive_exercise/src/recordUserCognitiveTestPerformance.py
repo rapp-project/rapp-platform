@@ -51,8 +51,8 @@ from rapp_platform_ros_communications.msg import (
 class RecordUserCognitiveTestPerformance:
 
   ## @brief The callback function of the cognitive exercise record user cognitive test performance service
-  # @param req [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvRequest::recordUserCognitiveTestPerformanceSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvResponse::recordUserCognitiveTestPerformanceSrvResponse::Response&] The ROS service response
+  # @param req [rapp_platform_ros_communications::recordUserCognitiveTestPerformanceSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::recordUserCognitiveTestPerformanceSrvResponse::Response&] The ROS service response
   # @exception Exception IndexError
   # @exception Exception AIOError
   def recordPerformance(self,req):

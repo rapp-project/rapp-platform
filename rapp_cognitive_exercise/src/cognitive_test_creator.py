@@ -49,8 +49,8 @@ from rapp_platform_ros_communications.msg import (
 class CognitiveTestCreator:
 
   ## @brief The callback function of the cognitive test creator service, it reads the cognitive test from the text file, converts it to xml and registers it on the ontology
-  # @param req [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvRequest::cognitiveTestCreatorSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_recordUserCognitiveTestPerformanceSrvResponse::cognitiveTestCreatorSrvResponse::Response&] The ROS service response
+  # @param req [rapp_platform_ros_communications::cognitiveTestCreatorSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::cognitiveTestCreatorSrvResponse::Response&] The ROS service response
 
   def testCreator(self,req):
     res=cognitiveTestCreatorSrvResponse()

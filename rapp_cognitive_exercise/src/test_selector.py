@@ -63,7 +63,6 @@ from rapp_platform_ros_communications.msg import (
 # It implements the cognitive exercise chooser service
 class TestSelector:
   ##This variable refers to the length of time backwards that the user's cognitive test performance records will be queried, default value is 15552000000 -3 months
-  
   lookBackTimeStamp=15552000000 #15552000000 for last 3 months    
 
   ## @brief The callback function of the cognitive exercise chooser service, all other functions of the class are called from within this function
@@ -138,9 +137,9 @@ class TestSelector:
 
   ## @brief Queries the MySQL database through the MySQL wrapper and returns the user's language
   # @param username [string] The username of the user as is in the MySQL database
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
-  # @return res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return userLanguage [string] The user's language setting
   def getUserLanguage(self,username,res):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')	
@@ -157,9 +156,9 @@ class TestSelector:
     return False,fetchDataSrvResponse.res_data[0].s[0]
 
   ## @brief Queries the ontology and returns the cognitive test types available
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
-  # @return res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return testTypesList [list] The list of the available tests as they were read from the ontology
   def getTestTypesFromOntology(self,res):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_subclasses_of_topic')
@@ -180,10 +179,11 @@ class TestSelector:
     return False,testTypesList
     
   ## @brief Determines the test type, if it was not provided in the service call as an argument. It selects the test category that was least recently used from the specific user
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @param testTypesList [list] The list of the available tests as they were read from the ontology
   # @param userOntologyAlias [string] The user's ontology alias
   #
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return testType [string] The test type (category)
   def determineTestTypeIfNotProvided(self,res,testTypesList,userOntologyAlias):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')  
@@ -217,10 +217,11 @@ class TestSelector:
   # @param userOntologyAlias [string] The user's ontology alias
   # @param currentTimestamp [int] The timestamp at the time of the service call
   # @param lookBackTimeStamp [int] The look back timestamp. Default value is 3 months back from current time
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @param modifier1 [int] The first difficulty modifier
   # @param modifier2 [int] The second difficulty modifier
   #
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return chosenDif [string] The chosen difficulty setting
   # @return noUserPerformanceRecordsExist [bool] True if no user performance records exit for the user for the given test type
   # @return userPerfOrganizedByTimestamp [OrderedDict] The user's performance records in a dictionary, ordered by timestamp  
@@ -264,8 +265,9 @@ class TestSelector:
   # @param testType [string] The test type (category)
   # @param userLanguage [string] The user's language
   # @param chosenDif [string] The difficulty setting
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return bool [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return testsOfTypeOrdered [dict] The cognitive tests of the given type and difficulty setting
   def getCognitiveTestsOfType(self,testType,userLanguage,chosenDif,res):
@@ -325,10 +327,10 @@ class TestSelector:
 
   ## @brief Retrieves the questions, answers etc of the test from the xml file
   # @param finalTestFilePath [string] The file path of the xml file that contains the test  
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @param userLanguage [string] The language of the user
   #
-  # @return res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   def retrieveDataFromTestXml(self,finalTestFilePath,res,userLanguage):
     tree = ET.parse(finalTestFilePath)
     root = tree.getroot()
@@ -372,8 +374,9 @@ class TestSelector:
       
   ## @brief Filters a dictionary containing cognitive tests by keeping only those of the given difficulty  
   # @param testsOfType [dict] The dictionary containing the cognitive tests
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return ontologyAlias [string] The user's ontology alias
   def filterTestsbyDifficulty(self,testsOfType,chosenDif,res):
@@ -398,8 +401,9 @@ class TestSelector:
 
   ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
   # @param username [string] The user's username
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return ontologyAlias [string] The user's ontology alias
   def getUserOntologyAlias(self,username,res):
@@ -417,8 +421,9 @@ class TestSelector:
     return False,createOntologyAliasResponse.ontology_alias
 
   ## @brief Load the difficulty modifiers from the ros yaml file  
-  # @param res [testSelectorSrvResponse] The output arguments of the service as defined in the testSelectorSrv
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return modifier1 [int] The first difficulty modifier
   # @return modifier2 [int] The second difficulty modifier
