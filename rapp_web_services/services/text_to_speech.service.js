@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  * [Text-to-Speech] RAPP Platform front-end web service.
  *
@@ -55,7 +55,7 @@ var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolve_path( pathsEnv.cache_dir_services );
 var audioOutFormat = 'wav';
 var basenamePrefix = 'tts_';
-/* ----------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------ */
 
 var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
 
@@ -81,11 +81,28 @@ var maxTries = srvEnv[__hopServiceName].retries;
 register_master_interface();
 
 
-/*!
- * @brief Face Detection HOP Service Core.
+
+/**
+ *  [Text-To-Speech], RAPP Platform Front-End Web Service.
+ *  Handles client requests for RAPP Platform Text-To-Speech Services.
  *
- * @param file_uri Path of uploaded image file. Returned by hop server.
- * @return Message response from faceDetection ROS Service.
+ *  @function text_to_speech
+ *
+ *  @param {Object} args - Service input arguments (literal).
+ *  @param {String} args.text - Text to perform TTS on.
+ *  @param {String} args.language - Language to be used for TTS translation.
+ *
+ *  @returns {Object} response - JSON HTTPResponse object.
+ *    Asynchronous HTTP Response.
+ *  @returns {String} response.payload - Data payload field for the audio/speech
+ *    data. Data are character-encoded to base64.
+ *  @returns {String} response.basename - An optional basename to be used by the clients
+ *  @returns {String} response.encoding - This field declares the character
+ *    encoding that was used to encode the audio/speech data of the payload
+ *    field. Currently only base64 is supported. This field exists for
+ *    future extension purposes.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  *
  */
 service text_to_speech ( {text: '', language: ''} )
@@ -99,19 +116,19 @@ service text_to_speech ( {text: '', language: ''} )
   postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
     '}') );
 
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
+  // Rename file. Add uniqueId value
   var audioOutPath = Fs.resolve_path(
     __servicesCacheDir + basenamePrefix + unqCallId + '.' + audioOutFormat
     );
-  /* ---------------------------------------------------------------- */
 
-  // Asynchronous http response
-  /*----------------------------------------------------------------- */
+  /***
+   * Asynchronous http response
+   */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-      /**
-       * These variables define information on service request.
+      /***
+       *  Status flags.
        */
       var respFlag = false;
       var retClientFlag = false;
@@ -119,6 +136,7 @@ service text_to_speech ( {text: '', language: ''} )
       var retries = 0;
       /* --------------------------------------------------- */
 
+      // Fill Ros Service request msg parameters here.
       var args = {
         text: text,
          language: language,
@@ -126,7 +144,7 @@ service text_to_speech ( {text: '', language: ''} )
       };
 
 
-      /**
+      /***
        * Declare the service response callback here!!
        * This callback function will be passed into the rosbridge service
        * controller and will be called when a response from rosbridge
@@ -146,7 +164,7 @@ service text_to_speech ( {text: '', language: ''} )
         retClientFlag = true;
       }
 
-      /**
+      /***
        * Declare the onerror callback.
        * The onerror callack function will be called by the service
        * controller as soon as an error occures, on service request.
@@ -164,19 +182,20 @@ service text_to_speech ( {text: '', language: ''} )
 
       /* -------------------------------------------------------- */
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
-      /**
-       * Set Timeout wrapping function.
-       * Polling in defined time-cycle. Catch timeout connections etc...
+      /***
+       *  Set Timeout wrapping function.
+       *  Polling in defined time-cycle. Catch timeout connections etc...
        */
       function asyncWrap(){
         setTimeout( function(){
 
-         /**
-          * If received message from rosbridge websocket server or an error
-          * on websocket connection, stop timeout events.
+         /***
+          *  If received message from rosbridge websocket server or an error
+          *  on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -187,7 +206,7 @@ service text_to_speech ( {text: '', language: ''} )
             'Retry-' + retries;
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          /**
+          /***
            * Fail. Did not receive message from rosbridge.
            * Return to client.
            */
@@ -216,18 +235,16 @@ service text_to_speech ( {text: '', language: ''} )
 }
 
 
-/*!
- * @brief Crafts the form/format for the message to be returned
- * @param rosbridge_msg Return message from ROS Service.
- * return Message to be returned from service.
+/***
+ *  Craft response object.
+ *
  */
 function craft_response(rosbridge_msg, audioFilePath)
 {
   var error = rosbridge_msg.error;
-  var logMsg = '';
-  var response = {payload: '', basename: '', encoding: '', error: ''};
+  var logMsg = 'Returning to client';
 
-  logMsg = 'Returning to client.';
+  var response = {payload: '', basename: '', encoding: '', error: ''};
 
   if (error !== '')
   {
@@ -254,8 +271,8 @@ function craft_response(rosbridge_msg, audioFilePath)
 }
 
 
-/*!
- * @brief Crafts response message on Platform Failure
+/***
+ *  Crafts response message on Platform Failure.
  */
 function craft_error_response()
 {
@@ -269,6 +286,18 @@ function craft_error_response()
 }
 
 
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
+ */
 function register_master_interface()
 {
   // Register onexit callback function
@@ -291,7 +320,16 @@ function register_master_interface()
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    exec_master_command(msg.data);
+    var cmd = msg.data.cmdId;
+    var data = msg.data.data;
+    switch (cmd)
+    {
+      case 2055:  // Set worker ID
+        __hopServiceId = data;
+        break;
+      default:
+        break;
+    }
   };
 
   // On initialization inform master and append to log file
@@ -300,24 +338,9 @@ function register_master_interface()
 }
 
 
-function exec_master_command(msg)
-{
-  var cmd = msg.cmdId;
-  var data = msg.data;
-  switch (cmd)
-  {
-    case 2055:  // Set worker ID
-      __hopServiceId = data;
-      break;
-    case 2065:
-      __servicesCacheDir = data;
-      break;
-    default:
-      break;
-  }
-}
-
-
+/***
+ *  Returns master-process comm msg literal.
+ */
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {

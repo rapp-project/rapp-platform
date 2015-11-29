@@ -98,20 +98,21 @@ register_master_interface();
  *
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
+ *    Asynchronous HTTP Response.
  *  @returns {String} response.lang - Language.
  *  @returns {Array} response.questions - Vector of questions, for selected
- *  exercise.
+ *    exercise.
  *  @returns {Array} response.possib_ans - Array of possible answers, for
- *  selected exercise.
+ *    selected exercise.
  *  @returns {Array} response.correct_ans - Vector of correct answers, for
- *  selected exercise.
+ *    selected exercise.
  *  @returns {String} response.test_instance - Selected Exercise's
- *  test instance name.
+ *    test instance name.
  *  @returns {String} response.test_type - Test-type of selected exercise.
  *  @returns {String} response.test_subtype - Test-subtype of selected
- *  exercise.
+ *    exercise.
  *  @returns {String} response.error - Error message string to be filled
- *  when an error has been occured during service call.
+ *    when an error has been occured during service call.
  *
  */
 service cognitive_test_chooser( {user: '', test_type: ''} )
@@ -122,17 +123,18 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  /* ------------------------------------------------------------------- */
-
   postMessage( craft_slaveMaster_msg('log', 'client-request {' +
     rosSrvName + '}') );
 
-  /*----------------------------------------------------------------- */
+
+  /***
+   * Asynchronous http response
+   */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
       /***
-       * These variables define information on service call.
+       *  Status flags.
        */
       var respFlag = false;
       var retClientFlag = false;
@@ -140,6 +142,7 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
       var retries = 0;
       /* --------------------------------------------------- */
 
+      // Fill Ros Service request msg parameters here.
       var args = {
         username: user,
         testType: test_type
@@ -182,8 +185,8 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
         retClientFlag = true;
       }
 
-      /* -------------------------------------------------------- */
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
@@ -195,8 +198,8 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
         setTimeout( function(){
 
          /***
-          * If received message from rosbridge websocket server or an error
-          * on websocket connection, stop timeout events.
+          *   If received message from rosbridge websocket server or an error
+          *   on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -231,31 +234,30 @@ service cognitive_test_chooser( {user: '', test_type: ''} )
         }, timeout);
       }
       asyncWrap();
-      /*=================================================================*/
     }, this );
 }
 
 
 /***
- * Crafts the form/format for the message to be returned to client.
+ * Crafts response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
- *  @returns {Object} response - JSON HTTPResponse Object.
+ *  @returns {Object} response - Response Object.
  *  @returns {String} response.lang - Language.
  *  @returns {Array} response.questions - Vector of questions, for selected
- *  exercise.
+ *    exercise.
  *  @returns {Array} response.possib_ans - Array of possible answers, for
- *  selected exercise.
+ *    selected exercise.
  *  @returns {Array} response.correct_ans - Vector of correct answers, for
- *  selected exercise.
+ *    selected exercise.
  *  @returns {String} response.test_instance - Selected Exercise's
- *  test instance name.
+ *    test instance name.
  *  @returns {String} response.test_type - Test-type of selected exercise.
  *  @returns {String} response.test_subtype - Test-subtype of selected
- *  exercise.
+ *    exercise.
  *  @returns {String} response.error - Error message string to be filled
- *  when an error has been occured during service call.
+ *    when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
@@ -311,11 +313,13 @@ function craft_response(rosbridge_msg)
 
 
 /***
- *  Crafts response message on Platform Failure.
+ *  Craft service error response object. Used to return to client when an
+ *  error has been occured, while processing client request.
  */
 function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure';
+
   var response = {
     lang: '', questions: [],
     possib_ans: [], correct_ans: [],
@@ -364,8 +368,8 @@ function register_master_interface()
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    var cmd = msg.cmdId;
-    var data = msg.data;
+    var cmd = msg.data.cmdId;
+    var data = msg.data.data;
     switch (cmd)
     {
       case 2055:  // Set worker ID

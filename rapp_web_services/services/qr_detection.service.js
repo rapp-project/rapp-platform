@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  * [Qr-Detection] RAPP Platform front-end web service.
  *
@@ -86,19 +86,33 @@ var colors = {
 register_master_interface();
 
 
-/*!
- * @brief QR_Detection HOP Service Core.
+/**
+ *  [Qr-Detection] RAPP Platform front-end web service.
+ *  <p> Serves requests for qr_detection on given input image frame.</p>
  *
- * @param _file An Object literral that specifies a "data"
- *  property. Data must be raw_binary from buffer.
+ *  @function qr_detection
  *
- * @return Message response from qrDetection ROS Node service.
+ *  @param {Object} args - Service input arguments (object literal).
+ *  @param {String} args.file_uri - System uri path of transfered (client) file, as
+ *    declared in multipart/form-data post field. The file_uri is handled and
+ *    forwared to this service, as input argument, by the HOP front-end server.
+ *    Clients are responsible to declare this field in the multipart/form-data
+ *    post field.
+ *
+ *  @returns {Object} response - JSON HTTPResponse Object.
+ *    Asynchronous HTTP Response.
+ *  @returns {Array} response.qr_centers - An array of qr-center objects.
+ *  @returns {Array} response.qr_messages - The array of the qr-messages. One
+ *    qr_message string message for each found QR code.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  */
 service qr_detection ( {file_uri:''} )
 {
-  /**For security reasons, if file_uri is not defined under the
-   * server_cache_dir do not operate. HOP server stores the files under the
-   * __serverCacheDir directory.
+  /***
+   *  For security reasons, if file_uri is not defined under the
+   *  server_cache_dir do not operate. HOP server stores the files under the
+   *  __serverCacheDir directory.
    */
   if( file_uri.indexOf(__serverCacheDir) === -1 )
   {
@@ -106,13 +120,16 @@ service qr_detection ( {file_uri:''} )
         " Abortion for security reasons.";
     postMessage( craft_slaveMaster_msg('log', errorMsg) );
     console.log(colors.error + '[QR-Detection]: ' + errorMsg + colors.clear);
+
     var response = {
       qr_centers: [],
       qr_messages: [],
       error: errorMsg
     };
+
     return hop.HTTPResponseJson(response);
   }
+  /* ----------------------------------------------------------------------- */
 
   // Assign a unique identification key for this service call.
   var unqCallId = randStrGen.createUnique();
@@ -135,7 +152,7 @@ service qr_detection ( {file_uri:''} )
   /* ---------------------------------------------------------------- */
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(file_uri, cpFilePath) == false)
+  if (Fs.renameFile(file_uri, cpFilePath) === false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
@@ -152,14 +169,14 @@ service qr_detection ( {file_uri:''} )
   /*-------------------------------------------------------------------------*/
 
 
-  /**
+  /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-      /**
-       * These variables define information on service call.
+      /***
+       *  Status flags.
        */
       var respFlag = false;
       var retClientFlag = false;
@@ -169,10 +186,10 @@ service qr_detection ( {file_uri:''} )
 
       // Set Ros Service request arguments here.
       var args = {
-        "imageFilename": cpFilePath
+        imageFilename: cpFilePath
       };
 
-      /**
+      /***
        * Declare the service response callback here!!
        * This callback function will be passed into the rosbridge service
        * controller and will be called when a response from rosbridge
@@ -186,14 +203,14 @@ service qr_detection ( {file_uri:''} )
         // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
         //console.log(data);
-        // Craft client response.
+        // Craft client response using ros service ws response.
         var response = craft_response( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
-      /**
+      /***
        * Declare the onerror callback.
        * The onerror callack function will be called by the service
        * controller as soon as an error occures, on service request.
@@ -212,19 +229,19 @@ service qr_detection ( {file_uri:''} )
         retClientFlag = true;
       }
 
-      /* -------------------------------------------------------- */
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
-      /**
+      /***
        * Set Timeout wrapping function.
        * Polling in defined time-cycle. Catch timeout connections etc...
        */
       function asyncWrap(){
         setTimeout( function(){
 
-         /**
+         /***
           * If received message from rosbridge websocket server or an error
           * on websocket connection, stop timeout events.
           */
@@ -237,7 +254,7 @@ service qr_detection ( {file_uri:''} )
             'Retry-' + retries;
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          /**
+          /***
            * Fail. Did not receive message from rosbridge.
            * Return to client.
            */
@@ -269,79 +286,91 @@ service qr_detection ( {file_uri:''} )
 }
 
 
-/*!
- * @brief Crafts the form/format for the message to be returned
- * from the faceDetection hop-service.
- * @param srvMsg Return message from ROS Service.
- * return Message to be returned from the hop-service
+/***
+ * Crafts response object.
+ *
+ *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
+ *  @returns {Object} response - Response Object.
+ *  @returns {Array} response.qr_centers - An array of qr-center objects.
+ *  @returns {Array} response.qr_messages - The array of the qr-messages. One
+ *    qr_message string message for each found QR code.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
   var qrCenters = rosbridge_msg.qr_centers;
   var qrMessages = rosbridge_msg.qr_messages;
   var error = rosbridge_msg.error;
-  var logMsg = '';
 
-  var crafted_msg = {qr_centers: [], qr_messages: [], error: ''};
+  var logMsg = 'Returning to client.';
+
+  var response = {
+    qr_centers: [],
+    qr_messages: [],
+    error: ''
+  };
 
   for (var ii = 0; ii < qrCenters.length; ii++)
   {
     var qrPoint = { x: 0, y: 0};
+
     qrPoint.x = qrCenters[ii].point.x;
     qrPoint.y = qrCenters[ii].point.y;
-    crafted_msg.qr_centers.push(qrPoint);
-    crafted_msg.qr_messages.push(qrMessages[ii]);
+    response.qr_centers.push(qrPoint);
+    response.qr_messages.push(qrMessages[ii]);
   }
 
-  crafted_msg.error = error;
-  logMsg = 'Returning to client.';
+  response.error = error;
 
-  if (error != '')
+  if (error !== '')
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error'
+    logMsg += ' ROS service [' + rosSrvName + '] error' +
       ' ---> ' + error;
   }
   else
   {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success'
+    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-  return crafted_msg;
+  return response;
 }
 
 
-/*!
- * @brief Crafts response message on Platform Failure
+/***
+ *  Craft service error response object. Used to return to client when an
+ *  error has been occured, while processing client request.
  */
 function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure';
-  var crafted_msg = {qr_centers: [], qr_messages: [], error: errorMsg};
+
+  var response = {
+    qr_centers: [],
+    qr_messages: [],
+    error: errorMsg
+  };
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return crafted_msg;
+  return response;
 }
 
 
-/*!
- * @brief Crafts ready to send, rosbridge message.
- *   Can be used by any service!!!!
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
  */
-function craft_rosbridge_msg(args, service_name, id){
-
-  var rosbrige_msg = {
-    'op': 'call_service',
-    'service': service_name,
-    'args': args,
-    'id': id
-  };
-
-  return rosbrige_msg;
-}
-
-
 function register_master_interface()
 {
   // Register onexit callback function
@@ -349,7 +378,7 @@ function register_master_interface()
     console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-  }
+  };
 
   // Register onmessage callback function
   onmessage = function(msg){
@@ -358,14 +387,23 @@ function register_master_interface()
       console.log("Service [%s] received message from master process",
         __hopServiceName);
       console.log("Msg -->", msg.data);
-    };
+    }
 
     var logMsg = 'Received message from master process --> [' +
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    exec_master_command(msg.data);
-  }
+    var cmd = msg.data.cmdId;
+    var data = msg.data.data;
+    switch (cmd)
+    {
+      case 2055:  // Set worker ID
+        __hopServiceId = data;
+        break;
+      default:
+        break;
+    }
+  };
 
   // On initialization inform master and append to log file
   var logMsg = "Initiated worker";
@@ -373,31 +411,16 @@ function register_master_interface()
 }
 
 
-function exec_master_command(msg)
+/***
+ *  Returns master-process comm msg literal.
+ */
+function craft_slaveMaster_msg(msgId, msg)
 {
-  var cmd = msg.cmdId;
-  var data = msg.data;
-  switch (cmd)
-  {
-    case 2055:  // Set worker ID
-      __hopServiceId = data;
-      break;
-    case 2065:
-      __servicesCacheDir = data;
-      break;
-    default:
-      break;
-  }
-}
-
-
-function craft_slaveMaster_msg(msgId, data)
-{
-  var msg = {
+  var _msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
-    data: data
+    data: msg
   };
-  return msg;
+  return _msg;
 }

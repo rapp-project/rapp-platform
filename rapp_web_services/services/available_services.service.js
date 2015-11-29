@@ -126,6 +126,7 @@ register_master_interface();
  *  @param {Object} args - Service input arguments (literal). Empty literal.
  *
  *  @returns {Object} response - JSON HTTPResponse object.
+ *    Asynchronous HTTP Response.
  *  @returns {Array} response.services - List of RAPP Platform available
  *  services.
  *  @returns {String} response.error - Error message string to be filled
@@ -136,8 +137,9 @@ service available_services (  )
 {
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
-   //Async http response
-  //-----------------------------------------------------------------
+  /***
+   * Asynchronous http response
+   */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
       var response = craft_response();
@@ -146,16 +148,38 @@ service available_services (  )
 }
 
 
+/***
+ *  Craft response object.
+ *
+ *  @returns {Object} response - JSON HTTPResponse object.
+ *  @returns {Array} response.services - List of RAPP Platform available
+ *  services.
+ *  @returns {String} response.error - Error message string to be filled
+ *  when an error has been occured during service call.
+ *
+ */
 function craft_response()
 {
-  var response = {services: __availableServices, error: ''};
+  var response = {
+    services: __availableServices,
+    error: ''
+  };
+
   return response;
 }
 
 
+/***
+ *  Craft service error response object. Used to return to client when an
+ *  error has been occured, while processing client request.
+ */
 function craft_error_respose()
 {
-  var response= {services: [], error: 'RAPP Platform Failure'};
+  var response = {
+    services: [],
+    error: 'RAPP Platform Failure'
+  };
+
   return response;
 }
 
@@ -194,8 +218,8 @@ function register_master_interface()
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    var cmd = msg.cmdId;
-    var data = msg.data;
+    var cmd = msg.data.cmdId;
+    var data = msg.data.data;
     switch (cmd)
     {
       case 2055:  // Set worker ID

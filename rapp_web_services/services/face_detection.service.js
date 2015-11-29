@@ -95,16 +95,18 @@ register_master_interface();
  *  @function face_detection
  *
  *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} file_uri - System uri path of transfered (client) file, as
- *  declared in multipart/form-data post field. The file_uri is handled and
- *  forwared to this service, as input argument, by the HOP front-end server.
- *  Clients are responsible to declare this field in the multipart/form-data
- *  post field.
+ *  @param {String} args.file_uri - System uri path of transfered (client)
+ *    file, as declared in multipart/form-data post field. The file_uri is
+ *    handled and forwared to this service, as input argument,
+ *    by the HOP front-end server.
+ *    Clients are responsible to declare this field in the multipart/form-data
+ *    post field.
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
+ *    Asynchronous HTTP Response.
  *  @returns {Array} response.faces - An array of face-objects.
  *  @returns {String} response.error - Error message string to be filled
- *  when an error has been occured during service call.
+ *    when an error has been occured during service call.
  */
 service face_detection ( {file_uri:''} )
 {
@@ -124,6 +126,7 @@ service face_detection ( {file_uri:''} )
       faces: [],
       error: errorMsg
     };
+
     return hop.HTTPResponseJson(response);
   }
   /* ----------------------------------------------------------------------- */
@@ -174,7 +177,7 @@ service face_detection ( {file_uri:''} )
     function( sendResponse ) {
 
       /***
-       * These variables define information on service call.
+       *  Status flags.
        */
       var respFlag = false;
       var retClientFlag = false;
@@ -182,9 +185,9 @@ service face_detection ( {file_uri:''} )
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Define Ros Service request arguments here.
+      // Fill Ros Service request msg parameters here.
       var args = {
-        "imageFilename": cpFilePath
+        imageFilename: cpFilePath
       };
 
 
@@ -228,8 +231,8 @@ service face_detection ( {file_uri:''} )
         retClientFlag = true;
       }
 
-      /* -------------------------------------------------------- */
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
@@ -288,10 +291,14 @@ service face_detection ( {file_uri:''} )
 
 
 /***
- * Crafts the form/format for the message to be returned to client.
+ * Crafts response object.
  *
- *  @param {Object} rosbridge_msg - Rosbridge response message.
+ *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
+ *  @returns {Object} response - Response Object.
+ *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
@@ -300,9 +307,12 @@ function craft_response(rosbridge_msg)
   var error = rosbridge_msg.error;
   var numFaces = faces_up_left.length;
 
-  var logMsg = '';
+  var logMsg = 'Returning to client';
 
-  var crafted_msg = { faces: [], error: '' };
+  var response = {
+    faces: [],
+    error: ''
+  };
 
   for (var ii = 0; ii < numFaces; ii++)
   {
@@ -319,11 +329,10 @@ function craft_response(rosbridge_msg)
     face.up_left_point.y = faces_up_left[ii].point.y;
     face.down_right_point.x = faces_down_right[ii].point.x;
     face.down_right_point.y = faces_down_right[ii].point.y;
-    crafted_msg.faces.push( face );
+    response.faces.push( face );
   }
 
-  crafted_msg.error = error;
-  logMsg = 'Returning to client.';
+  response.error = error;
 
   if (error !== '')
   {
@@ -336,23 +345,27 @@ function craft_response(rosbridge_msg)
   }
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return crafted_msg;
+  return response;
 }
 
 
 /***
- *  Crafts response message on Platform Failure.
+ *  Craft service error response object. Used to return to client when an
+ *  error has been occured, while processing client request.
  */
 function craft_error_response()
 {
-  // Add here to be returned literal
   var errorMsg = 'RAPP Platform Failure';
-  var crafted_msg = {faces: [], error: errorMsg};
+
+  var response = {
+    faces: [],
+    error: errorMsg
+  };
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return crafted_msg;
+  return response;
 }
 
 
@@ -390,8 +403,8 @@ function register_master_interface()
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    var cmd = msg.cmdId;
-    var data = msg.data;
+    var cmd = msg.data.cmdId;
+    var data = msg.data.data;
     switch (cmd)
     {
       case 2055:  // Set worker ID

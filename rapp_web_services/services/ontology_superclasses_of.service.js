@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  * [Ontology-superclasses-of] RAPP Platform front-end web service.
  *
@@ -78,11 +78,22 @@ register_master_interface();
 
 
 
-/*!
- * @brief Ontology-SuperclassesOf database query, HOP Service Core.
+/**
+ *  [Ontology-superclasses-of] RAPP Platform front-end web service.
+ *  Handles requests for ontology-superclasses-of query.
  *
- * @param query Ontology query given in a string format
- * @return Results.
+ *  @function ontology_subclasses_of
+ *
+ *  @param {Object} args - Service input arguments (literal).
+ *  @param {String} args.query - Recursive query.
+ *
+ *
+ *  @returns {Object} response - JSON HTTPResponse Object.
+ *    Asynchronous HTTP Response.
+ *  @returns {Array} response.results - Query results.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
+ *
  */
 service ontology_superclasses_of ( {query:''} )
 {
@@ -94,12 +105,15 @@ service ontology_superclasses_of ( {query:''} )
 
   postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName + '}') );
 
-  /*----------------------------------------------------------------- */
+
+  /***
+   * Asynchronous http response
+   */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
       /**
-       * These variables define information on service call.
+       *  Status flags.
        */
       var respFlag = false;
       var retClientFlag = false;
@@ -107,11 +121,12 @@ service ontology_superclasses_of ( {query:''} )
       var retries = 0;
       /* --------------------------------------------------- */
 
+      // Fill Ros Service request msg parameters here.
       var args = {
         ontology_class: query
       };
 
-      /**
+      /***
        * Declare the service response callback here!!
        * This callback function will be passed into the rosbridge service
        * controller and will be called when a response from rosbridge
@@ -119,7 +134,7 @@ service ontology_superclasses_of ( {query:''} )
        */
       function callback(data){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         //console.log(data);
@@ -127,41 +142,41 @@ service ontology_superclasses_of ( {query:''} )
         // Craft client response using ros service ws response.
         var response = craft_response( data );
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
-      /**
+      /***
        * Declare the onerror callback.
        * The onerror callack function will be called by the service
        * controller as soon as an error occures, on service request.
        */
       function onerror(e){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         var response = craft_error_response();
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
-      /* -------------------------------------------------------- */
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
-      /**
-       * Set Timeout wrapping function.
-       * Polling in defined time-cycle. Catch timeout connections etc...
+      /***
+       *  Set Timeout wrapping function.
+       *  Polling in defined time-cycle. Catch timeout connections etc...
        */
       function asyncWrap(){
         setTimeout( function(){
 
-         /**
-          * If received message from rosbridge websocket server or an error
-          * on websocket connection, stop timeout events.
+         /***
+          *  If received message from rosbridge websocket server or an error
+          *  on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -172,7 +187,7 @@ service ontology_superclasses_of ( {query:''} )
             'Retry-' + retries;
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          /**
+          /***
            * Fail. Did not receive message from rosbridge.
            * Return to client.
            */
@@ -196,16 +211,21 @@ service ontology_superclasses_of ( {query:''} )
         }, timeout);
       }
       asyncWrap();
-      /*=================================================================*/
     }, this );
 }
 
 
 
-/*!
- * @brief Crafts the form/format for the message to be returned to client
- * @param rosbridge_msg Return message from rosbridge
- * @return Message to be returned from service
+/***
+ * Crafts response object.
+ *
+ *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
+ *  @returns {Object} response - Response Object.
+ *  @returns {Array} response.results - Query results.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
+ *
  */
 function craft_response(rosbridge_msg)
 {
@@ -216,45 +236,65 @@ function craft_response(rosbridge_msg)
 
   var logMsg = 'Returning to client.';
 
-  var crafted_msg = {results: [], error: ''};
+  var response = {
+    results: [],
+    error: ''
+  };
 
   for (var ii = 0; ii < results.length; ii++)
   {
-    crafted_msg.results.push(results[ii]);
+    response.results.push(results[ii]);
   }
 
-  crafted_msg.error = error;
+  response.error = error;
 
-  if (error != '')
+  if (error !== '')
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error'
+    logMsg += ' ROS service [' + rosSrvName + '] error' +
       ' ---> ' + error;
   }
   else
   {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success'
+    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
 
-  //console.log(crafted_msg);
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-  return crafted_msg;
+  return response;
 }
 
-/*!
- * @brief Crafts response message on Platform Failure
+
+/***
+ *  Craft service error response object. Used to return to client when an
+ *  error has been occured, while processing client request.
  */
 function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure';
-  var crafted_msg = {results: [], error: errorMsg};
+
+  var response = {
+    results: [],
+    error: errorMsg
+  };
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return crafted_msg;
+  return response;
 }
 
 
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
+ */
 function register_master_interface()
 {
   // Register onexit callback function
@@ -262,7 +302,7 @@ function register_master_interface()
     console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-  }
+  };
 
   // Register onmessage callback function
   onmessage = function(msg){
@@ -271,14 +311,23 @@ function register_master_interface()
       console.log("Service [%s] received message from master process",
         __hopServiceName);
       console.log("Msg -->", msg.data);
-    };
+    }
 
     var logMsg = 'Received message from master process --> [' +
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    exec_master_command(msg.data);
-  }
+    var cmd = msg.data.cmdId;
+    var data = msg.data.data;
+    switch (cmd)
+    {
+      case 2055:  // Set worker ID
+        __hopServiceId = data;
+        break;
+      default:
+        break;
+    }
+  };
 
   // On initialization inform master and append to log file
   var logMsg = "Initiated worker";
@@ -286,28 +335,16 @@ function register_master_interface()
 }
 
 
-function exec_master_command(msg)
-{
-  var cmd = msg.cmdId;
-  var data = msg.data;
-  switch (cmd)
-  {
-    case 2055:  // Set worker ID
-      __hopServiceId = data;
-      break;
-    default:
-      break;
-  }
-}
-
-
+/***
+ *  Returns master-process comm msg literal.
+ */
 function craft_slaveMaster_msg(msgId, msg)
 {
-  var msg = {
+  var _msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg
-  }
-  return msg;
+  };
+  return _msg;
 }

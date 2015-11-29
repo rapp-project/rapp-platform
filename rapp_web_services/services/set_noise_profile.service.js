@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  * [Set-noise-profile] RAPP Platform front-end web service.
  *
@@ -88,18 +88,33 @@ var color = {
 register_master_interface();
 
 
-/*!
- * @brief Set noise profile (per-user) hop front-end service
- * @param noise_audio_fileUri
- * @param audio_file_type
- * @param user
- * @TODO Rename noise_audio_fileUri --> fileUrl
+/**
+ *  [Set-Noise-Profile] RAPP Platform front-end web service.
+ *  <p> Serves requests for denoising users audio profile. </p>
+ *
+ *  @function set_noise_profile
+ *
+ *  @param {Object} args - Service input arguments (object literal).
+ *  @param {String} args.file_uri - System uri path of transfered (client) file, as
+ *    declared in multipart/form-data post field. The file_uri is handled and
+ *    forwared to this service, as input argument, by the HOP front-end server.
+ *    Clients are responsible to declare this field in the multipart/form-data
+ *    post field.
+ *  @param {String} args.audio_source - A value that represents information
+ *    for the audio source. e.g "nao_wav_1_ch".
+ *  @param {String} args.user. Username.
+ *
+ *  @returns {Object} response - JSON HTTPResponse Object.
+ *    Asynchronous HTTP Response.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  */
 service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
 {
-  /**For security reasons, if file_uri is not defined under the
-   * server_cache_dir do not operate. HOP server stores the files under the
-   * __serverCacheDir directory.
+  /***
+   *  For security reasons, if file_uri is not defined under the
+   *  server_cache_dir do not operate. HOP server stores the files under the
+   *  __serverCacheDir directory.
    */
   if( file_uri.indexOf(__serverCacheDir) === -1 )
   {
@@ -112,6 +127,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
     var response = {
       error: errorMsg
     };
+
     return hop.HTTPResponseJson(response);
   }
   /* ----------------------------------------------------------------------- */
@@ -127,7 +143,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
   var logMsg = 'Audio data file stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
+  /* --< Rename file. Add uniqueId value> --- */
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
@@ -154,14 +170,14 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
 
-  /**
+  /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-      /**
-       * These variables define information on service call.
+      /***
+       *  Status flags.
        */
       var respFlag = false;
       var wsError = false;
@@ -169,7 +185,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Declare Ros Service request arguments here.
+      // Fill Ros Service request msg parameters here.
       var args = {
         'noise_audio_file': cpFilePath,
          'audio_file_type': audio_source,
@@ -177,7 +193,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
       };
 
 
-      /**
+      /***
        * Declare the service response callback here!!
        * This callback function will be passed into the rosbridge service
        * controller and will be called when a response from rosbridge
@@ -185,7 +201,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
        */
       function callback(data){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         // Remove cached file. Release resources.
@@ -194,18 +210,18 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
         // Craft client response using ros service ws response.
         var response = craft_response( data );
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
-      /**
+      /***
        * Declare the onerror callback.
        * The onerror callack function will be called by the service
        * controller as soon as an error occures, on service request.
        */
       function onerror(e){
         respFlag = true;
-        if( retClientFlag ) { return }
+        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         // Remove cached file. Release resources.
@@ -213,23 +229,23 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
         // craft error response
         var response = craft_error_response();
         // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) )
+        sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
-      /* -------------------------------------------------------- */
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
-      /**
+      /***
        * Set Timeout wrapping function.
        * Polling in defined time-cycle. Catch timeout connections etc...
        */
       function asyncWrap(){
         setTimeout( function(){
 
-         /**
+         /***
           * If received message from rosbridge websocket server or an error
           * on websocket connection, stop timeout events.
           */
@@ -242,7 +258,7 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
             'Retry-' + retries;
           postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-          /**
+          /***
            * Fail. Did not receive message from rosbridge.
            * Return to client.
            */
@@ -275,68 +291,67 @@ service set_noise_profile( {file_uri:'', audio_source:'', user:''}  )
 
 
 
-/*!
- * @brief Crafts the form/format for the message to be returned
- * from set_noise_profile hop-service.
- * @param srvMsg Return message from ROS Service.
- * return Message to be returned from the hop-service
+/***
+ * Crafts response object.
+ *
+ *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
+ *  @returns {Object} response - Response object.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
   var error = rosbridge_msg.error;
-  var crafted_msg = { error: '' };
-  var logMsg = '';
 
-  crafted_msg.error = error;
-  logMsg = 'Returning to client.';
+  var logMsg = 'Returning to client.';
 
-  if (error != '')
+  var response = { error: error };
+
+  if (error !== '')
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error'
+    logMsg += ' ROS service [' + rosSrvName + '] error' +
       ' ---> ' + error;
   }
   else
   {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success'
+    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return crafted_msg;
+  return response;
 }
 
 
-/*!
- * @brief Crafts response message on Platform Failure
+/***
+ *  Craft service error response object. Used to return to client when an
+ *  error has been occured, while processing client request.
  */
 function craft_error_response()
 {
   var errorMsg = 'RAPP Platform Failure';
-  var crafted_msg = {error: errorMsg};
+
+  var response = {error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-  return crafted_msg;
+  return response;
 }
 
 
-/*!
- * @brief Crafts ready to send, rosbridge message.
- *   Can be used by any service!!!!
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
  */
-function craft_rosbridge_msg(args, service_name, id){
-
-  var rosbrige_msg = {
-    'op': 'call_service',
-    'service': service_name,
-    'args': args,
-    'id': id
-  };
-
-  return rosbrige_msg;
-}
-
-
 function register_master_interface()
 {
   // Register onexit callback function
@@ -344,7 +359,7 @@ function register_master_interface()
     console.log("Service [%s] exiting...", __hopServiceName);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
-  }
+  };
 
   // Register onmessage callback function
   onmessage = function(msg){
@@ -353,14 +368,23 @@ function register_master_interface()
       console.log("Service [%s] received message from master process",
         __hopServiceName);
       console.log("Msg -->", msg.data);
-    };
+    }
 
     var logMsg = 'Received message from master process --> [' +
       msg.data + ']';
     postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-    exec_master_command(msg.data);
-  }
+    var cmd = msg.data.cmdId;
+    var data = msg.data.data;
+    switch (cmd)
+    {
+      case 2055:  // Set worker ID
+        __hopServiceId = data;
+        break;
+      default:
+        break;
+    }
+  };
 
   // On initialization inform master and append to log file
   var logMsg = "Initiated worker";
@@ -368,31 +392,16 @@ function register_master_interface()
 }
 
 
-function exec_master_command(msg)
-{
-  var cmd = msg.cmdId;
-  var data = msg.data;
-  switch (cmd)
-  {
-    case 2055:  // Set worker ID
-      __hopServiceId = data;
-      break;
-    case 2065:
-      __servicesCacheDir = data;
-      break;
-    default:
-      break;
-  }
-}
-
-
+/***
+ *  Returns master-process comm msg literal.
+ */
 function craft_slaveMaster_msg(msgId, msg)
 {
-  var msg = {
+  var _msg = {
     name: __hopServiceName,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg
-  }
-  return msg;
+  };
+  return _msg;
 }

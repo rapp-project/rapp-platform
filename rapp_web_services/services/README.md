@@ -296,10 +296,10 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 the received data.
 
 ```javascript
-{ results: [], error: '<error_message>' }
+{ result: Bool, error: '<error_message>' }
 ```
 
-- **'results'**: Query results returned from ontology database.
+- **'result'**: Success index on ontology-is-subsuperclass-of query.
 - **'error'**: If error was encountered, an error message is pushed in this field and returned to the client.
 
 

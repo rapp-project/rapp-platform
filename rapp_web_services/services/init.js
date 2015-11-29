@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  *  Parse Services directory. Files with a:
  *    .service.js
@@ -89,13 +89,13 @@ function parse_services_dir(dir)
         var worker = {
           file: dir + '/' + workerFileList[i],
           name: workerFileList[i].replace( regexp, '' )
-        }
+        };
         WorkerHandler.registerWorker(worker);
         /* --------------------------------------- */
       }
     }
   }
-};
+}
 
 
 /* ------------------- Process Handling ----------------- */
@@ -106,10 +106,10 @@ process.stdin.resume();
 
 process.on('SIGTERM',
   function(){
-  console.log('Exiting with code: ');
-  WorkerHandler.terminate();
+    console.log('Exiting with code: ');
+    WorkerHandler.terminate();
   }
-  )
+);
 
 
 //process.on('exit',

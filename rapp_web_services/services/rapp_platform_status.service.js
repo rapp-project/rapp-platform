@@ -19,8 +19,8 @@
  */
 
 
-/**
- * @file
+/***
+ * @fileOverview
  *
  * [Rapp-Platform-Status] RAPP Platform front-end web service. HTML response.
  *
