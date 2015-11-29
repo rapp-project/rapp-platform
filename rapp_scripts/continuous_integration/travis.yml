@@ -38,7 +38,7 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - echo "Performing clean installation of rapp-platform"
   - echo "https://github.com/rapp-project/rapp-platform/wiki/How-can-I-set-up-the-RAPP-Platform-in-my-PC%3F"
   - cd ~/rapp_temp/rapp-platform/rapp_scripts/
-  - sudo clean_install.sh # This needs sudo??
+  - bash clean_install.sh
   - source ~/.bashrc
   - sudo ldconfig
   - echo "RAPP Platform installed. Executing unit and functional tests"
