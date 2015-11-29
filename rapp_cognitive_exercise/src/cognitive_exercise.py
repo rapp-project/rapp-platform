@@ -31,6 +31,7 @@ from os.path import expanduser
 from test_selector import TestSelector
 from recordUserCognitiveTestPerformance import RecordUserCognitiveTestPerformance
 from cognitive_test_creator import CognitiveTestCreator
+from userScoresForAllCategories import UserScoresForAllCategories
 
 from rapp_platform_ros_communications.srv import (
   testSelectorSrv,
@@ -41,7 +42,11 @@ from rapp_platform_ros_communications.srv import (
   recordUserCognitiveTestPerformanceSrv,
   recordUserCognitiveTestPerformanceSrvResponse,
   cognitiveTestCreatorSrv,
-  cognitiveTestCreatorSrvResponse
+  cognitiveTestCreatorSrvResponse,
+  userScoreHistoryForAllCategories,
+  userScoreHistoryForAllCategoriesResponse,
+  userScoresForAllCategories,
+  userScoresForAllCategoriesResponse  
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -108,6 +113,12 @@ class CognitiveExercise:
       rospy.logerror("rapp_cognitive_test_creator_topic not found")
     self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.cognitiveTestCreatorDataHandler)
 
+    self.serv_topic = rospy.get_param("rapp_cognitive_exercise_user_all_categories_score")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_cognitive_exercise_user_all_categories_score not found")
+    self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.cognitiveTestCreatorDataHandler)
+
+
   ## @brief The cognitive exercise chooser service callback
   # @param req [rapp_platform_ros_communications::testSelectorSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
@@ -125,6 +136,7 @@ class CognitiveExercise:
     it = RecordUserCognitiveTestPerformance()
     res=it.recordPerformance(req)
     return res
+    
   ## @brief The cognitive test creator service callback
   # @param req [rapp_platform_ros_communications::cognitiveTestCreatorSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::cognitiveTestCreatorSrvResponse::Response&] The ROS service response
@@ -134,3 +146,11 @@ class CognitiveExercise:
     res=it.testCreator(req)
     return res
 
+  ## @brief The userScoresForAllCategories service callback
+  # @param req [rapp_platform_ros_communications::userScoresForAllCategoriesRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesResponse::Response&] The ROS service response
+  def userScoresForAllCategoriesDataHandler(self,req):
+    res = userScoresForAllCategoriesResponse()
+    it = UserScoresForAllCategories()
+    res=it.returnUserScores(req)
+    return res

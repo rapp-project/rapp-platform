@@ -26,6 +26,8 @@ add_service_files(
   /CognitiveExercise/testSelectorSrv.srv
   /CognitiveExercise/recordUserCognitiveTestPerformanceSrv.srv
   /CognitiveExercise/cognitiveTestCreatorSrv.srv
+  /CognitiveExercise/userScoresForAllCategories.srv
+  /CognitiveExercise/userScoreHistoryForAllCategories.srv
 
   /DbWrapper/DbWrapperSrv.srv
   /DbWrapper/fetchDataSrv.srv

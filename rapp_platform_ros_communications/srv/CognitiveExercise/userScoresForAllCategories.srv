@@ -1,0 +1,9 @@
+string username
+---
+string scoreArithmeticCts
+string scoreReasoningCts
+string scoreRecallCts
+bool success
+string error
+string[] trace
+

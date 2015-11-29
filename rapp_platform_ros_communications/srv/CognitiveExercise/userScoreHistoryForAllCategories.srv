@@ -1,0 +1,11 @@
+string username
+std_msgs/Time fromTime
+std_msgs/Time toTime
+---
+string[] historyArithmeticCts
+string[] historyReasoningCts
+string[] historyRecallCts
+bool success
+string error
+string[] trace
+
