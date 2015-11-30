@@ -12,11 +12,13 @@ If you are not familiar with server-side applications, you might also have to re
 
 ## Templates
 
-We present two templates:
+To make development of HOP Web Services more attractive and understandable, we provide two template source files:
 
 - web_service.template.js
 - web_service_post_file.template.js
 
+Using these templates as a reference while developing HOP Web Services, might save you alot of hours studying!
+In most cases, you might have to change just a few lines of code!
 
 #### web_service.template.js
 
