@@ -1,0 +1,38 @@
+{
+  "tags": {
+    "allowUnknownTags": false
+  },
+  "source":{
+    "include": [
+      "./services/templates/"
+    ]
+  },
+  "plugins": ["plugins/markdown", "plugins/commentsOnly"],
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "dateFormat": "ddd MMM Do YYYY",
+    "outputSourceFiles": true,
+    "outputSourcePath": false,
+    "systemName": "RAPP Platform Web Services Templates",
+    "footer": "",
+    "copyright" : "Rapp Project EU 2015",
+    "logoFile": "",
+    "navType": "vertical",
+    "theme": "cosmo",
+    "linenums": true,
+    "collapseSymbols": false,
+    "inverseNav": true,
+    "highlightTutorialCode": true,
+    "protocol": "html://"
+  },
+  "markdown": {
+    "parser": "gfm",
+    "hardwrap": true
+  },
+  "opts": {
+    "destination": "./doc/service_templates",
+    "recurse": false,
+    "readme": "./services/templates/README.md"
+  }
+}
