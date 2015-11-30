@@ -29,12 +29,9 @@ dump="/RappPlatformMySqlDbSchema.sql"
 pth=$path$dump
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL RAPP database import \e[0m"
 
-#sudo touch /etc/db_credentials1
-#sudo chmod ugo+rw /etc/db_credentials1
-sudo sh -c 'printf "dummyUser\nchangeMe" > /etc/db_credentials1'
 echo "Insert MySQL root Password"
-echo "Create database RappStore" | mysql -u root -p
+echo "Create database RappStore" | mysql -u root -p$1
 echo "Insert MySQL root Password"
-mysql -u root -p RappStore < $pth
+mysql -u root -p$1 RappStore < $pth
 
 

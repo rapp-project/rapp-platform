@@ -16,17 +16,28 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-# Authors: Manos Tsardoulias
-# Contact: etsardou@iti.gr
+# Authors: Manos Tsardoulias, Aris Thallas
+# Contact: etsardou@iti.gr, aris.thallas@{iti.gr, gmail.com}
 ##
 
 ##
 #  Install mysql.
 ##
 
-
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL install \e[0m"
+if [ $# -eq 1 ]; then
+  if [ $1 == 'travis' ]; then
+    sudo debconf-set-selections <<< 'mysql-server mysql-server/password password travis'
+    sudo debconf-set-selections <<< 'mysql-server mysql-server/password_again password travis'
+  fi
+fi
 
 # Setup sources list
 sudo apt-get -y install mysql-client mysql-server
 sudo apt-get -y install python-mysqldb
+
+if [ $# -eq 1 ]; then
+  if [ $1 == 'travis' ]; then
+    echo PURGE | sudo debconf-communicate mysql-server
+  fi
+fi
