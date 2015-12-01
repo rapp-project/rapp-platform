@@ -90,7 +90,7 @@ if [ $# -eq 1 ]; then
   fi
 fi
 
-./8_mysql_install.sh $SQL_PARAM || \
+./8_mysql_install.sh ${SQL_PARAM} || \
   {
     echo -e "[Error]: RAPP Platform installation failed on installing mysql";
     exit 1;
@@ -98,7 +98,7 @@ fi
 sudo ldconfig
 source ~/.bashrc
 
-bash ./9_create_rapp_mysql_db.sh $SQL_PARAM || \
+bash ./9_create_rapp_mysql_db.sh ${SQL_PARAM} || \
   {
     echo -e "[Error]: RAPP Platform installation failed on creating Rapp-db";
     exit 1;
@@ -106,7 +106,7 @@ bash ./9_create_rapp_mysql_db.sh $SQL_PARAM || \
 sudo ldconfig
 source ~/.bashrc
 
-./10_create_rapp_mysql_users.sh $SQL_PARAM || \
+./10_create_rapp_mysql_users.sh ${SQL_PARAM} || \
   {
     echo -e "[Error]: RAPP Platform installation failed on creating db-users";
     exit 1;
