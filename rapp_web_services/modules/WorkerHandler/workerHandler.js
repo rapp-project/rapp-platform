@@ -46,18 +46,20 @@
 
 __POP_LOG_WINDOWS = false;
 
-var modulePath = __dirname + '/../../modules/'
-var configPath = __dirname + '/../../config/';
+var path = require('path');
+var hop = require('hop');
 
-var Rsg_ = require ( '../RandomStrGenerator/randStringGen.js' );
+var __includeDir = path.join(__dirname, '..');
+var __configDir = path.join(__dirname, '..', '..', 'config');
+
+var Rsg_ = require ( path.join(__includeDir, 'common', 'randStringGen.js') );
 var RunTime_ = require( './runtime.js' );
 var Logger_ = require( './logger.js' );
 var Cache_ = require( './cache.js' );
-var hop = require('hop');
-var Fs = require( modulePath + 'fileUtils.js' );
+var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
 var exec = require('child_process').exec;
 
-var pathsEnv = require( configPath + 'env/paths.json' )
+var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
 
 /* -------------------- Cache directories ------------------------ */
 var __servicesCacheDir = Fs.resolvePath( pathsEnv.cache_dir_services );
@@ -95,7 +97,7 @@ var color = {
   yellow:   '\033[33m',
   clear:    '\033[0m',
   cyan:     '\033[36m'
-}
+};
 
 
 function popLogWindow(logFile){
@@ -104,21 +106,23 @@ function popLogWindow(logFile){
     //console.log('stdout: ' + stdout);
     //console.log('stderr: ' + stderr);
     if(error !== null){
-      console.log('child process exec error: ' + error)
+      console.log('child process exec error: ' + error);
     }
-  })
+  });
 }
 
-/*!
- * @brief Registers given worker to logger.
+/**
+ * @function registerToLogger
+ *
+ * Registers given worker to logger.
  */
 function registerToLogger(workerName)
 {
   logFilePath = Logger_.createLogFile(workerName);
-  if(logFilePath != undefined && __POP_LOG_WINDOWS){
+  if(logFilePath !== undefined && __POP_LOG_WINDOWS){
     popLogWindow(logFilePath);
   }
-};
+}
 
 
 /*!

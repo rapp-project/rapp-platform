@@ -1,8 +1,3 @@
-/*!
- * @file fileUtils.js.js
- * @brief Functionalities on working with files. Read, Write, Remove, Path..
- */
-
 /**
  *  MIT License (MIT)
  *
@@ -33,6 +28,13 @@
  */
 
 
+/**
+ * @module
+ *
+ * @description NodeJs wrap methods while working with file system.
+ *
+ */
+
 var fs = require('fs');
 var path = require('path');
 
@@ -41,6 +43,7 @@ var colors = {
   success:  '\033[1;32m',
   clear:    '\033[0m'
 };
+
 
 /**
  * Resolve a "might-be" relative path to system's absolute path.
@@ -71,13 +74,11 @@ function resolvePath( _path )
  * @function readFileSync
  *
  * @param _file File to be read, specified by path.
- * @param _encoding Encoding type of returned data
- *  readen from the specified file. Can be one of the following:
- *  <ul>
- *    <li>"buffer" OR undefined Raw data from buffer.</li>
- *    <li> "string/ascii" Ascii encoded string. </li>
- *    <li> "string/binary" Binary encoded string. </li>
- *  </ul>
+ * @param _encoding Encoding type of returned data readen from the specified
+ * file. Can be one of the following:
+ *    "buffer" OR undefined Raw data from buffer.</li>
+ *    "string/ascii" Ascii encoded string. </li>
+ *    "string/binary" Binary encoded string. </li>
  *
  * @returns {Object} file - Custom file object.
  * @returns {String} file.data - Data payload.
@@ -499,11 +500,11 @@ function isDirectory(_path)
 }
 
 /**
- *  Check if a path is a file.
- *
- *  @param {String} _path - System path.
- *
- *  @returns {boolean} - True if is directory, false otherwise.
+   Check if a path is a file.
+ 
+   @param {String} _path - System path.
+
+   @returns {boolean} - True if is directory, false otherwise.
  */
 function isFile(_path)
 {
@@ -513,9 +514,6 @@ function isFile(_path)
   return isFile;
 }
 
-/**
- * This module exports.
- */
 module.exports = {
   resolvePath: resolvePath,
   readFileSync: readFileSync,

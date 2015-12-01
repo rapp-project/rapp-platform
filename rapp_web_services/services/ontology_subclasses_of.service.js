@@ -38,7 +38,7 @@ var __includeDir = path.join(__dirname, '..', 'modules');
 var __configDir = path.join(__dirname,'..', 'config');
 
 
-var RandStringGen = require ( path.join(__includeDir, 'RandomStrGenerator',
+var RandStringGen = require ( path.join(__includeDir, 'common',
     'randStringGen.js') );
 
 var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',

@@ -44,7 +44,7 @@ var port = hop.port;
 
 var __includeDir = path.join(__dirname, '..', 'modules');
 
-var Fs = require( path.join(__includeDir, 'fileUtils.js') );
+var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
 
 var WorkerHandler = require( path.join(__includeDir, 'WorkerHandler',
     'workerHandler.js') );

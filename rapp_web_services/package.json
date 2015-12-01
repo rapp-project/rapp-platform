@@ -8,6 +8,7 @@
     "start": "bash run.sh",
     "doc-gen-services": "jsdoc -c config/jsdoc-services.conf.json -t ./node_modules/ink-docstrap/template",
     "doc-gen-templates": "jsdoc -c config/jsdoc-templates.conf.json -t ./node_modules/ink-docstrap/template",
+    "doc-gen-modules": "jsdoc -c config/jsdoc-modules.conf.json -t ./node_modules/ink-docstrap/template",
     "doc-view": "${BROWSER} doc/index.html"
   },
   "author": "Konstantinos Panayiotou <klpanagi@gmail.com>",

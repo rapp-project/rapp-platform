@@ -33,13 +33,14 @@
  *
  */
 
+var path = require('path');
 
-var Fs = require( '../fileUtils.js' );
-var FileStreams = require( '../fileStreams.js' );
-var sleep = require( '../sleep.js' );
+var Fs = require( path.join(__dirname, '..', 'common', 'fileUtils.js') );
+var FileStreams = require( path.join(__dirname, '..', 'common',
+    'fileStreams.js') );
 
 // Default log directory path
-var __logDir = '~/.hop/log/'
+var __logDir = '~/.hop/log/';
 
 var __logDirCreated = false;
 var __logFiles = [];
@@ -51,7 +52,7 @@ var color = {
   ok:       '\033[34m',
   yellow:   '\033[33m',
   clear:    '\033[0m'
-}
+};
 
 
 /*!

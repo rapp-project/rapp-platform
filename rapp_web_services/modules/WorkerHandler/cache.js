@@ -32,8 +32,9 @@
  *
  */
 
+var path = require('path');
 
-var Fs_ = require('../fileUtils');
+var Fs_ = require( path.join(__dirname, '..', 'common', 'fileUtils.js') );
 
 // Default cache directory path
 var __cacheDir = '~/.hop/cache/services';
@@ -55,7 +56,7 @@ function setCacheDir(cacheDir)
  */
 function createCacheDir(cacheDir)
 {
-  if( cacheDir == undefined || cacheDir == '' )
+  if( cacheDir === undefined || cacheDir === '' )
   {
     Fs_.createDirRecur(__cacheDir);
   }
@@ -74,4 +75,4 @@ function createCacheDir(cacheDir)
 module.exports = {
   setCacheDir: setCacheDir,
   createCacheDir: createCacheDir
-}
+};

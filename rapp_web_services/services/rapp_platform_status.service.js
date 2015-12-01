@@ -37,7 +37,7 @@ var path = require('path');
 var __includeDir = path.join(__dirname, '..', 'modules');
 var __configDir = path.join(__dirname, '..', 'config');
 
-var Fs = require( path.join(__includeDir, 'fileUtils.js') );
+var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
 
 var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
