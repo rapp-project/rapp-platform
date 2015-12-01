@@ -69,11 +69,38 @@ Have a look at the [rapp_testing_tools](https://github.com/rapp-project/rapp-pla
 
 This package's source-code is documented using the [JSDoc](https://github.com/jsdoc3/jsdoc) javascript documentation generator.
 
-Gererate documentation:
+Generate documentation for HOP Web Services ONLY!:
+
+```shell
+grunt jsdoc:services
+```
+
+Generate documentation for service-templates ONLY!:
+
+```shell
+grunt jsdoc:templates
+```
+
+Generate documentation for commons ONLY!:
+
+```shell
+grunt jsdoc:commons
+```
+
+Gererate documentation for ALL:
 
 ```shell
 $ make doc
 ```
+
+Or
+
+```shell
+$ grunt jsdoc
+```
+
+Makefile tasts integrates grunt tasks on generating source-code documentation.
+
 
 Generated doc files are located under the **doc/** directory, or under:
 
