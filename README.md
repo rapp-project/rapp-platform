@@ -1,3 +1,5 @@
+[![Join the chat at https://gitter.im/rapp-project/rapp-platform](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rapp-project/rapp-platform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots. The main concept of RAPP Platform aligns with the cloud robotics approach.
 
 As stated in [Wikipedia](https://en.wikipedia.org/wiki/Cloud_robotics):
