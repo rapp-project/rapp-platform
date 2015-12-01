@@ -34,20 +34,13 @@ echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Repository\e[0m"
 git clone git@github.com:rapp-project/rapp-platform.git &> /dev/null
 cp -r rapp-platform rapp-platform-pages
 
-# TODO: this must be deleted
-cd ${TEMP_PLATFORM}
-git checkout documentation
-
-
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Documentation\e[0m"
 cd ${TEMP_PLATFORM_SCRIPTS}
 ./create_documentation.sh &> /dev/null
 
-
 cd ${TEMP_PAGES}
 git checkout gh-pages
 
-#cp -r ${DOCS}/* .
 mv ${DOCS}/* .
 
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Test Documentation HTML hyperlinks\e[0m"
