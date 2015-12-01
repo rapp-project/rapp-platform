@@ -3,9 +3,7 @@
     "allowUnknownTags": true
   },
   "source":{
-    "include": ["./services/"],
-    "includePattern": ".+\\.js(doc|x)?$",
-    "excludePattern": "(^|\\/|\\\\)_"
+    "include": ["./modules/common/"]
   },
   "plugins": ["plugins/markdown", "plugins/commentsOnly"],
   "templates": {
@@ -13,10 +11,11 @@
     "monospaceLinks": false,
     "dateFormat": "ddd MMM Do YYYY",
     "outputSourceFiles": true,
-    "outputSourcePath": true,
-    "systemName": "RAPP Platform Web Services",
+    "outputSourcePath": false,
+    "systemName": "RAPP Platform Web Services (a.k.a HOP Web Services)",
     "footer": "",
     "copyright" : "Rapp Project EU 2015",
+    "logoFile": "",
     "navType": "vertical",
     "theme": "cosmo",
     "linenums": true,
@@ -30,8 +29,7 @@
     "hardwrap": true
   },
   "opts": {
-    "destination": "./doc/",
-    "recurse": true,
-    "readme": "./README.md"
+    "destination": "./doc/modules",
+    "recurse": false
   }
 }

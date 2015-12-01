@@ -11,7 +11,7 @@
     "monospaceLinks": false,
     "dateFormat": "ddd MMM Do YYYY",
     "outputSourceFiles": true,
-    "outputSourcePath": true,
+    "outputSourcePath": false,
     "systemName": "RAPP Platform Web Services (a.k.a HOP Web Services)",
     "footer": "",
     "copyright" : "Rapp Project EU 2015",

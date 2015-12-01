@@ -5,7 +5,7 @@ all:  doc deps
 jshint:
 	jshint services
 
-doc: doc-services doc-templates
+doc: doc-services doc-templates doc-modules
 
 doc-services:  deps
 	rm -rf doc/services
@@ -14,6 +14,10 @@ doc-services:  deps
 doc-templates: deps
 	rm -rf doc/service_templates
 	npm run doc-gen-templates
+
+doc-modules: deps
+	rm -rf doc/modules
+	npm run doc-gen-modules
 
 deps:
 	npm install
