@@ -31,19 +31,20 @@ mkdir -p ${TEMP_PATH}
 cd ${TEMP_PATH}
 
 echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Repository\e[0m"
-git clone git@github.com:rapp-project/rapp-platform.git &> /dev/null
+git clone https://github.com/rapp-project/rapp-platform.git &> /dev/null
 cp -r rapp-platform rapp-platform-pages
 
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Documentation\e[0m"
 cd ${TEMP_PLATFORM_SCRIPTS}
 ./create_documentation.sh &> /dev/null
 
+echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Test Documentation HTML hyperlinks\e[0m"
+
 cd ${TEMP_PAGES}
-git checkout gh-pages
+git checkout gh-pages &> /dev/null
 
 mv ${DOCS}/* .
 
-echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Test Documentation HTML hyperlinks\e[0m"
 ./create_test_hyperlinks.py
 
 cat documentation1.html > documentation.html

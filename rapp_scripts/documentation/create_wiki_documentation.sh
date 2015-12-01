@@ -32,7 +32,7 @@ if [ -d ./rapp-platform.wiki ]; then
   rm -rf ./rapp-platform.wiki
 fi
 echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Wiki repository\e[0m"
-git clone git@github.com:rapp-project/rapp-platform.wiki.git &> /dev/null;
+git clone https://github.com/rapp-project/rapp-platform.wiki.git &> /dev/null;
 
 
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Wiki Documentation\e[0m"
