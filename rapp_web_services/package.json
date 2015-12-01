@@ -1,24 +1,13 @@
 {
-  "name": "rapp_platform_hop_web_services",
-  "version": "0.3.0",
-  "description": "RAPP Platform front-end web services implemented under HOP server and hopjs",
-  "main": "services/init.js",
-  "scripts": {
-    "test": "",
-    "start": "bash run.sh",
-    "doc-gen-services": "jsdoc -c config/jsdoc-services.conf.json -t ./node_modules/ink-docstrap/template",
-    "doc-gen-templates": "jsdoc -c config/jsdoc-templates.conf.json -t ./node_modules/ink-docstrap/template",
-    "doc-gen-modules": "jsdoc -c config/jsdoc-modules.conf.json -t ./node_modules/ink-docstrap/template",
-    "doc-view": "${BROWSER} doc/index.html"
+  "engines": {
+    "node": ">= 0.10.0"
   },
-  "author": "Konstantinos Panayiotou <klpanagi@gmail.com>",
   "devDependencies": {
-    "ink-docstrap": "~0.5.2",
-    "jshint": "~2.9.1-rc1",
-    "jsdoc": "~3.4.0"
-  },
-  "bin": {
-    "jsdoc": "./node_modules/.bin/jsdoc.js"
-  },
-  "license": "Apache Licence v2"
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-jsdoc": "~1.1.0",
+    "ink-docstrap": "~0.5.2"
+  }
 }

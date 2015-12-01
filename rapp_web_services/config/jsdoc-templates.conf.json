@@ -2,11 +2,6 @@
   "tags": {
     "allowUnknownTags": false
   },
-  "source":{
-    "include": [
-      "./services/templates/"
-    ]
-  },
   "plugins": ["plugins/markdown", "plugins/commentsOnly"],
   "templates": {
     "cleverLinks": false,
@@ -19,7 +14,7 @@
     "copyright" : "Rapp Project EU 2015",
     "logoFile": "",
     "navType": "vertical",
-    "theme": "cosmo",
+    "theme": "cerulean",
     "linenums": true,
     "collapseSymbols": false,
     "inverseNav": true,
@@ -29,10 +24,5 @@
   "markdown": {
     "parser": "gfm",
     "hardwrap": true
-  },
-  "opts": {
-    "destination": "./doc/service_templates",
-    "recurse": false,
-    "readme": "./services/templates/README.md"
   }
 }

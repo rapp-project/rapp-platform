@@ -33,6 +33,13 @@ Web Services as **HOP Web Services**.
 
 
 ## Initiate HOP Web Services
+
+On a fresh clone you will first need to install devDependencies:
+
+```shell
+$ npm install
+```
+
 For initiating HOP Web Server (and HOP Web Services), execute, under this directory:
 
 ```shell
@@ -48,7 +55,7 @@ a HOP Web Service js executable file. HOP Server is responsible for registering 
 ## Directories
 
 - services/ : Front-end HOP web services running on RAPP Platform.
-- module/   : Modules used for developing and testing HOP services.
+- module/   : Common developed modules used for developing and testing HOP services.
 - config/   : This directory containes configuration files. Those files are loaded by the HOP Server on run-time.
 
 

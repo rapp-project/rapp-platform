@@ -1,28 +1,22 @@
 {
   "tags": {
-    "allowUnknownTags": false
+    "allowUnknownTags": true
   },
-  "plugins": ["plugins/markdown", "plugins/commentsOnly"],
+  "plugins": ["plugins/commentsOnly"],
   "templates": {
-    "cleverLinks": false,
-    "monospaceLinks": false,
+    "cleverLinks": true,
+    "monospaceLinks": true,
     "dateFormat": "ddd MMM Do YYYY",
     "outputSourceFiles": true,
     "outputSourcePath": false,
-    "systemName": "RAPP Platform Web Services",
-    "footer": "",
+    "systemName": "RAPP Platform Web Services Common Includes",
     "copyright" : "Rapp Project EU 2015",
-    "logoFile": "",
     "navType": "vertical",
     "theme": "cosmo",
     "linenums": true,
-    "collapseSymbols": false,
+    "collapseSymbols": true,
     "inverseNav": true,
     "highlightTutorialCode": true,
     "protocol": "html://"
-  },
-  "markdown": {
-    "parser": "gfm",
-    "hardwrap": true
   }
 }
