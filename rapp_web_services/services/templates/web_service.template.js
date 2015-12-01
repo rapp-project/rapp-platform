@@ -78,7 +78,7 @@ var __configDir = path.join(__dirname, '..', 'config');
 /***
  * Import the RandomStrGenerator module.
  */
-var RandStringGen = require ( path.join(__includeDir, 'RandomStrGenerator',
+var RandStringGen = require ( path.join(__includeDir, 'common',
     'randStringGen.js') );
 
 /***

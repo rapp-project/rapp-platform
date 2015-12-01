@@ -101,7 +101,7 @@ var Fs = require( path.join(__includeDir, 'fileUtils.js') );
 /***
  * Import the RandomStrGenerator module.
  */
-var RandStringGen = require ( path.join(__includeDir, 'RandomStrGenerator',
+var RandStringGen = require ( path.join(__includeDir, 'common',
     'randStringGen.js') );
 
 /***
