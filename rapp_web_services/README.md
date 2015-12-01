@@ -72,19 +72,19 @@ This package's source-code is documented using the [JSDoc](https://github.com/js
 Generate documentation for HOP Web Services ONLY!:
 
 ```shell
-grunt jsdoc:services
+$ grunt jsdoc:services
 ```
 
 Generate documentation for service-templates ONLY!:
 
 ```shell
-grunt jsdoc:templates
+$ grunt jsdoc:templates
 ```
 
 Generate documentation for commons ONLY!:
 
 ```shell
-grunt jsdoc:commons
+$ grunt jsdoc:commons
 ```
 
 Gererate documentation for ALL:
@@ -99,7 +99,7 @@ Or
 $ grunt jsdoc
 ```
 
-Makefile tasts integrates grunt tasks on generating source-code documentation.
+Makefile tasks integrates grunt tasks on generating source-code documentation.
 
 
 Generated doc files are located under the **doc/** directory, or under:
