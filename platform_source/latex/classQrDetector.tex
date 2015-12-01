@@ -1,0 +1,129 @@
+\hypertarget{classQrDetector}{\section{Qr\-Detector Class Reference}
+\label{classQrDetector}\index{Qr\-Detector@{Qr\-Detector}}
+}
+
+
+Provides the Q\-R detection functionality.  
+
+
+
+
+{\ttfamily \#include $<$qr\-\_\-detector.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classQrDetector_a467c4d4f36bc4d8ec4f3be3880b57f96}{Qr\-Detector} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{structQrCode}{Qr\-Code} $>$ \hyperlink{classQrDetector_a1f70c86fb01592acb1da2246891e93e2}{detect\-Qrs} (const cv\-::\-Mat \&img)
+\begin{DoxyCompactList}\small\item\em Detects Q\-Rs in a cv\-::\-Mat. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{structQrCode}{Qr\-Code} $>$ \hyperlink{classQrDetector_a2e4bb3be2d9c6a6b7243e9e78402dee9}{find\-Qrs} (std\-::string file\-\_\-name)
+\begin{DoxyCompactList}\small\item\em Detects Q\-Rs in an image file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+cv\-::\-Mat \hyperlink{classQrDetector_a46da54e3da81d4ccc8cee7323237f648}{load\-Image} (std\-::string file\-\_\-name)
+\begin{DoxyCompactList}\small\item\em Loads an image into a cv\-::\-Mat structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides the Q\-R detection functionality. 
+
+Definition at line 45 of file qr\-\_\-detector.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classQrDetector_a467c4d4f36bc4d8ec4f3be3880b57f96}{\index{Qr\-Detector@{Qr\-Detector}!Qr\-Detector@{Qr\-Detector}}
+\index{Qr\-Detector@{Qr\-Detector}!QrDetector@{Qr\-Detector}}
+\subsubsection[{Qr\-Detector}]{\setlength{\rightskip}{0pt plus 5cm}Qr\-Detector\-::\-Qr\-Detector (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classQrDetector_a467c4d4f36bc4d8ec4f3be3880b57f96}
+
+
+Default constructor. 
+
+
+
+Definition at line 23 of file qr\-\_\-detector.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classQrDetector_a1f70c86fb01592acb1da2246891e93e2}{\index{Qr\-Detector@{Qr\-Detector}!detect\-Qrs@{detect\-Qrs}}
+\index{detect\-Qrs@{detect\-Qrs}!QrDetector@{Qr\-Detector}}
+\subsubsection[{detect\-Qrs}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Qr\-Code} $>$ Qr\-Detector\-::detect\-Qrs (
+\begin{DoxyParamCaption}
+\item[{const cv\-::\-Mat \&}]{input\-\_\-frame}
+\end{DoxyParamCaption}
+)}}\label{classQrDetector_a1f70c86fb01592acb1da2246891e93e2}
+
+
+Detects Q\-Rs in a cv\-::\-Mat. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em img} & \mbox{[}const cv\-::\-Mat\&\mbox{]} The input image in cv\-::\-Mat form \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\-::vector$<$\-Qr\-Code$>$ The detected Q\-R codes 
+\end{DoxyReturn}
+$<$ \hyperlink{structQrCode}{Qr\-Code} scanner 
+
+Definition at line 43 of file qr\-\_\-detector.\-cpp.
+
+\hypertarget{classQrDetector_a2e4bb3be2d9c6a6b7243e9e78402dee9}{\index{Qr\-Detector@{Qr\-Detector}!find\-Qrs@{find\-Qrs}}
+\index{find\-Qrs@{find\-Qrs}!QrDetector@{Qr\-Detector}}
+\subsubsection[{find\-Qrs}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Qr\-Code} $>$ Qr\-Detector\-::find\-Qrs (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)}}\label{classQrDetector_a2e4bb3be2d9c6a6b7243e9e78402dee9}
+
+
+Detects Q\-Rs in an image file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-\_\-name} & \mbox{[}std\-::string\mbox{]} The input image U\-R\-I \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std\-::vector$<$\-Qr\-Code$>$ The detected Q\-R codes 
+\end{DoxyReturn}
+
+
+Definition at line 101 of file qr\-\_\-detector.\-cpp.
+
+\hypertarget{classQrDetector_a46da54e3da81d4ccc8cee7323237f648}{\index{Qr\-Detector@{Qr\-Detector}!load\-Image@{load\-Image}}
+\index{load\-Image@{load\-Image}!QrDetector@{Qr\-Detector}}
+\subsubsection[{load\-Image}]{\setlength{\rightskip}{0pt plus 5cm}cv\-::\-Mat Qr\-Detector\-::load\-Image (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classQrDetector_a46da54e3da81d4ccc8cee7323237f648}
+
+
+Loads an image into a cv\-::\-Mat structure. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-\_\-name} & \mbox{[}std\-::string\mbox{]} The file U\-R\-I \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cv\-::\-Mat 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file qr\-\_\-detector.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-qr\-\_\-detection/include/qr\-\_\-detection/\hyperlink{qr__detector_8h}{qr\-\_\-detector.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-qr\-\_\-detection/src/\hyperlink{qr__detector_8cpp}{qr\-\_\-detector.\-cpp}\end{DoxyCompactItemize}

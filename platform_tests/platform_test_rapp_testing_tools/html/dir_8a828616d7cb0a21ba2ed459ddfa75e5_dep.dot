@@ -1,0 +1,9 @@
+digraph "/home/travis/rapp_temp/rapp-platform/rapp_testing_tools/scripts/default_tests/issues" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_1c7e1ba30ae3135e13e31e26082b20cf {
+    graph [ bgcolor="#ddddee", pencolor="black", label="default_tests" fontname="Helvetica", fontsize="10", URL="dir_1c7e1ba30ae3135e13e31e26082b20cf.html"]
+  dir_8a828616d7cb0a21ba2ed459ddfa75e5 [shape=box, label="issues", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_8a828616d7cb0a21ba2ed459ddfa75e5.html"];
+  }
+}

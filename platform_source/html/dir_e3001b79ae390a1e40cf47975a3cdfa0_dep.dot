@@ -1,0 +1,13 @@
+digraph "/home/travis/rapp_temp/rapp-platform/rapp_face_detection/include" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_f0b9e3eb238af0396e656a14fad7377d {
+    graph [ bgcolor="#ddddee", pencolor="black", label="rapp_face_detection" fontname="Helvetica", fontsize="10", URL="dir_f0b9e3eb238af0396e656a14fad7377d.html"]
+  subgraph clusterdir_e3001b79ae390a1e40cf47975a3cdfa0 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_e3001b79ae390a1e40cf47975a3cdfa0.html"];
+    dir_e3001b79ae390a1e40cf47975a3cdfa0 [shape=plaintext label="include"];
+    dir_cc2cfdb285a1c75434f46c93cd4b8a8f [shape=box label="face_detection" color="black" fillcolor="white" style="filled" URL="dir_cc2cfdb285a1c75434f46c93cd4b8a8f.html"];
+  }
+  }
+}

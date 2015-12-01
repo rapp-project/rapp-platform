@@ -1,0 +1,108 @@
+\hypertarget{unit__tests_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-qr\-\_\-detection/tests/qr\-\_\-detection/unit\-\_\-tests.cpp File Reference}
+\label{unit__tests_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-qr\-\_\-detection/tests/qr\-\_\-detection/unit\-\_\-tests.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-qr\-\_\-detection/tests/qr\-\_\-detection/unit\-\_\-tests.\-cpp}}
+}
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$qr\-\_\-detection/qr\-\_\-detector.\-h$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+Include dependency graph for unit\-\_\-tests.\-cpp\-:
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classQrDetectionTest}{Qr\-Detection\-Test}
+\begin{DoxyCompactList}\small\item\em Utilizes gtest in order to provide unit tests for qr detection. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em The main function. Initializes the unit tests. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a3d2b1fbd8a2e9974494e2388593c7db6}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classQrDetectionTest}{Qr\-Detection\-Test}, lenna\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests Q\-R detection with an image containing face. Should return 0 qrs. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_afe3d485a9c89b176be3d81d73a7f3aee}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classQrDetectionTest}{Qr\-Detection\-Test}, qr\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests Q\-R detection with an image containing a qr. Should return 1 qr. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a769202dc503ae967c99d69317f362605}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classQrDetectionTest}{Qr\-Detection\-Test}, file\-\_\-not\-\_\-exists\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests Q\-R detection with a non-\/existent image. Should return 0 qrs. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a74e0f13001e818169e7012766c25cab7}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classQrDetectionTest}{Qr\-Detection\-Test}, zero\-\_\-sized\-\_\-image\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests Q\-R detection with a zero-\/sized image. Should return 0 qrs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!main@{main}}
+\index{main@{main}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+The main function. Initializes the unit tests. 
+
+
+
+Definition at line 108 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a3d2b1fbd8a2e9974494e2388593c7db6}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Qr\-Detection\-Test}}]{, }
+\item[{lenna\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a3d2b1fbd8a2e9974494e2388593c7db6}
+
+
+Tests Q\-R detection with an image containing face. Should return 0 qrs. 
+
+
+
+Definition at line 61 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_afe3d485a9c89b176be3d81d73a7f3aee}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Qr\-Detection\-Test}}]{, }
+\item[{qr\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_afe3d485a9c89b176be3d81d73a7f3aee}
+
+
+Tests Q\-R detection with an image containing a qr. Should return 1 qr. 
+
+
+
+Definition at line 73 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a769202dc503ae967c99d69317f362605}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Qr\-Detection\-Test}}]{, }
+\item[{file\-\_\-not\-\_\-exists\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a769202dc503ae967c99d69317f362605}
+
+
+Tests Q\-R detection with a non-\/existent image. Should return 0 qrs. 
+
+
+
+Definition at line 85 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a74e0f13001e818169e7012766c25cab7}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Qr\-Detection\-Test}}]{, }
+\item[{zero\-\_\-sized\-\_\-image\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a74e0f13001e818169e7012766c25cab7}
+
+
+Tests Q\-R detection with a zero-\/sized image. Should return 0 qrs. 
+
+
+
+Definition at line 97 of file unit\-\_\-tests.\-cpp.
+

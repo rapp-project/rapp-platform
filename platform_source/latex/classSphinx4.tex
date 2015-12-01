@@ -1,0 +1,242 @@
+\hypertarget{classSphinx4}{\section{Sphinx4 Class Reference}
+\label{classSphinx4}\index{Sphinx4@{Sphinx4}}
+}
+
+
+Performs speech recognition employing Sphinx.  
+
+
+
+
+Collaboration diagram for Sphinx4\-:
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classSphinx4_aef64fe2e07f6ae4013fc64112ccedd17}{main} (String\mbox{[}$\,$\mbox{]} args)  throws I\-O\-Exception 
+\begin{DoxyCompactList}\small\item\em The main function. \end{DoxyCompactList}\item 
+static void \hyperlink{classSphinx4_aba08f44441901e354030366cd6f431e9}{update\-Configuration} ()  throws I\-O\-Exception
+\begin{DoxyCompactList}\small\item\em Updates the Sphinx configuration. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classSphinx4_a675a67b1705cd6ec01bb1e9447d588d4}{acoustic\-\_\-model\-\_\-path} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_a63b3cf1a9479a86d69526b34e3975b8c}{acoustic\-\_\-model\-\_\-path\-\_\-prev} = \char`\"{}\char`\"{}
+\item 
+static Buffered\-Reader \hyperlink{classSphinx4_a60e71ecb19da1d08a0c2d71b0f6ac875}{buffer\-Read}
+\item 
+static Print\-Writer \hyperlink{classSphinx4_aa3a9b95c9245e791f4d8e04b157372ca}{buffer\-Write}
+\item 
+static Configuration\-Manager \hyperlink{classSphinx4_a227104f3b942fde3f279ee54a700772d}{cm}
+\item 
+static Configuration \hyperlink{classSphinx4_adad3fb0b68649c440cabe47895a53e27}{configuration} = new Configuration()
+\item 
+static String \hyperlink{classSphinx4_aa403d02afb54d7c774c4ec53770a567c}{configuration\-\_\-model\-\_\-path} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_aaa4c30258a2c98605fc05ab3e50c20ca}{configuration\-\_\-model\-\_\-path\-\_\-prev} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_a1c5ef308a94ee2d15c6856c676206ba4}{dictionary\-\_\-path} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_a3c079ed40372dcc0cda65345cda22325}{dictionary\-\_\-path\-\_\-prev} = \char`\"{}\char`\"{}
+\item 
+static boolean \hyperlink{classSphinx4_a20f0d9d8646e97cd64d675957eb0a8ec}{grammar\-\_\-enabled} = false
+\item 
+static boolean \hyperlink{classSphinx4_a3830508de85cfcde2b71c019b9b645da}{grammar\-\_\-enabled\-\_\-prev} = false
+\item 
+static String \hyperlink{classSphinx4_a3913defdceb57d6ecd4dca0e2d83f4b9}{grammar\-\_\-model\-\_\-file\-\_\-path} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_aed95605805711285385e0baa12c5d1dd}{grammar\-\_\-model\-\_\-file\-\_\-path\-\_\-prev} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_a67a790a4ce8aa6a14e4614a6799976e4}{grammar\-\_\-model\-\_\-folder\-\_\-path} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_a703bb949692410a0d634318e07b3ad1c}{grammar\-\_\-model\-\_\-folder\-\_\-path\-\_\-prev} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_a83b681a3d5235f0ab8456e7b3de6c522}{language\-\_\-path} = \char`\"{}\char`\"{}
+\item 
+static String \hyperlink{classSphinx4_a675a26a3e9ac32594d217547be5ca7f6}{language\-\_\-path\-\_\-prev} = \char`\"{}\char`\"{}
+\item 
+static Stream\-Speech\-Recognizer \hyperlink{classSphinx4_a232118ec001bbb6fe7def78e9592ef9b}{recognizer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Performs speech recognition employing Sphinx. 
+
+Communicates with \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper}{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper} via socket to configure Sphinx and perform the speech recognition and returns the result. 
+
+Definition at line 49 of file Sphinx4.\-java.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classSphinx4_aef64fe2e07f6ae4013fc64112ccedd17}{\index{Sphinx4@{Sphinx4}!main@{main}}
+\index{main@{main}!Sphinx4@{Sphinx4}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}static void Sphinx4.\-main (
+\begin{DoxyParamCaption}
+\item[{String\mbox{[}$\,$\mbox{]}}]{args}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classSphinx4_aef64fe2e07f6ae4013fc64112ccedd17}
+
+
+The main function. 
+
+Creates the Sphinx process and awaits commands from \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper}{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper} to update the cconfiguration or perform the recognition. 
+
+Definition at line 134 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_aba08f44441901e354030366cd6f431e9}{\index{Sphinx4@{Sphinx4}!update\-Configuration@{update\-Configuration}}
+\index{update\-Configuration@{update\-Configuration}!Sphinx4@{Sphinx4}}
+\subsubsection[{update\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}static void Sphinx4.\-update\-Configuration (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) throws I\-O\-Exception\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{classSphinx4_aba08f44441901e354030366cd6f431e9}
+
+
+Updates the Sphinx configuration. 
+
+
+
+Definition at line 79 of file Sphinx4.\-java.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classSphinx4_a675a67b1705cd6ec01bb1e9447d588d4}{\index{Sphinx4@{Sphinx4}!acoustic\-\_\-model\-\_\-path@{acoustic\-\_\-model\-\_\-path}}
+\index{acoustic\-\_\-model\-\_\-path@{acoustic\-\_\-model\-\_\-path}!Sphinx4@{Sphinx4}}
+\subsubsection[{acoustic\-\_\-model\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-acoustic\-\_\-model\-\_\-path = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a675a67b1705cd6ec01bb1e9447d588d4}
+
+
+Definition at line 57 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a63b3cf1a9479a86d69526b34e3975b8c}{\index{Sphinx4@{Sphinx4}!acoustic\-\_\-model\-\_\-path\-\_\-prev@{acoustic\-\_\-model\-\_\-path\-\_\-prev}}
+\index{acoustic\-\_\-model\-\_\-path\-\_\-prev@{acoustic\-\_\-model\-\_\-path\-\_\-prev}!Sphinx4@{Sphinx4}}
+\subsubsection[{acoustic\-\_\-model\-\_\-path\-\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-acoustic\-\_\-model\-\_\-path\-\_\-prev = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a63b3cf1a9479a86d69526b34e3975b8c}
+
+
+Definition at line 58 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a60e71ecb19da1d08a0c2d71b0f6ac875}{\index{Sphinx4@{Sphinx4}!buffer\-Read@{buffer\-Read}}
+\index{buffer\-Read@{buffer\-Read}!Sphinx4@{Sphinx4}}
+\subsubsection[{buffer\-Read}]{\setlength{\rightskip}{0pt plus 5cm}Buffered\-Reader Sphinx4.\-buffer\-Read\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a60e71ecb19da1d08a0c2d71b0f6ac875}
+
+
+Definition at line 72 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_aa3a9b95c9245e791f4d8e04b157372ca}{\index{Sphinx4@{Sphinx4}!buffer\-Write@{buffer\-Write}}
+\index{buffer\-Write@{buffer\-Write}!Sphinx4@{Sphinx4}}
+\subsubsection[{buffer\-Write}]{\setlength{\rightskip}{0pt plus 5cm}Print\-Writer Sphinx4.\-buffer\-Write\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_aa3a9b95c9245e791f4d8e04b157372ca}
+
+
+Definition at line 73 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a227104f3b942fde3f279ee54a700772d}{\index{Sphinx4@{Sphinx4}!cm@{cm}}
+\index{cm@{cm}!Sphinx4@{Sphinx4}}
+\subsubsection[{cm}]{\setlength{\rightskip}{0pt plus 5cm}Configuration\-Manager Sphinx4.\-cm\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a227104f3b942fde3f279ee54a700772d}
+
+
+Definition at line 69 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_adad3fb0b68649c440cabe47895a53e27}{\index{Sphinx4@{Sphinx4}!configuration@{configuration}}
+\index{configuration@{configuration}!Sphinx4@{Sphinx4}}
+\subsubsection[{configuration}]{\setlength{\rightskip}{0pt plus 5cm}Configuration Sphinx4.\-configuration = new Configuration()\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_adad3fb0b68649c440cabe47895a53e27}
+
+
+Definition at line 68 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_aa403d02afb54d7c774c4ec53770a567c}{\index{Sphinx4@{Sphinx4}!configuration\-\_\-model\-\_\-path@{configuration\-\_\-model\-\_\-path}}
+\index{configuration\-\_\-model\-\_\-path@{configuration\-\_\-model\-\_\-path}!Sphinx4@{Sphinx4}}
+\subsubsection[{configuration\-\_\-model\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-configuration\-\_\-model\-\_\-path = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_aa403d02afb54d7c774c4ec53770a567c}
+
+
+Definition at line 65 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_aaa4c30258a2c98605fc05ab3e50c20ca}{\index{Sphinx4@{Sphinx4}!configuration\-\_\-model\-\_\-path\-\_\-prev@{configuration\-\_\-model\-\_\-path\-\_\-prev}}
+\index{configuration\-\_\-model\-\_\-path\-\_\-prev@{configuration\-\_\-model\-\_\-path\-\_\-prev}!Sphinx4@{Sphinx4}}
+\subsubsection[{configuration\-\_\-model\-\_\-path\-\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-configuration\-\_\-model\-\_\-path\-\_\-prev = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_aaa4c30258a2c98605fc05ab3e50c20ca}
+
+
+Definition at line 66 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a1c5ef308a94ee2d15c6856c676206ba4}{\index{Sphinx4@{Sphinx4}!dictionary\-\_\-path@{dictionary\-\_\-path}}
+\index{dictionary\-\_\-path@{dictionary\-\_\-path}!Sphinx4@{Sphinx4}}
+\subsubsection[{dictionary\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-dictionary\-\_\-path = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a1c5ef308a94ee2d15c6856c676206ba4}
+
+
+Definition at line 51 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a3c079ed40372dcc0cda65345cda22325}{\index{Sphinx4@{Sphinx4}!dictionary\-\_\-path\-\_\-prev@{dictionary\-\_\-path\-\_\-prev}}
+\index{dictionary\-\_\-path\-\_\-prev@{dictionary\-\_\-path\-\_\-prev}!Sphinx4@{Sphinx4}}
+\subsubsection[{dictionary\-\_\-path\-\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-dictionary\-\_\-path\-\_\-prev = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a3c079ed40372dcc0cda65345cda22325}
+
+
+Definition at line 52 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a20f0d9d8646e97cd64d675957eb0a8ec}{\index{Sphinx4@{Sphinx4}!grammar\-\_\-enabled@{grammar\-\_\-enabled}}
+\index{grammar\-\_\-enabled@{grammar\-\_\-enabled}!Sphinx4@{Sphinx4}}
+\subsubsection[{grammar\-\_\-enabled}]{\setlength{\rightskip}{0pt plus 5cm}boolean Sphinx4.\-grammar\-\_\-enabled = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a20f0d9d8646e97cd64d675957eb0a8ec}
+
+
+Definition at line 75 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a3830508de85cfcde2b71c019b9b645da}{\index{Sphinx4@{Sphinx4}!grammar\-\_\-enabled\-\_\-prev@{grammar\-\_\-enabled\-\_\-prev}}
+\index{grammar\-\_\-enabled\-\_\-prev@{grammar\-\_\-enabled\-\_\-prev}!Sphinx4@{Sphinx4}}
+\subsubsection[{grammar\-\_\-enabled\-\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}boolean Sphinx4.\-grammar\-\_\-enabled\-\_\-prev = false\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a3830508de85cfcde2b71c019b9b645da}
+
+
+Definition at line 76 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a3913defdceb57d6ecd4dca0e2d83f4b9}{\index{Sphinx4@{Sphinx4}!grammar\-\_\-model\-\_\-file\-\_\-path@{grammar\-\_\-model\-\_\-file\-\_\-path}}
+\index{grammar\-\_\-model\-\_\-file\-\_\-path@{grammar\-\_\-model\-\_\-file\-\_\-path}!Sphinx4@{Sphinx4}}
+\subsubsection[{grammar\-\_\-model\-\_\-file\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-grammar\-\_\-model\-\_\-file\-\_\-path = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a3913defdceb57d6ecd4dca0e2d83f4b9}
+
+
+Definition at line 60 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_aed95605805711285385e0baa12c5d1dd}{\index{Sphinx4@{Sphinx4}!grammar\-\_\-model\-\_\-file\-\_\-path\-\_\-prev@{grammar\-\_\-model\-\_\-file\-\_\-path\-\_\-prev}}
+\index{grammar\-\_\-model\-\_\-file\-\_\-path\-\_\-prev@{grammar\-\_\-model\-\_\-file\-\_\-path\-\_\-prev}!Sphinx4@{Sphinx4}}
+\subsubsection[{grammar\-\_\-model\-\_\-file\-\_\-path\-\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-grammar\-\_\-model\-\_\-file\-\_\-path\-\_\-prev = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_aed95605805711285385e0baa12c5d1dd}
+
+
+Definition at line 61 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a67a790a4ce8aa6a14e4614a6799976e4}{\index{Sphinx4@{Sphinx4}!grammar\-\_\-model\-\_\-folder\-\_\-path@{grammar\-\_\-model\-\_\-folder\-\_\-path}}
+\index{grammar\-\_\-model\-\_\-folder\-\_\-path@{grammar\-\_\-model\-\_\-folder\-\_\-path}!Sphinx4@{Sphinx4}}
+\subsubsection[{grammar\-\_\-model\-\_\-folder\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-grammar\-\_\-model\-\_\-folder\-\_\-path = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a67a790a4ce8aa6a14e4614a6799976e4}
+
+
+Definition at line 62 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a703bb949692410a0d634318e07b3ad1c}{\index{Sphinx4@{Sphinx4}!grammar\-\_\-model\-\_\-folder\-\_\-path\-\_\-prev@{grammar\-\_\-model\-\_\-folder\-\_\-path\-\_\-prev}}
+\index{grammar\-\_\-model\-\_\-folder\-\_\-path\-\_\-prev@{grammar\-\_\-model\-\_\-folder\-\_\-path\-\_\-prev}!Sphinx4@{Sphinx4}}
+\subsubsection[{grammar\-\_\-model\-\_\-folder\-\_\-path\-\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-grammar\-\_\-model\-\_\-folder\-\_\-path\-\_\-prev = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a703bb949692410a0d634318e07b3ad1c}
+
+
+Definition at line 63 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a83b681a3d5235f0ab8456e7b3de6c522}{\index{Sphinx4@{Sphinx4}!language\-\_\-path@{language\-\_\-path}}
+\index{language\-\_\-path@{language\-\_\-path}!Sphinx4@{Sphinx4}}
+\subsubsection[{language\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-language\-\_\-path = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a83b681a3d5235f0ab8456e7b3de6c522}
+
+
+Definition at line 54 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a675a26a3e9ac32594d217547be5ca7f6}{\index{Sphinx4@{Sphinx4}!language\-\_\-path\-\_\-prev@{language\-\_\-path\-\_\-prev}}
+\index{language\-\_\-path\-\_\-prev@{language\-\_\-path\-\_\-prev}!Sphinx4@{Sphinx4}}
+\subsubsection[{language\-\_\-path\-\_\-prev}]{\setlength{\rightskip}{0pt plus 5cm}String Sphinx4.\-language\-\_\-path\-\_\-prev = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a675a26a3e9ac32594d217547be5ca7f6}
+
+
+Definition at line 55 of file Sphinx4.\-java.
+
+\hypertarget{classSphinx4_a232118ec001bbb6fe7def78e9592ef9b}{\index{Sphinx4@{Sphinx4}!recognizer@{recognizer}}
+\index{recognizer@{recognizer}!Sphinx4@{Sphinx4}}
+\subsubsection[{recognizer}]{\setlength{\rightskip}{0pt plus 5cm}Stream\-Speech\-Recognizer Sphinx4.\-recognizer\hspace{0.3cm}{\ttfamily [static]}}}\label{classSphinx4_a232118ec001bbb6fe7def78e9592ef9b}
+
+
+Definition at line 70 of file Sphinx4.\-java.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4/src/\hyperlink{Sphinx4_8java}{Sphinx4.\-java}\end{DoxyCompactItemize}

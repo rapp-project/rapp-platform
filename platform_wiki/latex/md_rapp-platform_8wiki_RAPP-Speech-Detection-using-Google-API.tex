@@ -1,0 +1,37 @@
+For the initial Speech recognition implementation, a proof of concept approach was followed, employing the Google Speech A\-P\-I . This A\-P\-I was created to enable developers to provide web-\/based speech to text functionalities. There are two modes (one-\/shot speech and streaming) and the results are returned as a list of hypotheses, along with the most dominant one. Since the aforementioned A\-P\-I is for developing purposes some limitations exist, such as that the input stream cannot be longer than 10-\/15 seconds of audio and the requests per day cannot be more than 50 if a personal Speech A\-P\-I Key is used. In our implementation we use the one-\/shot speech functionality, meaning that an audio file must be locally stored.
+
+Another limitation of the Google Speech A\-P\-I is that the input audio file must be of certain format. Specifically the file must be a flac file with one channel, having a sample rate of 16k\-Hz. In order for this service to be able to be used with any audio file that arrives as input, in case where the input file has not the desired characteristics, a system call to the flac library is performed, converting the file to the correct format. Additionally, if the audio originates from the N\-A\-O robot, the file is denoised using the respective services of the Audio Processing node, according to its specific characteristics.
+
+The component diagram of the R\-A\-P\-P Speech detection system using the Google A\-P\-I is depicted below.
+
+\mbox{[}\mbox{[}images/google\-\_\-speech\-\_\-component\-\_\-diagram.\-png\mbox{]}\mbox{]}
+
+\section*{R\-O\-S Services}
+
+\subsection*{Speech to text service using Goolge A\-P\-I}
+
+The Google Speech Recognition node provides a single R\-O\-S service.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-speech\-\_\-detection\-\_\-google/speech\-\_\-to\-\_\-text}
+
+Service type\-: ```bash \#\-The stored audio file string audio\-\_\-file \#\-The audio type \mbox{[}nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch\mbox{]} string audio\-\_\-file\-\_\-type \#\-The user \subsection*{string user }
+
+\#\-The words string\mbox{[}\mbox{]} words \#\-The confidence returned by Google float64 confidence \#\-A list of alternative phrases returned from Google string\mbox{[}\mbox{]}\mbox{[}\mbox{]} alternatives \#\-Possible error string error ```
+
+\subsection*{Test Selector R\-P\-S}
+
+The Q\-R detection R\-P\-S is of type 4 since it contains a H\-O\-P service frontend that contacts a R\-O\-S node wrapper, which in turn invokes an external service. The speech detection R\-P\-S can be invoked using the following U\-R\-L.
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/speech\-\_\-detection\-\_\-google}
+
+\subsubsection*{Input/\-Output}
+
+As described, the speech detection R\-P\-S takes as input the audio file in which we desire to detect the words. The file path is encoded in J\-S\-O\-N format in a binary string representation.
+
+The speech detection R\-P\-S returns as output an array of words determining the dominant guess, the confidence in a probability form and the suggested alternative sentences. The encoding is in J\-S\-O\-N format.
+
+``` Input = \{ “audio\-\_\-file”\-: “\-T\-H\-E\-\_\-\-A\-U\-D\-I\-O\-\_\-\-F\-I\-L\-E” “audio\-\_\-file\-\_\-type”\-: “nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch” “user”\-: “\-U\-S\-E\-R\-N\-A\-M\-E” \} {\ttfamily  } Output = \{ “words”\-: \mbox{[} “\-W\-O\-R\-D\-\_\-1”, “\-W\-O\-R\-D\-\_\-2”, … , “\-W\-O\-R\-D\-\_\-\-N” \mbox{]}, “confidence” \-: “\-P\-R\-O\-B\-A\-B\-I\-L\-I\-T\-Y”, “alternatives”\-: \mbox{[} \{ “words”\-: \mbox{[} “\-W\-O\-R\-D\-\_\-1”, “\-W\-O\-R\-D\-\_\-2”, … , “\-W\-O\-R\-D\-\_\-\-N” \mbox{]} \}, \{ … \} \mbox{]} \} ``` \subsubsection*{Example}
+
+An example input for the speech detection R\-P\-S was created. The actual input was a flac file, having a size of 242.\-6 K\-B, where the “\-I want to use the Skype” sentence was recorded. For this specific input, the result obtained was\-:
+
+For this specific input, the result obtained was ``` Output = \{ “words”\-: \mbox{[} “\-I”, “want”, “to” , “use” , “\-Skype” \mbox{]}, “confidence” \-: “0.9400593”, “alternatives”\-: \mbox{[} \{ “words”\-: \mbox{[} “\-I”, “want”, “to” , “use” , “the” , “\-Skype” \mbox{]}\}, \{ “words”\-: \mbox{[} “\-I”, “want”, “to” , “use” , “\-Skype” \mbox{]}\}, \{ “words”\-: \mbox{[} “\-I”, “want”, “to” , “use” , “the” , “\-Skype” , “app” \mbox{]}\} \mbox{]} \} ``` 

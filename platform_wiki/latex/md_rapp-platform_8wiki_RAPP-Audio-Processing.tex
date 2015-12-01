@@ -1,0 +1,75 @@
+The audio processing node was created in order to perform necessary operations for the speech recognition modules to operate for all audio cases. Even though both the Google and Sphinx4 speech recognition modules were functional when the input was captured from a headset, the same did not happen with the audio captured from the N\-A\-O robot.
+
+N\-A\-O is able to record a single audio file at a time (wav or ogg), either from all microphones (4 channels at 48k\-Hz) or from any single microphone (1 channel, 16k\-Hz). The R\-A\-P\-P Speech detection modules can operate either with ogg or with wav (1 and 4 channels) by employing the Audio processing node. Nevertheless, the one-\/channel audio is the most appropriate selection, since Sphinx-\/4 requires single channel wav files, with a 16k\-Hz sample rate and 16 bit little-\/endian format. The N\-A\-O captured audio contains considerable background static noise, being probably the result of a cooling fan that also exists in the N\-A\-O head. The problem raised is that the high noise levels cause Sphinx-\/4, as well as Google A\-P\-I to fail by producing no output.
+
+It is obvious that in order for the speech recognition modules to operate successfully, denoising operations must take place. Additionally, since each N\-A\-O robot creates its own noise with different spectral characteristics, a personalization effort must be performed, storing silence samples from each robot and extracting the N\-A\-O noise’s D\-F\-T coefficients. These denoising operations are offered as R\-O\-S services by the Audio Processing package. This node utilizes the So\-X Unix audio library in order to perform spectral denoising, along with other custom made techniques.
+
+\section*{R\-O\-S Services}
+
+\subsection*{Set noise profile service}
+
+This service was created in order to store each robot’s noise profile. The service expects three inputs\-: a string containing the audio file, the audio type and the user that owns the robot. The supported audio types are nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch and nao\-\_\-wav\-\_\-4\-\_\-ch.
+
+Initially, the user is authenticated against the My\-S\-Q\-L database, in order to check if they have the necessary access rights to execute speech recognition and audio processing functionalities. Then, the audio file (ogg, wav 1 or 4 channels) is converted to wav, single channel with a sampling rate of 16k\-Hz, employing the So\-X library. Finally, the noise profile is acquired using the So\-X noiseprof tool and the respective file is stored in the R\-A\-P\-P Platform under the user’s folder.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-audio\-\_\-processing/set\-\_\-noise\-\_\-profile}
+
+Service type\-:
+
+```bash \#\-The stored audio file containing silence string noise\-\_\-audio\-\_\-file \#\-The audio type \mbox{[}nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch\mbox{]} string audio\-\_\-file\-\_\-type \#\-The user \subsection*{string user }
+
+\#\-Possible error string error ```
+
+\subsection*{Denoise service}
+
+This R\-O\-S service utilizes the user’s stored noise profile in order to perform spectral subtraction against the input audio signal. For this reason the So\-X library is used, and specifically the noisered plugin.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-audio\-\_\-processing/denoise}
+
+Service type\-: ```bash \#\-The stored audio file containing the user’s input string audio\-\_\-file \#\-The audio type \mbox{[}nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch\mbox{]} string audio\-\_\-type \#\-The denoised audio file string denoised\-\_\-audio\-\_\-file \#\-The user string user \#\-The denoising scale \subsection*{float32 scale }
+
+\section*{Possible error}
+
+string error ```
+
+\subsection*{Energy denoise service}
+
+The energy denoise R\-O\-S service performs a signal hard gating in the time domain, based on the R\-M\-S metric (Root Mean Squared). The hard signal gating is applied in the individual sample’s power when compared with the R\-M\-S value.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-audio\-\_\-processing/energy\-\_\-denoise}
+
+Service type\-: ```bash \#\-The stored audio file containing the user’s input string audio\-\_\-file \#\-The audio type \mbox{[}nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch\mbox{]} string audio\-\_\-type \#\-The denoised audio file string denoised\-\_\-audio\-\_\-file \#\-The user string user \#\-The denoising scale \subsection*{float32 scale }
+
+\#\-Possible error string error ``` \subsection*{Detect silence service}
+
+There are cases where the captured audio files from N\-A\-O do not contain any speech. Since the recording length is limited (e.\-g. 3 seconds) it is possible for some cases for the actual speech to miss this critical time slot. If this happens, the detect silence service is capable of indicating this issue in order for the robot to ask again the question it was not answered.
+
+In order to detect if the signal contains silence, we follow a statistical approach. We suppose that if the file does not contain a voice, the samples’ power levels will be homogeneous to a certain extend. Thus, we calculate the R\-S\-D (Relative Standard Deviation) of the signal’s power and compare each sample with it. If one sample has a higher value, the signal is considered to contain voice.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-audio\-\_\-processing/detect\-\_\-silence}
+
+Service type\-: ```bash \#\-The stored audio file containing the user’s input string audio\-\_\-file \#\-The silence threshold \subsection*{float32 threshold }
+
+\#\-The result bool silence \#\-Possible error string error ```
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries rapp\-\_\-audio\-\_\-processing} node and can be launched using ``` roslaunch rapp\-\_\-audio\-\_\-processing audio\-\_\-processing.\-launch ```
+
+\section*{H\-O\-P services}
+
+\subsection*{Set denoise profile R\-P\-S}
+
+The only R\-P\-S Audio Processing is the set\-\_\-denoise\-\_\-profile. The set\-\_\-denoise\-\_\-profile R\-P\-S is of type 3 since it contains a H\-O\-P service frontend, contacting a R\-A\-P\-P R\-O\-S service, which utilizes the So\-X audio library.
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/set\-\_\-noise\-\_\-profile}
+
+\subsubsection*{Input/\-Output}
+
+The set\-\_\-noise\-\_\-profile R\-P\-S has three input arguments, which are the input file, the audio file type and the user. These are encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
+
+The set\-\_\-noise\-\_\-profile R\-P\-S returns the success status. The encoding is in J\-S\-O\-N format.
+
+``` Input = \{ “noise\-\_\-audio\-\_\-file”\-: “\-T\-H\-E\-\_\-\-A\-U\-D\-I\-O\-\_\-\-F\-I\-L\-E” “audio\-\_\-file\-\_\-type”\-: “nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch” “user”\-: “\-T\-H\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E” \} {\ttfamily  } Output = \{ “error”\-: “\-Possible error” \} ``` 

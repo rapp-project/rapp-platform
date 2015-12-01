@@ -1,0 +1,108 @@
+\hypertarget{unit__tests_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-face\-\_\-detection/tests/face\-\_\-detection/unit\-\_\-tests.cpp File Reference}
+\label{unit__tests_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-face\-\_\-detection/tests/face\-\_\-detection/unit\-\_\-tests.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-face\-\_\-detection/tests/face\-\_\-detection/unit\-\_\-tests.\-cpp}}
+}
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$face\-\_\-detection/face\-\_\-detector.\-h$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+Include dependency graph for unit\-\_\-tests.\-cpp\-:
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classFaceDetectionTest}{Face\-Detection\-Test}
+\begin{DoxyCompactList}\small\item\em Handles the face detection unit testing using gtests. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em The main function. Initialized the unit tests. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_ad7e224e2dc8c840a18c54607bef15ac0}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classFaceDetectionTest}{Face\-Detection\-Test}, lenna\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests face detection with the Lenna image. Should be successful. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a0c74fbf060d882596a65c2b90d8d9151}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classFaceDetectionTest}{Face\-Detection\-Test}, qr\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests face detection with a qr code. Should return 0 faces. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a4f4c4616043445725a75e1d51a419116}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classFaceDetectionTest}{Face\-Detection\-Test}, file\-\_\-not\-\_\-exists\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests face detection with a missing file. Should return 0 faces. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_abe40fd9d178686d072c13fe4dfba21d3}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classFaceDetectionTest}{Face\-Detection\-Test}, zero\-\_\-sized\-\_\-image\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests face detection with an empty image. Should return 0 faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!main@{main}}
+\index{main@{main}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+The main function. Initialized the unit tests. 
+
+
+
+Definition at line 103 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_ad7e224e2dc8c840a18c54607bef15ac0}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Face\-Detection\-Test}}]{, }
+\item[{lenna\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_ad7e224e2dc8c840a18c54607bef15ac0}
+
+
+Tests face detection with the Lenna image. Should be successful. 
+
+
+
+Definition at line 60 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a0c74fbf060d882596a65c2b90d8d9151}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Face\-Detection\-Test}}]{, }
+\item[{qr\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a0c74fbf060d882596a65c2b90d8d9151}
+
+
+Tests face detection with a qr code. Should return 0 faces. 
+
+
+
+Definition at line 71 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a4f4c4616043445725a75e1d51a419116}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Face\-Detection\-Test}}]{, }
+\item[{file\-\_\-not\-\_\-exists\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a4f4c4616043445725a75e1d51a419116}
+
+
+Tests face detection with a missing file. Should return 0 faces. 
+
+
+
+Definition at line 82 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_abe40fd9d178686d072c13fe4dfba21d3}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Face\-Detection\-Test}}]{, }
+\item[{zero\-\_\-sized\-\_\-image\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_abe40fd9d178686d072c13fe4dfba21d3}
+
+
+Tests face detection with an empty image. Should return 0 faces. 
+
+
+
+Definition at line 93 of file unit\-\_\-tests.\-cpp.
+

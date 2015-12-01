@@ -1,0 +1,23 @@
+In order to create a new functionality in the R\-A\-P\-P Platform, usually a new R\-O\-S package needs to be created. Some general guidelines follow\-:
+
+
+\begin{DoxyItemize}
+\item Rename the package to a specific name that shows what it does (beginning with {\ttfamily rapp\-\_\-}). Split in multiple packages if necessary.
+\item Move the srv files in {\ttfamily rapp\-\_\-platform\-\_\-ros\-\_\-communications} (in a new subfolder) and declare the correct dependencies in the package's {\ttfamily C\-Make\-Lists.\-txt} and {\ttfamily package.\-xml}. Do not forget to give an intuitive name at your service
+\item The R\-O\-S package should have the following folders and files\-:
+\begin{DoxyItemize}
+\item {\ttfamily cfg}\-: Contains configuration files
+\item {\ttfamily launch}\-: Contains the R\-O\-S package's launchers
+\item {\ttfamily src}\-: Contains the source files (either C++ or Python)
+\item {\ttfamily tests}\-: Contains the unit and functional tests (the folder's name {\bfseries must} be {\ttfamily tests}!)
+\item {\ttfamily R\-E\-A\-D\-M\-E.\-md}\-: Contains the same information to the R\-A\-P\-P Platform wiki corresponding page
+\item {\ttfamily setup.\-py}\-: If you have a python node this file should exist. Also a {\ttfamily \-\_\-\-\_\-init\-\_\-\-\_\-.\-py} file should exist in the {\ttfamily src} folder in order to create functional tests.
+\end{DoxyItemize}
+\item Rename the srv file and the service topic to comply with the rest of the platform
+\item Rename the launch file to comply with the rest of the platform
+\item Call the launch file from {\ttfamily rapp\-\_\-platform\-\_\-launch.\-launch} in the {\ttfamily rapp\-\_\-platform\-\_\-launchers} package, in order to be spawned with everything else
+\item Add unit / functional tests
+\item Add Doxygen documentation in your code
+\item Add a description of your package here\-: \href{https://github.com/rapp-project/rapp-platform/wiki}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/wiki}
+\item Create a R\-E\-A\-D\-M\-E.\-md in the R\-O\-S package with the same information as in the wiki registration 
+\end{DoxyItemize}

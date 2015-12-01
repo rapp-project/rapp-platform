@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="text_to_speech_espeak.Text\lToSpeechEspeak",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classtext__to__speech__espeak_1_1TextToSpeechEspeak.html"];
+}

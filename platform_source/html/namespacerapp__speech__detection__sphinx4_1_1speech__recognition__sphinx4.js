@@ -1,0 +1,4 @@
+var namespacerapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4 =
+[
+    [ "SpeechRecognitionSphinx4", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4_1_1SpeechRecognitionSphinx4.html", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4_1_1SpeechRecognitionSphinx4" ]
+];

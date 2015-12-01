@@ -1,0 +1,118 @@
+The {\ttfamily rapp\-\_\-scripts} folder contains scripts necessary for operations related to the R\-A\-P\-P Platform. The scripts are divided into four folders\-:
+
+\subsection*{backup}
+
+The following scripts are offered\-:
+\begin{DoxyItemize}
+\item {\ttfamily dump\-R\-A\-P\-P\-Mysql\-Database.\-sh}\-: Dumps the R\-A\-P\-P My\-S\-Q\-L database in a .sql file
+\item {\ttfamily import\-R\-A\-P\-P\-Mysql\-Database.\-sh}\-: Imports the R\-A\-P\-P My\-S\-Q\-L database from a .sql file
+\item {\ttfamily dump\-R\-A\-P\-P\-Ontology.\-sh}\-: Dumps the R\-A\-P\-P ontology in an .owl file
+\item {\ttfamily import\-R\-A\-P\-P\-Ontology.\-sh}\-: Imports the R\-A\-P\-P ontology from an .owl file
+\end{DoxyItemize}
+
+\subsection*{deploy}
+
+There are two files aimed for deployment\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily deploy\-\_\-rapp\-\_\-ros.\-sh}\-: Deploys the R\-A\-P\-P Platform back-\/end, i.\-e. all the R\-O\-S nodes
+\item {\ttfamily deploy\-\_\-hop\-\_\-services.\-sh}\-: Deploys the corresponding H\-O\-P services
+\end{DoxyItemize}
+
+Follow the next steps to deploy the R\-A\-P\-P Platform software\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily screen}
+\item {\ttfamily ./deploy\-\_\-rapp\-\_\-ros.sh}
+\item Press Ctrl + a + d to detach
+\item {\ttfamily screen}
+\item {\ttfamily ./deploy\-\_\-hop\-\_\-services}
+\item Press Ctrl + a + d to detach
+\item {\ttfamily screen -\/ls} to check that 2 screen sessions exist
+\end{DoxyItemize}
+
+To reattach to screen session\-: ``` screen -\/r \mbox{[}pid.\mbox{]}tty.\-host ```
+
+Screen how-\/to\-: \href{http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/}{\tt http\-://www.\-rackaid.\-com/blog/linux-\/screen-\/tutorial-\/and-\/how-\/to/}
+
+\subsection*{setup}
+
+These scripts can be executed after a clean Ubuntu 14.\-04 installation, in order to install the appropriate packages and setup the environment.
+
+\paragraph*{Step 0 -\/ Github installation}
+
+Install git in order to be able to clone the repositories\-:
+
+{\ttfamily sudo apt-\/get install git mercurial}
+
+W\-A\-R\-N\-I\-N\-G\-: At least 10 G\-B's of free space are recommended.
+
+\paragraph*{Install R\-A\-P\-P Platform}
+
+It is advised to execute the clean\-\_\-install.\-sh script in a clean V\-M or clean system.
+
+Performs\-:
+\begin{DoxyItemize}
+\item initial system updates
+\item installs R\-O\-S Indigo
+\item downloads all Github repositories needed
+\item builds and install all repos (rapp\-\_\-platform, knowrob, rosjava)
+\item downloads builds and installs depending libraries for Sphinx4
+\item installs My\-S\-Q\-L
+\item installs H\-O\-P
+\end{DoxyItemize}
+
+\paragraph*{What you must do manually}
+
+A new My\-S\-Q\-L user was created with username = {\ttfamily dummy\-User} and password = {\ttfamily change\-Me} and was granted all on Rapp\-Store D\-B. It is highly recommended that you change the password and the username of the user. The username and password are stored in the file located at /etc/db\-\_\-credentials. The file db\-\_\-credentials is used by the R\-A\-P\-P platform services, be sure to update it with the correct username and password. It's first line is the username and it's second line the password.
+
+\paragraph*{Setup in an existing system}
+
+If you want to add rapp-\/platform to an already existent system (Ubuntu 14.\-04) you should choose which setup scripts you need to execute. For example if you have My\-S\-Q\-L install you do not need to execute {\ttfamily 8\-\_\-mysql\-\_\-install.\-sh}.
+
+\paragraph*{Scripts}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily 1\-\_\-system\-\_\-updates.\-sh}\-: Fetches the Ubuntu 14.\-04 updates and installs them
+\item {\ttfamily 2\-\_\-ros\-\_\-setup.\-sh}\-: Installs R\-O\-S Indigo
+\item {\ttfamily 3\-\_\-auxiliary\-\_\-packages\-\_\-setup.\-sh}\-: Installs software from apt-\/get, necessary for the correct R\-A\-P\-P Platform deployment
+\item {\ttfamily 4\-\_\-rosjava\-\_\-setup.\-sh}\-: Fetches a number of Git\-Hub repositories and compiles rosjava. This is a dependency of Knowrob.
+\item {\ttfamily 5\-\_\-knowrob\-\_\-setup.\-sh}\-: Fetches the Knowrob repository and builds it. Knowrob is the tool that deploys the R\-A\-P\-P ontology.
+\item {\ttfamily 6\-\_\-rapp\-\_\-platform\-\_\-setup.\-sh}\-: Fetches the rapp-\/platform and rapp-\/api repositories and builds them
+\item {\ttfamily 7\-\_\-sphinx\-\_\-libraries.\-sh}\-: Fetches the Sphinx4 necessary libraries, compiles them and installs them, Sphinx4 is used for A\-S\-R (Automatic Speech Recognition).
+\item {\ttfamily 8\-\_\-mysql\-\_\-install.\-sh}\-: Installs My\-S\-Q\-L
+\item {\ttfamily 9\-\_\-create\-\_\-rapp\-\_\-mysql\-\_\-db.\-sh}\-: Adds the R\-A\-P\-P My\-S\-Q\-L empty database in mysql
+\item {\ttfamily 10\-\_\-create\-\_\-rapp\-\_\-mysql\-\_\-user.\-sh}\-: Creates a user to enable access the to database from the R\-A\-P\-P Platform code
+\item {\ttfamily 11\-\_\-hop\-\_\-setup.\-sh}\-: Installs H\-O\-P and Bigloo, the tools providing the R\-A\-P\-P Platform generic services.
+\end{DoxyItemize}
+
+\subparagraph*{N\-O\-T\-E\-S\-:}
+
+The following notes concern the manual setup of rapp-\/platform (not the clean setup form our scripts)\-:
+
+
+\begin{DoxyItemize}
+\item To compile {\ttfamily rapp\-\_\-qr\-\_\-detection} you must install the {\ttfamily libzbar} library
+\item To compile {\ttfamily rapp\-\_\-knowrob\-\_\-wrapper} you must execute the following scripts\-:
+\begin{DoxyItemize}
+\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/blob/master/rapp\-\_\-scripts/setup/4\-\_\-rosjava\-\_\-setup.\-sh}
+\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/blob/master/rapp\-\_\-scripts/setup/5\-\_\-knowrob\-\_\-setup.\-sh}
+\item {\bfseries If you don't want interaction with the ontology, add an empty {\ttfamily C\-A\-T\-K\-I\-N\-\_\-\-I\-G\-N\-O\-R\-E} file in the {\ttfamily rapp-\/platform/rapp\-\_\-knowrob\-\_\-wrapper/} folder}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subsection*{documentation}
+
+Scripts to automatically create documentation from the R\-A\-P\-P Platform code, the services and this wiki, using Doxygen. All documents can be bound in {\ttfamily \$\{H\-O\-M\-E\}/rapp\-\_\-platform\-\_\-files/documentation}.
+
+
+\begin{DoxyItemize}
+\item {\ttfamily create\-\_\-source\-\_\-documentation.\-sh} \-: Creates the platform's source code documentation (cpp, h, py, java).
+\item {\ttfamily create\-\_\-wiki\-\_\-documentation.\-sh} \-: Creates the platform's Git\-Hub Wiki documentation.
+\item {\ttfamily create\-\_\-test\-\_\-documentation.\-py} \-: Creates the platform's test source code documentation.
+\item {\ttfamily create\-\_\-web\-\_\-services\-\_\-documentation.\-sh} \-: Creates the rapp\-\_\-web\-\_\-services documentation.
+\item {\ttfamily create\-\_\-documentation.\-sh} \-: Creates all aforementioned documentations. 
+\end{DoxyItemize}

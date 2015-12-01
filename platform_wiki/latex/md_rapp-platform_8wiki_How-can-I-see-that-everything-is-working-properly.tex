@@ -1,0 +1,25 @@
+In order to check that everything works properly, you can do the following\-:
+
+\subsubsection*{Run the unit / functional tests}
+
+The R\-A\-P\-P Platform must not be running for these tests to run as they will attempt to launch it prior to running themselves, so please make sure you have not launched the platform, or terminate/kill the processes if you already have. Then use the following script\-:
+
+``` cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/ catkin\-\_\-make run\-\_\-tests -\/j1 ```
+
+All the tests should be passing.
+
+\subsubsection*{Run the integration tests}
+
+First you have to launch the R\-A\-P\-P Platform, as described \href{https://github.com/rapp-project/rapp-platform/wiki/How-do-I-launch-the-RAPP-Platform%3F}{\tt here}
+
+Then you must execute\-:
+
+``` rosrun rapp\-\_\-testing\-\_\-tools rapp\-\_\-run\-\_\-test.\-py ```
+
+Again all tests should be passing.
+
+\subsubsection*{Check the R\-A\-P\-P Platform health webpage.}
+
+Invoke this service from your favourite web browser\-:
+
+```javascript localhost\-:9001/hop/rapp\-\_\-platform\-\_\-status ``` 

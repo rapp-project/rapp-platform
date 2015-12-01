@@ -1,0 +1,185 @@
+\hypertarget{classFaceDetector}{\section{Face\-Detector Class Reference}
+\label{classFaceDetector}\index{Face\-Detector@{Face\-Detector}}
+}
+
+
+Class that implements a face detection algorithm based on a Haar cascade classifier.  
+
+
+
+
+{\ttfamily \#include $<$face\-\_\-detector.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFaceDetector_af08a8c38a26b029e02e05d8d9498332c}{Face\-Detector} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_abfbe382ac183aff81abe56585cb58f2f}{detect\-Faces} (const cv\-::\-Mat \&input\-\_\-img)
+\begin{DoxyCompactList}\small\item\em Detects faces from a cv\-::\-Mat. \end{DoxyCompactList}\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_a2b337f0b4fb0d0865334c928ac8629ef}{find\-Faces} (std\-::string file\-\_\-name)
+\begin{DoxyCompactList}\small\item\em Finds faces in an image retrieved from a file U\-R\-L. \end{DoxyCompactList}\item 
+cv\-::\-Mat \hyperlink{classFaceDetector_ad8223498ebc15a177485f86274583d81}{load\-Image} (std\-::string file\-\_\-name)
+\begin{DoxyCompactList}\small\item\em Loads an image from a file U\-R\-L. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_a442209589a939c663ed1ab07dd6c3a90}{detect\-Faces} (const cv\-::\-Mat \&input\-\_\-img, const std\-::string \&haar\-\_\-path)
+\begin{DoxyCompactList}\small\item\em Detects faces from a cv\-::\-Mat. \end{DoxyCompactList}\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_a31426b2557e0548c5ca5c0542e51f394}{identify\-Unique\-Faces} (const std\-::vector$<$ cv\-::\-Rect $>$ first\-Face\-Vector, const std\-::vector$<$ cv\-::\-Rect $>$ second\-Face\-Vector)
+\begin{DoxyCompactList}\small\item\em Identify unique faces from two sets of faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that implements a face detection algorithm based on a Haar cascade classifier. 
+
+Definition at line 33 of file face\-\_\-detector.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classFaceDetector_af08a8c38a26b029e02e05d8d9498332c}{\index{Face\-Detector@{Face\-Detector}!Face\-Detector@{Face\-Detector}}
+\index{Face\-Detector@{Face\-Detector}!FaceDetector@{Face\-Detector}}
+\subsubsection[{Face\-Detector}]{\setlength{\rightskip}{0pt plus 5cm}Face\-Detector\-::\-Face\-Detector (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classFaceDetector_af08a8c38a26b029e02e05d8d9498332c}
+
+
+Default constructor. 
+
+
+
+Definition at line 26 of file face\-\_\-detector.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classFaceDetector_abfbe382ac183aff81abe56585cb58f2f}{\index{Face\-Detector@{Face\-Detector}!detect\-Faces@{detect\-Faces}}
+\index{detect\-Faces@{detect\-Faces}!FaceDetector@{Face\-Detector}}
+\subsubsection[{detect\-Faces}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Face\-Detector\-::detect\-Faces (
+\begin{DoxyParamCaption}
+\item[{const cv\-::\-Mat \&}]{input\-\_\-img}
+\end{DoxyParamCaption}
+)}}\label{classFaceDetector_abfbe382ac183aff81abe56585cb58f2f}
+
+
+Detects faces from a cv\-::\-Mat. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\-\_\-img} & \mbox{[}const cv\-::\-Mat\&\mbox{]} The input image \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected faces. Each face is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 49 of file face\-\_\-detector.\-cpp.
+
+\hypertarget{classFaceDetector_a442209589a939c663ed1ab07dd6c3a90}{\index{Face\-Detector@{Face\-Detector}!detect\-Faces@{detect\-Faces}}
+\index{detect\-Faces@{detect\-Faces}!FaceDetector@{Face\-Detector}}
+\subsubsection[{detect\-Faces}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Face\-Detector\-::detect\-Faces (
+\begin{DoxyParamCaption}
+\item[{const cv\-::\-Mat \&}]{input\-\_\-img, }
+\item[{const std\-::string \&}]{haar\-\_\-path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classFaceDetector_a442209589a939c663ed1ab07dd6c3a90}
+
+
+Detects faces from a cv\-::\-Mat. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\-\_\-img} & \mbox{[}const cv\-::\-Mat\&\mbox{]} The input image \\
+\hline
+{\em haar\-\_\-path} & \mbox{[}const std\-::string\mbox{]} The Haar training model path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected faces. Each face is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file face\-\_\-detector.\-cpp.
+
+\hypertarget{classFaceDetector_a2b337f0b4fb0d0865334c928ac8629ef}{\index{Face\-Detector@{Face\-Detector}!find\-Faces@{find\-Faces}}
+\index{find\-Faces@{find\-Faces}!FaceDetector@{Face\-Detector}}
+\subsubsection[{find\-Faces}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Face\-Detector\-::find\-Faces (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)}}\label{classFaceDetector_a2b337f0b4fb0d0865334c928ac8629ef}
+
+
+Finds faces in an image retrieved from a file U\-R\-L. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-\_\-name} & \mbox{[}std\-::string\mbox{]} The image file's U\-R\-L \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected faces. Each face is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 160 of file face\-\_\-detector.\-cpp.
+
+\hypertarget{classFaceDetector_a31426b2557e0548c5ca5c0542e51f394}{\index{Face\-Detector@{Face\-Detector}!identify\-Unique\-Faces@{identify\-Unique\-Faces}}
+\index{identify\-Unique\-Faces@{identify\-Unique\-Faces}!FaceDetector@{Face\-Detector}}
+\subsubsection[{identify\-Unique\-Faces}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Face\-Detector\-::identify\-Unique\-Faces (
+\begin{DoxyParamCaption}
+\item[{const std\-::vector$<$ cv\-::\-Rect $>$}]{first\-Face\-Vector, }
+\item[{const std\-::vector$<$ cv\-::\-Rect $>$}]{second\-Face\-Vector}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classFaceDetector_a31426b2557e0548c5ca5c0542e51f394}
+
+
+Identify unique faces from two sets of faces. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em front\-Face\-Vector} & \mbox{[}const std\-::vector$<$cv\-::\-Rect$>$\&\mbox{]} The first set of faces \\
+\hline
+{\em second\-Face\-Vector} & \mbox{[}const std\-::vector$<$cv\-::\-Rect$>$\&\mbox{]} The second set of faces \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the unique faces. Each face is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 133 of file face\-\_\-detector.\-cpp.
+
+\hypertarget{classFaceDetector_ad8223498ebc15a177485f86274583d81}{\index{Face\-Detector@{Face\-Detector}!load\-Image@{load\-Image}}
+\index{load\-Image@{load\-Image}!FaceDetector@{Face\-Detector}}
+\subsubsection[{load\-Image}]{\setlength{\rightskip}{0pt plus 5cm}cv\-::\-Mat Face\-Detector\-::load\-Image (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)}}\label{classFaceDetector_ad8223498ebc15a177485f86274583d81}
+
+
+Loads an image from a file U\-R\-L. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-\_\-name} & \mbox{[}std\-::string\mbox{]} The image's file U\-R\-L \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}cv\-::\-Mat\mbox{]} The image in Open\-C\-V representation 
+\end{DoxyReturn}
+
+
+Definition at line 35 of file face\-\_\-detector.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-face\-\_\-detection/include/face\-\_\-detection/\hyperlink{face__detector_8h}{face\-\_\-detector.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-face\-\_\-detection/src/\hyperlink{face__detector_8cpp}{face\-\_\-detector.\-cpp}\end{DoxyCompactItemize}

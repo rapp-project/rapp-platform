@@ -1,0 +1,191 @@
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport}{\section{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support Class Reference}
+\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport}\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support}}
+}
+
+
+Allows the creation of configuration files for English Sphinx speech recognition.  
+
+
+
+
+Inheritance diagram for rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support\-:
+
+
+Collaboration diagram for rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a399297def83e8843368fb4a1d3ca526b}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Performs initializations. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_afc762995b000472cb6746cc8e6a427c9}{get\-Generic\-Configuration}
+\begin{DoxyCompactList}\small\item\em Returns the Generic English Configuration. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_aee8fe0bceba35b725d6cf04ab7213016}{get\-Limited\-Vocebulary\-Configuration}
+\begin{DoxyCompactList}\small\item\em Computes the Limited English Configuration. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a6b2a2e85a48b8c2887facecdb42ae251}{get\-Word\-Phonemes}
+\begin{DoxyCompactList}\small\item\em Compute the English word phonemes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a82ada1f7e06781ca0bd75c41319433f3}{\-\_\-english\-\_\-dict\-\_\-file}
+\begin{DoxyCompactList}\small\item\em The English dictionary file. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_adaabe1ce40092eef99be9c2eec178f8d}{\-\_\-english\-\_\-dict\-\_\-mapping}
+\begin{DoxyCompactList}\small\item\em The mmap of the English dictionary file contents. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a3871c35fccf8b9c8ceb98a9763191132}{\-\_\-generic\-\_\-sphinx\-\_\-configuration}
+\begin{DoxyCompactList}\small\item\em The generic Sphinx configuration. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a9281d1138c5b2fa11d1e8f1899e81cbc}{\-\_\-vocabulary}
+\begin{DoxyCompactList}\small\item\em The limited vocabulary creator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Allows the creation of configuration files for English Sphinx speech recognition. 
+
+Definition at line 32 of file english\-\_\-support.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a399297def83e8843368fb4a1d3ca526b}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a399297def83e8843368fb4a1d3ca526b}
+
+
+Performs initializations. 
+
+
+
+Definition at line 35 of file english\-\_\-support.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_afc762995b000472cb6746cc8e6a427c9}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!get\-Generic\-Configuration@{get\-Generic\-Configuration}}
+\index{get\-Generic\-Configuration@{get\-Generic\-Configuration}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{get\-Generic\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-get\-Generic\-Configuration (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_afc762995b000472cb6746cc8e6a427c9}
+
+
+Returns the Generic English Configuration. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a3871c35fccf8b9c8ceb98a9763191132}{\-\_\-generic\-\_\-sphinx\-\_\-configuration} \mbox{[}dictionary\mbox{]} The Generic English configuration 
+\end{DoxyReturn}
+
+
+Definition at line 149 of file english\-\_\-support.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_aee8fe0bceba35b725d6cf04ab7213016}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!get\-Limited\-Vocebulary\-Configuration@{get\-Limited\-Vocebulary\-Configuration}}
+\index{get\-Limited\-Vocebulary\-Configuration@{get\-Limited\-Vocebulary\-Configuration}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{get\-Limited\-Vocebulary\-Configuration}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-get\-Limited\-Vocebulary\-Configuration (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{words, }
+\item[{}]{grammar, }
+\item[{}]{sentences}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_aee8fe0bceba35b725d6cf04ab7213016}
+
+
+Computes the Limited English Configuration. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em words} & \mbox{[}list\-::string\mbox{]} The set of words to be identified \\
+\hline
+{\em grammar} & \mbox{[}list\-::string\mbox{]} The Sphinx grammar parameter \\
+\hline
+{\em sentences} & \mbox{[}list\-::string\mbox{]} The Sphinx sentences parameter\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+limited\-\_\-sphinx\-\_\-configuration \mbox{[}dictionary\mbox{]} The Limited English configuration 
+\end{DoxyReturn}
+
+
+Definition at line 133 of file english\-\_\-support.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a6b2a2e85a48b8c2887facecdb42ae251}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!get\-Word\-Phonemes@{get\-Word\-Phonemes}}
+\index{get\-Word\-Phonemes@{get\-Word\-Phonemes}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{get\-Word\-Phonemes}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-get\-Word\-Phonemes (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{words}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a6b2a2e85a48b8c2887facecdb42ae251}
+
+
+Compute the English word phonemes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em words} & \mbox{[}list\-::string\mbox{]} The set of English words \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+enhanced\-\_\-words \mbox{[}dictionary\mbox{]} The English word-\/$>$phonemes mapping 
+\end{DoxyReturn}
+
+
+Definition at line 89 of file english\-\_\-support.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a82ada1f7e06781ca0bd75c41319433f3}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!\-\_\-english\-\_\-dict\-\_\-file@{\-\_\-english\-\_\-dict\-\_\-file}}
+\index{\-\_\-english\-\_\-dict\-\_\-file@{\-\_\-english\-\_\-dict\-\_\-file}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{\-\_\-english\-\_\-dict\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-\_\-english\-\_\-dict\-\_\-file\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a82ada1f7e06781ca0bd75c41319433f3}
+
+
+The English dictionary file. 
+
+Located in path \hyperlink{classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams_a669e25ce189ad6cae67f52ebeb3404c7}{global\-\_\-parameters.\-Global\-Params\-::\-\_\-language\-\_\-models\-\_\-url} + \char`\"{}/english\-Pack/cmudict-\/en-\/us.\-dict\char`\"{} 
+
+Definition at line 72 of file english\-\_\-support.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_adaabe1ce40092eef99be9c2eec178f8d}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!\-\_\-english\-\_\-dict\-\_\-mapping@{\-\_\-english\-\_\-dict\-\_\-mapping}}
+\index{\-\_\-english\-\_\-dict\-\_\-mapping@{\-\_\-english\-\_\-dict\-\_\-mapping}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{\-\_\-english\-\_\-dict\-\_\-mapping}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-\_\-english\-\_\-dict\-\_\-mapping\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_adaabe1ce40092eef99be9c2eec178f8d}
+
+
+The mmap of the English dictionary file contents. 
+
+
+
+Definition at line 74 of file english\-\_\-support.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a3871c35fccf8b9c8ceb98a9763191132}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!\-\_\-generic\-\_\-sphinx\-\_\-configuration@{\-\_\-generic\-\_\-sphinx\-\_\-configuration}}
+\index{\-\_\-generic\-\_\-sphinx\-\_\-configuration@{\-\_\-generic\-\_\-sphinx\-\_\-configuration}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{\-\_\-generic\-\_\-sphinx\-\_\-configuration}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-\_\-generic\-\_\-sphinx\-\_\-configuration\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a3871c35fccf8b9c8ceb98a9763191132}
+
+
+The generic Sphinx configuration. 
+
+\begin{DoxyNote}{Note}
+Check acoustic model!! 
+\end{DoxyNote}
+
+
+Definition at line 57 of file english\-\_\-support.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a9281d1138c5b2fa11d1e8f1899e81cbc}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}!\-\_\-vocabulary@{\-\_\-vocabulary}}
+\index{\-\_\-vocabulary@{\-\_\-vocabulary}!rapp_speech_detection_sphinx4::english_support::EnglishSupport@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::english\-\_\-support\-::\-English\-Support}}
+\subsubsection[{\-\_\-vocabulary}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-english\-\_\-support.\-English\-Support.\-\_\-vocabulary\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport_a9281d1138c5b2fa11d1e8f1899e81cbc}
+
+
+The limited vocabulary creator. 
+
+Instantiates \hyperlink{classrapp__speech__detection__sphinx4_1_1limited__vocabulary__creator_1_1LimitedVocabularyCreator}{limited\-\_\-vocabulary\-\_\-creator.\-Limited\-Vocabulary\-Creator} 
+
+Definition at line 41 of file english\-\_\-support.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4/src/rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4/\hyperlink{english__support_8py}{english\-\_\-support.\-py}\end{DoxyCompactItemize}

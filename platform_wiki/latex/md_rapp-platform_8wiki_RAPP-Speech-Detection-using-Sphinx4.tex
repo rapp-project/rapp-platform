@@ -1,0 +1,124 @@
+In our case we desire a flexible speech recognition module, capable of multi-\/language extension and good performance on limited or generalized language models. For this reason, Sphinx-\/4 was selected. Since we aim for speech detection services for R\-Apps regardless of the actual robot at hand, we decided to install Sphinx-\/4 in the R\-A\-P\-P Cloud and provide services for uploading or streaming audio, as well as configuring the A\-S\-R towards language or vocabulary-\/specific decisions.
+
+Before proceeding to the actual description, it should be said that the R\-A\-P\-P Sphinx4 detection was create in order to handle {\bfseries limited vocabulary} speech recognition in various languages. This means that it is not suggested for detecting words in free speech or words from a vocabulary larger than 10-\/15 words.
+
+Before describing the actual implementation, it is necessary to investigate the Sphinx-\/4 configuration capabilities. In order to perform speech detection, Sphinx-\/4 requires\-:
+
+
+\begin{DoxyItemize}
+\item An acoustic model containing information about senones. Senones are short sound detectors able to represent the specific language's sound elements (phones, diphones, triphones etc.). In order to train an acoustic model for an unsupported language an abundance of data must be available. C\-M\-U Sphinx supports a number of high-\/quality acoustic models, including U\-S English, German, Russian, Spanish, French, Dutch, Mexican and Mandarin. In the R\-A\-P\-P case we desire multi speakers support, thus as Sphinx-\/4 suggests, 50 hours of dictation from 200 different speakers are necessary \href{http://cmusphinx.sourceforge.net/wiki/tutorialam}{\tt ref}, including the knowledge of the language's phonetic structure, as well as enough time to train the model and optimize its parameters. If these resources are unavailable (which is the current case), a possibility is to utilize the U\-S English acoustic model and perform grapheme to phoneme transformations.
+\item A language model, used to restrict word search. Usually n-\/gram (an n-\/character slice of a bigger string) language models are used in order to strip non probable words during the speech detection procedure, thus minimizing the search time and optimizing the overall procedure. Sphinx-\/4 supports two language models\-: grammars and statistical language models. Statistical language models include a set of sentences from which probabilities of words and succession of words are extracted. A grammar is a more ''strict'' language model, since the A\-S\-R tries to match the input speech only to the provided sentences. In our case, we are initially interested in detecting single words from a limited vocabulary, thus no special attention was paid in the construction of a generalized Greek language model.
+\item A phonetic dictionary, which essentially is a mapping from words to phones. This procedure is usually performed using G2\-P converters (Grapheme-\/to-\/\-Phoneme), such as \href{https://code.google.com/p/phonetisaurus/}{\tt Phonetisaurus} or \href{http://www-i6.informatik.rwth-aachen.de/web/Software/g2p.html}{\tt sequitur-\/g2p3}. G2\-P converters are used in almost all T\-T\-Ss (Text-\/to-\/\-Speech converters), as they require pronunciation rules to work correctly. Here, we decided to not use a G2\-P tool, but investigate and document the overall G2\-P procedure of translating Greek graphemes directly into the C\-M\-U Arpabet format (which Sphinx supports).
+\end{DoxyItemize}
+
+The overall Speech Detection architecture utilizing the Sphinx4 library is presented in the figure below\-:
+
+\mbox{[}\mbox{[}images/sphinx\-\_\-diagram.\-png\mbox{]}\mbox{]}
+
+As evident, two distinct parts exist\-: the N\-A\-O robot and R\-A\-P\-P Cloud part. Let’s assume that a robotic application (R\-App) is deployed in the robot, which needs to perform speech detection. The first step is to invoke the Capture Audio service the Core agent provides, which in turn captures an audio file via the N\-A\-O microphones. This audio file is sent to the cloud R\-A\-P\-P A\-S\-R node in order to perform A\-S\-R. The most important module of the R\-A\-P\-P A\-S\-R is the Sphinx-\/4 wrapper. This node is responsible for receiving the service call data and configuring the Sphinx-\/4 software according to the request. The actual Sphinx-\/4 library is executed as a separate process and Sphinx-\/4 wrapper is communicating with it via sockets.
+
+Between the R\-A\-P\-P A\-S\-R and the Sphinx-\/4 wrapper lies the Sphinx-\/4 Handler node which is responsible for handling the actual service request. It maintains a number of Sphinx wrappers in different threads, each of which is capable of handling a different request. The Sphinx-\/4 handler is responsible for scheduling the Sphinx-\/4 wrapper threads and for this purpose maintains information about the state of each thread (active/idle) and each thread's previous configuration parameters. Three possible situations exist\-:
+
+
+\begin{DoxyEnumerate}
+\item If a thread is idle and its previous configuration matches the request's configuration, this thread is selected to handle the request as the time consuming configuration procedure can be skipped.
+\item If no idle thread's configuration matches the request's configuration, an idle thread is chosen at random.
+\item If all threads are active, the request is put on hold until a thread is available.
+\end{DoxyEnumerate}
+
+Regarding the Sphinx-\/4 configuration, the user is able to select the A\-S\-R language and if they desire A\-S\-R on a limited vocabulary or on a generalized one stored in the R\-A\-P\-P cloud. If a limited vocabulary is selected, the user can also define the language model (the sentences of the statistical language model or the grammar). The configuration task is performed by the Sphinx-\/4 Configuration module. There, the A\-S\-R language is retrieved and the corresponding language modules are employed (currently Greek, English and their combination). If the user has requested A\-S\-R on a limited vocabulary, the corresponding language module must feed the Limited vocabulary creator with the correct grapheme to phoneme transformations, in order to create the necessary configuration files. In the English case, this task is easy, since Sphinx-\/4 provides a generalized English vocabulary, which includes the words' G2\-P transformations. When Greek is requested, a simplified G2\-P method is implemented, which will be discussed next. In the case where the user requests a generalized A\-S\-R, the predefined generalized dictionaries are used (currently only English support exists).
+
+The second major task that needs to be performed before the actual Sphinx-\/4 A\-S\-R is the audio preparation. This involves the employment of the {\bfseries So\-X} audio library utilizing the \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-Audio-Processing}{\tt Audio processing} node. Then the audio file is provided to the Sphinx4 Java library and the resulting words are extracted and transmitted back to the R\-App, as a response to the H\-O\-P service call.
+
+Regarding the Greek support, first a description of some basic rules of the Greek language will be presented. The Greek language is equipped with 24 letters and 25 phonemes. Phonemes are structural sound components defining a word’s acoustic properties. Some pronunciation rules the Greek language has follow\-:
+\begin{DoxyItemize}
+\item Double letters are two letters that contain two phonemes.
+\item Two digit vowels are two-\/letter combinations that sound like a single vowel phoneme.
+\item There is a special “s” letter, which is placed at the word’s end instead of the “normal” 's' letter.
+\item The common consonants are two common letter combinations that sound exactly like the single case letter.
+\item There are some special vowel combinations that are pronounced differently according to what letter is next.
+\item A grammatical symbol is the acute accent (Greek tonos), denoting where the word is accented.
+\item Another special symbol is diaeresis.
+\item There are some sigma rules, where if sigma is followed by specific letters it sounds like z.
+\end{DoxyItemize}
+
+Finally, there are several other trivial and rare rules that we did not take under consideration in our approach.
+
+Let’s assume that some Greek words are available and we must configure the Sphinx4 library in order to perform speech recognition. These words must be converted to the Sphinx4-\/supported Arpabet format which contains 39 phonemes. The individual steps followed are\-:
+
+
+\begin{DoxyItemize}
+\item Substitute upper case letters by the corresponding lower case
+\item Substitute two-\/letter phonemes and common consonants with C\-M\-U phonemes
+\item Substitute special vowel combinations
+\item Substitute two digit vowels by C\-M\-U phonemes
+\item Substitute special sigma rules
+\item Substitute all remaining letters with C\-M\-U phonemes
+\end{DoxyItemize}
+
+For more information you can read the full description \href{http://rapp-project.eu/wp-content/uploads/2015/03/RAPP_D2.1.1_V1.0_13032015.pdf}{\tt here -\/ 2bchanged}
+
+Then, the appropriate files are created (custom dictionary and language model) and the Sphinx4 library is configured. Then the audio pre-\/processing takes place, performing denoising similarly to the Google Speech Recognition module by deploying the R\-O\-S services of the Audio processing node.
+
+The R\-A\-P\-P Speech Detection using Sphinx component diagram is depicted in the figure.
+
+\mbox{[}\mbox{[}images/sphinx\-\_\-speech\-\_\-component\-\_\-diagram.\-png\mbox{]}\mbox{]}
+
+\section*{R\-O\-S Services}
+
+\subsection*{Speech Recognition using Sphinx service}
+
+The Sphinx4 R\-O\-S node provides a R\-O\-S service, dedicated to perform speech recognition.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4/batch\-\_\-speech\-\_\-to\-\_\-text}
+
+Service type\-: ```bash \#\-The language we want A\-S\-R for string language \#\-The limited vocabulary. If this is empty a general vocabulary is supposed string\mbox{[}\mbox{]} words \#\-The language model in the form of grammar string\mbox{[}\mbox{]} grammar \#\-The language model in the form of sentences string\mbox{[}\mbox{]} sentences \#\-The audio file path string path \#\-The audio file type string audio\-\_\-source \#\-The user requesting the A\-S\-R \subsection*{String user }
+
+\#\-The words recognized string\mbox{[}\mbox{]} words \#\-Possible error string error ```
+
+\section*{H\-O\-P services}
+
+\subsection*{Speech recognition sphinx R\-P\-S}
+
+The speech\-\_\-recognition\-\_\-sphinx R\-P\-S is of type 3 since it contains a H\-O\-P service frontend, contacting a R\-A\-P\-P R\-O\-S node, which utilizes the Sphinx4 library. The speech\-\_\-recognition\-\_\-sphinx R\-P\-S can be invoked using the following U\-R\-I\-:
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/speech\-\_\-recognition\-\_\-sphinx}
+
+\subsubsection*{Input/\-Output}
+
+The speech\-\_\-recognition\-\_\-sphinx R\-P\-S has several input arguments, which are encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
+
+The speech\-\_\-detection\-\_\-sphinx R\-P\-S returns the recognized words in J\-S\-O\-N forma.
+
+``` Input = \{ “language”\-: “gr, en” “words”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “grammar”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “sentences”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “path”\-: “\-A\-U\-D\-I\-O\-\_\-\-F\-I\-L\-E\-\_\-\-U\-R\-I” “audio\-\_\-source”\-: “nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch, headset” “user”\-: “\-U\-S\-E\-R\-N\-A\-M\-E” \} {\ttfamily  } Output = \{ “words”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]} “error”\-: “\-Possible error” \} ```
+
+The request parameters are\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily language}\-: The language to perform A\-S\-R (Automatic Speech Recognition). Supported values\-:
+\begin{DoxyItemize}
+\item {\ttfamily en}\-: English
+\item {\ttfamily el}\-: Greek (also supports English)
+\end{DoxyItemize}
+\item {\ttfamily words\mbox{[}\mbox{]}}\-: The limited vocabulary from which Sphinx4 will do the matching. Must provide individual words in the language declared in the language parameter. If left empty a generalized vocabulary will be assumed. This will be valid for English but the results are not good.
+\item {\ttfamily grammar\mbox{[}\mbox{]}}\-: A form of language model. Contains either words or sentences that contain the words declared in the words parameter. If grammar is declared, Sphinx4 will either return results that exist as is in grammar or $<$nul$>$ if no matching exists.
+\item {\ttfamily sentences\mbox{[}\mbox{]}}\-: The second form of language model. Same functionality as grammar but Sphinx can return individual words contained in the sentences provided. This is essentially used to extract probabilities regarding the phonemes succession.
+\item {\ttfamily path}\-: The audio file path.
+\item {\ttfamily audio\-\_\-source}\-: Declares the source of the audio capture in order to perform correct denoising. The different types are\-:
+\begin{DoxyItemize}
+\item headset\-: Clean sound, no denoising needed
+\item nao\-\_\-ogg\-: Captured ogg file from a single microphone from N\-A\-O. Supposed to have 1 channel.
+\item nao\-\_\-wav\-\_\-1\-\_\-ch\-: Captured wav file from one microphone of N\-A\-O. Supposed to have 1 channel, 16k\-Hz.
+\item nao\-\_\-wav\-\_\-4\-\_\-ch\-: Captured wav file from all 4 N\-A\-O's microphones. Supposed to have 4 channels at 48k\-Hz.
+\end{DoxyItemize}
+\item {\ttfamily user}\-: The user invoking the service. Must exist as username in the database to work. Also a noise profile for the declared user must exist (check rapp\-\_\-audio\-\_\-processing node for set\-\_\-noise\-\_\-profile service)
+\end{DoxyItemize}
+
+The returned parameters are\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily error}\-: Possible errors
+\item {\ttfamily words\mbox{[}\mbox{]}}\-: The recognized words 
+\end{DoxyItemize}

@@ -1,0 +1,15 @@
+Since R\-I\-C (or in other words the R\-A\-P\-P Platform) is a cloud-\/based service provider, it makes absolute sense for its algorithms to be able to handle multiple and concurrent requests. This requirement translates into the requirement for H\-O\-P (which receives the R\-P\-Ss) and the R\-O\-S nodes to be able to handle simultaneous calls.
+
+H\-O\-P is currently in version 3.\-0 and is indeed capable of receiving simultaneous calls by assigning a different thread in each service call. Next, a rosbridge socket is used for the H\-O\-P service to invoke the R\-O\-S service.
+
+R\-O\-S has a special way of treating the R\-O\-S services invocation. In C++ nodes, each R\-O\-S node is handled by a single thread, i.\-e. if two simultaneous calls arrive the one will be served and the other will wait in queue. If the R\-O\-S node is a C++ node, a specific configuration exists that allows the node to accept a predefined number of threads. It should be made clear that we can only allow a number of threads for the whole node and not for a specific service. The number of concurrent threads a C++ node can serve is defined as a parameter in each node's configuration file. For example, in the face detection case, the parameter {\ttfamily rapp\-\_\-face\-\_\-detection\-\_\-threads} is equal to 10 (thus 10 concurrent threads can be served). This parameter can be found here\-:
+
+\begin{quotation}
+rapp-\/platform/rapp\-\_\-face\-\_\-detection/cfg/face\-\_\-detection\-\_\-params.\-yaml
+
+\end{quotation}
+
+
+On the other hand, if we have a Python R\-O\-S node, this configuration is not available, but each R\-O\-S service call creates a new thread. This means that we do not have any problems regarding parallel calls but we cannot limit the number of calls as well.
+
+Considering the R\-O\-S threads handling, it becomes apparent that R\-O\-S nodes that are purely functional (i.\-e. do not hold state or a back-\/end procedure) have no issues at all with simultaneous calls. On the other hand, nodes such as the Knowrob Wrapper or the Sphinx4 A\-S\-R system, which depend on the deployment of other packages, need special handling. In the R\-A\-P\-P Platform case, we decided that only the Sphinx4 A\-S\-R R\-O\-S node is in need of service handling, since this will be the most invoked one. Our approach involved the creation of N back-\/end Sphinx4 processes, along with a handler, which accepts the requests and decides which process should serve them. At any time, we keep track of which processes are occupied and what their configurations are. Thus, if for example a speech recognition invocation occurs with a specific configuration, the pool of unoccupied processes is researched in case one of them is already configured as requested. If true, the handler proceeds directly to the speech recognition or in the opposite case, selects a random unoccupied process and performs both configuration and recognition. This approach was selected, as the configuration process is quite expensive in time resources, thus we prefer to avoid it whenever possible. 

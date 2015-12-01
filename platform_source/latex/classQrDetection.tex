@@ -1,0 +1,124 @@
+\hypertarget{classQrDetection}{\section{Qr\-Detection Class Reference}
+\label{classQrDetection}\index{Qr\-Detection@{Qr\-Detection}}
+}
+
+
+Uptakes the task of setting up the R\-O\-S service callbacks towards qr detection.  
+
+
+
+
+{\ttfamily \#include $<$qr\-\_\-detection.\-h$>$}
+
+
+
+Collaboration diagram for Qr\-Detection\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classQrDetection_a97890b1548487ff8660924821a7e0e1f}{Qr\-Detection} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+bool \hyperlink{classQrDetection_a9e81b97a3acc36caa03c2241d649704b}{qr\-Detection\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Qr\-Detection\-Ros\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Qr\-Detection\-Ros\-Srv\-::\-Response \&res)
+\begin{DoxyCompactList}\small\item\em The qr detection R\-O\-S service callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Node\-Handle \hyperlink{classQrDetection_ab99255e948da428610958e3da45cc692}{nh\-\_\-}
+\item 
+\hyperlink{classQrDetector}{Qr\-Detector} \hyperlink{classQrDetection_a5417be9d21d01ff82067b022bfd613fe}{qr\-\_\-detector\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classQrDetection_a9785dc6824ccc757d5ba8c22d478b271}{qr\-Detection\-Service\-\_\-}
+\item 
+std\-::string \hyperlink{classQrDetection_acbf716f43bb9af5cb95cd0289f07269d}{qr\-Detection\-Topic\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Uptakes the task of setting up the R\-O\-S service callbacks towards qr detection. 
+
+Definition at line 31 of file qr\-\_\-detection.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classQrDetection_a97890b1548487ff8660924821a7e0e1f}{\index{Qr\-Detection@{Qr\-Detection}!Qr\-Detection@{Qr\-Detection}}
+\index{Qr\-Detection@{Qr\-Detection}!QrDetection@{Qr\-Detection}}
+\subsubsection[{Qr\-Detection}]{\setlength{\rightskip}{0pt plus 5cm}Qr\-Detection\-::\-Qr\-Detection (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classQrDetection_a97890b1548487ff8660924821a7e0e1f}
+
+
+Default constructor. 
+
+
+
+Definition at line 23 of file qr\-\_\-detection.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classQrDetection_a9e81b97a3acc36caa03c2241d649704b}{\index{Qr\-Detection@{Qr\-Detection}!qr\-Detection\-Callback@{qr\-Detection\-Callback}}
+\index{qr\-Detection\-Callback@{qr\-Detection\-Callback}!QrDetection@{Qr\-Detection}}
+\subsubsection[{qr\-Detection\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Qr\-Detection\-::qr\-Detection\-Callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Qr\-Detection\-Ros\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Qr\-Detection\-Ros\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{classQrDetection_a9e81b97a3acc36caa03c2241d649704b}
+
+
+The qr detection R\-O\-S service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Qr\-Detection\-Ros\-Srv\-::\-Request\&\mbox{]} The service request \\
+\hline
+{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Qr\-Detection\-Ros\-Srv\-::\-Response\&\mbox{]} The service response \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ The success status of the call 
+\end{DoxyReturn}
+
+
+Definition at line 40 of file qr\-\_\-detection.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classQrDetection_ab99255e948da428610958e3da45cc692}{\index{Qr\-Detection@{Qr\-Detection}!nh\-\_\-@{nh\-\_\-}}
+\index{nh\-\_\-@{nh\-\_\-}!QrDetection@{Qr\-Detection}}
+\subsubsection[{nh\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle Qr\-Detection\-::nh\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classQrDetection_ab99255e948da428610958e3da45cc692}
+$<$ The R\-O\-S node handle The service server 
+
+Definition at line 53 of file qr\-\_\-detection.\-h.
+
+\hypertarget{classQrDetection_a5417be9d21d01ff82067b022bfd613fe}{\index{Qr\-Detection@{Qr\-Detection}!qr\-\_\-detector\-\_\-@{qr\-\_\-detector\-\_\-}}
+\index{qr\-\_\-detector\-\_\-@{qr\-\_\-detector\-\_\-}!QrDetection@{Qr\-Detection}}
+\subsubsection[{qr\-\_\-detector\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Qr\-Detector} Qr\-Detection\-::qr\-\_\-detector\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classQrDetection_a5417be9d21d01ff82067b022bfd613fe}
+
+
+Definition at line 62 of file qr\-\_\-detection.\-h.
+
+\hypertarget{classQrDetection_a9785dc6824ccc757d5ba8c22d478b271}{\index{Qr\-Detection@{Qr\-Detection}!qr\-Detection\-Service\-\_\-@{qr\-Detection\-Service\-\_\-}}
+\index{qr\-Detection\-Service\-\_\-@{qr\-Detection\-Service\-\_\-}!QrDetection@{Qr\-Detection}}
+\subsubsection[{qr\-Detection\-Service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Qr\-Detection\-::qr\-Detection\-Service\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classQrDetection_a9785dc6824ccc757d5ba8c22d478b271}
+Topic nomeclarure. Holds the qr detection R\-O\-S service topic U\-R\-I 
+
+Definition at line 56 of file qr\-\_\-detection.\-h.
+
+\hypertarget{classQrDetection_acbf716f43bb9af5cb95cd0289f07269d}{\index{Qr\-Detection@{Qr\-Detection}!qr\-Detection\-Topic\-\_\-@{qr\-Detection\-Topic\-\_\-}}
+\index{qr\-Detection\-Topic\-\_\-@{qr\-Detection\-Topic\-\_\-}!QrDetection@{Qr\-Detection}}
+\subsubsection[{qr\-Detection\-Topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Qr\-Detection\-::qr\-Detection\-Topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classQrDetection_acbf716f43bb9af5cb95cd0289f07269d}
+Object of \hyperlink{classQrDetection}{Qr\-Detection} type 
+
+Definition at line 59 of file qr\-\_\-detection.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-qr\-\_\-detection/include/qr\-\_\-detection/\hyperlink{qr__detection_8h}{qr\-\_\-detection.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-qr\-\_\-detection/src/\hyperlink{qr__detection_8cpp}{qr\-\_\-detection.\-cpp}\end{DoxyCompactItemize}

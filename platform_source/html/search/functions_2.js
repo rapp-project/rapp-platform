@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['checkconnection',['checkConnection',['../classmysql__wrapper_1_1MySQLdbWrapper.html#a799119b4e8ddbe43c6e6104a24e00810',1,'mysql_wrapper::MySQLdbWrapper']]],
+  ['checkiffileexists',['checkIfFileExists',['../knowrob__wrapper_8cpp.html#a1d733fb67ce063a4ec39598ed92b9934',1,'knowrob_wrapper.cpp']]],
+  ['chooserdatahandler',['chooserDataHandler',['../classcognitive__exercise_1_1CognitiveExercise.html#a9dd876bf454c882ff033d599de997e61',1,'cognitive_exercise::CognitiveExercise']]],
+  ['cleanup',['cleanup',['../classrapp__audio__processing_1_1rapp__utilities_1_1Utilities.html#a506ae353c2874fe7df6bda2f67e6ea3d',1,'rapp_audio_processing::rapp_utilities::Utilities']]],
+  ['clear_5fuser_5fcognitive_5ftests_5fperformance_5frecords',['clear_user_cognitive_tests_performance_records',['../classKnowrobWrapper.html#ad80bcfe67c92da6bd3d5edf22d465c38',1,'KnowrobWrapper']]],
+  ['clear_5fuser_5fcognitive_5ftests_5fperformance_5frecords_5fcallback',['clear_user_cognitive_tests_performance_records_callback',['../classKnowrobWrapperCommunications.html#ad7fae0d25d1f657a5f40df8a4985fb15',1,'KnowrobWrapperCommunications']]],
+  ['cognitive_5ftests_5fof_5ftype',['cognitive_tests_of_type',['../classKnowrobWrapper.html#a6b97ec7ecde086f444cfce881c4625dc',1,'KnowrobWrapper']]],
+  ['cognitive_5ftests_5fof_5ftype_5fcallback',['cognitive_tests_of_type_callback',['../classKnowrobWrapperCommunications.html#a9c598f55161da568022fa1da1406f7e5',1,'KnowrobWrapperCommunications']]],
+  ['cognitivetestcreatordatahandler',['cognitiveTestCreatorDataHandler',['../classcognitive__exercise_1_1CognitiveExercise.html#ae1ad82c51b716e39d703ea97573248c3',1,'cognitive_exercise::CognitiveExercise']]],
+  ['configuresphinx',['configureSphinx',['../classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper.html#a0629ff048d1714cc7fe581a39375afc5',1,'rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper']]],
+  ['constructandquery',['constructAndQuery',['../classmysql__wrapper_1_1MySQLdbWrapper.html#ab4f7188d6ce504d7d85aecfa530139d8',1,'mysql_wrapper::MySQLdbWrapper']]],
+  ['constructcommacolumns',['constructCommaColumns',['../classmysql__wrapper_1_1MySQLdbWrapper.html#a200a1c8aece87564e6c946175d67a6ae',1,'mysql_wrapper::MySQLdbWrapper']]],
+  ['create_5fcognitve_5ftests',['create_cognitve_tests',['../classKnowrobWrapper.html#a21bb40079cf4cd21afe114f51ec6125b',1,'KnowrobWrapper']]],
+  ['create_5fcognitve_5ftests_5fcallback',['create_cognitve_tests_callback',['../classKnowrobWrapperCommunications.html#af2addeace661115f731721be3a326d8d',1,'KnowrobWrapperCommunications']]],
+  ['create_5fontology_5falias',['create_ontology_alias',['../classKnowrobWrapper.html#a6b5c92e16d3592a63d6509dbca1317fe',1,'KnowrobWrapper']]],
+  ['create_5fontology_5falias_5fcallback',['create_ontology_alias_callback',['../classKnowrobWrapperCommunications.html#a00791d76db809cb09c1f06fd38077c58',1,'KnowrobWrapperCommunications']]],
+  ['create_5fontology_5falias_5ffor_5fnew_5fuser',['create_ontology_alias_for_new_user',['../classKnowrobWrapper.html#a85be3123e645ca77004c7461e097a15e',1,'KnowrobWrapper']]],
+  ['createconfigurationfiles',['createConfigurationFiles',['../classrapp__speech__detection__sphinx4_1_1limited__vocabulary__creator_1_1LimitedVocabularyCreator.html#a5ea9589816e726aca357489c2e7a1d19',1,'rapp_speech_detection_sphinx4::limited_vocabulary_creator::LimitedVocabularyCreator']]],
+  ['createinstancecallback',['createInstanceCallback',['../classKnowrobWrapperCommunications.html#a1b1b3016fe4b7b5321fcbea3a268daa0',1,'KnowrobWrapperCommunications']]],
+  ['createinstancequery',['createInstanceQuery',['../classKnowrobWrapper.html#a798a52556983073055944fd1c51495de',1,'KnowrobWrapper']]]
+];

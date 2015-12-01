@@ -1,0 +1,143 @@
+Currently, there does not exist a tool to automate generation of web\-\_\-services. Developers must be familiar with developing server-\/side applications using Nodejs and have a minor knowledge on developing Web-\/\-Services using the H\-O\-P Framework.
+
+While developing R\-A\-P\-P Platform Web Services, you might want to read on \href{https://github.com/manuel-serrano/hop}{\tt H\-O\-P/hopjs}.
+
+If you are not familiar with server-\/side applications, you might also have to read on \href{https://nodejs.org/en/}{\tt Nodejs}.
+
+\subsection*{Hop.\-js made simple -\/ Overview}
+
+Hop.\-js is a multitier extension of Java\-Script. It allows a single Java\-Script program to describe the client-\/side and the server-\/side components of a Web application. Its runtime environment ensures a consistent execution of the application on the server and on the client.
+
+Hop\-Script is based on Java\-Script and aims at ensuring compatibility with this language
+
+
+\begin{DoxyItemize}
+\item Hop\-Script fully supports E\-C\-M\-A\-Script 5
+\item Hop\-Script also support some E\-C\-M\-A\-Script 6 features\-:
+\begin{DoxyItemize}
+\item arrow functions.
+\item default function parameters.
+\item rest arguments.
+\item let and const bindings.
+\item symbols.
+\item template strings.
+\item promises.
+\item typed Arrays.
+\end{DoxyItemize}
+\item Hop\-Script supports most Nodejs A\-P\-Is (see Section Nodejs)
+\end{DoxyItemize}
+
+Hop programs execute in the context of a builtin web server. They define services, which are super Java\-Script functions that get automatically invoked when H\-T\-T\-P requests are received. Functions and services are almost syntactically similar but the latter are defined using the service keyword\-:
+
+```javascript service hello() \{ return \char`\"{}hello world\char`\"{}; \} ```
+
+To run this program put this code in the file hello.\-js and execute\-:
+
+```shell \$ hop -\/p 8080 hello.\-js ```
+
+Hop extends Java\-Script with the geniune H\-T\-M\-L. if we want to modify our service to make it return an H\-T\-M\-L document, we can use\-:
+
+```javascript service hello() \{ return $<$html$>$hello world$<$/html$>$; \} ```
+
+Hop is multitier. That is client-\/side codes are also implemented in Hop. The $\sim$\{ mark switches from server-\/side context to client-\/side context\-:
+
+```javascript service hello() \{ return $<$html$>$$<$div onclick=$\sim$\{ alert( \char`\"{}world\char`\"{} ) \}$>$hello$<$/html$>$; \} ```
+
+Hop client-\/side code and server-\/side can also be mixed using the \$\{ mark\-:
+
+```javascript service hello( \{ who\-: \char`\"{}foo\char`\"{} \} ) \{ return $<$html$>$$<$div onclick=$\sim$\{ alert( \char`\"{}\-Hi \char`\"{} + \$\{who\} + \char`\"{}!\char`\"{}) \}$>$hello$<$/html$>$; \} ```
+
+\subsection*{Integration with the R\-O\-S Framework}
+
+In most cases a H\-O\-P Web Service must be able to \char`\"{}$\ast$$\ast$\-Talk R\-O\-S$\ast$$\ast$\char`\"{}, meaning that a stable interface between the two, H\-O\-P Web Service and R\-O\-S, must exist.
+
+For the R\-A\-P\-P Platform requirements, we use the lightweight, \href{https://github.com/klpanagi/RosBridgeJS}{\tt Ros\-Bridge\-J\-S} module. This module has been developed under the R\-A\-P\-P Project to provide to H\-O\-P Services developers, an {\bfseries easy-\/to-\/use} intermediate transport interface layer for calling R\-O\-S-\/\-Services through their hopjs applications. It integrates a websocket client that allows connections to \href{http://wiki.ros.org/rosbridge_server}{\tt rosbridge-\/websocket-\/server} and a service controller to call R\-O\-S-\/\-Service(s).
+
+Initiate rosbridgejs\-:
+
+```javascript /$\ast$$\ast$$\ast$
+\begin{DoxyItemize}
+\item Import the Ros\-Bridge\-J\-S module.
+\end{DoxyItemize}
+
+var Rosbridge = require( '$<$path\-\_\-to\-\_\-\-Ros\-Bridge\-Js\-\_\-sources$>$/\-Ros\-Bridge\-J\-S.js' );
+
+/$\ast$$\ast$$\ast$
+\begin{DoxyItemize}
+\item Initiate connection to rosbridge\-\_\-websocket\-\_\-server.
+\item 
+\item By default, it tries to connect to ws\-://localhost\-:9090.
+\item This is the default U\-R\-L the rosbridge-\/websocket-\/server listens to.
+\end{DoxyItemize}
+
+var ros = new R\-O\-S(\{hostname\-: '', port\-: '', reconnect\-: true, onconnection\-: function()\{ // . \} \});
+
+```
+
+Fill request parameters for the R\-O\-S-\/\-Service\-:
+
+```javascript /$\ast$$\ast$$\ast$
+\begin{DoxyItemize}
+\item Fill Ros Service request msg parameters here.
+\item var args = \{param1\-: '', param2\-: ''\};
+\item var args = \{ image\-Filename\-: 'face\-\_\-image\-\_\-frame.\-png' \}; ```
+\end{DoxyItemize}
+
+Declare/\-Implement the callback functions\-:
+
+```javascript \begin{DoxyVerb}  /***
+   * Declare the ROS-Service response callback here!!
+   * This callback function will be passed into the rosbridge service
+   * controller and will be called when a response from rosbridge
+   * websocket server arrives.
+
+  function callback(data){
+     console.log(data);
+  }
+
+  /***
+   * Declare the onerror callback.
+   * The onerror callack function will be called by the service
+   * controller as soon as an error occures, on service request.
+   *
+
+  function onerror(e){
+    console.log(e);
+  }
+\end{DoxyVerb}
+
+
+```
+
+Call the R\-O\-S-\/\-Service (/rapp/rapp\-\_\-face\-\_\-detection/detect\-\_\-faces)\-:
+
+```javascript \begin{DoxyVerb} var rosSrvName = '/rapp/rapp_face_detection/detect_faces';
+
+  /***
+   * Call ROS-Service.
+   * Input arguments:
+   *   - rosSrvName: The name of the ROS-Service to call</li>
+   *   - args: ROS-Service request message arguments</li>
+   *   - objLiteral: An object literal to declare the onsuccess and
+   *        onerror callbacks.
+   *      { success: <onsuccess_callback>,fail: <onerror_callback> }
+   *
+
+  ros.callService(rosSrvName, args,
+    {success: callback, fail: onerror});
+\end{DoxyVerb}
+ ```
+
+\subsection*{Use the provided by us Templates\-:}
+
+To make development of H\-O\-P Web Services more attractive and understandable, we provide two template source files\-:
+
+
+\begin{DoxyItemize}
+\item \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates/web_service.template.js}{\tt web\-\_\-service.\-template.\-js}
+\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/services/templates/web_service_post_file.template.js}{\tt web\-\_\-services\-\_\-post\-\_\-file.\-template.\-js}
+\end{DoxyItemize}
+
+Using these templates as a reference while developing H\-O\-P Web Services for a R\-O\-S-\/\-Service, might save you alot of hours studying! In most cases, you might have to change just a few lines of code!
+
+For more information read \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates}{\tt here}. 

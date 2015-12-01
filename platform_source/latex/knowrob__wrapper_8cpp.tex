@@ -1,0 +1,119 @@
+\hypertarget{knowrob__wrapper_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-knowrob\-\_\-wrapper/src/knowrob\-\_\-wrapper.cpp File Reference}
+\label{knowrob__wrapper_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-knowrob\-\_\-wrapper/src/knowrob\-\_\-wrapper.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-knowrob\-\_\-wrapper/src/knowrob\-\_\-wrapper.\-cpp}}
+}
+{\ttfamily \#include $<$knowrob\-\_\-wrapper/knowrob\-\_\-wrapper.\-h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+Include dependency graph for knowrob\-\_\-wrapper.\-cpp\-:
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{knowrob__wrapper_8cpp_a1d733fb67ce063a4ec39598ed92b9934}{check\-If\-File\-Exists} (const char $\ast$file\-Name)
+\begin{DoxyCompactList}\small\item\em Checks if path exists. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{knowrob__wrapper_8cpp_aaf197f973c9edcca9610fba8b86df471}{int\-To\-String} (int a)
+\begin{DoxyCompactList}\small\item\em Converts integer to string. \end{DoxyCompactList}\item 
+std\-::vector$<$ std\-::string $>$ \hyperlink{knowrob__wrapper_8cpp_a527876ebdba0ec57bd96287221b4a594}{split} (std\-::string str, std\-::string sep)
+\begin{DoxyCompactList}\small\item\em Splits string by delimiter. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{knowrob__wrapper_8cpp_abe4875a997df10557ec66d950b0bcb53}{Split\-Filename} (const std\-::string \&str)
+\begin{DoxyCompactList}\small\item\em Keeps only the final folder or file from a path. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{knowrob__wrapper_8cpp_a1d733fb67ce063a4ec39598ed92b9934}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!check\-If\-File\-Exists@{check\-If\-File\-Exists}}
+\index{check\-If\-File\-Exists@{check\-If\-File\-Exists}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
+\subsubsection[{check\-If\-File\-Exists}]{\setlength{\rightskip}{0pt plus 5cm}bool check\-If\-File\-Exists (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{file\-Name}
+\end{DoxyParamCaption}
+)}}\label{knowrob__wrapper_8cpp_a1d733fb67ce063a4ec39598ed92b9934}
+
+
+Checks if path exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-Name} & \mbox{[}char$\ast$\mbox{]} The input path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+out \mbox{[}bool\mbox{]} True if file exists 
+\end{DoxyReturn}
+
+
+Definition at line 66 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{knowrob__wrapper_8cpp_aaf197f973c9edcca9610fba8b86df471}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!int\-To\-String@{int\-To\-String}}
+\index{int\-To\-String@{int\-To\-String}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
+\subsubsection[{int\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string int\-To\-String (
+\begin{DoxyParamCaption}
+\item[{int}]{a}
+\end{DoxyParamCaption}
+)}}\label{knowrob__wrapper_8cpp_aaf197f973c9edcca9610fba8b86df471}
+
+
+Converts integer to string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & \mbox{[}int\mbox{]} The input integer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+out \mbox{[}string\mbox{]} The output string 
+\end{DoxyReturn}
+
+
+Definition at line 42 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{knowrob__wrapper_8cpp_a527876ebdba0ec57bd96287221b4a594}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!split@{split}}
+\index{split@{split}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
+\subsubsection[{split}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$std\-::string$>$ split (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{str, }
+\item[{std\-::string}]{sep}
+\end{DoxyParamCaption}
+)}}\label{knowrob__wrapper_8cpp_a527876ebdba0ec57bd96287221b4a594}
+
+
+Splits string by delimiter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & \mbox{[}string\mbox{]} The input string \\
+\hline
+{\em sep} & \mbox{[}string\mbox{]} The delimiter \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+arr \mbox{[}std\-::vector$<$std\-::string$>$\mbox{]} A vector with the string parts as splitted by the delimiter 
+\end{DoxyReturn}
+
+
+Definition at line 78 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{knowrob__wrapper_8cpp_abe4875a997df10557ec66d950b0bcb53}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!Split\-Filename@{Split\-Filename}}
+\index{Split\-Filename@{Split\-Filename}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
+\subsubsection[{Split\-Filename}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Split\-Filename (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{str}
+\end{DoxyParamCaption}
+)}}\label{knowrob__wrapper_8cpp_abe4875a997df10557ec66d950b0bcb53}
+
+
+Keeps only the final folder or file from a path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & \mbox{[}string\&\mbox{]} The input path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+out \mbox{[}string\mbox{]} The output filename 
+\end{DoxyReturn}
+
+
+Definition at line 54 of file knowrob\-\_\-wrapper.\-cpp.
+

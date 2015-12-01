@@ -1,0 +1,53 @@
+The R\-A\-P\-P My\-S\-Q\-L wrapper R\-O\-S node provides the means to interact with the developed My\-S\-Q\-L database by providing 26 R\-O\-S services that aid in selecting, inserting, updating or deleting information from some of the tables of the R\-A\-P\-P My\-S\-Q\-L Database.
+
+The scheme of the My\-S\-Q\-L Database is depicted below.
+
+\mbox{[}\mbox{[}images/mysql\-\_\-scheme.\-png\mbox{]}\mbox{]}
+
+The component diagram of the My\-S\-Q\-L wrapper is depicted below. \mbox{[}\mbox{[}images/mysql\-\_\-wrapper\-\_\-component\-\_\-diagram.\-png\mbox{]}\mbox{]}
+
+\section*{R\-O\-S Services}
+
+A write, fetch, update and delete service exists for each of the tables of the My\-S\-Q\-L database that are accessible through the wrapper. These four services follow a general approach, irrespective of the actual table they affect. The U\-R\-Ls of the available services are shown below.
+
+``` /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/view\-\_\-users\-\_\-robots\-\_\-apps\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/what\-\_\-rapps\-\_\-can\-\_\-run ``` Below is a detailed explanation of how the fetch, write, update and delete services work in general. Examples of how these services are called can be found in\-: \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_mysql_wrapper/test/mysql_wrapper/db_test.py#L217-L304}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/blob/master/rapp\-\_\-mysql\-\_\-wrapper/test/mysql\-\_\-wrapper/db\-\_\-test.\-py\#\-L217-\/\-L304}
+
+\subsection*{Fetch Data}
+
+The general format of the service responsible for fetching data from an array is presented below.
+
+```bash \#the requested column names in the My\-S\-Q\-L select query string\mbox{[}\mbox{]} req\-\_\-cols \#a 2 dimensional array each line of which is a where relationship in the select query \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} where\-\_\-data }
+
+\#the resulting column names string\mbox{[}\mbox{]} res\-\_\-cols \#the resulting column data (in 2 dimensional array) where each line is an entry rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} res\-\_\-data \#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+
+\subsection*{Write Data}
+
+The general format of the service responsible for writing data to an array is presented below.
+
+```bash \#the to be written column names string\mbox{[}\mbox{]} req\-\_\-cols \#the values to be written to the above columns \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} req\-\_\-data }
+
+\#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+
+\subsection*{Update Data}
+
+The general format of the service responsible for updating data of an array is presented below.
+
+```bash \#the to be set columns along with their new values in 'column\-Name=new\-Value' format string\mbox{[}\mbox{]} set\-\_\-cols \#a 2 dimensional array each line of which is a where relationship \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} where\-\_\-data }
+
+\#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+
+\subsection*{Delete Data}
+
+The general format of the service responsible for deleting data of an array is presented below.
+
+```bash \#a 2 dimensional array each line of which is a where relationship \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} where\-\_\-data }
+
+\#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+
+\subsection*{what\-Rapps\-Can\-Run}
+
+This service returns what R\-Apps can run on a robot when given the robot's model I\-D and it's Core Agent version.
+
+```bash \#the robot's model id string model\-\_\-id \#the robot's core agent version \subsection*{string core\-\_\-agent\-\_\-version }
+
+\#the resulting column names string\mbox{[}\mbox{]} res\-\_\-cols \#the resulting column data (in 2 dimensional array) where each line is an entry rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} res\-\_\-data \#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ``` 

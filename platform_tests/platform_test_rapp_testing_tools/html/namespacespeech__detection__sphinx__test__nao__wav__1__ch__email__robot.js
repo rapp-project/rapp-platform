@@ -1,0 +1,4 @@
+var namespacespeech__detection__sphinx__test__nao__wav__1__ch__email__robot =
+[
+    [ "RappInterfaceTest", "classspeech__detection__sphinx__test__nao__wav__1__ch__email__robot_1_1RappInterfaceTest.html", "classspeech__detection__sphinx__test__nao__wav__1__ch__email__robot_1_1RappInterfaceTest" ]
+];

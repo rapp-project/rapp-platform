@@ -1,0 +1,31 @@
+A Q\-R code (Quick Response code) is a visual two dimensional matrix, firstly introduced in Japan’s automotive industry. A Q\-R is a kind of barcode, with the exception that common barcodes are one dimensional, whereas Q\-Rs are two dimensional, thus able to contain much more information. As known, several types of data can be encoded in a barcode or Q\-R, such as strings, numbers etc. The Q\-R code has become a standard in the worldwide consumers’ field, as they are widely used for product tracking, item identification, time tracking, document management and general marketing. One of the main reasons behind its widespread is that efficient algorithms are developed that provide real-\/time Q\-R detection and identification even from mobile phones. It should be stated that Q\-R tags can have different densities, therefore include different amount of information.
+
+\mbox{[}\mbox{[}images/qr\-\_\-sample.\-png\mbox{]}\mbox{]}
+
+A Q\-R consists of square black and white patterns, arranged in a grid in the plane, which can be detected by a camera in order to perform the decoding process. Regarding the R\-A\-P\-P implementation, a R\-O\-S node was developed that uses the well-\/known Z\-Bar library, in conjunction to Open\-C\-V for image manipulation.
+
+\section*{R\-O\-S Services}
+
+\subsection*{Face detection}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-qr\-\_\-detection/detect\-\_\-qrs}
+
+Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The image's filename to perform the detection \subsection*{string image\-Filename }
+
+\#\-Container for detected qr positions geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} qr\-\_\-centers string\mbox{[}\mbox{]} qr\-\_\-messages string error ```
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries qr detection} node and can be launched using ``` roslaunch rapp\-\_\-qr\-\_\-detection qr\-\_\-detection.\-launch ```
+
+\section*{H\-O\-P services}
+
+\subsection*{U\-R\-L}
+
+{\ttfamily localhost\-:9001/hop/qr\-\_\-detection}
+
+\subsection*{Input / Output}
+
+``` Input = \{ “image”\-: “\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A” \} {\ttfamily  } Output = \{ “qrs”\-: \mbox{[} \{ “qr\-\_\-x” \-: “\-Q\-R\-\_\-\-X”, “qr\-\_\-y” \-: “\-Q\-R\-\_\-\-Y”, “message” \-: “\-M\-E\-S\-S\-A\-G\-E” \}, \{ … \} \mbox{]} \} ``` 

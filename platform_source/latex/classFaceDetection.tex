@@ -1,0 +1,124 @@
+\hypertarget{classFaceDetection}{\section{Face\-Detection Class Reference}
+\label{classFaceDetection}\index{Face\-Detection@{Face\-Detection}}
+}
+
+
+Class \hyperlink{classFaceDetection}{Face\-Detection} uptakes the task of handling the R\-O\-S service callbacks.  
+
+
+
+
+{\ttfamily \#include $<$face\-\_\-detection.\-h$>$}
+
+
+
+Collaboration diagram for Face\-Detection\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFaceDetection_ae047cd60fcdc6a2b0fbfd06410c38529}{Face\-Detection} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+bool \hyperlink{classFaceDetection_a72f1e1890fcf06eae61016ad42506314}{face\-Detection\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Face\-Detection\-Ros\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Face\-Detection\-Ros\-Srv\-::\-Response \&res)
+\begin{DoxyCompactList}\small\item\em Serves the face detection R\-O\-S service callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFaceDetector}{Face\-Detector} \hyperlink{classFaceDetection_a74003a22de1b6d9b1140f3e2c1a6444c}{face\-\_\-detector\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classFaceDetection_a72874127ac52787483a3f1a744771eb7}{face\-Detection\-Service\-\_\-}
+\item 
+std\-::string \hyperlink{classFaceDetection_a579ac45aa616167d12e25b7657c05af1}{face\-Detection\-Topic\-\_\-}
+\item 
+ros\-::\-Node\-Handle \hyperlink{classFaceDetection_a72f7ce4daf0768075f88c48db5957195}{nh\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class \hyperlink{classFaceDetection}{Face\-Detection} uptakes the task of handling the R\-O\-S service callbacks. 
+
+Definition at line 31 of file face\-\_\-detection.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classFaceDetection_ae047cd60fcdc6a2b0fbfd06410c38529}{\index{Face\-Detection@{Face\-Detection}!Face\-Detection@{Face\-Detection}}
+\index{Face\-Detection@{Face\-Detection}!FaceDetection@{Face\-Detection}}
+\subsubsection[{Face\-Detection}]{\setlength{\rightskip}{0pt plus 5cm}Face\-Detection\-::\-Face\-Detection (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classFaceDetection_ae047cd60fcdc6a2b0fbfd06410c38529}
+
+
+Default constructor. 
+
+Default constructor. Performs initializations. 
+
+Definition at line 24 of file face\-\_\-detection.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classFaceDetection_a72f1e1890fcf06eae61016ad42506314}{\index{Face\-Detection@{Face\-Detection}!face\-Detection\-Callback@{face\-Detection\-Callback}}
+\index{face\-Detection\-Callback@{face\-Detection\-Callback}!FaceDetection@{Face\-Detection}}
+\subsubsection[{face\-Detection\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Face\-Detection\-::face\-Detection\-Callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Face\-Detection\-Ros\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Face\-Detection\-Ros\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{classFaceDetection_a72f1e1890fcf06eae61016ad42506314}
+
+
+Serves the face detection R\-O\-S service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Face\-Detection\-Ros\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Face\-Detection\-Ros\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ The success status of the call 
+\end{DoxyReturn}
+
+
+Definition at line 42 of file face\-\_\-detection.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classFaceDetection_a74003a22de1b6d9b1140f3e2c1a6444c}{\index{Face\-Detection@{Face\-Detection}!face\-\_\-detector\-\_\-@{face\-\_\-detector\-\_\-}}
+\index{face\-\_\-detector\-\_\-@{face\-\_\-detector\-\_\-}!FaceDetection@{Face\-Detection}}
+\subsubsection[{face\-\_\-detector\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Face\-Detector} Face\-Detection\-::face\-\_\-detector\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classFaceDetection_a74003a22de1b6d9b1140f3e2c1a6444c}
+
+
+Definition at line 62 of file face\-\_\-detection.\-h.
+
+\hypertarget{classFaceDetection_a72874127ac52787483a3f1a744771eb7}{\index{Face\-Detection@{Face\-Detection}!face\-Detection\-Service\-\_\-@{face\-Detection\-Service\-\_\-}}
+\index{face\-Detection\-Service\-\_\-@{face\-Detection\-Service\-\_\-}!FaceDetection@{Face\-Detection}}
+\subsubsection[{face\-Detection\-Service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Face\-Detection\-::face\-Detection\-Service\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classFaceDetection_a72874127ac52787483a3f1a744771eb7}
+Member variable holding the face detection R\-O\-S service topic 
+
+Definition at line 56 of file face\-\_\-detection.\-h.
+
+\hypertarget{classFaceDetection_a579ac45aa616167d12e25b7657c05af1}{\index{Face\-Detection@{Face\-Detection}!face\-Detection\-Topic\-\_\-@{face\-Detection\-Topic\-\_\-}}
+\index{face\-Detection\-Topic\-\_\-@{face\-Detection\-Topic\-\_\-}!FaceDetection@{Face\-Detection}}
+\subsubsection[{face\-Detection\-Topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Face\-Detection\-::face\-Detection\-Topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classFaceDetection_a579ac45aa616167d12e25b7657c05af1}
+Object of type \hyperlink{classFaceDetector}{Face\-Detector} 
+
+Definition at line 59 of file face\-\_\-detection.\-h.
+
+\hypertarget{classFaceDetection_a72f7ce4daf0768075f88c48db5957195}{\index{Face\-Detection@{Face\-Detection}!nh\-\_\-@{nh\-\_\-}}
+\index{nh\-\_\-@{nh\-\_\-}!FaceDetection@{Face\-Detection}}
+\subsubsection[{nh\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle Face\-Detection\-::nh\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classFaceDetection_a72f7ce4daf0768075f88c48db5957195}
+$<$ The R\-O\-S node handle The face detection service server 
+
+Definition at line 53 of file face\-\_\-detection.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-face\-\_\-detection/include/face\-\_\-detection/\hyperlink{face__detection_8h}{face\-\_\-detection.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-face\-\_\-detection/src/\hyperlink{face__detection_8cpp}{face\-\_\-detection.\-cpp}\end{DoxyCompactItemize}

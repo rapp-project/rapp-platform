@@ -1,0 +1,27 @@
+In order to provide speech capabilities to the robots that do not have a Text-\/\-To-\/\-Speech system installed, but are equipped with microphones, the {\ttfamily rapp\-\_\-text\-\_\-to\-\_\-speech\-\_\-espeak} R\-O\-S node. This module utilizes the \href{http://espeak.sourceforge.net/}{\tt espeak} speech synthesis library, as well as the \href{http://tcts.fpms.ac.be/synthesis/mbrola.html}{\tt mbrola} project for altering the speech synthesis voices.
+
+\section*{R\-O\-S Services}
+
+\subsection*{Text to speech}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-text\-\_\-to\-\_\-speech\-\_\-espeak/text\-\_\-to\-\_\-speech\-\_\-topic}
+
+Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The text to be spoken string text \#\-The audio output file string audio\-\_\-output \#\-Language (en, gr) \subsection*{string language }
+
+\#\-Possible errors string error ```
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries rapp\-\_\-text\-\_\-to\-\_\-speech\-\_\-espeak} node and can be launched using ``` roslaunch rapp\-\_\-text\-\_\-to\-\_\-speech\-\_\-espeak text\-\_\-to\-\_\-speech\-\_\-espeak.\-launch ```
+
+\section*{H\-O\-P services}
+
+\subsection*{U\-R\-L}
+
+{\ttfamily localhost\-:9001/hop/text\-\_\-to\-\_\-speech}
+
+\subsection*{Input / Output}
+
+``` Input = \{ “text”\-: “\-T\-H\-E\-\_\-\-T\-E\-X\-T\-\_\-\-T\-O\-\_\-\-B\-E\-C\-O\-M\-E\-\_\-\-S\-P\-E\-E\-C\-H” “language”\-: “\-T\-H\-E\-\_\-\-T\-E\-X\-T\-\_\-\-L\-A\-N\-G\-U\-A\-G\-E” \} {\ttfamily  } Output = \{ T\-H\-E\-\_\-\-A\-U\-D\-I\-O\-\_\-\-F\-I\-L\-E \} ``` 

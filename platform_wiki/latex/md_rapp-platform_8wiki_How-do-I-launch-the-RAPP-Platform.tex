@@ -1,0 +1,26 @@
+This is quite easy! Just follow the instructions below which describe the {\ttfamily deploy} folder in {\ttfamily rapp\-\_\-scripts}\-:
+
+There are two files aimed for deployment\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily deploy\-\_\-rapp\-\_\-ros.\-sh}\-: Deploys the R\-A\-P\-P Platform back-\/end, i.\-e. all the R\-O\-S nodes
+\item {\ttfamily deploy\-\_\-hop\-\_\-services.\-sh}\-: Deploys the corresponding H\-O\-P services
+\end{DoxyItemize}
+
+Follow the next steps to deploy the R\-A\-P\-P Platform software\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily screen}
+\item {\ttfamily ./deploy\-\_\-rapp\-\_\-ros.sh}
+\item Press Ctrl + a + d to detach
+\item {\ttfamily screen}
+\item {\ttfamily ./deploy\-\_\-hop\-\_\-services}
+\item Press Ctrl + a + d to detach
+\item {\ttfamily screen -\/ls} to check that 2 screen sessions exist
+\end{DoxyItemize}
+
+To reattach to screen session\-: ``` screen -\/r \mbox{[}pid.\mbox{]}tty.\-host ``` The screen step is for running rapp\-\_\-ros and hop\-\_\-services on detached terminals which is useful, for example in the case where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative for the terminals to remain open for the processes to remain active.
+
+Screen how-\/to\-: \href{http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/}{\tt http\-://www.\-rackaid.\-com/blog/linux-\/screen-\/tutorial-\/and-\/how-\/to/} 

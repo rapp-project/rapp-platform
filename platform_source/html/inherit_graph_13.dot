@@ -1,0 +1,7 @@
+digraph "Graphical Class Hierarchy"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="rapp_audio_processing.rapp\l_sox_denoise.SoxDenoise",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classrapp__audio__processing_1_1rapp__sox__denoise_1_1SoxDenoise.html",tooltip="Performs denoising on an audio file employing Sox application. "];
+}

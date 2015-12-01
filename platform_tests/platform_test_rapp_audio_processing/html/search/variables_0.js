@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['auxiliary_5ffiles_5furl',['auxiliary_files_url',['../classdenoise__unit__tests_1_1TestAudioProcessing.html#a40e5a23bc69a679a00dee88b7992a790',1,'denoise_unit_tests.TestAudioProcessing.auxiliary_files_url()'],['../classdetect__silence__unit__tests_1_1TestAudioProcessing.html#a7c1bc7c6a2cca72c00260613a7c20bec',1,'detect_silence_unit_tests.TestAudioProcessing.auxiliary_files_url()'],['../classenergy__denoise__unit__tests_1_1TestAudioProcessing.html#a90a81b0f2553ca8b64eb8b430ec0b61f',1,'energy_denoise_unit_tests.TestAudioProcessing.auxiliary_files_url()'],['../classset__noise__profile__unit__tests_1_1TestAudioProcessing.html#af90ba77fd1a22f2ef9bf1150ed7755bc',1,'set_noise_profile_unit_tests.TestAudioProcessing.auxiliary_files_url()'],['../classtransform__audio__unit__tests_1_1TestAudioProcessing.html#af77f3c3971f5374423e19642928df999',1,'transform_audio_unit_tests.TestAudioProcessing.auxiliary_files_url()']]]
+];

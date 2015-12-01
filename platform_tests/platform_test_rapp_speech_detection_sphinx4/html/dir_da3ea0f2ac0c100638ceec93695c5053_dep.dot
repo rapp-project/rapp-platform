@@ -1,0 +1,10 @@
+digraph "/home/travis/rapp_temp/rapp-platform/rapp_speech_detection_sphinx4" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_da3ea0f2ac0c100638ceec93695c5053 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_da3ea0f2ac0c100638ceec93695c5053.html"];
+    dir_da3ea0f2ac0c100638ceec93695c5053 [shape=plaintext label="rapp_speech_detection_sphinx4"];
+    dir_566b2142c898e8531a5b096fd366b079 [shape=box label="tests" color="red" fillcolor="white" style="filled" URL="dir_566b2142c898e8531a5b096fd366b079.html"];
+  }
+}

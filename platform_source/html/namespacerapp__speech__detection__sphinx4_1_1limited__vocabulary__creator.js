@@ -1,0 +1,4 @@
+var namespacerapp__speech__detection__sphinx4_1_1limited__vocabulary__creator =
+[
+    [ "LimitedVocabularyCreator", "classrapp__speech__detection__sphinx4_1_1limited__vocabulary__creator_1_1LimitedVocabularyCreator.html", "classrapp__speech__detection__sphinx4_1_1limited__vocabulary__creator_1_1LimitedVocabularyCreator" ]
+];

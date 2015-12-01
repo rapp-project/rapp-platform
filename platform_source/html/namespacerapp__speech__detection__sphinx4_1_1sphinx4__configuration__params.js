@@ -1,0 +1,4 @@
+var namespacerapp__speech__detection__sphinx4_1_1sphinx4__configuration__params =
+[
+    [ "SphinxConfigurationParams", "classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams.html", "classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams" ]
+];

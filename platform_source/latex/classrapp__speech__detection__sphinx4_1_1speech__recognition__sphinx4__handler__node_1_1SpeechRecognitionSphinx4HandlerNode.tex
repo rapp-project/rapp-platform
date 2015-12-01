@@ -1,0 +1,176 @@
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode}{\section{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node Class Reference}
+\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode}\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+}
+
+
+Maintains Sphinx instances to perform speech recognition.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a82c15c573f92e81d51b4d07bdf8d801c}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Initializes the subprocesses and the services (constructor) \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab2a5e3c1fb1b126c727ac554147830b1}{handle\-Speech\-Recognition\-Callback}
+\begin{DoxyCompactList}\small\item\em The callback to perform speech recognition. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab0aee24f2a30e54932d173dbfe4063aa}{\-\_\-calculate\-Request\-Hash}
+\begin{DoxyCompactList}\small\item\em Calculates the service request sha1 hash for process handling purposes. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a528ab714ddc50a375936f09d62ec2a8a}{\-\_\-available\-Processes}
+\begin{DoxyCompactList}\small\item\em The subprocesses structure that contains information used for the subprocess handling. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a26891ed7d1142f5f72cf81c7ff98d8d2}{\-\_\-lock}
+\begin{DoxyCompactList}\small\item\em Thread conditional variable used for the subprocess scheduling. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a8ab91d66cd73549bbd374c2ead550323}{\-\_\-speech\-\_\-recognition\-\_\-batch\-\_\-service}
+\begin{DoxyCompactList}\small\item\em Ros service server for sphinx speech recognition. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a385903b4de07e56f2d6b341c67497053}{\-\_\-thread\-Counter}
+\begin{DoxyCompactList}\small\item\em Total service callback threads waiting to execute. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab0d95faf8af87481f4d1cc04dca1ff9c}{\-\_\-threads}
+\begin{DoxyCompactList}\small\item\em The number of child subprocesses. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Maintains Sphinx instances to perform speech recognition. 
+
+Maintains a number of child processes to perform speech recognition utilizing \hyperlink{classSphinx4}{Sphinx4} (\hyperlink{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4_1_1SpeechRecognitionSphinx4}{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4.\-Speech\-Recognition\-Sphinx4}). Provides ros services and handles the requests according to the child processes' status. 
+
+Definition at line 43 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a82c15c573f92e81d51b4d07bdf8d801c}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a82c15c573f92e81d51b4d07bdf8d801c}
+
+
+Initializes the subprocesses and the services (constructor) 
+
+
+
+Definition at line 46 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab0aee24f2a30e54932d173dbfe4063aa}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!\-\_\-calculate\-Request\-Hash@{\-\_\-calculate\-Request\-Hash}}
+\index{\-\_\-calculate\-Request\-Hash@{\-\_\-calculate\-Request\-Hash}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{\-\_\-calculate\-Request\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-\_\-calculate\-Request\-Hash (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab0aee24f2a30e54932d173dbfe4063aa}
+
+
+Calculates the service request sha1 hash for process handling purposes. 
+
+Hash is used to identify common request configurations for proper subprocess selection. (Requests with common requests do not require reconfiguration reducing computation time)
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Speech\-Detection\-Sphinx4\-Wrapper\-::\-Speech\-Recognition\-Sphinx4\-Total\-Srv\-Request\mbox{]} The service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+hexdigest \mbox{[}string\mbox{]} The hash digest containing only hexadecimal digits 
+\end{DoxyReturn}
+
+
+Definition at line 135 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab2a5e3c1fb1b126c727ac554147830b1}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!handle\-Speech\-Recognition\-Callback@{handle\-Speech\-Recognition\-Callback}}
+\index{handle\-Speech\-Recognition\-Callback@{handle\-Speech\-Recognition\-Callback}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{handle\-Speech\-Recognition\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-handle\-Speech\-Recognition\-Callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab2a5e3c1fb1b126c727ac554147830b1}
+
+
+The callback to perform speech recognition. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Speech\-Detection\-Sphinx4\-Wrapper\-::\-Speech\-Recognition\-Sphinx4\-Total\-Srv\-Request\mbox{]} The service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Speech\-Detection\-Sphinx4\-Wrapper\-::\-Speech\-Recognition\-Sphinx4\-Total\-Srv\-Response\mbox{]} The service response 
+\end{DoxyReturn}
+
+
+Definition at line 79 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a528ab714ddc50a375936f09d62ec2a8a}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!\-\_\-available\-Processes@{\-\_\-available\-Processes}}
+\index{\-\_\-available\-Processes@{\-\_\-available\-Processes}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{\-\_\-available\-Processes}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-\_\-available\-Processes\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a528ab714ddc50a375936f09d62ec2a8a}
+
+
+The subprocesses structure that contains information used for the subprocess handling. 
+
+
+
+Definition at line 54 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a26891ed7d1142f5f72cf81c7ff98d8d2}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!\-\_\-lock@{\-\_\-lock}}
+\index{\-\_\-lock@{\-\_\-lock}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{\-\_\-lock}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-\_\-lock\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a26891ed7d1142f5f72cf81c7ff98d8d2}
+
+
+Thread conditional variable used for the subprocess scheduling. 
+
+
+
+Definition at line 61 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a8ab91d66cd73549bbd374c2ead550323}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!\-\_\-speech\-\_\-recognition\-\_\-batch\-\_\-service@{\-\_\-speech\-\_\-recognition\-\_\-batch\-\_\-service}}
+\index{\-\_\-speech\-\_\-recognition\-\_\-batch\-\_\-service@{\-\_\-speech\-\_\-recognition\-\_\-batch\-\_\-service}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{\-\_\-speech\-\_\-recognition\-\_\-batch\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-\_\-speech\-\_\-recognition\-\_\-batch\-\_\-service\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a8ab91d66cd73549bbd374c2ead550323}
+
+
+Ros service server for sphinx speech recognition. 
+
+
+
+Definition at line 71 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a385903b4de07e56f2d6b341c67497053}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!\-\_\-thread\-Counter@{\-\_\-thread\-Counter}}
+\index{\-\_\-thread\-Counter@{\-\_\-thread\-Counter}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{\-\_\-thread\-Counter}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-\_\-thread\-Counter\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_a385903b4de07e56f2d6b341c67497053}
+
+
+Total service callback threads waiting to execute. 
+
+
+
+Definition at line 63 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab0d95faf8af87481f4d1cc04dca1ff9c}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}!\-\_\-threads@{\-\_\-threads}}
+\index{\-\_\-threads@{\-\_\-threads}!rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node::SpeechRecognitionSphinx4HandlerNode@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node\-::\-Speech\-Recognition\-Sphinx4\-Handler\-Node}}
+\subsubsection[{\-\_\-threads}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-Speech\-Recognition\-Sphinx4\-Handler\-Node.\-\_\-threads\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode_ab0d95faf8af87481f4d1cc04dca1ff9c}
+
+
+The number of child subprocesses. 
+
+
+
+Definition at line 49 of file speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4/src/rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4/\hyperlink{speech__recognition__sphinx4__handler__node_8py}{speech\-\_\-recognition\-\_\-sphinx4\-\_\-handler\-\_\-node.\-py}\end{DoxyCompactItemize}

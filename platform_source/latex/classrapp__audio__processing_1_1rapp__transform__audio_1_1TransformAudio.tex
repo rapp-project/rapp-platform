@@ -1,0 +1,191 @@
+\hypertarget{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio}{\section{rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-transform\-\_\-audio.\-Transform\-Audio Class Reference}
+\label{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio}\index{rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-transform\-\_\-audio.\-Transform\-Audio@{rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-transform\-\_\-audio.\-Transform\-Audio}}
+}
+
+
+Provides audio type tranformation functionalities.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a4dc5ecce2d759a99d90165271722c1de}{transform\-\_\-audio}
+\begin{DoxyCompactList}\small\item\em Performs the audio transformation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a7d5703d4fec062a204d394f4763ff282}{\-\_\-assert\-Args}
+\begin{DoxyCompactList}\small\item\em Verifies the existence of the required arguments. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a56ffdcb444c59a8d6f3d45d1cc9dd9ae}{\-\_\-convert\-Type}
+\begin{DoxyCompactList}\small\item\em Performs audio conversion. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_aa711c617158d0b0b1b2d94bc189830a3}{\-\_\-validate\-Source\-Type}
+\begin{DoxyCompactList}\small\item\em Validates that the provided audio type match the file extension. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides audio type tranformation functionalities. 
+
+Allows the transformation of an audio file to a different format. Supports the alteration of the type (i.\-e. headset, nao\-\_\-wav\-\_\-1\-\_\-ch etc.), the sample rate, the audio channel number, the audio format and the audio name. Handles transform audio service callback (rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-audio\-\_\-processing.\-Audio\-Processing\-::transform\-\_\-audio) 
+
+Definition at line 32 of file rapp\-\_\-transform\-\_\-audio.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a7d5703d4fec062a204d394f4763ff282}{\index{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}!\-\_\-assert\-Args@{\-\_\-assert\-Args}}
+\index{\-\_\-assert\-Args@{\-\_\-assert\-Args}!rapp_audio_processing::rapp_transform_audio::TransformAudio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}}
+\subsubsection[{\-\_\-assert\-Args}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-transform\-\_\-audio.\-Transform\-Audio.\-\_\-assert\-Args (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{source\-\_\-type, }
+\item[{}]{source\-\_\-name, }
+\item[{}]{target\-\_\-type, }
+\item[{}]{target\-\_\-name, }
+\item[{}]{target\-\_\-channels, }
+\item[{}]{target\-\_\-rate}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a7d5703d4fec062a204d394f4763ff282}
+
+
+Verifies the existence of the required arguments. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-\_\-type} & \mbox{[}string\mbox{]} The source audio file's type \\
+\hline
+{\em source\-\_\-name} & \mbox{[}string\mbox{]} The source audio file's name \\
+\hline
+{\em target\-\_\-type} & \mbox{[}string\mbox{]} The target audio file's type \\
+\hline
+{\em target\-\_\-name} & \mbox{[}string\mbox{]} The target audio file's name \\
+\hline
+{\em target\-\_\-channels} & \mbox{[}string\mbox{]} The target audio's channel number \\
+\hline
+{\em target\-\_\-rate} & \mbox{[}string\mbox{]} The target audio's sample rate\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & Arguments are invalid \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 76 of file rapp\-\_\-transform\-\_\-audio.\-py.
+
+\hypertarget{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a56ffdcb444c59a8d6f3d45d1cc9dd9ae}{\index{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}!\-\_\-convert\-Type@{\-\_\-convert\-Type}}
+\index{\-\_\-convert\-Type@{\-\_\-convert\-Type}!rapp_audio_processing::rapp_transform_audio::TransformAudio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}}
+\subsubsection[{\-\_\-convert\-Type}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-transform\-\_\-audio.\-Transform\-Audio.\-\_\-convert\-Type (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{source\-\_\-type, }
+\item[{}]{source\-\_\-name, }
+\item[{}]{target\-\_\-type, }
+\item[{}]{target\-\_\-name, }
+\item[{}]{target\-\_\-channels, }
+\item[{}]{target\-\_\-rate}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a56ffdcb444c59a8d6f3d45d1cc9dd9ae}
+
+
+Performs audio conversion. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-\_\-type} & \mbox{[}string\mbox{]} The source audio file's type \\
+\hline
+{\em source\-\_\-name} & \mbox{[}string\mbox{]} The source audio file's name \\
+\hline
+{\em target\-\_\-type} & \mbox{[}string\mbox{]} The target audio file's type \\
+\hline
+{\em target\-\_\-name} & \mbox{[}string\mbox{]} The target audio file's name \\
+\hline
+{\em target\-\_\-channels} & \mbox{[}string\mbox{]} The target audio's channel number \\
+\hline
+{\em target\-\_\-rate} & \mbox{[}string\mbox{]} The target audio's sample rate\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & Conversion malfunction \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 101 of file rapp\-\_\-transform\-\_\-audio.\-py.
+
+\hypertarget{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_aa711c617158d0b0b1b2d94bc189830a3}{\index{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}!\-\_\-validate\-Source\-Type@{\-\_\-validate\-Source\-Type}}
+\index{\-\_\-validate\-Source\-Type@{\-\_\-validate\-Source\-Type}!rapp_audio_processing::rapp_transform_audio::TransformAudio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}}
+\subsubsection[{\-\_\-validate\-Source\-Type}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-transform\-\_\-audio.\-Transform\-Audio.\-\_\-validate\-Source\-Type (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{source\-\_\-type, }
+\item[{}]{name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_aa711c617158d0b0b1b2d94bc189830a3}
+
+
+Validates that the provided audio type match the file extension. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-\_\-type} & \mbox{[}string\mbox{]} The source audio file's type \\
+\hline
+{\em name} & \mbox{[}string\mbox{]} The source audio file's name\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & Audio type/file type mismatch \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 139 of file rapp\-\_\-transform\-\_\-audio.\-py.
+
+\hypertarget{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a4dc5ecce2d759a99d90165271722c1de}{\index{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}!transform\-\_\-audio@{transform\-\_\-audio}}
+\index{transform\-\_\-audio@{transform\-\_\-audio}!rapp_audio_processing::rapp_transform_audio::TransformAudio@{rapp\-\_\-audio\-\_\-processing\-::rapp\-\_\-transform\-\_\-audio\-::\-Transform\-Audio}}
+\subsubsection[{transform\-\_\-audio}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-transform\-\_\-audio.\-Transform\-Audio.\-transform\-\_\-audio (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{source\-\_\-type, }
+\item[{}]{source\-\_\-name, }
+\item[{}]{target\-\_\-type, }
+\item[{}]{target\-\_\-name, }
+\item[{}]{target\-\_\-channels, }
+\item[{}]{target\-\_\-rate}
+\end{DoxyParamCaption}
+)}}\label{classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio_a4dc5ecce2d759a99d90165271722c1de}
+
+
+Performs the audio transformation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em source\-\_\-type} & \mbox{[}string\mbox{]} The source audio file's type \\
+\hline
+{\em source\-\_\-name} & \mbox{[}string\mbox{]} The source audio file's name \\
+\hline
+{\em target\-\_\-type} & \mbox{[}string\mbox{]} The target audio file's type \\
+\hline
+{\em target\-\_\-name} & \mbox{[}string\mbox{]} The target audio file's name \\
+\hline
+{\em target\-\_\-channels} & \mbox{[}string\mbox{]} The target audio's channel number \\
+\hline
+{\em target\-\_\-rate} & \mbox{[}string\mbox{]} The target audio's sample rate\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status \mbox{[}string\mbox{]} The status of the transformation prcedure 
+
+filename \mbox{[}string\mbox{]} The name of the produced file 
+\end{DoxyReturn}
+
+
+Definition at line 45 of file rapp\-\_\-transform\-\_\-audio.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-audio\-\_\-processing/src/rapp\-\_\-audio\-\_\-processing/\hyperlink{rapp__transform__audio_8py}{rapp\-\_\-transform\-\_\-audio.\-py}\end{DoxyCompactItemize}

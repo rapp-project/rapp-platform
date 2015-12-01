@@ -1,0 +1,275 @@
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core}{\section{rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core Namespace Reference}
+\label{namespacerapp__testing__tools_1_1rapp__testing__core}\index{rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core}}
+}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classrapp__testing__tools_1_1rapp__testing__core_1_1bcolors}{bcolors}
+\begin{DoxyCompactList}\small\item\em -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- Console colors -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- \#\# \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a7398ed9a9853b041ea219841b1ad1752}{append\-\_\-to\-\_\-system\-\_\-path}
+\begin{DoxyCompactList}\small\item\em Append directory paths, given as input into the global system path. \end{DoxyCompactList}\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_af64b7daeabbce6f4f6b4350bb83c27e7}{execute}
+\begin{DoxyCompactList}\small\item\em -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------ \#\# \end{DoxyCompactList}\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_aeb950d56b7a32adbe4a56b50fa2bdff6}{execute\-\_\-tests\-\_\-all}
+\begin{DoxyCompactList}\small\item\em Load and execute input given tests. \end{DoxyCompactList}\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a0e5ad01c811acd643730c8dc4868418a}{get\-\_\-test\-\_\-files}
+\begin{DoxyCompactList}\small\item\em Parse input paths and export found test files. \end{DoxyCompactList}\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a15a42599e55cb448a70f3a3019b4a82d}{load\-\_\-tests\-\_\-paths}
+\begin{DoxyCompactList}\small\item\em Parse and get all given tests path directories, plus the default ones. \end{DoxyCompactList}\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a5bbf286af74abf2591f8aadd812571b6}{main}
+\begin{DoxyCompactList}\small\item\em Main. \end{DoxyCompactList}\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_ac00a2d9e61a3d94a4f306761dfd6c780}{parse\-\_\-args}
+\begin{DoxyCompactList}\small\item\em Parse input arguments. \end{DoxyCompactList}\item 
+def \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a0f5a3db1fc6eb0158f511f350f89e646}{print\-\_\-results}
+\begin{DoxyCompactList}\small\item\em Print final results. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a4329958cf97c12f31374a3d7d70dd39d}{\-\_\-\-\_\-path\-\_\-\-\_\-} = os.\-path.\-dirname(os.\-path.\-realpath(\-\_\-\-\_\-file\-\_\-\-\_\-))
+\item 
+tuple \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a6aa893ae5a52f7ce64f27bc2f9063bc1}{mutex} = Lock()
+\item 
+dictionary \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a36485787b1d8c1e042c32a84b18fdc35}{results}
+\item 
+list \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_a53a024ad94a0099489d4e453052170b7}{test\-Classes}
+\begin{DoxyCompactList}\small\item\em -\/-\/-\/-\/-\/-\/--- Test Classess -\/-\/-\/-\/-\/-\/-\/--- \#\# \end{DoxyCompactList}\item 
+dictionary \hyperlink{namespacerapp__testing__tools_1_1rapp__testing__core_ac313ca7f9bb54dca62d4718d91709bb7}{test\-Class\-Match}
+\begin{DoxyCompactList}\small\item\em -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- \#\# \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a7398ed9a9853b041ea219841b1ad1752}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!append\-\_\-to\-\_\-system\-\_\-path@{append\-\_\-to\-\_\-system\-\_\-path}}
+\index{append\-\_\-to\-\_\-system\-\_\-path@{append\-\_\-to\-\_\-system\-\_\-path}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{append\-\_\-to\-\_\-system\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-append\-\_\-to\-\_\-system\-\_\-path (
+\begin{DoxyParamCaption}
+\item[{}]{paths}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a7398ed9a9853b041ea219841b1ad1752}
+
+
+Append directory paths, given as input into the global system path. 
+
+This is usefull in order to load test files under those directories. 
+
+Definition at line 167 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_af64b7daeabbce6f4f6b4350bb83c27e7}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!execute@{execute}}
+\index{execute@{execute}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{execute}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-execute (
+\begin{DoxyParamCaption}
+\item[{}]{module, }
+\item[{}]{id}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_af64b7daeabbce6f4f6b4350bb83c27e7}
+
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/------ \#\# 
+
+Execute input test module
+
+
+\begin{DoxyParams}{Parameters}
+{\em module} & Imported test module to execute. \\
+\hline
+{\em id} & This test execution id \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 92 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_aeb950d56b7a32adbe4a56b50fa2bdff6}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!execute\-\_\-tests\-\_\-all@{execute\-\_\-tests\-\_\-all}}
+\index{execute\-\_\-tests\-\_\-all@{execute\-\_\-tests\-\_\-all}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{execute\-\_\-tests\-\_\-all}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-execute\-\_\-tests\-\_\-all (
+\begin{DoxyParamCaption}
+\item[{}]{tests, }
+\item[{}]{num\-Calls, }
+\item[{}]{threaded}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_aeb950d56b7a32adbe4a56b50fa2bdff6}
+
+
+Load and execute input given tests. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tests} & List of tests to execute. \\
+\hline
+{\em num\-Calls} & Number of executions. \\
+\hline
+{\em threaded} & If true the execution is handled by threads. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 230 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a0e5ad01c811acd643730c8dc4868418a}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!get\-\_\-test\-\_\-files@{get\-\_\-test\-\_\-files}}
+\index{get\-\_\-test\-\_\-files@{get\-\_\-test\-\_\-files}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{get\-\_\-test\-\_\-files}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-get\-\_\-test\-\_\-files (
+\begin{DoxyParamCaption}
+\item[{}]{args, }
+\item[{}]{paths}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a0e5ad01c811acd643730c8dc4868418a}
+
+
+Parse input paths and export found test files. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Arguments. \\
+\hline
+{\em paths} & Path directories to look for test files. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 194 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a15a42599e55cb448a70f3a3019b4a82d}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!load\-\_\-tests\-\_\-paths@{load\-\_\-tests\-\_\-paths}}
+\index{load\-\_\-tests\-\_\-paths@{load\-\_\-tests\-\_\-paths}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{load\-\_\-tests\-\_\-paths}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-load\-\_\-tests\-\_\-paths (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a15a42599e55cb448a70f3a3019b4a82d}
+
+
+Parse and get all given tests path directories, plus the default ones. 
+
+\begin{DoxyReturn}{Returns}
+Array of tests paths. 
+\end{DoxyReturn}
+
+
+Definition at line 140 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a5bbf286af74abf2591f8aadd812571b6}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!main@{main}}
+\index{main@{main}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-main (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a5bbf286af74abf2591f8aadd812571b6}
+
+
+Main. 
+
+
+
+Definition at line 280 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_ac00a2d9e61a3d94a4f306761dfd6c780}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!parse\-\_\-args@{parse\-\_\-args}}
+\index{parse\-\_\-args@{parse\-\_\-args}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{parse\-\_\-args}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-parse\-\_\-args (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_ac00a2d9e61a3d94a4f306761dfd6c780}
+
+
+Parse input arguments. 
+
+
+
+Definition at line 113 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a0f5a3db1fc6eb0158f511f350f89e646}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!print\-\_\-results@{print\-\_\-results}}
+\index{print\-\_\-results@{print\-\_\-results}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{print\-\_\-results}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-print\-\_\-results (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a0f5a3db1fc6eb0158f511f350f89e646}
+
+
+Print final results. 
+
+
+
+Definition at line 175 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a4329958cf97c12f31374a3d7d70dd39d}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!\-\_\-\-\_\-path\-\_\-\-\_\-@{\-\_\-\-\_\-path\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-path\-\_\-\-\_\-@{\-\_\-\-\_\-path\-\_\-\-\_\-}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{\-\_\-\-\_\-path\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}tuple rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-\_\-\-\_\-path\-\_\-\-\_\- = os.\-path.\-dirname(os.\-path.\-realpath(\-\_\-\-\_\-file\-\_\-\-\_\-))}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a4329958cf97c12f31374a3d7d70dd39d}
+
+
+Definition at line 35 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a6aa893ae5a52f7ce64f27bc2f9063bc1}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!mutex@{mutex}}
+\index{mutex@{mutex}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{mutex}]{\setlength{\rightskip}{0pt plus 5cm}tuple rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-mutex = Lock()}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a6aa893ae5a52f7ce64f27bc2f9063bc1}
+
+
+Definition at line 38 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a36485787b1d8c1e042c32a84b18fdc35}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!results@{results}}
+\index{results@{results}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{results}]{\setlength{\rightskip}{0pt plus 5cm}dictionary rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-results}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a36485787b1d8c1e042c32a84b18fdc35}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+1 = \{
+2     \textcolor{stringliteral}{'success'} : [],
+3     \textcolor{stringliteral}{'failed'} : [],
+4     \textcolor{stringliteral}{'num\_tests'}: 0
+5 \}
+\end{DoxyCode}
+
+
+Definition at line 64 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_a53a024ad94a0099489d4e453052170b7}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!test\-Classes@{test\-Classes}}
+\index{test\-Classes@{test\-Classes}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{test\-Classes}]{\setlength{\rightskip}{0pt plus 5cm}list rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-test\-Classes}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_a53a024ad94a0099489d4e453052170b7}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+1 = [
+2     \textcolor{stringliteral}{'face-detection'},
+3     \textcolor{stringliteral}{'qr-detection'},
+4     \textcolor{stringliteral}{'speech-detection'},
+5     \textcolor{stringliteral}{'speech-detection-sphinx4'},
+6     \textcolor{stringliteral}{'speech-detection-google'},
+7     \textcolor{stringliteral}{'ontology'},
+8     \textcolor{stringliteral}{'cognitive'},
+9     \textcolor{stringliteral}{'tts'}
+10 ]
+\end{DoxyCode}
+
+
+-\/-\/-\/-\/-\/-\/--- Test Classess -\/-\/-\/-\/-\/-\/-\/--- \#\# 
+
+
+
+Definition at line 41 of file rapp\-\_\-testing\-\_\-core.\-py.
+
+\hypertarget{namespacerapp__testing__tools_1_1rapp__testing__core_ac313ca7f9bb54dca62d4718d91709bb7}{\index{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}!test\-Class\-Match@{test\-Class\-Match}}
+\index{test\-Class\-Match@{test\-Class\-Match}!rapp_testing_tools::rapp_testing_core@{rapp\-\_\-testing\-\_\-tools\-::rapp\-\_\-testing\-\_\-core}}
+\subsubsection[{test\-Class\-Match}]{\setlength{\rightskip}{0pt plus 5cm}dictionary rapp\-\_\-testing\-\_\-tools.\-rapp\-\_\-testing\-\_\-core.\-test\-Class\-Match}}\label{namespacerapp__testing__tools_1_1rapp__testing__core_ac313ca7f9bb54dca62d4718d91709bb7}
+{\bfseries Initial value\-:}
+\begin{DoxyCode}
+1 = \{
+2     \textcolor{stringliteral}{'face-detection'} : \textcolor{stringliteral}{'face'},
+3     \textcolor{stringliteral}{'qr-detection'} : \textcolor{stringliteral}{'qr'},
+4     \textcolor{stringliteral}{'speech-detection'} : \textcolor{stringliteral}{'speech'},
+5     \textcolor{stringliteral}{'speech-detection-sphinx4'} : \textcolor{stringliteral}{'sphinx4'},
+6     \textcolor{stringliteral}{'speech-detection-google'} : \textcolor{stringliteral}{'google'},
+7     \textcolor{stringliteral}{'ontology'} : \textcolor{stringliteral}{'ontology'},
+8     \textcolor{stringliteral}{'cognitive'}: \textcolor{stringliteral}{'cognitive'},
+9     \textcolor{stringliteral}{'tts'}: \textcolor{stringliteral}{'text\_to\_speech'}
+10 \}
+\end{DoxyCode}
+
+
+-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/--- \#\# 
+
+
+
+Definition at line 53 of file rapp\-\_\-testing\-\_\-core.\-py.
+
