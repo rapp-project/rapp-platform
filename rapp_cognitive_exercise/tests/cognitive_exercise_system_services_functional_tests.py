@@ -31,7 +31,10 @@ from rapp_platform_ros_communications.srv import (
   testSelectorSrvResponse,
   cognitiveTestCreatorSrv,
   cognitiveTestCreatorSrvRequest,
-  cognitiveTestCreatorSrvResponse
+  cognitiveTestCreatorSrvResponse,
+  userScoresForAllCategoriesSrv,
+  userScoresForAllCategoriesSrvRequest,
+  userScoresForAllCategoriesSrvResponse
   )
 
 ## @class CognitiveExerciseFunc 
@@ -97,6 +100,22 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, False)  
         self.assertEqual(response.error, "IO Error, cannot open test file or write xml file")
+        
+    def test_user_scores_for_all_categories_valid_input(self):
+        ros_service = rospy.get_param(\
+                "rapp_cognitive_exercise_user_all_categories_score_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, userScoresForAllCategoriesSrv)
+
+        req = userScoresForAllCategoriesSrvRequest()
+        req.username="rapp"
+        req.upToTime=10000000000000
+        response = test_service(req)     
+        self.assertEqual(response.success, True)          
+        self.assertEqual("ArithmeticCts" and "ReasoningCts" and "AwarenessCts" in response.testCategories, True)
+        self.assertEqual(len(response.testScores)>=3, True)
   
 ## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':

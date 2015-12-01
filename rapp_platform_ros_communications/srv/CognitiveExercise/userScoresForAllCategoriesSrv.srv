@@ -1,0 +1,9 @@
+string username
+int64 upToTime
+---
+string[] testCategories
+int64[] testScores
+bool success
+string error
+string[] trace
+

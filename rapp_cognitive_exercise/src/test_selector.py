@@ -158,6 +158,7 @@ class TestSelector:
   ## @brief Queries the ontology and returns the cognitive test types available
   # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
+  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return testTypesList [list] The list of the available tests as they were read from the ontology
   def getTestTypesFromOntology(self,res):
@@ -268,7 +269,7 @@ class TestSelector:
   # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
   # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  # @return bool [bool] True if a non recoverable error occured, and the service must immediately return with an error report
+  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return testsOfTypeOrdered [dict] The cognitive tests of the given type and difficulty setting
   def getCognitiveTestsOfType(self,testType,userLanguage,chosenDif,res):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')

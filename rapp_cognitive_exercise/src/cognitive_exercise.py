@@ -43,10 +43,10 @@ from rapp_platform_ros_communications.srv import (
   recordUserCognitiveTestPerformanceSrvResponse,
   cognitiveTestCreatorSrv,
   cognitiveTestCreatorSrvResponse,
-  userScoreHistoryForAllCategories,
-  userScoreHistoryForAllCategoriesResponse,
-  userScoresForAllCategories,
-  userScoresForAllCategoriesResponse  
+  userScoreHistoryForAllCategoriesSrv,
+  userScoreHistoryForAllCategoriesSrvResponse,
+  userScoresForAllCategoriesSrv,
+  userScoresForAllCategoriesSrvResponse  
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -113,10 +113,10 @@ class CognitiveExercise:
       rospy.logerror("rapp_cognitive_test_creator_topic not found")
     self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.cognitiveTestCreatorDataHandler)
 
-    self.serv_topic = rospy.get_param("rapp_cognitive_exercise_user_all_categories_score")
+    self.serv_topic = rospy.get_param("rapp_cognitive_exercise_user_all_categories_score_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_cognitive_exercise_user_all_categories_score not found")
-    self.serv=rospy.Service(self.serv_topic, cognitiveTestCreatorSrv, self.cognitiveTestCreatorDataHandler)
+      rospy.logerror("rapp_cognitive_exercise_user_all_categories_score_topic not found")
+    self.serv=rospy.Service(self.serv_topic, userScoresForAllCategoriesSrv, self.userScoresForAllCategoriesDataHandler)
 
 
   ## @brief The cognitive exercise chooser service callback
@@ -147,10 +147,10 @@ class CognitiveExercise:
     return res
 
   ## @brief The userScoresForAllCategories service callback
-  # @param req [rapp_platform_ros_communications::userScoresForAllCategoriesRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesResponse::Response&] The ROS service response
+  # @param req [rapp_platform_ros_communications::userScoresForAllCategoriesSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The ROS service response
   def userScoresForAllCategoriesDataHandler(self,req):
-    res = userScoresForAllCategoriesResponse()
+    res = userScoresForAllCategoriesSrvResponse()
     it = UserScoresForAllCategories()
     res=it.returnUserScores(req)
     return res

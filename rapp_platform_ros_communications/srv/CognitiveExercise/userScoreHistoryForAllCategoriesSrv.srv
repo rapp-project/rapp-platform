@@ -1,6 +1,6 @@
 string username
-std_msgs/Time fromTime
-std_msgs/Time toTime
+int64 fromTime
+int64 toTime
 ---
 string[] historyArithmeticCts
 string[] historyReasoningCts

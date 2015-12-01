@@ -45,7 +45,7 @@ from rapp_platform_ros_communications.msg import (
   )
 
 ## @class RecordUserCognitiveTestPerformance
-# @brief Provides the necessary functions for selecting a cognitive exercise test
+# @brief Provides the necessary functions for recording the performance of a cognitive test of a user in the ontology
 #
 # It implements the cognitive exercise record user cognitive test performance service
 class RecordUserCognitiveTestPerformance:
