@@ -1,6 +1,15 @@
-#rapp-platform
-Contains the RAPP Platform a.k.a. RIC (RAPP Improvement Center)
+RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots. The main concept of RAPP Platform aligns with the cloud robotics approach.
+
+As stated in [Wikipedia](https://en.wikipedia.org/wiki/Cloud_robotics):
+
+>
+Cloud robotics is a field of robotics that attempts to invoke cloud technologies such as cloud computing, cloud storage, and other Internet technologies centred on the benefits of converged infrastructure and shared services for robotics.
+>
+
+RAPP Platform is divided in two main parts: the ROS nodes functionalities and the HOP services. The ROS nodes are back-end processes the provide generic functionalities, such as Image processing, Audio processing, Speech-to-text and Text-to-speech, Ontology & Database operations, as well as ML procedures.
+
+The second part consists of the various HOP services, which are the front-end of the RAPP Platform. These expose specific RAPP Platform functionalities to the world, thus any robot can call specific algorithms, making easy the work of developers.
 
 For more information / tutorials please visit [our wiki](https://github.com/rapp-project/rapp-platform/wiki).
 
-For documentation on the RAPP Software architecture and the RAPP Platform components: [link](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Architecture)
+The RAPP Platform Github-powered webpage, containing the code documentation, can be found [here](http://rapp-project.github.io/rapp-platform/).
