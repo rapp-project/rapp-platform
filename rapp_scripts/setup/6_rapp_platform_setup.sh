@@ -28,8 +28,8 @@
 RappPlatformWs="${HOME}/rapp_platform/rapp-platform-catkin-ws"
 
 # Install libzbar used by the qr_detection module.
-sudo apt-get install -y libzbar-dev
-sudo ldconfig
+sudo apt-get install -qq -y libzbar-dev
+sudo ldconfig 1> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Create Github folders \e[0m"
 # Create folder for RAPP platform repo
@@ -41,17 +41,19 @@ mkdir -p ${RappPlatformWs} && cd ${RappPlatformWs}
 mkdir src && cd src
 
 # Initialize Rapp Platform catkin workspace
-catkin_init_workspace
+catkin_init_workspace 1> /dev/null
 
-echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo \e[0m"
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo, branch: $1\e[0m"
 # Clone the repository (public key should have been setup)
-git clone --recursive git@github.com:rapp-project/rapp-platform.git
-git clone git@github.com:rapp-project/rapp-api.git
+
+
+git clone --recursive --branch=$1 https://github.com/rapp-project/rapp-platform.git 1> /dev/null
+git clone https://github.com/rapp-project/rapp-api.git 1> /dev/null
 
 ## [Fetch ]
 cd rapp-api/python
 # Insrall Python
-sudo pip install -r dependencies.txt
+sudo pip install -r dependencies.txt 1> /dev/null
 
 # Append to user's .bashrc file.
 append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend"
@@ -62,3 +64,4 @@ echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/
 
 # catkin_make rapp-platform
 cd ${RappPlatformWs} && catkin_make -j1
+git branch | echo

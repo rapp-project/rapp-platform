@@ -25,14 +25,6 @@
 # packages for RAPP platform to operate, initiating from a clean Ubuntu
 # 14.04 install.
 
-#--------------------------------- Updates -----------------------------------#
-./1_system_updates.sh || \
-  {
-    echo -e "[Error]: RAPP Platform installation failed on system_updates";
-    exit 1;
-  }
-sudo ldconfig
-source ~/.bashrc
 #-------------------------------- ROS setup ----------------------------------#
 ./2_ros_setup.sh || \
   {
@@ -65,8 +57,7 @@ source ~/.bashrc
   }
 sudo ldconfig
 source ~/.bashrc
-
-./6_rapp_platform_setup.sh || \
+./6_rapp_platform_setup.sh ${TRAVIS_BRANCH} || \
   {
     echo -e "[Error]: RAPP Platform installation failed on rapp-platform setup";
     exit 1;
@@ -84,7 +75,7 @@ source ~/.bashrc
 #-------------------------------MySQLsetup------------------------------------#
 # Travis Related parameters handling
 SQL_PARAM=''
-if [ $# -eq 1 ]; then
+if [ $# -ne 0 ]; then
   if [ $1 == 'travis' ]; then
     SQL_PARAM='travis'
   fi

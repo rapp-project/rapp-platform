@@ -1,11 +1,9 @@
 # Generic RAPP Platform Travis Continuous Integration Configuration File
 # Author: Manos Tsardoulias, Aris Thallas
 # Contact: etsardou@gmail.com, aris.thallas@{iti.gr, gmail.com}
-language:
-  - cpp
-  - python
-python:
-  - "2.7"
+sudo: required
+dist: trusty
+language: generic
 compiler:
   - gcc
 notifications:
@@ -23,21 +21,14 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - export RAPP_PL=$RAPP_WS/src/rapp-platform
   - echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
   # Perform system updates and install needed packages
-  - echo "Updating the system"
-  - sudo apt-get update -qq
-  - sudo apt-get upgrade -qq -y
   - echo "Installing needed libraries"
   - sudo apt-get install -qq -y git mercurial screen
-  # Clone RAPP Platform repository to gain access to the scripts
-  - echo "Cloning rapp-platform to gain access to the installation scripts"
-  - mkdir -p ~/rapp_temp && cd ~/rapp_temp
-  - git clone https://github.com/rapp-project/rapp-platform.git
 install: true # Use this to install any prerequisites or dependencies necessary to run your build
 script: # All commands must exit with code 0 on success. Anything else is considered failure.
   # First test the install scripts
   - echo "Performing clean installation of rapp-platform"
-  - echo "https://github.com/rapp-project/rapp-platform/wiki/How-can-I-set-up-the-RAPP-Platform-in-my-PC%3F"
-  - cd ~/rapp_temp/rapp-platform/rapp_scripts/
+  - cd rapp_scripts/setup
+  #- source /opt/ros/$ROS_DISTRO/setup.bash
   - bash clean_install.sh travis
   - source ~/.bashrc
   - sudo ldconfig
@@ -45,11 +36,12 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - echo "RAPP Platform installed. Executing unit and functional tests"
   # Run unit and functional tests
   - cd $RAPP_WS
+  - catkin_make run_tests_rapp_audio_processing -j1
   - catkin_make run_tests -j1
   # Run integration tests
   - echo "Unit and functional tests ok. Executing integration tests"
-  - screen -S rapp_ros -d -m -X $RAPP_PL/rapp_scripts/deploy/.deploy_rapp_ros.sh
-  - screen -S rapp_hop -d -m -X $RAPP_PL/rapp_scripts/deploy/.deploy_web_services.sh
+  - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh
+  - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_web_services.sh
   - rosrun rapp_testing_tools rapp_run_test.py
   # Create documentation
   - echo "Creating online documentation"

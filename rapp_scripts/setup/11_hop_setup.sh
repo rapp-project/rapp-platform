@@ -34,7 +34,7 @@ curr=$(pwd)
 #sudo sh -c 'echo "deb ftp://ftp-sop.inria.fr/indes/rapp/UBUNTU lts hop" >> \
 #  /etc/apt/sources.list'
 
-sudo apt-get install libunistring-dev
+sudo apt-get install libunistring-dev 1> /dev/null
 
 # Bigloo installation
 cd ${RappPlatformPath}
@@ -42,25 +42,25 @@ mkdir hop-bigloo
 cd hop-bigloo
 wget ${BiglooUrl}
 
-tar -zxvf "${BiglooIndex}.tar.gz"
+tar -zxf "${BiglooIndex}.tar.gz" 1> /dev/null
 cd bigloo4.2c
-./configure
-make
-make test
-make compile-bee
-sudo make install
-sudo make install-bee
+./configure 1> /dev/null
+make 1> /dev/null
+make test 1> /dev/null
+make compile-bee 1> /dev/null
+sudo make install 1> /dev/null
+sudo make install-bee 1> /dev/null
 
 # HOP installation
 cd ..
-git clone ${HopRepoUrl}
+git clone ${HopRepoUrl} 1> /dev/null
 cd hop
-git checkout ${HopCommitIndex}
-./configure
-make
-sudo make install
-make doc
-sudo make install
+git checkout ${HopCommitIndex} 1> /dev/null
+./configure 1> /dev/null
+make 1> /dev/null
+sudo make install 1> /dev/null
+make doc 1> /dev/null
+sudo make install 1> /dev/null
 
 # Initialize HOP with users
 #mkdir -p $HOME/.config/hop

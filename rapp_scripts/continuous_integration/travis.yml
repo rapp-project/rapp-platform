@@ -31,7 +31,7 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   # Clone RAPP Platform repository to gain access to the scripts
   - echo "Cloning rapp-platform to gain access to the installation scripts"
   - mkdir -p ~/rapp_temp && cd ~/rapp_temp
-  - git clone https://github.com/rapp-project/rapp-platform.git
+  #- git clone https://github.com/rapp-project/rapp-platform.git
 install: true # Use this to install any prerequisites or dependencies necessary to run your build
 script: # All commands must exit with code 0 on success. Anything else is considered failure.
   # First test the install scripts

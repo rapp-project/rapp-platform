@@ -22,30 +22,30 @@
 
 
 RappPlatformPath="${HOME}/rapp_platform"
-cmusphinxUrl="git@github.com:skerit/cmusphinx"
+cmusphinxUrl="https://github.com/skerit/cmusphinx"
 sphinxbaseUrl="https://github.com/cmusphinx/sphinxbase.git"
 
 #download and compile sphinx4 extra libraries
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Libraries \e[0m"
-sudo apt-get -y install swig
-sudo apt-get -y install autoconf
-sudo apt-get -y install python-scipy
-sudo apt-get -y install bison
-sudo apt-get -y install sox
-sudo apt-get -y install flac
+sudo apt-get install -qq -y swig
+sudo apt-get install -qq -y autoconf
+sudo apt-get install -qq -y python-scipy
+sudo apt-get install -qq -y bison
+sudo apt-get install -qq -y sox
+sudo apt-get install -qq -y flac
 
 cd ${RappPlatformPath}
-git clone ${cmusphinxUrl}
+git clone ${cmusphinxUrl} 1> /dev/null
 cd cmusphinx/cmuclmtk
-./autogen.sh
-make
-sudo make install
+./autogen.sh 1> /dev/null
+make 1> /dev/null
+sudo make install 1> /dev/null
 
 cd ${RappPlatformPath}
 git clone ${sphinxbaseUrl}
 cd sphinxbase
-./autogen.sh
-make
-sudo make install
+./autogen.sh 1> /dev/null
+make 1> /dev/null
+sudo make install 1> /dev/null
 cd ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_speech_detection_sphinx4/src
 bash buildJava.sh > /dev/null 2>&1
