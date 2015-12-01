@@ -51,4 +51,10 @@ cat documentation1.html > documentation.html
 cat documentation2.html >> documentation.html
 cat documentation3.html >> documentation.html
 
+git config user.name "Travis CI"
+git config user.email "etsardou@iti.gr"
+git add .
+git commit -m "Deploy to GitHub Pages"
+git push --force --quiet https://${GH_TOKEN}@github.com/rapp-project/rapp-platform gh-pages &> /dev/null
+
 echo -e "\e[1m\e[103m\e[31m[RAPP] Finished Cleanly.\e[0m"
