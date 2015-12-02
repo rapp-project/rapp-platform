@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 
 #Copyright 2015 RAPP
 
@@ -39,7 +39,7 @@ if [ "$TRAVIS_BRACH" == "master" ]; then
 
   echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Documentation\e[0m"
   cd ${TEMP_PLATFORM_SCRIPTS}
-  ./create_documentation.sh &> /dev/null
+  ./create_documentation.sh
 
   echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Test Documentation HTML hyperlinks\e[0m"
 
@@ -48,7 +48,7 @@ if [ "$TRAVIS_BRACH" == "master" ]; then
 
   for file in ${DOCS}/*; do
     if [ -d $(basename $file) ]; then
-      rm -rf file
+      rm -rf $(basename $file)
     fi
   done
   mv ${DOCS}/* .

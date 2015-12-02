@@ -27,25 +27,29 @@ sphinxbaseUrl="https://github.com/cmusphinx/sphinxbase.git"
 
 #download and compile sphinx4 extra libraries
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Libraries \e[0m"
-sudo apt-get install -qq -y swig
-sudo apt-get install -qq -y autoconf
-sudo apt-get install -qq -y python-scipy
-sudo apt-get install -qq -y bison
-sudo apt-get install -qq -y sox
-sudo apt-get install -qq -y flac
+sudo apt-get install -qq -y swig &> /dev/null
+sudo apt-get install -qq -y autoconf &> /dev/null
+sudo apt-get install -qq -y python-scipy &> /dev/null
+sudo apt-get install -qq -y bison &> /dev/null
+sudo apt-get install -qq -y sox &> /dev/null
+sudo apt-get install -qq -y flac &> /dev/null
 
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 CMU_SPHINX\e[0m"
 cd ${RappPlatformPath}
-git clone ${cmusphinxUrl} 1> /dev/null
+git clone ${cmusphinxUrl} &> /dev/null
 cd cmusphinx/cmuclmtk
-./autogen.sh 1> /dev/null
-make 1> /dev/null
-sudo make install 1> /dev/null
+./autogen.sh &> /dev/null
+make &> /dev/null
+sudo make install &> /dev/null
 
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Base \e[0m"
 cd ${RappPlatformPath}
 git clone ${sphinxbaseUrl}
 cd sphinxbase
-./autogen.sh 1> /dev/null
-make 1> /dev/null
-sudo make install 1> /dev/null
+./autogen.sh &> /dev/null
+make &> /dev/null
+sudo make install &> /dev/null
+
+echo -e "\e[1m\e[103m\e[31m [RAPP] Building Sphinx4.java wrapper \e[0m"
 cd ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_speech_detection_sphinx4/src
-bash buildJava.sh > /dev/null 2>&1
+bash buildJava.sh &> /dev/null

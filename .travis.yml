@@ -25,6 +25,7 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
   # Perform system updates and install needed packages
   - echo "Installing needed libraries"
+  - sudo apt-get update &> /dev/null
   - sudo apt-get install -qq -y git mercurial screen &> /dev/null
 install: true # Use this to install any prerequisites or dependencies necessary to run your build
 script: # All commands must exit with code 0 on success. Anything else is considered failure.
@@ -38,17 +39,16 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - echo "RAPP Platform installed. Executing unit and functional tests"
   # Run unit and functional tests
   - cd $RAPP_WS
-  - catkin_make run_tests_rapp_audio_processing -j1
   - catkin_make run_tests -j1
   # Run integration tests
   - echo "Unit and functional tests ok. Executing integration tests"
   - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh
   - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_web_services.sh
-  - sleep(20)
+  - sleep 20
   - rosrun rapp_testing_tools rapp_run_test.py
 after_success:
   # Create documentation
-  - sudo apt-get install -qq -y doxygen texlive-latex-* texlive-base &> /dev/null
+  - sudo apt-get install -qq -y doxygen texlive-full &> /dev/null
   - echo "Creating online documentation"
   - sudo ln -s /usr/bin/nodejs /usr/bin/node
   - cd $RAPP_PL/rapp_scripts/documentation
