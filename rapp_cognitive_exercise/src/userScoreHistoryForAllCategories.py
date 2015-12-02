@@ -35,42 +35,42 @@ from rapp_platform_ros_communications.srv import (
   createOntologyAliasSrv,
   createOntologyAliasSrvRequest,
   createOntologyAliasSrvResponse,
-  userPerformanceCognitveTestsSrv,
-  userPerformanceCognitveTestsSrvRequest,
-  userScoresForAllCategoriesSrvResponse
+  userScoreHistoryForAllCategoriesSrv,
+  userScoreHistoryForAllCategoriesSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
 
-## @class UserScoresForAllCategories
-# @brief Provides the necessary functions for returning the user scores
+## @class UserScoreHistoryForAllCategories
+# @brief Provides the necessary functions for returning the history of user scores
 #
-# It implements the user scores for all categories service
-class UserScoresForAllCategories:
+# It implements the cognitive exercise return user score history for all categories service
+class UserScoreHistoryForAllCategories:
 
-  ## @brief The callback function of the cognitive exercise user scores for all categories service
+  ## @brief The callback function of the cognitive exercise user score history for all categories service
   # @param req [rapp_platform_ros_communications::userScoresForAllCategoriesSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The ROS service response
   # @exception Exception IndexError
   # @exception Exception AIOError
   # @exception Exception ValueError
-  def returnUserScores(self,req):
+  def returnUserHistory(self,req):
     try:
-      res = userScoresForAllCategoriesSrvResponse()      
+      res = userScoreHistoryForAllCategoriesSrvResponse()      
+      print "akraio"
       
       returnWithError,userOntologyAlias=self.getUserOntologyAlias(req.username,res)
       if(returnWithError):
         return res      
         
-      returnWithError,testTypesList=self.getTestTypesFromOntology(res)
-      if(returnWithError):
-        return res
+      #returnWithError,testTypesList=self.getTestTypesFromOntology(res)
+      #if(returnWithError):
+        #return res
         
-      res.testCategories=testTypesList
-      res.testScores=self.calculateUserScoresForCategories(testTypesList,userOntologyAlias,req.upToTime)   
-      res.success=True         
+      #res.testCategories=testTypesList
+      #res.testScores=self.calculateUserScoresForCategories(testTypesList,userOntologyAlias,req.upToTime)   
+      #res.success=True         
 
     except ValueError:
       res.trace.append("Value Error, probably conversion from integer to string failed. Invalid ontology entries?")

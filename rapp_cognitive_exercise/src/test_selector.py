@@ -301,8 +301,7 @@ class TestSelector:
   # 
   # @return finalTestFilePath [string] The file path of the xml file that contains the test
   # @return finalTestname [string] The name of the test     
-  def getLRUtestOfTypeAndXmlPath(self,testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp):
-    #Choose 
+  def getLRUtestOfTypeAndXmlPath(self,testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp):    
     finalTestname=""
     finalTestFilePath=""
     if(noUserPerformanceRecordsExist):

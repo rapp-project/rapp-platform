@@ -2,9 +2,9 @@ string username
 int64 fromTime
 int64 toTime
 ---
-string[] historyArithmeticCts
-string[] historyReasoningCts
-string[] historyRecallCts
+rapp_platform_ros_communications/StringArrayMsg[] historyArithmeticCts
+rapp_platform_ros_communications/StringArrayMsg[] historyReasoningCts
+rapp_platform_ros_communications/StringArrayMsg[] historyRecallCts
 bool success
 string error
 string[] trace
