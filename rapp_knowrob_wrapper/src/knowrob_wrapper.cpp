@@ -484,7 +484,7 @@ rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response
   }
   else
   {
-    std::string query=std::string("rdf_has(A,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(P,knowrob:cognitiveTestPerformedTestType,A),rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'")+currentAlias+std::string("'),rdf_retractall(P,L,S)");
+    std::string query=std::string("rdf_has(A,rdf:type,knowrob:'")+req.test_type+std::string("'),rdf_has(P,knowrob:cognitiveTestPerformedTestName,A),rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'")+currentAlias+std::string("'),rdf_retractall(P,L,S)");
     json_prolog::PrologQueryProxy results = pl.query(query.c_str());
     char status = results.getStatus();
     if(status==0)
