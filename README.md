@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/rapp-project/rapp-platform](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rapp-project/rapp-platform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/rapp-project/rapp-platform.svg)](https://travis-ci.org/rapp-project/rapp-platform)
+[![Join the chat at https://gitter.im/rapp-project/rapp-platform](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rapp-project/rapp-platform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/rapp-project/rapp-platform.svg?branch=master)](https://travis-ci.org/rapp-project/rapp-platform)
 
 RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots. The main concept of RAPP Platform aligns with the cloud robotics approach.
 
