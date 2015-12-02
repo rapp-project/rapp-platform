@@ -30,13 +30,27 @@ module.exports = function(grunt) {
           configure: "config/jsdoc-templates.conf.json"
         }
       }
+    },
+    shell: {
+      options: {
+        stderr: true,
+        stdout: true
+      },
+      init_hop: {
+        command: './run.sh'
+      }
     }
   });
 
-  // These plugins provide necessary tasks.
+  // Load jsdoc grunt task.
   grunt.loadNpmTasks('grunt-jsdoc');
+  // Load shell grunt task
+  grunt.loadNpmTasks('grunt-shell');
 
   // Default task.
   grunt.registerTask('default', ['jsdoc']);
+
+  // Initiate HOP
+  grunt.registerTask('init-hop', ['shell:init_hop']);
 
 };
