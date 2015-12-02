@@ -38,5 +38,17 @@ sudo apt-get install -y espeak -qq &> /dev/null
 sudo apt-get install -y mbrola* -qq &> /dev/null
 # Python package manager.
 sudo apt-get install -y python-pip -qq &> /dev/null
-#
+# Node.js and Node.js package manager
 sudo apt-get install -y npm nodejs -qq &> /dev/null
+
+# Grunt-Cli
+sudo npm install -g grunt-cli
+
+# Enable Grunt shell auto-completion
+append='eval "$(grunt --completion=bash)"'
+grep -q "${append}" ~/.bashrc || echo -e          \
+  "\n# Enable Grunt shell tab auto-completion\n${append}" \
+  >> ~/.bashrc
+
+# Load user's bash environment and flush output
+source ~/.bashrc &> /dev/null
