@@ -76,7 +76,7 @@ var timeout = srvEnv[__hopServiceName].timeout; // ms
 var maxTries = srvEnv[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
-var color = {
+var colors = {
   error:    String.fromCharCode(0x1B) + '[1;31m',
   success:  String.fromCharCode(0x1B) + '[1;32m',
   ok:       String.fromCharCode(0x1B) + '[34m',

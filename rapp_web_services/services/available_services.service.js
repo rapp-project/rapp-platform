@@ -47,7 +47,7 @@ var __availableServices = [];
 var scanTimer = srvEnv[__hopServiceName].scan_time * 60 * 1000;  // Minutes
 /* --------------------------------------------------------------- */
 
-var color = {
+var colors = {
   error:    String.fromCharCode(0x1B) + '[1;31m',
   success:  String.fromCharCode(0x1B) + '[1;32m',
   ok:       String.fromCharCode(0x1B) + '[34m',
@@ -67,11 +67,11 @@ register_master_interface();
 (function scanServices(){
   __availableServices.length = 0;
 
-  var msg = color.yellow +
+  var msg = colors.yellow +
     '\n------------------------------------------------------------\n' +
     ' --->   [Scanning Web Services for availability]           ' +
     '\n------------------------------------------------------------\n' +
-    color.clear;
+    colors.clear;
 
   console.log(msg);
 
@@ -90,24 +90,24 @@ register_master_interface();
       response = srv.postSync();
     }
     catch(e){
-      console.log(color.error + "\n ---> [Failed]: " + s + color.clear +
+      console.log(colors.error + "\n ---> [Failed]: " + s + colors.clear +
         "\n");
       continue;
     }
-    console.log(color.success + "\n ---> [OK]: " + s + color.clear + "\n");
+    console.log(colors.success + "\n ---> [OK]: " + s + colors.clear + "\n");
     __availableServices.push(s);
   }
 
-  console.log(color.ok + "\n <UpRunning Services>" + color.clear);
+  console.log(colors.ok + "\n <UpRunning Services>" + colors.clear);
 
   for(var i in __availableServices){
     console.log("    *[%s] - %s", i, __availableServices[i]);
   }
 
-  msg = color.yellow +
+  msg = colors.yellow +
     '\n------------------------------------------------------------' +
     '\n------------------------------------------------------------\n' +
-    color.clear;
+    colors.clear;
   console.log(msg);
 
   setTimeout(function(){
