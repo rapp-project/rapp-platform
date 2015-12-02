@@ -84,3 +84,5 @@ append="source ${KnowrobPath}/devel/setup.bash --extend"
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Knowrob\n${append}"                        \
   >> ~/.bashrc
+
+echo -e "\e[1m\e[103m\e[31m [RAPP] Knowrob Finished \e[0m"

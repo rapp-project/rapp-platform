@@ -1,13 +1,14 @@
 # Generic RAPP Platform Travis Continuous Integration Configuration File
 # Author: Manos Tsardoulias, Aris Thallas
 # Contact: etsardou@gmail.com, aris.thallas@{iti.gr, gmail.com}
-language:
-  - cpp
-  - python
-python:
-  - "2.7"
+sudo: required
+dist: trusty
+language: generic
 compiler:
   - gcc
+env:
+  global:
+    - secure: jctNCksS3N66zVjML58EHB9FqRi6HaGV4o32Y+84epKt4vP0RMxuf5MrWAUDvZVAs9ojstG9LHni39tlCvmAulEGWNbeq6J8aVe3H+BaazXsSmfXZh+8IXqt1nc9T40Tw0DmsMTcExZwdjL5om1mLlaHGsnGKGUzjamEYXKORKM=
 notifications:
   email:
     recipients:
@@ -23,36 +24,36 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - export RAPP_PL=$RAPP_WS/src/rapp-platform
   - echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
   # Perform system updates and install needed packages
-  - echo "Updating the system"
-  - sudo apt-get update -qq
-  - sudo apt-get upgrade -qq -y
   - echo "Installing needed libraries"
-  - sudo apt-get install -qq -y git mercurial screen
-  # Clone RAPP Platform repository to gain access to the scripts
-  - echo "Cloning rapp-platform to gain access to the installation scripts"
-  - mkdir -p ~/rapp_temp && cd ~/rapp_temp
-  #- git clone https://github.com/rapp-project/rapp-platform.git
+  - sudo apt-get update &> /dev/null
+  - sudo apt-get install -qq -y git mercurial screen &> /dev/null
 install: true # Use this to install any prerequisites or dependencies necessary to run your build
 script: # All commands must exit with code 0 on success. Anything else is considered failure.
   # First test the install scripts
   - echo "Performing clean installation of rapp-platform"
-  - echo "https://github.com/rapp-project/rapp-platform/wiki/How-can-I-set-up-the-RAPP-Platform-in-my-PC%3F"
-  - cd ~/rapp_temp/rapp-platform/rapp_scripts/
+  - cd rapp_scripts/setup
+  #- source /opt/ros/$ROS_DISTRO/setup.bash
   - bash clean_install.sh travis
   - source ~/.bashrc
   - sudo ldconfig
-  - sudo ln -s /usr/bin/nodejs /usr/bin/node
   - echo "RAPP Platform installed. Executing unit and functional tests"
   # Run unit and functional tests
   - cd $RAPP_WS
+  - catkin_make run_tests_rapp_audio_processing -j1 # Necessary for noise profile creation
   - catkin_make run_tests -j1
+  - catkin_test_results
+  - catkin_make test -j1
   # Run integration tests
   - echo "Unit and functional tests ok. Executing integration tests"
-  - screen -S rapp_ros -d -m -X $RAPP_PL/rapp_scripts/deploy/.deploy_rapp_ros.sh
-  - screen -S rapp_hop -d -m -X $RAPP_PL/rapp_scripts/deploy/.deploy_web_services.sh
+  - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh
+  - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_web_services.sh
+  - sleep 20
   - rosrun rapp_testing_tools rapp_run_test.py
+after_success:
   # Create documentation
+  - sudo apt-get install -qq -y doxygen texlive-full &> /dev/null
   - echo "Creating online documentation"
+  - sudo ln -s /usr/bin/nodejs /usr/bin/node
   - cd $RAPP_PL/rapp_scripts/documentation
   - bash update_rapp-project.github.io.sh
   - echo "Documentation created and updated online"

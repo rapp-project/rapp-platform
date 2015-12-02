@@ -44,7 +44,7 @@ sudo make install &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Base \e[0m"
 cd ${RappPlatformPath}
-git clone ${sphinxbaseUrl}
+git clone ${sphinxbaseUrl} &> /dev/null
 cd sphinxbase
 ./autogen.sh &> /dev/null
 make &> /dev/null

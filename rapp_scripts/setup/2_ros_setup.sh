@@ -32,8 +32,8 @@ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > \
 
 # Setup keys
 echo -e "\e[1m\e[103m\e[31m [RAPP] ROS - Setup keys \e[0m"
-wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | \
-  sudo apt-key add -
+wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - 2>/dev/null | \
+  sudo apt-key add - &> /dev/null
 
 # Installation
 echo -e "\e[1m\e[103m\e[31m [RAPP] ROS - Installing \e[0m"

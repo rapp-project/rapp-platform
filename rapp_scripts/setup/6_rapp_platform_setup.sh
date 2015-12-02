@@ -28,8 +28,8 @@
 RappPlatformWs="${HOME}/rapp_platform/rapp-platform-catkin-ws"
 
 # Install libzbar used by the qr_detection module.
-sudo apt-get install -qq -y libzbar-dev
-sudo ldconfig 1> /dev/null
+sudo apt-get install -qq -y libzbar-dev &> /dev/null
+sudo ldconfig &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Create Github folders \e[0m"
 # Create folder for RAPP platform repo
@@ -52,7 +52,7 @@ git clone https://github.com/rapp-project/rapp-api.git &> /dev/null
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing pip dependencies\e[0m"
 cd rapp-api/python
 # Insrall Python
-sudo pip install -r dependencies.txt 1> /dev/null
+sudo pip install -r dependencies.txt &> /dev/null
 
 # Append to user's .bashrc file.
 append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend"

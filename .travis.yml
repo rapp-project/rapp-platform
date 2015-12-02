@@ -6,15 +6,15 @@ dist: trusty
 language: generic
 compiler:
   - gcc
+env:
+  global:
+    - secure: jctNCksS3N66zVjML58EHB9FqRi6HaGV4o32Y+84epKt4vP0RMxuf5MrWAUDvZVAs9ojstG9LHni39tlCvmAulEGWNbeq6J8aVe3H+BaazXsSmfXZh+8IXqt1nc9T40Tw0DmsMTcExZwdjL5om1mLlaHGsnGKGUzjamEYXKORKM=
 notifications:
   email:
     recipients:
       - etsardou@gmail.com
     on_success: always #[always|never|change] # default: change
     on_failure: always #[always|never|change] # default: always
-env:
-  global:
-    - secure: jctNCksS3N66zVjML58EHB9FqRi6HaGV4o32Y+84epKt4vP0RMxuf5MrWAUDvZVAs9ojstG9LHni39tlCvmAulEGWNbeq6J8aVe3H+BaazXsSmfXZh+8IXqt1nc9T40Tw0DmsMTcExZwdjL5om1mLlaHGsnGKGUzjamEYXKORKM=
 before_install: # Use this to prepare the system to install prerequisites or dependencies
   # Define some config vars
   - export ROS_DISTRO=indigo
@@ -39,6 +39,7 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - echo "RAPP Platform installed. Executing unit and functional tests"
   # Run unit and functional tests
   - cd $RAPP_WS
+  - catkin_make run_tests_rapp_audio_processing -j1 # Necessary for noise profile creation
   - catkin_make run_tests -j1
   - catkin_test_results
   - catkin_make test -j1
