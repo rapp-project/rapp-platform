@@ -32,14 +32,14 @@ RappWebServicesPkgPath="${RappPlatformWs}/src/rapp-platform/rapp_web_services"
 sudo apt-get install -qq -y libzbar-dev &> /dev/null
 sudo ldconfig &> /dev/null
 
-#echo -e "\e[1m\e[103m\e[31m [RAPP] Create Github folders \e[0m"
+echo -e "\e[1m\e[103m\e[31m [RAPP] Create Github folders \e[0m"
 # Create folder for RAPP platform repo
-#if [ -d "${RappPlatformWs}" ]; then
-  #rm -rf ${RappPlatformWs}
-#fi
+if [ -d "${RappPlatformWs}" ]; then
+  rm -rf ${RappPlatformWs}
+fi
 
-#mkdir -p ${RappPlatformWs} && cd ${RappPlatformWs}
-#mkdir src && cd src
+mkdir -p ${RappPlatformWs} && cd ${RappPlatformWs}
+mkdir src && cd src
 
 # Initialize Rapp Platform catkin workspace
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Catkin Workspace\e[0m"
@@ -56,15 +56,16 @@ cd rapp-api/python
 sudo pip install -r dependencies.txt &> /dev/null
 
 # Append to user's .bashrc file.
-#append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend"
-#grep -q "${append}" ~/.bashrc || echo -e          \
-  #"\n# Rapp Platform\n${append}"                        \
-  #>> ~/.bashrc
-#echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python' >> ~/.bashrc
+append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend"
+grep -q "${append}" ~/.bashrc || echo -e          \
+  "\n# Rapp Platform\n${append}"                        \
+  >> ~/.bashrc
+echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python' >> ~/.bashrc
 
 # catkin_make rapp-platform
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Platform\e[0m"
-cd ${RappPlatformWs} && catkin_make -j1
+cd ${RappPlatformWs} && catkin_make
+=======
 
 # Install rapp_web_services package deps
-cd ${RappWebServicesPkgPath} && npm install
+cd ${RappWebServicesPkgPath} && npm install &> /dev/null

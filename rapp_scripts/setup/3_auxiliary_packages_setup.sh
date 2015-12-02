@@ -40,9 +40,10 @@ sudo apt-get install -y mbrola* -qq &> /dev/null
 sudo apt-get install -y python-pip -qq &> /dev/null
 # Node.js and Node.js package manager
 sudo apt-get install -y npm nodejs -qq &> /dev/null
+sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 # Grunt-Cli
-sudo npm install -g grunt-cli
+sudo npm install -g grunt-cli &> /dev/null
 
 # Enable Grunt shell auto-completion
 append='eval "$(grunt --completion=bash)"'
