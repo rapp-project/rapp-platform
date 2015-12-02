@@ -25,8 +25,9 @@ RAPP_PLATFORM_FILES_DIR="${HOME}/rapp_platform_files/documentation"
 DOC_DEST="${RAPP_PLATFORM_FILES_DIR}/platform_web_services"
 
 cd ${WEB_SRV_DIR}
+echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Web Services Documentation\e[0m"
 make doc &> /dev/null
 mkdir -p ${DOC_DEST}
 cp -avr doc/* ${DOC_DEST}/ &> /dev/null
 make clean &> /dev/null
-
+echo -e "\e[1m\e[103m\e[31m[RAPP] Finished Web Services Documentation\e[0m"

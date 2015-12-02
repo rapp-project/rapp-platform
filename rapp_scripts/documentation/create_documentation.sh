@@ -18,10 +18,10 @@
 # Contact: aris.thallas@{iti.gr, gmail.com}
 
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Source Documentation\e[0m"
-./create_source_documentation.sh &> /dev/null;
+./create_source_documentation.sh
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Wiki Documentation\e[0m"
-./create_wiki_documentation.sh &> /dev/null;
+./create_wiki_documentation.sh
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Test Documentation\e[0m"
-./create_test_documentation.py &> /dev/null;
+./create_test_documentation.py
 echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Web Services Documentation\e[0m"
-./create_web_services_documentation.sh &> /dev/null;
+./create_web_services_documentation.sh

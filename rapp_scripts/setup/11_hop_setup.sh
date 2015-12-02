@@ -34,7 +34,7 @@ curr=$(pwd)
 #sudo sh -c 'echo "deb ftp://ftp-sop.inria.fr/indes/rapp/UBUNTU lts hop" >> \
 #  /etc/apt/sources.list'
 
-sudo apt-get install libunistring-dev 1> /dev/null
+sudo apt-get install libunistring-dev &> /dev/null
 
 # Bigloo installation
 cd ${RappPlatformPath}
@@ -42,25 +42,29 @@ mkdir hop-bigloo
 cd hop-bigloo
 wget ${BiglooUrl}
 
-tar -zxf "${BiglooIndex}.tar.gz" 1> /dev/null
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Bigloo \e[0m"
+tar -zxf "${BiglooIndex}.tar.gz" &> /dev/null
 cd bigloo4.2c
-./configure 1> /dev/null
-make 1> /dev/null
-make test 1> /dev/null
-make compile-bee 1> /dev/null
-sudo make install 1> /dev/null
-sudo make install-bee 1> /dev/null
+./configure &> /dev/null
+make &> /dev/null
+make test &> /dev/null
+make compile-bee &> /dev/null
+sudo make install &> /dev/null
+sudo make install-bee &> /dev/null
 
 # HOP installation
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing HOP \e[0m"
 cd ..
-git clone ${HopRepoUrl} 1> /dev/null
+git clone ${HopRepoUrl} &> /dev/null
 cd hop
-git checkout ${HopCommitIndex} 1> /dev/null
-./configure 1> /dev/null
-make 1> /dev/null
-sudo make install 1> /dev/null
-make doc 1> /dev/null
-sudo make install 1> /dev/null
+git checkout ${HopCommitIndex} &> /dev/null
+./configure &> /dev/null
+make &> /dev/null
+sudo make install &> /dev/null
+make doc &> /dev/null
+sudo make install &> /dev/null
+
+echo -e "\e[1m\e[103m\e[31m [RAPP] Finished HOP/Bigloo \e[0m"
 
 # Initialize HOP with users
 #mkdir -p $HOME/.config/hop

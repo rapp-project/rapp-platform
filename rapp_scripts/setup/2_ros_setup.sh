@@ -37,13 +37,13 @@ wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | \
 
 # Installation
 echo -e "\e[1m\e[103m\e[31m [RAPP] ROS - Installing \e[0m"
-sudo apt-get update -qq 1> /dev/null
-sudo apt-get install -qq -y ros-indigo-desktop 1> /dev/null
+sudo apt-get update -qq &> /dev/null
+sudo apt-get install -qq -y ros-indigo-desktop &> /dev/null
 
 # Initialize rosdep
 echo -e "\e[1m\e[103m\e[31m [RAPP] ROS - Initializing rosdep \e[0m"
-sudo rosdep init 1> /dev/null
-rosdep update 1> /dev/null
+sudo rosdep init &> /dev/null
+rosdep update &> /dev/null
 
 # Setup environment
 echo -e "\e[1m\e[103m\e[31m [RAPP] Setup ROS environment \e[0m"
@@ -54,6 +54,6 @@ grep -q "${append}" ~/.bashrc || echo -e          \
 
 # Install rosbridge_server. This will allow third party clients (web clients)
 # to connect to ROS.
-sudo apt-get install -qq -y ros-indigo-rosbridge-server 1> /dev/null
-sudo apt-get install -qq -y ros-indigo-global-planner 1> /dev/null
-sudo apt-get install -qq -y ros-indigo-map-server 1> /dev/null
+sudo apt-get install -qq -y ros-indigo-rosbridge-server &> /dev/null
+sudo apt-get install -qq -y ros-indigo-global-planner &> /dev/null
+sudo apt-get install -qq -y ros-indigo-map-server &> /dev/null

@@ -33,8 +33,8 @@ if [ $# -eq 1 ]; then
 fi
 
 # Setup sources list
-sudo apt-get install -y -qq mysql-client mysql-server
-sudo apt-get install -y -qq python-mysqldb
+sudo apt-get install -y -qq mysql-client mysql-server &> /dev/null
+sudo apt-get install -y -qq python-mysqldb &> /dev/null
 
 if [ $# -eq 1 ]; then
   if [ "$1" == 'travis' ]; then

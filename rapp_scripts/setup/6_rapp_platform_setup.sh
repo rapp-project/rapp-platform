@@ -41,16 +41,15 @@ mkdir -p ${RappPlatformWs} && cd ${RappPlatformWs}
 mkdir src && cd src
 
 # Initialize Rapp Platform catkin workspace
-catkin_init_workspace 1> /dev/null
+echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Catkin Workspace\e[0m"
+catkin_init_workspace &> /dev/null
 
-echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo, branch: $1\e[0m"
 # Clone the repository (public key should have been setup)
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo, branch: $1\e[0m"
+git clone --recursive --branch=$1 https://github.com/rapp-project/rapp-platform.git &> /dev/null
+git clone https://github.com/rapp-project/rapp-api.git &> /dev/null
 
-
-git clone --recursive --branch=$1 https://github.com/rapp-project/rapp-platform.git 1> /dev/null
-git clone https://github.com/rapp-project/rapp-api.git 1> /dev/null
-
-## [Fetch ]
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing pip dependencies\e[0m"
 cd rapp-api/python
 # Insrall Python
 sudo pip install -r dependencies.txt 1> /dev/null
@@ -63,5 +62,5 @@ grep -q "${append}" ~/.bashrc || echo -e          \
 echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python' >> ~/.bashrc
 
 # catkin_make rapp-platform
-cd ${RappPlatformWs} && catkin_make -j1
-git branch | echo
+echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Platform\e[0m"
+cd ${RappPlatformWs} && catkin_make -j1  &> /dev/null

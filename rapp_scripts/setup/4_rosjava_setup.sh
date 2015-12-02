@@ -29,8 +29,8 @@ RosjavaPath="${HOME}/rapp_platform/rosjava"
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Rosjava \e[0m"
 
 ### [Download and install rosjava for KnowRob to work] ###
-sudo apt-get update -qq 1> /dev/null # Update aptitude package manager indexes.
-sudo apt-get install -y python-wstool -qq 1> /dev/null
+sudo apt-get update -qq &> /dev/null # Update aptitude package manager indexes.
+sudo apt-get install -y python-wstool -qq &> /dev/null
 
 # Create directory
 if [ -d ${RosjavaPath} ]; then
@@ -39,16 +39,18 @@ fi
 mkdir -p ${RosjavaPath}
 
 # Fetch repositories rosjava depends on, using the provided .rosinstall file.
-wstool init -j4 ${RosjavaPath}/src rosjava.rosinstall 1> /dev/null
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning Rosjava \e[0m"
+wstool init -j4 ${RosjavaPath}/src rosjava.rosinstall &> /dev/null
 cd ${RosjavaPath}
 
 # Update rosdep with rosjava dependencies and install them.
-rosdep update 1> /dev/null
-rosdep install --from-paths src -i -y 1> /dev/null
+rosdep update &> /dev/null
+rosdep install --from-paths src -i -y &> /dev/null
 
 # Build rosjava
+echo -e "\e[1m\e[103m\e[31m [RAPP] Building Rosjava \e[0m"
 source /opt/ros/indigo/setup.bash --extend
-catkin_make 1> /dev/null
+catkin_make &> /dev/null
 
 # Append into user's .bashrc
 append="source ~/rapp_platform/rosjava/devel/setup.bash --extend"

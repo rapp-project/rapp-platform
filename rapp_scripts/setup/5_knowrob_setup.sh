@@ -41,12 +41,12 @@ cp currentOntologyVersion.owl ${RappPlatformFilesPath}
 
 # Download and install KnowRob
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Knowrob \e[0m"
-sudo apt-get install -qq -y swi-prolog swi-prolog-java
-sudo apt-get install -qq -y ros-indigo-json-prolog-msgs
-sudo apt-get install -qq -y python-rosinstall
-sudo apt-get install -qq -y libjson-glib-dev
-sudo apt-get install -qq -y ros-indigo-data-vis-msgs
-sudo apt-get install -qq -y ros-indigo-rosjava-build-tools
+sudo apt-get install -qq -y swi-prolog swi-prolog-java &> /dev/null
+sudo apt-get install -qq -y ros-indigo-json-prolog-msgs &> /dev/null
+sudo apt-get install -qq -y python-rosinstall &> /dev/null
+sudo apt-get install -qq -y libjson-glib-dev &> /dev/null
+sudo apt-get install -qq -y ros-indigo-data-vis-msgs &> /dev/null
+sudo apt-get install -qq -y ros-indigo-rosjava-build-tools &> /dev/null
 
 append="export SWI_HOME_DIR=/usr/lib/swi-prolog"
 grep -q "${append}" ~/.bashrc || echo -e          \
@@ -63,19 +63,22 @@ mkdir -p ${KnowrobPath} && cd ${KnowrobPath}
 mkdir src && cd src
 
 # Initialize knowrob catkin workspace
-catkin_init_workspace 1> /dev/null
+echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Knowrob Catkin Workspace\e[0m"
+catkin_init_workspace &> /dev/null
 cd ..
-catkin_make 1> /dev/null
+catkin_make &> /dev/null
 cd src
 
 # Fetch knowrob sources
-git clone https://github.com/rapp-project/knowrob.git 1> /dev/null
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning Knowrob \e[0m"
+git clone https://github.com/rapp-project/knowrob.git &> /dev/null
 cd knowrob
-git checkout indigo-devel 1> /dev/null
+git checkout indigo-devel &> /dev/null
 cd ../../
 
 # Build knowrob
-catkin_make 1> /dev/null
+echo -e "\e[1m\e[103m\e[31m [RAPP] Building Knowrob \e[0m"
+catkin_make &> /dev/null
 
 append="source ${KnowrobPath}/devel/setup.bash --extend"
 grep -q "${append}" ~/.bashrc || echo -e          \
