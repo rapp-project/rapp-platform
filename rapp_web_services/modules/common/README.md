@@ -1,9 +1,9 @@
-HOP.js compatible nodejs modules
+HOP.js compatible nodejs common modules/includes
 ----------------
 
 ## Synopsis
 
-Common libs used while developing HOP Web Services.
+Common includes/modules used while developing HOP Web Services.
 
 Import these modules into your project/source-code:
 
