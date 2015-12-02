@@ -38,6 +38,9 @@ module.exports = function(grunt) {
       },
       init_hop: {
         command: './run.sh'
+      },
+      clean_doc: {
+        command: 'rm -rf doc/'
       }
     }
   });
@@ -47,10 +50,22 @@ module.exports = function(grunt) {
   // Load shell grunt task
   grunt.loadNpmTasks('grunt-shell');
 
-  // Default task.
-  grunt.registerTask('default', ['jsdoc']);
+  // Generate documentation for all task.
+  grunt.registerTask('doc-gen',
+    ['jsdoc:services', 'jsdoc:commons','jsdoc:templates']);
 
-  // Initiate HOP
+  // Generate documentation for HOP Services
+  grunt.registerTask('doc-gen-services', ['jsdoc:services']);
+
+  // Generate documentation for common include modules
+  grunt.registerTask('doc-gen-commons', ['jsdoc:commons']);
+
+  // Generate documentation for HOP Services Creation Templates
+  grunt.registerTask('doc-gen-templates', ['jsdoc:templates']);
+
+  grunt.registerTask('clean-doc', ['shell:clean_doc']);
+
+  // Initiate HOP task
   grunt.registerTask('init-hop', ['shell:init_hop']);
 
 };

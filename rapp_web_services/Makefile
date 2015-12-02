@@ -9,15 +9,15 @@ doc: doc-services doc-templates doc-modules
 
 doc-services:  deps
 	rm -rf doc/services
-	grunt jsdoc:services
+	grunt doc-gen-services
 
 doc-templates: deps
 	rm -rf doc/templates
-	grunt jsdoc:templates
+	grunt doc-gen-templates
 
 doc-modules: deps
 	rm -rf doc/commons
-	grunt jsdoc:commons
+	grunt doc-gen-commons
 
 deps:
 	npm install

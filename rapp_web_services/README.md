@@ -40,10 +40,16 @@ On a fresh clone you will first need to install devDependencies:
 $ npm install
 ```
 
-For initiating HOP Web Server (and HOP Web Services), execute, under this directory:
+For initiating HOP Web Server (and HOP Web Services), a grunt task exists:
 
 ```shell
-$ npm start
+$ grunt init-hop
+```
+
+Or execute the **run.sh** script directly:
+
+```shell
+$ ./run.sh
 ```
 
 Any js file, stored under the services/ directory with a .service.js extension, is considered to be
