@@ -16,4 +16,4 @@ export LD_LIBRARY_PATH=/usr/lib/jvm/default-java/jre/lib/amd64:/usr/lib/jvm/defa
 
 WEB_SERVICES_PATH=$HOME/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services/
 cd  $WEB_SERVICES_PATH
-npm start
+grunt init-hop
