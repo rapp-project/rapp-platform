@@ -75,7 +75,7 @@ Generate documentation for HOP Web Services ONLY!:
 $ grunt jsdoc:services
 ```
 
-Generate documentation for service-templates ONLY!:
+Generate documentation for service-creation-templates ONLY!:
 
 ```shell
 $ grunt jsdoc:templates

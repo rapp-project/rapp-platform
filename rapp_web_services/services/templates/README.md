@@ -1,4 +1,4 @@
-RAPP Platform Web Services Templates
+RAPP Platform Web Services Development Templates
 -------------------------------------
 
 ## Synopsis
