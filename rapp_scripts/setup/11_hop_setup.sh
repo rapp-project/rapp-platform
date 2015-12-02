@@ -40,7 +40,7 @@ sudo apt-get install libunistring-dev &> /dev/null
 cd ${RappPlatformPath}
 mkdir hop-bigloo
 cd hop-bigloo
-wget ${BiglooUrl}
+wget ${BiglooUrl} &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Bigloo \e[0m"
 tar -zxf "${BiglooIndex}.tar.gz" &> /dev/null
