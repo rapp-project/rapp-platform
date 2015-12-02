@@ -173,6 +173,7 @@ def append_to_system_path(paths):
 #   @brief Print final results.
 ##
 def print_results():
+    failed = 0
     print "\n\n" + bcolors.BOLD + bcolors.UNDERLINE + bcolors.YELLOW + \
         "******* Results ********\n" + bcolors.ENDC
     print bcolors.OKGREEN + "[ Succeded ]: {%s / %s}" \
@@ -182,7 +183,9 @@ def print_results():
     print "\n" + bcolors.FAIL + "[ Failed ]: {%s / %s}" \
         % (len(results['failed']), results['num_tests'])
     for failed in results['failed']:
+        failed += failed
         print "- " + failed
+    return failed
 
 
 ##
@@ -296,4 +299,6 @@ def main():
     # Execute loaded tests. Use input number-of-calls and threaded arguments.
     execute_tests_all(testFiles, numCalls, threaded)
     # Print final results.
-    print_results()
+    failed = print_results()
+    if failed != 0:
+      sys.exit(1)

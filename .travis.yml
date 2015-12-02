@@ -40,6 +40,8 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   # Run unit and functional tests
   - cd $RAPP_WS
   - catkin_make run_tests -j1
+  - catkin_test_results
+  - catkin_make test -j1
   # Run integration tests
   - echo "Unit and functional tests ok. Executing integration tests"
   - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh
