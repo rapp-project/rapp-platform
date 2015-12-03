@@ -230,11 +230,11 @@ public class Sphinx4 {
         else if (tmp[0].contains("audioInput")) {
           updateConfiguration();
           test_file = new File(tmp[1]);
-          bufferWrite.println(tmp[1]); // Check why these are needed!
-          bufferWrite.println(tmp[1]);
+          String temp;
           if(!test_file.exists())
           {
             bufferWrite.println("Fatal error, audio file does not exist");
+            temp = bufferRead.readLine();
           }
           else
           {
@@ -242,9 +242,11 @@ public class Sphinx4 {
             SpeechResult result;
             while ((result = recognizer.getResult()) != null) {
               bufferWrite.println("#" + result.getHypothesis());
+              temp = bufferRead.readLine();
             }
             recognizer.stopRecognition();
             bufferWrite.println("stopPython");
+            temp = bufferRead.readLine();
           }
         }
       }

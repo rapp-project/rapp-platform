@@ -408,10 +408,10 @@ class Sphinx4Wrapper(GlobalParams):
     self.socket_connection.sendall("start\r\n")
     self.socket_connection.sendall("audioInput#" + audio_file + "\r\n")
     start_time = time.time()
-    self._readLine()
     words = []
     while(True):
       line = self._readLine()
+      self.socket_connection.sendall('Read line\r\n')
       if(len(line)>0):
         if(line[0]=="#"):
           stripped_down_line = line[1:-1].split(" ")
