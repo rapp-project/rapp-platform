@@ -114,6 +114,10 @@ class TestSelector:
       
       #Retrieve the name of the selected test
       tmpList=finalTestname.split('#')
+      if (tmpList[1] is None):
+        res.trace.append("Invalid test name retrieved from ontology, did not contain #")
+        res.error="Invalid test name retrieved from ontology, did not contain #"
+        res.success=False        
       res.test=tmpList[1]
 
       #Parse the test xml file and retrieve the desired information

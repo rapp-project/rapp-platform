@@ -35,11 +35,14 @@ from rapp_platform_ros_communications.srv import (
   createOntologyAliasSrv,
   createOntologyAliasSrvRequest,
   createOntologyAliasSrvResponse,
+  userPerformanceCognitveTestsSrv,
+  userPerformanceCognitveTestsSrvRequest,
   userScoreHistoryForAllCategoriesSrv,
   userScoreHistoryForAllCategoriesSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (
+  CognitiveExercisePerformanceRecordsMsg,
   StringArrayMsg
   )
 
@@ -50,33 +53,35 @@ from rapp_platform_ros_communications.msg import (
 class UserScoreHistoryForAllCategories:
 
   ## @brief The callback function of the cognitive exercise user score history for all categories service
-  # @param req [rapp_platform_ros_communications::userScoresForAllCategoriesSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The ROS service response
+  # @param req [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The ROS service response
   # @exception Exception IndexError
   # @exception Exception AIOError
   # @exception Exception ValueError
   def returnUserHistory(self,req):
     try:
-      res = userScoreHistoryForAllCategoriesSrvResponse()      
-      print "akraio"
+      res = userScoreHistoryForAllCategoriesSrvResponse()
       
       returnWithError,userOntologyAlias=self.getUserOntologyAlias(req.username,res)
       if(returnWithError):
         return res      
+
+      returnWithError,fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)
+      if(returnWithError):
+        return res              
+
+      returnWithError,testTypesList=self.getTestTypesFromOntology(res)
+      if(returnWithError):
+        return res
         
-      #returnWithError,testTypesList=self.getTestTypesFromOntology(res)
-      #if(returnWithError):
-        #return res
-        
-      #res.testCategories=testTypesList
-      #res.testScores=self.calculateUserScoresForCategories(testTypesList,userOntologyAlias,req.upToTime)   
-      #res.success=True         
+      self.retrieveTestHistoryForTestCategories(testTypesList,userOntologyAlias,fromTime,toTime,res)  
+      res.success=True    
 
     except ValueError:
       res.trace.append("Value Error, probably conversion from integer to string failed. Invalid ontology entries?")
       res.success=False
     except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.trace.append("Null pointer exception")
       res.success=False
     except IOError:
       print "Error: can\'t find login file or read data"
@@ -85,9 +90,9 @@ class UserScoreHistoryForAllCategories:
     return res
 
   ## @brief Queries the ontology and returns the cognitive test types available
-  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
+  # @param res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
   #
-  # @return res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
+  # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
   # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return testTypesList [list] The list of the available tests as they were read from the ontology
   def getTestTypesFromOntology(self,res):
@@ -110,9 +115,9 @@ class UserScoreHistoryForAllCategories:
 
   ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
   # @param username [string] The user's username
-  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
+  # @param res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
   #
-  # @return res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
+  # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
   # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return ontologyAlias [string] The user's ontology alias
   def getUserOntologyAlias(self,username,res):
@@ -129,13 +134,13 @@ class UserScoreHistoryForAllCategories:
       return True,""
     return False,createOntologyAliasResponse.ontology_alias
 
-  ## @brief Calculates and returns the user's scores for the provided test types  
+  ## @brief Retrieves the test history of the user for the provided test categories  
   # @param testTypesList [list] The list of the available tests as they were read from the ontology
   # @param userOntologyAlias [string] The user's ontology alias
   # @param upToTime [long] The time up to which the user's performance records are taken into account
   # 
-  # @return testScores [list] The test scores for each category
-  def calculateUserScoresForCategories(self,testTypesList,userOntologyAlias,upToTime):
+  # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
+  def retrieveTestHistoryForTestCategories(self,testTypesList,userOntologyAlias,fromTime,toTime,res):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests') 
     scoresPerCategory=[]
     d1=OrderedDict()
@@ -145,12 +150,58 @@ class UserScoreHistoryForAllCategories:
       userPerformanceReq.ontology_alias=userOntologyAlias
       knowrob_service = rospy.ServiceProxy(serv_topic, userPerformanceCognitveTestsSrv)
       userPerformanceResponse = knowrob_service(userPerformanceReq)      
-      if(userPerformanceResponse.success!=True):
-        scoresPerCategory.append(0)
-      else:
-        scoreOfCategory=0
-        for i in range(len(userPerformanceResponse.tests)):
-          if(int(userPerformanceResponse.timestamps[i])<upToTime):
-            scoreOfCategory=scoreOfCategory+(int(userPerformanceResponse.scores[i])*int(userPerformanceResponse.difficulty[i]))
-        scoresPerCategory.append(long(scoreOfCategory/len(userPerformanceResponse.tests)))
-    return scoresPerCategory    
+      if(userPerformanceResponse.success==True): 
+        userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
+        tmpAverageCategoryScore=0
+        countValidTests=0;
+        for k, v in userPerfOrganizedByTimestamp.items():
+          if(k<fromTime or k>toTime):
+            del userPerfOrganizedByTimestamp[k]
+          else:
+            tmpRecord=CognitiveExercisePerformanceRecordsMsg()
+            tmpRecord.timestamp=k
+            tmpList=v[0][0].split('#') 
+            if (tmpList[1] is not None):
+              tmpRecord.test=tmpList[1]
+            tmpRecord.score=long(v[0][1])           
+            tmpRecord.difficulty=v[0][2]
+            tmpList=v[0][3].split('#')
+            if (tmpList[1] is not None):
+              tmpRecord.subtype=tmpList[1]
+            tmpRecord.type=s
+            countValidTests=countValidTests+1
+            tmpAverageCategoryScore=tmpAverageCategoryScore+long(v[0][2])*long(v[0][1])
+            tmpAverageCategoryScore=tmpAverageCategoryScore/countValidTests
+            tmpRecord.meanScoreForTypeUpToNow=tmpAverageCategoryScore
+            res.records.append(tmpRecord)
+
+
+  ## @brief Validates the fromTime and toTime variables  
+  # @param fromTime [long] The time from which the performance records are evaluated
+  # @param toTime [long] The time up to which the performance records are evaluated
+  # 
+  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report  
+  # @return fromTime [long] The time from which the performance records are evaluated
+  # @return toTime [long] The time up to which the performance records are evaluated
+  def validateTimeRange(self,fromTime,toTime,res):
+    if (toTime is None or toTime==0):
+      toTime=9999999999999999999999
+    if (fromTime is None or fromTime==0):
+      fromTime=0    
+    if(fromTime>=toTime):
+      res.success=False
+      res.error="Invalid time range, fromTime is later than toTime"
+      return True,0,0      
+    return False,fromTime,toTime
+
+  ## @brief Organizes the user's performance entries by timestamp
+  # @param d [dict] The dictionary containing the user's performance entries
+  #
+  # @return d [OrderedDict] The dictionary containing the user's performance entries organized by timestamp
+  def organizeUserPerformance(self,userPerf):
+    d=OrderedDict()
+    for i in range(len(userPerf.tests)):
+      tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i],userPerf.subtypes[i]]
+      d[int(userPerf.timestamps[i])]=[tlist]
+    d=OrderedDict(sorted(d.items(), key=lambda t: t[0], reverse=True))
+    return d

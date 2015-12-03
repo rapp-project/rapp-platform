@@ -34,7 +34,10 @@ from rapp_platform_ros_communications.srv import (
   cognitiveTestCreatorSrvResponse,
   userScoresForAllCategoriesSrv,
   userScoresForAllCategoriesSrvRequest,
-  userScoresForAllCategoriesSrvResponse
+  userScoresForAllCategoriesSrvResponse,
+  userScoreHistoryForAllCategoriesSrv,
+  userScoreHistoryForAllCategoriesSrvRequest,
+  userScoreHistoryForAllCategoriesSrvResponse
   )
 
 ## @class CognitiveExerciseFunc 
@@ -116,7 +119,23 @@ class CognitiveExerciseFunc(unittest.TestCase):
         self.assertEqual(response.success, True)          
         self.assertEqual("ArithmeticCts" and "ReasoningCts" and "AwarenessCts" in response.testCategories, True)
         self.assertEqual(len(response.testScores)>=3, True)
-  
+
+    def test_user_score_history_for_all_categories_valid_input_basic(self):
+        ros_service = rospy.get_param(\
+                "rapp_cognitive_exercise_user_all_categories_history_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, userScoreHistoryForAllCategoriesSrv)
+
+        req = userScoreHistoryForAllCategoriesSrvRequest()
+        req.username="rapp"
+        req.toTime=0
+        req.fromTime=0
+        response = test_service(req)     
+        self.assertEqual(response.success, True)          
+        self.assertEqual(len(response.records)>5,True)
+        
 ## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':
     import rosunit
