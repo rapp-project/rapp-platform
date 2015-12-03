@@ -63,7 +63,7 @@ from rapp_platform_ros_communications.msg import (
 # It implements the cognitive exercise chooser service
 class TestSelector:
   ##This variable refers to the length of time backwards that the user's cognitive test performance records will be queried, default value is 15552000000 -3 months
-  lookBackTimeStamp=15552000000 #15552000000 for last 3 months    
+  #lookBackTimeStamp=15552000000 #15552000000 for last 3 months    
 
   ## @brief The callback function of the cognitive exercise chooser service, all other functions of the class are called from within this function
   ## @brief The cognitive exercise chooser service callback
@@ -77,7 +77,7 @@ class TestSelector:
       res = testSelectorSrvResponse()
       currentTimestamp = int(time.time())       
  
-      returnWithError,modifier1,modifier2=self.loadParamDifficultyModifiers(res)
+      returnWithError,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp=self.loadParamDifficultyModifiersAndHistorySettings(res)
       if(returnWithError):
         return res
         
@@ -104,8 +104,8 @@ class TestSelector:
         else:
           testType=req.testType
       
-      chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.organizeUserPerformanceByTimestampAndDetermineTestDifficulty(testType,userOntologyAlias,currentTimestamp,self.lookBackTimeStamp,res,modifier1,modifier2)
-            
+      chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.organizeUserPerformanceByTimestampAndDetermineTestDifficulty(testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastTests)
+ 
       returnWithError,testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res)      
       if(returnWithError):
         return res      
@@ -221,16 +221,18 @@ class TestSelector:
   # @param testType [string] The test type (category)
   # @param userOntologyAlias [string] The user's ontology alias
   # @param currentTimestamp [int] The timestamp at the time of the service call
-  # @param lookBackTimeStamp [int] The look back timestamp. Default value is 3 months back from current time
+  # @param lookBackTimeStamp [int] The number of months backwards in seconds as in unix timestamp
   # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @param modifier1 [int] The first difficulty modifier
   # @param modifier2 [int] The second difficulty modifier
+  # @param historyBasedOnNumOfTestsAndNotTime [bool] True if past performance records are based on number of tests and not time
+  # @param pastTests [int] Number of tests backwards
   #
   # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return chosenDif [string] The chosen difficulty setting
   # @return noUserPerformanceRecordsExist [bool] True if no user performance records exit for the user for the given test type
   # @return userPerfOrganizedByTimestamp [OrderedDict] The user's performance records in a dictionary, ordered by timestamp  
-  def organizeUserPerformanceByTimestampAndDetermineTestDifficulty(self,testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2):
+  def organizeUserPerformanceByTimestampAndDetermineTestDifficulty(self,testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastTests):
     noUserPerformanceRecordsExist=False;
     chosenDif="1"
     userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
@@ -247,11 +249,19 @@ class TestSelector:
       noUserPerformanceRecordsExist=True
     else:
       userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
-      for k, v in userPerfOrganizedByTimestamp.items():
-        if(currentTimestamp-k>lookBackTimeStamp):
-          del userPerfOrganizedByTimestamp[k]
-        else:
-          break
+      if(historyBasedOnNumOfTestsAndNotTime):
+        if(len(userPerfOrganizedByTimestamp)>pastTests):          
+          counter=0;
+          for k, v in userPerfOrganizedByTimestamp.items():
+            counter=counter+1
+            if(counter>pastTests):
+              del userPerfOrganizedByTimestamp[k]       
+      else:
+        for k, v in userPerfOrganizedByTimestamp.items():
+          if(currentTimestamp-k>lookBackTimeStamp):
+            del userPerfOrganizedByTimestamp[k]
+          else:
+            break
 
       userScore=self.calculateUserScore(userPerfOrganizedByTimestamp)
       res.trace.append("user score :"+str(userScore))
@@ -358,8 +368,9 @@ class TestSelector:
     d=OrderedDict()
     for i in range(len(userPerf.tests)):
       tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i]]
-      d[int(userPerf.timestamps[i])]=[tlist]
+      d[int(userPerf.timestamps[i])]=[tlist]      
     d=OrderedDict(sorted(d.items(), key=lambda t: t[0], reverse=True))
+    #Order is descending
     return d
 
   ## @brief Calculates the user's score from the performance entries
@@ -431,7 +442,11 @@ class TestSelector:
   # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return modifier1 [int] The first difficulty modifier
   # @return modifier2 [int] The second difficulty modifier
-  def loadParamDifficultyModifiers(self,res):
+  # @return historyBasedOnNumOfTestsAndNotTime [bool] True if past performance records are based on number of tests and not time
+  # @return pastMonths [int] Number of months backwards
+  # @return pastTests [int] Number of tests backwards
+  # @return lookBackTimeStamp [long] The number of months backwards in seconds as in unix timestamp
+  def loadParamDifficultyModifiersAndHistorySettings(self,res):
     modifier1 = rospy.get_param('rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2')
     if(not modifier1):
       rospy.logerror("rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2 param not found")
@@ -439,7 +454,9 @@ class TestSelector:
       res.error="rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2 param not found"
       res.success=False
       returnWithError=True;
-      return True,"",""
+      return True,"","","","",""
+    modifier1=int(modifier1)
+    
     modifier2 = rospy.get_param('rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3')  
     if(not modifier2):
       rospy.logerror("rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3 param not found")
@@ -447,8 +464,42 @@ class TestSelector:
       res.error="rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3 param not found"
       res.success=False
       returnWithError=True;
-      return True,"",""
-    modifier1=int(modifier1)
-    modifier2=int(modifier2)
-    return False,modifier1,modifier2
-
+      return True,"","","","",""
+    modifier2=int(modifier2)    
+      
+    if(not rospy.has_param('rapp_cognitive_test_selector_past_performance_based_on_number_of_tests_and_not_time')):
+      rospy.logerror("rapp_cognitive_test_selector_past_performance_based_on_number_of_tests_and_not_time param not found")
+      res.trace.extend("rapp_cognitive_test_selector_past_performance_based_on_number_of_tests_and_not_time param not found")
+      res.error="rapp_cognitive_test_selector_past_performance_based_on_number_of_tests_and_not_time param not found"
+      res.success=False
+      returnWithError=True;
+      return True,"","","","",""
+    historyBasedOnNumOfTestsAndNotTime = rospy.get_param('rapp_cognitive_test_selector_past_performance_based_on_number_of_tests_and_not_time')
+    historyBasedOnNumOfTestsAndNotTime=(str(historyBasedOnNumOfTestsAndNotTime)).lower()
+    if(historyBasedOnNumOfTestsAndNotTime=="true"):
+      historyBasedOnNumOfTestsAndNotTime=True
+    else:
+      historyBasedOnNumOfTestsAndNotTime=False
+      
+    pastMonths = rospy.get_param('rapp_cognitive_test_selector_past_performance_number_of_past_months')  
+    if(not pastMonths):
+      rospy.logerror("rapp_cognitive_test_selector_past_performance_number_of_past_months param not found")
+      res.trace.extend("rapp_cognitive_test_selector_past_performance_number_of_past_months param not found")
+      res.error="rapp_cognitive_test_selector_past_performance_number_of_past_months param not found"
+      res.success=False
+      returnWithError=True;
+      return True,"","","","",""
+    pastMonths=int(pastMonths)
+    
+    pastTests = rospy.get_param('rapp_cognitive_test_selector_past_performance_number_of_past_tests')  
+    if(not pastTests):
+      rospy.logerror("rapp_cognitive_test_selector_past_performance_number_of_past_tests param not found")
+      res.trace.extend("rapp_cognitive_test_selector_past_performance_number_of_past_tests param not found")
+      res.error="rapp_cognitive_test_selector_past_performance_number_of_past_tests param not found"
+      res.success=False
+      returnWithError=True;
+      return True,"","","","",""    
+    pastTests=int(pastTests)
+    
+    lookBackTimeStamp=pastMonths*30*24*3600
+    return False,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp
