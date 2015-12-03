@@ -67,4 +67,4 @@ echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Platform\e[0m"
 cd ${RappPlatformWs} && catkin_make
 
 # Install rapp_web_services package deps
-cd ${RappWebServicesPkgPath} && npm install 1> /dev/null
+cd ${RappWebServicesPkgPath} && npm install &> /dev/null

@@ -51,9 +51,8 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - rosrun rapp_testing_tools rapp_run_test.py
 after_success:
   # Create documentation
-  - sudo apt-get install -qq -y doxygen texlive-full &> /dev/null
   - echo "Creating online documentation"
-  - sudo ln -s /usr/bin/nodejs /usr/bin/node
+  - sudo apt-get install -qq -y doxygen texlive-full &> /dev/null
   - cd $RAPP_PL/rapp_scripts/documentation
   - bash update_rapp-project.github.io.sh
   - echo "Documentation created and updated online"
