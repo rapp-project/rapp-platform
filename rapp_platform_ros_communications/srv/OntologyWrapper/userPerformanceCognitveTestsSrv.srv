@@ -6,6 +6,7 @@ string test_type
 ---
 # The results of the query
 string[] tests
+string[] subtypes
 string[] scores
 string[] difficulty
 string[] timestamps

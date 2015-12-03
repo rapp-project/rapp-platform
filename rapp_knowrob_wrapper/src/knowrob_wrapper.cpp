@@ -404,7 +404,7 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     res.error=std::string("Error, test type empty");
     return res;
   }
-  std::string query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Dif,Timestamp,SC,P)");
+  std::string query=std::string("userCognitiveTestPerformance(knowrob:'")+req.ontology_alias+std::string("',knowrob:'")+req.test_type+std::string("',B,Dif,Timestamp,SC,P,SubType)");
   json_prolog::PrologQueryProxy results = pl.query(query.c_str());
   char status = results.getStatus();
   if(status==0)
@@ -422,6 +422,7 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
   std::vector<std::string> query_ret_scores;
   std::vector<std::string> query_ret_difficulty;
   std::vector<std::string> query_ret_timestamps;
+  std::vector<std::string> query_ret_subtypes;
   for(json_prolog::PrologQueryProxy::iterator it = results.begin() ;
     it != results.end() ; it++)
   {
@@ -438,6 +439,9 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     
     std::string temp_query_scores=bdg["SC"];
     query_ret_scores.push_back(temp_query_scores);
+    
+    std::string tmp_query_subtypes=bdg["SubType"];
+    query_ret_subtypes.push_back(tmp_query_subtypes);
   }
   for(unsigned int i = 0 ; i < query_ret_tests.size() ; i++)
   {
@@ -445,6 +449,7 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
     res.scores.push_back(query_ret_scores[i]);
     res.difficulty.push_back(query_ret_difficulty[i]);
     res.timestamps.push_back(query_ret_timestamps[i]);
+    res.subtypes.push_back(query_ret_subtypes[i]);
   }
 
   return res;
