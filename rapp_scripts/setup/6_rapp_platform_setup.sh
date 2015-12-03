@@ -63,4 +63,4 @@ echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/
 
 # catkin_make rapp-platform
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Platform\e[0m"
-cd ${RappPlatformWs} && catkin_make -j1  &> /dev/null
+cd ${RappPlatformWs} && catkin_make -j1

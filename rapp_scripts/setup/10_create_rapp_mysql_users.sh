@@ -23,9 +23,15 @@
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Create MySQL RAPP user \e[0m"
 
-echo "Insert MySQL root Password"
+if [ "$1" != 'travis' ]; then
+  echo "Insert MySQL root Password"
+fi
 echo "CREATE USER 'dummyUser'@'localhost' IDENTIFIED BY 'changeMe'" | mysql -u root -p$1
-echo "Insert MySQL root Password"
+if [ "$1" != 'travis' ]; then
+  echo "Insert MySQL root Password"
+fi
 echo "GRANT ALL ON RappStore.* TO 'dummyUser'@'localhost'" | mysql -u root -p$1
-echo "If prompted insert root sudo password"
+if [ "$1" != 'travis' ]; then
+  echo "If prompted insert root sudo password"
+fi
 sudo sh -c 'printf "dummyUser\nchangeMe" >/etc/db_credentials'

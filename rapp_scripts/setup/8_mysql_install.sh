@@ -24,20 +24,23 @@
 #  Install mysql.
 ##
 
-echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL install \e[0m"
+echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL \e[0m"
 if [ $# -eq 1 ]; then
   if [ "$1" == 'travis' ]; then
+    echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL travis deb-configurations \e[0m"
     sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password travis'
     sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password travis'
   fi
 fi
 
 # Setup sources list
+echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL install \e[0m"
 sudo apt-get install -y -qq mysql-client mysql-server &> /dev/null
 sudo apt-get install -y -qq python-mysqldb &> /dev/null
 
 if [ $# -eq 1 ]; then
   if [ "$1" == 'travis' ]; then
-    echo PURGE | sudo debconf-communicate mysql-server
+    echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL travis deb-configurations \e[0m"
+    echo PURGE | sudo debconf-communicate mysql-server &> /dev/null
   fi
 fi
