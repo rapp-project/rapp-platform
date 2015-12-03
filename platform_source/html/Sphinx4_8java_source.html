@@ -324,11 +324,11 @@ $(document).ready(function(){initNavTree('Sphinx4_8java_source.html','');});
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (tmp[0].contains(<span class="stringliteral">&quot;audioInput&quot;</span>)) {</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;          <a class="code" href="classSphinx4.html#aba08f44441901e354030366cd6f431e9">updateConfiguration</a>();</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;          test_file = <span class="keyword">new</span> File(tmp[1]);</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;          bufferWrite.println(tmp[1]); <span class="comment">// Check why these are needed!</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;          bufferWrite.println(tmp[1]);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;          <span class="keywordflow">if</span>(!test_file.exists())</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;          {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            bufferWrite.println(<span class="stringliteral">&quot;Fatal error, audio file does not exist&quot;</span>);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;          String temp;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;          <span class="keywordflow">if</span>(!test_file.exists())</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;          {</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            bufferWrite.println(<span class="stringliteral">&quot;Fatal error, audio file does not exist&quot;</span>);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            temp = bufferRead.readLine();</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;          }</div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;          <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;          {</div>
@@ -336,22 +336,24 @@ $(document).ready(function(){initNavTree('Sphinx4_8java_source.html','');});
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            SpeechResult result;</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="keywordflow">while</span> ((result = <a class="code" href="classSphinx4.html#a232118ec001bbb6fe7def78e9592ef9b">recognizer</a>.getResult()) != null) {</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;              bufferWrite.println(<span class="stringliteral">&quot;#&quot;</span> + result.getHypothesis());</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            }</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            recognizer.stopRecognition();</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            bufferWrite.println(<span class="stringliteral">&quot;stopPython&quot;</span>);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;          }</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        }</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;      }</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      <span class="keywordflow">catch</span> (IOException | RuntimeException e) {</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      <span class="comment">//catch (IOException e) {</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        e.printStackTrace();</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="comment">//bufferWrite.println(&quot;#&quot;+e);</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        bufferWrite.println(<span class="stringliteral">&quot;CatchedException &quot;</span> + e);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">//bufferWrite.println(&quot;stopPython&quot;);</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      }</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    }</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  }</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;}</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;              temp = bufferRead.readLine();</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            }</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            recognizer.stopRecognition();</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            bufferWrite.println(<span class="stringliteral">&quot;stopPython&quot;</span>);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            temp = bufferRead.readLine();</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;          }</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        }</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      }</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      <span class="keywordflow">catch</span> (IOException | RuntimeException e) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;      <span class="comment">//catch (IOException e) {</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        e.printStackTrace();</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">//bufferWrite.println(&quot;#&quot;+e);</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        bufferWrite.println(<span class="stringliteral">&quot;CatchedException &quot;</span> + e);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="comment">//bufferWrite.println(&quot;stopPython&quot;);</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;      }</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    }</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  }</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;}</div>
 <div class="ttc" id="classSphinx4_html_a20f0d9d8646e97cd64d675957eb0a8ec"><div class="ttname"><a href="classSphinx4.html#a20f0d9d8646e97cd64d675957eb0a8ec">Sphinx4.grammar_enabled</a></div><div class="ttdeci">static boolean grammar_enabled</div><div class="ttdef"><b>Definition:</b> <a href="Sphinx4_8java_source.html#l00075">Sphinx4.java:75</a></div></div>
 <div class="ttc" id="classSphinx4_html_a3830508de85cfcde2b71c019b9b645da"><div class="ttname"><a href="classSphinx4.html#a3830508de85cfcde2b71c019b9b645da">Sphinx4.grammar_enabled_prev</a></div><div class="ttdeci">static boolean grammar_enabled_prev</div><div class="ttdef"><b>Definition:</b> <a href="Sphinx4_8java_source.html#l00076">Sphinx4.java:76</a></div></div>
 <div class="ttc" id="classSphinx4_html_aa403d02afb54d7c774c4ec53770a567c"><div class="ttname"><a href="classSphinx4.html#aa403d02afb54d7c774c4ec53770a567c">Sphinx4.configuration_model_path</a></div><div class="ttdeci">static String configuration_model_path</div><div class="ttdef"><b>Definition:</b> <a href="Sphinx4_8java_source.html#l00065">Sphinx4.java:65</a></div></div>
@@ -380,7 +382,7 @@ $(document).ready(function(){initNavTree('Sphinx4_8java_source.html','');});
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_ff35261132df96d26746ecb843f887e8.html">rapp_speech_detection_sphinx4</a></li><li class="navelem"><a class="el" href="dir_ba12041bdacd71bc06d9679b51b9ce53.html">src</a></li><li class="navelem"><a class="el" href="Sphinx4_8java.html">Sphinx4.java</a></li>
-    <li class="footer">Generated on Wed Dec 2 2015 13:19:19 for RAPP Platform by
+    <li class="footer">Generated on Thu Dec 3 2015 15:00:43 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

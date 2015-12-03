@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classrapp__exceptions_1_1RappError.html" title="Inherits Exception and is used to catch only RAPP&#45;specific exceptions. " alt="" coords="147,5,327,32"/>
+<area shape="rect" id="node3" href="$classrapp__speech__detection__sphinx4_1_1rapp__exceptions_1_1RappError.html" title="Provides a RAPP specific exception. " alt="" coords="133,56,341,112"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc.html" title="Inherits the unittest.TestCase class in order to offer functional tests functionality. " alt="" coords="134,5,341,61"/>
+<area shape="rect" id="node3" href="$classload__dump__ontology__functional__tests_1_1OntologyFunc.html" title="Inherits the unittest.TestCase class in order to offer functional tests functionalit. " alt="" coords="134,85,341,126"/>
+<area shape="rect" id="node4" href="$classsub__super__class__functional__tests_1_1OntologyFunc.html" title="Inherits the unittest.TestCase class in order to offer functional tests functionality. " alt="" coords="146,150,329,191"/>
+</map>

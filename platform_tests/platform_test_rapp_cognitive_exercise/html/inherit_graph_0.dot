@@ -1,9 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node1 [label="TestCase",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="cognitive_exercise\l_system_services_functional\l_tests.CognitiveExerciseFunc",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc.html",tooltip="Inherits the unittest.TestCase class in order to offer functional tests functionality. "];
-}

@@ -1,9 +1,0 @@
-digraph "/home/travis/rapp_temp/rapp-platform/rapp_mysql_wrapper/tests" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_674eda42ad24b3cf1bba3dd14db58d10 {
-    graph [ bgcolor="#ddddee", pencolor="black", label="rapp_mysql_wrapper" fontname="Helvetica", fontsize="10", URL="dir_674eda42ad24b3cf1bba3dd14db58d10.html"]
-  dir_78baba00ca5345e5fe669d9b72175be6 [shape=box, label="tests", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_78baba00ca5345e5fe669d9b72175be6.html"];
-  }
-}

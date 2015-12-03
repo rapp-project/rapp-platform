@@ -1,4 +1,20 @@
 var searchData=
 [
-  ['what_2dis_2dthe_2drapp_2dplatform_3f_2dwhy_2dis_2dit_2duseful_3f_2emd',['What-is-the-RAPP-Platform?-Why-is-it-useful?.md',['../What-is-the-RAPP-Platform_04-Why-is-it-useful_04_8md.html',1,'']]]
+  ['rapp_2darchitecture_2emd',['RAPP-Architecture.md',['../RAPP-Architecture_8md.html',1,'']]],
+  ['rapp_2daudio_2dprocessing_2emd',['RAPP-Audio-Processing.md',['../RAPP-Audio-Processing_8md.html',1,'']]],
+  ['rapp_2dcognitive_2dexercise_2emd',['RAPP-Cognitive-Exercise.md',['../RAPP-Cognitive-Exercise_8md.html',1,'']]],
+  ['rapp_2dface_2ddetection_2emd',['RAPP-Face-Detection.md',['../RAPP-Face-Detection_8md.html',1,'']]],
+  ['rapp_2dhop_2dservices_2emd',['RAPP-HOP-services.md',['../RAPP-HOP-services_8md.html',1,'']]],
+  ['rapp_2dknowrob_2dwrapper_2emd',['RAPP-Knowrob-wrapper.md',['../RAPP-Knowrob-wrapper_8md.html',1,'']]],
+  ['rapp_2dmultithreading_2dissues_2emd',['RAPP-Multithreading-issues.md',['../RAPP-Multithreading-issues_8md.html',1,'']]],
+  ['rapp_2dmysql_2dwrapper_2emd',['RAPP-MySQL-wrapper.md',['../RAPP-MySQL-wrapper_8md.html',1,'']]],
+  ['rapp_2dplatform_2d_28metapackage_29_2emd',['RAPP-Platform-(metapackage).md',['../RAPP-Platform-_07metapackage_08_8md.html',1,'']]],
+  ['rapp_2dplatform_2dlaunchers_2emd',['RAPP-Platform-Launchers.md',['../RAPP-Platform-Launchers_8md.html',1,'']]],
+  ['rapp_2dplatform_2dros_2dcommunications_2emd',['RAPP-Platform-ROS-Communications.md',['../RAPP-Platform-ROS-Communications_8md.html',1,'']]],
+  ['rapp_2dqr_2ddetection_2emd',['RAPP-QR-Detection.md',['../RAPP-QR-Detection_8md.html',1,'']]],
+  ['rapp_2dscripts_2emd',['RAPP-Scripts.md',['../RAPP-Scripts_8md.html',1,'']]],
+  ['rapp_2dspeech_2ddetection_2dusing_2dgoogle_2dapi_2emd',['RAPP-Speech-Detection-using-Google-API.md',['../RAPP-Speech-Detection-using-Google-API_8md.html',1,'']]],
+  ['rapp_2dspeech_2ddetection_2dusing_2dsphinx4_2emd',['RAPP-Speech-Detection-using-Sphinx4.md',['../RAPP-Speech-Detection-using-Sphinx4_8md.html',1,'']]],
+  ['rapp_2dtesting_2dtools_2emd',['RAPP-Testing-Tools.md',['../RAPP-Testing-Tools_8md.html',1,'']]],
+  ['rapp_2dtext_2dto_2dspeech_2dusing_2despeak_2d_26_2dmbrola_2emd',['RAPP-Text-to-speech-using-Espeak-&amp;-Mbrola.md',['../RAPP-Text-to-speech-using-Espeak-_6-Mbrola_8md.html',1,'']]]
 ];

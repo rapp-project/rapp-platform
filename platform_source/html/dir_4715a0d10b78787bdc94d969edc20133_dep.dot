@@ -1,9 +1,0 @@
-digraph "/home/travis/rapp_temp/rapp-platform/rapp_text_to_speech_espeak/src" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_0f57ef611029e0d074180b44328a62b6 {
-    graph [ bgcolor="#ddddee", pencolor="black", label="rapp_text_to_speech_espeak" fontname="Helvetica", fontsize="10", URL="dir_0f57ef611029e0d074180b44328a62b6.html"]
-  dir_4715a0d10b78787bdc94d969edc20133 [shape=box, label="src", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_4715a0d10b78787bdc94d969edc20133.html"];
-  }
-}

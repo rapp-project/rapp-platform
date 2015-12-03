@@ -1,9 +1,0 @@
-digraph "/home/travis/rapp_temp/rapp-platform/rapp_knowrob_wrapper/include/knowrob_wrapper" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_a457ade1a4f3897254c53140b3f88f4c {
-    graph [ bgcolor="#ddddee", pencolor="black", label="include" fontname="Helvetica", fontsize="10", URL="dir_a457ade1a4f3897254c53140b3f88f4c.html"]
-  dir_bd5ab6a410e6ce3d9b5052d6f44bf8e8 [shape=box, label="knowrob_wrapper", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_bd5ab6a410e6ce3d9b5052d6f44bf8e8.html"];
-  }
-}

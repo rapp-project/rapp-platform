@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['everything_2dis_2dset_2dup_2dand_2dworking_21_2dwhat_2dnow_3f_2emd',['Everything-is-set-up-and-working!-What-now?.md',['../Everything-is-set-up-and-working_9-What-now_04_8md.html',1,'']]]
+  ['create_2dand_2dauthenticate_2da_2dnew_2drapp_2duser_2emd',['Create-and-authenticate-a-new-RAPP-user.md',['../Create-and-authenticate-a-new-RAPP-user_8md.html',1,'']]]
 ];

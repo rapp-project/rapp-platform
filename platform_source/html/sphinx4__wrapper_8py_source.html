@@ -517,10 +517,10 @@ $(document).ready(function(){initNavTree('sphinx4__wrapper_8py_source.html','');
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    self.socket_connection.sendall(<span class="stringliteral">&quot;start\r\n&quot;</span>)</div>
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    self.socket_connection.sendall(<span class="stringliteral">&quot;audioInput#&quot;</span> + audio_file + <span class="stringliteral">&quot;\r\n&quot;</span>)</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    start_time = time.time()</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    self.<a class="code" href="classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper.html#ac6ca615b241514eb49192e2bda55750b">_readLine</a>()</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    words = []</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    while(<span class="keyword">True</span>):</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;      line = self.<a class="code" href="classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper.html#ac6ca615b241514eb49192e2bda55750b">_readLine</a>()</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    words = []</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    while(<span class="keyword">True</span>):</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;      line = self.<a class="code" href="classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper.html#ac6ca615b241514eb49192e2bda55750b">_readLine</a>()</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;      self.socket_connection.sendall(<span class="stringliteral">&#39;Read line\r\n&#39;</span>)</div>
 <div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;      if(len(line)&gt;0):</div>
 <div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        if(line[0]==<span class="stringliteral">&quot;#&quot;</span>):</div>
 <div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;          stripped_down_line = line[1:-1].<a class="code" href="knowrob__wrapper_8cpp.html#a527876ebdba0ec57bd96287221b4a594">split</a>(<span class="stringliteral">&quot; &quot;</span>)</div>
@@ -577,7 +577,7 @@ $(document).ready(function(){initNavTree('sphinx4__wrapper_8py_source.html','');
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_ff35261132df96d26746ecb843f887e8.html">rapp_speech_detection_sphinx4</a></li><li class="navelem"><a class="el" href="dir_ba12041bdacd71bc06d9679b51b9ce53.html">src</a></li><li class="navelem"><a class="el" href="dir_00f9ce4bce434fb37d04982503910b81.html">rapp_speech_detection_sphinx4</a></li><li class="navelem"><a class="el" href="sphinx4__wrapper_8py.html">sphinx4_wrapper.py</a></li>
-    <li class="footer">Generated on Wed Dec 2 2015 13:19:19 for RAPP Platform by
+    <li class="footer">Generated on Thu Dec 3 2015 15:00:43 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,9 +1,0 @@
-digraph "/home/travis/rapp_temp/rapp-platform/rapp_audio_processing/src/rapp_audio_processing" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_0da8a6dffe4698f6c330175b5ac6fa90 {
-    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_0da8a6dffe4698f6c330175b5ac6fa90.html"]
-  dir_5f740fad9dbc1282ccd09cb6025f0b00 [shape=box, label="rapp_audio_processing", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_5f740fad9dbc1282ccd09cb6025f0b00.html"];
-  }
-}

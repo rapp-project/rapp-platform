@@ -98,13 +98,70 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-to-write-th
 <div class="title">? How-to-write-the-API-for-a-HOP-service? </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>a </p>
+<div class="textblock"><p>Currently, we support and maintain RAPP-API(s) for the following programming languages:</p>
+<ul>
+<li>Python</li>
+<li>JavaScript</li>
+<li>C++</li>
+</ul>
+<p>Under the <a href="https://github.com/rapp-project/rapp-api">rapp-api repository</a> you can find more information regarding implemented and tested Rapp-Platform Service calls.</p>
+<p>As the integration tests are written in Python and uses the <a href="https://github.com/rapp-project/rapp-api/tree/master/python">Python-Rapp-APi</a> it is a good practice to start on the python-rapp-api.</p>
+<h3>Python Rapp-API Overview</h3>
+<p>The Python Rapp-API package can be found under the rapp-api/python/ directory, or <a href="https://github.com/rapp-project/rapp-api/tree/master/python">here</a>.</p>
+<p>The package includes the following components:</p>
+<ul>
+<li>RappCloud.py: For each developed HOP Web Service this class includes a method that is used to call the relevant HOP Web Service.</li>
+<li>CloudInterface: Service controller that handles HOP Web Service calls. It is actually an implementation of an HTTP.Post service controller.</li>
+<li>Configuration files: Configuration files which includes information on:<ul>
+<li>Platform authentication credentials, <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg">auth.cfg</a>. The default user for authentication is the <b>rapp</b> user. Platform-side authentication is handled by the HOP Server!!</li>
+<li>Platform address information, <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg">platform.cfg</a>. Here both the Platform ipv4-address and HOP Server listening port are declared.</li>
+<li>Platform HOP Web Services information, <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml">services.yaml</a>. Each developed HOP Web Service has its own entry into this file.</li>
+</ul>
+</li>
+</ul>
+<p>To extend the Python-Rapp-API with a new HOP Web Service call entry you have to:</p>
+<ul>
+<li>Implement the specific RappCloud class member function.</li>
+<li>Append the relevant HOP Web Service name into the <b>services.yaml</b> file.</li>
+</ul>
+<h3>Implement a RappCloud class member function as a HOP Web Service API call.</h3>
+<p>Lets say we want to implement the face_detection API call. The face_detection HOP Web Service has one input parameter that is a file (image frame).</p>
+<p>We implement a member function, named face_detection with one input parameter, named <b>file_uri</b>. This parameter is the system path to an image file we want to perform face_detection on.</p>
+<p>```python class RappCloud: ... ...</p>
+<p>def face_detection(self, fileUri): pass ```</p>
+<p>As you can see the above code just declares the API method and does nothing.</p>
+<p>HTTP .post requests can have the following fields:</p>
+<ul>
+<li>payload: The payload declares simple {parameter, value} pairs (param1: value).</li>
+<li>files: Used to transfer files over the Web, using multipart/form-data post requests.</li>
+</ul>
+<p>So lets declare two variables into our code to describe the aforementioned fields.</p>
+<p>```python def face_detection(self, fileUri): payload = {} files = {}</p>
+<p>```</p>
+<p>The face_detection HOP Web Service has one input parameter, named file_uri. We have to declare the <b>file_uri</b> field and append data into that field. Though keep in mind that the <b>file_uri</b> field holds the name of the trasfered, to the Platform HOP Web Service, file. To ensure that HOP Service incoming requests will never have conflicts on file_names because if this happens files on Platform will overwrite each other, we append a random identity as the file's name postfix ( <b>image1.png &ndash;&gt; image1-akji12.png</b> ). The RappCloud class holds an instance of the <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/RandStrGen/RandStrGen.py">Random String Generator</a> class to perform these kind of operations. To append a unique postfix to the file's name call the **__appendRandStr** member:</p>
+<p>```python def face_detection(self, fileUri): fileName = self.__appendRandStr(fileUri) payload = {} files = { 'file_uri': (fileName, open(fileUri, 'rb')) }</p>
+<p>```</p>
+<p>Notice that we leave the payload to be an empty field!!!</p>
+<p>Finally we need call the CloudInterface service controller. RappCloud class holds an instance of the CloudInterface class.</p>
+<p>```python def face_detection(self, fileUri): fileName = self.__appendRandStr(fileUri) payload = {} files = { 'file_uri': (fileName, open(fileUri, 'rb')) }</p>
+<p>url = self.serviceUrl_['face_detection']</p>
+<p>returnData = CloudInterface.callService(url, payload, files, self.auth_) return returnData</p>
+<p>```</p>
+<p>Though one last step is required in order to make the above code execute correctly We need to add the Face-Detection HOP Web Service name into the <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml">services.yaml</a> file.</p>
+<p>```yaml</p>
+<p>services: list:</p>
+<ul>
+<li>face_detection</li>
+</ul>
+<p>... ```</p>
+<p>Make sure to check the Platform Authentication credentials (<a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg">auth.cfg</a>) and Platform Parameters (<a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg">platform.cfg</a>).</p>
+<p>By default, Platform Parameters point to the locally installed RAPP-Platform. Read the <b>platfrom.cfg</b> file on how to change these parameters, if for example you installed the RAPP-Platform on a remote machine. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 2 2015 13:19:24 for RAPP Platform Wiki by
+    <li class="footer">Generated on Thu Dec 3 2015 15:00:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

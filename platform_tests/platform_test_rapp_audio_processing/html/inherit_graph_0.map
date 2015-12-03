@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classdenoise__unit__tests_1_1TestAudioProcessing.html" title="denoise_unit_tests.TestAudio\lProcessing" alt="" coords="156,5,351,46"/>
+<area shape="rect" id="node3" href="$classdetect__silence__unit__tests_1_1TestAudioProcessing.html" title="detect_silence_unit\l_tests.TestAudioProcessing" alt="" coords="160,70,347,111"/>
+<area shape="rect" id="node4" href="$classenergy__denoise__unit__tests_1_1TestAudioProcessing.html" title="energy_denoise_unit\l_tests.TestAudioProcessing" alt="" coords="160,135,347,177"/>
+<area shape="rect" id="node5" href="$classset__noise__profile__functional_1_1AudioProcessingSetNoiseProfileFunc.html" title="set_noise_profile_functional.\lAudioProcessingSetNoiseProfileFunc" alt="" coords="133,201,373,242"/>
+<area shape="rect" id="node6" href="$classset__noise__profile__unit__tests_1_1TestAudioProcessing.html" title="set_noise_profile_unit\l_tests.TestAudioProcessing" alt="" coords="160,266,347,307"/>
+<area shape="rect" id="node7" href="$classtransform__audio__unit__tests_1_1TestAudioProcessing.html" title="transform_audio_unit\l_tests.TestAudioProcessing" alt="" coords="160,331,347,373"/>
+<area shape="rect" id="node8" href="$classutilities__unit__tests_1_1TestAudioProcessing.html" title="utilities_unit_tests.Test\lAudioProcessing" alt="" coords="175,397,332,438"/>
+</map>

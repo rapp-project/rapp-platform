@@ -1,9 +1,0 @@
-digraph "/home/travis/rapp_temp/rapp-platform/rapp_cognitive_exercise/tests" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_599d3b2da531c1c5e41c86fbd6ffc296 {
-    graph [ bgcolor="#ddddee", pencolor="black", label="rapp_cognitive_exercise" fontname="Helvetica", fontsize="10", URL="dir_599d3b2da531c1c5e41c86fbd6ffc296.html"]
-  dir_b12c861184aa26c13cd96b5302893e17 [shape=box, label="tests", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_b12c861184aa26c13cd96b5302893e17.html"];
-  }
-}

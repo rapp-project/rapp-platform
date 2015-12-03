@@ -1,0 +1,3 @@
+<map id="FaceDetection" name="FaceDetection">
+<area shape="rect" id="node2" href="$classFaceDetector.html" title="Class that implements a face detection algorithm based on a Haar cascade classifier. " alt="" coords="8,5,109,32"/>
+</map>

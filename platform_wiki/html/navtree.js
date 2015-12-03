@@ -3,6 +3,7 @@ var NAVTREE =
   [ "RAPP Platform Wiki", "index.html", [
     [ "_Footer", "md_rapp-platform_8wiki__Footer.html", null ],
     [ "_Sidebar", "md_rapp-platform_8wiki__Sidebar.html", null ],
+    [ "Create-and-authenticate-a-new-RAPP-user", "md_rapp-platform_8wiki_Create-and-authenticate-a-new-RAPP-user.html", null ],
     [ "!-What-now? Everything-is-set-up-and-working!-What-now?", "md_rapp-platform_8wiki_Everything-is-set-up-and-working.html", null ],
     [ "RAPP Platform", "md_rapp-platform_8wiki_Home.html", null ],
     [ "HOP framework and HOP Web Services", "md_rapp-platform_8wiki_HOP-Services---General-Information.html", null ],

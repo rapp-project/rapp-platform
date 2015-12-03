@@ -1,1 +1,97 @@
-a 
+Currently, we support and maintain R\-A\-P\-P-\/\-A\-P\-I(s) for the following programming languages\-:
+
+
+\begin{DoxyItemize}
+\item Python
+\item Java\-Script
+\item C++
+\end{DoxyItemize}
+
+Under the \href{https://github.com/rapp-project/rapp-api}{\tt rapp-\/api repository} you can find more information regarding implemented and tested Rapp-\/\-Platform Service calls.
+
+As the integration tests are written in Python and uses the \href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt Python-\/\-Rapp-\/\-A\-Pi} it is a good practice to start on the python-\/rapp-\/api.
+
+\subsubsection*{Python Rapp-\/\-A\-P\-I Overview}
+
+The Python Rapp-\/\-A\-P\-I package can be found under the rapp-\/api/python/ directory, or \href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt here}.
+
+The package includes the following components\-:
+
+
+\begin{DoxyItemize}
+\item Rapp\-Cloud.\-py\-: For each developed H\-O\-P Web Service this class includes a method that is used to call the relevant H\-O\-P Web Service.
+\item Cloud\-Interface\-: Service controller that handles H\-O\-P Web Service calls. It is actually an implementation of an H\-T\-T\-P.\-Post service controller.
+\item Configuration files\-: Configuration files which includes information on\-:
+\begin{DoxyItemize}
+\item Platform authentication credentials, \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg}{\tt auth.\-cfg}. The default user for authentication is the {\bfseries rapp} user. Platform-\/side authentication is handled by the H\-O\-P Server!!
+\item Platform address information, \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg}{\tt platform.\-cfg}. Here both the Platform ipv4-\/address and H\-O\-P Server listening port are declared.
+\item Platform H\-O\-P Web Services information, \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml}{\tt services.\-yaml}. Each developed H\-O\-P Web Service has its own entry into this file.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+To extend the Python-\/\-Rapp-\/\-A\-P\-I with a new H\-O\-P Web Service call entry you have to\-:
+
+
+\begin{DoxyItemize}
+\item Implement the specific Rapp\-Cloud class member function.
+\item Append the relevant H\-O\-P Web Service name into the {\bfseries services.\-yaml} file.
+\end{DoxyItemize}
+
+\subsubsection*{Implement a Rapp\-Cloud class member function as a H\-O\-P Web Service A\-P\-I call.}
+
+Lets say we want to implement the face\-\_\-detection A\-P\-I call. The face\-\_\-detection H\-O\-P Web Service has one input parameter that is a file (image frame).
+
+We implement a member function, named face\-\_\-detection with one input parameter, named {\bfseries file\-\_\-uri}. This parameter is the system path to an image file we want to perform face\-\_\-detection on.
+
+```python class Rapp\-Cloud\-: ... ...
+
+def face\-\_\-detection(self, file\-Uri)\-: pass ```
+
+As you can see the above code just declares the A\-P\-I method and does nothing.
+
+H\-T\-T\-P .post requests can have the following fields\-:
+
+
+\begin{DoxyItemize}
+\item payload\-: The payload declares simple \{parameter, value\} pairs (param1\-: value).
+\item files\-: Used to transfer files over the Web, using multipart/form-\/data post requests.
+\end{DoxyItemize}
+
+So lets declare two variables into our code to describe the aforementioned fields.
+
+```python def face\-\_\-detection(self, file\-Uri)\-: payload = \{\} files = \{\}
+
+```
+
+The face\-\_\-detection H\-O\-P Web Service has one input parameter, named file\-\_\-uri. We have to declare the {\bfseries file\-\_\-uri} field and append data into that field. Though keep in mind that the {\bfseries file\-\_\-uri} field holds the name of the trasfered, to the Platform H\-O\-P Web Service, file. To ensure that H\-O\-P Service incoming requests will never have conflicts on file\-\_\-names because if this happens files on Platform will overwrite each other, we append a random identity as the file's name postfix ( {\bfseries image1.\-png --$>$ image1-\/akji12.\-png} ). The Rapp\-Cloud class holds an instance of the \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/RandStrGen/RandStrGen.py}{\tt Random String Generator} class to perform these kind of operations. To append a unique postfix to the file's name call the $\ast$$\ast$\-\_\-\-\_\-append\-Rand\-Str$\ast$$\ast$ member\-:
+
+```python def face\-\_\-detection(self, file\-Uri)\-: file\-Name = self.\-\_\-\-\_\-append\-Rand\-Str(file\-Uri) payload = \{\} files = \{ 'file\-\_\-uri'\-: (file\-Name, open(file\-Uri, 'rb')) \}
+
+```
+
+Notice that we leave the payload to be an empty field!!!
+
+Finally we need call the Cloud\-Interface service controller. Rapp\-Cloud class holds an instance of the Cloud\-Interface class.
+
+```python def face\-\_\-detection(self, file\-Uri)\-: file\-Name = self.\-\_\-\-\_\-append\-Rand\-Str(file\-Uri) payload = \{\} files = \{ 'file\-\_\-uri'\-: (file\-Name, open(file\-Uri, 'rb')) \}
+
+url = self.\-service\-Url\-\_\-\mbox{[}'face\-\_\-detection'\mbox{]}
+
+return\-Data = Cloud\-Interface.\-call\-Service(url, payload, files, self.\-auth\-\_\-) return return\-Data
+
+```
+
+Though one last step is required in order to make the above code execute correctly We need to add the Face-\/\-Detection H\-O\-P Web Service name into the \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml}{\tt services.\-yaml} file.
+
+```yaml
+
+services\-: list\-:
+\begin{DoxyItemize}
+\item face\-\_\-detection
+\end{DoxyItemize}
+
+... ```
+
+Make sure to check the Platform Authentication credentials (\href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg}{\tt auth.\-cfg}) and Platform Parameters (\href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg}{\tt platform.\-cfg}).
+
+By default, Platform Parameters point to the locally installed R\-A\-P\-P-\/\-Platform. Read the {\bfseries platfrom.\-cfg} file on how to change these parameters, if for example you installed the R\-A\-P\-P-\/\-Platform on a remote machine. 

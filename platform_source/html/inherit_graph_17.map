@@ -1,0 +1,8 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport.html" title="Allows the creation of configuration files for English Sphinx speech recognition. ..." alt="" coords="169,5,385,61"/>
+<area shape="rect" id="node3" href="$classrapp__speech__detection__sphinx4_1_1greek__support_1_1GreekSupport.html" title="Allows the creation of configuration files for Greek Sphinx speech recognition. " alt="" coords="178,85,377,141"/>
+<area shape="rect" id="node4" href="$classrapp__speech__detection__sphinx4_1_1limited__vocabulary__creator_1_1LimitedVocabularyCreator.html" title="Creates temporary configuration files for the input limited vocabulary. " alt="" coords="166,165,389,221"/>
+<area shape="rect" id="node5" href="$classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4_1_1SpeechRecognitionSphinx4.html" title="Provides a complete Rapp Sphinx Entity. " alt="" coords="158,245,397,301"/>
+<area shape="rect" id="node6" href="$classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams.html" title="Contains the parameters required for the Sphinx configuration. " alt="" coords="158,325,397,381"/>
+<area shape="rect" id="node7" href="$classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper.html" title="Contains the Sphinx subprocess and is responsible for configuring Sphinx and performing the recogniti..." alt="" coords="164,405,391,461"/>
+</map>
