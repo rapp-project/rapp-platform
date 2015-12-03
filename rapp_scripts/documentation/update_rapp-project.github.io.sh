@@ -23,7 +23,7 @@ TEMP_PLATFORM_SCRIPTS="${TEMP_PLATFORM}/rapp_scripts/documentation"
 TEMP_PAGES="${HOME}/rapp_temp/rapp-platform-pages"
 DOCS="${HOME}/rapp_platform_files/documentation"
 
-if [ "$TRAVIS_BRACH" == "master" ]; then
+if [ "${TRAVIS_BRANCH}" == 'master' ]; then
   echo -e "\e[1m\e[103m\e[31m[RAPP] Updating Github Pages\e[0m"
 
   if [ -d ${TEMP_PATH} ]; then
