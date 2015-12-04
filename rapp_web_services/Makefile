@@ -7,6 +7,12 @@ jshint:
 
 doc: doc-services doc-templates doc-modules
 
+doc-travis:
+	sudo npm install
+	grunt doc-gen-services
+	grunt doc-gen-templates
+	grunt doc-gen-commons
+
 doc-services:  deps
 	rm -rf doc/services
 	grunt doc-gen-services

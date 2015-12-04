@@ -67,4 +67,11 @@ echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Platform\e[0m"
 cd ${RappPlatformWs} && catkin_make
 
 # Install rapp_web_services package deps
-cd ${RappWebServicesPkgPath} && sudo npm install
+cd ${RappWebServicesPkgPath}
+if [ -n "${TRAVIS_BRANCH}" ]; then
+  echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Travis npm dependencies\e[0m"
+  sudo npm install
+else
+  echo -e "\e[1m\e[103m\e[31m [RAPP] Installing npm dependencies\e[0m"
+  npm install
+fi
