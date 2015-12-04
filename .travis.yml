@@ -44,11 +44,14 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - catkin_test_results
   - catkin_make test -j1
   # Run integration tests
-  - echo "Unit and functional tests ok. Executing integration tests"
+  - echo "Initiating integration tests"
   - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh
   - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_web_services.sh
   - sleep 20
+  - echo "Executing normal integration tests"
   - rosrun rapp_testing_tools rapp_run_test.py
+  - echo "Executing threaded integration tests"
+  - rosrun rapp_testing_tools rapp_run_test.py -t -n 5
 after_success:
   # Create documentation
   - echo "Creating online documentation"
