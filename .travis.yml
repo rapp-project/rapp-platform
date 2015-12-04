@@ -50,8 +50,6 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - sleep 20
   - echo "Executing normal integration tests"
   - rosrun rapp_testing_tools rapp_run_test.py
-  - echo "Executing threaded integration tests"
-  - rosrun rapp_testing_tools rapp_run_test.py -t -n 2
 after_success:
   # Create documentation
   - echo "Creating online documentation"
