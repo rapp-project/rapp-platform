@@ -61,7 +61,7 @@ if [ "${TRAVIS_BRANCH}" == 'master' ]; then
 
   git config user.name "Travis CI"
   git config user.email "etsardou@iti.gr"
-  git add .  &> /dev/null
+  git add . --all &> /dev/null
   git commit -m "Deploy to GitHub Pages" &> /dev/null
   git push --force --quiet https://${GH_TOKEN}@github.com/rapp-project/rapp-platform gh-pages &> /dev/null
 
