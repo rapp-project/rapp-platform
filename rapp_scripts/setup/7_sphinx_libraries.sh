@@ -22,6 +22,7 @@
 
 
 RappPlatformPath="${HOME}/rapp_platform"
+NoiseProfilesPath="$HOME/rapp_platform_files/audio_processing/rapp/noise_profile"
 cmusphinxUrl="https://github.com/skerit/cmusphinx"
 sphinxbaseUrl="https://github.com/cmusphinx/sphinxbase.git"
 
@@ -53,3 +54,8 @@ sudo make install &> /dev/null
 echo -e "\e[1m\e[103m\e[31m [RAPP] Building Sphinx4.java wrapper \e[0m"
 cd ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_speech_detection_sphinx4/src
 bash buildJava.sh &> /dev/null
+
+echo -e "\e[1m\e[103m\e[31m [RAPP] Copying rapp user's noise profiles \e[0m"
+mkdir -p ${NoiseProfilesPath} &> /dev/null
+cp -R ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/setup/noise_profiles/* ${NoiseProfilesPath} &> /dev/null
+ls ${NoiseProfilesPath}
