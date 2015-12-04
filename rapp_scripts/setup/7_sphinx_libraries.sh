@@ -58,4 +58,3 @@ bash buildJava.sh &> /dev/null
 echo -e "\e[1m\e[103m\e[31m [RAPP] Copying rapp user's noise profiles \e[0m"
 mkdir -p ${NoiseProfilesPath} &> /dev/null
 cp -R ${RappPlatformPath}/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/setup/noise_profiles/* ${NoiseProfilesPath} &> /dev/null
-ls ${NoiseProfilesPath}

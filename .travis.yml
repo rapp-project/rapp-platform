@@ -39,7 +39,6 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - echo "RAPP Platform installed. Executing unit and functional tests"
   # Run unit and functional tests
   - cd $RAPP_WS
-  - catkin_make run_tests_rapp_audio_processing -j1 # Necessary for noise profile creation
   - catkin_make run_tests -j1
   - catkin_test_results
   - catkin_make test -j1
