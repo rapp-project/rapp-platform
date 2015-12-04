@@ -1,1 +1,83 @@
-a 
+It is recommended to study on \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-Testing-Tools}{\tt Rapp-\/\-Testing-\/\-Tools} first.
+
+Basic documentation on \char`\"{}$\ast$$\ast$\-Developing Integration Tests$\ast$$\ast$\char`\"{} can be found \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools}{\tt here}.
+
+A more-\/in-\/depth information on how to write your first integration test is presented here.
+
+The \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/scripts/default_tests/template.py}{\tt template.\-py} will be used as a reference.
+
+Each integration test must have the following characteristics\-:
+
+
+\begin{DoxyItemize}
+\item Each test is written as a seperate python source file (.py).
+\item Each test is implemented as a Rapp\-Interface\-Test class.
+\item The Rapp\-Interface\-Test class must define two member methods\-:
+\begin{DoxyItemize}
+\item execute()
+\item validate()
+\end{DoxyItemize}
+\item The Python R\-A\-P\-P-\/\-A\-P\-I is imported into our code in order to invoke Platform. Web Service requests.
+\end{DoxyItemize}
+
+So lets first create our Rapp\-Interface\-Test class which includes the aforementioned member methods.
+
+```python class Rapp\-Interface\-Test\-: \char`\"{}\char`\"{}\char`\"{} Integration test class \char`\"{}\char`\"{}\char`\"{} def {\bfseries init}(self)\-: pass
+
+def execute(self)\-: pass
+
+def validate(self)\-: pass ```
+
+Next we need to include the Python R\-A\-P\-P-\/\-A\-P\-I module and create an in instance of the Rapp\-Cloud class which will allow us to invoke Platform Web Service calls.
+
+```python from Rapp\-Cloud import Rapp\-Cloud
+
+class Rapp\-Interface\-Test\-: \char`\"{}\char`\"{}\char`\"{} Integration test class \char`\"{}\char`\"{}\char`\"{} def {\bfseries init}(self)\-: self.\-rapp\-Cloud = Rapp\-Cloud() pass
+
+```
+
+Load any files required for integration test on initialization of the Rapp\-Interface\-Test instance and declare the validation values.
+
+```python def {\bfseries init}(self)\-: self.\-rapp\-Cloud = Rapp\-Cloud()
+
+\section*{Set the file path}
+
+self.\-file\-\_\-uri = 'P\-A\-T\-H\-\_\-\-T\-O\-\_\-\-L\-O\-A\-D\-E\-D\-\_\-\-F\-I\-L\-E' \section*{Set the valid results.}
+
+self.\-valid\-\_\-results = \{\} ```
+
+Next we need to implement the validation function, {\bfseries validate(self)}.
+
+```python def validate(self, response)\-: error = response\mbox{[}'error'\mbox{]} if error != \char`\"{}\char`\"{}\-: return \mbox{[}error, self.\-elapsed\-\_\-time\mbox{]}
+
+return\-\_\-data = response\mbox{[}'qr\-\_\-centers'\mbox{]} \section*{Check if the returned data are equal to the expected}
+
+if self.\-valid\-\_\-results == return\-\_\-data\-: return \mbox{[}True, self.\-elapsed\-\_\-time\mbox{]} else\-: return \mbox{[}\char`\"{}\-Unexpected result \-: \char`\"{} + str(return\-\_\-data), self.\-elapsed\-\_\-time\mbox{]} ```
+
+Notice that the validate() function has a parameter named response. This is the response object returned from the Platform Service call. It is critical to return validation results as presented above!!
+
+```python return \mbox{[}True, self.\-elapsed\-\_\-time\mbox{]} ```
+
+If the response was succesfully validated,
+
+```python return \mbox{[}\char`\"{}\-Unexpected result \-: \char`\"{} + str(return\-\_\-data), self.\-elapsed\-\_\-time\mbox{]} ```
+
+if the validation failed.
+
+The \href{https://docs.python.org/2/library/timeit.html}{\tt timeit} python module is used to time the execution of the test. {\bfseries This will be raplaced in v0.\-6.\-0 release and execution time of each test will be calculated by the rapp-\/testing-\/core-\/engine.}
+
+Implement the execution function. The execution function is called by the test-\/core-\/engine to execute implemented test. The execution function must\-:
+
+
+\begin{DoxyItemize}
+\item Call the, {\bfseries to-\/test}, Platform Web Service through the Python R\-A\-P\-P-\/\-A\-P\-I call.
+\item Invoke the validation function.
+\end{DoxyItemize}
+
+```python def execute(self)\-: start\-\_\-time = timeit.\-default\-\_\-timer() \section*{Call the Python Rapp\-Cloud service}
+
+response = self.\-rapp\-Cloud.\-qr\-\_\-detection(self.\-file\-\_\-uri) end\-\_\-time = timeit.\-default\-\_\-timer() self.\-elapsed\-\_\-time = end\-\_\-time -\/ start\-\_\-time return self.\-validate(response) ```
+
+You will notice that the above implementation of the execute() method calls the qr\-\_\-detection Service!!
+
+```python response = self.\-rapp\-Cloud.\-qr\-\_\-detection(self.\-file\-\_\-uri) ``` 

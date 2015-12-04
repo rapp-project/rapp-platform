@@ -98,13 +98,62 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-to-implemen
 <div class="title">? How-to-implement-an-integration-test? </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>a </p>
+<div class="textblock"><p>It is recommended to study on <a href="https://github.com/rapp-project/rapp-platform/wiki/RAPP-Testing-Tools">Rapp-Testing-Tools</a> first.</p>
+<p>Basic documentation on "**Developing Integration Tests**" can be found <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools">here</a>.</p>
+<p>A more-in-depth information on how to write your first integration test is presented here.</p>
+<p>The <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/scripts/default_tests/template.py">template.py</a> will be used as a reference.</p>
+<p>Each integration test must have the following characteristics:</p>
+<ul>
+<li>Each test is written as a seperate python source file (.py).</li>
+<li>Each test is implemented as a RappInterfaceTest class.</li>
+<li>The RappInterfaceTest class must define two member methods:<ul>
+<li>execute()</li>
+<li>validate()</li>
+</ul>
+</li>
+<li>The Python RAPP-API is imported into our code in order to invoke Platform. Web Service requests.</li>
+</ul>
+<p>So lets first create our RappInterfaceTest class which includes the aforementioned member methods.</p>
+<p>```python class RappInterfaceTest: """ Integration test class """ def <b>init</b>(self): pass</p>
+<p>def execute(self): pass</p>
+<p>def validate(self): pass ```</p>
+<p>Next we need to include the Python RAPP-API module and create an in instance of the RappCloud class which will allow us to invoke Platform Web Service calls.</p>
+<p>```python from RappCloud import RappCloud</p>
+<p>class RappInterfaceTest: """ Integration test class """ def <b>init</b>(self): self.rappCloud = RappCloud() pass</p>
+<p>```</p>
+<p>Load any files required for integration test on initialization of the RappInterfaceTest instance and declare the validation values.</p>
+<p>```python def <b>init</b>(self): self.rappCloud = RappCloud()</p>
+<h1>Set the file path</h1>
+<p>self.file_uri = 'PATH_TO_LOADED_FILE' </p>
+<h1>Set the valid results.</h1>
+<p>self.valid_results = {} ```</p>
+<p>Next we need to implement the validation function, <b>validate(self)</b>.</p>
+<p>```python def validate(self, response): error = response['error'] if error != "": return [error, self.elapsed_time]</p>
+<p>return_data = response['qr_centers'] </p>
+<h1>Check if the returned data are equal to the expected</h1>
+<p>if self.valid_results == return_data: return [True, self.elapsed_time] else: return ["Unexpected result : " + str(return_data), self.elapsed_time] ```</p>
+<p>Notice that the validate() function has a parameter named response. This is the response object returned from the Platform Service call. It is critical to return validation results as presented above!!</p>
+<p>```python return [True, self.elapsed_time] ```</p>
+<p>If the response was succesfully validated,</p>
+<p>```python return ["Unexpected result : " + str(return_data), self.elapsed_time] ```</p>
+<p>if the validation failed.</p>
+<p>The <a href="https://docs.python.org/2/library/timeit.html">timeit</a> python module is used to time the execution of the test. <b>This will be raplaced in v0.6.0 release and execution time of each test will be calculated by the rapp-testing-core-engine.</b></p>
+<p>Implement the execution function. The execution function is called by the test-core-engine to execute implemented test. The execution function must:</p>
+<ul>
+<li>Call the, <b>to-test</b>, Platform Web Service through the Python RAPP-API call.</li>
+<li>Invoke the validation function.</li>
+</ul>
+<p>```python def execute(self): start_time = timeit.default_timer() </p>
+<h1>Call the Python RappCloud service</h1>
+<p>response = self.rappCloud.qr_detection(self.file_uri) end_time = timeit.default_timer() self.elapsed_time = end_time - start_time return self.validate(response) ```</p>
+<p>You will notice that the above implementation of the execute() method calls the qr_detection Service!!</p>
+<p>```python response = self.rappCloud.qr_detection(self.file_uri) ``` </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Dec 4 2015 12:58:32 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Dec 4 2015 16:20:27 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

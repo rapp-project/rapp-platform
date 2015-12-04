@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>RAPP Platform Web Services Development Templates Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">RAPP Platform Web Services Development Templates</a>
+	</div>
+	<div class="navbar-collapse">
+		<ul class="nav navbar-nav">
+			
+		</ul>
+	</div>
+</div>
+</div>
+
+
+<div class="container">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+    		<h1 class="page-title">Index</h1>
+			
+
+	
+	<span class="page-title">Index</span>
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h2>RAPP Platform Web Services Development Templates</h2><h2>Synopsis</h2><p>Use these templates/examples as the ground-truth to develop and/or extend RAPP Platform Web Services (a.k.a HOP Web Services).</p>
+<p>While developing RAPP Platform Web Services, you might want to read on <a href="https://github.com/manuel-serrano/hop">HOP/hopjs</a></p>
+<p>If you are not familiar with server-side applications, you might also have to read on <a href="https://nodejs.org/en/">Nodejs</a></p>
+<h2>Templates</h2><p>To make development of HOP Web Services more attractive and understandable, we provide two template source files:</p>
+<ul>
+<li>web_service.template.js</li>
+<li>web_service_post_file.template.js</li>
+</ul>
+<p>Using these templates as a reference while developing HOP Web Services, might save you alot of hours studying!<br>In most cases, you might have to change just a few lines of code!</p>
+<h4>web_service.template.js</h4><p>Illustrates a web-service implementation with, multiple input arguments, ROS interface, asynchronous response.</p>
+<h4>web_service_post_file.template.js</h4><p>Illustrates a web-service implementation with, multiple input arguments, file transfers, ROS interface, asynchronous response.</p>
+<h2>Contributors</h2><ul>
+<li>Konstaninos Panayiotou, [klpanagi@gmail.com]</li>
+<li>Manos Tsardoulias, [etsardou@gmail.com]</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        web_service.template.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Illustrates the implementation of a HOP Service, a.k.a<br> RAPP-Platform-Web-Service.</p>
+<p> Basic Components (modules)</p>
+<pre class="prettyprint source"><code> hop = require('hop').
+   Import and use hopjs functionalities.
+   For more information visit:
+       https://github.com/manuel-serrano/hop
+
+ RosBridgeJS.js
+   Use this module to achieve communication with ROS-framework.
+   This module integrates a service controller to connect to
+   the rosbridge-websocket-server.
+   For more information on rosbridge-websocket-server visit:
+       http://wiki.ros.org/rosbridge_suite
+
+   For more information on the RosBridgeJS module visit:
+       https://github.com/klpanagi/RosBridgeJS
+
+ RandStrGenerator.js
+   Random string generator class to generate cached unique
+   identity keys. Used to generate a unique id for each client
+   service request.</code></pre></div>
+        
+
+        
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>&lt;p>Konstantinos Panayiotou, [klpanagi@gmail.com]&lt;/p></li>
+			</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="web_service.template.js.html">web_service.template.js</a>,
+				 <a href="web_service.template.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        web_service_post_file.template.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Illustrates the implementation of a HOP Service, a.k.a<br> RAPP-Platform-Web-Service, with file post field(s).</p>
+<p> We use multipart/form-data HTTP POST requests to transfer files from<br> client-side applications to the RAPP Platform Web Services.</p>
+<p> An example of using multipart/form-data file-data post fields is a request<br> for RAPP Platform face-detection service. In this case we need to send an<br> image frame to the face_detection RAPP Platform service in order to perform<br> face_detection operations onto that image frame.</p>
+<p> While posting multipart/form-data requests, the Front-End HOP HTTP Server<br> is responsible to parse the post fields, export the file-data post field,<br> store the file into the server's cache directory and report, as input<br> to the relevant HOP Web Service, the system path to the stored file.</p>
+<p> Basic Components (modules)</p>
+<pre class="prettyprint source"><code> hop = require('hop').
+   Import and use hopjs functionalities.
+   For more information visit:
+       https://github.com/manuel-serrano/hop
+
+ RosBridgeJS.js
+   Use this module to achieve communication with ROS-framework.
+   This module integrates a service controller to connect to
+   the rosbridge-websocket-server.
+   For more information on rosbridge-websocket-server visit:
+       http://wiki.ros.org/rosbridge_suite
+
+   For more information on the RosBridgeJS module visit:
+       https://github.com/klpanagi/RosBridgeJS
+
+ RandStrGenerator.js
+   Random string generator class to generate cached unique
+   identity keys. Used to generate a unique id for each client
+   service request.
+
+ fileUtils.js
+   Wrapper to nodejs File System module ('fs'). Integrates
+   additional error handling while working with the file system.
+   (File System operations like copy, rename, remove, etc.)</code></pre></div>
+        
+
+        
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>&lt;p>Konstantinos Panayiotou, [klpanagi@gmail.com]&lt;/p></li>
+			</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="web_service_post_file.template.js.html">web_service_post_file.template.js</a>,
+				 <a href="web_service_post_file.template.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Rapp Project EU 2015
+	</span>
+	<br />
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	on Fri Dec 4th 2015 using the <a
+	href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<!--<script src="scripts/sunlight.js"></script>-->
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/bootstrap-dropdown.js"></script>
+<script src="scripts/toc.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "h1,h2,h3,h4",
+		showAndHide : false,
+		scrollTo    : "100px"
+	} );
+
+	$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+	//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			lang = "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+</body>
+</html>
