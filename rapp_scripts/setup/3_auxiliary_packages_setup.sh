@@ -44,6 +44,7 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 # Grunt-Cli
 sudo npm install -g grunt-cli &> /dev/null
+sudo rm -rf ${HOME}/tmp &> /dev/null
 
 # Enable Grunt shell auto-completion
 append='eval "$(grunt --completion=bash)"'
