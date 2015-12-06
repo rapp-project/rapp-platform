@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 ##
 
@@ -27,6 +27,10 @@
 #  2) Creates and authenticate a new HOP User.
 ##
 
+web_services_dir="$HOME/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services"
+cfg_file="hoprc.js"
+cfg_file_path="$web_services_dir/config/hop/$cfg_file"
+
 
 info="Minimal required fields for mysql user creation:\n"
 info+="* username  : \n"
@@ -43,15 +47,19 @@ read -p "Language: "  language
 read -sp "Password: "  passwd
 echo ""
 
+grep -q "$username" ${cfg_file_path} && \
+  {
+    echo -e "\033[1;31mDuplicate entry. This user allready exists!";
+    exit 1;
+  }
+
 insert_cmd="insert into tblUser (username, firstname, lastname, language) values ('${username}', '${firstname}', '${lastname}', '${language}')"
 
+# Create User's db entry in tblUser.
 echo "$insert_cmd" | mysql -u root -p RappStore
 
 ## -------------------- Create HOP user and authenticate ------------------- ##
 
-web_services_dir="$HOME/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services"
-cfg_file="hoprc.js"
-cfg_file_path="$web_services_dir/config/hop/$cfg_file"
 
 #read -sp "Enter user's HOP authentication password and press [Enter]: " passwd
 
