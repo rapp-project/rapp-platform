@@ -2,6 +2,7 @@
 # ######################
 build/
 devel/
+!rapp_scripts/devel/
 bin/
 lib/
 msg_gen/
