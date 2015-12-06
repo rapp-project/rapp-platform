@@ -52,15 +52,14 @@ git clone https://github.com/rapp-project/rapp-api.git &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing pip dependencies\e[0m"
 cd rapp-api/python
-# Insrall Python
-sudo pip install -r dependencies.txt &> /dev/null
+# Install the Python Rapp API in development mode under user's space
+python setup.py develop --user 1> /dev/null
 
 # Append to user's .bashrc file.
 append="source ~/rapp_platform/rapp-platform-catkin-ws/devel/setup.bash --extend"
 grep -q "${append}" ~/.bashrc || echo -e          \
-  "\n# Rapp Platform\n${append}"                        \
+  "\n# Rapp Platform catkin workspace\n${append}" \
   >> ~/.bashrc
-echo 'export PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform-catkin-ws/src/rapp-api/python' >> ~/.bashrc
 
 # catkin_make rapp-platform
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Platform\e[0m"
@@ -68,10 +67,5 @@ cd ${RappPlatformWs} && catkin_make
 
 # Install rapp_web_services package deps
 cd ${RappWebServicesPkgPath}
-if [ -n "${TRAVIS_BRANCH}" ]; then
-  echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Travis npm dependencies\e[0m"
-  sudo npm install
-else
-  echo -e "\e[1m\e[103m\e[31m [RAPP] Installing npm dependencies\e[0m"
-  npm install
-fi
+echo -e "\e[1m\e[103m\e[31m [RAPP] Installing web_services package dependencies\e[0m"
+npm install
