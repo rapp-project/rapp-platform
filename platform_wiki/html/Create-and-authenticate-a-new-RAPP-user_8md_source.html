@@ -98,14 +98,39 @@ $(document).ready(function(){initNavTree('Create-and-authenticate-a-new-RAPP-use
 <div class="title">rapp-platform.wiki/Create-and-authenticate-a-new-RAPP-user.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="Create-and-authenticate-a-new-RAPP-user_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;--TODO--</div>
+<a href="Create-and-authenticate-a-new-RAPP-user_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Use the [create_rapp_user.sh](https:<span class="comment">//github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/devel/create_rapp_user.sh) to create and authenticate a new RAPP User.</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;The script is located under the [devel](https:<span class="comment">//github.com/rapp-project/rapp-platform/tree/master/rapp_scripts/devel) directory of the [rapp_scripts](https://github.com/rapp-project/rapp-platform/tree/master/rapp_scripts) package.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;```shell</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;$ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/devel</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;$ ./create_rapp_user.sh</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;```</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;The script will prompt to input required info</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;```shell</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;$ ./create_rapp_user.sh</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;Minimal required fields <span class="keywordflow">for</span> mysql user creation:</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;* username  : </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;* firstname : User<span class="stringliteral">&#39;s firstname</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral">* lastname  : User&#39;</span>s lastname/surname</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;* language  : User<span class="stringliteral">&#39;s first language</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="stringliteral">Username: rapp</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">Firstname: rapp</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">Lastname: rapp</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">Language: el</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">Password: </span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">```</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="Create-and-authenticate-a-new-RAPP-user_8md.html">Create-and-authenticate-a-new-RAPP-user.md</a></li>
-    <li class="footer">Generated on Fri Dec 4 2015 16:20:27 for RAPP Platform Wiki by
+    <li class="footer">Generated on Mon Dec 7 2015 09:45:50 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

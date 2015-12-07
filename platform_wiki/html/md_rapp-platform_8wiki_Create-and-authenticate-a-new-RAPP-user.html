@@ -98,13 +98,25 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_Create-and-auth
 <div class="title">Create-and-authenticate-a-new-RAPP-user </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>&ndash;TODO&ndash; </p>
+<div class="textblock"><p>Use the <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/devel/create_rapp_user.sh">create_rapp_user.sh</a> to create and authenticate a new RAPP User.</p>
+<p>The script is located under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_scripts/devel">devel</a> directory of the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_scripts">rapp_scripts</a> package.</p>
+<p>```shell $ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/devel $ ./create_rapp_user.sh ```</p>
+<p>The script will prompt to input required info</p>
+<p>```shell $ ./create_rapp_user.sh</p>
+<p>Minimal required fields for mysql user creation:</p>
+<ul>
+<li>username :</li>
+<li>firstname : User's firstname</li>
+<li>lastname : User's lastname/surname</li>
+<li>language : User's first language</li>
+</ul>
+<p>Username: rapp Firstname: rapp Lastname: rapp Language: el Password: ``` </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Dec 4 2015 16:20:27 for RAPP Platform Wiki by
+    <li class="footer">Generated on Mon Dec 7 2015 09:45:50 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

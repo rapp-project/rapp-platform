@@ -201,13 +201,17 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-to-create-a
 <li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/services/templates/web_service_post_file.template.js">web_services_post_file.template.js</a></li>
 </ul>
 <p>Using these templates as a reference while developing HOP Web Services for a ROS-Service, might save you alot of hours studying! In most cases, you might have to change just a few lines of code!</p>
-<p>For more information read <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates">here</a>. </p>
+<p>For more information read <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates">here</a>.</p>
+<h2>Where to store HOP Service source files and how to register the service under the HOP Server.</h2>
+<p>HOP Service source files are stored under the <b>services/</b> directory, of the rapp_web_services package.</p>
+<p>Any **.js** file, stored under this directory with a **.service.js** extension, is considered to be a HOP Web Service source file.</p>
+<p>HOP Server is responsible for registering those services, on run-time, as workers, so you will never have to write code to register your HOP Web Service. Just store the source file under the aforementioned directory with a **.service.js** extension. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Dec 4 2015 16:20:27 for RAPP Platform Wiki by
+    <li class="footer">Generated on Mon Dec 7 2015 09:45:50 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

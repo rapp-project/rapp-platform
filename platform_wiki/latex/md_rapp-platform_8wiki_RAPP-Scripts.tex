@@ -10,6 +10,16 @@ The following scripts are offered\-:
 \item {\ttfamily import\-R\-A\-P\-P\-Ontology.\-sh}\-: Imports the R\-A\-P\-P ontology from an .owl file
 \end{DoxyItemize}
 
+\subsection*{continuous\-\_\-integration}
+
+This folder contains the Travis script, used to support continuous integration of the R\-A\-P\-P Platform. The R\-A\-P\-P Platform Travis page is located \href{https://travis-ci.org/rapp-project/rapp-platform}{\tt here}. For every push performed in rapp-\/platform Travis\-:
+\begin{DoxyItemize}
+\item Checks the clean\-\_\-install script
+\item Builds the rapp-\/platform repository
+\item Runs the unit, functional and integration tests
+\item Creates the code documentation and uploads it \href{http://rapp-project.github.io/rapp-platform/documentation.html}{\tt online}
+\end{DoxyItemize}
+
 \subsection*{deploy}
 
 There are two files aimed for deployment\-:
@@ -20,7 +30,7 @@ There are two files aimed for deployment\-:
 \item {\ttfamily deploy\-\_\-hop\-\_\-services.\-sh}\-: Deploys the corresponding H\-O\-P services
 \end{DoxyItemize}
 
-Follow the next steps to deploy the R\-A\-P\-P Platform software\-:
+If you want to deploy the R\-A\-P\-P Platform in the background you can use {\ttfamily screen}. Just follow the next steps\-:
 
 
 \begin{DoxyItemize}
@@ -33,7 +43,7 @@ Follow the next steps to deploy the R\-A\-P\-P Platform software\-:
 \item {\ttfamily screen -\/ls} to check that 2 screen sessions exist
 \end{DoxyItemize}
 
-To reattach to screen session\-: ``` screen -\/r \mbox{[}pid.\mbox{]}tty.\-host ```
+To reattach to screen session\-: ``` screen -\/r \mbox{[}pid.\mbox{]}tty.\-host ``` The screen step is for running rapp\-\_\-ros and hop\-\_\-services on detached terminals which is useful, for example in the case where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative for the terminals to remain open for the processes to remain active.
 
 Screen how-\/to\-: \href{http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/}{\tt http\-://www.\-rackaid.\-com/blog/linux-\/screen-\/tutorial-\/and-\/how-\/to/}
 
@@ -41,11 +51,11 @@ Screen how-\/to\-: \href{http://www.rackaid.com/blog/linux-screen-tutorial-and-h
 
 These scripts can be executed after a clean Ubuntu 14.\-04 installation, in order to install the appropriate packages and setup the environment.
 
-\paragraph*{Step 0 -\/ Github installation}
+\paragraph*{Step 0 -\/ Get the scripts}
 
-Install git in order to be able to clone the repositories\-:
+You can get the setup scripts either by downloading the rapp-\/platform repository in a \href{https://github.com/rapp-project/rapp-platform/zipball/master}{\tt zip format}, or by cloning it in your P\-C using git\-:
 
-{\ttfamily sudo apt-\/get install git mercurial}
+{\ttfamily git clone \href{https://github.com/rapp-project/rapp-platform.git}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform.\-git}}
 
 W\-A\-R\-N\-I\-N\-G\-: At least 10 G\-B's of free space are recommended.
 
@@ -81,7 +91,7 @@ If you want to add rapp-\/platform to an already existent system (Ubuntu 14.\-04
 \item {\ttfamily 3\-\_\-auxiliary\-\_\-packages\-\_\-setup.\-sh}\-: Installs software from apt-\/get, necessary for the correct R\-A\-P\-P Platform deployment
 \item {\ttfamily 4\-\_\-rosjava\-\_\-setup.\-sh}\-: Fetches a number of Git\-Hub repositories and compiles rosjava. This is a dependency of Knowrob.
 \item {\ttfamily 5\-\_\-knowrob\-\_\-setup.\-sh}\-: Fetches the Knowrob repository and builds it. Knowrob is the tool that deploys the R\-A\-P\-P ontology.
-\item {\ttfamily 6\-\_\-rapp\-\_\-platform\-\_\-setup.\-sh}\-: Fetches the rapp-\/platform and rapp-\/api repositories and builds them
+\item {\ttfamily 6\-\_\-rapp\-\_\-platform\-\_\-setup.\-sh}\-: Fetches the rapp-\/platform and rapp-\/api repositories and builds them. This script has an input argument which is the git branch the rapp-\/platform will be checked out. If you decide to execute this script manually it is recommended to give {\ttfamily master} as input.
 \item {\ttfamily 7\-\_\-sphinx\-\_\-libraries.\-sh}\-: Fetches the Sphinx4 necessary libraries, compiles them and installs them, Sphinx4 is used for A\-S\-R (Automatic Speech Recognition).
 \item {\ttfamily 8\-\_\-mysql\-\_\-install.\-sh}\-: Installs My\-S\-Q\-L
 \item {\ttfamily 9\-\_\-create\-\_\-rapp\-\_\-mysql\-\_\-db.\-sh}\-: Adds the R\-A\-P\-P My\-S\-Q\-L empty database in mysql
@@ -114,5 +124,28 @@ Scripts to automatically create documentation from the R\-A\-P\-P Platform code,
 \item {\ttfamily create\-\_\-wiki\-\_\-documentation.\-sh} \-: Creates the platform's Git\-Hub Wiki documentation.
 \item {\ttfamily create\-\_\-test\-\_\-documentation.\-py} \-: Creates the platform's test source code documentation.
 \item {\ttfamily create\-\_\-web\-\_\-services\-\_\-documentation.\-sh} \-: Creates the rapp\-\_\-web\-\_\-services documentation.
-\item {\ttfamily create\-\_\-documentation.\-sh} \-: Creates all aforementioned documentations. 
+\item {\ttfamily create\-\_\-documentation.\-sh} \-: Creates all aforementioned documentations.
+\item {\ttfamily update\-\_\-rapp-\/project.\-github.\-io.\-sh} \-: Creates the documentation and pushes it in the {\ttfamily gh-\/pages} branch of rapp-\/platform, in order to update the online pages. N\-O\-T\-E\-: This is functional only when executed in the Travis environment, so do not try to run it!
 \end{DoxyItemize}
+
+\subsection*{devel}
+
+Use the \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/devel/create_rapp_user.sh}{\tt create\-\_\-rapp\-\_\-user.\-sh} to create and authenticate a new R\-A\-P\-P User.
+
+The script is located under the \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_scripts/devel}{\tt devel} directory of the \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_scripts}{\tt rapp\-\_\-scripts} package.
+
+```shell \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-scripts/devel \$ ./create\-\_\-rapp\-\_\-user.sh ```
+
+The script will prompt to input required info
+
+```shell \$ ./create\-\_\-rapp\-\_\-user.sh
+
+Minimal required fields for mysql user creation\-:
+\begin{DoxyItemize}
+\item username \-:
+\item firstname \-: User's firstname
+\item lastname \-: User's lastname/surname
+\item language \-: User's first language
+\end{DoxyItemize}
+
+Username\-: rapp Firstname\-: rapp Lastname\-: rapp Language\-: el Password\-: ``` 

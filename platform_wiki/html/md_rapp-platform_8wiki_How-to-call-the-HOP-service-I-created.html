@@ -98,19 +98,26 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-to-call-the
 <div class="title">? How-to-call-the-HOP-service-I-created? </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>API</p>
+<div class="textblock"><p>As previously stated <a href="https://github.com/rapp-project/rapp-platform/wiki/How-to-write-the-API-for-a-HOP-service%3F">here</a> we support API(s) for:</p>
 <ul>
-<li>JS [todo]</li>
-<li>C++ [todo]</li>
 <li>Python</li>
+<li>JavaScript</li>
+<li>C++</li>
 </ul>
-<p>Other way&gt;? </p>
+<p>For simplicity, we will describe the procedure of calling a HOP Web Service using Python API calls.</p>
+<p>We assume that you have previously read on [How-to-write-the-API-for-a-HOP-Service] and implemented the relevant API call for the HOP Web Service.</p>
+<p>Calling a HOP Web Service is pretry much simple.</p>
+<p>Import the Python RAPP-API module into your code and invoke the relevant API function.</p>
+<p>```python from RappCloud import RappCloud</p>
+<p>rappCloud = RappCloud()</p>
+<p>rappCloud.ontology_subclasses_of('Oven') ```</p>
+<p>The above sample presents a call to the ontology_subclasses_of HOP Web Service. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Dec 4 2015 16:20:27 for RAPP Platform Wiki by
+    <li class="footer">Generated on Mon Dec 7 2015 09:45:50 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

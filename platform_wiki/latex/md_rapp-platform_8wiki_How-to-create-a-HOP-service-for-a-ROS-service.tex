@@ -140,4 +140,12 @@ To make development of H\-O\-P Web Services more attractive and understandable, 
 
 Using these templates as a reference while developing H\-O\-P Web Services for a R\-O\-S-\/\-Service, might save you alot of hours studying! In most cases, you might have to change just a few lines of code!
 
-For more information read \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates}{\tt here}. 
+For more information read \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates}{\tt here}.
+
+\subsection*{Where to store H\-O\-P Service source files and how to register the service under the H\-O\-P Server.}
+
+H\-O\-P Service source files are stored under the {\bfseries services/} directory, of the rapp\-\_\-web\-\_\-services package.
+
+Any $\ast$$\ast$.js$\ast$$\ast$ file, stored under this directory with a $\ast$$\ast$.service.\-js$\ast$$\ast$ extension, is considered to be a H\-O\-P Web Service source file.
+
+H\-O\-P Server is responsible for registering those services, on run-\/time, as workers, so you will never have to write code to register your H\-O\-P Web Service. Just store the source file under the aforementioned directory with a $\ast$$\ast$.service.\-js$\ast$$\ast$ extension. 

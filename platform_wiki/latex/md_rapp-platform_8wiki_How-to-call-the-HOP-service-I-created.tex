@@ -1,8 +1,24 @@
-A\-P\-I
+As previously stated \href{https://github.com/rapp-project/rapp-platform/wiki/How-to-write-the-API-for-a-HOP-service%3F}{\tt here} we support A\-P\-I(s) for\-:
+
+
 \begin{DoxyItemize}
-\item J\-S \mbox{[}todo\mbox{]}
-\item C++ \mbox{[}todo\mbox{]}
 \item Python
+\item Java\-Script
+\item C++
 \end{DoxyItemize}
 
-Other way$>$? 
+For simplicity, we will describe the procedure of calling a H\-O\-P Web Service using Python A\-P\-I calls.
+
+We assume that you have previously read on \mbox{[}How-\/to-\/write-\/the-\/\-A\-P\-I-\/for-\/a-\/\-H\-O\-P-\/\-Service\mbox{]} and implemented the relevant A\-P\-I call for the H\-O\-P Web Service.
+
+Calling a H\-O\-P Web Service is pretry much simple.
+
+Import the Python R\-A\-P\-P-\/\-A\-P\-I module into your code and invoke the relevant A\-P\-I function.
+
+```python from Rapp\-Cloud import Rapp\-Cloud
+
+rapp\-Cloud = Rapp\-Cloud()
+
+rapp\-Cloud.\-ontology\-\_\-subclasses\-\_\-of('Oven') ```
+
+The above sample presents a call to the ontology\-\_\-subclasses\-\_\-of H\-O\-P Web Service. 
