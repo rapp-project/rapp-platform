@@ -20,6 +20,7 @@
 TEMP_PATH="${HOME}/rapp_temp"
 TEMP_PLATFORM="${TEMP_PATH}/rapp-platform"
 TEMP_PLATFORM_SCRIPTS="${TEMP_PLATFORM}/rapp_scripts/documentation"
+TEMP_API_SCRIPTS="${TEMP_PATH}/rapp-api/documentation/scripts"
 TEMP_PAGES="${HOME}/rapp_temp/rapp-platform-pages"
 DOCS="${HOME}/rapp_platform_files/documentation"
 
@@ -33,16 +34,20 @@ if [ "${TRAVIS_BRANCH}" == 'master' ]; then
 
   cd ${TEMP_PATH}
 
-  echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Repository\e[0m"
+  echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning Platform Repository\e[0m"
   git clone https://github.com/rapp-project/rapp-platform.git &> /dev/null
   cp -r rapp-platform rapp-platform-pages
+  echo -e "\e[1m\e[103m\e[31m[RAPP] Cloning API Repository\e[0m"
+  git clone https://github.com/rapp-project/rapp-api &> /dev/null
 
-  echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Documentation\e[0m"
+  echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Platform Documentation\e[0m"
   cd ${TEMP_PLATFORM_SCRIPTS}
   ./create_documentation.sh
+  echo -e "\e[1m\e[103m\e[31m[RAPP] Creating API Documentation\e[0m"
+  cd ${TEMP_API_SCRIPTS}
+  ./gen_doc_python_api.sh
 
-  echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Test Documentation HTML hyperlinks\e[0m"
-
+  echo -e "\e[1m\e[103m\e[31m[RAPP] Creating Platform Test Documentation HTML hyperlinks\e[0m"
   cd ${TEMP_PAGES}
   git checkout gh-pages &> /dev/null
 
