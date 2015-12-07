@@ -52,8 +52,6 @@ git clone https://github.com/rapp-project/rapp-api.git &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing pip dependencies\e[0m"
 cd rapp-api/python
-# Test CI on rapp-api python branch
-git checkout origin/python --track
 # Install the Python Rapp API in development mode under user's space
 python setup.py develop --user 1> /dev/null
 
@@ -64,7 +62,7 @@ grep -q "${append}" ~/.bashrc || echo -e          \
   >> ~/.bashrc
 
 # catkin_make rapp-platform
-echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Platform\e[0m"
+echo -e "\e[1m\e[103m\e[31m [RAPP] Building Rapp Platform\e[0m"
 cd ${RappPlatformWs} && catkin_make
 
 # Install rapp_web_services package deps

@@ -65,16 +65,15 @@ mkdir src && cd src
 # Initialize knowrob catkin workspace
 echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Knowrob Catkin Workspace\e[0m"
 catkin_init_workspace &> /dev/null
-cd ..
-catkin_make &> /dev/null
-cd src
 
 # Fetch knowrob sources
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning Knowrob \e[0m"
 git clone https://github.com/rapp-project/knowrob.git &> /dev/null
-cd knowrob
-git checkout indigo-devel &> /dev/null
-cd ../../
+cd ../
+
+# Update rosdep with rosjava dependencies and install them.
+rosdep update &> /dev/null
+rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y &> /dev/null
 
 # Build knowrob
 echo -e "\e[1m\e[103m\e[31m [RAPP] Building Knowrob \e[0m"

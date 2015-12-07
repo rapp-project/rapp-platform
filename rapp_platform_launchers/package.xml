@@ -10,14 +10,11 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>rapp_server</depend>
-  <depend>rapp_email</depend>
   <depend>rapp_face_detection</depend>
   <depend>rapp_knowrob_wrapper</depend>
   <depend>rapp_mysql_wrapper</depend>
   <depend>rapp_qr_detection</depend>
   <depend>rapp_speech_detection_google</depend>
-  <depend>ros_service_caller</depend>
 
   <export>
   </export>

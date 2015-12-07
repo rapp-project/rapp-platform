@@ -45,7 +45,7 @@ cd ${RosjavaPath}
 
 # Update rosdep with rosjava dependencies and install them.
 rosdep update &> /dev/null
-rosdep install --from-paths src -i -y &> /dev/null
+rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y &> /dev/null
 
 # Build rosjava
 echo -e "\e[1m\e[103m\e[31m [RAPP] Building Rosjava \e[0m"

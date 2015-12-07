@@ -20,7 +20,7 @@
   <depend>rapp_platform_ros_communications</depend>
 
   <test_depend>rosunit</test_depend>
-  <test_depend>rosutest</test_depend>
+  <test_depend>rostest</test_depend>
 
   <export>
   </export>

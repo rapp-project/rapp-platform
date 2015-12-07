@@ -28,10 +28,8 @@
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing auxiliary packages \e[0m"
 # Allow remote secure connections to the RAPP-Platform.
 sudo apt-get install -y openssh-server -qq &> /dev/null
-# Remove this? Let developers choose their editor.
-sudo apt-get install -y vim -qq &> /dev/null
 # Remove this?
-sudo apt-get install -y git gitg -qq &> /dev/null
+sudo apt-get install -y git -qq &> /dev/null
 # Rapp-Text-To-Speech module depends on this.
 sudo apt-get install -y espeak -qq &> /dev/null
 # Rapp-Text-To-Speech module depends on this.
