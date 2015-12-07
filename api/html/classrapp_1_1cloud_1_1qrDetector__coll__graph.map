@@ -1,0 +1,4 @@
+<map id="rapp::cloud::qrDetector" name="rapp::cloud::qrDetector">
+<area shape="rect" id="node2" href="$classrapp_1_1services_1_1asio__service__http.html" title="base class for asynchronous http websockets used for connecting to cloud services ..." alt="" coords="13,97,148,138"/>
+<area shape="rect" id="node3" href="$classrapp_1_1services_1_1asio__socket.html" title="Abstract Base ASIO Socket class. " alt="" coords="13,6,148,47"/>
+</map>

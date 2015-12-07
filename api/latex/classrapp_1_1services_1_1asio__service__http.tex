@@ -1,0 +1,394 @@
+\hypertarget{classrapp_1_1services_1_1asio__service__http}{\section{rapp\-:\-:services\-:\-:asio\-\_\-service\-\_\-http Class Reference}
+\label{classrapp_1_1services_1_1asio__service__http}\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+}
+
+
+base class for asynchronous http websockets used for connecting to cloud services  
+
+
+
+
+{\ttfamily \#include $<$asio\-\_\-service\-\_\-http.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:services\-:\-:asio\-\_\-service\-\_\-http\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrapp_1_1services_1_1asio__service__http__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:services\-:\-:asio\-\_\-service\-\_\-http\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{classrapp_1_1services_1_1asio__service__http__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_ad95e973eef8650c5bbc8b90a95feac76}{Schedule} (boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&query, boost\-::asio\-::ip\-::tcp\-::resolver \&resolver, boost\-::asio\-::io\-\_\-service \&io\-\_\-service)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1services_1_1asio__service__http_a3ee5112e8a2d1f93e1a29e1ae97e0945}{asio\-\_\-service\-\_\-http} ()=default
+\begin{DoxyCompactList}\small\item\em Hidden empty constructor is meant to be used only by inheriting classes. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_a3a8aeeda896612a34fbf519b5688aaa7}{error\-\_\-handler} (const boost\-::system\-::error\-\_\-code \&error)
+\begin{DoxyCompactList}\small\item\em Handle an Error. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_a3a168f20797b06f722ebed12ad526e9b}{handle\-\_\-connect} (const boost\-::system\-::error\-\_\-code \&err, boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator endpoint\-\_\-iterator)
+\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_ad8cdddec917928c476ce1f05205b6254}{handle\-\_\-read\-\_\-content} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Actual Data Contents. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_a868568846ed87d1b551ce3e489e83754}{handle\-\_\-read\-\_\-headers} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Headers. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_ad226cd37d18a2a67aad14e4d33f36ad1}{handle\-\_\-read\-\_\-status\-\_\-line} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for handling H\-T\-T\-P Header Response Data. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_a046d89a8bca90438e131aae591cdc593}{handle\-\_\-resolve} (const boost\-::system\-::error\-\_\-code \&err, boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator endpoint\-\_\-iterator)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Address Resolution. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_a2f1e6bf1f287798b48c671ce9596948a}{handle\-\_\-write\-\_\-request} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for handling request and waiting for response. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1services_1_1asio__service__http_abcf7c541c4bf587da464ef24fa446743}{invalid\-\_\-request} (const std\-::string message)
+\begin{DoxyCompactList}\small\item\em Handle Invalid Query -\/ e.\-g.\-: response which states our query was invalid. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1services_1_1asio__service__http_a11439cf4cd0a2a943bce9e91018fe8e0}{random\-Boundary} () const 
+\begin{DoxyCompactList}\small\item\em Create a random boundary for the multipart/form in H\-T\-T\-P. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::string)$>$ \hyperlink{classrapp_1_1services_1_1asio__service__http_a7ad60e0e171d8953da18e0c4e3974a80}{callback\-\_\-}
+\begin{DoxyCompactList}\small\item\em Callback Handler -\/ use with std\-::bind or boost variant. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1services_1_1asio__service__http_ad2fbb8fb1f17c8ad6022ecbf13bc769c}{header\-\_\-}
+\begin{DoxyCompactList}\small\item\em Header that will be used. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1services_1_1asio__service__http_a08e5b2c94340f528191e7840656be121}{post\-\_\-}
+\begin{DoxyCompactList}\small\item\em Actual post Data. \end{DoxyCompactList}\item 
+boost\-::asio\-::streambuf \hyperlink{classrapp_1_1services_1_1asio__service__http_a003a0577751d30d2370bff9a20d46746}{request\-\_\-}
+\begin{DoxyCompactList}\small\item\em Request Container. \end{DoxyCompactList}\item 
+boost\-::asio\-::streambuf \hyperlink{classrapp_1_1services_1_1asio__service__http_a5b1a5c59d1407fec9f0ccbe372bdac3a}{response\-\_\-}
+\begin{DoxyCompactList}\small\item\em Response Container. \end{DoxyCompactList}\item 
+std\-::unique\-\_\-ptr\\*
+$<$ boost\-::asio\-::ip\-::tcp\-::socket $>$ \hyperlink{classrapp_1_1services_1_1asio__service__http_ad3411584026eb6c31ac78943266e7858}{socket\-\_\-}
+\begin{DoxyCompactList}\small\item\em Actual Socket. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+base class for asynchronous http websockets used for connecting to cloud services 
+
+\begin{DoxyVersion}{Version}
+6 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+26-\/\-April-\/2015 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk}
+\end{DoxyAuthor}
+\begin{DoxySeeAlso}{See Also}
+\href{http://www.jmarshall.com/easy/http/#postmethod}{\tt http\-://www.\-jmarshall.\-com/easy/http/\#postmethod} for H\-T\-T\-P Protocol details 
+\end{DoxySeeAlso}
+\begin{DoxyWarning}{Warning}
+this class does not support S\-S\-L/\-T\-L\-S sockets 
+\end{DoxyWarning}
+
+
+Definition at line 18 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a3ee5112e8a2d1f93e1a29e1ae97e0945}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!asio\-\_\-service\-\_\-http@{asio\-\_\-service\-\_\-http}}
+\index{asio\-\_\-service\-\_\-http@{asio\-\_\-service\-\_\-http}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{asio\-\_\-service\-\_\-http}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::services\-::asio\-\_\-service\-\_\-http\-::asio\-\_\-service\-\_\-http (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [default]}}}\label{classrapp_1_1services_1_1asio__service__http_a3ee5112e8a2d1f93e1a29e1ae97e0945}
+
+
+Hidden empty constructor is meant to be used only by inheriting classes. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a3a8aeeda896612a34fbf519b5688aaa7}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!error\-\_\-handler@{error\-\_\-handler}}
+\index{error\-\_\-handler@{error\-\_\-handler}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{error\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::error\-\_\-handler (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{error}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a3a8aeeda896612a34fbf519b5688aaa7}
+
+
+Handle an Error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em error} & is the raised error from the client \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 53 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a3a168f20797b06f722ebed12ad526e9b}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!handle\-\_\-connect@{handle\-\_\-connect}}
+\index{handle\-\_\-connect@{handle\-\_\-connect}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-connect}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-connect (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator}]{endpoint\-\_\-iterator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a3a168f20797b06f722ebed12ad526e9b}
+Callback for Handling Connection Events 
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error \\
+\hline
+{\em endpoint\-\_\-iterator} & is boosts' hostname address handler \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 93 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_ad8cdddec917928c476ce1f05205b6254}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!handle\-\_\-read\-\_\-content@{handle\-\_\-read\-\_\-content}}
+\index{handle\-\_\-read\-\_\-content@{handle\-\_\-read\-\_\-content}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-read\-\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-read\-\_\-content (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_ad8cdddec917928c476ce1f05205b6254}
+
+
+Callback for Handling Actual Data Contents. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 193 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a868568846ed87d1b551ce3e489e83754}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!handle\-\_\-read\-\_\-headers@{handle\-\_\-read\-\_\-headers}}
+\index{handle\-\_\-read\-\_\-headers@{handle\-\_\-read\-\_\-headers}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-read\-\_\-headers}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-read\-\_\-headers (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a868568846ed87d1b551ce3e489e83754}
+
+
+Callback for Handling Headers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 176 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_ad226cd37d18a2a67aad14e4d33f36ad1}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!handle\-\_\-read\-\_\-status\-\_\-line@{handle\-\_\-read\-\_\-status\-\_\-line}}
+\index{handle\-\_\-read\-\_\-status\-\_\-line@{handle\-\_\-read\-\_\-status\-\_\-line}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-read\-\_\-status\-\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-read\-\_\-status\-\_\-line (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_ad226cd37d18a2a67aad14e4d33f36ad1}
+
+
+Callback for handling H\-T\-T\-P Header Response Data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 139 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a046d89a8bca90438e131aae591cdc593}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!handle\-\_\-resolve@{handle\-\_\-resolve}}
+\index{handle\-\_\-resolve@{handle\-\_\-resolve}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-resolve}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-resolve (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator}]{endpoint\-\_\-iterator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a046d89a8bca90438e131aae591cdc593}
+
+
+Callback for Handling Address Resolution. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error \\
+\hline
+{\em endpoint\-\_\-iterator} & is boost's hostname address handler \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 69 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a2f1e6bf1f287798b48c671ce9596948a}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!handle\-\_\-write\-\_\-request@{handle\-\_\-write\-\_\-request}}
+\index{handle\-\_\-write\-\_\-request@{handle\-\_\-write\-\_\-request}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-write\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-write\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a2f1e6bf1f287798b48c671ce9596948a}
+
+
+Callback for handling request and waiting for response. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 121 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_abcf7c541c4bf587da464ef24fa446743}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!invalid\-\_\-request@{invalid\-\_\-request}}
+\index{invalid\-\_\-request@{invalid\-\_\-request}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{invalid\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::invalid\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_abcf7c541c4bf587da464ef24fa446743}
+
+
+Handle Invalid Query -\/ e.\-g.\-: response which states our query was invalid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em message} & is the message received from the service \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 59 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a11439cf4cd0a2a943bce9e91018fe8e0}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!random\-Boundary@{random\-Boundary}}
+\index{random\-Boundary@{random\-Boundary}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{random\-Boundary}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::services\-::asio\-\_\-service\-\_\-http\-::random\-Boundary (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a11439cf4cd0a2a943bce9e91018fe8e0}
+
+
+Create a random boundary for the multipart/form in H\-T\-T\-P. 
+
+
+
+Definition at line 226 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_ad95e973eef8650c5bbc8b90a95feac76}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!Schedule@{Schedule}}
+\index{Schedule@{Schedule}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{Schedule}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::services\-::asio\-\_\-service\-\_\-http\-::\-Schedule (
+\begin{DoxyParamCaption}
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&}]{query, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver \&}]{resolver, }
+\item[{boost\-::asio\-::io\-\_\-service \&}]{io\-\_\-service}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1services_1_1asio__service__http_ad95e973eef8650c5bbc8b90a95feac76}
+Schedule this client as a job for execution using 
+\begin{DoxyParams}{Parameters}
+{\em query} & defines the actual U\-R\-L/\-U\-R\-I \\
+\hline
+{\em resolver} & is the U\-R\-L/\-U\-R\-I resolver reference \\
+\hline
+{\em io\-\_\-service} & is the service queue on which this job will be scheduled to run \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classrapp_1_1services_1_1asio__socket_a1241f0694fea6c2f13c361ddef13360b}{rapp\-::services\-::asio\-\_\-socket}.
+
+
+
+Definition at line 28 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a7ad60e0e171d8953da18e0c4e3974a80}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!callback\-\_\-@{callback\-\_\-}}
+\index{callback\-\_\-@{callback\-\_\-}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{callback\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void( std\-::string )$>$ rapp\-::services\-::asio\-\_\-service\-\_\-http\-::callback\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a7ad60e0e171d8953da18e0c4e3974a80}
+
+
+Callback Handler -\/ use with std\-::bind or boost variant. 
+
+
+
+Definition at line 251 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_ad2fbb8fb1f17c8ad6022ecbf13bc769c}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!header\-\_\-@{header\-\_\-}}
+\index{header\-\_\-@{header\-\_\-}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{header\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::services\-::asio\-\_\-service\-\_\-http\-::header\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_ad2fbb8fb1f17c8ad6022ecbf13bc769c}
+
+
+Header that will be used. 
+
+
+
+Definition at line 245 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a08e5b2c94340f528191e7840656be121}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!post\-\_\-@{post\-\_\-}}
+\index{post\-\_\-@{post\-\_\-}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{post\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::services\-::asio\-\_\-service\-\_\-http\-::post\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a08e5b2c94340f528191e7840656be121}
+
+
+Actual post Data. 
+
+
+
+Definition at line 248 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a003a0577751d30d2370bff9a20d46746}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!request\-\_\-@{request\-\_\-}}
+\index{request\-\_\-@{request\-\_\-}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{request\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::streambuf rapp\-::services\-::asio\-\_\-service\-\_\-http\-::request\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a003a0577751d30d2370bff9a20d46746}
+
+
+Request Container. 
+
+
+
+Definition at line 257 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_a5b1a5c59d1407fec9f0ccbe372bdac3a}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!response\-\_\-@{response\-\_\-}}
+\index{response\-\_\-@{response\-\_\-}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{response\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::streambuf rapp\-::services\-::asio\-\_\-service\-\_\-http\-::response\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_a5b1a5c59d1407fec9f0ccbe372bdac3a}
+
+
+Response Container. 
+
+
+
+Definition at line 260 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+\hypertarget{classrapp_1_1services_1_1asio__service__http_ad3411584026eb6c31ac78943266e7858}{\index{rapp\-::services\-::asio\-\_\-service\-\_\-http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}!socket\-\_\-@{socket\-\_\-}}
+\index{socket\-\_\-@{socket\-\_\-}!rapp::services::asio_service_http@{rapp\-::services\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{socket\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::unique\-\_\-ptr$<$boost\-::asio\-::ip\-::tcp\-::socket$>$ rapp\-::services\-::asio\-\_\-service\-\_\-http\-::socket\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1services_1_1asio__service__http_ad3411584026eb6c31ac78943266e7858}
+
+
+Actual Socket. 
+
+
+
+Definition at line 254 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/service/asio\-\_\-service\-\_\-http/\hyperlink{asio__service__http_8hpp}{asio\-\_\-service\-\_\-http.\-hpp}\end{DoxyCompactItemize}

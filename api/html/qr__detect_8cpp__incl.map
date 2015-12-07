@@ -1,0 +1,15 @@
+<map id="/home/travis/rapp_temp/rapp&#45;api/cpp/examples/qr_detect.cpp" name="/home/travis/rapp_temp/rapp&#45;api/cpp/examples/qr_detect.cpp">
+<area shape="rect" id="node2" href="$service__controller_8hpp.html" title="../includes/service\l/service_controller\l/service_controller.hpp" alt="" coords="1518,109,1671,165"/>
+<area shape="rect" id="node18" href="$qrDetector_8hpp.html" title="../includes/cloud/qrDetector\l/qrDetector.hpp" alt="" coords="1167,117,1349,158"/>
+<area shape="rect" id="node33" href="$picture_8hpp.html" title="../../objects/picture\l/picture.hpp" alt="" coords="1712,295,1841,337"/>
+<area shape="rect" id="node3" href="$service_2service__controller_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1545,392,1636,419"/>
+<area shape="rect" id="node10" href="$asio__socket_8hpp.html" title="../asio_socket/asio\l_socket.hpp" alt="" coords="1246,467,1377,509"/>
+<area shape="rect" id="node17" href="$globals_8hpp.html" title="../globals/globals.hpp" alt="" coords="1865,475,2009,501"/>
+<area shape="rect" id="node11" href="$service_2asio__socket_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1246,557,1337,584"/>
+<area shape="rect" id="node19" href="$cloud_2qrDetector_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1069,213,1160,240"/>
+<area shape="rect" id="node26" href="$asio__service__http_8hpp.html" title="../../service/asio\l_service_http/asio_service\l_http.hpp" alt="" coords="899,288,1076,344"/>
+<area shape="rect" id="node30" href="$qrCode_8hpp.html" title="../../objects/qrCode\l/qrCode.hpp" alt="" coords="335,295,469,337"/>
+<area shape="rect" id="node27" href="$service_2asio__service__http_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="985,392,1076,419"/>
+<area shape="rect" id="node31" href="$objects_2qrCode_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="347,392,439,419"/>
+<area shape="rect" id="node34" href="$objects_2picture_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="2057,392,2148,419"/>
+</map>

@@ -1,0 +1,27 @@
+<map id="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/cloud" name="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/cloud">
+<area shape="rect" id="node2" href="dir_581550202c6e0a9ec08ee4f54d4e850f.html" title="faceDetector" alt="" coords="305,63,401,111"/>
+<area shape="rect" id="node11" href="dir_cb0d40437834064fac58e7600548cccb.html" title="objects" alt="" coords="505,159,577,207"/>
+<area shape="rect" id="edge11-headlabel" href="dir_000004_000013.html" title="2" alt="" coords="487,149,495,163"/>
+<area shape="rect" id="node12" href="dir_c96e21c3ba3fc1ea996c2393f5e5b423.html" title="service" alt="" coords="541,255,613,303"/>
+<area shape="rect" id="edge12-headlabel" href="dir_000004_000024.html" title="1" alt="" coords="526,232,534,246"/>
+<area shape="rect" id="node3" href="dir_6480032dab53dfddd139d21cb47a8f9a.html" title="fetchPersonalData" alt="" coords="149,63,279,111"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000005_000024.html" title="1" alt="" coords="523,241,531,255"/>
+<area shape="rect" id="node4" href="dir_1ddaf17cf43be74724e621ef78bbf09f.html" title="ontologyIsSubSuperClassOf" alt="" coords="864,63,1051,111"/>
+<area shape="rect" id="node5" href="dir_8be4688483ef550d4008d48f4da98758.html" title="ontologySubClassesOf" alt="" coords="683,63,839,111"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000007_000024.html" title="1" alt="" coords="614,240,622,255"/>
+<area shape="rect" id="node6" href="dir_fc864676224dc63c3dddc344a4ca248d.html" title="ontologySuperClassesOf" alt="" coords="1205,63,1371,111"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000008_000024.html" title="1" alt="" coords="629,270,637,285"/>
+<area shape="rect" id="node7" href="dir_e1b85d753e1365102210ef1fc24ce1b8.html" title="qrDetector" alt="" coords="427,63,508,111"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000009_000013.html" title="2" alt="" coords="515,132,523,146"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000009_000024.html" title="1" alt="" coords="528,230,536,245"/>
+<area shape="rect" id="node8" href="dir_58653003edf18fa031d0d981a6f0ee3a.html" title="setDenoiseProfile" alt="" coords="533,63,659,111"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000010_000013.html" title="1" alt="" coords="567,140,575,154"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000010_000024.html" title="1" alt="" coords="589,231,597,246"/>
+<area shape="rect" id="node9" href="dir_8d5e8078597d0956326f90924faa1289.html" title="speechToText" alt="" coords="1075,63,1180,111"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000011_000013.html" title="1" alt="" coords="592,181,600,195"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000011_000024.html" title="1" alt="" coords="629,268,637,282"/>
+<area shape="rect" id="node10" href="dir_e6a2abd75b4f26e30b6ad9800b278941.html" title="upServices" alt="" coords="38,63,124,111"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000013_000024.html" title="1" alt="" coords="566,227,574,242"/>
+<area shape="rect" id="clust2" href="dir_7feab8a8b51eae0f7e17324b9d4c3614.html" alt="" coords="27,52,1479,121"/>
+<area shape="rect" id="clust1" href="dir_d2363402036ba4b651bf42200db1c9ac.html" title="includes" alt="" coords="16,16,1489,132"/>
+</map>

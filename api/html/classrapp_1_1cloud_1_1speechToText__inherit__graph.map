@@ -1,0 +1,4 @@
+<map id="rapp::cloud::speechToText" name="rapp::cloud::speechToText">
+<area shape="rect" id="node2" href="$classrapp_1_1services_1_1asio__service__http.html" title="base class for asynchronous http websockets used for connecting to cloud services ..." alt="" coords="25,97,160,138"/>
+<area shape="rect" id="node3" href="$classrapp_1_1services_1_1asio__socket.html" title="Abstract Base ASIO Socket class. " alt="" coords="25,6,160,47"/>
+</map>

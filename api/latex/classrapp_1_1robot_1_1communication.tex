@@ -1,0 +1,156 @@
+\hypertarget{classrapp_1_1robot_1_1communication}{\section{rapp\-:\-:robot\-:\-:communication Class Reference}
+\label{classrapp_1_1robot_1_1communication}\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}}
+}
+
+
+Abstract Base Class (A\-B\-C) Interface for Robot Communication.  
+
+
+
+
+{\ttfamily \#include $<$communication.\-hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62e}{Language} \{ \\*
+\hyperlink{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62ea11040bd29db4ec9964af9fd3f9a24f17}{Language\-::\-E\-N\-G\-L\-I\-S\-H}, 
+\\*
+\hyperlink{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62ead4cacc28e56302bcec9d7af4bba8c9a7}{Language\-::\-G\-R\-E\-E\-K}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \hyperlink{classrapp_1_1robot_1_1communication_ab33428a7ba5c82056fe5942efbd2ce2d}{capture\-Audio} (std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1audio}{rapp\-:object\-::audio} $>$ buffer, float waiting\-\_\-time, float microphone\-\_\-energy)=0
+\begin{DoxyCompactList}\small\item\em Record audio. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classrapp_1_1robot_1_1communication_ab38cea79d2b7fdeecdeebf02ddad3341}{play\-Audio} (const std\-::string \&file\-\_\-path, double position, double volume, double balance, bool play\-\_\-in\-\_\-loop)=0
+\begin{DoxyCompactList}\small\item\em Produce Audio from robot's speakers. \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classrapp_1_1robot_1_1communication_a04d8ae71d953aa66a4c00149548ad750}{text\-To\-Speech} (const std\-::string str, \hyperlink{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62e}{Language} language=\hyperlink{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62ea11040bd29db4ec9964af9fd3f9a24f17}{Language\-::\-E\-N\-G\-L\-I\-S\-H})=0
+\begin{DoxyCompactList}\small\item\em Produce speec from text. \end{DoxyCompactList}\item 
+virtual std\-::string \hyperlink{classrapp_1_1robot_1_1communication_aeddb446d64faad99717229870caa9927}{word\-Spotting} (std\-::array$<$ std\-::string $>$ dictionary, unsigned int size)=0
+\begin{DoxyCompactList}\small\item\em ? \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{Indent}{\bf used for?}\par
+{\em Get Microphone Energy -\/ N\-O\-T\-E what is the Param }\begin{DoxyCompactItemize}
+\item 
+virtual float \hyperlink{classrapp_1_1robot_1_1communication_a8baa4b3616a74e22bbf0455122eb695d}{get\-Microphone\-Energy} (std\-::string name) const =0
+\item 
+virtual bool \hyperlink{classrapp_1_1robot_1_1communication_ac47da76d51faee1744d0521e1f7aac25}{voice\-Record} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1audio}{rapp\-::object\-::audio} $>$)=0
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\subsection{Detailed Description}
+Abstract Base Class (A\-B\-C) Interface for Robot Communication. 
+
+\begin{DoxyVersion}{Version}
+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+20-\/\-September-\/2015 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Giokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk}
+\end{DoxyAuthor}
+This class specifies the interface for all communications. It is your responsibility to implement them appropriately. 
+
+Definition at line 16 of file communication.\-hpp.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62e}{\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!Language@{Language}}
+\index{Language@{Language}!rapp::robot::communication@{rapp\-::robot\-::communication}}
+\subsubsection[{Language}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf rapp\-::robot\-::communication\-::\-Language}\hspace{0.3cm}{\ttfamily [strong]}}}\label{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62e}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{E\-N\-G\-L\-I\-S\-H@{E\-N\-G\-L\-I\-S\-H}!rapp\-::robot\-::communication@{rapp\-::robot\-::communication}}\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!E\-N\-G\-L\-I\-S\-H@{E\-N\-G\-L\-I\-S\-H}}\item[{\em 
+\hypertarget{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62ea11040bd29db4ec9964af9fd3f9a24f17}{E\-N\-G\-L\-I\-S\-H}\label{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62ea11040bd29db4ec9964af9fd3f9a24f17}
+}]\index{G\-R\-E\-E\-K@{G\-R\-E\-E\-K}!rapp\-::robot\-::communication@{rapp\-::robot\-::communication}}\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!G\-R\-E\-E\-K@{G\-R\-E\-E\-K}}\item[{\em 
+\hypertarget{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62ead4cacc28e56302bcec9d7af4bba8c9a7}{G\-R\-E\-E\-K}\label{classrapp_1_1robot_1_1communication_aa68950f71c5f18df6816725b50c3c62ead4cacc28e56302bcec9d7af4bba8c9a7}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 20 of file communication.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1robot_1_1communication_ab33428a7ba5c82056fe5942efbd2ce2d}{\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!capture\-Audio@{capture\-Audio}}
+\index{capture\-Audio@{capture\-Audio}!rapp::robot::communication@{rapp\-::robot\-::communication}}
+\subsubsection[{capture\-Audio}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool rapp\-::robot\-::communication\-::capture\-Audio (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ {\bf rapp\-:object\-::audio} $>$}]{buffer, }
+\item[{float}]{waiting\-\_\-time, }
+\item[{float}]{microphone\-\_\-energy}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classrapp_1_1robot_1_1communication_ab33428a7ba5c82056fe5942efbd2ce2d}
+
+
+Record audio. 
+
+\hypertarget{classrapp_1_1robot_1_1communication_a8baa4b3616a74e22bbf0455122eb695d}{\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!get\-Microphone\-Energy@{get\-Microphone\-Energy}}
+\index{get\-Microphone\-Energy@{get\-Microphone\-Energy}!rapp::robot::communication@{rapp\-::robot\-::communication}}
+\subsubsection[{get\-Microphone\-Energy}]{\setlength{\rightskip}{0pt plus 5cm}virtual float rapp\-::robot\-::communication\-::get\-Microphone\-Energy (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{name}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classrapp_1_1robot_1_1communication_a8baa4b3616a74e22bbf0455122eb695d}
+\hypertarget{classrapp_1_1robot_1_1communication_ab38cea79d2b7fdeecdeebf02ddad3341}{\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!play\-Audio@{play\-Audio}}
+\index{play\-Audio@{play\-Audio}!rapp::robot::communication@{rapp\-::robot\-::communication}}
+\subsubsection[{play\-Audio}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool rapp\-::robot\-::communication\-::play\-Audio (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{file\-\_\-path, }
+\item[{double}]{position, }
+\item[{double}]{volume, }
+\item[{double}]{balance, }
+\item[{bool}]{play\-\_\-in\-\_\-loop}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classrapp_1_1robot_1_1communication_ab38cea79d2b7fdeecdeebf02ddad3341}
+
+
+Produce Audio from robot's speakers. 
+
+\hypertarget{classrapp_1_1robot_1_1communication_a04d8ae71d953aa66a4c00149548ad750}{\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!text\-To\-Speech@{text\-To\-Speech}}
+\index{text\-To\-Speech@{text\-To\-Speech}!rapp::robot::communication@{rapp\-::robot\-::communication}}
+\subsubsection[{text\-To\-Speech}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool rapp\-::robot\-::communication\-::text\-To\-Speech (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{str, }
+\item[{{\bf Language}}]{language = {\ttfamily {\bf Language\-::\-E\-N\-G\-L\-I\-S\-H}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classrapp_1_1robot_1_1communication_a04d8ae71d953aa66a4c00149548ad750}
+
+
+Produce speec from text. 
+
+\hypertarget{classrapp_1_1robot_1_1communication_ac47da76d51faee1744d0521e1f7aac25}{\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!voice\-Record@{voice\-Record}}
+\index{voice\-Record@{voice\-Record}!rapp::robot::communication@{rapp\-::robot\-::communication}}
+\subsubsection[{voice\-Record}]{\setlength{\rightskip}{0pt plus 5cm}virtual bool rapp\-::robot\-::communication\-::voice\-Record (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::audio} $>$}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classrapp_1_1robot_1_1communication_ac47da76d51faee1744d0521e1f7aac25}
+Record Voice -\/ N\-O\-T\-E\-: 
+\begin{DoxyParams}{Parameters}
+{\em audio} & pointer will be updated If this method is asynchronous or multi-\/threaded, then you need to lock the pointer in your implementation. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classrapp_1_1robot_1_1communication_aeddb446d64faad99717229870caa9927}{\index{rapp\-::robot\-::communication@{rapp\-::robot\-::communication}!word\-Spotting@{word\-Spotting}}
+\index{word\-Spotting@{word\-Spotting}!rapp::robot::communication@{rapp\-::robot\-::communication}}
+\subsubsection[{word\-Spotting}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::string rapp\-::robot\-::communication\-::word\-Spotting (
+\begin{DoxyParamCaption}
+\item[{std\-::array$<$ std\-::string $>$}]{dictionary, }
+\item[{unsigned int}]{size}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classrapp_1_1robot_1_1communication_aeddb446d64faad99717229870caa9927}
+
+
+? 
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/robot/communication/\hyperlink{communication_8hpp}{communication.\-hpp}\end{DoxyCompactItemize}

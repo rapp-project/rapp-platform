@@ -1,0 +1,4 @@
+<map id="rapp::cloud::fetchPersonalData" name="rapp::cloud::fetchPersonalData">
+<area shape="rect" id="node2" href="$classrapp_1_1services_1_1asio__service__http.html" title="base class for asynchronous http websockets used for connecting to cloud services ..." alt="" coords="39,97,173,138"/>
+<area shape="rect" id="node3" href="$classrapp_1_1services_1_1asio__socket.html" title="Abstract Base ASIO Socket class. " alt="" coords="39,6,173,47"/>
+</map>

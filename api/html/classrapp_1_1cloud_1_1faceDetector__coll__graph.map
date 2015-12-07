@@ -1,0 +1,4 @@
+<map id="rapp::cloud::faceDetector" name="rapp::cloud::faceDetector">
+<area shape="rect" id="node2" href="$classrapp_1_1services_1_1asio__service__http.html" title="base class for asynchronous http websockets used for connecting to cloud services ..." alt="" coords="21,97,156,138"/>
+<area shape="rect" id="node3" href="$classrapp_1_1services_1_1asio__socket.html" title="Abstract Base ASIO Socket class. " alt="" coords="21,6,156,47"/>
+</map>

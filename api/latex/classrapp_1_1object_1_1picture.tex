@@ -1,0 +1,195 @@
+\hypertarget{classrapp_1_1object_1_1picture}{\section{rapp\-:\-:object\-:\-:picture Class Reference}
+\label{classrapp_1_1object_1_1picture}\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}}
+}
+
+
+class which wraps around raw bytes of a picture  
+
+
+
+
+{\ttfamily \#include $<$picture.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1object_1_1picture_a037d64b0a69603a9ad624760cf2b1072}{picture} (const std\-::string filepath)
+\begin{DoxyCompactList}\small\item\em Construct from a file-\/path. \end{DoxyCompactList}\item 
+\hyperlink{classrapp_1_1object_1_1picture_a20da2075d7f03172258584b2ad8f2fb3}{picture} (std\-::ifstream \&bytestream)
+\begin{DoxyCompactList}\small\item\em Construct using an open file stream. \end{DoxyCompactList}\item 
+\hyperlink{classrapp_1_1object_1_1picture_a9e0aa9a62b6455d542eb14705d2be6fe}{picture} (const \hyperlink{classrapp_1_1object_1_1picture}{picture} \&)=default
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d307b}{rapp\-::types\-::byte} $>$ \hyperlink{classrapp_1_1object_1_1picture_a27bd4bd6bb318e2a1866c3aa7c4d66a5}{bytearray} () const 
+\begin{DoxyCompactList}\small\item\em Get picture as array of bytes. \end{DoxyCompactList}\item 
+\hyperlink{classrapp_1_1object_1_1picture}{picture} \& \hyperlink{classrapp_1_1object_1_1picture_a312b1e70d3e4af4f4a8ce8fc98b19afa}{operator=} (const \hyperlink{classrapp_1_1object_1_1picture}{picture} \&)=default
+\begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
+bool \hyperlink{classrapp_1_1object_1_1picture_aad6e18da0e6be9ad7d195ee34b79bf2c}{operator==} (const \hyperlink{classrapp_1_1object_1_1picture}{picture} \&rhs) const 
+\begin{DoxyCompactList}\small\item\em Are pictures same ? \end{DoxyCompactList}\item 
+bool \hyperlink{classrapp_1_1object_1_1picture_afc2c1e50bd6192da8ee1588e3969a669}{save} (const std\-::string filepath)
+\begin{DoxyCompactList}\small\item\em Save picture to filepath. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1object_1_1picture_a4edfc5d343a51a181c743d76d18c10f9}{picture} ()=delete
+\item 
+void \hyperlink{classrapp_1_1object_1_1picture_aefe39dd6c7f1ef438e8232881c6450e1}{open\-Copy\-\_\-} (std\-::ifstream \&bytestream)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d307b}{rapp\-::types\-::byte} $>$ \hyperlink{classrapp_1_1object_1_1picture_a4c6377918f2286dbbe320cd9a1d8767c}{bytearray\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+class which wraps around raw bytes of a picture 
+
+\begin{DoxyVersion}{Version}
+2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+6-\/\-February-\/2015 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file picture.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1object_1_1picture_a037d64b0a69603a9ad624760cf2b1072}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!picture@{picture}}
+\index{picture@{picture}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{picture}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::object\-::picture\-::picture (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{filepath}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1object_1_1picture_a037d64b0a69603a9ad624760cf2b1072}
+
+
+Construct from a file-\/path. 
+
+
+
+Definition at line 18 of file picture.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1picture_a20da2075d7f03172258584b2ad8f2fb3}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!picture@{picture}}
+\index{picture@{picture}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{picture}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::object\-::picture\-::picture (
+\begin{DoxyParamCaption}
+\item[{std\-::ifstream \&}]{bytestream}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1object_1_1picture_a20da2075d7f03172258584b2ad8f2fb3}
+
+
+Construct using an open file stream. 
+
+
+
+Definition at line 29 of file picture.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1picture_a9e0aa9a62b6455d542eb14705d2be6fe}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!picture@{picture}}
+\index{picture@{picture}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{picture}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::object\-::picture\-::picture (
+\begin{DoxyParamCaption}
+\item[{const {\bf picture} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}}\label{classrapp_1_1object_1_1picture_a9e0aa9a62b6455d542eb14705d2be6fe}
+
+
+Copy constructor. 
+
+\hypertarget{classrapp_1_1object_1_1picture_a4edfc5d343a51a181c743d76d18c10f9}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!picture@{picture}}
+\index{picture@{picture}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{picture}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::object\-::picture\-::picture (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [delete]}}}\label{classrapp_1_1object_1_1picture_a4edfc5d343a51a181c743d76d18c10f9}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1object_1_1picture_a27bd4bd6bb318e2a1866c3aa7c4d66a5}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!bytearray@{bytearray}}
+\index{bytearray@{bytearray}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{bytearray}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf rapp\-::types\-::byte}$>$ rapp\-::object\-::picture\-::bytearray (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classrapp_1_1object_1_1picture_a27bd4bd6bb318e2a1866c3aa7c4d66a5}
+
+
+Get picture as array of bytes. 
+
+
+
+Definition at line 38 of file picture.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1picture_aefe39dd6c7f1ef438e8232881c6450e1}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!open\-Copy\-\_\-@{open\-Copy\-\_\-}}
+\index{open\-Copy\-\_\-@{open\-Copy\-\_\-}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{open\-Copy\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::object\-::picture\-::open\-Copy\-\_\- (
+\begin{DoxyParamCaption}
+\item[{std\-::ifstream \&}]{bytestream}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1picture_aefe39dd6c7f1ef438e8232881c6450e1}
+
+
+Definition at line 73 of file picture.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1picture_a312b1e70d3e4af4f4a8ce8fc98b19afa}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!operator=@{operator=}}
+\index{operator=@{operator=}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf picture}\& rapp\-::object\-::picture\-::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf picture} \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}}\label{classrapp_1_1object_1_1picture_a312b1e70d3e4af4f4a8ce8fc98b19afa}
+
+
+Assignment operator. 
+
+\hypertarget{classrapp_1_1object_1_1picture_aad6e18da0e6be9ad7d195ee34b79bf2c}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!operator==@{operator==}}
+\index{operator==@{operator==}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{operator==}]{\setlength{\rightskip}{0pt plus 5cm}bool rapp\-::object\-::picture\-::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf picture} \&}]{rhs}
+\end{DoxyParamCaption}
+) const}}\label{classrapp_1_1object_1_1picture_aad6e18da0e6be9ad7d195ee34b79bf2c}
+
+
+Are pictures same ? 
+
+
+
+Definition at line 44 of file picture.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1picture_afc2c1e50bd6192da8ee1588e3969a669}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!save@{save}}
+\index{save@{save}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{save}]{\setlength{\rightskip}{0pt plus 5cm}bool rapp\-::object\-::picture\-::save (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{filepath}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1object_1_1picture_afc2c1e50bd6192da8ee1588e3969a669}
+
+
+Save picture to filepath. 
+
+
+
+Definition at line 53 of file picture.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1object_1_1picture_a4c6377918f2286dbbe320cd9a1d8767c}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!bytearray\-\_\-@{bytearray\-\_\-}}
+\index{bytearray\-\_\-@{bytearray\-\_\-}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{bytearray\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf rapp\-::types\-::byte}$>$ rapp\-::object\-::picture\-::bytearray\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1picture_a4c6377918f2286dbbe320cd9a1d8767c}
+
+
+Definition at line 83 of file picture.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/objects/picture/\hyperlink{picture_8hpp}{picture.\-hpp}\end{DoxyCompactItemize}

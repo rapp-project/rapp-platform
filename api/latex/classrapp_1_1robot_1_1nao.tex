@@ -1,0 +1,251 @@
+\hypertarget{classrapp_1_1robot_1_1nao}{\section{rapp\-:\-:robot\-:\-:nao Class Reference}
+\label{classrapp_1_1robot_1_1nao}\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}}
+}
+
+
+Implementation Class for Aldearan's N\-A\-O robot.  
+
+
+
+
+{\ttfamily \#include $<$nao.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:robot\-:\-:nao\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrapp_1_1robot_1_1nao__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:robot\-:\-:nao\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrapp_1_1robot_1_1nao__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1robot_1_1nao_a00956d04e6061d875e0352c360e4d8a6}{nao} ()=default
+\begin{DoxyCompactList}\small\item\em Constructor ? \end{DoxyCompactList}\item 
+std\-::shared\-\_\-pointr\\*
+$<$ \hyperlink{classrapp_1_1object_1_1picture}{rapp\-::object\-::picture} $>$ \hyperlink{classrapp_1_1robot_1_1nao_a276172d720ce8387a3fe695e02753af0}{capture\-Image} (std\-::string camera\-Id, int camera\-Resolution) const 
+\begin{DoxyCompactList}\small\item\em N\-O\-T\-E\-: What about format? \end{DoxyCompactList}\item 
+void move \hyperlink{classrapp_1_1robot_1_1nao_a4b99876e6fa503830cd1a8c93267eb9f}{Head} (float yaw, float pitch)
+\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a8a3d202cdc642ffcc0d6678a0b3b62c5}{look\-At\-Point} (float x, float y, float z)
+\item 
+std\-::string \hyperlink{classrapp_1_1robot_1_1nao_aed3ffea92e69e9e0fba684c42f5f7cfd}{model} () const 
+\begin{DoxyCompactList}\small\item\em Get Robot's Model. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a313e2ddb5b0d08e96bf79b29542f0b40}{move\-Joint} (std\-::string joint, float angle)
+\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a50e3841d836ccaa74852c083297beb7b}{move\-Stop} ()
+\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a7404089508af1b7a2872a29990fc6dc2}{move\-To} (float x, float y, float z)
+\begin{DoxyCompactList}\small\item\em T\-O\-D\-O\-: Describe each parameter and explain what it is. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a8b2a03a5e46e86d0aedb1d239ffcdcf9}{move\-Vel} (float x, float y, float z)
+\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a707430d6f61a7eb24a020498d9fef841}{remove\-Stiffness} (std\-::string joint)
+\item 
+std\-::string \hyperlink{classrapp_1_1robot_1_1nao_a0eb438d37b7958554ba43b7b3cddf131}{ruid} () const 
+\begin{DoxyCompactList}\small\item\em Get Robot's Unique I\-D. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a96e6289bc1c1782a79ba0ca4d82fb828}{take\-Predefined\-Posture} (std\-::string pose)
+\item 
+void \hyperlink{classrapp_1_1robot_1_1nao_a8810ac769c75fa2f4723770c9e58a17e}{vis\-Odom} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Implementation Class for Aldearan's N\-A\-O robot. 
+
+\begin{DoxyVersion}{Version}
+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+20-\/\-September-\/2015 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file nao.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1robot_1_1nao_a00956d04e6061d875e0352c360e4d8a6}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!nao@{nao}}
+\index{nao@{nao}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{nao}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::robot\-::nao\-::nao (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}}\label{classrapp_1_1robot_1_1nao_a00956d04e6061d875e0352c360e4d8a6}
+
+
+Constructor ? 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1robot_1_1nao_a276172d720ce8387a3fe695e02753af0}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!capture\-Image@{capture\-Image}}
+\index{capture\-Image@{capture\-Image}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{capture\-Image}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-pointr$<${\bf rapp\-::object\-::picture}$>$ rapp\-::robot\-::nao\-::capture\-Image (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{camera\-Id, }
+\item[{int}]{camera\-Resolution}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a276172d720ce8387a3fe695e02753af0}
+
+
+N\-O\-T\-E\-: What about format? 
+
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1vision_ac6f224f2da0d9512b8c6700de3eded85}{rapp\-::robot\-::vision}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a4b99876e6fa503830cd1a8c93267eb9f}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!Head@{Head}}
+\index{Head@{Head}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{Head}]{\setlength{\rightskip}{0pt plus 5cm}void move rapp\-::robot\-::nao\-::\-Head (
+\begin{DoxyParamCaption}
+\item[{float}]{yaw, }
+\item[{float}]{pitch}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1robot_1_1nao_a4b99876e6fa503830cd1a8c93267eb9f}
+\hypertarget{classrapp_1_1robot_1_1nao_a8a3d202cdc642ffcc0d6678a0b3b62c5}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!look\-At\-Point@{look\-At\-Point}}
+\index{look\-At\-Point@{look\-At\-Point}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{look\-At\-Point}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::look\-At\-Point (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a8a3d202cdc642ffcc0d6678a0b3b62c5}
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1navigation_a3b9fa18bda273730de4439f324c1bcfb}{rapp\-::robot\-::navigation}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_aed3ffea92e69e9e0fba684c42f5f7cfd}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!model@{model}}
+\index{model@{model}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{model}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::robot\-::nao\-::model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_aed3ffea92e69e9e0fba684c42f5f7cfd}
+
+
+Get Robot's Model. 
+
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1proto_ace501b12c79698041f37a90306163aa9}{rapp\-::robot\-::proto}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a313e2ddb5b0d08e96bf79b29542f0b40}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!move\-Joint@{move\-Joint}}
+\index{move\-Joint@{move\-Joint}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{move\-Joint}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::move\-Joint (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{joint, }
+\item[{float}]{angle}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a313e2ddb5b0d08e96bf79b29542f0b40}
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1navigation_ae23002930f3df05efea1db90b7ede477}{rapp\-::robot\-::navigation}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a50e3841d836ccaa74852c083297beb7b}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!move\-Stop@{move\-Stop}}
+\index{move\-Stop@{move\-Stop}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{move\-Stop}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::move\-Stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a50e3841d836ccaa74852c083297beb7b}
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1navigation_a1ed5e2e425e54f18ff1708ff4f91423e}{rapp\-::robot\-::navigation}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a7404089508af1b7a2872a29990fc6dc2}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!move\-To@{move\-To}}
+\index{move\-To@{move\-To}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{move\-To}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::move\-To (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{theta}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a7404089508af1b7a2872a29990fc6dc2}
+
+
+T\-O\-D\-O\-: Describe each parameter and explain what it is. 
+
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1navigation_ab9015aedc583ec4a86cf3c4a28a9eede}{rapp\-::robot\-::navigation}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a8b2a03a5e46e86d0aedb1d239ffcdcf9}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!move\-Vel@{move\-Vel}}
+\index{move\-Vel@{move\-Vel}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{move\-Vel}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::move\-Vel (
+\begin{DoxyParamCaption}
+\item[{float}]{x, }
+\item[{float}]{y, }
+\item[{float}]{z}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a8b2a03a5e46e86d0aedb1d239ffcdcf9}
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1navigation_ad9edf8af6a0ed5660c4ff1cb93752f3d}{rapp\-::robot\-::navigation}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a707430d6f61a7eb24a020498d9fef841}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!remove\-Stiffness@{remove\-Stiffness}}
+\index{remove\-Stiffness@{remove\-Stiffness}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{remove\-Stiffness}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::remove\-Stiffness (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{joint}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1robot_1_1nao_a707430d6f61a7eb24a020498d9fef841}
+\hypertarget{classrapp_1_1robot_1_1nao_a0eb438d37b7958554ba43b7b3cddf131}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!ruid@{ruid}}
+\index{ruid@{ruid}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{ruid}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::robot\-::nao\-::ruid (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a0eb438d37b7958554ba43b7b3cddf131}
+
+
+Get Robot's Unique I\-D. 
+
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1proto_a2d0dd7d28350e8a7c6ffb7616c0a6f5f}{rapp\-::robot\-::proto}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a96e6289bc1c1782a79ba0ca4d82fb828}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!take\-Predefined\-Posture@{take\-Predefined\-Posture}}
+\index{take\-Predefined\-Posture@{take\-Predefined\-Posture}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{take\-Predefined\-Posture}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::take\-Predefined\-Posture (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{pose}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a96e6289bc1c1782a79ba0ca4d82fb828}
+N\-O\-T\-E\-: parameter pose could be a class of its own, because it encapsulates some kind of Robot State. 
+
+Implements \hyperlink{classrapp_1_1robot_1_1navigation_a135033e445d05cc3e50c3942d47e296e}{rapp\-::robot\-::navigation}.
+
+\hypertarget{classrapp_1_1robot_1_1nao_a8810ac769c75fa2f4723770c9e58a17e}{\index{rapp\-::robot\-::nao@{rapp\-::robot\-::nao}!vis\-Odom@{vis\-Odom}}
+\index{vis\-Odom@{vis\-Odom}!rapp::robot::nao@{rapp\-::robot\-::nao}}
+\subsubsection[{vis\-Odom}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::robot\-::nao\-::vis\-Odom (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1robot_1_1nao_a8810ac769c75fa2f4723770c9e58a17e}
+
+
+Implements \hyperlink{classrapp_1_1robot_1_1navigation_aefd121347fad3dabed99dae344067ca4}{rapp\-::robot\-::navigation}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/robot/nao/\hyperlink{nao_8hpp}{nao.\-hpp}\end{DoxyCompactItemize}
