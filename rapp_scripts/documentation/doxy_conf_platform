@@ -1,7 +1,7 @@
 DOXYFILE_ENCODING                 = UTF-8
 PROJECT_NAME                      = "RAPP Platform"
-PROJECT_NUMBER                    = 0.5.5
-PROJECT_BRIEF                     = RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots
+PROJECT_NUMBER                    = v0.5.5
+PROJECT_BRIEF                     = "RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots"
 PROJECT_LOGO                      = ./RAPP_logo.png
 
 OUTPUT_DIRECTORY                  = ./platform_source
