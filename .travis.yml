@@ -9,12 +9,6 @@ compiler:
 env:
   global:
     - secure: jctNCksS3N66zVjML58EHB9FqRi6HaGV4o32Y+84epKt4vP0RMxuf5MrWAUDvZVAs9ojstG9LHni39tlCvmAulEGWNbeq6J8aVe3H+BaazXsSmfXZh+8IXqt1nc9T40Tw0DmsMTcExZwdjL5om1mLlaHGsnGKGUzjamEYXKORKM=
-notifications:
-  email:
-    recipients:
-      - etsardou@gmail.com
-    on_success: always #[always|never|change] # default: change
-    on_failure: always #[always|never|change] # default: always
 before_install: # Use this to prepare the system to install prerequisites or dependencies
   # Define some config vars
   - export ROS_DISTRO=indigo
