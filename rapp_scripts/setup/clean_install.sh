@@ -61,7 +61,7 @@ RAPP_PLATFORM_BRANCH='master'
 if [ -n "${TRAVIS_BRANCH}" ]; then
   RAPP_PLATFORM_BRANCH="${TRAVIS_BRANCH}"
 fi
-./6_rapp_platform_setup.sh ${TRAVIS_BRANCH} || \
+./6_rapp_platform_setup.sh ${RAPP_PLATFORM_BRANCH} || \
   {
     echo -e "[Error]: RAPP Platform installation failed on rapp-platform setup";
     exit 1;
