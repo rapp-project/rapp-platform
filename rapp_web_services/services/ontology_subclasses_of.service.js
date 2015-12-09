@@ -34,6 +34,8 @@ var __DEBUG__ = false;
 var hop = require('hop');
 var path = require('path');
 
+var ENV = require( path.join(__dirname, '..', 'env.js') );
+
 var __includeDir = path.join(__dirname, '..', 'modules');
 var __configDir = path.join(__dirname,'..', 'config');
 
@@ -44,19 +46,17 @@ var RandStringGen = require ( path.join(__includeDir, 'common',
 var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
-var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
-
 
 /* ------------< Load and set basic configuration parameters >-------------*/
 var __hopServiceName = 'ontology_subclasses_of';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
-var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
+var rosSrvName = ENV.SERVICES[__hopServiceName].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
-var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
-  function(){
+var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
+  reconnect: true, onconnection: function(){
     // .
   }
 });
@@ -69,8 +69,8 @@ var randStrGen = new RandStringGen( stringLength );
 
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = srvEnv[__hopServiceName].timeout; // ms
-var maxTries = srvEnv[__hopServiceName].retries;
+var timeout = ENV.SERVICES[__hopServiceName].timeout; // ms
+var maxTries = ENV.SERVICES[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
 

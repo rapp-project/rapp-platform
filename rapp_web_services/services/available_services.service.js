@@ -34,9 +34,9 @@ var __DEBUG__ = false;
 var hop = require('hop');
 var path = require('path');
 
-var __configDir = path.join(__dirname,'..', 'config');
+var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
+var __configDir = path.join(__dirname,'..', 'config');
 
 var __hopServiceName = 'available_services';
 var __hopServiceId = null;
@@ -44,7 +44,7 @@ var __availableServices = [];
 
 
 /* -- Set timer values for websocket communication to rosbridge -- */
-var scanTimer = srvEnv[__hopServiceName].scan_time * 60 * 1000;  // Minutes
+var scanTimer = ENV.SERVICES[__hopServiceName].scan_time * 60 * 1000;  // Minutes
 /* --------------------------------------------------------------- */
 
 var colors = {
@@ -75,7 +75,7 @@ register_master_interface();
 
   console.log(msg);
 
-  for(var s in srvEnv){
+  for(var s in ENV.SERVICES){
     if(s === __hopServiceName){
       __availableServices.push(s);
       continue;

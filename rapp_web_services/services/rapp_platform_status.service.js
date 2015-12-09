@@ -34,6 +34,8 @@ var __DEBUG__ = false;
 var hop = require('hop');
 var path = require('path');
 
+var ENV = require( path.join(__dirname, '..', 'env.js') );
+
 var __includeDir = path.join(__dirname, '..', 'modules');
 var __configDir = path.join(__dirname, '..', 'config');
 
@@ -42,19 +44,18 @@ var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
 var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
-var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
-var rosbridgeEnv = require( path.join(__configDir, 'env', 'rosbridge.json' ) );
 
 var testDataPath = path.join(__dirname, '..', '..', 'rapp_testing_tools',
   'scripts', 'default_tests', 'test_data');
 
-var __serverCacheDir = Fs.resolvePath( pathsEnv.cache_dir_server );
+var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
+var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
 
 import service available_services();
 
-// Initiate connection to rosbridge_websocket_server
-var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection:
-  function(){
+// Initiate communication with rosbridge-websocket-server
+var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
+  reconnect: true, onconnection: function(){
     // .
   }
 });
