@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         options: {
           destination: 'doc/services',
           template: "node_modules/ink-docstrap/template",
-          configure: "config/jsdoc-services.conf.json"
+          configure: "config/jsdoc/jsdoc-services.conf.json"
         }
       },
       commons: {
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         options: {
           destination: 'doc/commons',
           template: "node_modules/ink-docstrap/template",
-          configure: "config/jsdoc-commons.conf.json"
+          configure: "config/jsdoc/jsdoc-commons.conf.json"
         }
       },
       templates: {
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
         options: {
           destination: 'doc/templates',
           template: "node_modules/ink-docstrap/template",
-          configure: "config/jsdoc-templates.conf.json"
+          configure: "config/jsdoc/jsdoc-templates.conf.json"
         }
       }
     },
