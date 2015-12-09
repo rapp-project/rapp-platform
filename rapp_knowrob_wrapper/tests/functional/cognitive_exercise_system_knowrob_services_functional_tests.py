@@ -90,8 +90,8 @@ class OntologyFunc(unittest.TestCase):
         self.assertEqual(response.success, True)
         prefix = 'http://knowrob.org/kb/knowrob.owl#'
         self.assertEqual(prefix + 'ArithmeticCts_MewmmEsP' in response.tests, True)
-        self.assertEqual(prefix + 'ArithmeticCts_tDjYwuhx' in response.tests, True)
-        #self.assertEqual(prefix + 'ArithmeticCts_TaVWzXre' in response.tests, True)
+        self.assertEqual(prefix + 'ArithmeticCts_stXqnGrc' in response.tests, True)
+        self.assertEqual(prefix + 'ArithmeticCts_TaVWzXre' in response.tests, True)
 
 	## Test user performance of nonexistent user and test type
     def test_user_performance_nonexistent_user_and_test(self):
