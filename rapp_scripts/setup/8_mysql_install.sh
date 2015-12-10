@@ -35,7 +35,7 @@ fi
 
 # Setup sources list
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL install \e[0m"
-sudo apt-get install -y -qq mysql-client mysql-server &> /dev/null
+sudo apt-get install -y -qq mysql-client mysql-server 
 sudo apt-get install -y -qq python-mysqldb &> /dev/null
 
 if [ $# -eq 1 ]; then
