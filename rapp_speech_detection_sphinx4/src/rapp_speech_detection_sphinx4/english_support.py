@@ -18,58 +18,19 @@
 # contact: akintsakis@issel.ee.auth.gr, aris.thallas@{iti.gr, gmail.com}, etsardou@iti.gr
 
 
-import rospy
-import sys
 import mmap
 
-from global_parameters import GlobalParams
-from rapp_exceptions import RappError
-from limited_vocabulary_creator import *
-from rapp_tools import *
+from language_support import *
 
 ## @class EnglishSupport
 # @brief Allows the creation of configuration files for English Sphinx speech recognition
-class EnglishSupport(GlobalParams):
+class EnglishSupport(LanguageSupport):
 
   ## Performs initializations
   def __init__(self):
-    ## Contains global Sphinx parameters
-    #
-    # (see global_parameters.GlobalParams)
-    self._globalParams = GlobalParams()
 
-    ## The limited vocabulary creator
-    #
-    # Instantiates limited_vocabulary_creator.LimitedVocabularyCreator
-    self._vocabulary = LimitedVocabularyCreator()
-
-    # TODO: Split the rapp_sphinx4_java_libraries package into libraries and
-    # language models
-    english_dictionary = self._globalParams._language_models_url + \
-        "/englishPack/cmudict-en-us.dict"
-
-    jar_path = ".:" + self._globalParams._sphinx_jar_files_url + "/" + \
-        self._globalParams._sphinx_jar_file + ":" + \
-        self._globalParams._sphinx_package_url + "/src"
-
-    # Grammar is dummy here..
-    ## The generic Sphinx configuration
-    #
-    # @note Check acoustic model!!
-    self._generic_sphinx_configuration = { \
-      'jar_path' : jar_path, \
-      'configuration_path' : self._globalParams._language_models_url + \
-                                      "/greekPack/default.config.xml", \
-      'acoustic_model' : self._globalParams._acoustic_models_url, \
-      'grammar_name' : 'hello', \
-      'grammar_folder' : self._globalParams._language_models_url + \
-                                                    "/greekPack/", \
-      'dictionary' : self._globalParams._language_models_url + \
-                            "/englishPack/cmudict-en-us.dict", \
-      'language_model' : self._globalParams._language_models_url + \
-                                      "/englishPack/en-us.lm.bin", \
-      'grammar_disabled' : True
-      }
+    # Initialize LanguageSupport
+    super(EnglishSupport, self).__init__()
 
     ## The English dictionary file
     #
@@ -81,6 +42,10 @@ class EnglishSupport(GlobalParams):
 
     # Open the generic english dictionary file
     try:
+      # TODO: Split the rapp_sphinx4_java_libraries package into libraries and
+      # language models
+      english_dictionary = self._globalParams._language_models_url + \
+          "/englishPack/cmudict-en-us.dict"
       self._english_dict_file = open(english_dictionary, 'r')
     except IOError:
       rapp_print("English dictionary could not be opened!")
@@ -148,9 +113,3 @@ class EnglishSupport(GlobalParams):
         raise RappError(e.value)
 
     return limited_sphinx_configuration
-
-  ## Returns the Generic English Configuration
-  #
-  # @return #_generic_sphinx_configuration [dictionary] The Generic English configuration
-  def getGenericConfiguration(self):
-    return self._generic_sphinx_configuration

@@ -19,78 +19,34 @@
 # contact: akintsakis@issel.ee.auth.gr, aris.thallas@{iti.gr, gmail.com}, etsardou@iti.gr
 
 
-import rospy
-import sys
 import re
-import mmap
 
-from global_parameters import GlobalParams
-from rapp_exceptions import RappError
+from language_support import *
 from english_support import *
-from limited_vocabulary_creator import *
-from rapp_tools import *
 
 ## @class GreekSupport
 # @brief Allows the creation of configuration files for Greek Sphinx speech recognition
 #
 # Also supports multilanguage words (English/Greek) by utilizing
 # english_support.EnglishSupport
-class GreekSupport():
+class GreekSupport(LanguageSupport):
 
   ## Performs initializations
   def __init__(self):
-    ## Contains global Sphinx parameters
-    #
-    # (see global_parameters.GlobalParams)
-    self._globalParams = GlobalParams()
 
-    ## The limited vocabulary creator
-    #
-    # Instantiates limited_vocabulary_creator.LimitedVocabularyCreator
-    self._vocabulary = LimitedVocabularyCreator()
+    # Initialize LanguageSupport
+    super(GreekSupport, self).__init__()
+
     # TODO: Split the rapp_sphinx4_java_libraries package into libraries and
     # language models
     # NOTE: This does not exist yet
     #self._greek_dictionary = self._language_models_url + \
         #"/englishPack/cmudict-en-us.dict"
 
-    jar_path = ".:" + self._globalParams._sphinx_jar_files_url + "/" + \
-        self._globalParams._sphinx_jar_file + ":" + \
-        self._globalParams._sphinx_package_url + "/src"
-
-    ## The generic Sphinx configuration
-    #
-    # Grammar is dummy here..
-    # @todo Fix this according to the generic Greek model
-    self._generic_sphinx_configuration = { \
-      'jar_path' : jar_path, \
-      'configuration_path' : self._globalParams._language_models_url + \
-                                      "/greekPack/default.config.xml", \
-      'acoustic_model' : self._globalParams._acoustic_models_url + \
-                                               "/acoustic_model/", \
-      'grammar_name' : 'hello', \
-      'grammar_folder' : self._globalParams._language_models_url + \
-                                                    "/greekPack/", \
-      'dictionary' : self._globalParams._language_models_url + \
-                            "/englishPack/cmudict-en-us.dict", \
-      'language_model' : self._globalParams._language_models_url + \
-                                      "/englishPack/en-us.lm.bin", \
-      'grammar_disabled' : True
-      }
-
     ## Allows the creation of configuration files for English words
     #
     # Instantiates english_support.EnglishSupport to identify english words
     self._english_support = EnglishSupport()
-    # Open the generic english dictionary file
-    # NOTE: Fix this according to the Greek generic dictionary
-    #try:
-      #self.english_dict_file = open(self.english_dictionary, 'r')
-    #except IOError:
-      #print "English dictionary could not be opened!"
-    # Create a mapping of the file
-    #self.english_dict_mapping = mmap.mmap(self.english_dict_file.fileno(), 0, \
-        #access = mmap.ACCESS_READ)
 
     ## Greek uppercase to lowercase mapping
     self._capital_letters = {}
@@ -460,9 +416,3 @@ class GreekSupport():
         raise RappError(e.value)
 
     return [limited_sphinx_configuration, englified_to_greek_dict]
-
-  ## Returns the Generic Greek Configuration
-  #
-  # @return #_generic_sphinx_configuration [dictionary] The Generic Greek configuration
-  def getGenericConfiguration(self):
-    return self._generic_sphinx_configuration
