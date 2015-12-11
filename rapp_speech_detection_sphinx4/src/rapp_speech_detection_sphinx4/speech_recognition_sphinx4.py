@@ -25,6 +25,7 @@ import time
 
 from greek_support import *
 from english_support import *
+from greek_english_support import *
 from sphinx4_wrapper import *
 from rapp_tools import *
 from sphinx4_configuration_params import *
@@ -79,7 +80,7 @@ class SpeechRecognitionSphinx4():
     ## Greek_support creates necessary files for Greek speech recognition
     #
     # (see greek_support.GreekSupport)
-    self._greek_support = GreekSupport()
+    self._greek_support = GreekEnglishSupport()
     ## English creates necessary files for english speech recognition
     #
     # (see english_support.EnglishSupport)

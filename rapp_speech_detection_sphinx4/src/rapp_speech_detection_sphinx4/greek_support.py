@@ -19,8 +19,6 @@
 # contact: akintsakis@issel.ee.auth.gr, aris.thallas@{iti.gr, gmail.com}, etsardou@iti.gr
 
 
-import re
-
 from language_support import *
 from english_support import *
 
@@ -320,56 +318,6 @@ class GreekSupport(LanguageSupport):
     return englified_words
 
 
-  ## Separates English from Greek words
-  #
-  # @param words      [list::string] The set of words to be identified
-  # @param grammar    [list::string] The Sphinx grammar parameter
-  # @param sentences  [list::string] The Sphinx sentences parameter
-  #
-  # @return english_words     [list::string] The set of English words
-  # @return english_grammar   [list::string] The set of English grammar
-  # @return english_sentences [list::string] The set of English sentences
-  # @return greek_words       [list::string] The set of Greek words
-  # @return greek_grammar     [list::string] The set of Greek words
-  # @return greek_sentences   [list::string] The set of Greek words
-  def _separateEngGrWords(self, words, grammar, sentences):
-
-    english_words = []
-    english_grammar = []
-    english_sentences = []
-    greek_words = []
-    greek_grammar = []
-    greek_sentences = []
-
-    for word in words:
-      if re.match('[a-zA-Z\-]', word):
-        rapp_print( "English word: " + str(word) )
-        english_words.append( word )
-      else:
-        rapp_print( "Greek word: " + str(word) )
-        greek_words.append( word )
-
-    for word in grammar:
-      if re.match('[a-zA-Z\-]', word):
-        rapp_print( "English grammar: " + str(word) )
-        english_grammar.append( word )
-      else:
-        rapp_print( "Greek grammar: " + str(word) )
-        greek_grammar.append( word )
-
-    for word in sentences:
-      if re.match('[a-zA-Z\-]', word):
-        rapp_print( "English sentence: " + str(word) )
-        english_sentences.append( word )
-      else:
-        rapp_print( "Greek sentence: " + str(word) )
-        greek_sentences.append( word )
-
-    return [ english_words, english_grammar, english_sentences, greek_words, \
-    greek_grammar, greek_sentences ]
-
-
-
   ## Computes the Limited Greek Configuration
   #
   # @param words      [list::string] The set of words to be identified
@@ -380,37 +328,18 @@ class GreekSupport(LanguageSupport):
   # @return englified_to_greek_dict      [dictionary] A dictionary to transform the englified greek words to actual greek words
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
 
-    # Separate English from Greek words
-    [ english_words, english_grammar, english_sentences, \
-      greek_words, greek_grammar, greek_sentences ] = \
-      self._separateEngGrWords( words, grammar, sentences )
-
     # Get phonemes for Greek words and dictionary for Englified->Greek mapping
-    [englified_phonems_dict, englified_to_greek_dict] = \
-        self._transformWords( greek_words )
-
-    # Append english words to Englified->Greek mapping dictionary
-    for word in english_words:
-      englified_to_greek_dict.update( {word: word} )
-
-    # Get phonemes for English words
-    english_phonem_dict = self._english_support.getWordPhonemes( english_words )
+    [englified_phonemes_dict, englified_to_greek_dict] = \
+        self._transformWords( words )
 
     # Englify Greek grammar and sentences
-    englified_grammar = self._englify_words(greek_grammar)
-    englified_sentences = self._englify_words(greek_sentences)
-
-
-    # Join English and Greek processed files
-    final_phoneme_dict = english_phonem_dict
-    final_phoneme_dict.update(englified_phonems_dict)
-    final_sentences = englified_sentences + english_sentences
-    final_grammar = english_grammar + englified_grammar
+    englified_grammar = self._englify_words(grammar)
+    englified_sentences = self._englify_words(sentences)
 
     try:
         limited_sphinx_configuration = \
             self._vocabulary.createConfigurationFiles( \
-              final_phoneme_dict, final_grammar, final_sentences
+              englified_phonemes_dict, englified_grammar, englified_sentences \
             )
     except RappError as e:
         raise RappError(e.value)
