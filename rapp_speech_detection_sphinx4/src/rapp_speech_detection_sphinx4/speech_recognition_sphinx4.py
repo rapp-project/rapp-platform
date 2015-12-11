@@ -110,23 +110,6 @@ class SpeechRecognitionSphinx4():
     if(not self._use_db_authentication):
       rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
 
-
-    total_path = ".:" + self._globalParams._sphinx_jar_files_url + \
-        "/" + self._globalParams._sphinx_jar_file + ":" \
-            + self._globalParams._sphinx_package_url + "/src"
-
-    sphinx_configuration = { \
-      'jar_path' : total_path, \
-      'configuration_path' : self._globalParams._language_models_url + "/greekPack/default.config.xml", \
-      'acoustic_model' : self._globalParams._acoustic_models_url , \
-      'grammar_name' : 'hello', \
-      'grammar_folder' : self._globalParams._language_models_url + "/greekPack/", \
-      'dictionary' : self._globalParams._language_models_url + "/greekPack/custom.dict", \
-      'language_model' : self._globalParams._language_models_url + "/greekPack/sentences.lm.bin", \
-      'grammar_disabled' : True
-      }
-    self._sphinx4.initializeSphinx(sphinx_configuration)
-
   ## Performs Sphinx4 configuration and speech recognition
   #
   # @param req  [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvRequest] The speech recognition request
@@ -147,25 +130,14 @@ class SpeechRecognitionSphinx4():
         total_res.error = "Non authenticated user"
         return total_res
 
-    conf_req = SpeechRecognitionSphinx4ConfigureSrvRequest()
-    spee_req = SpeechRecognitionSphinx4SrvRequest()
-
-    conf_req.language = req.language
-    conf_req.words = req.words
-    conf_req.grammar = req.grammar
-    conf_req.sentences = req.sentences
-
     conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
-    conf_res = self._configureSpeechRecognition(conf_req)
+    conf_res = self._configureSpeechRecognition(req)
     total_res.error = conf_res.error
     if conf_res.error != '':
         total_res.error = total_res.error + '\n' + conf_res.error
         return total_res
 
-    spee_req.path = req.path
-    spee_req.audio_source = req.audio_source
-    spee_req.user = req.user
-    spee_res = self._speechRecognition(spee_req)
+    spee_res = self._speechRecognition(req)
     total_res.words = spee_res.words
     total_res.error = spee_res.error
     return total_res
@@ -203,20 +175,11 @@ class SpeechRecognitionSphinx4():
     res = SpeechRecognitionSphinx4ConfigureSrvResponse()
     res.error = ''
     conf = {} # Dummy initialization
-    reconfigure = False
+    reconfigure = True
 
-    if self._configuration_params._language != req.language:
-      reconfigure = True
-    elif self._configuration_params._words != req.words:
-      reconfigure = True
-    elif self._configuration_params._grammar != req.grammar:
-      reconfigure = True
-    elif self._configuration_params._sentences != req.sentences:
-      reconfigure = True
-    self._configuration_params._language = req.language
-    self._configuration_params._words = req.words
-    self._configuration_params._grammar = req.grammar
-    self._configuration_params._sentences = req.sentences
+    if self._configuration_params.equals(req):
+      reconfigure = False
+    self._configuration_params.makeEqualTo(req)
 
     if reconfigure == False:
       return res

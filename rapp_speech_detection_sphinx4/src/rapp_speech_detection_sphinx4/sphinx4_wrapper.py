@@ -111,6 +111,13 @@ class Sphinx4Wrapper():
     self._audio_transform_srv = rospy.ServiceProxy( \
         audio_trans_topic, AudioProcessingTransformAudioSrv )
 
+    ## Contains the absolute path for the Sphinx jar file
+    self._jar_path = ".:" + self._globalParams._sphinx_jar_files_url + \
+        "/" + self._globalParams._sphinx_jar_file + ":" \
+            + self._globalParams._sphinx_package_url + "/src"
+
+    self._initializeSphinxProcess()
+
   ## Helper function for getting input from IPC with Sphinx subprocess
   #
   # @return line [string] A buffer read from socket
@@ -124,26 +131,34 @@ class Sphinx4Wrapper():
   # Initiates Sphinx subprocess, sets up socket IPC and configures Sphinx subprocess
   #
   # @param conf [dictionary] Contains the configuration parameters
-  def initializeSphinx(self, conf):
+  def _initializeSphinxProcess(self, conf = None):
 
-    rapp_print(str(conf['jar_path']))
+
+    if conf != None:
+      self._jar_path = conf['jar_path']
+    rapp_print(self._jar_path)
 
     self._createSocket()
 
     if self._globalParams._allow_sphinx_output == True:
-        self._sphinxSubprocess = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)] )
+      self._sphinxSubprocess = subprocess.Popen( \
+          ["java", "-cp", self._jar_path, "Sphinx4", \
+             str(self._sphinx_socket_PORT)] )
     else:
-        try:
-          from subprocess import DEVNULL
-        except ImportError:
-          DEVNULL = open(os.devnull, 'wb')
+      try:
+        from subprocess import DEVNULL
+      except ImportError:
+        DEVNULL = open(os.devnull, 'wb')
 
-        self._sphinxSubprocess = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)], \
+      self._sphinxSubprocess = subprocess.Popen( \
+          ["java", "-cp", self._jar_path, "Sphinx4", \
+              str(self._sphinx_socket_PORT)], \
             stdout = DEVNULL, stderr = DEVNULL )
 
     self.socket_connection, addr = self._sphinx_socket.accept()
 
-    self.configureSphinx( conf )
+    if conf != None:
+      self.configureSphinx( conf )
 
   ## Creates socket IPC between self and Sphinx subprocess
   # Creates the socket server with a system provided port, which is pass as an
@@ -439,7 +454,7 @@ class Sphinx4Wrapper():
     #rospy.logwarn("Respawning sphinx")
     self._sphinxSubprocess.kill()
     time.sleep(2)
-    self.initializeSphinx( self._conf )
+    self._initializeSphinxProcess( self._conf )
     #rospy.logwarn("Respawned sphinx")
 
 

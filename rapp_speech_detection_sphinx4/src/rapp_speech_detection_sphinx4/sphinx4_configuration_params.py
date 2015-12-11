@@ -34,6 +34,14 @@ class SphinxConfigurationParams():
       ## Sphinx sentence attribute
       self._sentences = []
 
+  ## @brief Change attributes to those specified by the request
+  #
+  # @param params [SphinxConfigurationParams] The class instance
+  def makeEqualTo(self, params):
+    self._language = params.language
+    self._words = params.words
+    self._grammar = params.grammar
+    self._sentences = params.sentences
 
   ## @brief Checks if a SphinxConfigurationParams instance equals self
   #
@@ -44,7 +52,7 @@ class SphinxConfigurationParams():
       self._words == params.words and \
       self._grammar == params.grammar and \
       self._sentences == params.sentences
-    ) :
+    ):
       return True
     else:
       return False
