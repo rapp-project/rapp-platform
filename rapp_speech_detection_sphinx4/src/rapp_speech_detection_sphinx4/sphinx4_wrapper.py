@@ -133,9 +133,6 @@ class Sphinx4Wrapper():
   # @param conf [dictionary] Contains the configuration parameters
   def _initializeSphinxProcess(self, conf = None):
 
-
-    if conf != None:
-      self._jar_path = conf['jar_path']
     rapp_print(self._jar_path)
 
     self._createSocket()

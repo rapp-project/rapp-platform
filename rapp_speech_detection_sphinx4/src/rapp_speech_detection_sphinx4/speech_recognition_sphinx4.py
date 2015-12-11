@@ -158,15 +158,27 @@ class SpeechRecognitionSphinx4():
       return res
 
     for word in words:
-      if self._configuration_params._language != "en":
-        rapp_print ("Word: #" + word + "#")
-        if word == "" or word == '<unk>':
-          continue
-        res.words.append(self._word_mapping[word])
-      else:
-        res.words.append(word.replace("'"," "))
+      rapp_print ("Word: #" + word + "#")
+      if word == "" or word == '<unk>':
+        continue
+      res.words.append(self._word_mapping[word].replace("'", " "))
 
     return res;
+
+  ## Choose the language support based on the request language
+  #
+  # @param req  [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4ConfigureSrvRequest] The sphinx configuration request
+  #
+  # @return support [language_support::LanguageSupport] A child class of the LanguageSupport depending on the requested language
+  def _selectLanguageSupport(self,  req):
+    if self._configuration_params._language == 'en':
+      rapp_print ("Language set to English")
+      return self._english_support
+    elif self._configuration_params._language == 'el':
+      rapp_print ("Language set to Greek")
+      return self._greek_support
+    else:
+      raise RappError("Wrong Language")
 
   ## Performs Sphinx4 configuration
   #
@@ -185,59 +197,16 @@ class SpeechRecognitionSphinx4():
     if reconfigure == False:
       return res
 
-    # English language
-    if self._configuration_params._language == 'en':
-      rapp_print ("Language set to English")
-      # Whole dictionary utilization
-      if len(self._configuration_params._words) == 0:
-        rapp_print ("Generic model used")
-        # success is either True (bool) or error (string)
-        try:
-            conf = self._english_support.getGenericConfiguration()
-        except RappError as e:
-            res.error = e.value
-            return res
-      # Limited dictionary utilization
-      else:
-        rapp_print ("Limited model used")
-        # success is either True (bool) or error (string)
-        try:
-            conf = self._english_support.getLimitedVocebularyConfiguration(\
-                self._configuration_params._words, \
-                self._configuration_params._grammar, \
-                self._configuration_params._sentences)
-        except RappError as e:
-            res.error = e.value
-            return res
+    try:
+      support = self._selectLanguageSupport(req)
+    except RappError as e:
+      res.error = e.value
+      return res
 
-    # Greek language
-    elif self._configuration_params._language == "el":
-      rapp_print ("Language set to Greek")
-      # Whole dictionary utilization
-      if len(self._configuration_params._words) == 0:
-        rapp_print ("Generic model used")
-        # TODO
-      # Limited dictionary utilization
-      else:
-        rapp_print ("Words to be recognized (" + \
-            str(len(self._configuration_params._words)) + "):")
-        # success is either True (bool) or error (string)
-        try:
-            [conf, eng_w] = self._greek_support.getLimitedVocebularyConfiguration(\
-                self._configuration_params._words, \
-                self._configuration_params._grammar, \
-                self._configuration_params._sentences)
-        except RappError as e:
-            res.error = e.value
-            return res
-
-        self._word_mapping = {}
-        for ew in eng_w:
-          self._word_mapping[ew] = eng_w[ew]
-        rapp_print (self._word_mapping)
-
-    else:
-      res.error = "Wrong language"
+    try:
+      conf = self._createSupportConfiguration(support, res)
+    except RappError as e:
+      res.error = e.value
       return res
 
     # Actual sphinx4 configuration
@@ -245,6 +214,42 @@ class SpeechRecognitionSphinx4():
     rapp_print (conf)
     self._sphinx4.configureSphinx(conf)
     return res
+
+
+  ## Get Sphinx configuration paths from Language Support
+  #
+  # @param support [language_support::LanguageSupport] A child class of the LanguageSupport depending on the requested language
+  # @param req [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4ConfigureSrvRequest] The sphinx configuration request
+  #
+  # @return conf [dictionary] The Sphinx configuration files' paths
+  def _createSupportConfiguration(self, support, res):
+    # Whole dictionary utilization
+    if len(self._configuration_params._words) == 0:
+      rapp_print ("Generic model used")
+      # success is either True (bool) or error (string)
+      try:
+        conf = support.getGenericConfiguration()
+      except RappError as e:
+        raise RappError( e.value )
+    # Limited dictionary utilization
+    else:
+      rapp_print ("Limited model used")
+      # success is either True (bool) or error (string)
+      try:
+        [conf, mapping] = support.getLimitedVocebularyConfiguration(\
+          self._configuration_params._words, \
+          self._configuration_params._grammar, \
+          self._configuration_params._sentences)
+      except RappError as e:
+        raise RappError( e.value )
+
+      self._word_mapping = {}
+      for ew in mapping:
+        self._word_mapping[ew] = mapping[ew]
+      rapp_print (self._word_mapping)
+
+    return conf
+
 
 # Main function
 if __name__ == "__main__":

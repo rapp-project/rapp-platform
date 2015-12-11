@@ -57,7 +57,7 @@ class TestAudioProcessing(unittest.TestCase):
 
     def test_limitedVocabularyConfigurationFiles_correctCase(self):
         try:
-            conf = self.english_support_module.getLimitedVocebularyConfiguration(\
+            [conf, wordDict] = self.english_support_module.getLimitedVocebularyConfiguration(\
                     ['this', 'is', 'a', 'test'],\
                     [],\
                     [])

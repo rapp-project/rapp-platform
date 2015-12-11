@@ -73,7 +73,8 @@ class LanguageSupport(object):
   # @param grammar    [list::string] The Sphinx grammar parameter
   # @param sentences  [list::string] The Sphinx sentences parameter
   #
-  # @return limited_sphinx_configuration [dictionary] The Limited English configuration
+  # @return limited_sphinx_configuration [dictionary] The Limited configuration
+  # @return englified_to_lang_dict       [dictionary] A dictionary to transform the englified words to the words in the proper language
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
     raise NotImplementedError("Child classes should explicitly override this function")
 

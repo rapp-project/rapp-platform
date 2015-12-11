@@ -101,7 +101,13 @@ class EnglishSupport(LanguageSupport):
   # @param sentences  [list::string] The Sphinx sentences parameter
   #
   # @return limited_sphinx_configuration [dictionary] The Limited English configuration
+  # @return engEngDict [dictionary] Introduced for code interface compliance
   def getLimitedVocebularyConfiguration(self, words, grammar, sentences):
+
+    engEngDict = {}
+    for word in words:
+      engEngDict.update( {word: word} )
+
     rapp_print(words)
 
     enhanced_words = self.getWordPhonemes( words )
@@ -112,4 +118,4 @@ class EnglishSupport(LanguageSupport):
     except RappError as e:
         raise RappError(e.value)
 
-    return limited_sphinx_configuration
+    return limited_sphinx_configuration, engEngDict
