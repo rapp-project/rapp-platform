@@ -18,15 +18,12 @@
 # Authors: Aris Thallas
 # contact: aris.thallas@iti.gr
 
-from global_parameters import GlobalParams
-
 ## @class SphinxConfigurationParams
 # @brief Contains the parameters required for the Sphinx configuration
-class SphinxConfigurationParams(GlobalParams):
+class SphinxConfigurationParams():
 
   ## @brief Initializes an empty configuration (constructor)
   def __init__(self):
-      GlobalParams.__init__(self)
 
       ## The language of the request
       self._language = 'el'

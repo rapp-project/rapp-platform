@@ -28,6 +28,7 @@ from english_support import *
 from sphinx4_wrapper import *
 from rapp_tools import *
 from sphinx4_configuration_params import *
+from global_parameters import GlobalParams
 
 from global_parameters import GlobalParams
 
@@ -61,11 +62,15 @@ from std_msgs.msg import (
 # Maintains a complete Rapp Sphinx Entity for the
 # speech_recognition_sphinx4_handler_node.SpeechRecognitionSphinx4HandlerNode
 # to perform the speech recognition.
-class SpeechRecognitionSphinx4(GlobalParams):
+class SpeechRecognitionSphinx4():
 
   ## Constructor performing initializations
   def __init__(self):
-    GlobalParams.__init__(self)
+
+    ## Contains global Sphinx parameters
+    #
+    # (see global_parameters.GlobalParams)
+    self._globalParams = GlobalParams()
 
     ## The sphinx wrapper communicates with the actual Sphinx.java process
     #
@@ -106,18 +111,18 @@ class SpeechRecognitionSphinx4(GlobalParams):
       rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
 
 
-    total_path = ".:" + self._sphinx_jar_files_url + \
-        "/" + self._sphinx_jar_file + ":" \
-            + self._sphinx_package_url + "/src"
+    total_path = ".:" + self._globalParams._sphinx_jar_files_url + \
+        "/" + self._globalParams._sphinx_jar_file + ":" \
+            + self._globalParams._sphinx_package_url + "/src"
 
     sphinx_configuration = { \
       'jar_path' : total_path, \
-      'configuration_path' : self._language_models_url + "/greekPack/default.config.xml", \
-      'acoustic_model' : self._acoustic_models_url , \
+      'configuration_path' : self._globalParams._language_models_url + "/greekPack/default.config.xml", \
+      'acoustic_model' : self._globalParams._acoustic_models_url , \
       'grammar_name' : 'hello', \
-      'grammar_folder' : self._language_models_url + "/greekPack/", \
-      'dictionary' : self._language_models_url + "/greekPack/custom.dict", \
-      'language_model' : self._language_models_url + "/greekPack/sentences.lm.bin", \
+      'grammar_folder' : self._globalParams._language_models_url + "/greekPack/", \
+      'dictionary' : self._globalParams._language_models_url + "/greekPack/custom.dict", \
+      'language_model' : self._globalParams._language_models_url + "/greekPack/sentences.lm.bin", \
       'grammar_disabled' : True
       }
     self._sphinx4.initializeSphinx(sphinx_configuration)

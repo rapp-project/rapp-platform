@@ -33,7 +33,10 @@ class EnglishSupport(GlobalParams):
 
   ## Performs initializations
   def __init__(self):
-    GlobalParams.__init__(self)
+    ## Contains global Sphinx parameters
+    #
+    # (see global_parameters.GlobalParams)
+    self._globalParams = GlobalParams()
 
     ## The limited vocabulary creator
     #
@@ -42,13 +45,12 @@ class EnglishSupport(GlobalParams):
 
     # TODO: Split the rapp_sphinx4_java_libraries package into libraries and
     # language models
-    english_dictionary = self._language_models_url + \
+    english_dictionary = self._globalParams._language_models_url + \
         "/englishPack/cmudict-en-us.dict"
 
-    jar_path = ".:" + \
-        self._sphinx_jar_files_url + \
-        "/" + self._sphinx_jar_file + ":" \
-            + self._sphinx_package_url + "/src"
+    jar_path = ".:" + self._globalParams._sphinx_jar_files_url + "/" + \
+        self._globalParams._sphinx_jar_file + ":" + \
+        self._globalParams._sphinx_package_url + "/src"
 
     # Grammar is dummy here..
     ## The generic Sphinx configuration
@@ -56,12 +58,16 @@ class EnglishSupport(GlobalParams):
     # @note Check acoustic model!!
     self._generic_sphinx_configuration = { \
       'jar_path' : jar_path, \
-      'configuration_path' : self._language_models_url + "/greekPack/default.config.xml", \
-      'acoustic_model' : self._acoustic_models_url, \
+      'configuration_path' : self._globalParams._language_models_url + \
+                                      "/greekPack/default.config.xml", \
+      'acoustic_model' : self._globalParams._acoustic_models_url, \
       'grammar_name' : 'hello', \
-      'grammar_folder' : self._language_models_url + "/greekPack/", \
-      'dictionary' : self._language_models_url + "/englishPack/cmudict-en-us.dict", \
-      'language_model' : self._language_models_url + "/englishPack/en-us.lm.bin", \
+      'grammar_folder' : self._globalParams._language_models_url + \
+                                                    "/greekPack/", \
+      'dictionary' : self._globalParams._language_models_url + \
+                            "/englishPack/cmudict-en-us.dict", \
+      'language_model' : self._globalParams._language_models_url + \
+                                      "/englishPack/en-us.lm.bin", \
       'grammar_disabled' : True
       }
 

@@ -32,28 +32,36 @@ from rapp_tools import *
 
 ## @class LimitedVocabularyCreator
 # @brief Creates temporary configuration files for the input limited vocabulary
-class LimitedVocabularyCreator(GlobalParams):
+class LimitedVocabularyCreator():
 
   ## Performs initializations
   def __init__(self):
-    GlobalParams.__init__(self)
+    ## Contains global Sphinx parameters
+    #
+    # (see global_parameters.GlobalParams)
+    self._globalParams = GlobalParams()
 
-    if not os.path.exists( self._tmp_language_models_url ):
+    if not os.path.exists( self._globalParams._tmp_language_models_url ):
       rospy.logwarn( "Language temporary directory does not exist. Path: " + \
-          self._tmp_language_models_url )
-      os.makedirs(self._tmp_language_models_url)
+          self._globalParams._tmp_language_models_url )
+      os.makedirs(self._globalParams._tmp_language_models_url)
 
-    self.languages_package = tempfile.mkdtemp( prefix='tmp_language_pack_', dir = self._tmp_language_models_url )
+    ## The temporary directory containing the configurations
+    self._languages_package = tempfile.mkdtemp( prefix='tmp_language_pack_', \
+        dir = self._globalParams._tmp_language_models_url )
 
-    atexit.register(shutil.rmtree, self.languages_package)
+    # Delete temp file at termination
+    atexit.register(shutil.rmtree, self._languages_package)
 
 
-    self.sphinx_configuration = { \
-      'jar_path' : ".:" + self._sphinx_jar_files_url + \
-            "/" + self._sphinx_jar_file + ":" \
-            + self._sphinx_package_url + "/src", \
-      'configuration_path' : self._language_models_url + "/greekPack/default.config.xml", \
-      'acoustic_model' : self._acoustic_models_url, \
+    ## The default configuration
+    self._sphinx_configuration = { \
+      'jar_path' : ".:" + self._globalParams._sphinx_jar_files_url + \
+            "/" + self._globalParams._sphinx_jar_file + ":" \
+            + self._globalParams._sphinx_package_url + "/src", \
+      'configuration_path' : self._globalParams._language_models_url + \
+                                      "/greekPack/default.config.xml", \
+      'acoustic_model' : self._globalParams._acoustic_models_url, \
       'grammar_name' : '', \
       'grammar_folder' : '', \
       'dictionary' : '', \
@@ -78,14 +86,14 @@ class LimitedVocabularyCreator(GlobalParams):
   # @return conf   [dictionary] The final configuration
   # @return status [string] Either the error (string) or True (bool)
   def createConfigurationFiles(self, words, grammar, sentences):
-    tmp_configuration = self.sphinx_configuration
+    tmp_configuration = self._sphinx_configuration
 
     rapp_print( "Creating configuration files with parameters:" )
     rapp_print( "Words: " + str(words) )
     rapp_print( "Sentences: " + str(sentences) )
     rapp_print( "Grammar: " + str(grammar) )
     # Create custom dictionary file
-    tmp_configuration['dictionary'] = os.path.join( self.languages_package, \
+    tmp_configuration['dictionary'] = os.path.join( self._languages_package, \
         'custom.dict' )
     custom_dict = open(tmp_configuration['dictionary'], 'w')
     for word in words:
@@ -101,7 +109,7 @@ class LimitedVocabularyCreator(GlobalParams):
     else:
       tmp_configuration['grammar_disabled'] = False
     tmp_configuration['grammar_name'] = 'custom'
-    tmp_configuration['grammar_folder'] = self.languages_package
+    tmp_configuration['grammar_folder'] = self._languages_package
     custom_grammar = open(os.path.join( tmp_configuration['grammar_folder'], \
         tmp_configuration['grammar_name']) + '.gram', 'w')
     custom_grammar.write('#JSGF V1.0;\n')
@@ -129,9 +137,9 @@ class LimitedVocabularyCreator(GlobalParams):
     # Fix sentences / language model
     # Check sentences: All words must exist in sentences
     # Continue with the sentences setup
-    tmp_configuration['language_model'] = os.path.join( self.languages_package, \
+    tmp_configuration['language_model'] = os.path.join( self._languages_package, \
       "sentences.lm.bin" )
-    custom_sentences = open(self.languages_package + '/sentences.txt', 'w')
+    custom_sentences = open(self._languages_package + '/sentences.txt', 'w')
     if len(sentences) != 0:
       for sent in sentences:
         # Split sentence
@@ -149,14 +157,15 @@ class LimitedVocabularyCreator(GlobalParams):
 
     # Run script to fix the language model
     rapp_print( "Sphinx: Creating language model files\n" )
-    if self._allow_sphinx_output == True:
-        bash_file = self._language_models_url + "/greekPack/run.sh"
-        bash_command = "cp " + bash_file + " " + self.languages_package + \
-            " && cd " + self.languages_package + " && bash run.sh"
+    if self._globalParams._allow_sphinx_output == True:
+        bash_file = self._globalParams._language_models_url + "/greekPack/run.sh"
+        bash_command = "cp " + bash_file + " " + self._languages_package + \
+            " && cd " + self._languages_package + " && bash run.sh"
     else:
-        bash_file = self._language_models_url + "/greekPack/run_silent.sh"
-        bash_command = "cp " + bash_file + " " + self.languages_package + \
-            " && cd " + self.languages_package + " && bash run_silent.sh"
+        bash_file = self._globalParams._language_models_url + \
+            "/greekPack/run_silent.sh"
+        bash_command = "cp " + bash_file + " " + self._languages_package + \
+            " && cd " + self._languages_package + " && bash run_silent.sh"
 
     os.system(bash_command)
 

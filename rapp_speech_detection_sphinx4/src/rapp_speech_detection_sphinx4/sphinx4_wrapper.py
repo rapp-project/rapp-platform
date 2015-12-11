@@ -43,12 +43,16 @@ from rapp_platform_ros_communications.srv import(
 # Initializes a Sphinx.java subprocess and creates an IPC using sockets.
 # It is responsible for interacting with Sphinx via the socket to send
 # configuration params/instructions and initialize a recognition procedure.
-class Sphinx4Wrapper(GlobalParams):
+class Sphinx4Wrapper():
 
   ## Constructor
   # Initiates service clients
   def __init__(self):
-    GlobalParams.__init__(self)
+    ## Contains global Sphinx parameters
+    #
+    # (see global_parameters.GlobalParams)
+    self._globalParams = GlobalParams()
+
     ## Sphinx configuration
     self._conf = ''
     ## Sphinx status flag
@@ -112,7 +116,7 @@ class Sphinx4Wrapper(GlobalParams):
   # @return line [string] A buffer read from socket
   def _readLine(self):
     line = self.socket_connection.recv(1024)
-    if self._allow_sphinx_output == True:
+    if self._globalParams._allow_sphinx_output == True:
       rapp_print( line )
     return line
 
@@ -126,7 +130,7 @@ class Sphinx4Wrapper(GlobalParams):
 
     self._createSocket()
 
-    if self._allow_sphinx_output == True:
+    if self._globalParams._allow_sphinx_output == True:
         self._sphinxSubprocess = subprocess.Popen( ["java", "-cp", conf['jar_path'], "Sphinx4", str(self._sphinx_socket_PORT)] )
     else:
         try:
@@ -145,7 +149,7 @@ class Sphinx4Wrapper(GlobalParams):
   # Creates the socket server with a system provided port, which is pass as an
   # argument to the created subprocess.
   def _createSocket(self):
-    HOST = self._socket_host
+    HOST = self._globalParams._socket_host
     self._sphinx_socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM ) # Create Unix Socket
     self._sphinx_socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     self._sphinx_socket.bind( (HOST, 0) )
