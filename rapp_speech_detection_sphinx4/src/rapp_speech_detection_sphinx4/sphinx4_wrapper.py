@@ -133,10 +133,13 @@ class Sphinx4Wrapper():
   # @param conf [dictionary] Contains the configuration parameters
   def _initializeSphinxProcess(self, conf = None):
 
+    rapp_print('Initializing Sphinx subprocess')
     rapp_print(self._jar_path)
 
+    rapp_print('Setting up socket IPC')
     self._createSocket()
 
+    rapp_print('Forking subprocess')
     if self._globalParams._allow_sphinx_output == True:
       self._sphinxSubprocess = subprocess.Popen( \
           ["java", "-cp", self._jar_path, "Sphinx4", \
@@ -152,6 +155,7 @@ class Sphinx4Wrapper():
               str(self._sphinx_socket_PORT)], \
             stdout = DEVNULL, stderr = DEVNULL )
 
+    rapp_print('Awaiting socket connection')
     self.socket_connection, addr = self._sphinx_socket.accept()
 
     if conf != None:
@@ -167,6 +171,7 @@ class Sphinx4Wrapper():
     self._sphinx_socket.bind( (HOST, 0) )
     self._sphinx_socket_PORT = self._sphinx_socket.getsockname()[1]
     self._sphinx_socket.listen( 1 )
+    rapp_print('Socket created. PORT: ' + str(self._sphinx_socket_PORT))
 
   ## Perform Sphinx4 configuration
   #

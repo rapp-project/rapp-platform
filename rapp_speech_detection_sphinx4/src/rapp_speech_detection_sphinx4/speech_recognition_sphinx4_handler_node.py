@@ -25,6 +25,7 @@ import hashlib
 import threading
 
 from speech_recognition_sphinx4 import *
+from rapp_tools import *
 
 
 from rapp_platform_ros_communications.srv import (
@@ -78,6 +79,7 @@ class SpeechRecognitionSphinx4HandlerNode():
   # @return res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvResponse] The service response
   def handleSpeechRecognitionCallback(self, req):
 
+    rapp_print("Received service request", 'DEBUG')
     res = SpeechRecognitionSphinx4TotalSrvResponse()
 
     request_hash = self._calculateRequestHash( req )
@@ -92,6 +94,7 @@ class SpeechRecognitionSphinx4HandlerNode():
       if proc['running'] == False and \
          proc['configuration_hash'] == request_hash:
 
+        rapp_print("Found Sphinx process with same configuration", 'DEBUG')
         proc['running'] = True
         self._lock.release()
         res = proc['sphinx'].speechRecognitionBatch( req )
@@ -112,6 +115,7 @@ class SpeechRecognitionSphinx4HandlerNode():
         proc['configuration_hash'] = request_hash
         proc['running'] = True
 
+        rapp_print("Found Sphinx process", 'DEBUG')
         self._lock.release()
         res = proc['sphinx'].speechRecognitionBatch( req )
 
@@ -147,5 +151,6 @@ class SpeechRecognitionSphinx4HandlerNode():
 if __name__ == "__main__":
   rospy.init_node('SpeechRecognitionSphinx4')
   SpeechRecognitionSphinx4HandlerNode = SpeechRecognitionSphinx4HandlerNode()
+  rapp_print("Sphinx4 Handler node initialized", 'DEBUG')
   rospy.spin()
 

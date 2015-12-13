@@ -15,15 +15,34 @@
 #limitations under the License.
 
 import sys
-import rospy
+import os
 import inspect
+import rospy
 
-def rapp_print(var):
+def rapp_print(var, verbosity='DEBUG'):
 
   callerframerecord = inspect.stack()[1]
 
   frame = callerframerecord[0]
   info = inspect.getframeinfo(frame)
 
-  rospy.logdebug( '[ FUNCTION: ' + info.function + ', LINE: ' + \
-      str(info.lineno) + ' ]: ' + str(var) )
+  if verbosity == 'DEBUG':
+    rospy.logdebug('[ FILE: ' + os.path.basename(info.filename) + \
+        ', FUNCTION: ' + info.function + ', LINE: ' + str(info.lineno) + \
+        ' ]: ' + str(var) )
+  elif verbosity == 'INFO':
+    rospy.loginfo('[ FILE: ' + os.path.basename(info.filename) + \
+        ', FUNCTION: ' + info.function + ', LINE: ' + str(info.lineno) + \
+        ' ]: ' + str(var) )
+  elif verbosity == 'WARN':
+    rospy.logwarn('[ FILE: ' + os.path.basename(info.filename) + \
+        ', FUNCTION: ' + info.function + ', LINE: ' + str(info.lineno) + \
+        ' ]: ' + str(var) )
+  elif verbosity == 'ERROR':
+    rospy.logerr('[ FILE: ' + os.path.basename(info.filename) + \
+        ', FUNCTION: ' + info.function + ', LINE: ' + str(info.lineno) + \
+        ' ]: ' + str(var) )
+  elif verbosity == 'FATAL':
+    rospy.logfatal('[ FILE: ' + os.path.basename(info.filename) + \
+        ', FUNCTION: ' + info.function + ', LINE: ' + str(info.lineno) + \
+        ' ]: ' + str(var) )

@@ -20,7 +20,6 @@
 
 import rospy
 import sys
-import mmap
 
 from global_parameters import GlobalParams
 from rapp_exceptions import RappError

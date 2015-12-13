@@ -129,18 +129,23 @@ class SpeechRecognitionSphinx4():
       resp = self._authentication_service(req_db.req_cols, req_db.where_data)
       if resp.success.data != True or len(resp.res_data) == 0:
         total_res.error = "Non authenticated user"
+        rapp_print(total_res.error, 'ERROR')
         return total_res
 
+    rapp_print('Configuring Sphinx')
     conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
     conf_res = self._configureSpeechRecognition(req)
     total_res.error = conf_res.error
     if conf_res.error != '':
         total_res.error = total_res.error + '\n' + conf_res.error
+        rapp_print(total_res.error, 'ERROR')
         return total_res
 
+    rapp_print('Performing recognition')
     spee_res = self._speechRecognition(req)
     total_res.words = spee_res.words
     total_res.error = spee_res.error
+    rapp_print(total_res.words)
     return total_res
 
   ## Performs Sphinx4 speech recognition
