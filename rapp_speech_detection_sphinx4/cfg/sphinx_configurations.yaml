@@ -1,0 +1,26 @@
+# Predefined settings for Sphinx configuration.
+---
+configurations:
+  # Configuration for Greek yes and no without grammar
+  nai_oxi_no_grammar:
+    settings:
+      language: el
+      words:
+        - ναι
+        - όχι
+      grammar:
+      sentences:
+      - ναι
+      - όχι
+  # Configuration for English yes and no without grammar
+  yes_no_no_grammar:
+    settings:
+      language: en
+      words:
+        - "yes"
+        - "no"
+      grammar:
+      sentences:
+        - "yes"
+        - "no"
+...

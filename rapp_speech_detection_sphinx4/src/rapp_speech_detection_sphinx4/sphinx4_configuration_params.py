@@ -43,6 +43,13 @@ class SphinxConfigurationParams():
     self._grammar = params.grammar
     self._sentences = params.sentences
 
+  ## @brief Read the configuration from configuration yaml
+  #
+  # @param confName [string] The name of the requested configuration
+  def readConfigurationYaml(self, confName):
+    pass
+    
+
   ## @brief Checks if a SphinxConfigurationParams instance equals self
   #
   # @param params [SphinxConfigurationParams] The class instance

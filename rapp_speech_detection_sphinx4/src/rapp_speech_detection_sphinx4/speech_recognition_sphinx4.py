@@ -66,7 +66,7 @@ from std_msgs.msg import (
 class SpeechRecognitionSphinx4():
 
   ## Constructor performing initializations
-  def __init__(self):
+  def __init__(self, configurationName=None):
 
     ## Contains global Sphinx parameters
     #

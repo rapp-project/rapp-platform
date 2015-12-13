@@ -50,13 +50,21 @@ class SpeechRecognitionSphinx4HandlerNode():
     self._threads = \
         rospy.get_param("rapp_speech_detection_sphinx4_threads")
 
-    ## The subprocesses structure that contains information used for the
-    # subprocess handling
-    self._availableProcesses = [{
-      'sphinx': SpeechRecognitionSphinx4(), \
-      'running': False, \
-      'configuration_hash': 0\
-      } for i in range(self._threads)]
+    if rospy.get_param("rapp_speech_detection_sphinx4_preconfigure"):
+      configurations = self._createPreconfigurations()
+      ## The subprocesses structure that contains information used for the
+      # subprocess handling
+      self._availableProcesses = [{
+        'sphinx': SpeechRecognitionSphinx4(configurations[i]), \
+        'running': False, \
+        'configuration_hash': 0\
+        } for i in range(self._threads)]
+    else:
+      self._availableProcesses = [{
+        'sphinx': SpeechRecognitionSphinx4(), \
+        'running': False, \
+        'configuration_hash': 0\
+        } for i in range(self._threads)]
 
     ## Thread conditional variable used for the subprocess scheduling
     self._lock = threading.Condition()
@@ -72,6 +80,46 @@ class SpeechRecognitionSphinx4HandlerNode():
     self._speech_recognition_batch_service = rospy.Service( \
         serv_batch_topic, SpeechRecognitionSphinx4TotalSrv, \
         self.handleSpeechRecognitionCallback)
+
+
+  ## @brief Configures Sphinx subprocesses with predefined settings
+  #
+  # Configure a number of Sphinx processes to cover commonly occurring requests.
+  def _createPreconfigurations(self):
+    preconf = []
+
+    # Get number of requested preconfigurations
+    confNumber = \
+       rospy.get_param("rapp_speech_detection_sphinx4_preconfigure_number")
+
+    # Too many configurations
+    if confNumber > self._threads:
+      rapp_print("Sphinx preconfigurations requested exceed Sphinx" + \
+             "processes. Truncating", 'WARN')
+      confNumber = self._threads
+
+    # Check actual unique configurations provided
+    if rospy.has_param("rapp_speech_detection_sphinx4_preconfiguration"):
+        confDict = \
+            rospy.get_param("rapp_speech_detection_sphinx4_preconfiguration")
+        uniqueConfigurations = len( confDict )
+        if uniqueConfigurations > confNumber:
+          uniqueConfigurations = confNumber
+    else:
+      rapp_print("Preconfigurations requested, but none was provided", 'ERROR')
+      for it in range(self._threads):
+        preconf.append(None)
+      return preconf
+
+    for confIter in range(confNumber):
+      preconf.append(confDict[ str(confIter % uniqueConfigurations) ])
+
+    for it in range(self._threads - confNumber):
+      preconf.append(None)
+
+    rapp_print(str(preconf), 'DEBUG')
+    return preconf
+
 
   ## @brief The callback to perform speech recognition
   #

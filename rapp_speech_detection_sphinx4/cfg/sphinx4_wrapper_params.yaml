@@ -5,3 +5,8 @@ rapp_speech_detection_sphinx4_total_topic: /rapp/rapp_speech_detection_sphinx4/b
 rapp_speech_detection_sphinx4_use_db_authentication: true
 
 rapp_speech_detection_sphinx4_threads: 2
+
+rapp_speech_detection_sphinx4_preconfigure: True
+rapp_speech_detection_sphinx4_preconfigure_number: 2
+rapp_speech_detection_sphinx4_preconfiguration/0: nai_oxi_no_grammar
+rapp_speech_detection_sphinx4_preconfiguration/1: yes_no_no_grammar
