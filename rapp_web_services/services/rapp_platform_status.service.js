@@ -51,7 +51,9 @@ var testDataPath = path.join(__dirname, '..', '..', 'rapp_testing_tools',
 var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
 var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
 
-import service available_services();
+var GUI = require( path.join(__dirname, '..', 'gui', 'src', 'platform_status',
+    'platform_status_gui.js') );
+
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -59,79 +61,6 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
     // .
   }
 });
-
-var platformActiveServices = [];
-var platformActiveNodes = [];
-var platformActiveTopics = [];
-var platformHopServices = [];
-var rappRosServices  = [];
-var pollCycle = 1000; // 10 sec
-
-
-loopInf();
-
-
-function navbar(){
-  return <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <a class="btn btn-success" href="#">RAPP Platform Status</a>
-        </button>
-      </div>
-    </div>
-  </div>;
-}
-
-
-function fillLabel(labelName){
-  var lblText = '';
-  var contClass = '';
-  switch(labelName){
-    case "ros-nodes": 
-      lblText = "RAPP Platform ROS-Nodes";
-      contClass =
-        (platformActiveNodes.length > 1) ? "bg-success" : "bg-danger";
-      break;
-    case "ros-services":
-      lblText = "RAPP Platform ROS-Services";
-      contClass =
-        (platformActiveServices.length > 1) ? "bg-success" : "bg-danger";
-      break;
-    case "ros-topics":
-      lblText = "RAPP Platform ROS-Topics";
-      contClass =
-        (platformActiveTopics.length > 1) ? "bg-success" : "bg-danger";
-      break;
-    case "hop-services":
-      lblText = "RAPP Platform HOP web services";
-      contClass= "bg-info";
-      break;
-    default:
-      break;
-  }
-
-  return <h2 align="center">
-    <p class=${contClass} align="center">${lblText}</p>
-    </h2>
-  ;
-}
-
-
-function headerHtml(){
-  return  <head>
-    ~{ var selectedHopSrv = ''; }
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <meta charset="utf-8"/>
-    <meta name="viewpoint" content="width=device-width, initial-scale=1">
-    <style>
-      body {
-        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
-    </style>
-  </head>
-  ; 
-}
 
 
 service rapp_platform_status(  )
@@ -142,116 +71,100 @@ service rapp_platform_status(  )
   var topics_literal = '';
   var hop_srv_literal = '';
 
-  for(var index = 0 ; index < rappRosServices.length ; index++)
-  {
-    rapp_srv_literal += "<option>" +   rappRosServices[index] + '</option>';
-  }
+  var formRosNodes = {
+    labelId: 'ros-nodes-label',
+    text: "RAPP Platform ROS-Nodes",
+    formId: "ros-nodes",
+  };
 
-  for(var index = 0 ; index < platformActiveNodes.length ; index++)
-  {
-    nodes_literal += "<option>" + platformActiveNodes[index] + '</option>';
-  }
+  var formRosTopics= {
+    labelId: 'ros-topics-label',
+    text: "RAPP Platform ROS-Topics",
+    formId: "ros-topics",
+  };
 
-  for(var index = 0 ; index < platformActiveNodes.length ; index++)
-  {
-    topics_literal += "<option>" + platformActiveTopics[index] + '</option>';
-  }
+  var formRosSrv= {
+    labelId: 'ros-services-label',
+    text: "RAPP Platform ROS-Services",
+    formId: "ros-services",
+  };
 
-  for(var index = 0 ; index < platformHopServices.length ; index++)
-  {
-    hop_srv_literal += "<option>" + platformHopServices[index] + '</option>';
-  }
+  var formHopSrv = {
+    labelId: "hop-services-label",
+    text: "HOP Web Services",
+    formId: "hop-services"
+  };
 
 
   return <html lang="en">
-    ${headerHtml()}
+    ${GUI.HEADER( {service: rapp_platform_status} )}
     <body>
-      ${navbar()}
-      <div class='jumbotron' align='center'>
-        <h1>RAPP Platform Status</h1>
+      ${GUI.NAVBAR()}
+      ${GUI.PAGE_HEADER()}
+      <div class='form-group col-xs-3 col-sm-3 col-md-3' style='word-wrap:break-word;'>
+        ${GUI.FORM(formRosNodes)}
+        ${GUI.FORM(formRosTopics)}
+        ${GUI.FORM(formRosSrv)}
+        ${GUI.FORM(formHopSrv)}
       </div>
-      <div class='col-md-4' style='word-wrap:break-word;'>
-        <div class='row-fluid'>
-          ${fillLabel("ros-services")}
-          <select id='SrvBox' class="form-control" onchange=~{
-            var selected = this.options[this.selectedIndex].value;
-            }>
-            ${rapp_srv_literal}
-          </select>
-        </div>
-        <div class='row-fluid'>
-          ${fillLabel("ros-nodes")}
-          <select id='NodesBox' class="form-control" onchange=~{
-            var selected = this.options[this.selectedIndex].value
-            }>
-            ${nodes_literal}
-          </select>
-        </div>
-        <div class='row-fluid'>
-          ${fillLabel("ros-topics")}
-          <select id='TopicsBox' class="form-control" onchange=~{
-            var selected = this.options[this.selectedIndex].value
-            }>
-            ${topics_literal}
-          </select>
-        </div>
-      </div>
-      <div class='container-fluid'>
-      <div class='col-md-4 text-centered' style='word-wrap:break-word;'>
-        <div class='row-fluid'>
-          ${fillLabel("hop-services")}
-          <select id='HopSrvBox' class="form-control" onchange=~{
-            selectedHopSrv = this.options[this.selectedIndex].value
-            }>
-            ${hop_srv_literal}
-          </select>
-        </div>
-        <div class='row-fluid'>
-          <button type='button' class='btn btn-primary btn-block btn-lg' onclick=~{
-            var callSrv = selectedHopSrv;
-            var retObj = ${testService}(callSrv).postSync();
-            //console.log(retObj)
-            var success = retObj.success;
-            var srvResponse = retObj.output;
-            var inputParams = retObj.input;
-            var alertClass = '"alert alert-info"';
-            var alertMessage = '';
-            if(success){
-              alertClass = '"alert alert-success"';
-              alertMessage = 'Successful Service Call!';
-            }
-            else{
-              alertClass = '"alert alert-danger"';
-              alertMessage = 'Failure on Service Call!';
-            }
-
-            document.getElementById('hopResults').innerHTML =
-              '<div class="alert alert-info"><strong>Testing service ' + selectedHopSrv + '</strong><br>'
-            document.getElementById('hopSuccess').innerHTML =
-              '<div class=' + alertClass + '>' + alertMessage + '</div>';
-
-            var res_literal = '<div class="alert alert-info"><strong>Testing service ' +
-              selectedHopSrv + '<br><br></strong><strong>Input</strong>' +
-              '<li>' + JSON.stringify(inputParams) + '</li>';
-            res_literal += '<br><strong>Output</strong>';
-            res_literal += '<li>' + JSON.stringify(srvResponse) + '</li>'
-            res_literal += '</div>';
-            document.getElementById('hopResults').innerHTML = res_literal;
-
-            }>
-            Call Hop Service
-          </button>
-        </div>
-      </div>
-      <div class='col-md-4 text-centered' style='word-wrap:break-word;'>
-        <div class='row-fluid' id='hopResults'></div>
-        <div class='row-fluid' id='empty'></div>
-        <div class='row-fluid' id='hopSuccess'></div>
-      </div>
-      </div>
+      ${GUI.TEST_PANEL()}
+      ${GUI.TEST_RESULTS_PANEL()}
+      ${GUI.FOOTER()}
     </body>
   </html>;
 }
+
+
+service active_ros_nodes(){
+  return hop.HTTPResponseAsync( function( sendResponse ){
+    ros.getNodes(
+      function(rosNodes){
+        sendResponse( hop.HTTPResponseJson({ros_nodes: rosNodes}) );
+      },
+      {
+        fail: function(e){
+          console.log(e);
+          sendResponse( hop.HTTPResponseJson({ros_nodes: [], error: e}) );
+        }
+      }
+    );
+  }, this)
+}
+
+
+service active_ros_topics(){
+  return hop.HTTPResponseAsync( function( sendResponse ){
+    ros.getTopics(
+      function(rosTopics){
+        sendResponse( hop.HTTPResponseJson({ros_topics: rosTopics}) );
+      },
+      {
+        fail: function(e){
+          console.log(e);
+          sendResponse( hop.HTTPResponseJson({ros_topics: [], error: e}) );
+        }
+      }
+    );
+  }, this)
+}
+
+
+service active_ros_services(){
+  return hop.HTTPResponseAsync( function( sendResponse ){
+    ros.getServices(
+      function(rosSrvs){
+        sendResponse( hop.HTTPResponseJson({ros_srvs: rosSrvs}) );
+      },
+      {
+        fail: function(e){
+          console.log(e);
+          sendResponse( hop.HTTPResponseJson({ros_srvs: [], error: e}) );
+        }
+      }
+    );
+  }, this)
+}
+
 
 
 service testService(srvName)
@@ -598,32 +511,3 @@ function test_cognitive_test_chooser(){
 function service_url(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
 }
-
-function loopInf(){
-  setTimeout(function(){
-    ros.getServices(function(data){
-      platformActiveServices = data;
-      //console.log(data)
-      rappRosServices = [];
-      for(i in platformActiveServices){
-        if(platformActiveServices[i].indexOf("rapp") > -1){
-          rappRosServices.push(platformActiveServices[i])
-        }
-      }
-    })
-    ros.getNodes(function(data){
-      platformActiveNodes = data;
-    })
-    ros.getTopics(function(data){
-      platformActiveTopics = data;
-    })
-    available_services().post( function( response ){
-      platformHopServices = response.services;
-      //console.log(response.services)
-    })
-
-    loopInf();
-  }, pollCycle)
-}
-
-
