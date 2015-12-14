@@ -66,6 +66,29 @@ TEST_F(FaceDetectionTest, lenna_test)
 }
 
 /**
+ * @brief Tests face detection with a NAO captured image image. Should be successful
+ */ 
+TEST_F(FaceDetectionTest, klpanagi_close_straight_test)
+{
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  std::string s = path + std::string("/test_data/face_samples/klpanagi_close_straight.jpg");
+  std::vector<cv::Rect> faces = face_detector_->findFaces(s);
+  EXPECT_EQ(1,faces.size());
+}
+
+/**
+ * @brief Tests face detection with a NAO captured image image. Should be successful
+ */ 
+TEST_F(FaceDetectionTest, klpanagi_close_straight_fast_test)
+{
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  std::string s = path + std::string("/test_data/face_samples/klpanagi_close_straight.jpg");
+  std::vector<cv::Rect> faces = face_detector_->findFaces(s, true);
+  EXPECT_EQ(1,faces.size());
+}
+
+
+/**
  * @brief Tests face detection with a qr code. Should return 0 faces
  */
 TEST_F(FaceDetectionTest, qr_test)

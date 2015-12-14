@@ -109,7 +109,7 @@ register_master_interface();
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-service face_detection ( {file_uri:''} )
+service face_detection ( {file_uri:'', fast_input:''} )
 {
   /***
    *  For security reasons, if file_uri is not defined under the
@@ -170,6 +170,9 @@ service face_detection ( {file_uri:''} )
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
 
+  // Workaround for bool and hop
+  if (fast_input == 'True' || fast_input == 'true'){ fast_input = true; }
+  if (fast_input == 'False' || fast_input == 'false'){ fast_input = false; }
 
   /***
    * Asynchronous http response
@@ -188,7 +191,8 @@ service face_detection ( {file_uri:''} )
 
       // Fill Ros Service request msg parameters here.
       var args = {
-        imageFilename: cpFilePath
+        imageFilename: cpFilePath,
+        fast: fast_input
       };
 
 

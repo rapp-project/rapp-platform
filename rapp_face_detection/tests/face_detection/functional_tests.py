@@ -46,8 +46,35 @@ class FaceDetFunc(unittest.TestCase):
         faces_num = len(response.faces_up_left)
         self.assertEqual( faces_num, 1 )
 
-    ## Tests face detection with a NAO captured image. Should return 1 face
+    ## Tests face detection with realistic images. Should return 1 face
     def test_faceExists_realistic(self):
+        rospack = rospkg.RosPack()
+        face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
+        rospy.wait_for_service(face_service)
+        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
+        req = FaceDetectionRosSrvRequest()
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/test_data/face_samples/klpanagi_close_straight.jpg'
+        response = fd_service(req)
+        faces_num = len(response.faces_up_left)
+        self.assertEqual( faces_num, 1 )
+
+    ## Tests face detection with realistic images. Should return 1 face
+    def test_faceExists_realistic_fast(self):
+        rospack = rospkg.RosPack()
+        face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
+        rospy.wait_for_service(face_service)
+        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)
+        req = FaceDetectionRosSrvRequest()
+        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
+                '/test_data/face_samples/klpanagi_close_straight.jpg'
+        req.fast = True
+        response = fd_service(req)
+        faces_num = len(response.faces_up_left)
+        self.assertEqual( faces_num, 1 )
+
+    ## Tests face detection with a NAO captured image. Should return 1 face
+    def test_faceExists_realistic_2(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_detection_detect_faces_topic")
         rospy.wait_for_service(face_service)
