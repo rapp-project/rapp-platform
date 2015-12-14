@@ -43,10 +43,12 @@ cv::Mat FaceDetector::loadImage(std::string file_name)
 /**
  * @brief   Detects faces from a cv::Mat
  * @param   input_img [const cv::Mat&] The input image
+ * @param   fast [bool] True for fast detection -- frontal only
  * @return  [std::vector<cv::Rect>] A vector containing the detected faces.
  *          Each face is represented by a rectangle.
  */
-std::vector<cv::Rect> FaceDetector::detectFaces(const cv::Mat& input_img)
+std::vector<cv::Rect> FaceDetector::detectFaces(
+  const cv::Mat& input_img, bool fast)
 {
   std::vector<cv::Rect> front_faces, profile_faces, final_faces;
   cv::Mat grayscale_img;
@@ -61,6 +63,11 @@ std::vector<cv::Rect> FaceDetector::detectFaces(const cv::Mat& input_img)
   std::string haar_file_path =
     "/usr/share/opencv/haarcascades/haarcascade_frontalface_alt.xml";
   front_faces = detectFaces( grayscale_img, haar_file_path );
+
+  if(fast)
+  {
+    return front_faces;
+  }
 
   // Detect Profile Faces
   haar_file_path = "/usr/share/opencv/haarcascades/haarcascade_profileface.xml";
@@ -154,12 +161,13 @@ std::vector<cv::Rect> FaceDetector::identifyUniqueFaces(
 /**
  * @brief   Finds faces in an image retrieved from a file URL
  * @param   file_name [std::string] The image file's URL
+ * @param   fast [bool] True for fast detection -- frontal only
  * @return  [std::vector<cv::Rect>] A vector containing the detected faces.
  *          Each face is represented by a rectangle.
  */
-std::vector<cv::Rect> FaceDetector::findFaces(std::string file_name)
+std::vector<cv::Rect> FaceDetector::findFaces(std::string file_name, bool fast)
 {
   cv::Mat input_img;
   input_img = loadImage(file_name);
-  return detectFaces(input_img);
+  return detectFaces(input_img, fast);
 }

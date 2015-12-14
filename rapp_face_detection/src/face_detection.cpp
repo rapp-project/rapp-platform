@@ -44,7 +44,9 @@ bool FaceDetection::faceDetectionCallback(
   rapp_platform_ros_communications::FaceDetectionRosSrv::Response& res)
 {
   std::vector<unsigned int [4]> history;
-  std::vector<cv::Rect> faces = face_detector_.findFaces(req.imageFilename);
+  std::vector<cv::Rect> faces = face_detector_.findFaces(req.imageFilename,
+    req.fast);
+
   for(unsigned int i = 0 ; i < faces.size() ; i++)
   {
 

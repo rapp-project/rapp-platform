@@ -49,18 +49,21 @@ class FaceDetector
     /**
      * @brief   Finds faces in an image retrieved from a file URL
      * @param   file_name [std::string] The image file's URL
+     * @param   fast [bool] True for fast detection -- frontal only
      * @return  [std::vector<cv::Rect>] A vector containing the detected faces.
      *          Each face is represented by a rectangle.
      */
-    std::vector<cv::Rect> findFaces(std::string file_name);
+    std::vector<cv::Rect> findFaces(std::string file_name, bool fast = false);
 
     /**
      * @brief   Detects faces from a cv::Mat
      * @param   input_img [const cv::Mat&] The input image
+     * @param   fast [bool] True for fast detection -- frontal only
      * @return  [std::vector<cv::Rect>] A vector containing the detected faces.
      *          Each face is represented by a rectangle.
      */
-    std::vector<cv::Rect> detectFaces(const cv::Mat& input_img);
+    std::vector<cv::Rect> detectFaces(const cv::Mat& input_img, 
+      bool fast = false);
 
   private:
 

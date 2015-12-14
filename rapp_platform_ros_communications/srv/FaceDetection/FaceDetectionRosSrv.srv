@@ -2,6 +2,8 @@
 Header header
 # The image's filename to perform face detection
 string imageFilename
+# Flag to define if a fast detection if desired
+bool fast
 ---
 # Container for detected face positions
 geometry_msgs/PointStamped[] faces_up_left
