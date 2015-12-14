@@ -109,8 +109,9 @@ register_master_interface();
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-service face_detection ( {file_uri:'', fast_input:''} )
+service face_detection ( {file_uri:'', fast: false} )
 {
+
   /***
    *  For security reasons, if file_uri is not defined under the
    *  server_cache_dir do not operate. HOP server stores the files under the
@@ -171,8 +172,9 @@ service face_detection ( {file_uri:'', fast_input:''} )
   /*-------------------------------------------------------------------------*/
 
   // Workaround for bool and hop
-  if (fast_input == 'True' || fast_input == 'true'){ fast_input = true; }
-  if (fast_input == 'False' || fast_input == 'false'){ fast_input = false; }
+  if (fast == 'True' || fast == 'true'){ fast = true; }
+  //else { fast_input = false;}
+  if (fast == 'False' || fast == 'false'){ fast = false; }
 
   /***
    * Asynchronous http response
@@ -192,7 +194,7 @@ service face_detection ( {file_uri:'', fast_input:''} )
       // Fill Ros Service request msg parameters here.
       var args = {
         imageFilename: cpFilePath,
-        fast: fast_input
+        fast: fast
       };
 
 
