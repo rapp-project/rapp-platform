@@ -7,4 +7,5 @@
   <include file="$(find rapp_speech_detection_google)/launch/speech_recognition_google.launch" />
   <include file="$(find rapp_text_to_speech_espeak)/launch/text_to_speech_espeak.launch" />
   <include file="$(find rapp_cognitive_exercise)/launch/cognitive_exercise.launch" />
+  <include file="$(find rapp_email)/launch/email.launch" />
 </launch>

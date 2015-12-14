@@ -1,0 +1,2 @@
+rapp_email_receive_topic: /rapp/rapp_email_receive/receive_email
+rapp_email_send_topic: /rapp/rapp_email_send/send_email

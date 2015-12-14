@@ -1,0 +1,3 @@
+<launch>
+  <node name="rapp_email" pkg="rapp_email" type="email_node.py" output="screen"/>
+</launch>
