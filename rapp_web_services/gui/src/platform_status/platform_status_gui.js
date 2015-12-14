@@ -22,7 +22,8 @@ var path = require('path');
 
 var cssDir = path.join('..', '..', 'css');
 var jsDir = path.join('..', '..', 'js');
-var clientReq = require( '../common/clientRequire.js' );
+var imports = require( path.join(__dirname, 'import.js') );
+var guiCommons = require( path.join(__dirname, '../common', 'guiCommons.js') );
 
 
 
@@ -94,7 +95,6 @@ var form = function( attrs ){
       <SELECT>{
         class: "selectpicker",
         id: formId,
-        style: _style,
         <OPTION>{
           value: "",
           txt
@@ -111,79 +111,23 @@ var header = function( attrs ){
   import service active_ros_services();
   import service available_services();
 
+  attrs = attrs || {};
+  var _title = 'RAPP Platform Status Web Page';
+  var _css = imports.CSS;
+  var _js = imports.JS;
+  var _require = imports.REQUIRE;
+  var _meta = guiCommons.META;
+  var _plain_scripts = imports.CLIENT_SCRIPTS;
 
-  return <HEAD>{
-    title: "Rapp Platform Status Web Page",
-    css: clientReq.CSS,
-    jscript: clientReq.JS,
-    require: [],
-    <META>{
-      name: 'viewpoint',
-      content: "width=device-width, initial-scale=1",
-      charset: "utf-8"
-    },
-    ~{
-      var selections = {};
+  return guiCommons.HEADER({
+    title: _title,
+    css: _css,
+    js: _js,
+    require: _require,
+    meta: _meta,
+    plain_scripts: _plain_scripts
+  })
 
-      function windowOnload(){
-        var hopsrvsel = document.getElementById('hop-services');
-        hopsrvsel.onchange = function(){
-          var selhopSrv = document.getElementById('selected-hop-srv');
-          selhopSrv.innerHTML = hopsrvsel.value;
-        }
-      }
-
-      window.onload = windowOnload;
-
-      function appendOption(elemId, txt){
-        var sel = document.getElementById(elemId);
-        var option = document.createElement("option");
-        option.text = txt;
-        sel.appendChild(option);
-      };
-
-      ${active_ros_nodes}().post(function(resp){
-        var rosNodes = resp.ros_nodes;
-        for(var i = 0; i < rosNodes.length; i++){
-          appendOption('ros-nodes', rosNodes[i]);
-        }
-        var sel = document.getElementById('ros-nodes');
-        var style = (rosNodes.length > 1) ? "btn-success" : "btn-danger";
-        sel.setAttribute('data-style', style)
-      })
-
-      ${active_ros_topics}().post(function(resp){
-        var rosTopics = resp.ros_topics;
-        for(var i = 0; i < rosTopics.length; i++){
-          appendOption('ros-topics', rosTopics[i]);
-        }
-        var sel = document.getElementById('ros-topics');
-        var style = (rosTopics.length > 1) ? "btn-success" : "btn-danger";
-        sel.setAttribute('data-style', style)
-      })
-
-      ${active_ros_services}().post(function(resp){
-        var rosSrvs= resp.ros_srvs;
-        for(var i = 0; i < rosSrvs.length; i++){
-          appendOption('ros-services', rosSrvs[i]);
-        }
-        var sel = document.getElementById('ros-services');
-        var style = (rosSrvs.length > 1) ? "btn-success" : "btn-danger";
-        sel.setAttribute('data-style', style)
-      })
-
-      ${available_services}().post( function(response){
-        var hopSrvs = response.services || [];
-        for(var i = 0; i < hopSrvs.length; i++){
-          appendOption('hop-services', hopSrvs[i]);
-        }
-        var sel = document.getElementById('hop-services');
-        var style = (hopSrvs.length > 1) ? "btn-success" : "btn-danger";
-        sel.setAttribute('data-style', style)
-      } )
-
-    }
-  }
 }
 
 
@@ -303,17 +247,27 @@ var rowSpacer = function(attrs){
 
 var pageHeader = function(attrs){
   attrs = attrs || {};
+  var text = attrs.text || "";
+  var _class = attrs.class || "";
+
   return <DIV>{
     class: "container",
     <DIV>{
       class: "jumbotron",
       align: "center",
-      <H2>{
-        "RAPP Platform Status",
+      <H3>{
+        "RAPP Platform Status"
+      },
+      <SMALL>{
+        <EM>{
+          class: _class,
+          text
+        }
       }
     }
   }
 }
+
 
 var footer = function(attrs){
   attrs = attrs || {};
@@ -326,6 +280,13 @@ var footer = function(attrs){
         <P>{
           class: "",
           "Copyright: RAPP EU 2015."
+        },
+        <P>{
+          class: "",
+          <A>{
+            href: "mailto:klpanagi@gmail.com",
+            "Konstantinos Panayiotou."
+          }
         }
       }
     }
