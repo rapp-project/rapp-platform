@@ -1,0 +1,14 @@
+# Request
+
+# Email addresses of the recipients
+string[] emails
+
+# File names of the attachments
+string[] files
+
+---
+
+# Response
+
+# 0 success, -1 failure
+int8 status

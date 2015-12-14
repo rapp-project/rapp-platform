@@ -63,6 +63,9 @@ add_service_files(
 
   /QrDetection/QrDetectionRosSrv.srv
 
+  /Email/SendEmailSrv.srv
+  /Email/ReceiveEmailSrv.srv
+
   /SpeechDetectionGoogleWrapper/SpeechToTextSrv.srv
 
   /SpeechDetectionSphinx4Wrapper/SpeechRecognitionSphinx4Srv.srv

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapp_email</name>
+  <version>0.0.0</version>
+  <description>The rapp_email package</description>
+
+  <maintainer email="aris.thallas@iti.gr">Aris Thallas</maintainer>
+  <author>Aris Thallas</author>
+
+  <license>APACHE 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rostest</depend>
+  <depend>rospy</depend>
+  <depend>rapp_platform_ros_communications</depend>
+
+  <export>
+  </export>
+</package>
+
