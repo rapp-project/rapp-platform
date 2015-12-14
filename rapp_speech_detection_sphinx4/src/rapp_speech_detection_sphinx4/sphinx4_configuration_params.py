@@ -18,43 +18,118 @@
 # Authors: Aris Thallas
 # contact: aris.thallas@iti.gr
 
+import yaml
+
+from global_parameters import GlobalParams
+from rapp_tools import *
+
 ## @class SphinxConfigurationParams
 # @brief Contains the parameters required for the Sphinx configuration
 class SphinxConfigurationParams():
 
   ## @brief Initializes an empty configuration (constructor)
-  def __init__(self):
+  def __init__(self, configuration = None):
 
-      ## The language of the request
-      self._language = 'el'
-      ## The words to be identified
-      self._words = []
-      ## Sphinx grammar attribute
-      self._grammar = []
-      ## Sphinx sentence attribute
-      self._sentences = []
+    ## Contains global Sphinx parameters
+    #
+    # (see global_parameters.GlobalParams)
+    self._globalParams = GlobalParams()
+
+    ## The language of the request
+    self._language = 'el'
+    ## The words to be identified
+    self._words = []
+    ## Sphinx grammar attribute
+    self._grammar = []
+    ## Sphinx sentence attribute
+    self._sentences = []
+
+    if configuration != None:
+      self._readConfigurationYaml( configuration )
 
   ## @brief Change attributes to those specified by the request
   #
-  # @param params [SphinxConfigurationParams] The class instance
-  def makeEqualTo(self, params):
+  # @param params [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvRequest] The service request
+  def makeEqualToRequest(self, params):
     self._language = params.language
     self._words = params.words
     self._grammar = params.grammar
     self._sentences = params.sentences
 
+  ## @brief Change attributes to those specified by the Class instance
+  #
+  # @param params [SphinxConfigurationParams] The class instance
+  def makeEqualToInstance(self, instance):
+    self._language = instance._language
+    self._words = instance._words
+    self._grammar = instance._grammar
+    self._sentences = instance._sentences
+
   ## @brief Read the configuration from configuration yaml
   #
   # @param confName [string] The name of the requested configuration
-  def readConfigurationYaml(self, confName):
-    pass
-    
+  def _readConfigurationYaml(self, confName):
+    rapp_print( "Reading preconfiguration: " + confName )
+    yamlStream = open( self._globalParams._sphinx_preconf, 'r' )
+    yamlFile = yaml.load(yamlStream)
+    if confName not in yamlFile['configurations']:
+      rapp_print('Wrong configuration name provided. Leaving default values', \
+          'ERROR')
+      return
+
+    tempConf = SphinxConfigurationParams()
+
+    # Read configuration language
+    yamlLang = yamlFile['configurations'][confName]['language']
+    if yamlLang != None:
+      tempConf._language = yamlLang.encode('utf-8')
+    else:
+      rapp_print('Configuration language not provided. Leaving default values',\
+          'ERROR')
+      return
+
+    # Read configuration words
+    yamlWords = yamlFile['configurations'][confName]['words']
+    if yamlWords != None:
+      tempConf._words = [word.encode('utf-8') for word in yamlWords]
+    else:
+      rapp_print('Configuration words not provided. Leaving default values',\
+          'ERROR')
+      return
+
+    # Read configuration sentences
+    yamlSent = yamlFile['configurations'][confName]['sentences']
+    if yamlSent != None:
+      tempConf._sentences = [sentence.encode('utf-8') for sentence in yamlSent]
+    else:
+      rapp_print('Configuration sentences not provided. Leaving default values',\
+          'ERROR')
+      return
+
+    # Read configuration grammar
+    yamlGram = yamlFile['configurations'][confName]['grammar']
+    if yamlGram != None:
+      tempConf._grammar = [grammar.encode('utf-8') for grammar in yamlGram]
+    else:
+      tempConf._grammar = []
+
+    # Copy temporary values to self
+    self.makeEqualToInstance( tempConf )
+
+    rapp_print( 'Language: ' + str(self._language) )
+    rapp_print( 'Words: ' + str(self._words) )
+    for word in self._words:
+      rapp_print( 'word: ' + str(word) )
+    rapp_print( 'Grammar: ' + str(self._grammar))
+    rapp_print( 'Sentences: ' + str(self._sentences) )
+
+
 
   ## @brief Checks if a SphinxConfigurationParams instance equals self
   #
   # @param params [SphinxConfigurationParams] The class instance
   # @param status [bool] True if configurations match
-  def equals(self, params):
+  def equalsRequest(self, params):
     if ( self._language == params.language and \
       self._words == params.words and \
       self._grammar == params.grammar and \

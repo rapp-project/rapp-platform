@@ -31,8 +31,6 @@ from rapp_tools import *
 from sphinx4_configuration_params import *
 from global_parameters import GlobalParams
 
-from global_parameters import GlobalParams
-
 from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4Srv,
   SpeechRecognitionSphinx4SrvResponse,
@@ -93,6 +91,9 @@ class SpeechRecognitionSphinx4():
     ## A dictionary to transform the englified greek words to actual greek words
     self._word_mapping = {}
 
+    if configurationName != None:
+      self._createPreconfiguration( configurationName )
+
     ## Defines whether database authentication should be used
     self._use_db_authentication = rospy.get_param(\
         "rapp_speech_detection_sphinx4_use_db_authentication")
@@ -110,6 +111,18 @@ class SpeechRecognitionSphinx4():
 
     if(not self._use_db_authentication):
       rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
+
+  def _createPreconfiguration(self, configurationName):
+    rapp_print( "Creating preconfiguration: " + configurationName )
+    tempConf = SphinxConfigurationParams( configurationName )
+
+    req = SpeechRecognitionSphinx4ConfigureSrvRequest()
+    req.language = tempConf._language
+    req.words = tempConf._words
+    req.grammar = tempConf._grammar
+    req.sentences = tempConf._sentences
+
+    self._configureSpeechRecognition( req )
 
   ## Performs Sphinx4 configuration and speech recognition
   #
@@ -195,9 +208,9 @@ class SpeechRecognitionSphinx4():
     conf = {} # Dummy initialization
     reconfigure = True
 
-    if self._configuration_params.equals(req):
+    if self._configuration_params.equalsRequest(req):
       reconfigure = False
-    self._configuration_params.makeEqualTo(req)
+    self._configuration_params.makeEqualToRequest(req)
 
     if reconfigure == False:
       return res

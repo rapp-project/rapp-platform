@@ -43,3 +43,7 @@ class GlobalParams:
     self._allow_sphinx_output = False
     ## IPC socket HOST parameter
     self._socket_host = '127.0.0.1'
+    ## Sphinx preconfigurations yaml
+    self._sphinx_preconf = os.path.join( \
+        self.rospack.get_path("rapp_speech_detection_sphinx4"), 'cfg', \
+        'sphinx_configurations.yaml' )

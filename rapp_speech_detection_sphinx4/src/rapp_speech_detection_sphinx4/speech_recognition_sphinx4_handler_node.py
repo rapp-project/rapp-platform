@@ -51,7 +51,7 @@ class SpeechRecognitionSphinx4HandlerNode():
         rospy.get_param("rapp_speech_detection_sphinx4_threads")
 
     if rospy.get_param("rapp_speech_detection_sphinx4_preconfigure"):
-      configurations = self._createPreconfigurations()
+      configurations = self._getPreconfigurationNames()
       ## The subprocesses structure that contains information used for the
       # subprocess handling
       self._availableProcesses = [{
@@ -82,12 +82,16 @@ class SpeechRecognitionSphinx4HandlerNode():
         self.handleSpeechRecognitionCallback)
 
 
-  ## @brief Configures Sphinx subprocesses with predefined settings
+  ## @brief Specifies the requested preconfiguration names
   #
-  # Configure a number of Sphinx processes to cover commonly occurring requests.
-  def _createPreconfigurations(self):
+  # Reads and creates a matrix with the configuration name requested from
+  # rapp_speech_detection_sphinx4::cfg::sphinx4_wrapper_params.yaml
+  #
+  # @return preconf [ list<string> ] The preconfiguration names for all subprocesses
+  def _getPreconfigurationNames(self):
     preconf = []
 
+    rapp_print( 'Fetcing preconfiguration names' )
     # Get number of requested preconfigurations
     confNumber = \
        rospy.get_param("rapp_speech_detection_sphinx4_preconfigure_number")
