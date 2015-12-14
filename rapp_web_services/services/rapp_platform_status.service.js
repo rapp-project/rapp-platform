@@ -63,6 +63,9 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
 });
 
 
+var quotes = require(path.join(__dirname, '..', 'gui',
+    'src', 'platform_status' ,'quotes.json')).quotes;
+
 service rapp_platform_status(  )
 {
   var rapp_srv_literal = '';
@@ -95,12 +98,14 @@ service rapp_platform_status(  )
     formId: "hop-services"
   };
 
+  var quote = randomQuote();
+  console.log(quote)
 
   return <html lang="en">
     ${GUI.HEADER( {service: rapp_platform_status} )}
     <body>
       ${GUI.NAVBAR()}
-      ${GUI.PAGE_HEADER()}
+      ${GUI.PAGE_HEADER({text: quote})}
       <div class='form-group col-xs-3 col-sm-3 col-md-3' style='word-wrap:break-word;'>
         ${GUI.FORM(formRosNodes)}
         ${GUI.FORM(formRosTopics)}
@@ -510,4 +515,15 @@ function test_cognitive_test_chooser(){
 
 function service_url(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
+}
+
+
+function randomQuote(){
+  var randQuote;
+
+  var _quotes = quotes;
+
+  var rnum = Math.floor(Math.random() * _quotes.length);
+  randQuote = _quotes[rnum];
+  return randQuote
 }
