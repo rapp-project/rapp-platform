@@ -6,11 +6,11 @@ configurations:
     language: el
     words:
       - ναι
-      - όχι
+      - οχι
     grammar:
     sentences:
     - ναι
-    - όχι
+    - οχι
   # Configuration for English yes and no without grammar
   yes_no_no_grammar:
     language: en

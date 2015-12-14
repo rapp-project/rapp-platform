@@ -59,6 +59,8 @@ class SpeechRecognitionSphinx4HandlerNode():
         'running': False, \
         'configuration_hash': 0\
         } for i in range(self._threads)]
+      for proc in self._availableProcesses:
+        proc['configuration_hash'] = proc['sphinx'].getConfigurationHash()
     else:
       self._availableProcesses = [{
         'sphinx': SpeechRecognitionSphinx4(), \

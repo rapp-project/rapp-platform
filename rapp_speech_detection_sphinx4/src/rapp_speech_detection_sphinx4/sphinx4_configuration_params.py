@@ -19,6 +19,7 @@
 # contact: aris.thallas@iti.gr
 
 import yaml
+import hashlib
 
 from global_parameters import GlobalParams
 from rapp_tools import *
@@ -138,3 +139,22 @@ class SphinxConfigurationParams():
       return True
     else:
       return False
+
+  ## @brief Calculates the configuration's sha1 hash
+  #
+  # Hash is used to identify common request configurations for proper
+  # subprocess selection.
+  # (Requests with common requests do not require reconfiguration reducing
+  # computation time)
+  #
+  # @return hexdigest [string] The hash digest containing only hexadecimal digits
+  def getHash(self):
+    hash_object = hashlib.sha1()
+    hash_object.update( self._language )
+    for word in self._words:
+      hash_object.update( word )
+    for gram in self._grammar:
+      hash_object.update( gram )
+    for sent in self._sentences:
+      hash_object.update( sent )
+    return hash_object.hexdigest()

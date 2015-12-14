@@ -19,7 +19,7 @@ before_install: # Use this to prepare the system to install prerequisites or dep
   - echo "Testing branch $TRAVIS_BRANCH of $REPOSITORY_NAME"
   # Perform system updates and install needed packages
   - echo "Installing needed libraries"
-  - sudo apt-get update
+  - sudo apt-get update &> /dev/null
   - sudo apt-get install -qq -y git mercurial screen &> /dev/null
 install: true # Use this to install any prerequisites or dependencies necessary to run your build
 script: # All commands must exit with code 0 on success. Anything else is considered failure.

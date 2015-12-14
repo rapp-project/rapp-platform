@@ -112,6 +112,24 @@ class SpeechRecognitionSphinx4():
     if(not self._use_db_authentication):
       rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
 
+
+  ## @brief Requests the configuration's sha1 hash
+  #
+  # Hash is used to identify common request configurations for proper
+  # subprocess selection.
+  # (Requests with common requests do not require reconfiguration reducing
+  # computation time)
+  #
+  # @return hexdigest [string] The hash digest containing only hexadecimal digits
+  def getConfigurationHash(self):
+    return self._configuration_params.getHash()
+
+  ## @brief Create the requested preconfiguration
+  #
+  # Creates the configuration via the name requested from
+  # rapp_speech_detection_sphinx4::cfg::sphinx4_wrapper_params.yaml
+  #
+  # @param configurationName [string] The preconfiguration name
   def _createPreconfiguration(self, configurationName):
     rapp_print( "Creating preconfiguration: " + configurationName )
     tempConf = SphinxConfigurationParams( configurationName )
@@ -213,7 +231,9 @@ class SpeechRecognitionSphinx4():
     self._configuration_params.makeEqualToRequest(req)
 
     if reconfigure == False:
+      rapp_print('Skipping Configuration')
       return res
+    rapp_print('Recognition Configuration')
 
     try:
       support = self._selectLanguageSupport(req)
