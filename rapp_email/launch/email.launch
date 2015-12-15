@@ -1,3 +1,4 @@
 <launch>
   <node name="rapp_email" pkg="rapp_email" type="email_node.py" output="screen"/>
+  <rosparam file="$(find rapp_email)/cfg/email_params.yaml" command="load" />
 </launch>

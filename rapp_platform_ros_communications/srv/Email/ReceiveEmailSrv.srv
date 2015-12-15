@@ -1,14 +1,18 @@
-# Request
+# Rapp User
+string username
 
-# Email addresses
-string[] emails
+# Define which mails the users requests.
+# Values: ALL, UNREAD(DEFAULT)
+string mailStatus
+
+uint16 fromDate
+uint16 toDate
 
 ---
-
 # Response
 
 # 0 success, -1 failure
 int8 status
 
-# File names (paths) of the received attachments
-string[] files
+# The requested emails
+rapp_platform_ros_communications/MailMsg[] emails

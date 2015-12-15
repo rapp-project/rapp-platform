@@ -18,6 +18,7 @@ add_message_files(
   FILES
   StringArrayMsg.msg
   CognitiveExercisePerformanceRecordsMsg.msg
+  MailMsg.msg
   NewsStoryMsg.msg
   WeatherForecastMsg.msg
 )

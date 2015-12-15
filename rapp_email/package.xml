@@ -11,7 +11,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>rostest</depend>
   <depend>rospy</depend>
   <depend>rapp_platform_ros_communications</depend>
 
