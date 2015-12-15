@@ -58,6 +58,7 @@ var FORM = function( attrs ){
   var _text = attrs.text.toString() || "";
   var _formId = attrs.formId || "";
   var _class = attrs.class || "";
+  var _value = attrs.value || "";
 
   return <DIV>{
     class: "form-group",
@@ -68,7 +69,7 @@ var FORM = function( attrs ){
         class: "selectpicker form-control",
         id: _formId,
         <OPTION>{
-          value: "",
+          value: _value,
           _text
         }
       }
