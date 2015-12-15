@@ -18,7 +18,7 @@
  *
  */
 
-var meta = function( attrs ){
+var META = function( attrs ){
   attrs = attrs || {};
   var _name = attrs.name || 'viewpoint';
   var _content = attrs.content || 'width=device-width, initial-scale=1';
@@ -27,18 +27,18 @@ var meta = function( attrs ){
   return <META>{
     name: _name,
     content: _content,
-    charset: charset
+    charset: _charset
   }
 };
 
 
-var header = function( attrs ){
+var HEADER = function( attrs ){
   attrs = attrs || {};
   var _title = attrs.title || 'RAPP Platform Status Web Page';
   var _css = attrs.css || [];
   var _js = attrs.js || [];
   var _require = attrs.require || [];
-  var _meta = attrs.meta || meta();
+  var _meta = attrs.meta || undefined;
   var _plainScripts = attrs.plain_scripts || (function(){return ~{};})();
 
   return <HEAD>{
@@ -52,5 +52,30 @@ var header = function( attrs ){
 };
 
 
-exports.HEADER = header;
-exports.META = meta;
+var FORM = function( attrs ){
+  attrs = attrs || {};
+  var _labelId = attrs.labelId.toString() || "";
+  var _text = attrs.text.toString() || "";
+  var _formId = attrs.formId || "";
+  var _class = attrs.class || "";
+
+  return <DIV>{
+    class: "form-group",
+    <LABEL>{
+      class: _class,
+      id: _labelId,
+      <SELECT>{
+        class: "selectpicker form-control",
+        id: _formId,
+        <OPTION>{
+          value: "",
+          _text
+        }
+      }
+    }
+  }
+};
+
+exports.HEADER = HEADER;
+exports.META = META;
+exports.FORM = FORM;
