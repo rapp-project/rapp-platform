@@ -5,7 +5,7 @@ PathPlanner::PathPlanner(void)
 {
 }
 
-
+// set next planning sequence ID
 std::string PathPlanner::setSequenceNR(ros::NodeHandle &nh_, int pathPlanningThreads_){
     int seq_nr_int=1;
     std::string seq_nr_str;
@@ -22,7 +22,7 @@ std::string PathPlanner::setSequenceNR(ros::NodeHandle &nh_, int pathPlanningThr
 
     return seq_nr_str;
 }
-
+// configure sequence -> load .yaml files and load proper map
 bool PathPlanner::configureSequence(std::string seq_nr, std::string map_path, std::string robot_type, std::string algorithm, ros::NodeHandle &nh_){
 
   nh_.setParam("/map_server"+seq_nr+"/setMap", map_path);
@@ -97,7 +97,7 @@ bool PathPlanner::configureSequence(std::string seq_nr, std::string map_path, st
   
                         }
 }
-
+// send request to approprate global_planner and return MakeNavPlanResponse 
 navfn::MakeNavPlanResponse PathPlanner::startSequence(std::string seq_nr, geometry_msgs::PoseStamped request_start, geometry_msgs::PoseStamped request_goal, ros::NodeHandle &nh_){
   navfn::MakeNavPlanResponse planned_path; 
 uint32_t serv_port;
@@ -137,6 +137,12 @@ uint32_t serv_port;
                   
 }
 
+
+//////
+//
+//  OLD APPROACH
+//
+/////
 bool deleteParameters(std::string &new_nodes_string_id, ros::NodeHandle &nh_){
   ROS_ERROR("deleting params\n");
   ROS_DEBUG_STREAM(new_nodes_string_id);
