@@ -161,8 +161,6 @@ bool PathPlanning::pathPlanningCallback(
 
             response = path_planner_.startSequence(seq_nr_str, req.start, req.goal, nh_);
            
-            // old 
-            //response = path_planner_.plannPath(req.map_path, req.robot_type, req.algorithm, req.start, req.goal, nh_);
             res.plan_found =  response.plan_found;
             
             res.error_message = response.error_message;
@@ -193,24 +191,4 @@ bool PathPlanning::pathPlanningCallback(
   }
 }
  
-
-                
-  // ros::ServiceClient client = nh_.serviceClient<rapp_platform_ros_communications::PathPlanningRosSrv>("/rapp_path_planning_node/plann_path");
-  // rapp_platform_ros_communications::PathPlanningRosSrv srv;
-  // srv.request.algorithm = req.algorithm;
-  // srv.request.robot_type = req.robot_type;
-  // srv.request.map_path = req.map_path;
-  // srv.request.start = req.start;
-  // srv.request.finish = req.finish;
-  // if (client.call(srv))
-  // {
-  //   res.path = srv.response.path);
-  //   return true;
-
-  // }
-  // else
-  // {
-  //   ROS_ERROR("Failed to call service rapp_path_planning_service_handler");
-  //   return false;
-  // }
 

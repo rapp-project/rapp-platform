@@ -25,10 +25,5 @@ int main(int argc, char ** argv)
   }
   ros::MultiThreadedSpinner spinner(threads); 
   spinner.spin();
- // ROS_INFO("start spinning");
- // ros::spin();
-//   ros::AsyncSpinner spinner(threads); // Use 4 threads
-// spinner.start();
-// ros::waitForShutdown();
   return 0;
 }

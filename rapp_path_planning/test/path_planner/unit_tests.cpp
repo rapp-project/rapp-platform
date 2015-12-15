@@ -35,7 +35,6 @@ TEST_F(PathPlanningTest, setSequenceNR_test)
 
 TEST_F(PathPlanningTest, configureSequence_test)
 {
-  //ros::init(0, NULL, "path_planning_configureSequence_test");
   ros::NodeHandle nh;
   std::string map_path = "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml";
   bool status = path_planner_->configureSequence("2",map_path,"NAO","dijkstra",nh);
@@ -46,7 +45,6 @@ TEST_F(PathPlanningTest, startSequence_test)
 {
   navfn::MakeNavPlanResponse planned_path; 
 
-  //ros::init(0, NULL, "path_planning_startSequence_test");
   ros::NodeHandle nh;
   geometry_msgs::PoseStamped request_start, request_goal;
   request_start.pose.position.x = 1;

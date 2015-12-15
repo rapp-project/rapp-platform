@@ -54,10 +54,11 @@ class PathPlanner
 
     navfn::MakeNavPlanResponse startSequence(std::string seq_nr, geometry_msgs::PoseStamped request_start, geometry_msgs::PoseStamped request_goal, ros::NodeHandle &nh_);
 
-    /////
-    // old method
-    /////
-    
+//////
+//
+//  OLD APPROACH
+//
+/////
 
     /**
      * @brief   Returns planned path. Path is planned using global_planner and map_server nodes.
