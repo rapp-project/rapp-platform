@@ -3,6 +3,7 @@ project(rapp_email)
 
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  rapp_utilities
   rapp_platform_ros_communications
 )
 
@@ -10,6 +11,7 @@ catkin_package(
   LIBRARIES
   CATKIN_DEPENDS
   rospy
+  rapp_utilities
   rapp_platform_ros_communications
 )
 

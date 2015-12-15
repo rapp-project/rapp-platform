@@ -2,11 +2,12 @@
 string username
 
 # Define which mails the users requests.
-# Values: ALL, UNREAD(DEFAULT)
-string mailStatus
+# Values: ALL, UNSEEN(DEFAULT)
+string requestedEmailStatus
 
 uint16 fromDate
 uint16 toDate
+uint16 numberOfEmails
 
 ---
 # Response
