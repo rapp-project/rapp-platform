@@ -1,14 +1,35 @@
 Documentation about the RAPP Path Planner: [link](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Path-Planner)
 
 Rapp_path_planner
-=====
-
+====
 <img src="https://farm6.staticflickr.com/5199/7369580478_aef5890b05_o_d.png" alt="Rapp_path_planner incon" align="right"  width="250" />
 
-Rapp_path_planner is used in the RAPP case to plan path from given pose to given goal. User can costomize the path planning module with following parameters:
-* pebuild map - Avaliable maps are stored [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps)
-* planning algorithm - **avaliable only [dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)**
-* robot type - customizes costmap for planning module.**Avaliable only [NAO](https://www.aldebaran.com/en/humanoid-robot/nao-robot)** 
+
+----------
+
+
+# Components
+## rapp_path_planning
+Rapp_path_planning is used in the RAPP case to plan path from given pose to given goal. User can costomize the path planning module with following parameters:
+* pebuild map - avaliable maps are stored [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps),
+* planning algorithm - **for now, only [dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)  is avaliable**,
+* robot type - customizes costmap for planning module. **For now only [NAO](https://www.aldebaran.com/en/humanoid-robot/nao-robot) is supported**. 
+
+## rapp_map_server
+Rapp_map_server delivers prebuild maps to rapp_path_planning component. All avaliable maps are contained [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps). 
+
+This component is based on the ROS package: [map_server](http://wiki.ros.org/map_server). The rapp_map_server reads .png and .yaml files and publishes map as [OccupacyGrid](http://docs.ros.org/jade/api/nav_msgs/html/msg/OccupancyGrid.html) data. RAPP case needs run-time changing map publication, thus the rapp_map_server extands map_server functionality. The rapp_map_server enables user run-time changes of map. It subscribes to ROS parameter: 
+```rospy.set_param(nodeName+"/setMap", map_path)```
+and publishes the map specified in map_path. Examplary map changing request is presented below.
+```python
+nodename = rospy.get_name()
+map_path = "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml"
+rospy.set_param(nodename+/setMap, map_path)
+```
+
+
+----------
+
 
 # ROS Services
 
@@ -50,7 +71,7 @@ geometry_msgs/PoseStamped[] path
 ## Standard launcher
 
 Launches the **path planning** node and can be launched using
-```
+```bash
 roslaunch rapp_path_planning path_planning.launch
 ```
 
