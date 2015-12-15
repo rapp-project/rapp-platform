@@ -1,0 +1,3 @@
+rapp_path_planning_plan_path_topic: /rapp/rapp_path_planning/plan_path
+
+rapp_path_planning_threads: 5
