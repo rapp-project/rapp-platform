@@ -1,0 +1,15 @@
+{
+  "request": {
+    "query": "Oven"
+  },
+  "response": {
+    "results": [
+      "http://knowrob.org/kb/knowrob.owl#MicrowaveOven",
+      "http://knowrob.org/kb/knowrob.owl#RegularOven",
+      "http://knowrob.org/kb/knowrob.owl#ToasterOven"
+    ],
+    "error": "",
+    "trace": "",
+    "success": true
+  }
+}
