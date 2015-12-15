@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapp_path_planning</name>
+  <version>0.0.1</version>
+  <description>The rapp_path_planning package</description>
+
+  <maintainer email="wojciechdudek.mai@gmail.com">Wojciech Dudek</maintainer>
+
+  <license>MIT</license>
+
+  <test_depend>unittest</test_depend>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>rostest</depend>
+  <depend>roslib</depend>
+  <depend>rapp_platform_ros_communications</depend>
+</package>

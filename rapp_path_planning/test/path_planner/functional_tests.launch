@@ -1,0 +1,7 @@
+<launch> 
+   <node type="path_planning_ros_node" pkg="rapp_path_planning" name="rapp_path_planning"/> 
+   <test time-limit="100" test-name="path_planning_functional" pkg="rapp_path_planning" type="functional_tests.py"/> 
+  <rosparam file="$(find rapp_path_planning)/cfg/path_planning_params.yaml" 
+    command="load" />
+ </launch> 
+ 
