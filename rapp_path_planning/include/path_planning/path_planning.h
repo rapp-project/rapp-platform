@@ -1,5 +1,5 @@
-#ifndef RAPP_FACE_DETECTION_NODE
-#define RAPP_FACE_DETECTION_NODE
+#ifndef RAPP_PATH_PLANNING_NODE
+#define RAPP_PATH_PLANNING_NODE
 
 #include "ros/ros.h"
 #include "ros/package.h"
