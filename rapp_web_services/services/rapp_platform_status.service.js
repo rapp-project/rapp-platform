@@ -54,6 +54,7 @@ var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
 var VIEW = require( path.join(__dirname, '..', 'gui', 'src', 'platform_status',
     'view.js') );
 
+var TESTS = require( path.join(__dirname, '..', 'tests', 'tests.js') );
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -121,11 +122,11 @@ service active_ros_services(){
 
 
 
-service testService(srvName)
+service exec_test(srvName)
 {
   var response = {success: false, output: undefined, input: undefined};
-  console.log('[Rapp-Platform-Status]: Invoking test for service --> ' +
-    srvName)
+  console.log('[Exec-Test]: Invoking test for service --> ' +
+    srvName);
   if(srvName in srvMap){
     var results = srvMap[srvName]();
     response = {
@@ -137,8 +138,8 @@ service testService(srvName)
   else{
     response = {
       success: false,
-      output: 'Service call error! Service does not exist',
-      input: 'Service call error! Service does not exist',
+      output: {error: 'Currently Unavailable'},
+      input: {error: 'Currently Unavailable'},
     };
   }
   return response;
@@ -146,17 +147,17 @@ service testService(srvName)
 
 
 var srvMap = {
-  'ontology_subclasses_of': test_ontology_subclassesOf,
-  'ontology_superclasses_of': test_ontology_superclassesOf,
-  'ontology_is_subsuperclass_of': test_ontology_is_subsuperclassOf,
-  'set_noise_profile': test_denoise_profile,
-  'speech_detection_sphinx4': test_sphinx4,
-  'speech_detection_google': test_speech_detection_google,
-  'face_detection': test_face_detection,
-  'qr_detection': test_qr_detection,
-  'text_to_speech': test_tts,
-  'record_cognitive_test_performance': test_record_cognitive_performance,
-  'cognitive_test_chooser': test_cognitive_test_chooser
+  'ontology_subclasses_of': TESTS.ONTOLOGY_SUBCLASSES_OVEN
+  //'ontology_superclasses_of': test_ontology_superclassesOf,
+  //'ontology_is_subsuperclass_of': test_ontology_is_subsuperclassOf,
+  //'set_noise_profile': test_denoise_profile,
+  //'speech_detection_sphinx4': test_sphinx4,
+  //'speech_detection_google': test_speech_detection_google,
+  //'face_detection': test_face_detection,
+  //'qr_detection': test_qr_detection,
+  //'text_to_speech': test_tts,
+  //'record_cognitive_test_performance': test_record_cognitive_performance,
+  //'cognitive_test_chooser': test_cognitive_test_chooser
 }
 
 
@@ -166,31 +167,6 @@ var srvMap = {
  *****************************************************************************
  */
 
-
-function test_ontology_subclassesOf(){
-  import service ontology_subclasses_of();
-  var args = {
-    query: 'Oven'
-  };
-  var success = true;
-  var response = ontology_subclasses_of(args).postSync();
-  var valid_results = [
-    'http://knowrob.org/kb/knowrob.owl#MicrowaveOven',
-    'http://knowrob.org/kb/knowrob.owl#RegularOven',
-    'http://knowrob.org/kb/knowrob.owl#ToasterOven'
-  ]
-
-  for(i in response.results){
-    if( valid_results.indexOf(response.results[i]) > -1 ) {
-      continue;
-    }
-    else{
-      success = false;
-      break;
-    }
-  }
-  return {success: success, output: response.results, input: args};
-}
 
 
 function test_ontology_superclassesOf(){
@@ -339,8 +315,8 @@ function test_face_detection(){
   var results = undefined;
   var response = undefined;
   var s = 'face_detection';
-  var testFileSrc = testDataPath + 'Lenna.png';
-  var testFileDest = __serverCacheDir + 'status_test_lenna.png';
+  var testFileSrc = path.join(testDataPath, 'Lenna.png');
+  var testFileDest = path.join(__serverCacheDir, 'status_test_lenna.png');
   Fs.copyFile(testFileSrc, testFileDest);
   var args = {
     'file_uri': testFileDest,

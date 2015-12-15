@@ -88,7 +88,8 @@ var HOP_SERVICES_FORM = function(){
   var attrs = {
     labelId: "hop-services-label",
     text: "Web Services",
-    formId: "hop-services"
+    formId: "hop-services",
+    value: "hop-services"
   };
 
   return guiCommons.FORM(attrs)
@@ -161,7 +162,7 @@ var TEST_PANEL = function(attrs){
   var txt = attrs.text || "Service invocation Panel";
 
   return  <DIV>{
-        class: "panel panel-info",
+        class: "panel panel-info text-center",
         <DIV>{
           class: "panel-heading",
           txt
@@ -182,14 +183,22 @@ var TEST_PANEL = function(attrs){
                 "None"
               },
             },
+            <DIV>{
+              class: "btn-group inline",
             <BUTTON>{
               type: "button",
               class: "btn btn-default",
-              onclick: ~{
-                alert("Currently Unavailable")
-              },
+              id: 'btnExecTest',
               "Call Service"
+            },
+            <BUTTON>{
+              type: "button",
+              class: "btn btn-default",
+              id: 'btnClearResults',
+              "Clear Results"
             }
+            }
+
           }
         }
       }
@@ -202,9 +211,9 @@ var TEST_RESULTS_PANEL = function(attrs){
 
   return  <DIV>{
       class: "panel panel-primary",
-      id: "service-call-panel",
+      id: "testResultsPanel",
       <DIV>{
-        class: "panel-heading",
+        class: "panel-heading text-center",
         txt
       },
       <DIV>{
@@ -217,10 +226,9 @@ var TEST_RESULTS_PANEL = function(attrs){
               class: "",
               "Service Input Parameters:"
             },
-            <P>{
-              class: "form-control",
-              id: "service-request",
-              ""
+            <DIV>{
+              class: "",
+              id: "formRequest"
             }
           },
           <DIV>{
@@ -229,10 +237,9 @@ var TEST_RESULTS_PANEL = function(attrs){
               class: "",
               "Service Response:"
             },
-            <P>{
-              class: "form-control",
-              id: "service-response",
-              ""
+            <DIV>{
+              class: "",
+              id: "formResponse"
             }
           }
         }

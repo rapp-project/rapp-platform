@@ -55,6 +55,7 @@ var _CSS = [
 
 
 var _REQUIRE = [
+  resolve(filePath, '../../../tests/tests.js')
 ];
 
 
@@ -63,8 +64,13 @@ var _CLIENT_SCRIPTS = function(){
   import service active_ros_topics();
   import service active_ros_services();
   import service available_services();
+  import service exec_test();
+  var TESTS = require( path.join(filePath, '../../../tests/tests.js') );
 
   return ~{
+
+    var resultsPanelClass = 'panel-primary';
+
     function appendOption(elemId, items){
       $.each(items, function (i, item) {
         $('#'+elemId).append($('<option>', {
@@ -81,6 +87,47 @@ var _CLIENT_SCRIPTS = function(){
       }).selectpicker('refresh');
     }
 
+    function formNewLine( attrs ){
+      attrs = attrs || {};
+      var _class = attrs.class || "form-control";
+      var _text = attrs.text || "";
+      var str = '<p>' + _text + "</p>";
+      return str;
+    }
+
+    function appendTestResults( response ){
+      var input = response.input;
+      var success = response.success;
+      var output = response.output;
+      var inputField = $('#formRequest');
+      var outputField = $('#formResponse');
+
+      outputField.empty();
+      inputField.empty();
+
+      for(var val in input){
+        var txt = '- ' + val + ': ' + input[val];
+        var lineOut = formNewLine({text: txt});
+        inputField.append(lineOut);
+      }
+
+      for(var val in output){
+        var txt = '- ' + val + ': ' + output[val];
+        var lineOut = formNewLine({text: txt});
+        outputField.append(lineOut);
+      }
+
+      var newPanelClass = 'panel-warning';
+      if( success && (output.error === '') ){
+        newPanelClass = 'panel-success';
+      }
+      else{
+        newPanelClass = 'panel-danger';
+      }
+
+      $('#testResultsPanel').removeClass(resultsPanelClass).addClass(newPanelClass);
+      resultsPanelClass = newPanelClass;
+    }
 
     $(document).ready(function() {
       $('.selectpicker').selectpicker({
@@ -93,6 +140,19 @@ var _CLIENT_SCRIPTS = function(){
         var selhopSrv = document.getElementById('selected-hop-srv');
         selhopSrv.innerHTML = hopsrvsel.value;
       };
+
+      $('#btnExecTest').click(function(){
+        var hopSrv = $('#hop-services').val();
+        ${exec_test}(hopSrv).post(function(resp){
+          appendTestResults(resp);
+        });
+      });
+
+      $('#btnClearResults').click(function(){
+        $('#formResponse').empty();
+        $('#formRequest').empty();
+        $('#testResultsPanel').removeClass(resultsPanelClass).addClass('panel-primary');
+      });
 
       ${active_ros_nodes}().post(function(resp){
         var rosNodes = resp.ros_nodes;
