@@ -3,7 +3,7 @@ Documentation about the RAPP Path Planner: [link](https://github.com/rapp-projec
 Rapp_path_planner
 =====
 
-<img src="https://farm6.staticflickr.com/5199/7369580478_aef5890b05_o_d.png" alt="Rapp_path_planner incon" align="right"  width="48" />
+<img src="https://farm6.staticflickr.com/5199/7369580478_aef5890b05_o_d.png" alt="Rapp_path_planner incon" align="right"  width="250" />
 
 Rapp_path_planner is used in the RAPP case to plan path from given pose to given goal. User can costomize the path planning module with following parameters:
 * pebuild map - Avaliable maps are stored [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps)
