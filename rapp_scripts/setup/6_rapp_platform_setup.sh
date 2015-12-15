@@ -48,7 +48,13 @@ catkin_init_workspace &> /dev/null
 # Clone the repository (public key should have been setup)
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo, branch: $1\e[0m"
 git clone --recursive --branch=$1 https://github.com/rapp-project/rapp-platform.git &> /dev/null
-git clone https://github.com/rapp-project/rapp-api.git &> /dev/null
+
+RAPP_API_BRANCH='master'
+if [ "${TRAVIS_BRANCH}" -ne "master" ]; then
+  RAPP_API_BRANCH="devel"
+fi
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-api repo, branch: $RAPP_API_BRANCH\e[0m"
+git clone --branch=$RAPP_API_BRANCH https://github.com/rapp-project/rapp-api.git &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing pip dependencies\e[0m"
 cd rapp-api/python

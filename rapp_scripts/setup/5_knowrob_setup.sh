@@ -67,8 +67,13 @@ echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Knowrob Catkin Workspace\e[0m"
 catkin_init_workspace &> /dev/null
 
 # Fetch knowrob sources
-echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning Knowrob \e[0m"
-git clone https://github.com/rapp-project/knowrob.git &> /dev/null
+
+KNOWROB_BRANCH='indigo-devel'
+if [ "${TRAVIS_BRANCH}" -ne "master" ]; then
+  KNOWROB_BRANCH="devel"
+fi
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning Knowrob, branch: $KNOWROB_BRANCH\e[0m"
+git clone --branch=$KNOWROB_BRANCH https://github.com/rapp-project/knowrob.git &> /dev/null
 cd ../
 
 # Update rosdep with rosjava dependencies and install them.
