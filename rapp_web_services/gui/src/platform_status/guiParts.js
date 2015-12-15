@@ -25,9 +25,19 @@ var jsDir = path.join('..', '..', 'js');
 var imports = require( path.join(__dirname, 'import.js') );
 var guiCommons = require( path.join(__dirname, '../common', 'guiCommons.js') );
 
+var quotes = require( path.join(__dirname, 'quotes.json') );
 
+function randomQuote(){
+  var randQuote;
 
-var navBar = function( attrs ){
+  var _quotes = quotes;
+
+  var rnum = Math.floor(Math.random() * _quotes.length);
+  randQuote = _quotes[rnum];
+  return randQuote;
+}
+
+var NAVBAR = function( attrs ){
   var homeButton = <A>{
     class: "navbar-brand",
     href: "#",
@@ -74,49 +84,65 @@ var navBar = function( attrs ){
 }
 
 
-var form = function( attrs ){
-  var labelId = (attrs.labelId || "").toString();
-  var txt = (attrs.text || "").toString();
-  var formId = (attrs.formId || "").toString();
-  var _class = (attrs.class || "row-fluid").toString();
-  var align = (attrs.align || "center").toString();
-  var _style = (attrs.style || '');
+var HOP_SERVICES_FORM = function(){
+  var attrs = {
+    labelId: "hop-services-label",
+    text: "Web Services",
+    formId: "hop-services"
+  };
 
-
-  return <DIV>{
-    class: _class,
-    <LABEL>{
-      class: "control-label",
-      style: "display:inline",
-      txt
-    },
-    <DIV>{
-      class: "row-fluid",
-      <SELECT>{
-        class: "selectpicker",
-        id: formId,
-        <OPTION>{
-          value: "",
-          txt
-        }
-      }
-    }
-  }
+  return guiCommons.FORM(attrs)
 }
 
 
-var header = function( attrs ){
+var ROS_SERVICES_FORM = function(){
+  var attrs = {
+    labelId: 'ros-services-label',
+    text: "ROS-Services",
+    formId: "ros-services",
+  };
+
+  return guiCommons.FORM(attrs)
+}
+
+
+var ROS_NODES_FORM = function(){
+  var attrs = {
+    labelId: 'ros-nodes-label',
+    text: "ROS-Nodes",
+    formId: "ros-nodes",
+  };
+
+  return guiCommons.FORM(attrs)
+}
+
+
+var ROS_TOPICS_FORM = function(){
+  var attrs = {
+    labelId: 'ros-topics-label',
+    text: "ROS-Topics",
+    formId: "ros-topics",
+  };
+
+  return guiCommons.FORM(attrs)
+}
+
+
+var HEADER = function(){
   import service active_ros_nodes();
   import service active_ros_topics();
   import service active_ros_services();
   import service available_services();
 
-  attrs = attrs || {};
   var _title = 'RAPP Platform Status Web Page';
   var _css = imports.CSS;
   var _js = imports.JS;
   var _require = imports.REQUIRE;
-  var _meta = guiCommons.META;
+  var _meta = <META>{
+    name: 'viewpoint',
+    content: 'width=device-width; initial-scale=1',
+    charset: 'utf-8'
+  };
   var _plain_scripts = imports.CLIENT_SCRIPTS;
 
   return guiCommons.HEADER({
@@ -127,24 +153,14 @@ var header = function( attrs ){
     meta: _meta,
     plain_scripts: _plain_scripts
   })
-
 }
 
 
-var testPanel = function(attrs){
-  attrs = (attrs || {});
-  var gridSize = (attrs.gridSize || 3).toString();
-  var txt = "HOP Web Service invocation Panel";
-  var _class = (attrs.class || "row-fluid").toString();
-  var gridClass = "col-xs-" + gridSize + " col-sm-" + gridSize + " col-md-" +
-    gridSize;
+var TEST_PANEL = function(attrs){
+  attrs = attrs || {};
+  var txt = attrs.text || "Service invocation Panel";
 
-  return <DIV>{
-    class: "row-fluid text-center",
-    <DIV>{
-      class: gridClass,
-      style: "",
-      <DIV>{
+  return  <DIV>{
         class: "panel panel-info",
         <DIV>{
           class: "panel-heading",
@@ -177,67 +193,55 @@ var testPanel = function(attrs){
           }
         }
       }
-    }
-  }
 }
 
 
-var testResultsPanel = function(attrs){
+var TEST_RESULTS_PANEL = function(attrs){
   attrs = attrs || {};
-  var gridSize = (attrs.gridSize || 6).toString();
-  var txt = "HOP Web Service Response Panel";
-  var _class = (attrs.class || "row-fluid").toString();
-  var gridClass = "col-xs-" + gridSize + " col-sm-" + gridSize + " col-md-" +
-    gridSize;
+  var txt = attrs.text || "HOP Web Service Response Panel";
 
-  return <DIV>{
-    class: "row-fluid text-center",
-    <DIV>{
-      class: gridClass,
-      style: "",
+  return  <DIV>{
+      class: "panel panel-primary",
+      id: "service-call-panel",
       <DIV>{
-        class: "panel panel-primary",
-        <DIV>{
-          class: "panel-heading",
-          txt
-        },
-        <DIV>{
-          class: "panel-body",
-          <FORM>{
-            class: "form-vertical",
-            <DIV>{
-              class: "form-group",
-              <LABEL>{
-                class: "",
-                "Service Input Parameters:"
-              },
-              <P>{
-                class: "form-control",
-                id: "selected-hop-srv",
-                ""
-              }
+        class: "panel-heading",
+        txt
+      },
+      <DIV>{
+        class: "panel-body",
+        <FORM>{
+          class: "form-vertical",
+          <DIV>{
+            class: "form-group",
+            <LABEL>{
+              class: "",
+              "Service Input Parameters:"
             },
-            <DIV>{
-              class: "form-group",
-              <LABEL>{
-                class: "",
-                "Service Response:"
-              },
-              <P>{
-                class: "form-control",
-                id: "selected-hop-srv",
-                ""
-              }
+            <P>{
+              class: "form-control",
+              id: "service-request",
+              ""
+            }
+          },
+          <DIV>{
+            class: "form-group",
+            <LABEL>{
+              class: "",
+              "Service Response:"
+            },
+            <P>{
+              class: "form-control",
+              id: "service-response",
+              ""
             }
           }
         }
       }
     }
-  }
 }
 
 
-var rowSpacer = function(attrs){
+var ROW_SPACER = function( attrs ){
   attrs = attrs || {};
   return <DIV>{
     class: "row-spacer",
@@ -245,14 +249,12 @@ var rowSpacer = function(attrs){
 }
 
 
-var pageHeader = function(attrs){
+var PAGE_HEADER = function( attrs ){
   attrs = attrs || {};
-  var text = attrs.text || "";
-  var _class = attrs.class || "";
+  var _title = attrs.title || "RAPP Platform Status";
+  var _text = attrs.text || randomQuote();
 
-  return <DIV>{
-    class: "container",
-    <DIV>{
+  return  <DIV>{
       class: "jumbotron",
       align: "center",
       <H3>{
@@ -260,17 +262,17 @@ var pageHeader = function(attrs){
       },
       <SMALL>{
         <EM>{
-          class: _class,
-          text
+          class: "",
+          _text
         }
       }
     }
-  }
 }
 
 
-var footer = function(attrs){
+var FOOTER = function( attrs ){
   attrs = attrs || {};
+
   return <DIV>{
     class: "footer navbar navbar-inverse navbar-fixed-bottom",
     <DIV>{
@@ -280,13 +282,6 @@ var footer = function(attrs){
         <P>{
           class: "",
           "Copyright: RAPP EU 2015."
-        },
-        <P>{
-          class: "",
-          <A>{
-            href: "mailto:klpanagi@gmail.com",
-            "Konstantinos Panayiotou."
-          }
         }
       }
     }
@@ -298,11 +293,14 @@ function serviceUrl(srvName){
 }
 
 
-exports.NAVBAR = navBar;
-exports.HEADER = header;
-exports.FORM = form;
-exports.TEST_PANEL = testPanel;
-exports.PAGE_HEADER = pageHeader;
-exports.TEST_RESULTS_PANEL = testResultsPanel;
-exports.FOOTER = footer;
+exports.NAVBAR = NAVBAR();
+exports.HEADER = HEADER();
+exports.PAGE_HEADER = PAGE_HEADER();
+exports.ROS_SERVICES_FORM = ROS_SERVICES_FORM();
+exports.ROS_TOPICS_FORM = ROS_TOPICS_FORM();
+exports.ROS_NODES_FORM = ROS_NODES_FORM();
+exports.HOP_SERVICES_FORM = HOP_SERVICES_FORM();
+exports.TEST_PANEL = TEST_PANEL();
+exports.TEST_RESULTS_PANEL = TEST_RESULTS_PANEL();
+exports.FOOTER = FOOTER();
 

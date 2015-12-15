@@ -51,8 +51,8 @@ var testDataPath = path.join(__dirname, '..', '..', 'rapp_testing_tools',
 var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
 var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
 
-var GUI = require( path.join(__dirname, '..', 'gui', 'src', 'platform_status',
-    'platform_status_gui.js') );
+var VIEW = require( path.join(__dirname, '..', 'gui', 'src', 'platform_status',
+    'view.js') );
 
 
 // Initiate communication with rosbridge-websocket-server
@@ -63,60 +63,9 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
 });
 
 
-var quotes = require(path.join(__dirname, '..', 'gui',
-    'src', 'platform_status' ,'quotes.json')).quotes;
-
 service rapp_platform_status(  )
 {
-  var rapp_srv_literal = '';
-  var services_literal = '';
-  var nodes_literal = '';
-  var topics_literal = '';
-  var hop_srv_literal = '';
-
-  var formRosNodes = {
-    labelId: 'ros-nodes-label',
-    text: "RAPP Platform ROS-Nodes",
-    formId: "ros-nodes",
-  };
-
-  var formRosTopics= {
-    labelId: 'ros-topics-label',
-    text: "RAPP Platform ROS-Topics",
-    formId: "ros-topics",
-  };
-
-  var formRosSrv= {
-    labelId: 'ros-services-label',
-    text: "RAPP Platform ROS-Services",
-    formId: "ros-services",
-  };
-
-  var formHopSrv = {
-    labelId: "hop-services-label",
-    text: "HOP Web Services",
-    formId: "hop-services"
-  };
-
-  var quote = randomQuote();
-  console.log(quote)
-
-  return <html lang="en">
-    ${GUI.HEADER( {service: rapp_platform_status} )}
-    <body>
-      ${GUI.NAVBAR()}
-      ${GUI.PAGE_HEADER({text: quote})}
-      <div class='form-group col-xs-3 col-sm-3 col-md-3' style='word-wrap:break-word;'>
-        ${GUI.FORM(formRosNodes)}
-        ${GUI.FORM(formRosTopics)}
-        ${GUI.FORM(formRosSrv)}
-        ${GUI.FORM(formHopSrv)}
-      </div>
-      ${GUI.TEST_PANEL()}
-      ${GUI.TEST_RESULTS_PANEL()}
-      ${GUI.FOOTER()}
-    </body>
-  </html>;
+  return VIEW.INDEX;
 }
 
 
@@ -517,13 +466,3 @@ function service_url(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
 }
 
-
-function randomQuote(){
-  var randQuote;
-
-  var _quotes = quotes;
-
-  var rnum = Math.floor(Math.random() * _quotes.length);
-  randQuote = _quotes[rnum];
-  return randQuote
-}
