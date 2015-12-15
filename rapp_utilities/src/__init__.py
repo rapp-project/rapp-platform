@@ -14,4 +14,4 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-from rapp_print import *
+from rapp_utilities import RappUtilities
