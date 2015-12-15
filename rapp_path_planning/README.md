@@ -71,7 +71,7 @@ geometry_msgs/PoseStamped[] path
 **Launchers**
 -------------
 
-#### Standard launcher*
+#### *Standard launcher*
 
 
 Launches the **path planning** node and can be launched using
