@@ -49,7 +49,7 @@ class PathPlanner
                                     * 3 : wrong robot type
                                     * 4 : wrong algorithm
                             -> error_message : error explenation
-                            -> path : vector of PoseStamped objects
+                            -> path : if plan_found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal vector of PoseStamped objects
      */
 
     navfn::MakeNavPlanResponse startSequence(std::string seq_nr, geometry_msgs::PoseStamped request_start, geometry_msgs::PoseStamped request_goal, ros::NodeHandle &nh_);
