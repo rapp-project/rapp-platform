@@ -46,11 +46,15 @@ echo -e "\e[1m\e[103m\e[31m [RAPP] Initializing Rapp Catkin Workspace\e[0m"
 catkin_init_workspace &> /dev/null
 
 # Clone the repository (public key should have been setup)
-echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo, branch: $1\e[0m"
-git clone --recursive --branch=$1 https://github.com/rapp-project/rapp-platform.git &> /dev/null
+RAPP_PLATFORM_BRANCH='master'
+if [ -n "${TRAVIS_BRANCH}" ]; then
+  RAPP_PLATFORM_BRANCH="${TRAVIS_BRANCH}"
+fi
+echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-platform repo, branch: $RAPP_PLATFORM_BRANCH\e[0m"
+git clone --recursive --branch=$RAPP_PLATFORM_BRANCH https://github.com/rapp-project/rapp-platform.git &> /dev/null
 
 RAPP_API_BRANCH='master'
-if [ "${TRAVIS_BRANCH}" -ne "master" ]; then
+if [ "${TRAVIS_BRANCH}" == "master" ]; then
   RAPP_API_BRANCH="devel"
 fi
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning the rapp-api repo, branch: $RAPP_API_BRANCH\e[0m"

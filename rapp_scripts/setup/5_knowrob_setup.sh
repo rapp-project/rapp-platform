@@ -69,7 +69,7 @@ catkin_init_workspace &> /dev/null
 # Fetch knowrob sources
 
 KNOWROB_BRANCH='indigo-devel'
-if [ "${TRAVIS_BRANCH}" -ne "master" ]; then
+if [ "${TRAVIS_BRANCH}" == "master" ]; then
   KNOWROB_BRANCH="devel"
 fi
 echo -e "\e[1m\e[103m\e[31m [RAPP] Cloning Knowrob, branch: $KNOWROB_BRANCH\e[0m"
