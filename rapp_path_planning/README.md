@@ -4,10 +4,6 @@ Rapp_path_planner
 ====
 <img src="https://farm6.staticflickr.com/5199/7369580478_aef5890b05_o_d.png" alt="Rapp_path_planner incon" align="right"  width="250" />
 
-
-----------
-
-
 # Components
 ## rapp_path_planning
 Rapp_path_planning is used in the RAPP case to plan path from given pose to given goal. User can costomize the path planning module with following parameters:
@@ -24,7 +20,7 @@ and publishes the map specified in map_path. Examplary map changing request is p
 ```python
 nodename = rospy.get_name()
 map_path = "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml"
-rospy.set_param(nodename+/setMap, map_path)
+rospy.set_param(nodename+"/setMap", map_path)
 ```
 
 
@@ -62,7 +58,8 @@ uint8 plan_found
 # error_message : error explanation
 string error_message
 # path : vector of PoseStamped objects
-# if plan_found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal
+# if plan_found is true, this is an array of waypoints from start to goal, 
+# where the first one equals start and the last one equals goal
 geometry_msgs/PoseStamped[] path
 ``` 
 
