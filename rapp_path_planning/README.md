@@ -8,16 +8,16 @@ Documentation about the RAPP Path Planner: [link](https://github.com/rapp-projec
 **Components**
 ----------
 
- 1. *rapp_path_planning*
-------------------
+#### 1. *rapp_path_planning*
+
 
 Rapp_path_planning is used in the RAPP case to plan path from given pose to given goal. User can costomize the path planning module with following parameters:
 * pebuild map - avaliable maps are stored [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps),
 * planning algorithm - **for now, only [dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)  is avaliable**,
 * robot type - customizes costmap for planning module. **For now only [NAO](https://www.aldebaran.com/en/humanoid-robot/nao-robot) is supported**. 
 
-2. *rapp_map_server*
----------------
+#### 2. *rapp_map_server*
+
 
 Rapp_map_server delivers prebuild maps to rapp_path_planning component. All avaliable maps are contained [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps). 
 
@@ -30,15 +30,11 @@ map_path = "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/r
 rospy.set_param(nodename+/setMap, map_path)
 ```
 
-
-----------
-
-
 **ROS Services**
 ------------
 
-*Path planning*
--------------
+#### *Path planning*
+
 
 Service URL: ```/rapp/rapp_path_planning/plan_path```
 
@@ -75,8 +71,8 @@ geometry_msgs/PoseStamped[] path
 **Launchers**
 -------------
 
-*Standard launcher*
------------------
+#### Standard launcher*
+
 
 Launches the **path planning** node and can be launched using
 ```bash
