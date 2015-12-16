@@ -581,6 +581,98 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue((len(response.res_data)<1))
 
 
+  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblEmail
+  def testTblEmailWriteReadDeleteCheck(self):
+    #Write
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_email_write_data_topic')
+    if(not serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_email_write_data_topic topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
+    req = writeDataSrv()
+    req.req_cols=["username","password","server","email"]
+    entry1=StringArrayMsg()
+    entry1=["'mysql_wrapper_functional_tests'","'test'","'test'","'test'"]
+    req.req_data=[StringArrayMsg(s=entry1)]
+
+    response = db_service(req.req_cols,req.req_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+
+    #Read what was written
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_email_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_email_fetch_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    req = fetchDataSrv()
+    req.req_cols=["username","password"]
+    entry1=["username","mysql_wrapper_functional_tests"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    self.assertEqual(response.res_data[0].s[0],"mysql_wrapper_functional_tests")
+
+    #Update written
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_email_update_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_email_update_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
+    req = updateDataSrv()
+    req.set_cols=["username='mysql_wrapper_functional_tests1'"]
+    entry1=["username","mysql_wrapper_functional_tests"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.set_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    #Read again
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_email_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_email_read_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    req = fetchDataSrv()
+    req.req_cols=["username","password"]
+    entry1=["username","mysql_wrapper_functional_tests1"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    self.assertEqual(response.res_data[0].s[0],"mysql_wrapper_functional_tests1")
+    
+    #Delete updated
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_email_delete_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_email_delete_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
+    req = deleteDataSrv()
+    entry1=["username","mysql_wrapper_functional_tests1"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    #Check if it was deleted
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_email_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_email_read_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    req = fetchDataSrv()
+    req.req_cols=["username","password"]
+    entry1=["username","mysql_wrapper_functional_tests1"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    self.assertTrue((len(response.res_data)<1))
+
+
+
+
+
   ##test tblAppsRobots
   #def testTblAppsRobotsRead(self):
     ##Read

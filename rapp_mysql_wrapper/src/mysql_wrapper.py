@@ -152,6 +152,23 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_users_ontology_instances_update_data_topic")
     self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblUsersOntologyInstancesUpdateDataHandler)
+    #tblEmail services launch
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_email_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_email_fetch_data_topic")
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblEmailFetchDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_email_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_email_write_data_topic")
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblEmailWriteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_email_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_email_delete_data_topic")
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblEmailDeleteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_email_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_email_update_data_topic")
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblEmailUpdateDataHandler)
     #viewUsersRobotsApps services launch
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_view_users_robots_apps_topic")
     if(not self.serv_topic):
@@ -613,6 +630,38 @@ class MySQLdbWrapper:
     res=self.updateData(req,"tblUsersOntologyInstances")
     return res
 
+  ## @brief The tbl email fetch data service callback
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
+  def tblEmailFetchDataHandler(self,req):
+    res = fetchDataSrvResponse()
+    res=self.fetchData(req,"tblEmail")
+    return res
+
+  ## @brief The tbl email write data service callback
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
+  def tblEmailWriteDataHandler(self,req):
+    res = writeDataSrvResponse()
+    res=self.writeData(req,"tblEmail")
+    return res
+
+  ## @brief The tbl email delete data service callback
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
+  def tblEmailDeleteDataHandler(self,req):
+    res = deleteDataSrvResponse()
+    res=self.deleteData(req,"tblEmail")
+    return res
+
+  ## @brief The tbl email update data service callback
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
+  def tblEmailUpdateDataHandler(self,req):
+    res = updateDataSrvResponse()
+    res=self.updateData(req,"tblEmail")
+    return res
+    
   ## @brief The view usersRobotsApps fetch data service callback
   # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
@@ -628,6 +677,4 @@ class MySQLdbWrapper:
     res = whatRappsCanRunSrvResponse()
     res=self.whatRappsCanRun(req,"tblRappsModelsVersion")
     return res
-
-
 
