@@ -66,7 +66,9 @@ bool start_map_servers(std::string node_nr_str){
                       ROS_DEBUG_STREAM("map_server name:\n" << node_nr_str );
 
             // set map path
-            std:: string execute_param_2_string = "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml";
+            std::string map_server_path = ros::package::getPath("rapp_map_server");
+
+            std:: string execute_param_2_string = map_server_path+"/maps/empty.yaml";
             const char* execute_param_2 = execute_param_2_string.c_str();
             // remap map publication topic
             std:: string execute_param_3_string = "/map:=/map_server"+node_nr_str+"/map";
@@ -124,13 +126,15 @@ PathPlanning::PathPlanning(void)
     ROS_ERROR("Path planning threads param does not exist. Setting 5 threads.");
     pathPlanningThreads_ = 5;
   }
+  std::string map_server_path = ros::package::getPath("rapp_map_server");
+
     bool tf_status = start_tf_publisher();
-if (tf_status){
+  if (tf_status){
     for (int node_nr=1;node_nr<pathPlanningThreads_+1;node_nr++)
     {
       std::string node_nr_str = boost::lexical_cast<std::string>(node_nr);
     start_map_servers(node_nr_str);
-    bool config_status = path_planner_.configureSequence(node_nr_str, "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml", "NAO", "dijkstra", nh_);
+    bool config_status = path_planner_.configureSequence(node_nr_str, map_server_path+"/maps/empty.yaml", "NAO", "dijkstra", nh_);
     start_global_planners(node_nr_str);
   }
 }
