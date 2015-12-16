@@ -19,13 +19,14 @@
  */
 
 
-/**
- *  @author Konstantinos Panayiotou, [klpanagi@gmail.com]
+ 
+/***
+ * @fileOverview
  *
- *  @fileOverview
+ * [Ontology-superclasses-of] RAPP Platform front-end web service.
  *
- *  Illustrates the implementation of a HOP Service, a.k.a
- *  RAPP-Platform-Web-Service.
+ *  @author Konstantinos Panayiotou
+ *  @copyright Rapp Project EU 2015
  *
  *  Basic Components (modules)
  *
@@ -51,7 +52,7 @@
  *
  */
 
-
+var __DEBUG__ = false;
 
 /***
  * Import hopjs module.
@@ -103,7 +104,7 @@ var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
  *
  * ### IMPLEMENTATION. SET __hopServiceName VALUE ###
  */
-var __hopServiceName = 'user_all_categories_score';
+var __hopServiceName = 'cognitive_get_scores';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
@@ -169,25 +170,28 @@ var color = {
 register_master_interface();
 
 
-/***
- *  [EXAMPLE SERVICE]
+ /**
+ *  [Cognitive-get-scores] RAPP Platform front-end web service.
+ *  Handles requests for cognitive-get-scores query.
+ *
+ *  @function cognitive_get_scores
+ *
+ *  @param {Object} args - Service input arguments (literal).
+ *  @param {String} args.query - Recursive query.
  *
  *
- *  This example_service has two input parameter fields:
- *    field_str: A String service input parameter.
- *    field_int: An integer service input parameter.
+ *  @returns {Object} response - JSON HTTPResponse Object.
+ *    Asynchronous HTTP Response.
+ *  @returns {Array} response.results - Query results.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  *
- *  @param {Object} args - Service input arguments
- *  @param {String} args.field_str - A string input argument.
- *  @param {Number} args.field_int - A number input argument.
- *
- *  @returns {Object} response - JSON HTTPResponse object.
  */
-service user_all_categories_score ( {user:'', up_to_time: 0} )
+service cognitive_get_scores ( {user:'', up_to_time: 0} )
 {
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
-
+  console.log(up_to_time);
   /***
    * Asynchronous http response.
    *
@@ -214,14 +218,15 @@ service user_all_categories_score ( {user:'', up_to_time: 0} )
        * @example
        *   var args = {param1: '', param2: ''}
        *
-       * ### IMPLEMENTATION REQUIRED ###
+       * 
        */
+      console.log(typeof up_to_time)
       var args = {
         //imageFilename: cpFilePath
         username: user,
-        upToTime: up_to_time
+        upToTime: parseInt(up_to_time)
       };
-
+      console.log(args);
 
       /***
        * Declare the ROS-Service response callback here!!
@@ -337,7 +342,7 @@ service user_all_categories_score ( {user:'', up_to_time: 0} )
  *
  *  @returns {Object} response - Response Object.
  *
- *  ### IMPLEMENTATION REQUIRED ###
+ *  
  */
 function craft_response(rosbridge_msg)
 {
@@ -352,37 +357,11 @@ function craft_response(rosbridge_msg)
   
   var response = {
     testCategories: [],
-    testScores: [], error: ''
+    testScores: [], error: error
   };
 
   response.testCategories = testCategories;
   response.testScores = testScores; 
-
-  /***
-   * Parse the rosbridge response message here!!!
-   *
-   * For example:
-   *
-   *   var _error = rosbridge_msg.error;
-   *
-   * ### IMPLEMENT ###
-   */
-  //var _error = rosbridge_msg.error;
-
-  /***
-   * Craft the Web Service response object literal here !!!
-   *
-   * For example:
-   *
-   *   var response = {
-   *     error: "Error message"
-   *   };
-   *
-   *  ### IMPLEMENT ###
-   */
-  //var response = {
-    //error: _error
-  //};
 
   /***
    * Report to logger the error message if an error has been occured
@@ -413,7 +392,7 @@ function craft_response(rosbridge_msg)
  *
  *  @returns {Object} response - Response Object.
  *
- *  ### IMPLEMENTATION REQUIRED ###
+ *  
  */
 function craft_error_response()
 {
@@ -422,7 +401,7 @@ function craft_error_response()
   /***
    * Craft Web Service response object literal here !!!
    *
-   * ### IMPLEMENT ###
+   * 
    */
   var response = {
     error: errorMsg
