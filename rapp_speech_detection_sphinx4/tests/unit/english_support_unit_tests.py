@@ -87,12 +87,7 @@ class TestAudioProcessing(unittest.TestCase):
 
     def test_limitedVocabularyConfigurationFiles_notExistentWords(self):
         # This produces the proper files without the erroneous words
-        try:
-            [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
+        with self.assertRaises(Exception) as err:
+          [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
                     ['kakakakaka', 'lslslslsl', 'a', 'test'],\
-                    [],\
-                    [])
-        except RappError as e:
-            self.assertNotEqual(e.value, '')
-            self.assertNotEqual(e.value, True)
-
+                    [], [])
