@@ -69,6 +69,7 @@
  *
  */
 
+var __DEBUG__ = false;
 
 
 /***
