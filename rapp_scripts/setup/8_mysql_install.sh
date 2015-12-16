@@ -33,9 +33,14 @@ if [ $# -eq 1 ]; then
   fi
 fi
 
-# Setup sources list
+# Setup sources list. If we are on Travis suppress the log
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL install \e[0m"
-sudo apt-get install -y -qq mysql-client mysql-server 
+if [ -n "${TRAVIS_BRANCH}" ]; then
+  sudo apt-get install -y -qq mysql-client mysql-server &> /dev/null 
+else
+  sudo apt-get install -y -qq mysql-client mysql-server 
+fi
+
 sudo apt-get install -y -qq python-mysqldb &> /dev/null
 
 if [ $# -eq 1 ]; then
