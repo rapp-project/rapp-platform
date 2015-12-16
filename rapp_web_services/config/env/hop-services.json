@@ -71,6 +71,12 @@
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_score"
   },
+  "cognitive_get_history": {
+    "Mode": "Deploy",
+    "timeout": 15000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_history"
+  },
   "text_to_speech": {
     "Mode": "Deploy",
     "timeout": 15000,

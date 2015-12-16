@@ -23,7 +23,7 @@
 /***
  * @fileOverview
  *
- * [Cognitive-get-scores] RAPP Platform front-end web service.
+ * [Cognitive-get-history] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -104,7 +104,7 @@ var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
  *
  * ### IMPLEMENTATION. SET __hopServiceName VALUE ###
  */
-var __hopServiceName = 'cognitive_get_scores';
+var __hopServiceName = 'cognitive_get_history';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
@@ -171,10 +171,10 @@ register_master_interface();
 
 
  /**
- *  [Cognitive-get-scores] RAPP Platform front-end web service.
- *  Handles requests for cognitive-get-scores query.
+ *  [Cognitive-get-history] RAPP Platform front-end web service.
+ *  Handles requests for cognitive_get_history query.
  *
- *  @function cognitive_get_scores
+ *  @function cognitive_get_history
  *
  *  @param {Object} args - Service input arguments (literal).
  *  @param {String} args.query - Recursive query.
@@ -187,7 +187,7 @@ register_master_interface();
  *    when an error has been occured during service call.
  *
  */
-service cognitive_get_scores ( {user:'', up_to_time: 0} )
+service cognitive_get_history ( {user:'', from_time: 0, to_time: 0} )
 {
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();  
@@ -223,8 +223,10 @@ service cognitive_get_scores ( {user:'', up_to_time: 0} )
       var args = {
         //imageFilename: cpFilePath
         username: user,
-        upToTime: parseInt(up_to_time)
+        fromTime: parseInt(from_time),
+        toTime: parseInt(to_time)
       };
+
 
       /***
        * Declare the ROS-Service response callback here!!
@@ -348,18 +350,26 @@ function craft_response(rosbridge_msg)
   var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
   
-  var testCategories = rosbridge_msg.testCategories;
-  var testScores = rosbridge_msg.testScores;  
+  var records = rosbridge_msg.records; 
   
   var logMsg = 'Returning to client';
   
+  var CognitiveExercisePerformanceRecordsMsg = {
+    timestamp: 0,
+    test: "",
+    type: "",
+    subtype: "",
+    difficulty: "",
+    score: 0,
+    meanScoreForTypeUpToNow: 0
+  };
+  
   var response = {
-    testCategories: [],
-    testScores: [], error: error
+    CognitiveExercisePerformanceRecordsMsg: [],
+    error: error
   };
 
-  response.testCategories = testCategories;
-  response.testScores = testScores; 
+  response.CognitiveExercisePerformanceRecordsMsg = records;
 
   /***
    * Report to logger the error message if an error has been occured
@@ -401,13 +411,20 @@ function craft_error_response()
    *
    * 
    */
+  var CognitiveExercisePerformanceRecordsMsg = {
+    timestamp: 0,
+    test: "",
+    type: "",
+    subtype: "",
+    difficulty: "",
+    score: 0,
+    meanScoreForTypeUpToNow: 0
+  };  
   var response = {
+    CognitiveExercisePerformanceRecordsMsg: [],
     error: errorMsg
   };
-  var response = {
-    testCategories: [], testScores: [],
-    error: errorMsg
-  };
+
 
   /***
    * Report to logger through the master-process.
