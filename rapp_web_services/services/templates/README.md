@@ -30,6 +30,33 @@ Illustrates a web-service implementation with, multiple input arguments, ROS int
 Illustrates a web-service implementation with, multiple input arguments, file transfers, ROS interface, asynchronous response.
 
 
+##Notable comment:
+
+Currently a bug on HOP http request parser exists, which let all service input parameters to be parsed as strings.
+For example:
+
+```javascript
+service foo( {str: '', num: 0} ){
+	console.log(typeof str);
+	console.log(typeof num);
+}
+```
+
+will report both **str** and num arguments to be of type **String**.
+
+To overcome this issue in case of **Number** or **Boolean** data types, you have to manually cast to the appropriate type
+
+```javascript
+service foo( {bool_arg: false, num_arg: 0} ){
+  	//  Dynamic cast to Boolean.
+	if (bool_arg === 'True' || bool_arg === 'true') {bool_arg = true;}
+  	else {bool_arg = false;}
+
+	// Dynamic cast to Number.
+	num_arg = parseInt(num_arg);
+}
+```
+
 ## Contributors
 
 - Konstaninos Panayiotou, [klpanagi@gmail.com]
