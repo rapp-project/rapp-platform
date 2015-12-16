@@ -386,7 +386,7 @@ class MySQLdbWrapper:
       result_set = cur.fetchall()
       res.username=str(result_set[0][0])
       res.password=str(result_set[0][1])
-      res.password=str(result_set[0][2])
+      res.server=str(result_set[0][2])
       res.email=str(result_set[0][3])
       con.close()
 
