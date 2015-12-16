@@ -31,7 +31,9 @@ from rapp_platform_ros_communications.srv import (
   updateDataSrv,
   updateDataSrvResponse,
   whatRappsCanRunSrv,
-  whatRappsCanRunSrvResponse
+  whatRappsCanRunSrvResponse,
+  fetchUserEmailInfoSrv,
+  fetchUserEmailInfoSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -175,11 +177,18 @@ class MySQLdbWrapper:
       rospy.logerror("rapp_mysql_wrapper_view_users_robots_apps_topic")
     self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.viewUsersRobotsAppsFetchDataHandler)
 
+    #whatRappsCanRun service
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_what_rapps_can_run_topic")
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_what_rapps_can_run Not found error")
     self.serv=rospy.Service(self.serv_topic, whatRappsCanRunSrv, self.whatRappsCanRunDataHandler)
 
+    #fetchEmailUserInfo service
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_fetch_user_email_info_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_fetch_user_email_info_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, fetchUserEmailInfoSrv, self.fetchUserEmailInfoSrvDataHandler)
+    
   ## @brief Implements the general write data to table function
   # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
   # @param tblName [string] the table name
@@ -348,6 +357,52 @@ class MySQLdbWrapper:
           line.s.append((str(result_set[i][j])))
         res.res_data.append(line)
       con.close()
+      res.success.data=True
+      res.trace.append("Success")
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success.data=False
+      print "Error %d: %s" % (e.args[0],e.args[1])
+    except IndexError:
+      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.success.data=False
+      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
+    except IOError:
+      print "Error: can\'t find login file or read data"
+      res.success.data=False
+      res.trace.append("Error: can\'t find login file or read data")
+    return res
+
+  ## @brief Implements the fetch user email info function
+  # @param req [rapp_platform_ros_communications::fetchUserEmailInfoSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchUserEmailInfoSrvResponse::Response&] The ROS service response
+  def fetchUserEmailInfo(self,req):
+    try:
+      res = fetchUserEmailInfoSrvResponse()
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
+      cur = con.cursor()
+      #returncols=self.constructCommaColumns(req.req_cols)
+      #where=self.constructAndQuery(req.where_data)
+      #query="SELECT "+returncols+" FROM "+tblName+where
+      cur.execute("select username,password,server,email from tblEmail where id=(select email_id from tblUser where username=%s)",req.username)
+      result_set = cur.fetchall()
+      res.username=str(result_set[0][0])
+      res.password=str(result_set[0][1])
+      res.password=str(result_set[0][2])
+      res.email=str(result_set[0][3])
+      #for i in range(len(result_set)):
+        #line=StringArrayMsg()
+        #for j in range(len(result_set[i])):
+          #temp_s=String(result_set[i][j])
+          #line.s.append((str(result_set[i][j])))
+        #res.res_data.append(line)
+
+      con.close()
+      #if (returncols=="*"):
+        #res.res_cols=self.getTableColumnNames(tblName)
+      #else:
+        #res.res_cols=req.req_cols
       res.success.data=True
       res.trace.append("Success")
     except mdb.Error, e:
@@ -678,3 +733,10 @@ class MySQLdbWrapper:
     res=self.whatRappsCanRun(req,"tblRappsModelsVersion")
     return res
 
+  ## @brief The what fetchUserEmailInfo service callback
+  # @param req [rapp_platform_ros_communications::fetchUserEmailInfoSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchUserEmailInfoSrvRequest::Response&] The ROS service response
+  def fetchUserEmailInfoSrvDataHandler(self,req):
+    res = fetchUserEmailInfoSrvResponse()
+    res=self.fetchUserEmailInfo(req)
+    return res

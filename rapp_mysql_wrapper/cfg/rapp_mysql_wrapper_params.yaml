@@ -34,6 +34,6 @@ rapp_mysql_wrapper_email_delete_data_topic: /rapp/rapp_mysql_wrapper/tbl_email_d
 rapp_mysql_wrapper_email_update_data_topic: /rapp/rapp_mysql_wrapper/tbl_email_update_data
 
 rapp_mysql_wrapper_view_users_robots_apps_topic: /rapp/rapp_mysql_wrapper/view_users_robots_apps_fetch_data
-
 rapp_mysql_wrapper_what_rapps_can_run_topic: /rapp/rapp_mysql_wrapper/what_rapps_can_run
+rapp_mysql_wrapper_fetch_user_email_info_topic: /rapp/rapp_mysql_wrapper/fetch_user_email_info
 

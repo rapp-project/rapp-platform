@@ -1,0 +1,8 @@
+string username
+---
+string username
+string password
+string server
+string email
+std_msgs/Bool success
+string[] trace
