@@ -382,27 +382,14 @@ class MySQLdbWrapper:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');
       cur = con.cursor()
-      #returncols=self.constructCommaColumns(req.req_cols)
-      #where=self.constructAndQuery(req.where_data)
-      #query="SELECT "+returncols+" FROM "+tblName+where
       cur.execute("select username,password,server,email from tblEmail where id=(select email_id from tblUser where username=%s)",req.username)
       result_set = cur.fetchall()
       res.username=str(result_set[0][0])
       res.password=str(result_set[0][1])
       res.password=str(result_set[0][2])
       res.email=str(result_set[0][3])
-      #for i in range(len(result_set)):
-        #line=StringArrayMsg()
-        #for j in range(len(result_set[i])):
-          #temp_s=String(result_set[i][j])
-          #line.s.append((str(result_set[i][j])))
-        #res.res_data.append(line)
-
       con.close()
-      #if (returncols=="*"):
-        #res.res_cols=self.getTableColumnNames(tblName)
-      #else:
-        #res.res_cols=req.req_cols
+
       res.success.data=True
       res.trace.append("Success")
     except mdb.Error, e:
