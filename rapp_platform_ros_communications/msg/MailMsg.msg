@@ -1,5 +1,6 @@
+string bodyPath
 string subject
 string sender
-string receiver
+string[] receivers
 string dateTime
 string[] attachmentPaths

@@ -19,6 +19,7 @@
 # contact: aris.thallas@{iti.gr, gmail.com}
 
 import os
+import time
 import tempfile
 import atexit
 import imaplib
@@ -31,6 +32,10 @@ from rapp_utilities import RappUtilities
 from rapp_platform_ros_communications.srv import (
   ReceiveEmailSrv,
   ReceiveEmailSrvResponse
+  )
+
+from rapp_platform_ros_communications.msg import (
+  MailMsg
   )
 
 
@@ -84,13 +89,88 @@ class EmailReceiver(object):
 
     emailPath = self._initializePath(req.username)
 
+    emainCounter = 1
     for emailID in emailUIDs:
-      self._fetchEmail(imapConn, emailID, emailPath)
+      emailData = self._fetchEmail(imapConn, emailID, emailPath, emailCounter)
+      resp.emails.append(emailData)
+      emailCounter += 1
+
+    return resp
+
+  ## Fetch specified email's data
+  #
+  # @param imap [imaplib::IMAP4_SSL] The connection
+  # @param emailID [int] The emails UID
+  # @param receivePath [string] The absolute path where the contents of the email should be written.
+  # @param emailCounter [int] The number of emails processed
+  #
+  # return mailMsg [rapp_platform_ros_communications::MailMsg] The mail msg to be appended in the service response
+  def _fetchEmail(self, imap, emailID, receivePath, emailCounter):
+    mailMsg = MailMsg()
+
+    fetchStatus, data = imap.uid( 'fetch', emailID, '(RFC822)' )
+    mail = email.message_from_string( data[0][1] )
+
+    # Create temporary directory for the email
+    emailPath = tempfile.mkdtemp( prefix = emailCounter + '_', \
+        dir = receivePath)
+
+    # Create temporary file for the email's body
+    bodyFD, bodyFilePath = tempfile.mkstemp( prefix='body_', \
+        dir = emailPath )
+    # Compose email's header
+    bodyFD.write( 'From: ' + str(mail['From']) + '\n' + \
+      'To: ' + str(mail['To']) + '\n' + \
+      'CC: ' + str(mail['cc']) + '\n' + \
+      'Subject: ' + str(mail['Subject']) + '\n' \
+      'Date: ' + mail['Date'] + '\n\n' \
+    )
+
+    # Create response's email element
+    mailMsg.bodyPath = bodyFilePath
+    mailMsg.subject = str(mail['Subject'])
+    mailMsg.dateTime = str(mail['Date'])
+    mailMsg.sender = str(mail['From'])
+    mailMsg.receivers = []
+    mailMsg.receivers.append( str(mail['To']) )
+    if str(mail['cc']) is not None:
+      mailMsg.receivers.append( str(mail['cc']) )
+    mailMsg.attachmentPaths = []
+
+    attachmentCounter = 1
+    #Iterate emails parts to get attachments
+    for part in mail.walk():
+      if part.get_content_maintype() == 'multipart':
+        continue
+      if part.get_content_maintype() == 'text':
+        # Get body text and discard text attachments
+        if part.get('Content-Disposition') is None and \
+            part.get_content_type() != 'text/html':
+          bodyFD.write( part.get_payload( decode = True ) )
+          bodyFD.write( '\n' )
+          continue
+
+      if part.get('Content-Disposition') is None:
+          continue
+
+      # This is an attachment
+      filename = part.get_filename()
+      if not filename:
+        filename = 'attachment-%03d' % attachmentCounter
+        attachmentCounter += 1
+
+      # Create temporary file for the email's attachment
+      attachmentFD, attachmentPath = tempfile.mkstemp( prefix=filename + "_", \
+          dir = emailPath )
+
+      attachmentFD.write( part.get_payload( decode = True ) )
+      attachmentFD.close()
+      mailMsg.attachmentPaths.append( attachmentPath )
+
+    bodyFD.close()
+    return mailMsg
 
 
-  def _fetchEmail(self, imap, emailID, emailPath):
-      fetchStatus, data = imap.uid( 'fetch', emailID, '(RFC822)' )
-      mail = email.message_from_string( data[0][1] )
 
 
   ## Create a temporary path for the user emails
@@ -150,13 +230,6 @@ class EmailReceiver(object):
 
     msgIds = msgIds[0].split()
 
-
-
-
-
-
-
-
   ## @brief Fetches user's email and email's password from db
   #
   # @param username [string] The rapp user username
@@ -164,7 +237,7 @@ class EmailReceiver(object):
   # @return email    [string] The user's email
   # @return password [string] The user's password
   def _getEmailAndPass(self, username):
-    pass
+
 
   ## @brief Create an IMAP connection to the server.
   #
