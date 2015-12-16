@@ -110,12 +110,15 @@ class EnglishSupport(LanguageSupport):
 
     RappUtilities.rapp_print(words)
 
-    enhanced_words = self.getWordPhonemes( words )
+    try:
+      enhanced_words = self.getWordPhonemes( words )
+    except RappError as e:
+      raise RappError(e.value)
 
     try:
-        limited_sphinx_configuration= \
+      limited_sphinx_configuration= \
             self._vocabulary.createConfigurationFiles(enhanced_words, grammar, sentences)
     except RappError as e:
-        raise RappError(e.value)
+      raise RappError(e.value)
 
     return limited_sphinx_configuration, engEngDict

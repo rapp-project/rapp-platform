@@ -26,8 +26,8 @@ import shutil
 import os
 
 from global_parameters import GlobalParams
-from rapp_exceptions import RappError
 
+from rapp_exceptions import RappError
 from rapp_utilities import RappUtilities
 
 ## @class LimitedVocabularyCreator

@@ -15,3 +15,4 @@
 #limitations under the License.
 
 from rapp_utilities import RappUtilities
+from rapp_exceptions import RappError

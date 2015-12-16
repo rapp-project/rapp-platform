@@ -24,6 +24,7 @@ import subprocess
 import time
 
 from rapp_utilities import RappUtilities
+from rapp_exceptions import RappError
 
 from greek_support import *
 from english_support import *

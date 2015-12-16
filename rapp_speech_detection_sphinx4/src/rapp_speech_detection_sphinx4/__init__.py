@@ -19,7 +19,6 @@ from greek_support import GreekSupport
 from greek_english_support import GreekEnglishSupport
 from language_support import LanguageSupport
 from limited_vocabulary_creator import LimitedVocabularyCreator
-from rapp_exceptions import RappError
 from sphinx4_configuration_params import SphinxConfigurationParams
 from speech_recognition_sphinx4 import SpeechRecognitionSphinx4
 from global_parameters import GlobalParams

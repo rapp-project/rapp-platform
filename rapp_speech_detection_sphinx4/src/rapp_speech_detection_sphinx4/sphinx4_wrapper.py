@@ -27,6 +27,7 @@ from global_parameters import GlobalParams
 import rospy
 
 from rapp_utilities import RappUtilities
+from rapp_exceptions import RappError
 
 from rapp_platform_ros_communications.srv import(
     AudioProcessingDenoiseSrv,

@@ -22,7 +22,7 @@ import os
 roslib.load_manifest("rapp_speech_detection_sphinx4")
 
 from rapp_speech_detection_sphinx4 import EnglishSupport
-from rapp_speech_detection_sphinx4 import RappError
+from rapp_exceptions import RappError
 
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):

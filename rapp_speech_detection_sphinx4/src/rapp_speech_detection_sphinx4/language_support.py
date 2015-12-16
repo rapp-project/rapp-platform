@@ -22,9 +22,9 @@ import rospy
 import sys
 
 from global_parameters import GlobalParams
-from rapp_exceptions import RappError
 from limited_vocabulary_creator import *
 
+from rapp_exceptions import RappError
 from rapp_utilities import RappUtilities
 
 ## @class LanguageSupport
