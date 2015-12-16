@@ -1,0 +1,70 @@
+
+
+\subsection*{$\ast$$\ast$\-Components$\ast$$\ast$ }
+
+\paragraph*{1. {\itshape rapp\-\_\-path\-\_\-planning}}
+
+Rapp\-\_\-path\-\_\-planning is used in the R\-A\-P\-P case to plan path from given pose to given goal. User can costomize the path planning module with following parameters\-:
+\begin{DoxyItemize}
+\item pebuild map -\/ avaliable maps are stored \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps}{\tt here},
+\item planning algorithm -\/ {\bfseries for now, only \href{https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm}{\tt dijkstra} is avaliable},
+\item robot type -\/ customizes costmap for planning module. {\bfseries For now only \href{https://www.aldebaran.com/en/humanoid-robot/nao-robot}{\tt N\-A\-O} is supported}.
+\end{DoxyItemize}
+
+\paragraph*{2. {\itshape rapp\-\_\-map\-\_\-server}}
+
+Rapp\-\_\-map\-\_\-server delivers prebuild maps to rapp\-\_\-path\-\_\-planning component. All avaliable maps are contained \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps}{\tt here}.
+
+This component is based on the R\-O\-S package\-: \href{http://wiki.ros.org/map_server}{\tt map\-\_\-server}. The rapp\-\_\-map\-\_\-server reads .png and .yaml files and publishes map as \href{http://docs.ros.org/jade/api/nav_msgs/html/msg/OccupancyGrid.html}{\tt Occupacy\-Grid} data. R\-A\-P\-P case needs run-\/time changing map publication, thus the rapp\-\_\-map\-\_\-server extands map\-\_\-server functionality. The rapp\-\_\-map\-\_\-server enables user run-\/time changes of map. It subscribes to R\-O\-S parameter\-: {\ttfamily rospy.\-set\-\_\-param(node\-Name+\char`\"{}/set\-Map\char`\"{}, map\-\_\-path)} and publishes the map specified in map\-\_\-path. Examplary map changing request is presented below. ```python nodename = rospy.\-get\-\_\-name() map\-\_\-path = \char`\"{}/home/rapp/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-map\-\_\-server/maps/empty.\-yaml\char`\"{} rospy.\-set\-\_\-param(nodename+/set\-Map, map\-\_\-path) ```
+
+\subsection*{$\ast$$\ast$\-R\-O\-S Services$\ast$$\ast$ }
+
+\paragraph*{$\ast$\-Path planning$\ast$}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-path\-\_\-planning/plan\-\_\-path}
+
+Service type\-: ```bash \section*{Contains name to the desired map}
+
+string map\-\_\-name \section*{Contains type of the robot. It is required to determine it's parameters (footprint etc.)}
+
+string robot\-\_\-type \section*{Contains path planning algorithm name}
+
+string algorithm \section*{Contains start pose of the robot}
+
+geometry\-\_\-msgs/\-Pose\-Stamped start \section*{Contains goal pose of the robot}
+
+\subsection*{geometry\-\_\-msgs/\-Pose\-Stamped goal }
+
+\section*{status of the service}
+
+\section*{plan\-\_\-found\-:}
+
+\section*{$\ast$ 0 \-: path cannot be planned.}
+
+\section*{$\ast$ 1 \-: path found}
+
+\section*{$\ast$ 2 \-: wrong map name}
+
+\section*{$\ast$ 3 \-: wrong robot type}
+
+\section*{$\ast$ 4 \-: wrong algorithm}
+
+uint8 plan\-\_\-found \section*{error\-\_\-message \-: error explanation}
+
+string error\-\_\-message \section*{path \-: vector of Pose\-Stamped objects}
+
+\section*{if plan\-\_\-found is true, this is an array of waypoints from start to goal, where the first}
+
+\section*{one equals start and the last one equals goal}
+
+geometry\-\_\-msgs/\-Pose\-Stamped\mbox{[}\mbox{]} path ```
+
+\subsection*{$\ast$$\ast$\-Launchers$\ast$$\ast$ }
+
+\paragraph*{$\ast$\-Standard launcher$\ast$}
+
+Launches the {\bfseries path planning} node and can be launched using ```bash roslaunch rapp\-\_\-path\-\_\-planning path\-\_\-planning.\-launch ```
+
+\paragraph*{Author}
+
+\href{https://github.com/dudekw}{\tt Wojciech Dudek} 

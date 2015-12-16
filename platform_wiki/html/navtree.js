@@ -26,6 +26,7 @@ var NAVTREE =
     [ "RAPP-Knowrob-wrapper", "md_rapp-platform_8wiki_RAPP-Knowrob-wrapper.html", null ],
     [ "RAPP-Multithreading-issues", "md_rapp-platform_8wiki_RAPP-Multithreading-issues.html", null ],
     [ "RAPP-MySQL-wrapper", "md_rapp-platform_8wiki_RAPP-MySQL-wrapper.html", null ],
+    [ "RAPP-Path-planner", "md_rapp-platform_8wiki_RAPP-Path-planner.html", null ],
     [ "(metapackage) RAPP-Platform-(metapackage)", "md_rapp-platform_8wiki_RAPP-Platform-.html", null ],
     [ "RAPP-Platform-Launchers", "md_rapp-platform_8wiki_RAPP-Platform-Launchers.html", null ],
     [ "RAPP-Platform-ROS-Communications", "md_rapp-platform_8wiki_RAPP-Platform-ROS-Communications.html", null ],

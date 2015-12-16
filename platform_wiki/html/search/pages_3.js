@@ -9,6 +9,7 @@ var searchData=
   ['rapp_2dknowrob_2dwrapper',['RAPP-Knowrob-wrapper',['../md_rapp-platform_8wiki_RAPP-Knowrob-wrapper.html',1,'']]],
   ['rapp_2dmultithreading_2dissues',['RAPP-Multithreading-issues',['../md_rapp-platform_8wiki_RAPP-Multithreading-issues.html',1,'']]],
   ['rapp_2dmysql_2dwrapper',['RAPP-MySQL-wrapper',['../md_rapp-platform_8wiki_RAPP-MySQL-wrapper.html',1,'']]],
+  ['rapp_2dpath_2dplanner',['RAPP-Path-planner',['../md_rapp-platform_8wiki_RAPP-Path-planner.html',1,'']]],
   ['rapp_2dplatform_2dlaunchers',['RAPP-Platform-Launchers',['../md_rapp-platform_8wiki_RAPP-Platform-Launchers.html',1,'']]],
   ['rapp_2dplatform_2dros_2dcommunications',['RAPP-Platform-ROS-Communications',['../md_rapp-platform_8wiki_RAPP-Platform-ROS-Communications.html',1,'']]],
   ['rapp_2dqr_2ddetection',['RAPP-QR-Detection',['../md_rapp-platform_8wiki_RAPP-QR-Detection.html',1,'']]],
