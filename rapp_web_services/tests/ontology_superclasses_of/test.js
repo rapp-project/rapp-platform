@@ -20,12 +20,29 @@
 
 var path = require('path');
 
-exports.ONTOLOGY_SUBCLASSES = require( path.join(__dirname,
-    'ontology_subclasses_of', 'test.js') ).TEST;
+var testParams = require( path.join(__dirname, 'params.json') );
 
+exports.TEST = function (){
+  import service ontology_superclasses_of();
 
-exports.ONTOLOGY_SUPERCLASSES = require( path.join(__dirname,
-    'ontology_superclasses_of', 'test.js') ).TEST;
+  var args = {
+    query: testParams.request.args.query
+  };
+  var success = true;
+  var response = ontology_superclasses_of(args).postSync();
+  //console.log(response);
 
-exports.ONTOLOGY_IS_SUBSUPERCLASS = require( path.join(__dirname,
-    'ontology_superclasses_of', 'test.js') ).TEST;
+  var valid_results = testParams.response.results;
+
+  for(var i in response.results){
+    if( valid_results.indexOf(response.results[i]) > -1 ) {
+      continue;
+    }
+    else{
+      success = false;
+      break;
+    }
+  }
+  return {success: success, output: response, input: args};
+};
+

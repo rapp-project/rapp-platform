@@ -23,13 +23,15 @@ var path = require('path');
 var testParams = require( path.join(__dirname, 'params.json') );
 
 exports.TEST = function (){
-  import service ontology_subclasses_of();
+  import service ontology_is_subsuperclass_of();
 
   var args = {
-    query: testParams.request.args.query
+    parent_class: testParams.request.args.parent_class,
+    child_class: testParams.request.args.child_class,
+    recursive: testParams.request.args.recursive,
   };
   var success = true;
-  var response = ontology_subclasses_of(args).postSync();
+  var response = ontology_is_subsuperclass_of(args).postSync();
   //console.log(response);
 
   var valid_results = testParams.response.results;

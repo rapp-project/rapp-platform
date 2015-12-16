@@ -147,9 +147,9 @@ service exec_test(srvName)
 
 
 var srvMap = {
-  'ontology_subclasses_of': TESTS.ONTOLOGY_SUBCLASSES_OVEN
-  //'ontology_superclasses_of': test_ontology_superclassesOf,
-  //'ontology_is_subsuperclass_of': test_ontology_is_subsuperclassOf,
+  'ontology_subclasses_of': TESTS.ONTOLOGY_SUBCLASSES,
+  'ontology_superclasses_of': TESTS.ONTOLOGY_SUPERCLASSES,
+  'ontology_is_subsuperclass_of': TESTS.ONTOLOGY_IS_SUBSUPERCLASS
   //'set_noise_profile': test_denoise_profile,
   //'speech_detection_sphinx4': test_sphinx4,
   //'speech_detection_google': test_speech_detection_google,
@@ -158,7 +158,7 @@ var srvMap = {
   //'text_to_speech': test_tts,
   //'record_cognitive_test_performance': test_record_cognitive_performance,
   //'cognitive_test_chooser': test_cognitive_test_chooser
-}
+};
 
 
 
@@ -167,59 +167,6 @@ var srvMap = {
  *****************************************************************************
  */
 
-
-
-function test_ontology_superclassesOf(){
-  import service ontology_superclasses_of();
-  var args = {
-    query: 'Oven'
-  }
-  var response = ontology_superclasses_of(args).postSync();
-  var success = true;
-  var valid_results = [
-    'http://knowrob.org/kb/knowrob.owl#Box-Container',
-    'http://knowrob.org/kb/knowrob.owl#FurniturePiece',
-    'http://knowrob.org/kb/knowrob.owl#HeatingDevice',
-    'http://knowrob.org/kb/knowrob.owl#HouseholdAppliance'
-  ]
-
-  for(i in response.results){
-    if( valid_results.indexOf(response.results[i]) > -1 ) {
-      continue;
-    }
-    else{
-      success = false;
-      break;
-    }
-  }
-  return {success: success, output: response.results, input: args};
-}
-
-
-function test_ontology_is_subsuperclassOf(){
-  var success = true;
-  var results = undefined;
-  var s = 'ontology_is_subsuperclass_of';
-  var args = {
-    'parent_class': 'SpatialThing',
-    'child_class': 'Oven',
-    'recursive': true
-  }
-  var validResult = true;
-  var response = undefined;
-  var webService = hop.webService(service_url(s));
-  var srv = webService(args);
-  try{
-    response = srv.postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response}
-  return {success: success, output: results, input: args};
-}
 
 function test_denoise_profile(){
   var success = true;

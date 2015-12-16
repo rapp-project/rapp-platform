@@ -1,6 +1,8 @@
 {
   "request": {
-    "query": "Oven"
+    "args": {
+      "query": "Oven"
+    }
   },
   "response": {
     "results": [

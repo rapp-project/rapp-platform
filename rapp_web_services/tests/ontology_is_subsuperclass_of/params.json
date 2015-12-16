@@ -1,0 +1,20 @@
+{
+  "request": {
+    "args": {
+      "parent_class": "SpatialThing",
+      "child_class": "Oven",
+      "recursive": true
+    }
+  },
+  "response": {
+    "results": [
+      "http://knowrob.org/kb/knowrob.owl#Box-Container",
+      "http://knowrob.org/kb/knowrob.owl#FurniturePiece",
+      "http://knowrob.org/kb/knowrob.owl#HeatingDevice",
+      "http://knowrob.org/kb/knowrob.owl#HouseholdAppliance"
+    ],
+    "error": "",
+    "trace": "",
+    "success": true
+  }
+}
