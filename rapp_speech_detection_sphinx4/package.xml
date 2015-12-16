@@ -16,6 +16,7 @@
   <depend>roslib</depend>
   <depend>std_msgs</depend>
   <depend>rapp_platform_ros_communications</depend>
+  <depend>rapp_utilities</depend>
   <export>
   </export>
 </package>
