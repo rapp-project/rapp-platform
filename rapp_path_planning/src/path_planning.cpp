@@ -35,17 +35,17 @@ bool exists_file (const std::string& name) {
 
 bool  start_tf_publisher(){
     pid_t tf_broadcaster_pID = fork();
-               if (tf_broadcaster_pID == 0)                // child
+               if (tf_broadcaster_pID == 0)               
                {
               ROS_DEBUG("starting tf_broadcaster_pID");
               
               execl("/opt/ros/indigo/bin/rosrun","/opt/ros/indigo/bin/rosrun","tf", "static_transform_publisher", "0.066", "1.7", "0.54", "0.49999984", "0.49960184", "0.49999984","0.50039816","map","base_link","100", (char *)0);
                 }
-                else if (tf_broadcaster_pID < 0)            // failed to fork
+                else if (tf_broadcaster_pID < 0)          
                 {
                     std::cout << "Failed to fork tf_broadcaster_pID" << std::endl;
                     exit(1);
-                    // Throw exception
+                    
                 }
                 else{
                   return true;
@@ -57,7 +57,7 @@ bool  start_tf_publisher(){
 bool start_map_servers(std::string node_nr_str){
 
       pid_t map_server_pID = fork();
-         if (map_server_pID == 0)                // child
+         if (map_server_pID == 0)                
          {
             ROS_DEBUG_STREAM("starting map_server node: "<< node_nr_str);
  
@@ -73,11 +73,11 @@ bool start_map_servers(std::string node_nr_str){
             const char* execute_param_3 = execute_param_3_string.c_str();
             execl("/opt/ros/indigo/bin/rosrun", "/opt/ros/indigo/bin/rosrun", "rapp_map_server", "rapp_map_server", execute_param_1, execute_param_2, execute_param_3, (char *)0);
           }
-          else if (map_server_pID < 0)            // failed to fork
+          else if (map_server_pID < 0)           
           {
               std::cout << "Failed to fork map_server node: "<<node_nr_str << std::endl;
               exit(1);
-              // Throw exception
+              
           }
           else{
 
@@ -87,7 +87,7 @@ bool start_map_servers(std::string node_nr_str){
 bool start_global_planners(std::string node_nr_str){
 
      pid_t global_planner_pID = fork();
-       if (global_planner_pID == 0)                // child
+       if (global_planner_pID == 0)                
        {
             ROS_DEBUG_STREAM("starting global_planner node: "<< node_nr_str);
 
@@ -101,11 +101,10 @@ bool start_global_planners(std::string node_nr_str){
           execl("/opt/ros/indigo/bin/rosrun","/opt/ros/indigo/bin/rosrun","global_planner", "planner", execute_param_1,  execute_param_2, (char *)0);
 
         }
-        else if (global_planner_pID < 0)            // failed to fork
+        else if (global_planner_pID < 0)           
         {
       ROS_ERROR("Failed to fork global_planner");
             exit(1);
-            // Throw exception
         }
         else{}
   
