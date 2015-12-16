@@ -48,7 +48,7 @@ class EnglishSupport(LanguageSupport):
           "/englishPack/cmudict-en-us.dict"
       self._english_dict_file = open(english_dictionary, 'r')
     except IOError:
-      rapp_print("English dictionary could not be opened!")
+      RappUtilities.rapp_print("English dictionary could not be opened!")
     # Create a mapping of the file
     self._english_dict_mapping = mmap.mmap(self._english_dict_file.fileno(), 0, \
         access = mmap.ACCESS_READ)
@@ -108,7 +108,7 @@ class EnglishSupport(LanguageSupport):
     for word in words:
       engEngDict.update( {word: word} )
 
-    rapp_print(words)
+    RappUtilities.rapp_print(words)
 
     enhanced_words = self.getWordPhonemes( words )
 

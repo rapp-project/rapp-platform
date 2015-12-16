@@ -23,11 +23,12 @@ import sys
 import subprocess
 import time
 
+from rapp_utilities import RappUtilities
+
 from greek_support import *
 from english_support import *
 from greek_english_support import *
 from sphinx4_wrapper import *
-from rapp_tools import *
 from sphinx4_configuration_params import *
 from global_parameters import GlobalParams
 
@@ -131,7 +132,7 @@ class SpeechRecognitionSphinx4():
   #
   # @param configurationName [string] The preconfiguration name
   def _createPreconfiguration(self, configurationName):
-    rapp_print( "Creating preconfiguration: " + configurationName )
+    RappUtilities.rapp_print( "Creating preconfiguration: " + configurationName )
     tempConf = SphinxConfigurationParams( configurationName )
 
     req = SpeechRecognitionSphinx4ConfigureSrvRequest()
@@ -160,23 +161,23 @@ class SpeechRecognitionSphinx4():
       resp = self._authentication_service(req_db.req_cols, req_db.where_data)
       if resp.success.data != True or len(resp.res_data) == 0:
         total_res.error = "Non authenticated user"
-        rapp_print(total_res.error, 'ERROR')
+        RappUtilities.rapp_print(total_res.error, 'ERROR')
         return total_res
 
-    rapp_print('Configuring Sphinx')
+    RappUtilities.rapp_print('Configuring Sphinx')
     conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
     conf_res = self._configureSpeechRecognition(req)
     total_res.error = conf_res.error
     if conf_res.error != '':
         total_res.error = total_res.error + '\n' + conf_res.error
-        rapp_print(total_res.error, 'ERROR')
+        RappUtilities.rapp_print(total_res.error, 'ERROR')
         return total_res
 
-    rapp_print('Performing recognition')
+    RappUtilities.rapp_print('Performing recognition')
     spee_res = self._speechRecognition(req)
     total_res.words = spee_res.words
     total_res.error = spee_res.error
-    rapp_print(total_res.words)
+    RappUtilities.rapp_print(total_res.words)
     return total_res
 
   ## Performs Sphinx4 speech recognition
@@ -186,7 +187,7 @@ class SpeechRecognitionSphinx4():
   def _speechRecognition(self, req):
     res = SpeechRecognitionSphinx4SrvResponse()
     words = self._sphinx4.performSpeechRecognition(req.path, req.audio_source, req.user)
-    rapp_print (words)
+    RappUtilities.rapp_print (words)
     # Error handling - Must be implemented with exceptions
     if len(words) == 1 and "Error:" in words[0]:
       res.error = words[0]
@@ -194,7 +195,7 @@ class SpeechRecognitionSphinx4():
       return res
 
     for word in words:
-      rapp_print ("Word: #" + word + "#")
+      RappUtilities.rapp_print ("Word: #" + word + "#")
       if word == "" or word == '<unk>':
         continue
       res.words.append(self._word_mapping[word].replace("'", " "))
@@ -208,10 +209,10 @@ class SpeechRecognitionSphinx4():
   # @return support [language_support::LanguageSupport] A child class of the LanguageSupport depending on the requested language
   def _selectLanguageSupport(self,  req):
     if self._configuration_params._language == 'en':
-      rapp_print ("Language set to English")
+      RappUtilities.rapp_print ("Language set to English")
       return self._english_support
     elif self._configuration_params._language == 'el':
-      rapp_print ("Language set to Greek")
+      RappUtilities.rapp_print ("Language set to Greek")
       return self._greek_support
     else:
       raise RappError("Wrong Language")
@@ -231,9 +232,9 @@ class SpeechRecognitionSphinx4():
     self._configuration_params.makeEqualToRequest(req)
 
     if reconfigure == False:
-      rapp_print('Skipping Configuration')
+      RappUtilities.rapp_print('Skipping Configuration')
       return res
-    rapp_print('Recognition Configuration')
+    RappUtilities.rapp_print('Recognition Configuration')
 
     try:
       support = self._selectLanguageSupport(req)
@@ -248,8 +249,8 @@ class SpeechRecognitionSphinx4():
       return res
 
     # Actual sphinx4 configuration
-    rapp_print ("Configuration: \n")
-    rapp_print (conf)
+    RappUtilities.rapp_print ("Configuration: \n")
+    RappUtilities.rapp_print (conf)
     self._sphinx4.configureSphinx(conf)
     return res
 
@@ -263,7 +264,7 @@ class SpeechRecognitionSphinx4():
   def _createSupportConfiguration(self, support, res):
     # Whole dictionary utilization
     if len(self._configuration_params._words) == 0:
-      rapp_print ("Generic model used")
+      RappUtilities.rapp_print ("Generic model used")
       # success is either True (bool) or error (string)
       try:
         conf = support.getGenericConfiguration()
@@ -271,7 +272,7 @@ class SpeechRecognitionSphinx4():
         raise RappError( e.value )
     # Limited dictionary utilization
     else:
-      rapp_print ("Limited model used")
+      RappUtilities.rapp_print ("Limited model used")
       # success is either True (bool) or error (string)
       try:
         [conf, mapping] = support.getLimitedVocebularyConfiguration(\
@@ -284,7 +285,7 @@ class SpeechRecognitionSphinx4():
       self._word_mapping = {}
       for ew in mapping:
         self._word_mapping[ew] = mapping[ew]
-      rapp_print (self._word_mapping)
+      RappUtilities.rapp_print (self._word_mapping)
 
     return conf
 

@@ -14,8 +14,6 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-from rapp_tools import *
-
 ## @class RappError
 # Provides a RAPP specific exception
 class RappError(Exception):

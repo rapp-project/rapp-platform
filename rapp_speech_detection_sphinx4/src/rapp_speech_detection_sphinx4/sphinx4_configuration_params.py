@@ -22,7 +22,8 @@ import yaml
 import hashlib
 
 from global_parameters import GlobalParams
-from rapp_tools import *
+
+from rapp_utilities import RappUtilities
 
 ## @class SphinxConfigurationParams
 # @brief Contains the parameters required for the Sphinx configuration
@@ -70,12 +71,12 @@ class SphinxConfigurationParams():
   #
   # @param confName [string] The name of the requested configuration
   def _readConfigurationYaml(self, confName):
-    rapp_print( "Reading preconfiguration: " + confName )
+    RappUtilities.rapp_print( "Reading preconfiguration: " + confName )
     yamlStream = open( self._globalParams._sphinx_preconf, 'r' )
     yamlFile = yaml.load(yamlStream)
     if confName not in yamlFile['configurations']:
-      rapp_print('Wrong configuration name provided. Leaving default values', \
-          'ERROR')
+      RappUtilities.rapp_print('Wrong configuration name provided. Leaving ' + \
+          'default values', 'ERROR')
       return
 
     tempConf = SphinxConfigurationParams()
@@ -85,8 +86,8 @@ class SphinxConfigurationParams():
     if yamlLang != None:
       tempConf._language = yamlLang.encode('utf-8')
     else:
-      rapp_print('Configuration language not provided. Leaving default values',\
-          'ERROR')
+      RappUtilities.rapp_print('Configuration language not provided. ' + \
+          'Leaving default values', 'ERROR')
       return
 
     # Read configuration words
@@ -94,8 +95,8 @@ class SphinxConfigurationParams():
     if yamlWords != None:
       tempConf._words = [word.encode('utf-8') for word in yamlWords]
     else:
-      rapp_print('Configuration words not provided. Leaving default values',\
-          'ERROR')
+      RappUtilities.rapp_print('Configuration words not provided. ' + \
+          'Leaving default values', 'ERROR')
       return
 
     # Read configuration sentences
@@ -103,8 +104,8 @@ class SphinxConfigurationParams():
     if yamlSent != None:
       tempConf._sentences = [sentence.encode('utf-8') for sentence in yamlSent]
     else:
-      rapp_print('Configuration sentences not provided. Leaving default values',\
-          'ERROR')
+      RappUtilities.rapp_print('Configuration sentences not provided. ' + \
+          'Leaving default values', 'ERROR')
       return
 
     # Read configuration grammar
@@ -117,12 +118,12 @@ class SphinxConfigurationParams():
     # Copy temporary values to self
     self.makeEqualToInstance( tempConf )
 
-    rapp_print( 'Language: ' + str(self._language) )
-    rapp_print( 'Words: ' + str(self._words) )
+    RappUtilities.rapp_print( 'Language: ' + str(self._language) )
+    RappUtilities.rapp_print( 'Words: ' + str(self._words) )
     for word in self._words:
-      rapp_print( 'word: ' + str(word) )
-    rapp_print( 'Grammar: ' + str(self._grammar))
-    rapp_print( 'Sentences: ' + str(self._sentences) )
+      RappUtilities.rapp_print( 'word: ' + str(word) )
+    RappUtilities.rapp_print( 'Grammar: ' + str(self._grammar))
+    RappUtilities.rapp_print( 'Sentences: ' + str(self._sentences) )
 
 
 

@@ -67,26 +67,26 @@ class GreekEnglishSupport(EnglishSupport, GreekSupport):
 
     for word in words:
       if re.match('[a-zA-Z\-]', word):
-        rapp_print( "English word: " + str(word) )
+        RappUtilities.rapp_print( "English word: " + str(word) )
         english_words.append( word )
       else:
-        rapp_print( "Greek word: " + str(word) )
+        RappUtilities.rapp_print( "Greek word: " + str(word) )
         greek_words.append( word )
 
     for word in grammar:
       if re.match('[a-zA-Z\-]', word):
-        rapp_print( "English grammar: " + str(word) )
+        RappUtilities.rapp_print( "English grammar: " + str(word) )
         english_grammar.append( word )
       else:
-        rapp_print( "Greek grammar: " + str(word) )
+        RappUtilities.rapp_print( "Greek grammar: " + str(word) )
         greek_grammar.append( word )
 
     for word in sentences:
       if re.match('[a-zA-Z\-]', word):
-        rapp_print( "English sentence: " + str(word) )
+        RappUtilities.rapp_print( "English sentence: " + str(word) )
         english_sentences.append( word )
       else:
-        rapp_print( "Greek sentence: " + str(word) )
+        RappUtilities.rapp_print( "Greek sentence: " + str(word) )
         greek_sentences.append( word )
 
     return [ english_words, english_grammar, english_sentences, greek_words, \

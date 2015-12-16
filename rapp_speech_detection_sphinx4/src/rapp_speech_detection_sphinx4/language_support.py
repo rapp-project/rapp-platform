@@ -24,7 +24,8 @@ import sys
 from global_parameters import GlobalParams
 from rapp_exceptions import RappError
 from limited_vocabulary_creator import *
-from rapp_tools import *
+
+from rapp_utilities import RappUtilities
 
 ## @class LanguageSupport
 # @brief Allows the creation of configuration files for Sphinx speech recognition
