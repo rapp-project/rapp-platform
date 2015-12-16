@@ -38,7 +38,7 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - catkin_make test -j1
   # Run integration tests
   - echo "Initiating integration tests"
-  - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh
+  - bash $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh &
   - screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_web_services.sh
   - sleep 20
   - echo "Executing normal integration tests"
