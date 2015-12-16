@@ -23,7 +23,7 @@
 /***
  * @fileOverview
  *
- * [Ontology-superclasses-of] RAPP Platform front-end web service.
+ * [Cognitive-get-scores] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
