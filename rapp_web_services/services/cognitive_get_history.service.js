@@ -350,7 +350,7 @@ function craft_response(rosbridge_msg)
   var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
   
-  var records = rosbridge_msg.records; 
+  var ros_records = rosbridge_msg.records; 
   
   var logMsg = 'Returning to client';
   
@@ -365,11 +365,11 @@ function craft_response(rosbridge_msg)
   };
   
   var response = {
-    CognitiveExercisePerformanceRecordsMsg: [],
+    records: [],
     error: error
   };
 
-  response.CognitiveExercisePerformanceRecordsMsg = records;
+  response.records = ros_records;
 
   /***
    * Report to logger the error message if an error has been occured
@@ -411,18 +411,9 @@ function craft_error_response()
    *
    * 
    */
-  var CognitiveExercisePerformanceRecordsMsg = {
-    timestamp: 0,
-    test: "",
-    type: "",
-    subtype: "",
-    difficulty: "",
-    score: 0,
-    meanScoreForTypeUpToNow: 0
-  };  
+
   var response = {
-    CognitiveExercisePerformanceRecordsMsg: [],
-    error: errorMsg
+        error: errorMsg
   };
 
 

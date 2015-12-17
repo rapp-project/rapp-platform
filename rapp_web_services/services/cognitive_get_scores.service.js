@@ -405,7 +405,6 @@ function craft_error_response()
     error: errorMsg
   };
   var response = {
-    testCategories: [], testScores: [],
     error: errorMsg
   };
 
