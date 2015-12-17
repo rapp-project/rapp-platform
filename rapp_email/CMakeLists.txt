@@ -20,3 +20,8 @@ include_directories(
 )
 
 catkin_python_setup()
+
+
+if (CATKIN_ENABLE_TESTING)
+  catkin_add_nosetests(tests/unit/email_receiver_unit_tests.py)
+endif()

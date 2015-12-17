@@ -51,14 +51,6 @@ class EmailReceiver(object):
 
   ## The callback to receive specified mails from users email account
   #
-  # @rapam req [rapp_platform_ros_communications::Email::SendEmailSrvRequest] The send email request
-  #
-  # @rapam res [rapp_platform_ros_communications::Email::SendEmailSrvResponse] The send email response
-  def sendEmailSrvCallback(self, req):
-    pass
-
-  ## The callback to receive specified mails from users email account
-  #
   # @rapam req [rapp_platform_ros_communications::Email::ReceiveEmailSrvRequest] The receive email request
   #
   # @rapam res [rapp_platform_ros_communications::Email::ReceiveEmailSrvResponse] The receive email response

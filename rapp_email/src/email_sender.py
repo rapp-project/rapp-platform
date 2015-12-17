@@ -21,4 +21,14 @@
 class EmailSender(object):
 
   def __init__(self):
+    sendSrvTopic = rospy.get_param("rapp_email_send_topic")
+    sendSrv = rospy.Service(sendSrvTopic, sendEmailSrv, \
+                      self.sendEmailSrvCallback)
+
+  ## The callback to send specified mails from users email account
+  #
+  # @rapam req [rapp_platform_ros_communications::Email::SendEmailSrvRequest] The send email request
+  #
+  # @rapam res [rapp_platform_ros_communications::Email::SendEmailSrvResponse] The send email response
+  def sendEmailSrvCallback(self, req):
     pass
