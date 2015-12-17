@@ -1,5 +1,7 @@
-# Rapp User
-string username
+string email
+string password
+string server
+string port
 
 # Define which mails the users requests.
 # Values: ALL, UNSEEN(DEFAULT)

@@ -43,10 +43,19 @@ from rapp_platform_ros_communications.msg import (
 # @brief Fetches emails from users email account
 class EmailReceiver(object):
 
+  ## Constructor
   def __init__(self):
-    sendSrvTopic = rospy.get_param("rapp_email_send_topic")
-    s = rospy.Service(sendSrvTopic, ReceiveEmailSrv, \
+    receiveSrvTopic = rospy.get_param("rapp_email_receive_topic")
+    receiveSrv = rospy.Service(receiveSrvTopic, ReceiveEmailSrv, \
                       self.receiveEmailSrvCallback)
+
+  ## The callback to receive specified mails from users email account
+  #
+  # @rapam req [rapp_platform_ros_communications::Email::SendEmailSrvRequest] The send email request
+  #
+  # @rapam res [rapp_platform_ros_communications::Email::SendEmailSrvResponse] The send email response
+  def sendEmailSrvCallback(self, req):
+    pass
 
   ## The callback to receive specified mails from users email account
   #
@@ -58,10 +67,8 @@ class EmailReceiver(object):
     resp = ReceiveEmailSrvResponse()
     resp.emails = []
 
-    userEmail, emailPass = self._getEmailAndPass(req.username)
-
     try:
-      imapConn = self._connectImap(userEmail, emailPass)
+      imapConn = self._connectImap(req.email, req.password, req.server, req.port)
     except imaplib.IMAP4.error, err:
       resp.status = -1
       return resp
@@ -230,14 +237,6 @@ class EmailReceiver(object):
 
     msgIds = msgIds[0].split()
 
-  ## @brief Fetches user's email and email's password from db
-  #
-  # @param username [string] The rapp user username
-  #
-  # @return email    [string] The user's email
-  # @return password [string] The user's password
-  def _getEmailAndPass(self, username):
-
 
   ## @brief Create an IMAP connection to the server.
   #
@@ -246,13 +245,14 @@ class EmailReceiver(object):
   #
   # @param email    [string] The user's email
   # @param password [string] The user's password
+  # @param server   [string] The email server
+  # @param port     [string] The email server's port
   #
   # @return imap [imaplib::IMAP4_SSL] The connection
-  def _connectImap(self, email, password):
+  def _connectImap(self, email, password, server, port):
 
-    imapServer = 'imap.' + email.split('@')[2]
     try:
-      imap = imaplib.IMAP4_SSL( imapServer )
+      imap = imaplib.IMAP4_SSL( server, port )
     except imaplib.IMAP4.error, err:
       RappUtilities.rapp_print( \
           "Could not establish a connection to the requested IMAP server: " + \
@@ -261,7 +261,7 @@ class EmailReceiver(object):
       raise
 
     try:
-      imap = imaplib.IMAP4_SSL( imapServer )
+      imap.login( email, password )
     except imaplib.IMAP4.error, err:
       RappUtilities.rapp_print( \
           "Could not login to the requested IMAP server: " + \
