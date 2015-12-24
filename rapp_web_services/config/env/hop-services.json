@@ -85,7 +85,8 @@
   },
   "available_services": {
     "Mode": "Deploy",
-    "scan_time": 2
+    "scan_time": 2,
+    "initial_scan_wait": 15000
   }
 
 }

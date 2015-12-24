@@ -45,6 +45,7 @@ var __availableServices = [];
 
 /* -- Set timer values for websocket communication to rosbridge -- */
 var scanTimer = ENV.SERVICES[__hopServiceName].scan_time * 60 * 1000;  // Minutes
+var initScanWait = ENV.SERVICES[__hopServiceName].initial_scan_wait;
 /* --------------------------------------------------------------- */
 
 var colors = {
@@ -64,7 +65,8 @@ register_master_interface();
  *  Scan services for up-and-running available services.
  *  Scan timer value is used triggers this function invocation.
  */
-(function scanServices(){
+setTimeout(
+function scanServices(){
   __availableServices.length = 0;
 
   var msg = colors.yellow +
@@ -113,7 +115,7 @@ register_master_interface();
   setTimeout(function(){
     scanServices();
   }, scanTimer);
-})();
+}, initScanWait);
 
 
 
