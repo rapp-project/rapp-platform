@@ -256,8 +256,8 @@ class EmailReceiver(object):
   def _connectImap(self, email, password, server, port):
 
     try:
+      socket.setdefaulttimeout(5)
       if port is not None and port != '':
-        socket.setdefaulttimeout(5)
         imap = imaplib.IMAP4_SSL( server, port )
       else:
         imap = imaplib.IMAP4_SSL( server )

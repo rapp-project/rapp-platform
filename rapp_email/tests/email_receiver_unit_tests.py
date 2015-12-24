@@ -14,8 +14,10 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
+# Authors: Aris Thallas
+# contact: aris.thallas@{iti.gr, gmail.com}
+
 import os
-import sys
 import unittest
 import getpass
 import time

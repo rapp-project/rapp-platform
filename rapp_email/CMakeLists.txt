@@ -24,4 +24,5 @@ catkin_python_setup()
 
 if (CATKIN_ENABLE_TESTING)
   add_rostest(tests/email_receiver_unit_tests.launch)
+  add_rostest(tests/email_sender_unit_tests.launch)
 endif()

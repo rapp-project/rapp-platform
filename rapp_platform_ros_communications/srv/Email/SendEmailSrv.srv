@@ -1,7 +1,18 @@
 # Request
+string userEmail
+string password
+# The email server's smtp address, i.e. 'imap.gmail.com'
+string server
+# The email server smtp port
+string port
 
 # Email addresses of the recipients
-string[] emails
+string[] recipients
+
+# The email body
+string body
+# The email subject
+string subject
 
 # File names of the attachments
 string[] files

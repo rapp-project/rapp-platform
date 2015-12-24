@@ -1,0 +1,6 @@
+<launch>
+  <node name="send_email_unit_test" pkg="rapp_email" type="email_node.py" output="screen"/>
+  <rosparam file="$(find rapp_email)/cfg/email_params.yaml" command="load" />
+
+  <test time-limit="100" test-name="test_email_sender" pkg="rapp_email" type="email_sender_unit_tests.py"/>
+</launch>
