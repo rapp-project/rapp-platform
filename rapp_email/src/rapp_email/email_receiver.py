@@ -207,6 +207,8 @@ class EmailReceiver(object):
   # @rapam req [rapp_platform_ros_communications::Email::ReceiveEmailSrvRequest] The receive email request
   #
   # @return emails [list<int>] The UIDs of the selected emails
+  #
+  # @except imaplib.IMAP4.error General imaplib error
   def _selectEmails(self, req, imap):
     if req.requestedEmailStatus == 'ALL':
       requestedEmailStatus = 'ALL'
@@ -253,6 +255,9 @@ class EmailReceiver(object):
   # @param port     [string] The email server's port
   #
   # @return imap [imaplib::IMAP4_SSL] The connection
+
+  # @except imaplib.IMAP4.error General imaplib error
+  # @exception socket.error Socket class exception (connection problem)
   def _connectImap(self, email, password, server, port):
 
     try:
@@ -282,7 +287,6 @@ class EmailReceiver(object):
 
 
 if __name__ == '__main__':
-    rospy.logerr('Implements server for EmailReceiverSrv. Not supposed to' + \
-        ' be called directly')
-    exit(-1)
-
+  print('Implements server for EmailReceiverSrv. Not supposed to' + \
+      ' be called directly')
+  exit(-1)

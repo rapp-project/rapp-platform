@@ -66,7 +66,7 @@ class EmailSender(object):
 
     for attachment in req.files:
       try:
-        attach = self._handleAttachments( attachment )
+        attach = self._handleAttachment( attachment )
       except EnvironmentError, err:
         RappUtilities.rapp_print("Failed to handle attachment: " + attachment, \
             'ERROR')
@@ -87,6 +87,16 @@ class EmailSender(object):
     return resp
 
 
+  ## Connect to the requested SMTP server and send email
+  #
+  # @param userEmail    [string]        The sender's email
+  # @param userPassword [string]        The sender's password
+  # @param recipients   [list<string>]  The recipients' emails
+  # @param server       [string]        The SMTP server's address
+  # @param port         [string]        The SMTP server's port
+  #
+  # @exception smtplib.SMTPException Base SMTP exception class
+  # @exception socket.error Socket class exception (connection problem)
   def _connectAndSend(self, userEmail, userPassword, recipients, server, port, msg):
     RappUtilities.rapp_print( "Connecting to the requested SMTP server: " + \
         server + ' port: ' + port)
@@ -116,6 +126,14 @@ class EmailSender(object):
     finally:
       smtpServer.quit()
 
+  ## Creates the emails main body
+  #
+  # @param recipients [list<string>] The recipients' emails
+  # @param userEmail  [string]       The sender's email
+  # @param subject    [string]       The email's subject
+  # @param body       [string]       The email's body text
+  #
+  # @return msg [MimeMultipart] The email's main body to be sent via SMTP
   def _createEmailBody( self, recipients, userEmail, body, subject ):
 
     if subject == '' or subject is None:
@@ -129,7 +147,15 @@ class EmailSender(object):
     msg.attach( MIMEText(body) )
     return msg
 
-  def _handleAttachments( self, filename ):
+  ## Add attachment to the email
+  #
+  # @param filename [string] The absolute path of the requested file
+  #
+  # @return attachment [mimeobject] The attachment format of the file to be appended to the email
+  #
+  # @exception IOError General IO error
+  # @exception EnvironmentError General IO error
+  def _handleAttachment( self, filename ):
     #TODO: sanitize paths
 
     if not os.path.isfile( filename ):
@@ -162,6 +188,6 @@ class EmailSender(object):
     return attachment
 
 if __name__ == '__main__':
-  rospy.logerr('Implements server for EmailSendSrv. Not supposed to' + \
+  print('Implements server for EmailSendSrv. Not supposed to' + \
       ' be called directly')
   exit(-1)
