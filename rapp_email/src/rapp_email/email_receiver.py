@@ -19,8 +19,9 @@
 # contact: aris.thallas@{iti.gr, gmail.com}
 
 import os
-import time
+import datetime
 import tempfile
+import shutil
 import atexit
 import imaplib
 import email
@@ -40,7 +41,7 @@ from rapp_platform_ros_communications.msg import (
 
 
 ## @class EmailReceiver
-# @brief Fetches emails from users email account
+# @brief Fetches emails from user's email account
 class EmailReceiver(object):
 
   ## Constructor
@@ -59,12 +60,14 @@ class EmailReceiver(object):
     resp = ReceiveEmailSrvResponse()
     resp.emails = []
 
+    RappUtilities.rapp_print('Request:\n' + str(req), 'DEBUG')
     try:
       imapConn = self._connectImap(req.email, req.password, req.server, req.port)
     except imaplib.IMAP4.error, err:
       resp.status = -1
       return resp
 
+    # Select inbox
     status, mailNum = imapConn.select()
     if status.lower() != 'OK'.lower():
       RappUtilities.rapp_print("Requested mail folder not found", 'ERROR')
@@ -73,6 +76,8 @@ class EmailReceiver(object):
 
     try:
       emailUIDs = self._selectEmails(req, imapConn)
+      RappUtilities.rapp_print('# of email selected to fetch: ' + \
+          str(len(emailUIDs)), 'DEBUG')
     except imaplib.IMAP4.error, err:
       resp.status = -1
       return resp
@@ -83,12 +88,12 @@ class EmailReceiver(object):
         return resp
 
     # Fetch the last N requested
-    if len(emailUIDs) > req.numberOfEmails:
-      emailUIDs = emailUIDs[ len(emailUIDs) - numberOfEmails : ]
+    if req.numberOfEmails != 0 and len(emailUIDs) > req.numberOfEmails:
+      emailUIDs = emailUIDs[ len(emailUIDs) - req.numberOfEmails : ]
 
-    emailPath = self._initializePath(req.username)
+    emailPath = self._initializePath(req.email)
 
-    emainCounter = 1
+    emailCounter = 1
     for emailID in emailUIDs:
       emailData = self._fetchEmail(imapConn, emailID, emailPath, emailCounter)
       resp.emails.append(emailData)
@@ -111,14 +116,15 @@ class EmailReceiver(object):
     mail = email.message_from_string( data[0][1] )
 
     # Create temporary directory for the email
-    emailPath = tempfile.mkdtemp( prefix = emailCounter + '_', \
+    emailPath = tempfile.mkdtemp( prefix = str(emailCounter) + '_', \
         dir = receivePath)
 
     # Create temporary file for the email's body
     bodyFD, bodyFilePath = tempfile.mkstemp( prefix='body_', \
         dir = emailPath )
     # Compose email's header
-    bodyFD.write( 'From: ' + str(mail['From']) + '\n' + \
+    os.write( bodyFD, \
+      'From: ' + str(mail['From']) + '\n' + \
       'To: ' + str(mail['To']) + '\n' + \
       'CC: ' + str(mail['cc']) + '\n' + \
       'Subject: ' + str(mail['Subject']) + '\n' \
@@ -145,8 +151,8 @@ class EmailReceiver(object):
         # Get body text and discard text attachments
         if part.get('Content-Disposition') is None and \
             part.get_content_type() != 'text/html':
-          bodyFD.write( part.get_payload( decode = True ) )
-          bodyFD.write( '\n' )
+          os.write(bodyFD, part.get_payload( decode = True ) )
+          os.write(bodyFD, '\n' )
           continue
 
       if part.get('Content-Disposition') is None:
@@ -162,22 +168,20 @@ class EmailReceiver(object):
       attachmentFD, attachmentPath = tempfile.mkstemp( prefix=filename + "_", \
           dir = emailPath )
 
-      attachmentFD.write( part.get_payload( decode = True ) )
-      attachmentFD.close()
+      os.write(attachmentFD, part.get_payload( decode = True ) )
+      os.close(attachmentFD)
       mailMsg.attachmentPaths.append( attachmentPath )
 
-    bodyFD.close()
+    os.close(bodyFD)
     return mailMsg
-
-
 
 
   ## Create a temporary path for the user emails
   #
   # The path will be placed in ~/rapp_platform_files/emails/{username}{random_string}
   #
-  # @param username [string] The rapp user's username
-  def _initializePath(self, username):
+  # @param email [string] The rapp user's email
+  def _initializePath(self, email):
     basePath = os.path.join( os.environ['HOME'], 'rapp_platform_files', 'emails' )
 
     if not os.path.exists( basePath ):
@@ -185,13 +189,16 @@ class EmailReceiver(object):
           'Path: ' + basePath)
       os.makedirs( basePath )
 
+    username = email.split('@')[0]
     ## The temporary directory containing the configurations
-    finalPath = tempfile.mkdtemp( prefix=username, dir = basePath)
+    finalPath = tempfile.mkdtemp( prefix=username + '_', dir = basePath)
 
     RappUtilities.rapp_print('Email receiver path: ' + finalPath, 'DEBUG')
 
     # Delete temp file at termination
+    # TODO: Check whether files are preserved long enough for the agent to collect
     atexit.register(shutil.rmtree, finalPath)
+    return finalPath
 
 
   ## @brief Fetch the emails that match the requests criteria
@@ -211,23 +218,27 @@ class EmailReceiver(object):
             'Falling back to default value: "UNSEEN"', 'WARN')
 
     fromDate = toDate = ''
-    if req.fromDate != '':
-      fromDate = ' SINCE "' + req.fromDate + '"'
-    if req.toDate != '':
-      toDate = ' BEFORE "' + req.toDate + '"'
+    if req.fromDate != 0:
+      dateString = datetime.datetime.fromtimestamp(req.fromDate).strftime( \
+          '%d-%b-%Y' )
+      fromDate = ' SINCE "' + dateString + '"'
+    if req.toDate != 0:
+      dateString = datetime.datetime.fromtimestamp(req.fromDate).strftime( \
+          '%d-%b-%Y' )
+      toDate = ' BEFORE "' + dateString + '"'
 
     searchQuery = '(' + requestedEmailStatus + fromDate + toDate + ')'
-    RappUtilities.rapp_print(searchQuery)
+    RappUtilities.rapp_print(searchQuery, 'DEBUG')
 
     try:
       searchStatus, msgIds = imap.uid( 'search', None, searchQuery )
-    except imaplib.error, err:
+    except imaplib.IMAP4.error, err:
       RappUtilities.rapp_print("Could not perform IMPA search. Query: " + \
           searchQuery, 'ERROR')
       RappUtilities.rapp_print( err, 'ERROR')
       raise
 
-    msgIds = msgIds[0].split()
+    return msgIds[0].split()
 
 
   ## @brief Create an IMAP connection to the server.
@@ -244,13 +255,16 @@ class EmailReceiver(object):
   def _connectImap(self, email, password, server, port):
 
     try:
-      imap = imaplib.IMAP4_SSL( server, port )
+      if port is not None and port != '':
+        imap = imaplib.IMAP4_SSL( server, port )
+      else:
+        imap = imaplib.IMAP4_SSL( server )
     except imaplib.IMAP4.error, err:
       RappUtilities.rapp_print( \
           "Could not establish a connection to the requested IMAP server: " + \
           imapServer, 'ERROR')
       RappUtilities.rapp_print( err, 'ERROR')
-      raise
+      raise err
 
     try:
       imap.login( email, password )
@@ -259,13 +273,13 @@ class EmailReceiver(object):
           "Could not login to the requested IMAP server: " + \
           imapServer, 'ERROR')
       RappUtilities.rapp_print( err, 'ERROR')
-      raise
+      raise err
 
     return imap
-
 
 
 if __name__ == '__main__':
     rospy.logerr('Implements server for EmailReceiverSrv. Not supposed to' + \
         ' be called directly')
     exit(-1)
+

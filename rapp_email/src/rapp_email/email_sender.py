@@ -18,11 +18,18 @@
 # Authors: Aris Thallas
 # contact: aris.thallas@{iti.gr, gmail.com}
 
+import rospy
+
+from rapp_platform_ros_communications.srv import (
+  SendEmailSrv,
+  SendEmailSrvResponse
+  )
+
 class EmailSender(object):
 
   def __init__(self):
     sendSrvTopic = rospy.get_param("rapp_email_send_topic")
-    sendSrv = rospy.Service(sendSrvTopic, sendEmailSrv, \
+    sendSrv = rospy.Service(sendSrvTopic, SendEmailSrv, \
                       self.sendEmailSrvCallback)
 
   ## The callback to send specified mails from users email account

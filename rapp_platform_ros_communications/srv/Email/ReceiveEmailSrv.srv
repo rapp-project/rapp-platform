@@ -1,14 +1,16 @@
 string email
 string password
+# The email server's imap address, i.e. 'imap.gmail.com'
 string server
+# The email server imap port
 string port
 
 # Define which mails the users requests.
 # Values: ALL, UNSEEN(DEFAULT)
 string requestedEmailStatus
 
-uint16 fromDate
-uint16 toDate
+uint64 fromDate
+uint64 toDate
 uint16 numberOfEmails
 
 ---
