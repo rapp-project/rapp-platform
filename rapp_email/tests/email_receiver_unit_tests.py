@@ -17,7 +17,6 @@
 import os
 import sys
 import unittest
-import mock
 import getpass
 import time
 import random
