@@ -25,7 +25,7 @@ var jsDir = path.join('..', '..', 'js');
 var imports = require( path.join(__dirname, 'import.js') );
 var guiCommons = require( path.join(__dirname, '../common', 'guiCommons.js') );
 
-var quotes = require( path.join(__dirname, 'quotes.json') );
+var quotes = require( path.join(__dirname, 'quotes.json') ).quotes;
 
 function randomQuote(){
   var randQuote;
@@ -300,14 +300,14 @@ function serviceUrl(srvName){
 }
 
 
-exports.NAVBAR = NAVBAR();
-exports.HEADER = HEADER();
-exports.PAGE_HEADER = PAGE_HEADER();
-exports.ROS_SERVICES_FORM = ROS_SERVICES_FORM();
-exports.ROS_TOPICS_FORM = ROS_TOPICS_FORM();
-exports.ROS_NODES_FORM = ROS_NODES_FORM();
-exports.HOP_SERVICES_FORM = HOP_SERVICES_FORM();
-exports.TEST_PANEL = TEST_PANEL();
-exports.TEST_RESULTS_PANEL = TEST_RESULTS_PANEL();
-exports.FOOTER = FOOTER();
+exports.NAVBAR = NAVBAR;
+exports.HEADER = HEADER;
+exports.PAGE_HEADER = PAGE_HEADER;
+exports.ROS_SERVICES_FORM = ROS_SERVICES_FORM;
+exports.ROS_TOPICS_FORM = ROS_TOPICS_FORM;
+exports.ROS_NODES_FORM = ROS_NODES_FORM;
+exports.HOP_SERVICES_FORM = HOP_SERVICES_FORM;
+exports.TEST_PANEL = TEST_PANEL;
+exports.TEST_RESULTS_PANEL = TEST_RESULTS_PANEL;
+exports.FOOTER = FOOTER;
 

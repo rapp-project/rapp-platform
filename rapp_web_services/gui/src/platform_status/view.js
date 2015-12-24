@@ -25,14 +25,14 @@ var GUIPARTS = require( path.join(__dirname, 'guiParts.js') );
 var INDEX = function(){
  return   <HTML>{
     lang: "en",
-    GUIPARTS.HEADER,
+    GUIPARTS.HEADER(),
     <BODY>{
-      GUIPARTS.NAVBAR,
+      GUIPARTS.NAVBAR(),
       <DIV>{
         class: "container",
         <DIV>{
           class: "row-fluid",
-          GUIPARTS.PAGE_HEADER
+          GUIPARTS.PAGE_HEADER()
         }
       },
       <DIV>{
@@ -42,20 +42,20 @@ var INDEX = function(){
           <DIV>{
             class: "col-xs-2 col-sm-2 col-md-2 col-lg-2",
             style: "word-wrap:break-word;",
-            GUIPARTS.ROS_NODES_FORM,
-            GUIPARTS.ROS_SERVICES_FORM,
-            GUIPARTS.ROS_TOPICS_FORM,
-            GUIPARTS.HOP_SERVICES_FORM
+            GUIPARTS.ROS_NODES_FORM(),
+            GUIPARTS.ROS_SERVICES_FORM(),
+            GUIPARTS.ROS_TOPICS_FORM(),
+            GUIPARTS.HOP_SERVICES_FORM()
           },
           <DIV>{
             class: "col-xs-4 col-sm-4 col-md-4 col-lg-4",
             style: "word-wrap:break-word;",
-            GUIPARTS.TEST_PANEL
+            GUIPARTS.TEST_PANEL()
           },
           <DIV>{
             class: "col-xs-6 col-sm-6 col-md-6 col-lg-6",
             style: "word-wrap:break-word;",
-            GUIPARTS.TEST_RESULTS_PANEL
+            GUIPARTS.TEST_RESULTS_PANEL()
           }
         }
       },
@@ -63,11 +63,11 @@ var INDEX = function(){
         class: "container",
         <DIV>{
           class: "row-fluid",
-          GUIPARTS.FOOTER
+          GUIPARTS.FOOTER()
         }
       }
     }
   }
 }
 
-exports.INDEX =  INDEX();
+exports.INDEX =  INDEX;
