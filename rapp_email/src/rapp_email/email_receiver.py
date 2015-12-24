@@ -24,6 +24,7 @@ import tempfile
 import shutil
 import atexit
 import imaplib
+import socket
 import email
 
 import rospy
@@ -63,7 +64,7 @@ class EmailReceiver(object):
     RappUtilities.rapp_print('Request:\n' + str(req), 'DEBUG')
     try:
       imapConn = self._connectImap(req.email, req.password, req.server, req.port)
-    except imaplib.IMAP4.error, err:
+    except (imaplib.IMAP4.error, socket.error), err:
       resp.status = -1
       return resp
 
@@ -256,13 +257,14 @@ class EmailReceiver(object):
 
     try:
       if port is not None and port != '':
+        socket.setdefaulttimeout(5)
         imap = imaplib.IMAP4_SSL( server, port )
       else:
         imap = imaplib.IMAP4_SSL( server )
-    except imaplib.IMAP4.error, err:
+    except (imaplib.IMAP4.error, socket.error), err:
       RappUtilities.rapp_print( \
           "Could not establish a connection to the requested IMAP server: " + \
-          imapServer, 'ERROR')
+          server + ' port: ' + port, 'ERROR')
       RappUtilities.rapp_print( err, 'ERROR')
       raise err
 
@@ -271,10 +273,11 @@ class EmailReceiver(object):
     except imaplib.IMAP4.error, err:
       RappUtilities.rapp_print( \
           "Could not login to the requested IMAP server: " + \
-          imapServer, 'ERROR')
+          server, 'ERROR')
       RappUtilities.rapp_print( err, 'ERROR')
       raise err
 
+    RappUtilities.rapp_print( 'lasjdflskdfjas', 'ERROR')
     return imap
 
 

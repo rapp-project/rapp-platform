@@ -20,6 +20,8 @@ import unittest
 import mock
 import getpass
 import time
+import random
+import string
 
 import roslib
 import rospy
@@ -47,10 +49,10 @@ class TestEmailReceiver(unittest.TestCase):
     self._test_service = rospy.ServiceProxy(
         serviceTopic, ReceiveEmailSrv)
 
-    self._email = raw_input()
-    self._password = getpass.getpass("Enter password: ")
-    self._server = raw_input("Enter server: ")
-    self._port = raw_input("Enter port: ")
+    #self._email = raw_input()
+    #self._password = getpass.getpass("Enter password: ")
+    #self._server = raw_input("Enter server: ")
+    #self._port = raw_input("Enter port: ")
 
   @unittest.skip('Skipping email tests - Uncomment decorators to test manually')
   def test_checkDefaults(self):
@@ -123,6 +125,49 @@ class TestEmailReceiver(unittest.TestCase):
       for attach in emailMsg.attachmentPaths:
         self.assertTrue(os.path.exists(attach))
 
+  def test_wrongServer(self):
+
+    req = ReceiveEmailSrvRequest()
+    req.server = \
+      ''.join( random.choice( string.ascii_lowercase ) for _ in range(8))
+
+    response = self._test_service( req )
+    self.assertEquals( response.status, -1 )
+
+  def test_wrongPort(self):
+
+    req = ReceiveEmailSrvRequest()
+    req.server = 'imap.gmail.com'
+    req.port = \
+      ''.join( random.choice( string.digits ) for _ in range(4))
+
+    response = self._test_service( req )
+    self.assertEquals( response.status, -1 )
+
+  def test_wrongEmail(self):
+
+    req = ReceiveEmailSrvRequest()
+    req.server = 'imap.gmail.com'
+
+    req.email = \
+      ''.join( random.choice( string.ascii_lowercase + string.digits ) \
+        for _ in range(16))
+
+    response = self._test_service( req )
+    self.assertEquals( response.status, -1 )
+
+  def test_wrongPassword(self):
+
+    req = ReceiveEmailSrvRequest()
+    req.server = 'imap.gmail.com'
+
+    req.email = 'rapp.platform@gmail.com'
+    req.password= \
+      ''.join( random.choice( string.ascii_letters + string.digits ) \
+        for _ in range(20))
+
+    response = self._test_service( req )
+    self.assertEquals( response.status, -1 )
 
 if __name__ == '__main__':
   rostest.rosrun('rapp_email', 'email_receiver_unit_tests', TestEmailReceiver)
