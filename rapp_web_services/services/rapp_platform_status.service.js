@@ -66,7 +66,7 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
 
 service rapp_platform_status(  )
 {
-  return VIEW.INDEX;
+  return VIEW.INDEX();
 }
 
 
@@ -149,239 +149,18 @@ service exec_test(srvName)
 var srvMap = {
   'ontology_subclasses_of': TESTS.ONTOLOGY_SUBCLASSES,
   'ontology_superclasses_of': TESTS.ONTOLOGY_SUPERCLASSES,
-  'ontology_is_subsuperclass_of': TESTS.ONTOLOGY_IS_SUBSUPERCLASS
-  //'set_noise_profile': test_denoise_profile,
-  //'speech_detection_sphinx4': test_sphinx4,
-  //'speech_detection_google': test_speech_detection_google,
-  //'face_detection': test_face_detection,
-  //'qr_detection': test_qr_detection,
-  //'text_to_speech': test_tts,
-  //'record_cognitive_test_performance': test_record_cognitive_performance,
-  //'cognitive_test_chooser': test_cognitive_test_chooser
+  'ontology_is_subsuperclass_of': TESTS.ONTOLOGY_IS_SUBSUPERCLASS,
+  'cognitive_test_chooser': TESTS.COGNITIVE_TEST_CHOOSER,
+  'record_cognitive_test_performance': TESTS.RECORD_COGNITIVE_TEST_PERFORMANCE,
+  'set_noise_profile': TESTS.SET_NOISE_PROFILE,
+  'speech_detection_sphinx4': TESTS.SPEECH_DETECTION_SPHINX4,
+  'speech_detection_google': TESTS.SPEECH_DETECTION_GOOGLE,
+  'face_detection': TESTS.FACE_DETECTION,
+  'qr_detection': TESTS.QR_DETECTION,
+  'text_to_speech': TESTS.TEXT_TO_SPEECH,
+  'available_services': TESTS.AVAILABLE_SERVICES
 };
 
-
-
-/*****************************************************************************
- *                          Per service Tests.
- *****************************************************************************
- */
-
-
-function test_denoise_profile(){
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'set_noise_profile';
-  var testFileSrc = testDataPath + 'denoise_source.wav';
-  var testFileDest = __serverCacheDir + 'status_test_denoise.wav';
-  Fs.copyFile(testFileSrc, testFileDest);
-  var args = {
-    'file_uri': testFileDest,
-    'audio_source': 'nao_wav_1_ch',
-    'user': 'rapp'
-  }
-  var webService = hop.webService(service_url(s));
-  var srv = webService(args);
-  try{
-    response = srv.postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response}
-  return {success: success, output: results, input: args};
-}
-
-
-function test_sphinx4(){
-  import service speech_detection_sphinx4();
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'speech_detection_sphinx4';
-  var testFileSrc = testDataPath + 'yes-no.wav';
-  var testFileDest = __serverCacheDir + 'status_test_sphinx.wav';
-  Fs.copyFile(testFileSrc, testFileDest);
-  var args = {
-    language: 'en',
-    audio_source: 'nao_wav_1_ch',
-    words: ['yes', 'no'],
-    sentences: ['yes', 'no'],
-    grammar: [],
-    user: 'rapp',
-    file_uri: testFileDest
-  }
-  try{
-    response = speech_detection_sphinx4(args).postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response}
-  return {success: success, output: results, input: args};
-}
-
-
-function test_speech_detection_google(){
-  import service speech_detection_google();
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'speech_detection_google';
-  var testFileSrc = testDataPath + 'speech_detection_samples/' +
-    'recording_sentence1.ogg';
-  var testFileDest = __serverCacheDir + 'status_test_google.ogg';
-  Fs.copyFile(testFileSrc, testFileDest);
-  var args = {
-    language: 'en',
-    audio_source: 'nao_ogg',
-    user: 'rapp',
-    file_uri: testFileDest
-  }
-  try{
-    response = speech_detection_google(args).postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response}
-  return {success: success, output: results, input: args};
-
-}
-
-
-function test_face_detection(){
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'face_detection';
-  var testFileSrc = path.join(testDataPath, 'Lenna.png');
-  var testFileDest = path.join(__serverCacheDir, 'status_test_lenna.png');
-  Fs.copyFile(testFileSrc, testFileDest);
-  var args = {
-    'file_uri': testFileDest,
-  }
-  var webService = hop.webService(service_url(s));
-  var srv = webService(args);
-  try{
-    response = srv.postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response}
-  return {success: success, output: results, input: args};
-}
-
-
-function test_qr_detection(){
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'qr_detection';
-  var testFileSrc = testDataPath + 'qr_code_rapp.jpg';
-  var testFileDest = __serverCacheDir + 'status_test_qr.jpg';
-  Fs.copyFile(testFileSrc, testFileDest);
-  var args = {
-    'file_uri': testFileDest,
-  }
-  var webService = hop.webService(service_url(s));
-  var srv = webService(args);
-  try{
-    response = srv.postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response}
-  return {success: success, output: results, input: args};
-}
-
-function test_tts(){
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'text_to_speech';
-  var args = {
-    'language': 'el',
-    'text': 'Καλησπέρα'
-  }
-  var webService = hop.webService(service_url(s));
-  var srv = webService(args);
-  try{
-    response = srv.postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {
-    results = response;
-    results['payload'] = 'This is the hidden payload field!!';
-  }
-  return {success: success, output: results, input: args};
-}
-
-
-function test_record_cognitive_performance(){
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'record_cognitive_test_performance';
-  var args = {
-    'user': 'rapp',
-    'test': 'ArithmeticCts_obzxzwaP',
-    'score': 50
-  }
-  var webService = hop.webService(service_url(s));
-  var srv = webService(args);
-  try{
-    response = srv.postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response;}
-  return {success: success, output: results, input: args};
-}
-
-
-function test_cognitive_test_chooser(){
-  var success = true;
-  var results = undefined;
-  var response = undefined;
-  var s = 'cognitive_test_chooser';
-  var args = {
-    'user': 'rapp',
-    'testType': 'ArithmeticCts'
-  }
-  var webService = hop.webService(service_url(s));
-  var srv = webService(args);
-  try{
-    response = srv.postSync();
-  }
-  catch(e){
-    console.log(e);
-    results = e;
-    success = false;
-  }
-  if(success) {results = response;}
-  return {success: success, output: results, input: args};
-}
 
 /****************************************************************************/
 
