@@ -1,0 +1,14 @@
+{
+  "request": {
+    "args": {
+      "file_uri": "~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_testing_tools/test_data/speech_detection_samples/recording_sentence2.ogg",
+      "audio_source": "nao_ogg",
+      "user": "rapp",
+      "language": "en"
+    }
+  },
+  "response": {
+    "words": [],
+    "error": ""
+  }
+}

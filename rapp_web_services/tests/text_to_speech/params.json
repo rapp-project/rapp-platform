@@ -1,0 +1,13 @@
+{
+  "request": {
+    "args": {
+      "text": "Καλημέρα",
+      "language": "el"
+    }
+  },
+  "response": {
+    "error": "",
+    "basename": "",
+    "encoding": "base64"
+  }
+}

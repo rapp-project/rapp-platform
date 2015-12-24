@@ -1,0 +1,14 @@
+{
+  "request": {
+    "args": {
+      "file_uri": "~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_testing_tools/test_data/qr_code_rapp.jpg"
+    }
+  },
+  "response": {
+    "error": "",
+    "qr_centers": [
+      {"x": 165, "y": 165}
+    ],
+    "qr_messages": ["rapp project qr sample"]
+  }
+}

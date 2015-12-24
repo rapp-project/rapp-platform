@@ -1,0 +1,10 @@
+{
+  "request": {
+    "args": {
+      "file_uri": "~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_testing_tools/test_data/Lenna.png"
+    }
+  },
+  "response": {
+    "error": ""
+  }
+}

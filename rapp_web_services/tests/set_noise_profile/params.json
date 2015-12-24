@@ -1,0 +1,12 @@
+{
+  "request": {
+    "args": {
+      "file_uri": "~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_testing_tools/test_data/denoise_source.wav",
+      "audio_source": "nao_wav_1_ch",
+      "user": "rapp"
+    }
+  },
+  "response": {
+    "error": ""
+  }
+}

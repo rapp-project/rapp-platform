@@ -1,0 +1,12 @@
+{
+  "request": {
+    "args": {
+      "user": "rapp",
+      "test_type": "ArithmeticCts"
+    }
+  },
+  "response": {
+    "test_type": "ArithmeticCts",
+    "error": ""
+  }
+}

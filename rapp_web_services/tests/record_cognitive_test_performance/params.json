@@ -1,0 +1,13 @@
+{
+  "request": {
+    "args": {
+      "user": "rapp",
+      "test_instance": "ArithmeticCts_obzxzwaP",
+      "score": 50
+    }
+  },
+  "response": {
+    "performance_entry": "CognitiveTestPerformed",
+    "error": ""
+  }
+}
