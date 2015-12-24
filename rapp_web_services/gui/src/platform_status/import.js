@@ -78,7 +78,6 @@ var _CLIENT_SCRIPTS = function(){
           text : item.text
         }));
       });
-      $('#'+elemId).selectpicker('refresh');
     };
 
     function selectPickerStyle(elemId, _style){
@@ -161,6 +160,7 @@ var _CLIENT_SCRIPTS = function(){
         }
         var style = (rosNodes.length > 1) ? "btn-success" : "btn-danger";
         selectPickerStyle('ros-nodes', style);
+        $('#ros-nodes').selectpicker('refresh');
       });
 
       ${active_ros_topics}().post(function(resp){
@@ -170,6 +170,7 @@ var _CLIENT_SCRIPTS = function(){
         }
         var style = (rosTopics.length > 1) ? "btn-success" : "btn-danger";
         selectPickerStyle('ros-topics', style);
+        $('#ros-topics').selectpicker('refresh');
       });
 
       ${active_ros_services}().post(function(resp){
@@ -179,6 +180,7 @@ var _CLIENT_SCRIPTS = function(){
         }
         var style = (rosSrvs.length > 1) ? "btn-success" : "btn-danger";
         selectPickerStyle('ros-services', style);
+        $('#ros-services').selectpicker('refresh');
       });
 
       ${available_services}().post( function(response){
@@ -188,6 +190,7 @@ var _CLIENT_SCRIPTS = function(){
         }
         var style = (hopSrvs.length > 1) ? "btn-success" : "btn-danger";
         selectPickerStyle('hop-services', style);
+        $('#hop-services').selectpicker('refresh');
       });
     });
   }
