@@ -106,13 +106,13 @@ var _CLIENT_SCRIPTS = function(){
       inputField.empty();
 
       for(var val in input){
-        var txt = '- ' + val + ': ' + input[val];
+        var txt = '- ' + val + ': ' + JSON.stringify(input[val], null, 4);
         var lineOut = formNewLine({text: txt});
         inputField.append(lineOut);
       }
 
       for(var val in output){
-        var txt = '- ' + val + ': ' + output[val];
+        var txt = '- ' + val + ': ' + JSON.stringify(output[val], null, 4);
         var lineOut = formNewLine({text: txt});
         outputField.append(lineOut);
       }
