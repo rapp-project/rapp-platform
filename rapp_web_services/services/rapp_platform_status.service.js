@@ -158,7 +158,8 @@ var srvMap = {
   'face_detection': TESTS.FACE_DETECTION,
   'qr_detection': TESTS.QR_DETECTION,
   'text_to_speech': TESTS.TEXT_TO_SPEECH,
-  'available_services': TESTS.AVAILABLE_SERVICES
+  'available_services': TESTS.AVAILABLE_SERVICES,
+  'rapp_user_info': TESTS.RAPP_USER_INFO
 };
 
 
