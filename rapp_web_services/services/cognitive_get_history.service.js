@@ -219,7 +219,6 @@ service cognitive_get_history ( {user:'', from_time: 0, to_time: 0} )
        *
        * 
        */
-      console.log(typeof up_to_time)
       var args = {
         //imageFilename: cpFilePath
         username: user,

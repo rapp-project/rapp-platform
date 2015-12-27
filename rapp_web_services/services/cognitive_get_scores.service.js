@@ -219,7 +219,6 @@ service cognitive_get_scores ( {user:'', up_to_time: 0} )
        *
        * 
        */
-      console.log(typeof up_to_time)
       var args = {
         //imageFilename: cpFilePath
         username: user,
