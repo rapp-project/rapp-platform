@@ -55,3 +55,6 @@ exports.TEXT_TO_SPEECH= require( path.join(__dirname,
 
 exports.AVAILABLE_SERVICES= require( path.join(__dirname,
     'available_services', 'test.js') ).TEST;
+
+exports.RAPP_USER_INFO= require( path.join(__dirname,
+    'rapp_user_info', 'test.js') ).TEST;
