@@ -1,8 +1,9 @@
 string username
+string testType
 int64 upToTime
 ---
 string[] testCategories
-int64[] testScores
+float64[] testScores
 bool success
 string error
 string[] trace

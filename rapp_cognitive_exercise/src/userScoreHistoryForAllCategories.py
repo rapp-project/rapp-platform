@@ -73,6 +73,15 @@ class UserScoreHistoryForAllCategories:
       returnWithError,testTypesList=self.getTestTypesFromOntology(res)
       if(returnWithError):
         return res
+      
+      if(not req.testType==""):
+        if(req.testType not in testTypesList):
+          res.success=False
+          res.error="invalid test type, not contained in ontology subclasses of cognitive test types"
+          res.trace.append("invalid test type, not contained in ontology subclasses of cognitive test types")
+          return res
+        testTypesList=[]
+        testTypesList.append(req.testType)
         
       self.retrieveTestHistoryForTestCategories(testTypesList,userOntologyAlias,fromTime,toTime,res)  
       res.success=True    
@@ -152,7 +161,8 @@ class UserScoreHistoryForAllCategories:
       userPerformanceResponse = knowrob_service(userPerformanceReq)      
       if(userPerformanceResponse.success==True): 
         userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
-        tmpAverageCategoryScore=0
+        sumCategoryScore=0
+        sumCategoryScoreDivideBy=0;
         countValidTests=0;
         for k, v in userPerfOrganizedByTimestamp.items():
           if(k<fromTime or k>toTime):
@@ -170,8 +180,9 @@ class UserScoreHistoryForAllCategories:
               tmpRecord.subtype=tmpList[1]
             tmpRecord.type=s
             countValidTests=countValidTests+1
-            tmpAverageCategoryScore=tmpAverageCategoryScore+long(v[0][2])*long(v[0][1])
-            tmpAverageCategoryScore=tmpAverageCategoryScore/countValidTests
+            sumCategoryScore=sumCategoryScore+long(v[0][2])*long(v[0][1])  #[0][2] is difficulty, [0][1] is score         
+            sumCategoryScoreDivideBy=sumCategoryScoreDivideBy+long(v[0][2])            
+            tmpAverageCategoryScore=float(sumCategoryScore/sumCategoryScoreDivideBy)
             tmpRecord.meanScoreForTypeUpToNow=tmpAverageCategoryScore
             res.records.append(tmpRecord)
 

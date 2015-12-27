@@ -68,6 +68,15 @@ class UserScoresForAllCategories:
       if(returnWithError):
         return res
         
+      if(not req.testType==""):
+        if(req.testType not in testTypesList):
+          res.success=False
+          res.error="invalid test type, not contained in ontology subclasses of cognitive test types"
+          res.trace.append("invalid test type, not contained in ontology subclasses of cognitive test types")
+          return res
+        testTypesList=[]
+        testTypesList.append(req.testType)
+        
       res.testCategories=testTypesList
       res.testScores=self.calculateUserScoresForCategories(testTypesList,userOntologyAlias,req.upToTime)   
       res.success=True         
@@ -149,8 +158,14 @@ class UserScoresForAllCategories:
         scoresPerCategory.append(0)
       else:
         scoreOfCategory=0
+        scoreOfCategoryDivideBy=0
         for i in range(len(userPerformanceResponse.tests)):
           if(int(userPerformanceResponse.timestamps[i])<upToTime):
-            scoreOfCategory=scoreOfCategory+(int(userPerformanceResponse.scores[i])*int(userPerformanceResponse.difficulty[i]))
-        scoresPerCategory.append(long(scoreOfCategory/len(userPerformanceResponse.tests)))
+            scoreOfCategory=scoreOfCategory+(int(userPerformanceResponse.scores[i])*int(userPerformanceResponse.difficulty[i]))            
+            scoreOfCategoryDivideBy=scoreOfCategoryDivideBy+int(userPerformanceResponse.difficulty[i])
+        #scoresPerCategory.append(long(scoreOfCategory/len(userPerformanceResponse.tests)))
+        if(scoreOfCategoryDivideBy==0):
+          scoresPerCategory.append(0)
+        else:
+          scoresPerCategory.append(float(scoreOfCategory/scoreOfCategoryDivideBy))
     return scoresPerCategory    

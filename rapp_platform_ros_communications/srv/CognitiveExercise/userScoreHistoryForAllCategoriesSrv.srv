@@ -1,4 +1,5 @@
 string username
+string testType
 int64 fromTime
 int64 toTime
 ---

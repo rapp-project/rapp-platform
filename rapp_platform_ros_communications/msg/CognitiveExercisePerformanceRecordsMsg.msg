@@ -5,5 +5,5 @@ string type
 string subtype
 string difficulty
 int64 score
-int64 meanScoreForTypeUpToNow
+float64 meanScoreForTypeUpToNow
 
