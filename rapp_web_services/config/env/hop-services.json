@@ -87,6 +87,12 @@
     "Mode": "Deploy",
     "scan_time": 2,
     "initial_scan_wait": 15000
+  },
+  "rapp_user_info":{
+    "Mode": "Devel",
+    "timeout": 1000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_mysql_wrapper/tbl_user_fetch_data"
   }
 
 }
