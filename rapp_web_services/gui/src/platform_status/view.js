@@ -59,13 +59,7 @@ var INDEX = function(){
           }
         }
       },
-      <DIV>{
-        class: "container",
-        <DIV>{
-          class: "row-fluid",
-          GUIPARTS.FOOTER()
-        }
-      }
+      GUIPARTS.FOOTER()
     }
   }
 }

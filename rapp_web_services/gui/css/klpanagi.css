@@ -153,3 +153,11 @@
   height:10px;
 }
 
+body {
+  padding-bottom: 120px;
+}
+
+.push, footer {
+  height: 63px;
+}
+
