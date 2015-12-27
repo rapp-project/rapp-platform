@@ -32,7 +32,7 @@ var NAVBAR = function( attrs ){
   var homeButton = <A>{
     class: "navbar-brand",
     href: "#",
-    "RAPP Platform Status"
+    "RAPP Cognitive System"
   };
 
   return <NAV>{
@@ -102,14 +102,14 @@ var HEADER = function( attrs ){
 
 var PAGE_HEADER = function( attrs ){
   attrs = attrs || {};
-  var _title = attrs.title || "RAPP Platform Status";
+  var _title = attrs.title || "RAPP Cognitive System";
   var _text = attrs.text || "";
 
   return  <DIV>{
       class: "jumbotron",
       align: "center",
       <H3>{
-        "RAPP Platform Status"
+        _title
       },
       <SMALL>{
         <EM>{
@@ -139,6 +139,19 @@ var FOOTER = function( attrs ){
   }
 }
 
+
+var USERS_PANEL = function ( attrs ){
+  attrs = attrs || {};
+  var _title = attrs.title || "RAPP Users";
+
+  return <div class="panel panel-primary" id="users-panel">
+    <div class="panel-heading">${_title}</div>
+    <div class="panel-body" style="min-height: 10; max-height: 10;"></div>
+    ${guiCommons.SELECT_LIST()}
+  </div>
+}
+
+
 function serviceUrl(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
 }
@@ -147,5 +160,6 @@ function serviceUrl(srvName){
 exports.NAVBAR = NAVBAR;
 exports.HEADER = HEADER;
 exports.PAGE_HEADER = PAGE_HEADER;
+exports.USERS_PANEL = USERS_PANEL;
 exports.FOOTER = FOOTER;
 

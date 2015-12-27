@@ -77,6 +77,19 @@ var FORM = function( attrs ){
   }
 };
 
+
+var SELECT_LIST = function ( attrs ){
+  attrs = attrs || {};
+  var _text = attrs.text || "";
+  var _listId = attrs.listId || "";
+
+  return <div class="form-group">
+    <label for=${_listId}>${_text}</label>
+    <select multiple class="form-control" id=${_listId}></select></div>
+
+}
+
 exports.HEADER = HEADER;
 exports.META = META;
 exports.FORM = FORM;
+exports.SELECT_LIST = SELECT_LIST;

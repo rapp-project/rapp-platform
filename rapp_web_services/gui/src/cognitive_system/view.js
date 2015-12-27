@@ -39,6 +39,11 @@ var INDEX = function(){
         class: "container",
         <DIV>{
           class: "row-fluid",
+          <DIV>{
+            class: "col-xs-4 col-sm-4 col-md-4 col-lg-4",
+            style: "word-wrap:break-word;",
+            GUIPARTS.USERS_PANEL()
+          }
         }
       },
       <DIV>{
