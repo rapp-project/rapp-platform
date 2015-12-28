@@ -33,12 +33,14 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     self.username = "rapp"
     self.upToTime = 10000000000000
+    self.testType = ''
 
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.cognitive_get_scores(self.username, self.upToTime)
+    response = self.rappCloud.cognitive_get_scores(self.username, \
+            self.upToTime, self.testType)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
@@ -50,12 +52,11 @@ class RappInterfaceTest:
       return [error, self.elapsed_time]
 
     # Get the returned data
-
-    test_scores = response['testScores']
-    test_categories = response['testCategories']
+    test_scores = response['scores']
+    test_categories = response['test_classes']
 
     # Check if the returned data are equal to the expected
-    if test_scores and test_categories:
+    if (len(test_scores) == 3) and (len(test_categories) == 3):
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + str(response), self.elapsed_time]
