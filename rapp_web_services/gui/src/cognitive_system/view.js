@@ -22,10 +22,13 @@ var path = require('path');
 var GUIPARTS = require( path.join(__dirname, 'guiParts.js') );
 
 
-var INDEX = function(){
+var INDEX = function( attrs ){
+  attrs = attrs || {};
+  var _user = attrs.user || '';
+
  return   <HTML>{
     lang: "en",
-    GUIPARTS.HEADER(),
+    GUIPARTS.HEADER({user: _user}),
     <BODY>{
       GUIPARTS.NAVBAR(),
       <DIV>{
@@ -42,8 +45,19 @@ var INDEX = function(){
           <DIV>{
             class: "col-xs-4 col-sm-4 col-md-4 col-lg-4",
             style: "word-wrap:break-word;",
-            GUIPARTS.USERS_PANEL()
+            GUIPARTS.USER_INFO_PANEL()
+          },
+          <DIV>{
+            class: "col-xs-8 col-sm-8 col-md-8 col-lg-8",
+            style: "word-wrap:break-word;",
+            GUIPARTS.USER_HISTORY_PANEL()
           }
+        }
+      },
+      <DIV>{
+        class: "container",
+        <DIV>{
+          class: "row-fluid"
         }
       },
       GUIPARTS.FOOTER()

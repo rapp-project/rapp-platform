@@ -56,7 +56,9 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
 
 service cognitive_system(  )
 {
-  return VIEW.INDEX();
+  // Static for 'rapp' user. Change when Authentication is well known!
+  var connectedUser = 'rapp';
+  return VIEW.INDEX({user: connectedUser});
 }
 
 

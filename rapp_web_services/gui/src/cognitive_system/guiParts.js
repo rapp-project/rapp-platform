@@ -29,49 +29,34 @@ var guiCommons = require( path.join(__dirname, '../common', 'guiCommons.js') );
 var NAVBAR = function( attrs ){
   attrs = attrs || {};
 
+  var _logoSrc = attrs.logoSrc ||
+    path.join(__dirname, '..', '..', 'img', 'RAPP_logo.png');
+
   var homeButton = <A>{
-    class: "navbar-brand",
+    class: "navbar-toggle",
     href: "#",
     "RAPP Cognitive System"
   };
 
-  return <NAV>{
-    class: "navbar-custom navbar-inverse  navbar-fixed-top ",
-    role: "navigation",
-    <DIV>{
-      class: "container",
-      <DIV>{
-        class: "navbar-header",
-        <A>{
-          class: "navbar-brand",
-          rel: "home",
-          href: "http://rapp-project.eu/",
-          title: "RAPP logo",
-          <IMG>{
-            src: path.join(__dirname, '..', '..', 'img', 'RAPP_logo.png'),
-            height: "45",
-            style: "margin-top: -10px",
-            alt: "RAPP Logo"
-          }
-        },
-        homeButton
-      },
-      <DIV>{
-        class: "collapse navbar-collapse navbar-menubuilder",
-        <UL>{
-          class: "nav navbar-nav navbar-right",
-          <LI>{
-            <A>{
-              rel: "",
-              href: "http://rapp-project.eu/community/contact/",
-              "Contact Us"
-            }
-          },
 
-        }
-      }
-    }
-  }
+  return <div class="navbar-custom navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" rel="home" href="http://rapp-project.eu" title="RAPP logo">
+          <img src=${_logoSrc} alt="RAPP logo" align="middle" style="margin-top:-10px" height="45">
+        </a>
+        ${homeButton}
+      </div>
+      <div class="collapse navbar-collapse navbar-menubuilder">
+        <ul class="nav navbar-nav navbar-left">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class=""><a href="http://rapp-project.eu/community/contact/">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 }
 
 
@@ -82,12 +67,14 @@ var HEADER = function( attrs ){
   var _css = imports.CSS;
   var _js = imports.JS;
   var _require = imports.REQUIRE;
+  var connectedUser = attrs.user || '';
   var _meta = <META>{
     name: 'viewpoint',
     content: 'width=device-width; initial-scale=1',
     charset: 'utf-8'
   };
-  var _plain_scripts = imports.CLIENT_SCRIPTS;
+  var _plain_scripts = imports.CLIENT_SCRIPTS( {user: connectedUser} );
+
 
   return guiCommons.HEADER({
     title: _title,
@@ -140,17 +127,31 @@ var FOOTER = function( attrs ){
 }
 
 
-var USERS_PANEL = function ( attrs ){
+var USER_INFO_PANEL = function( attrs ){
   attrs = attrs || {};
-  var _title = attrs.title || "RAPP Users";
+  var _title = attrs.title || "RAPP User";
 
-  return <div class="panel panel-primary" id="users-panel">
-    <div class="panel-heading">${_title}</div>
+  return <div class="panel panel-primary" id="user-info-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">${_title}</h3>
+    </div>
     <div class="panel-body" style="min-height: 10; max-height: 10;"></div>
-    ${guiCommons.SELECT_LIST()}
   </div>
 }
 
+
+var USER_HISTORY_PANEL = function( attrs ){
+  attrs = attrs || {};
+  var _title = attrs.title || "User's History";
+
+  return <div class="panel panel-primary" id="user-history-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">${_title}</h3>
+    </div>
+    <div class="panel-body" style="width=100%; height=100%; min-height:150px; max-height:300px; overflow:scroll"></div>
+  </div>
+
+}
 
 function serviceUrl(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
@@ -160,6 +161,7 @@ function serviceUrl(srvName){
 exports.NAVBAR = NAVBAR;
 exports.HEADER = HEADER;
 exports.PAGE_HEADER = PAGE_HEADER;
-exports.USERS_PANEL = USERS_PANEL;
+exports.USER_INFO_PANEL = USER_INFO_PANEL;
+exports.USER_HISTORY_PANEL = USER_HISTORY_PANEL;
 exports.FOOTER = FOOTER;
 

@@ -57,8 +57,16 @@ var _CSS = [
 var _REQUIRE = [];
 
 
-var _CLIENT_SCRIPTS = function(){
+var _CLIENT_SCRIPTS = function( attrs ){
+  attrs = attrs || {};
+  var _user = attrs.user || '';
+  import service rapp_user_info();
+  import service cognitive_get_scores();
+  import service cognitive_get_history();
+
+
   return ~{
+    var connectedUser = ${_user}
 
     function appendOption(elemId, items){
       $.each(items, function (i, item) {
@@ -75,18 +83,46 @@ var _CLIENT_SCRIPTS = function(){
       }).selectpicker('refresh');
     }
 
-    function formNewLine( attrs ){
-      attrs = attrs || {};
-      var _class = attrs.class || "form-control";
-      var _text = attrs.text || "";
-      var str = '<p>' + _text + "</p>";
+    function formNewLine( text ){
+      var str = '<p>' + text + "</p>";
       return str;
     }
 
+    $(document).ready( function(){
+      $('.selectpicker').selectpicker({
+        style: 'btn-inverse',
+        size: 'auto'
+      });
+
+      ${rapp_user_info}({user: connectedUser}).post( function(resp){
+        var usrPanelBody = $('#user-info-panel').find('.panel-body');
+
+        for( var prop in resp.user_info ){
+          var txt = prop + ': ' + resp.user_info[prop];
+          usrPanelBody.append( formNewLine(txt) );
+        }
+      });
+
+      var args = {
+        user: connectedUser,
+        from_time: 0,
+        to_time: 100000000000,
+        test_type: ''
+      };
+
+      ${cognitive_get_history}(args).post( function(resp){
+        var usrHistoryPanelBody = $('#user-history-panel').find('.panel-body');
+        for( var ii = 0; ii < resp.records.length; ii++ ){
+          var txt = JSON.stringify(resp.records[ii]);
+          usrHistoryPanelBody.append( formNewLine(txt) );
+        }
+      })
+
+    })
   }
 }
 
 exports.CSS = _CSS;
 exports.JS = _JS;
 exports.REQUIRE = _REQUIRE;
-exports.CLIENT_SCRIPTS = _CLIENT_SCRIPTS();
+exports.CLIENT_SCRIPTS = _CLIENT_SCRIPTS;
