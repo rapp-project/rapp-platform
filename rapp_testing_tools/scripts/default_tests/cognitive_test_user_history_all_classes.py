@@ -34,28 +34,28 @@ class RappInterfaceTest:
     self.username = "rapp"
     self.fromTime = 1
     self.toTime = 10000000000000
+    self.testType = ''
 
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.cognitive_get_history(self.username, self.fromTime, self.toTime)
+    response = self.rappCloud.cognitive_get_history(self.username, \
+        self.fromTime, self.toTime, self.testType)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response['error']    
+    error = response['error']
+    records = response['records']
+
     if error != "":
       return [error, self.elapsed_time]
 
-    # Get the returned data
-
-    records = response['records']
-
     # Check if the returned data are equal to the expected
-    if records:
+    if len(records) > 0:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + str(response), self.elapsed_time]
