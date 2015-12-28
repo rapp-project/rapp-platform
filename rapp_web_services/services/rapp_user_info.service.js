@@ -70,7 +70,7 @@ var maxTries = ENV.SERVICES[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
 
-service rapp_user_info( {username: ''} )
+service rapp_user_info( {user: ''} )
 {
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
@@ -95,7 +95,7 @@ service rapp_user_info( {username: ''} )
         req_cols: [
           'username', 'firstname', 'lastname', 'email',
           'language', 'ontology_alias', 'usrgroup', 'created'],
-        where_data: [{s: ['username', username]}]
+        where_data: [{s: ['username', user]}]
       };
 
 
@@ -203,7 +203,7 @@ function craft_response(rosbridge_msg)
 
   // Dynamic definition and value-set for user_info properties.
   for (var ii = 0; ii < resCols.length; ii++){
-    response[resCols[ii]] = userInfo[ii];
+    response.user_info[resCols[ii]] = userInfo[ii];
   }
 
   if (!success)

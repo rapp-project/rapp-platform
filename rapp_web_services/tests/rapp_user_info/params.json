@@ -1,7 +1,7 @@
 {
   "request": {
     "args": {
-      "username": "rapp"
+      "user": "rapp"
     }
   },
   "response": {
