@@ -55,7 +55,7 @@ class RappInterfaceTest:
       return [error, self.elapsed_time]
 
     # Check if the returned data are equal to the expected
-    if len(records) > 0:
+    if len(records) >= 3:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + str(response), self.elapsed_time]

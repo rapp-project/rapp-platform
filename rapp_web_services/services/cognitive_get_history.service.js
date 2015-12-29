@@ -235,16 +235,19 @@ function craft_response(rosbridge_msg)
   var trace = rosbridge_msg.trace;
   var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
-
-  var ros_records = rosbridge_msg.records;
-
-  var logMsg = 'Returning to client';
+  var recordsPerClass = rosbridge_msg.recordsPerTestType;
+  var testClasses = rosbridge_msg.testCategories;
 
   var response = {
-    records: ros_records,
+    records: {},
     error: error
   };
 
+  var logMsg = 'Returning to client';
+
+  for( var ii = 0; ii < testClasses.length; ii++ ){
+    response.records[testClasses[ii].toLowerCase()] = recordsPerClass[ii].records;
+  }
 
   if (error !== '')
   {
@@ -274,7 +277,7 @@ function craft_error_response()
   var errorMsg = 'RAPP Platform Failure';
 
   var response = {
-    records: [],
+    records: {},
     error: errorMsg
   };
 
