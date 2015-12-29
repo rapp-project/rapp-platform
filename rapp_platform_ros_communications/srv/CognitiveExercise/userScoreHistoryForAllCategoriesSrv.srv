@@ -3,7 +3,8 @@ string testType
 int64 fromTime
 int64 toTime
 ---
-CognitiveExercisePerformanceRecordsMsg[] records
+ArrayCognitiveExercisePerformanceRecordsMsg[] recordsPerTestType
+string[] testCategories
 bool success
 string error
 string[] trace

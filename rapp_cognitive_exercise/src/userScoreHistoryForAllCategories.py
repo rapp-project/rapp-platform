@@ -43,6 +43,7 @@ from rapp_platform_ros_communications.srv import (
 
 from rapp_platform_ros_communications.msg import (
   CognitiveExercisePerformanceRecordsMsg,
+  ArrayCognitiveExercisePerformanceRecordsMsg,
   StringArrayMsg
   )
 
@@ -83,6 +84,7 @@ class UserScoreHistoryForAllCategories:
         testTypesList=[]
         testTypesList.append(req.testType)
         
+      res.testCategories=testTypesList
       self.retrieveTestHistoryForTestCategories(testTypesList,userOntologyAlias,fromTime,toTime,res)  
       res.success=True    
 
@@ -150,9 +152,7 @@ class UserScoreHistoryForAllCategories:
   # 
   # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
   def retrieveTestHistoryForTestCategories(self,testTypesList,userOntologyAlias,fromTime,toTime,res):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests') 
-    scoresPerCategory=[]
-    d1=OrderedDict()
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')    
     for s in testTypesList:
       userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
       userPerformanceReq.test_type=s
@@ -164,6 +164,7 @@ class UserScoreHistoryForAllCategories:
         sumCategoryScore=0
         sumCategoryScoreDivideBy=0;
         countValidTests=0;
+        arrayCognitiveExercisePerformanceRecords=ArrayCognitiveExercisePerformanceRecordsMsg()
         for k, v in userPerfOrganizedByTimestamp.items():
           if(k<fromTime or k>toTime):
             del userPerfOrganizedByTimestamp[k]
@@ -184,7 +185,8 @@ class UserScoreHistoryForAllCategories:
             sumCategoryScoreDivideBy=sumCategoryScoreDivideBy+long(v[0][2])            
             tmpAverageCategoryScore=float(sumCategoryScore/sumCategoryScoreDivideBy)
             tmpRecord.meanScoreForTypeUpToNow=tmpAverageCategoryScore
-            res.records.append(tmpRecord)
+            arrayCognitiveExercisePerformanceRecords.records.append(tmpRecord)
+        res.recordsPerTestType.append(arrayCognitiveExercisePerformanceRecords)
 
 
   ## @brief Validates the fromTime and toTime variables  

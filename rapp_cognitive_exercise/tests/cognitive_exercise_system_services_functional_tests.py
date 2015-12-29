@@ -134,7 +134,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.fromTime=0
         response = test_service(req)     
         self.assertEqual(response.success, True)          
-        self.assertEqual(len(response.records)>2,True)
+        self.assertEqual(len(response.recordsPerTestType)>1,True)
         
 ## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':

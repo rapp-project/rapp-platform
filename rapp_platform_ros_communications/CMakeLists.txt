@@ -21,6 +21,7 @@ add_message_files(
   MailMsg.msg
   NewsStoryMsg.msg
   WeatherForecastMsg.msg
+  ArrayCognitiveExercisePerformanceRecordsMsg.msg
 )
 
 ## Generate services in the 'srv' folder
