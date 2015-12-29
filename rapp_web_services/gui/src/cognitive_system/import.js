@@ -41,7 +41,8 @@ var _JS = [
   resolve(filePath, '../../js/jquery-1.11.3.js'),
   resolve(filePath, '../../js/jquery-ui-1.11.4/jquery-ui.min.js'),
   resolve(filePath, '../../js/bootstrap.min.js'),
-  resolve(filePath, '../../js/bootstrap-select.js')
+  resolve(filePath, '../../js/bootstrap-select.js'),
+  resolve(filePath, '../../js/plotly-latest.min.js')
 ];
 
 
@@ -83,8 +84,12 @@ var _CLIENT_SCRIPTS = function( attrs ){
       }).selectpicker('refresh');
     }
 
-    function formNewLine( text ){
-      var str = '<p>' + text + "</p>";
+    function formNewLine( attrs ){
+      attrs = attrs || {};
+      var _text = attrs.text || '';
+      var _bgColor = attrs.bg_color || '';
+      var str = '<p style="background-color:' + _bgColor +
+        '">' + _text + "</p>";
       return str;
     }
 
@@ -94,12 +99,24 @@ var _CLIENT_SCRIPTS = function( attrs ){
         size: 'auto'
       });
 
+      $('#btnUserInfo').click( function(){
+        $('#user-info-panel-outer').toggleClass('hidden');
+      });
+
+      $('#btnUserHistory').click( function(){
+        $('#user-history-panel-outer').toggleClass('hidden');
+      });
+
       ${rapp_user_info}({user: connectedUser}).post( function(resp){
         var usrPanelBody = $('#user-info-panel').find('.panel-body');
 
+        var ii = 0;
         for( var prop in resp.user_info ){
           var txt = prop + ': ' + resp.user_info[prop];
-          usrPanelBody.append( formNewLine(txt) );
+          var bgColor = (ii % 2) ? 'LightBlue' : 'Linen';
+          usrPanelBody.append( formNewLine(
+              {text: txt, bg_color:bgColor} ) );
+          ii += 1;
         }
       });
 
@@ -112,9 +129,14 @@ var _CLIENT_SCRIPTS = function( attrs ){
 
       ${cognitive_get_history}(args).post( function(resp){
         var usrHistoryPanelBody = $('#user-history-panel').find('.panel-body');
-        for( var ii = 0; ii < resp.records.length; ii++ ){
-          var txt = JSON.stringify(resp.records[ii]);
-          usrHistoryPanelBody.append( formNewLine(txt) );
+        for( var prop in resp.records ){
+          console.log(prop)
+          for( var ii = 0; ii < prop.length; ii++ ){
+            var txt = JSON.stringify(resp.records[prop][ii]);
+            var bgColor = (ii % 2) ? 'LightBlue' : 'Linen';
+            usrHistoryPanelBody.append( formNewLine(
+                {text: txt, bg_color: bgColor}) );
+          }
         }
       })
 

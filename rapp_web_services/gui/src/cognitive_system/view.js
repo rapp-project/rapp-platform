@@ -41,23 +41,40 @@ var INDEX = function( attrs ){
       <DIV>{
         class: "container",
         <DIV>{
+          class: "row-fluid row-centered",
+          GUIPARTS.BTN_GROUP()
+        }
+      },
+      <DIV>{
+        class: "container",
+        <DIV>{
           class: "row-fluid",
+          style: "margin-top:50px",
           <DIV>{
             class: "col-xs-4 col-sm-4 col-md-4 col-lg-4",
             style: "word-wrap:break-word;",
-            GUIPARTS.USER_INFO_PANEL()
+            <DIV>{
+              class: "hidden",
+              id: "user-info-panel-outer",
+              GUIPARTS.USER_INFO_PANEL()
+            }
           },
           <DIV>{
             class: "col-xs-8 col-sm-8 col-md-8 col-lg-8",
             style: "word-wrap:break-word;",
-            GUIPARTS.USER_HISTORY_PANEL()
+            <DIV>{
+              class: "hidden",
+              id: "user-history-panel-outer",
+              GUIPARTS.USER_HISTORY_PANEL()
+            }
           }
         }
       },
       <DIV>{
         class: "container",
         <DIV>{
-          class: "row-fluid"
+          class: "row-fluid row-centered",
+          style: "margin-top:50px"
         }
       },
       GUIPARTS.FOOTER()

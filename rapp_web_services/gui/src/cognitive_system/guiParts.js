@@ -153,6 +153,19 @@ var USER_HISTORY_PANEL = function( attrs ){
 
 }
 
+
+var BTN_GROUP = function( attrs ){
+  attrs = attrs || {};
+  var _title = attrs.title || '';
+
+  return  <div class="btn-group">
+      <button type="button" class="btn btn-primary" id='btnUserInfo'>Rapp User</button>
+      <button type="button" class="btn btn-primary" id="btnUserHistory">User's Activity</button>
+      <button type="button" class="btn btn-primary">Plots</button>
+    </div>
+}
+
+
 function serviceUrl(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
 }
@@ -163,5 +176,6 @@ exports.HEADER = HEADER;
 exports.PAGE_HEADER = PAGE_HEADER;
 exports.USER_INFO_PANEL = USER_INFO_PANEL;
 exports.USER_HISTORY_PANEL = USER_HISTORY_PANEL;
+exports.BTN_GROUP = BTN_GROUP;
 exports.FOOTER = FOOTER;
 
