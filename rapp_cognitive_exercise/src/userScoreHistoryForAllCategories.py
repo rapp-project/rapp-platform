@@ -27,8 +27,8 @@ from rapp_platform_ros_communications.srv import (
   userScoreHistoryForAllCategoriesSrvResponse
   )
 from rapp_platform_ros_communications.msg import (
+  CognitiveExercisePerformanceRecordsMsg,
   ArrayCognitiveExercisePerformanceRecordsMsg,
-  CognitiveExercisePerformanceRecordsMsg,  
   StringArrayMsg
   )
 
@@ -78,8 +78,9 @@ class UserScoreHistoryForAllCategories:
   # @param toTime [long] The time up to which the user's performance records are taken into account
   # 
   # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
+
   def assignTestHistoryForTestCategoriesToSrv(self,testTypesList,userOntologyAlias,fromTime,toTime,res):        
-    for s in testTypesList:
+   for s in testTypesList:
       userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)            
       if(userPerformanceResponse.success==True): 
         userPerfOrganizedByTimestamp=CognitiveExerciseHelperFunctions.organizeUserPerformanceByTimestamp(userPerformanceResponse)
