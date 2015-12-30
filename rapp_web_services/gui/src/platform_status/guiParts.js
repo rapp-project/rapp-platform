@@ -222,6 +222,7 @@ var TEST_RESULTS_PANEL = function(attrs){
           class: "form-vertical",
           <DIV>{
             class: "form-group",
+            style: "width=100%; height=100%; min-height:150px; max-height:300px; overflow:scroll",
             <LABEL>{
               class: "",
               "Service Input Parameters:"
@@ -233,6 +234,7 @@ var TEST_RESULTS_PANEL = function(attrs){
           },
           <DIV>{
             class: "form-group",
+            style: "width=100%; height=100%; min-height:150px; max-height:300px; overflow:scroll",
             <LABEL>{
               class: "",
               "Service Response:"

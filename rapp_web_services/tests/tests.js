@@ -58,3 +58,9 @@ exports.AVAILABLE_SERVICES= require( path.join(__dirname,
 
 exports.RAPP_USER_INFO= require( path.join(__dirname,
     'rapp_user_info', 'test.js') ).TEST;
+
+exports.COGNITIVE_GET_SCORES= require( path.join(__dirname,
+    'cognitive_get_scores', 'test.js') ).TEST;
+
+exports.COGNITIVE_GET_HISTORY= require( path.join(__dirname,
+    'cognitive_get_history', 'test.js') ).TEST;

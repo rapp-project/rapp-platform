@@ -1,0 +1,15 @@
+{
+  "request": {
+    "args": {
+      "user": "rapp",
+      "from_time": 1,
+      "to_time": 10000000000000,
+      "test_type": ""
+    }
+  },
+  "response": {
+    "error": "",
+    "trace": "",
+    "success": true
+  }
+}

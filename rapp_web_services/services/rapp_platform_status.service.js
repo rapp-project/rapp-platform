@@ -159,7 +159,9 @@ var srvMap = {
   'qr_detection': TESTS.QR_DETECTION,
   'text_to_speech': TESTS.TEXT_TO_SPEECH,
   'available_services': TESTS.AVAILABLE_SERVICES,
-  'rapp_user_info': TESTS.RAPP_USER_INFO
+  'rapp_user_info': TESTS.RAPP_USER_INFO,
+  'cognitive_get_scores': TESTS.COGNITIVE_GET_SCORES,
+  'cognitive_get_history': TESTS.COGNITIVE_GET_HISTORY
 };
 
 
