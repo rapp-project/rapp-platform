@@ -43,7 +43,7 @@ git clone https://github.com/BVLC/caffe.git &> /dev/null
 
 # Install python dependencies
 cd $RappPlatformPath"/caffe/python"
-for req in $(cat requirements.txt); do pip install $req; done
+for req in $(cat requirements.txt); sudo -H do pip install $req; done
 
 # Create the Makefile config
 cd $RappPlatformPath"/caffe"
