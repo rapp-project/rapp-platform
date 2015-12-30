@@ -116,3 +116,11 @@ source ~/.bashrc
   }
 sudo ldconfig
 source ~/.bashrc
+#-------------------------------- Caffe setup ----------------------------------#
+./12_caffe_setup.sh || \
+  {
+    echo -e "[Error]: RAPP Platform installation failed on installing Caffe";
+    exit 1;
+  }
+sudo ldconfig
+source ~/.bashrc
