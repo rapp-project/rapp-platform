@@ -64,6 +64,7 @@ var _CLIENT_SCRIPTS = function( attrs ){
   import service rapp_user_info();
   import service cognitive_get_scores();
   import service cognitive_get_history();
+  import service cognitive_system_plot_data();
 
 
   return ~{
@@ -76,7 +77,7 @@ var _CLIENT_SCRIPTS = function( attrs ){
           text : item.text
         }));
       });
-    };
+    }
 
     function selectPickerStyle(elemId, _style){
       $('#'+elemId).selectpicker({
@@ -130,7 +131,6 @@ var _CLIENT_SCRIPTS = function( attrs ){
       ${cognitive_get_history}(args).post( function(resp){
         var usrHistoryPanelBody = $('#user-history-panel').find('.panel-body');
         for( var prop in resp.records ){
-          console.log(prop)
           for( var ii = 0; ii < prop.length; ii++ ){
             var txt = JSON.stringify(resp.records[prop][ii]);
             var bgColor = (ii % 2) ? 'LightBlue' : 'Linen';
@@ -138,9 +138,15 @@ var _CLIENT_SCRIPTS = function( attrs ){
                 {text: txt, bg_color: bgColor}) );
           }
         }
-      })
 
-    })
+        ${cognitive_system_plot_data}( { history_data: resp.records } ).post(
+          function(resp){
+            Plotly.newPlot('historyPlot', resp.data, resp.layout);
+          }
+        );
+      });
+
+    });
   }
 }
 

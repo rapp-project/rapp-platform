@@ -26,60 +26,39 @@ var INDEX = function( attrs ){
   attrs = attrs || {};
   var _user = attrs.user || '';
 
- return   <HTML>{
-    lang: "en",
-    GUIPARTS.HEADER({user: _user}),
-    <BODY>{
-      GUIPARTS.NAVBAR(),
-      <DIV>{
-        class: "container",
-        <DIV>{
-          class: "row-fluid",
-          GUIPARTS.PAGE_HEADER()
-        }
-      },
-      <DIV>{
-        class: "container",
-        <DIV>{
-          class: "row-fluid row-centered",
-          GUIPARTS.BTN_GROUP()
-        }
-      },
-      <DIV>{
-        class: "container",
-        <DIV>{
-          class: "row-fluid",
-          style: "margin-top:50px",
-          <DIV>{
-            class: "col-xs-4 col-sm-4 col-md-4 col-lg-4",
-            style: "word-wrap:break-word;",
-            <DIV>{
-              class: "hidden",
-              id: "user-info-panel-outer",
-              GUIPARTS.USER_INFO_PANEL()
-            }
-          },
-          <DIV>{
-            class: "col-xs-8 col-sm-8 col-md-8 col-lg-8",
-            style: "word-wrap:break-word;",
-            <DIV>{
-              class: "hidden",
-              id: "user-history-panel-outer",
-              GUIPARTS.USER_HISTORY_PANEL()
-            }
-          }
-        }
-      },
-      <DIV>{
-        class: "container",
-        <DIV>{
-          class: "row-fluid row-centered",
-          style: "margin-top:50px"
-        }
-      },
-      GUIPARTS.FOOTER()
-    }
-  }
+  return <html lang="en">
+    ${GUIPARTS.HEADER( {user: _user} )}
+    <body>
+      ${GUIPARTS.NAVBAR()}
+      <div class="container">
+        <div class="row-fluid">
+          ${GUIPARTS.PAGE_HEADER()}
+        </div>
+      </div>
+      <div class="container">
+        <div class="row-fluid row-centered">
+          ${GUIPARTS.BTN_GROUP()}
+        </div>
+      </div>
+      <div class="container">
+        <div class="row-fluid row-centered" style="margin-top:50px">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="word-wrap:break-word;">
+            <div class="show" id="user-info-panel-outer">
+              ${GUIPARTS.USER_INFO_PANEL()}
+            </div>
+            <div class="show" id="user-history-panel-outer">
+              ${GUIPARTS.USER_HISTORY_PANEL()}
+            </div>
+          </div>
+          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="word-wrap:break-word;">
+            <div id="historyPlot" style="width: 150%; height: 150%"></div>
+          </div>
+        </div>
+      </div>
+      ${GUIPARTS.FOOTER()}
+    </body>
+  </html>
 }
+
 
 exports.INDEX =  INDEX;

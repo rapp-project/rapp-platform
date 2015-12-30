@@ -54,13 +54,72 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
 });
 
 
-service cognitive_system( {view: 'index'} )
+service cognitive_system_plot_data( {history_data: {}} )
 {
-  // Static for 'rapp' user. Change when Authentication is well known!
-  var connectedUser = 'rapp';
-  return VIEW.INDEX({user: connectedUser});
+  /***
+   * Asynchronous http response.
+   */
+  return hop.HTTPResponseAsync(
+    function( sendResponse ) {
+
+      var data = [];
+      /***
+       * Sort history records by timestamp
+       */
+      for ( var prop in history_data ){
+        history_data[prop].sort( function(obj1, obj2){
+          return obj1.timestamp - obj2.timestamp;
+        });
+
+        var attrs = {
+          mode: 'lines+markers',
+         name: prop,
+         marker: { size: 2 },
+         line: { width: 1 },
+        };
+
+        var trace = createTraceData(history_data[prop], attrs);
+        data.push(trace);
+
+        console.log(trace)
+      }
+
+      var layout = {
+        title: 'Cognitive Exercises Activity History'
+      };
+
+
+      sendResponse( hop.HTTPResponseJson( { data: data, layout: layout } ) );
+    }, this);
 }
 
+
+function createTraceData(dataArray, attrs){
+  var _mode = attrs.mode || 'lines+markers';
+  var _name = attrs.name || '';
+  var _marker = attrs.marker || { size: 2 };
+  var _line = attrs.line || { width: 1 };
+
+  var trace = {
+    x: [],
+    y: [],
+    mode: _mode,
+    name: _name,
+    marker: _marker,
+    line: _line
+  };
+
+  if( ! (dataArray instanceof Array) ){
+    return trace;
+  }
+
+  for( var ii = 0; ii < dataArray.length; ii++ ){
+    trace.x.push( dataArray[ii].timestamp );
+    trace.y.push( dataArray[ii].score );
+  }
+
+  return trace;
+}
 
 /****************************************************************************/
 
