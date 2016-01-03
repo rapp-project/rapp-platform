@@ -139,11 +139,7 @@ var HEADER = function(){
   var _css = imports.CSS;
   var _js = imports.JS;
   var _require = imports.REQUIRE;
-  var _meta = <META>{
-    name: 'viewpoint',
-    content: 'width=device-width; initial-scale=1',
-    charset: 'utf-8'
-  };
+  var _meta = guiCommons.METATAG();
   var _plain_scripts = imports.CLIENT_SCRIPTS;
 
   return guiCommons.HEADER({

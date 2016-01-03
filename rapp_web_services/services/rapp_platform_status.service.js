@@ -51,8 +51,8 @@ var testDataPath = path.join(__dirname, '..', '..', 'rapp_testing_tools',
 var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
 var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
 
-var VIEW = require( path.join(__dirname, '..', 'gui', 'src', 'platform_status',
-    'view.js') );
+var VIEWS = require( path.join(__dirname, '..', 'gui', 'src', 'platform_status',
+    'views.js') );
 
 var TESTS = require( path.join(__dirname, '..', 'tests', 'tests.js') );
 
@@ -66,7 +66,7 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
 
 service rapp_platform_status(  )
 {
-  return VIEW.INDEX();
+  return VIEWS.INDEX();
 }
 
 
@@ -83,7 +83,7 @@ service active_ros_nodes(){
         }
       }
     );
-  }, this)
+  }, this);
 }
 
 
@@ -100,7 +100,7 @@ service active_ros_topics(){
         }
       }
     );
-  }, this)
+  }, this);
 }
 
 
@@ -117,7 +117,7 @@ service active_ros_services(){
         }
       }
     );
-  }, this)
+  }, this);
 }
 
 
@@ -164,8 +164,6 @@ var srvMap = {
   'cognitive_get_history': TESTS.COGNITIVE_GET_HISTORY
 };
 
-
-/****************************************************************************/
 
 function service_url(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
