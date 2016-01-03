@@ -42,7 +42,7 @@ var INDEX = function( attrs ){
       </div>
       <div class="container">
         <div class="row-fluid row-centered" style="margin-top:50px">
-          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="word-wrap:break-word;">
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="word-wrap:break-word;">
             <div class="show" id="user-info-panel-outer">
               ${GUIPARTS.USER_INFO_PANEL()}
             </div>
@@ -50,8 +50,8 @@ var INDEX = function( attrs ){
               ${GUIPARTS.USER_HISTORY_PANEL()}
             </div>
           </div>
-          <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" style="word-wrap:break-word;">
-            <div id="historyPlot" style="width: 150%; height: 150%"></div>
+          <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" style="word-wrap:break-word;">
+            ${GUIPARTS.PLOT_GRAPH()}
           </div>
         </div>
       </div>

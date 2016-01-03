@@ -68,11 +68,7 @@ var HEADER = function( attrs ){
   var _js = imports.JS;
   var _require = imports.REQUIRE;
   var connectedUser = attrs.user || '';
-  var _meta = <META>{
-    name: 'viewpoint',
-    content: 'width=device-width; initial-scale=1',
-    charset: 'utf-8'
-  };
+  var _meta = guiCommons.METATAG();
   var _plain_scripts = imports.CLIENT_SCRIPTS( {user: connectedUser} );
 
 
@@ -161,13 +157,16 @@ var BTN_GROUP = function( attrs ){
   return  <div class="btn-group">
       <button type="button" class="btn btn-primary" id='btnUserInfo'>Rapp User</button>
       <button type="button" class="btn btn-primary" id="btnUserHistory">User's Activity</button>
-      <button type="button" class="btn btn-primary">Plots</button>
+      <button type="button" class="btn btn-primary" id="btnPlot">Plots</button>
     </div>
 }
 
+var PLOT_GRAPH = function( attrs ){
+  attrs = attrs || {};
+  var _divId = attrs.div_id || 'historyPlotDiv';
+  var _style = attrs.style || "width: 100%; height: 100%";
 
-function serviceUrl(srvName){
-  return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
+  return <div id=${_divId} style=${_style}></div>
 }
 
 
@@ -178,4 +177,4 @@ exports.USER_INFO_PANEL = USER_INFO_PANEL;
 exports.USER_HISTORY_PANEL = USER_HISTORY_PANEL;
 exports.BTN_GROUP = BTN_GROUP;
 exports.FOOTER = FOOTER;
-
+exports.PLOT_GRAPH = PLOT_GRAPH;

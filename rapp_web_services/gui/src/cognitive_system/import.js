@@ -64,7 +64,7 @@ var _CLIENT_SCRIPTS = function( attrs ){
   import service rapp_user_info();
   import service cognitive_get_scores();
   import service cognitive_get_history();
-  import service cognitive_system_plot_data();
+  import service plot_data_form();
 
 
   return ~{
@@ -108,6 +108,11 @@ var _CLIENT_SCRIPTS = function( attrs ){
         $('#user-history-panel-outer').toggleClass('hidden');
       });
 
+      $('#btnPlot').click( function(){
+        $('#historyPlotDiv').toggleClass('hidden');
+      });
+
+
       ${rapp_user_info}({user: connectedUser}).post( function(resp){
         var usrPanelBody = $('#user-info-panel').find('.panel-body');
 
@@ -139,9 +144,17 @@ var _CLIENT_SCRIPTS = function( attrs ){
           }
         }
 
-        ${cognitive_system_plot_data}( { history_data: resp.records } ).post(
+        var args = {
+          data: resp.records,
+          x_axis: "timestamp",
+          y_axis: "score",
+          sort: true,
+          title: "Cognitive Exercises - User's Activity"
+        };
+
+        ${plot_data_form}(args).post(
           function(resp){
-            Plotly.newPlot('historyPlot', resp.data, resp.layout);
+            Plotly.newPlot('historyPlotDiv', resp.dataset, resp.layout);
           }
         );
       });

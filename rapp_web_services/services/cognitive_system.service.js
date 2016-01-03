@@ -37,34 +37,105 @@ var ENV = require( path.join(__dirname, '..', 'env.js') );
 var __includeDir = path.join(__dirname, '..', 'modules');
 var __configDir = path.join(__dirname, '..', 'config');
 
-var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
 
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
-    'Rosbridge.js') );
-
-var VIEW = require( path.join(__dirname, '..', 'gui', 'src', 'cognitive_system',
-    'view.js') );
-
-
-// Initiate communication with rosbridge-websocket-server
-var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
-  reconnect: true, onconnection: function(){
-    // .
-  }
-});
+var VIEWS = require( path.join(__dirname, '..', 'gui', 'src', 'cognitive_system',
+    'views.js') );
 
 
 service cognitive_system( {view: 'index'} )
 {
   // Static for 'rapp' user. Change when Authentication is well known!
   var connectedUser = 'rapp';
-  return VIEW.INDEX({user: connectedUser});
+  return VIEWS.INDEX({user: connectedUser});
 }
 
 
-/****************************************************************************/
+service plot_data_form( {data: {}, x_axis:'', y_axis:'',
+  sort: true, title: ''} )
+{
+  /* -- String to boolean translation -- */
+  if ( typeof sort !== "boolean" ) {
+    if ( sort === 'True' || sort === 'true' ) { sort = true; }
+    else { sort = false; }
+  }
 
-function service_url(srvName){
-  return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
+  /***
+   * Asynchronous http response.
+   */
+  return hop.HTTPResponseAsync(
+    function( sendResponse ) {
+
+      var dataset = [];
+      for ( var prop in data ){
+        if ( sort ){
+          // Pass object by reference
+          sortByProperty(data[prop], x_axis);
+        }
+
+        var attrs = {
+          mode: 'lines+markers',
+         name: prop,
+         marker: { size: 2 },
+         line: { width: 1 },
+        };
+
+        var trace = createTraceData(data[prop], x_axis, y_axis, attrs);
+        dataset.push(trace);
+      }
+
+      var layout = {
+        title: title
+      };
+
+      var respObject = {
+        dataset: dataset,
+        layout: layout
+      };
+      sendResponse( hop.HTTPResponseJson( respObject ) );
+    }, this);
+}
+
+
+/**
+ * @brief Sort data by key identifier.
+ *
+ * @param data {Object} - The dataset object literal
+ * @param key {String} - Dataset property key name used for sorting.
+ *
+ * @returns {Object} sortedDataObject.
+ */
+function sortByProperty(data, key){
+  data.sort( function(obj1, obj2){
+    return obj1[key] - obj2[key];
+  });
+}
+
+
+function createTraceData(dataArray, x_axis, y_axis, attrs){
+  attrs = attrs || {};
+  var _mode = attrs.mode || 'lines+markers';
+  var _name = attrs.name || '';
+  var _marker = attrs.marker || { size: 2 };
+  var _line = attrs.line || { width: 1 };
+
+  var trace = {
+    x: [],
+    y: [],
+    mode: _mode,
+    name: _name,
+    marker: _marker,
+    line: _line
+  };
+
+  if( ( !(dataArray instanceof Array) ) || ( !(x_axis && y_axis) ) ){
+    return trace;
+  }
+
+  for( var ii = 0; ii < dataArray.length; ii++ ){
+    trace.x.push( dataArray[ii][x_axis] );
+    trace.y.push( dataArray[ii][y_axis] );
+  }
+
+  return trace;
 }
 

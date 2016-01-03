@@ -18,17 +18,14 @@
  *
  */
 
-var META = function( attrs ){
+var METATAG = function( attrs ){
   attrs = attrs || {};
   var _name = attrs.name || 'viewpoint';
-  var _content = attrs.content || 'width=device-width, initial-scale=1';
+  var _content = attrs.content ||
+    'width=device-width, initial-scale=1, maximum-scale=1';
   var _charset = attrs.charset || 'utf-8';
 
-  return <META>{
-    name: _name,
-    content: _content,
-    charset: _charset
-  }
+  return <meta name=${_name} content=${_content} charset=${_charset}>
 };
 
 
@@ -41,14 +38,15 @@ var HEADER = function( attrs ){
   var _meta = attrs.meta || undefined;
   var _plainScripts = attrs.plain_scripts || (function(){return ~{};})();
 
-  return <HEAD>{
-    title: _title,
-    css: _css,
-    jscript: _js,
-    require: _require,
-    _meta,
-    _plainScripts
-  }
+  return <head title=${_title} css=${_css} jscript=${_js} require=${_require}>
+      ${_meta}
+      ${_plainScripts}
+    </head>
+};
+
+
+var NAVBAR = function( attrs ){
+  attrs = attrs || {};
 };
 
 
@@ -90,6 +88,6 @@ var SELECT_LIST = function ( attrs ){
 }
 
 exports.HEADER = HEADER;
-exports.META = META;
+exports.METATAG = METATAG;
 exports.FORM = FORM;
 exports.SELECT_LIST = SELECT_LIST;
