@@ -1,0 +1,5 @@
+<launch>
+  <node name="rapp_caffe_wrapper_node" pkg="rapp_caffe_wrapper" type="caffe_wrapper_main.py" />
+  <rosparam file="$(find rapp_caffe_wrapper)/cfg/rapp_caffe_wrapper_params.yaml" 
+    command="load" />
+</launch>

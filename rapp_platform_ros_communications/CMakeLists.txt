@@ -33,6 +33,8 @@ add_service_files(
   /CognitiveExercise/cognitiveTestCreatorSrv.srv
   /CognitiveExercise/userScoresForAllCategoriesSrv.srv
   /CognitiveExercise/userScoreHistoryForAllCategoriesSrv.srv
+  
+  /CaffeWrapper/imageClassificationSrv.srv
 
   /DbWrapper/DbWrapperSrv.srv
   /DbWrapper/fetchDataSrv.srv

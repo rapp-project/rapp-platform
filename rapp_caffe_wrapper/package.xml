@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapp_caffe_wrapper</name>
+  <version>0.0.1</version>
+  <description>The rapp_mysql_wrapper package</description>
+
+  <maintainer email="etsardou@iti.gr">Emmanouil Tsardoulias</maintainer>
+
+  <license>APACHE 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>rostest</depend>
+  <depend>rapp_platform_ros_communications</depend>
+</package>

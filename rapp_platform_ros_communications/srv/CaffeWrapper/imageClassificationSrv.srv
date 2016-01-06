@@ -1,0 +1,7 @@
+string objectFileUrl
+---
+bool success
+string objectClass
+string error
+string[] trace
+

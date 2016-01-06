@@ -43,7 +43,7 @@ git clone https://github.com/BVLC/caffe.git &> /dev/null
 
 # Install python dependencies
 cd $RappPlatformPath"/caffe/python"
-for req in $(cat requirements.txt); do sudo -H pip install $req; done
+for req in $(cat requirements.txt); do sudo -H pip install $req &> /dev/null; done
 
 # Create the Makefile config
 cd $RappPlatformPath"/caffe"
@@ -52,12 +52,22 @@ cp Makefile.config.example Makefile.config
 sed -i '/# CPU_ONLY := 1/a CPU_ONLY := 1' Makefile.config
 
 # Make all, make test and run tests
-make all
-make test
-make runtest
+make all &> /dev/null
+make test &> /dev/null
+make runtest &> /dev/null
 
 # Download bvlc_reference_caffenet pretained model
 # Warning this download is very slow
-./scripts/download_model_binary.py ./models/bvlc_reference_caffenet
+#./scripts/download_model_binary.py ./models/bvlc_reference_caffenet
+cd ~
+git clone https://github.com/rapp-project/rapp-resources.git
+cd rapp-resources
+rm -rf ~/rapp_platform/caffe/models/
+#copy models into caffe directory
+cp -f caffe_models ~/rapp_platform/caffe/models
+
+#create example images folder and load sample image
+mkdir ~/rapp_platform_files/image_processing
+cp toilet.jpg ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/setup/example_images/toilet.jpg
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Caffe installation Finished \e[0m"
