@@ -65,9 +65,13 @@ cd rapp-resources
 rm -rf ~/rapp_platform/caffe/models/
 #copy models into caffe directory
 cp -f caffe_models ~/rapp_platform/caffe/models
+cd ~/rapp_platform/caffe/models/bvlc_reference_caffenet
+#merge splitted model into one file
+cat bvlc_reference_caffenet_piece_* > bvlc_reference_caffenet.caffemodel
+rm bvlc_reference_caffenet_piece_*
 
 #create example images folder and load sample image
 mkdir ~/rapp_platform_files/image_processing
-cp toilet.jpg ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/setup/example_images/toilet.jpg
+cp ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/setup/example_images/toilet.jpg ~/rapp_platform_files/image_processing/toilet.jpg
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Caffe installation Finished \e[0m"
