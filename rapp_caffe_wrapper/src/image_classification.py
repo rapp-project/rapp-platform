@@ -22,6 +22,7 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from os.path import expanduser
 
 from rapp_platform_ros_communications.srv import (
   imageClassificationSrv,
@@ -42,7 +43,7 @@ class ImageClassification:
     res = imageClassificationSrvResponse()
     #res.error="kati akraio"
     
-    caffe_root = '/home/thanos/rapp_platform/caffe/'  # this file is expected to be in {caffe_root}/examples
+    caffe_root = expanduser("~")+'/rapp_platform/caffe/'  # this file is expected to be in {caffe_root}/examples
     import sys
     sys.path.insert(0, caffe_root + 'python')
     print np.__version__

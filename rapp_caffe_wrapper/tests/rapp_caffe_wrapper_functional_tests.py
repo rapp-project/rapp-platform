@@ -42,7 +42,7 @@ class TestCaffeWrapper(unittest.TestCase):
             ros_service, imageClassificationSrv)
 
     req = imageClassificationSrvRequest()
-    req.objectFileUrl= "/home/thanos/rapp_platform_files/image_processing/toilet.jpg"
+    req.objectFileUrl= "/home/thanos/rapp_platform_files/image_processing/example_images/toilet.jpg"
     response = test_service(req)     
     self.assertEqual(response.success, True) 
     self.assertEqual(response.objectClass, "toilet seat") 
