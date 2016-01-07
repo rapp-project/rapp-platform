@@ -32,12 +32,23 @@ module.exports = function(grunt) {
       }
     },
     shell: {
+      // Options for all grunt-shell tasks.
       options: {
         stderr: true,
-        stdout: true
+        stdout: true,
+        stdin: false,
+        execOptions:{
+          maxBuffer: Infinity,
+          encoding: 'utf8'
+        }
       },
       init_hop: {
-        command: './run.sh'
+        command: './run.sh',
+        options: {
+          execOptions: {
+            maxBuffer: Infinity
+          }
+        }
       },
       clean_doc: {
         command: 'rm -rf doc/'
