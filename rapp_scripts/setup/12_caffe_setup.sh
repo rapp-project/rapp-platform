@@ -57,13 +57,14 @@ echo "running make all"
 make all &> /dev/null
 echo "running make pycaffe"
 make pycaffe &> /dev/null
-echo "running make test but skipping running tests"
-make test &> /dev/null
+#echo "running make test but skipping running tests"
+#make test &> /dev/null
 #make runtest &> /dev/null
 
 # Download bvlc_reference_caffenet pretained model
 # Warning this download is very slow
 #./scripts/download_model_binary.py ./models/bvlc_reference_caffenet
+echo "Cloning rapp-resources Repo"
 cd ~
 git clone https://github.com/rapp-project/rapp-resources.git
 cd ~/rapp-resources
