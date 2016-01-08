@@ -66,7 +66,7 @@ make pycaffe &> /dev/null
 #./scripts/download_model_binary.py ./models/bvlc_reference_caffenet
 echo "Cloning rapp-resources Repo"
 cd ~
-git clone https://github.com/rapp-project/rapp-resources.git
+git clone https://github.com/rapp-project/rapp-resources.git &> /dev/null
 cd ~/rapp-resources
 rm -rf ~/rapp_platform/caffe/models/
 #copy models into caffe directory
