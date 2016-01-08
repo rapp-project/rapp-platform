@@ -21,6 +21,7 @@ PKG='test_rapp_mysql_wrapper'
 import sys
 import unittest
 import rospy
+from os.path import expanduser
 
 from rapp_platform_ros_communications.srv import (
   imageClassificationSrv,
@@ -42,7 +43,7 @@ class TestCaffeWrapper(unittest.TestCase):
             ros_service, imageClassificationSrv)
 
     req = imageClassificationSrvRequest()
-    req.objectFileUrl= "/home/thanos/rapp_platform_files/image_processing/example_images/toilet.jpg"
+    req.objectFileUrl= expanduser("~")+"/rapp_platform_files/image_processing/example_images/toilet.jpg"
     response = test_service(req)     
     self.assertEqual(response.success, True) 
     self.assertEqual(response.objectClass, "toilet seat") 
