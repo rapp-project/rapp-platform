@@ -7,14 +7,15 @@
 
 /**
  * @class PathPlanner
- * @brief Class that implements a path planning algorithm based on
- * global_planner and map_server ROS nodes
+ * @brief Class that implements a path planning algorithm based on global_planner and map_server ROS nodes
  */
 class PathPlanner
 {
   public:
-
-    // Default constructor
+    
+    /** 
+     * @brief   Default constructor
+    */
     PathPlanner(void);
 
     /** 
@@ -76,7 +77,7 @@ class PathPlanner
                                     * 4 : wrong algorithm
                             -> error_message : error explenation
                             -> path : vector of PoseStamped objects
-     */
+     
 
 
 
@@ -84,8 +85,9 @@ class PathPlanner
 
 
     navfn::MakeNavPlanResponse plannPath(std::string map_path, std::string robot, std::string algorithm, geometry_msgs::PoseStamped start, geometry_msgs::PoseStamped goal, ros::NodeHandle& nh);
+*/
+      private:
 
-  private:
 
 };
 

@@ -85,29 +85,82 @@ bool start_map_servers(std::string node_nr_str){
 
 }
 bool start_global_planners(std::string node_nr_str){
+const char* execute_command = "/opt/ros/indigo/bin/rosparam";
+ pid_t load_configs_costmap_pID = fork();
+                   if (load_configs_costmap_pID == 0)                
+                   {
+                      ROS_DEBUG_STREAM("starting load_configs_costmap_pID for sequence: "<< node_nr_str);
+                      
+                      std::string robot_type = "NAO";
+                      std::string costmap_file = robot_type+".yaml";
+                      std::string load_configs_pkg_path = ros::package::getPath("rapp_path_planning");
+                      // set yaml file path
+                      std:: string execute_param_1_string = load_configs_pkg_path+"/cfg/costmap/"+costmap_file;
+                      const char* execute_param_1 = execute_param_1_string.c_str();
+                      ROS_DEBUG_STREAM("costmap file path:\n"<< execute_param_1_string);
 
-     pid_t global_planner_pID = fork();
-       if (global_planner_pID == 0)                
-       {
-            ROS_DEBUG_STREAM("starting global_planner node: "<< node_nr_str);
+                      // set params namespace
+                      std:: string execute_param_2_string = "/global_planner"+node_nr_str+"/costmap/";
+                      const char* execute_param_2 = execute_param_2_string.c_str();
+                      //nh_.setParam("/global_planner"+node_nr_str+"/costmap/map_service", "/map_server"+node_nr_str+"/getMap");
 
-          // ROS node name
-          std:: string execute_param_1_string = "__name:=global_planner"+node_nr_str;
-          const char* execute_param_1 = execute_param_1_string.c_str();
-          // remap map subscribtion topic
-          std:: string execute_param_2_string =  "/map:=/map_server"+node_nr_str+"/map";
-          const char* execute_param_2 = execute_param_2_string.c_str();
+                      execl(execute_command,execute_command,"load", execute_param_1,execute_param_2 , (char *)0);
+                    }
+                    else if (load_configs_costmap_pID < 0)            
+                    {
+                        std::cout << "Failed to fork load_configs" << std::endl;
+                        return false;
+                        exit(1);
+                        
+                    }
+                    else{
+                            pid_t load_configs_planner_pID = fork();
+                         if (load_configs_planner_pID == 0)                
+                         {
+                             ROS_DEBUG_STREAM("starting load_configs_planner_pID for sequence: "<< node_nr_str);
 
-          execl("/opt/ros/indigo/bin/rosrun","/opt/ros/indigo/bin/rosrun","global_planner", "planner", execute_param_1,  execute_param_2, (char *)0);
+                            std::string algorithm = "dijkstra";
+                            std::string algorithm_file = algorithm+".yaml";
+                            std::string load_configs_pkg_path = ros::package::getPath("rapp_path_planning");
+                            // set yaml file path
+                            std:: string execute_param_1_string =  load_configs_pkg_path+"/cfg/planner/"+algorithm_file;
+                            const char* execute_param_1 = execute_param_1_string.c_str();
+                            // set params namespace
+                            std:: string execute_param_2_string = "/global_planner"+node_nr_str+"/planner/";
+                            const char* execute_param_2 = execute_param_2_string.c_str();
+                            execl(execute_command,execute_command,"load", execute_param_1,execute_param_2 , (char *)0);
+                          }
+                          else if (load_configs_planner_pID < 0)            
+                          {
+                              ROS_ERROR("Failed to fork load_configs");
+                              return false;
+                              exit(1);
+                              
+                          }
+                          else{
+                             pid_t global_planner_pID = fork();
+                               if (global_planner_pID == 0)                
+                               {
+                                    ROS_DEBUG_STREAM("starting global_planner node: "<< node_nr_str);
 
-        }
-        else if (global_planner_pID < 0)           
-        {
-      ROS_ERROR("Failed to fork global_planner");
-            exit(1);
-        }
-        else{}
-  
+                                  // ROS node name
+                                  std:: string execute_param_1_string = "__name:=global_planner"+node_nr_str;
+                                  const char* execute_param_1 = execute_param_1_string.c_str();
+                                  // remap map subscribtion topic
+                                  std:: string execute_param_2_string =  "/map:=/map_server"+node_nr_str+"/map";
+                                  const char* execute_param_2 = execute_param_2_string.c_str();
+
+                                  execl("/opt/ros/indigo/bin/rosrun","/opt/ros/indigo/bin/rosrun","global_planner", "planner", execute_param_1,  execute_param_2, (char *)0);
+
+                                }
+                                else if (global_planner_pID < 0)           
+                                {
+                              ROS_ERROR("Failed to fork global_planner");
+                                    exit(1);
+                                }
+                                else{}
+                          }
+                      }
 
 }
 
@@ -116,12 +169,12 @@ PathPlanning::PathPlanning(void)
 
   if(!nh_.getParam("/rapp_path_planning_plan_path_topic", pathPlanningTopic_))
   {
-    ROS_ERROR("Path planning topic param does not exist. Setting to: /rapp/rapp_path_planning/plan_path");
+    ROS_WARN("Path planning topic param does not exist. Setting to: /rapp/rapp_path_planning/plan_path");
     pathPlanningTopic_ = "/rapp/rapp_path_planning/plan_path";
   }
   if(!nh_.getParam("/rapp_path_planning_threads", pathPlanningThreads_))
   {
-    ROS_ERROR("Path planning threads param does not exist. Setting 5 threads.");
+    ROS_WARN("Path planning threads param does not exist. Setting 5 threads.");
     pathPlanningThreads_ = 5;
   }
     bool tf_status = start_tf_publisher();
@@ -130,22 +183,46 @@ if (tf_status){
     {
       std::string node_nr_str = boost::lexical_cast<std::string>(node_nr);
     start_map_servers(node_nr_str);
-    bool config_status = path_planner_.configureSequence(node_nr_str, "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml", "NAO", "dijkstra", nh_);
     start_global_planners(node_nr_str);
+    //bool config_status = path_planner_.configureSequence(node_nr_str, "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml", "NAO", "dijkstra", nh_);
+
   }
 }
+if(!nh_.getParam("/rapp_path_planning_upload_map_topic", uploadMapTopic_))
+  {
+    ROS_ERROR("Upload map topic param does not exist. Setting to: /rapp/rapp_path_planning/upload_map");
+    pathPlanningTopic_ = "/rapp/rapp_path_planning/upload_map";
+  }
+
   // Creating the service server concerning the path planning functionality
   pathPlanningService_ = nh_.advertiseService(pathPlanningTopic_, 
     &PathPlanning::pathPlanningCallback, this);
+    uploadMapService_ = nh_.advertiseService(uploadMapTopic_, 
+    &PathPlanning::uploadMapCallback, this);
 }
 
 
+bool PathPlanning::uploadMapCallback(rapp_platform_ros_communications::MapServerUploadMapRosSrv::Request  &req,
+                     rapp_platform_ros_communications::MapServerUploadMapRosSrv::Response &res){
+  
+  std::string seq_nr_str = path_planner_.setSequenceNR(nh_, pathPlanningThreads_);
+  ros::ServiceClient upload_map_client = nh_.serviceClient<rapp_platform_ros_communications::MapServerUploadMapRosSrv>("/map_server"+seq_nr_str+"/upload_map");
+  rapp_platform_ros_communications::MapServerUploadMapRosSrv upload_map_srv;
+  upload_map_srv.request = req;
+  if(upload_map_client.call(upload_map_srv)){
+    res = upload_map_srv.response;
+    return true;
+  }else{
+    ROS_ERROR_STREAM("FAILED to call service:\n/map_server"<< seq_nr_str << "/upload_map");
+  return false; 
+  }
 
+}
 bool PathPlanning::pathPlanningCallback(
   rapp_platform_ros_communications::PathPlanningRosSrv::Request& req,
   rapp_platform_ros_communications::PathPlanningRosSrv::Response& res)
 {
-  std::string map_path = ros::package::getPath("rapp_map_server")+"/maps/"+req.map_name+".yaml";
+  std::string map_path = "/home/rapp/rapp_platform_files/maps/rapp/"+req.user_name+"/"+req.map_name+".yaml";
   std::string costmap_file_path = ros::package::getPath("rapp_path_planning")+"/cfg/costmap/"+req.robot_type+".yaml";
   std::string algorithm_file_path = ros::package::getPath("rapp_path_planning")+"/cfg/planner/"+req.algorithm+".yaml";
   navfn::MakeNavPlanResponse response;

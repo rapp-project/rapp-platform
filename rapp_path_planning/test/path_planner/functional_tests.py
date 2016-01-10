@@ -11,6 +11,11 @@ from rapp_platform_ros_communications.srv import (
   PathPlanningRosSrv,
   PathPlanningRosSrvRequest
   )
+# upload map test
+import base64
+import shutil
+from rapp_platform_ros_communications.srv  import MapServerUploadMapRosSrv, MapServerUploadMapRosSrvRequest
+from std_msgs.msg import ByteMultiArray
 
 
 class PathPlanFunc(unittest.TestCase):
@@ -23,6 +28,7 @@ class PathPlanFunc(unittest.TestCase):
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
         req = PathPlanningRosSrvRequest()
 
+        req.user_name = "functional_test"
 
         req.map_name = "empty"
         req.robot_type = "NAO"
@@ -61,6 +67,7 @@ class PathPlanFunc(unittest.TestCase):
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
         req = PathPlanningRosSrvRequest()
 
+        req.user_name = "functional_test"
 
         req.map_name = "occupied"
         req.robot_type = "NAO"
@@ -99,6 +106,7 @@ class PathPlanFunc(unittest.TestCase):
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
         req = PathPlanningRosSrvRequest()
 
+        req.user_name = "functional_test"
 
         req.map_name = "empty"
         req.robot_type = "NAO"
@@ -136,6 +144,7 @@ class PathPlanFunc(unittest.TestCase):
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
         req = PathPlanningRosSrvRequest()
 
+        req.user_name = "functional_test"
 
         req.map_name = "empty"
         req.robot_type = "NAO"
@@ -176,6 +185,7 @@ class PathPlanFunc(unittest.TestCase):
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
         req = PathPlanningRosSrvRequest()
 
+        req.user_name = "functional_test"
 
         req.map_name = "empty"
         req.robot_type = "nao" # doeas not exist
@@ -216,6 +226,7 @@ class PathPlanFunc(unittest.TestCase):
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
         req = PathPlanningRosSrvRequest()
 
+        req.user_name = "functional_test"
 
         req.map_name = "white_house"# doeas not exist
         req.robot_type = "NAO" 
@@ -248,11 +259,42 @@ class PathPlanFunc(unittest.TestCase):
         print response.error_message
         self.assertEqual( plan_found, 2 )
 
+    def test_map_upload(self):
+
+        rospack = rospkg.RosPack()
+        upload_service = rospy.get_param("rapp_path_planning_upload_map_topic")
+        rospy.wait_for_service(upload_service)
+        um_service = rospy.ServiceProxy(upload_service, MapServerUploadMapRosSrv)
+        req = MapServerUploadMapRosSrvRequest()
+        with open("/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/523_m3.png", "rb") as imageFile:
+            f = imageFile.read()
+            file_bytes = bytes(f)
+        up_prox = rospy.ServiceProxy("/rapp/rapp_path_planning/upload_map", MapServerUploadMapRosSrv)
+        req = MapServerUploadMapRosSrvRequest()
+
+        req.user_name = "functional_test"
+        req.map_name = "523_m"
+        req.resolution = 0.02
+        req.origin = [0.0,0.0,0]
+        req.negate = 0
+        req.occupied_thresh = 0
+        req.free_thresh = 0
+        #req.data = b
+        bytes_array = ByteMultiArray()
+        bytes_array.data = file_bytes
+        req.data = bytes_array.data
+        req.file_size = len(file_bytes)
+        response = up_prox(req)
+
+        status = response.status
+        
+        self.assertEqual( status, True )
 
 if __name__ == '__main__':
     import rosunit
+    shutil.copytree("/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/", "/home/rapp/rapp_platform_files/maps/rapp/functional_test/")
     rosunit.unitrun(PKG, 'PathPlanFunc', PathPlanFunc)
-
+    shutil.rmtree("/home/rapp/rapp_platform_files/maps/rapp/functional_test")
 
 
 
