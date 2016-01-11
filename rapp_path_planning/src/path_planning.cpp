@@ -66,7 +66,7 @@ bool start_map_servers(std::string node_nr_str){
                       ROS_DEBUG_STREAM("map_server name:\n" << node_nr_str );
 
             // set map path
-            std:: string execute_param_2_string = "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/empty.yaml";
+            std:: string execute_param_2_string = ros::package::getPath("rapp_map_server")+"/maps/empty.yaml";
             const char* execute_param_2 = execute_param_2_string.c_str();
             // remap map publication topic
             std:: string execute_param_3_string = "/map:=/map_server"+node_nr_str+"/map";
@@ -166,7 +166,9 @@ const char* execute_command = "/opt/ros/indigo/bin/rosparam";
 
 PathPlanning::PathPlanning(void)
 {
-
+if ((homedir = getenv("HOME")) == NULL) {
+    homedir = getpwuid(getuid())->pw_dir;
+}
   if(!nh_.getParam("/rapp_path_planning_plan_path_topic", pathPlanningTopic_))
   {
     ROS_WARN("Path planning topic param does not exist. Setting to: /rapp/rapp_path_planning/plan_path");
@@ -222,7 +224,9 @@ bool PathPlanning::pathPlanningCallback(
   rapp_platform_ros_communications::PathPlanningRosSrv::Request& req,
   rapp_platform_ros_communications::PathPlanningRosSrv::Response& res)
 {
-  std::string map_path = "/home/rapp/rapp_platform_files/maps/rapp/"+req.user_name+"/"+req.map_name+".yaml";
+  std::string homedir_str = homedir;
+
+  std::string map_path = homedir_str+"/rapp_platform_files/maps/rapp/"+req.user_name+"/"+req.map_name+".yaml";
   std::string costmap_file_path = ros::package::getPath("rapp_path_planning")+"/cfg/costmap/"+req.robot_type+".yaml";
   std::string algorithm_file_path = ros::package::getPath("rapp_path_planning")+"/cfg/planner/"+req.algorithm+".yaml";
   navfn::MakeNavPlanResponse response;
@@ -252,19 +256,24 @@ bool PathPlanning::pathPlanningCallback(
           res.error_message = "Input robot_type does not exist";
 
           ROS_ERROR("Input robot_type does not exist");
+
       }
     }else{
         res.plan_found = 4;
         res.error_message = "Input algorithm does not exist";
 
         ROS_ERROR("Input algorithm does not exist");
+
     }
   }else{
         res.plan_found = 5;
         res.error_message = "Robot pose can NOT be placed at the map border";
 
         ROS_ERROR("Robot pose can NOT be placed at the map border");
+
   }
+  return true;
+
 }
  
 

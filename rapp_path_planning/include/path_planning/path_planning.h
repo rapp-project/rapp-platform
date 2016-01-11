@@ -15,6 +15,10 @@
 #include <boost/lexical_cast.hpp>
 // for service manager -> determine if service is active
 #include <ros/service_manager.h>
+//get rapp-platform home directory
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 class PathPlanning
 {
@@ -60,7 +64,8 @@ class PathPlanning
   private:
     // The ROS node handle
     ros::NodeHandle nh_;
-
+    // RAPP-platform home_dir
+    const char *homedir;
     // The service server 
     ros::ServiceServer pathPlanningService_;
     ros::ServiceServer uploadMapService_;

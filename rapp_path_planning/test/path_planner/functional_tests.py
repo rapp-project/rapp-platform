@@ -16,13 +16,15 @@ import base64
 import shutil
 from rapp_platform_ros_communications.srv  import MapServerUploadMapRosSrv, MapServerUploadMapRosSrvRequest
 from std_msgs.msg import ByteMultiArray
+import os
+from os.path import expanduser
 
 
 class PathPlanFunc(unittest.TestCase):
 
     def test_planFound(self):
 
-        rospack = rospkg.RosPack()
+        #rospack = rospkg.RosPack()
         path_service = rospy.get_param("rapp_path_planning_plan_path_topic")
         rospy.wait_for_service(path_service)
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
@@ -61,7 +63,7 @@ class PathPlanFunc(unittest.TestCase):
         self.assertEqual( plan_found, 1 )
 
     def test_planNotFound(self):
-        rospack = rospkg.RosPack()
+        #rospack = rospkg.RosPack()
         path_service = rospy.get_param("rapp_path_planning_plan_path_topic")
         rospy.wait_for_service(path_service)
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
@@ -100,7 +102,7 @@ class PathPlanFunc(unittest.TestCase):
         self.assertEqual( plan_found, 0 )
 
     def test_getPath(self):
-        rospack = rospkg.RosPack()
+       # rospack = rospkg.RosPack()
         path_service = rospy.get_param("rapp_path_planning_plan_path_topic")
         rospy.wait_for_service(path_service)
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
@@ -138,7 +140,7 @@ class PathPlanFunc(unittest.TestCase):
         self.assertGreater( len(response.path), 1 )
 
     def test_wrongAlgorithm(self):
-        rospack = rospkg.RosPack()
+        #rospack = rospkg.RosPack()
         path_service = rospy.get_param("rapp_path_planning_plan_path_topic")
         rospy.wait_for_service(path_service)
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
@@ -179,7 +181,7 @@ class PathPlanFunc(unittest.TestCase):
         self.assertEqual( plan_found, 4 )
 
     def test_wrongRobot(self):
-        rospack = rospkg.RosPack()
+        #rospack = rospkg.RosPack()
         path_service = rospy.get_param("rapp_path_planning_plan_path_topic")
         rospy.wait_for_service(path_service)
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
@@ -220,7 +222,7 @@ class PathPlanFunc(unittest.TestCase):
         self.assertEqual( plan_found, 3 )
 
     def test_wrongMap(self):
-        rospack = rospkg.RosPack()
+        #rospack = rospkg.RosPack()
         path_service = rospy.get_param("rapp_path_planning_plan_path_topic")
         rospy.wait_for_service(path_service)
         pp_service = rospy.ServiceProxy(path_service, PathPlanningRosSrv)
@@ -261,19 +263,21 @@ class PathPlanFunc(unittest.TestCase):
 
     def test_map_upload(self):
 
-        rospack = rospkg.RosPack()
+        rospack_map = rospkg.RosPack()
         upload_service = rospy.get_param("rapp_path_planning_upload_map_topic")
         rospy.wait_for_service(upload_service)
         um_service = rospy.ServiceProxy(upload_service, MapServerUploadMapRosSrv)
         req = MapServerUploadMapRosSrvRequest()
-        with open("/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/523_m3.png", "rb") as imageFile:
+        map_server_path = rospack_map.get_path("rapp_map_server")
+
+        with open(map_server_path+"/maps/523_m3.png", "rb") as imageFile:
             f = imageFile.read()
             file_bytes = bytes(f)
         up_prox = rospy.ServiceProxy("/rapp/rapp_path_planning/upload_map", MapServerUploadMapRosSrv)
         req = MapServerUploadMapRosSrvRequest()
 
         req.user_name = "functional_test"
-        req.map_name = "523_m"
+        req.map_name = "523_m_test"
         req.resolution = 0.02
         req.origin = [0.0,0.0,0]
         req.negate = 0
@@ -292,7 +296,12 @@ class PathPlanFunc(unittest.TestCase):
 
 if __name__ == '__main__':
     import rosunit
-    shutil.copytree("/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_map_server/maps/", "/home/rapp/rapp_platform_files/maps/rapp/functional_test/")
+    if os.path.isdir("/home/rapp/rapp_platform_files/maps/rapp/functional_test"):
+        shutil.rmtree("/home/rapp/rapp_platform_files/maps/rapp/functional_test")
+    rospack = rospkg.RosPack()
+    map_server_path = rospack.get_path("rapp_map_server")
+    home = expanduser("~")
+    shutil.copytree(map_server_path+"/maps/", home+"/rapp_platform_files/maps/rapp/functional_test/")
     rosunit.unitrun(PKG, 'PathPlanFunc', PathPlanFunc)
     shutil.rmtree("/home/rapp/rapp_platform_files/maps/rapp/functional_test")
 

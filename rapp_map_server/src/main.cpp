@@ -55,6 +55,10 @@
 #include "rapp_platform_ros_communications/MapServerGetMapRosSrv.h"
 #include "rapp_platform_ros_communications/MapServerUploadMapRosSrv.h"
 #include "std_srvs/Empty.h"
+//get rapp-platform home directory
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 
 #ifdef HAVE_NEW_YAMLCPP
@@ -73,6 +77,9 @@ class MapServer
     /** Trivial constructor */
     MapServer(std::string fname)
     {
+      if ((homedir = getenv("HOME")) == NULL) {
+      homedir = getpwuid(getuid())->pw_dir;
+    }
       map_pub = n.advertise<nav_msgs::OccupancyGrid>("/map", 1, true);
 
       bool update_status = updateMap(fname,0);
@@ -90,6 +97,8 @@ class MapServer
     }
 
   private:
+    const char *homedir;
+
     ros::NodeHandle n;
     ros::Publisher map_pub;
     ros::Publisher metadata_pub;
@@ -114,7 +123,8 @@ class MapServer
 
     std::string user = req.user_name;
     std::string map = req.map_name;
-    std::string map_path ="/home/rapp/rapp_platform_files/maps/rapp/"+user;
+    std::string homedir_str = homedir;
+    std::string map_path = homedir_str+"/rapp_platform_files/maps/rapp/"+user;
 
     boost::filesystem::create_directories(map_path);
     std::string yaml_path = map_path+"/"+map+".yaml";
