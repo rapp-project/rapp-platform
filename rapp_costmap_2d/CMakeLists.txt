@@ -114,8 +114,8 @@ target_link_libraries(rapp_layers
   ${catkin_LIBRARIES}
 )
 
-
-add_dependencies(rapp_layers costmap_2d_gencfg)
+add_dependencies(rapp_layers costmap_2d_gencfg   rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS})
 
 ## Configure Tests
 if (False)
