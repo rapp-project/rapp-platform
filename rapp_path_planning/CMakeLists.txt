@@ -58,6 +58,11 @@ add_dependencies(path_planning_ros_node
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(path_planning_lib
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
+
 ## Tests
 if (CATKIN_ENABLE_TESTING)
   # unit tests
