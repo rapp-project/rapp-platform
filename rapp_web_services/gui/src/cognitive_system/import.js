@@ -61,7 +61,7 @@ var _REQUIRE = [];
 var _CLIENT_SCRIPTS = function( attrs ){
   attrs = attrs || {};
   var _user = attrs.user || '';
-  import service rapp_user_info();
+  import service user_personal_info();
   import service cognitive_get_scores();
   import service cognitive_get_history();
   import service plot_data_form();
@@ -113,7 +113,7 @@ var _CLIENT_SCRIPTS = function( attrs ){
       });
 
 
-      ${rapp_user_info}({user: connectedUser}).post( function(resp){
+      ${user_personal_info}({user: connectedUser}).post( function(resp){
         var usrPanelBody = $('#user-info-panel').find('.panel-body');
 
         var ii = 0;

@@ -23,13 +23,13 @@ var path = require('path');
 var testParams = require( path.join(__dirname, 'params.json') );
 
 exports.TEST = function (){
-  import service rapp_user_info();
+  import service user_personal_info();
 
   var success = false;
   var validResponse = testParams.response;
   var args = testParams.request.args;
 
-  var response = rapp_user_info(args).postSync();
+  var response = user_personal_info(args).postSync();
 
   if(validResponse.error === response.error){
     success = true;

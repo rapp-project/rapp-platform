@@ -88,7 +88,7 @@
     "scan_time": 2,
     "initial_scan_wait": 15000
   },
-  "rapp_user_info":{
+  "user_personal_info":{
     "Mode": "Devel",
     "timeout": 1000,
     "retries": 1,

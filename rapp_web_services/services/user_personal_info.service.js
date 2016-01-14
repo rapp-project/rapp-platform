@@ -45,7 +45,7 @@ var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
 
 
 /* ------------< Load and set global configuration parameters >-------------*/
-var __hopServiceName = 'rapp_user_info';
+var __hopServiceName = 'user_personal_info';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
@@ -70,7 +70,7 @@ var maxTries = ENV.SERVICES[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
 
-service rapp_user_info( {user: ''} )
+service user_personal_info( {user: ''} )
 {
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
