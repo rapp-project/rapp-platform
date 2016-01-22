@@ -246,7 +246,13 @@ function craft_response(rosbridge_msg)
   var logMsg = 'Returning to client';
 
   for( var ii = 0; ii < testClasses.length; ii++ ){
-    response.records[testClasses[ii].toLowerCase()] = recordsPerClass[ii].records;
+    try{
+      response.records[testClasses[ii].toLowerCase()] =
+        recordsPerClass[ii].records;
+    }
+    catch(e){
+      response.records[testClasses[ii].toLowerCase()] = [];
+    }
   }
 
   if (error !== '')
