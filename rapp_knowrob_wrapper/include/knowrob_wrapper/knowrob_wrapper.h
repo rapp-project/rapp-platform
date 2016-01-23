@@ -68,6 +68,8 @@ class KnowrobWrapper
 	*/ 
     KnowrobWrapper(ros::NodeHandle nh);
     
+    void dump_ontology_now();
+    
 	/** 
 	* @brief Returns the ontology alias of the user
 	* @param user_id [string] The username of the user 
