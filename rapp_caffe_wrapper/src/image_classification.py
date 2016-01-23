@@ -41,7 +41,7 @@ class ImageClassification:
   
   def classifyImage(self,req):
     res = imageClassificationSrvResponse()
-    #res.error="kati akraio"
+    
     
     caffe_root = expanduser("~")+'/rapp_platform/caffe/'  # this file is expected to be in {caffe_root}/examples
     import sys
@@ -51,9 +51,9 @@ class ImageClassification:
     import caffe
 
     start_time = time.time()
-    plt.rcParams['figure.figsize'] = (10, 10)
-    plt.rcParams['image.interpolation'] = 'nearest'
-    plt.rcParams['image.cmap'] = 'gray'
+    #plt.rcParams['figure.figsize'] = (10, 10)
+    #plt.rcParams['image.interpolation'] = 'nearest'
+    #plt.rcParams['image.cmap'] = 'gray'
 
 
 
@@ -82,20 +82,19 @@ class ImageClassification:
     # set net to batch size of 50
     net.blobs['data'].reshape(50,3,227,227)
 
-    #net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image(caffe_root + 'examples/images/cat.jpg'))
-    #net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image(caffe_root + 'examples/images/t1.jpg'))
-    #net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image('/home/thanos/rapp_platform_files/image_processing/toilet.jpg'))
+    
     net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image(req.objectFileUrl))
     
     out = net.forward()
     print("Predicted class is #{}.".format(out['prob'][0].argmax()))
+    
 
     # load labels
     imagenet_labels_filename = caffe_root + 'data/ilsvrc12/synset_words.txt'
     try:
         labels = np.loadtxt(imagenet_labels_filename, str, delimiter='\t')
     except:
-        #!../data/ilsvrc12/get_ilsvrc_aux.sh
+        #!../data/ilsvrc12/get_ilsvrc_aux.sh #script to download labels
         labels = np.loadtxt(imagenet_labels_filename, str, delimiter='\t')
 
     # sort top k predictions from softmax output
@@ -104,7 +103,7 @@ class ImageClassification:
     print "fist choice was :" + labels[top_k][0]
     res.objectClass=labels[top_k][0]
     res.success=True
-
+    #res.objectClass=("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Predicted class is #{}.".format(out['prob'][0].argmax()))
     print("--- %s seconds elapsed---" % (time.time() - start_time))
     
     
