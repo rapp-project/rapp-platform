@@ -25,7 +25,7 @@ import time
 from datetime import datetime
 from os.path import expanduser
 from collections import OrderedDict
-
+from helper_functions import CognitiveExerciseHelperFunctions
 
 
 from rapp_platform_ros_communications.srv import (
@@ -63,9 +63,9 @@ class UserScoreHistoryForAllCategories:
     try:
       res = userScoreHistoryForAllCategoriesSrvResponse()
       
-      returnWithError,userOntologyAlias=self.getUserOntologyAlias(req.username,res)
-      if(returnWithError):
-        return res      
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
+      #if(returnWithError):
+       # return res      
 
       returnWithError,fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)
       if(returnWithError):
@@ -124,41 +124,15 @@ class UserScoreHistoryForAllCategories:
       testTypesList.append(tmpList[1])
     return False,testTypesList
 
-  ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
-  # @param username [string] The user's username
-  # @param res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
-  #
-  # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
-  # @return ontologyAlias [string] The user's ontology alias
-  def getUserOntologyAlias(self,username,res):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')      
-    knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
-    createOntologyAliasReq = createOntologyAliasSrvRequest()
-    createOntologyAliasReq.username=username
-    createOntologyAliasResponse = knowrob_service(createOntologyAliasReq)
-    if(createOntologyAliasResponse.success!=True):
-      res.trace.extend(createOntologyAliasResponse.trace)
-      res.error=createOntologyAliasResponse.error
-      res.success=False
-      returnWithError=True;
-      return True,""
-    return False,createOntologyAliasResponse.ontology_alias
-
   ## @brief Retrieves the test history of the user for the provided test categories  
   # @param testTypesList [list] The list of the available tests as they were read from the ontology
   # @param userOntologyAlias [string] The user's ontology alias
   # @param upToTime [long] The time up to which the user's performance records are taken into account
   # 
   # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
-  def retrieveTestHistoryForTestCategories(self,testTypesList,userOntologyAlias,fromTime,toTime,res):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')    
+  def retrieveTestHistoryForTestCategories(self,testTypesList,userOntologyAlias,fromTime,toTime,res):        
     for s in testTypesList:
-      userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
-      userPerformanceReq.test_type=s
-      userPerformanceReq.ontology_alias=userOntologyAlias
-      knowrob_service = rospy.ServiceProxy(serv_topic, userPerformanceCognitveTestsSrv)
-      userPerformanceResponse = knowrob_service(userPerformanceReq)      
+      userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)            
       if(userPerformanceResponse.success==True): 
         userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
         sumCategoryScore=0
@@ -187,7 +161,6 @@ class UserScoreHistoryForAllCategories:
             tmpRecord.meanScoreForTypeUpToNow=tmpAverageCategoryScore
             arrayCognitiveExercisePerformanceRecords.records.append(tmpRecord)
         res.recordsPerTestType.append(arrayCognitiveExercisePerformanceRecords)
-
 
   ## @brief Validates the fromTime and toTime variables  
   # @param fromTime [long] The time from which the performance records are evaluated

@@ -25,8 +25,8 @@ import time
 from datetime import datetime
 from os.path import expanduser
 from collections import OrderedDict
-
-
+from helper_functions import CognitiveExerciseHelperFunctions
+from app_error_exception import AppError
 
 from rapp_platform_ros_communications.srv import (
   ontologySubSuperClassesOfSrv,
@@ -60,9 +60,9 @@ class UserScoresForAllCategories:
     try:
       res = userScoresForAllCategoriesSrvResponse()      
       
-      returnWithError,userOntologyAlias=self.getUserOntologyAlias(req.username,res)
-      if(returnWithError):
-        return res      
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
+      #if(returnWithError):
+       # return res      
         
       returnWithError,testTypesList=self.getTestTypesFromOntology(res)
       if(returnWithError):
@@ -117,43 +117,17 @@ class UserScoresForAllCategories:
       testTypesList.append(tmpList[1])
     return False,testTypesList
 
-  ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
-  # @param username [string] The user's username
-  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
-  #
-  # @return res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
-  # @return ontologyAlias [string] The user's ontology alias
-  def getUserOntologyAlias(self,username,res):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')      
-    knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
-    createOntologyAliasReq = createOntologyAliasSrvRequest()
-    createOntologyAliasReq.username=username
-    createOntologyAliasResponse = knowrob_service(createOntologyAliasReq)
-    if(createOntologyAliasResponse.success!=True):
-      res.trace.extend(createOntologyAliasResponse.trace)
-      res.error=createOntologyAliasResponse.error
-      res.success=False
-      returnWithError=True;
-      return True,""
-    return False,createOntologyAliasResponse.ontology_alias
-
   ## @brief Calculates and returns the user's scores for the provided test types  
   # @param testTypesList [list] The list of the available tests as they were read from the ontology
   # @param userOntologyAlias [string] The user's ontology alias
   # @param upToTime [long] The time up to which the user's performance records are taken into account
   # 
   # @return testScores [list] The test scores for each category
-  def calculateUserScoresForCategories(self,testTypesList,userOntologyAlias,upToTime):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests') 
+  def calculateUserScoresForCategories(self,testTypesList,userOntologyAlias,upToTime):    
     scoresPerCategory=[]
     d1=OrderedDict()
     for s in testTypesList:
-      userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
-      userPerformanceReq.test_type=s
-      userPerformanceReq.ontology_alias=userOntologyAlias
-      knowrob_service = rospy.ServiceProxy(serv_topic, userPerformanceCognitveTestsSrv)
-      userPerformanceResponse = knowrob_service(userPerformanceReq)      
+      userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)      
       if(userPerformanceResponse.success!=True):
         scoresPerCategory.append(0)
       else:

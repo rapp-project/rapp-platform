@@ -18,7 +18,6 @@
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
 
-
 import rospkg
 import rospy
 import sys
@@ -31,10 +30,8 @@ from os.path import expanduser
 from collections import OrderedDict
 from random import randint
 from codecs import open
-
 from app_error_exception import AppError
-
-
+from helper_functions import CognitiveExerciseHelperFunctions
 from rapp_platform_ros_communications.srv import (
   ontologySubSuperClassesOfSrv,
   ontologySubSuperClassesOfSrvRequest,
@@ -54,7 +51,6 @@ from rapp_platform_ros_communications.srv import (
   fetchDataSrvRequest,
   fetchDataSrvResponse
   )
-
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
@@ -79,7 +75,7 @@ class TestSelector:
       res = testSelectorSrvResponse()
       currentTimestamp = int(time.time()) 
       modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp=self.loadParamDifficultyModifiersAndHistorySettings(res)
-      userOntologyAlias=self.getUserOntologyAlias(req.username,res)
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
       userLanguage=self.getUserLanguage(req.username,res)
       testTypesList=self.getTestTypesFromOntology()
       testType=self.determineTestType(req.testType,testTypesList,userOntologyAlias,res)      
@@ -383,23 +379,6 @@ class TestSelector:
       else:
         success=True
       return d
-
-  ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
-  # @param username [string] The user's username
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  #
-  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
-  # @return ontologyAlias [string] The user's ontology alias
-  def getUserOntologyAlias(self,username,res):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')      
-    knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
-    createOntologyAliasReq = createOntologyAliasSrvRequest()
-    createOntologyAliasReq.username=username
-    createOntologyAliasResponse = knowrob_service(createOntologyAliasReq)
-    if(createOntologyAliasResponse.success!=True):
-      raise AppError(createOntologyAliasResponse.error, createOntologyAliasResponse.trace)      
-    return createOntologyAliasResponse.ontology_alias
 
   ## @brief Load the difficulty modifiers from the ros yaml file  
   # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv

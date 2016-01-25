@@ -25,6 +25,7 @@ import time
 from datetime import datetime
 from os.path import expanduser
 from collections import OrderedDict
+from helper_functions import CognitiveExerciseHelperFunctions
 
 
 
@@ -74,7 +75,8 @@ class RecordUserCognitiveTestPerformance:
       knowrob_service = rospy.ServiceProxy(serv_topic, recordUserPerformanceCognitiveTestsSrv)
       userPerformanceEntry = recordUserPerformanceCognitiveTestsSrvRequest()
       userPerformanceEntry.test=req.test
-      userPerformanceEntry.patient_ontology_alias=createOntologyAliasResponse.ontology_alias
+      #userPerformanceEntry.patient_ontology_alias=createOntologyAliasResponse.ontology_alias
+      userPerformanceEntry.patient_ontology_alias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
       userPerformanceEntry.timestamp=int(time.time())
       userPerformanceEntry.score=req.score
       userPerformanceEntryResponse = knowrob_service(userPerformanceEntry)
