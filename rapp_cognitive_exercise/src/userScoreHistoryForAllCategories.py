@@ -55,17 +55,15 @@ class UserScoreHistoryForAllCategories:
       self.assignTestHistoryForTestCategoriesToSrv(testTypesList,userOntologyAlias,fromTime,toTime,res)  
       res.success=True
     except ValueError:
-      res.trace.append("Value Error, probably conversion from integer to string failed. Invalid ontology entries?")
+      res.trace.append("ValueError: " +str(e))
+      res.error="ValueError: "+str(e)
       res.success=False
-    except IndexError:
-      res.trace.append("Null pointer exception")
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.error="IndexError: "+str(e)
       res.success=False
-    except IOError:
-      print "Error: can\'t find login file or read data"
-      res.success=False
-      res.trace.append("Error: can\'t find login file or read data")
     except AppError as e:
-      AppError.passErrorToRosSrv(e,res)
+      AppError.passErrorToRosSrv(e,res) 
     return res
 
   ## @brief Retrieves the test history of the user for the provided test categories  

@@ -53,16 +53,22 @@ class RecordUserCognitiveTestPerformance:
       userPerformanceEntryResponse = knowrob_service(userPerformanceEntry)      
       if(userPerformanceEntryResponse.success!=True):
         error=userPerformanceEntryResponse.error+"Submitting query to ontology failed, either test or user ontology alias do not exist or test not of the given type"        
+        raise AppError(error,error)
       else:
         res.success=True
         res.userCognitiveTestPerformanceEntry=userPerformanceEntryResponse.cognitive_test_performance_entry
-    except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.error="IndexError: "+str(e)
       res.success=False
-    except IOError:
-      print "Error: can\'t find login file or read data"
+    except IOError, e:
       res.success=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append("IOError: "+str(e))
+      res.error="IOError: "+str(e)
+    except KeyError, e:
+      res.success=False
+      res.trace.append('"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e))
+      res.error='"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e)
     except AppError as e:
-      AppError.passErrorToRosSrv(e,res)
+      AppError.passErrorToRosSrv(e,res) 
     return res

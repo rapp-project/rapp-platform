@@ -46,20 +46,17 @@ class UserScoresForAllCategories:
       testTypesList=CognitiveExerciseHelperFunctions.determineTestTypeListForReturningScoresOrHistory(req.testType,testTypesList)  
       res.testCategories=testTypesList
       res.testScores=self.calculateUserScoresForCategories(testTypesList,userOntologyAlias,req.upToTime)   
-      res.success=True         
-
+      res.success=True
     except ValueError:
-      res.trace.append("Value Error, probably conversion from integer to string failed. Invalid ontology entries?")
+      res.trace.append("ValueError: " +str(e))
+      res.error="ValueError: "+str(e)
       res.success=False
-    except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.error="IndexError: "+str(e)
       res.success=False
-    except IOError:
-      print "Error: can\'t find login file or read data"
-      res.success=False
-      res.trace.append("Error: can\'t find login file or read data")
     except AppError as e:
-      AppError.passErrorToRosSrv(e,res)
+      AppError.passErrorToRosSrv(e,res) 
     return res  
 
   ## @brief Calculates and returns the user's scores for the provided test types  

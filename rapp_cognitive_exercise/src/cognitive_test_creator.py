@@ -234,35 +234,3 @@ class CognitiveTestCreator:
       else:
           if level and (not elem.tail or not elem.tail.strip()):
               elem.tail = i
-
-
-
-
-        #get the cognitive test_id
-        #serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
-        #if(not serv_topic):
-          #rospy.logerror("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
-          #res.trace.append("rapp_knowrob_wrapper_cognitive_tests_of_type not found")
-          #res.error="rapp_knowrob_wrapper_cognitive_tests_of_type not found"
-          #res.success=False
-          #return res
-        #cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
-        #cognitiveTestsOfTypeSrvReq.test_type=d["testType"][0]
-        #knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)
-        #cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
-
-        #calculatedVariationID=1
-        #if(cognitiveTestsOfTypeResponse.success==True):
-          #maxidlist=[]
-          #for test_i in range(len(cognitiveTestsOfTypeResponse.subtype)):
-            #tmp=cognitiveTestsOfTypeResponse.subtype[test_i].split("#")
-            #tmpSubtype=tmp[1]
-            #if (tmpSubtype==d["testSubType"][0] and cognitiveTestsOfTypeResponse.difficulty[test_i]==d["difficulty"][0]):
-              #maxidlist.append(cognitiveTestsOfTypeResponse.variation[test_i])
-          ##print maxidlist
-          #if (len(maxidlist)>0):
-            #maxidlist=map(int, maxidlist)
-            #calculatedVariationID=max(maxidlist)+1
-          ##print calculatedVariationID
-
-        ##############

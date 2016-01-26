@@ -67,8 +67,7 @@ class TestSelector:
   def chooserFunction(self,req):
     try:      
       res = testSelectorSrvResponse()
-      currentTimestamp = int(time.time()) 
-      
+      currentTimestamp = int(time.time())      
       #Load parameters from yaml file
       modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp=self.loadParamDifficultyModifiersAndHistorySettings()
       #Get user ontology alias
@@ -85,9 +84,7 @@ class TestSelector:
       testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res)            
       #Determine the least recently used (LRU) test and retrieve the .xml test file
       testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp,res)
-      #Parse the .xml test file name and assign the data to the testSelectorSrvResponse response srv
-      
-      #res.trace.append(testFilePath)
+      #Parse the .xml test file name and assign the data to the testSelectorSrvResponse response srv           
       self.retrieveDataFromTestXml(testFilePath,res,userLanguage)      
       res.success=True
     except IndexError, e:
