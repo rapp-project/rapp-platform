@@ -38,18 +38,13 @@ from rapp_platform_ros_communications.srv import (
   ontologySubSuperClassesOfSrvResponse,
   testSelectorSrv,
   testSelectorSrvResponse,
-  createOntologyAliasSrv,
-  createOntologyAliasSrvRequest,
-  createOntologyAliasSrvResponse,
   userPerformanceCognitveTestsSrv,
   userPerformanceCognitveTestsSrvRequest,
   userPerformanceCognitveTestsSrvResponse,
   cognitiveTestsOfTypeSrv,
   cognitiveTestsOfTypeSrvRequest,
   cognitiveTestsOfTypeSrvResponse,
-  fetchDataSrv,
-  fetchDataSrvRequest,
-  fetchDataSrvResponse
+
   )
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
@@ -70,21 +65,30 @@ class TestSelector:
   # @exception Exception IndexError
   # @exception Exception AIOError
   def chooserFunction(self,req):
-    try:
-      rospack = rospkg.RosPack()
+    try:      
       res = testSelectorSrvResponse()
       currentTimestamp = int(time.time()) 
-      modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp=self.loadParamDifficultyModifiersAndHistorySettings(res)
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
-      userLanguage=self.getUserLanguage(req.username,res)
-      testTypesList=self.getTestTypesFromOntology()
-      testType=self.determineTestType(req.testType,testTypesList,userOntologyAlias,res)      
-      chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.organizeUserPerformanceByTimestampAndDetermineTestDifficulty(testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastTests)
+      
+      #Load parameters from yaml file
+      modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp=self.loadParamDifficultyModifiersAndHistorySettings()
+      #Get user ontology alias
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)      
+      #Get user language
+      userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.username,res)
+      #Get test types from ontology
+      testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
+      #Determine the test type of the to be selected test
+      testType=self.determineTestType(req.testType,testTypesList,userOntologyAlias,res)        
+      #Get user performance records and determine difficulty of the to be selected test for given test type
+      chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.getUserPerformanceRecordsAndDetermineTestDifficultyForTestType(testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastTests)
+      #Get all tests of a give type from the ontology
       testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res)            
-      finalTestFilePath,finalTestname=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp,res)
-      finalTestFilePath=rospack.get_path('rapp_cognitive_exercise')+finalTestFilePath
-      #res.trace.append(finalTestFilePath)
-      self.retrieveDataFromTestXml(finalTestFilePath,res,userLanguage)      
+      #Determine the least recently used (LRU) test and retrieve the .xml test file
+      testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp,res)
+      #Parse the .xml test file name and assign the data to the testSelectorSrvResponse response srv
+      
+      #res.trace.append(testFilePath)
+      self.retrieveDataFromTestXml(testFilePath,res,userLanguage)      
       res.success=True
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))
@@ -99,15 +103,7 @@ class TestSelector:
       res.trace.append('"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e))
       res.error='"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e)
     except AppError as e:
-      res.success=False
-      if e.args[0] is not None and type(e.args[0]) is str:
-        res.error=e.args[0]
-      else:
-        res.error="Unspecified application Error.."
-      if (e.args[1] is not None and type(e.args[1]) is list):
-        res.trace.extend(e.args[1])   
-      elif(e.args[1] is not None and type(e.args[1]) is str):
-        res.trace.append(e.args[1])
+      AppError.passErrorToRosSrv(e,res) 
     return res
 
   def determineTestType(self,testType,testTypesList,userOntologyAlias,res):
@@ -119,45 +115,6 @@ class TestSelector:
         raise AppError(error,error)                
     return testType    
 
-  ## @brief Queries the MySQL database through the MySQL wrapper and returns the user's language
-  # @param username [string] The username of the user as is in the MySQL database
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  #
-  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  # @return userLanguage [string] The user's language setting
-  def getUserLanguage(self,username,res):
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')	
-    knowrob_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    fetchDataSrvReq = fetchDataSrvRequest()
-    fetchDataSrvReq.req_cols=["language"]
-    fetchDataSrvReq.where_data=[StringArrayMsg(s=["username",username])]
-    fetchDataSrvResponse = knowrob_service(fetchDataSrvReq)
-    if(fetchDataSrvResponse.success.data!=True): 
-      raise AppError(fetchDataSrvResponse.trace[0], fetchDataSrvResponse.trace)      
-    res.language=fetchDataSrvResponse.res_data[0].s[0]
-    return fetchDataSrvResponse.res_data[0].s[0]
-
-  ## @brief Queries the ontology and returns the cognitive test types available
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  #
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
-  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  # @return testTypesList [list] The list of the available tests as they were read from the ontology
-  def getTestTypesFromOntology(self):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_subclasses_of_topic')
-    knowrob_service = rospy.ServiceProxy(serv_topic, ontologySubSuperClassesOfSrv)
-    testTypesReq = ontologySubSuperClassesOfSrvRequest()
-    testTypesReq.ontology_class="CognitiveTests"
-    testTypesResponse = knowrob_service(testTypesReq)
-    if(testTypesResponse.success!=True):     
-      testTypesResponse.trace.append("cannot load test categories from ontology")
-      raise AppError(testTypesResponse.error+"cannot load test categories from ontology",testTypesResponse.trace)      
-    testTypesList=[]
-    for s in testTypesResponse.results:
-      tmpList=s.split('#')
-      testTypesList.append(tmpList[1])
-    return testTypesList
-    
   ## @brief Determines the test type, if it was not provided in the service call as an argument. It selects the test category that was least recently used from the specific user
   # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @param testTypesList [list] The list of the available tests as they were read from the ontology
@@ -179,7 +136,7 @@ class TestSelector:
       if(userPerformanceResponse.success!=True):
         noRecordsList.append(s)
       else:
-        tmpUserPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
+        tmpUserPerfOrganizedByTimestamp=CognitiveExerciseHelperFunctions.organizeUserPerformanceByTimestamp(userPerformanceResponse)
         t1=tmpUserPerfOrganizedByTimestamp.items()[0][0]
         d1[t1]=[s]
     if(len(noRecordsList)>0):
@@ -206,21 +163,16 @@ class TestSelector:
   # @return chosenDif [string] The chosen difficulty setting
   # @return noUserPerformanceRecordsExist [bool] True if no user performance records exit for the user for the given test type
   # @return userPerfOrganizedByTimestamp [OrderedDict] The user's performance records in a dictionary, ordered by timestamp  
-  def organizeUserPerformanceByTimestampAndDetermineTestDifficulty(self,testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastTests):
-    noUserPerformanceRecordsExist=False;    
-    userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
-    userPerformanceReq.test_type=testType
-    userPerformanceReq.ontology_alias=userOntologyAlias
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')
-    knowrob_service = rospy.ServiceProxy(serv_topic, userPerformanceCognitveTestsSrv)
-    userPerformanceResponse = knowrob_service(userPerformanceReq)    
+  def getUserPerformanceRecordsAndDetermineTestDifficultyForTestType(self,testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,res,modifier1,modifier2,historyBasedOnNumOfTestsAndNotTime,pastTests):
+    noUserPerformanceRecordsExist=False;  
+    userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(testType,userOntologyAlias)     
     userPerfOrganizedByTimestamp=[]
     if(userPerformanceResponse.success!=True):
       res.trace.extend(userPerformanceResponse.trace)
       res.trace.append("KnowRob wrapper returned no performance records for this user.. will start with a difficulty setting of 1")
       noUserPerformanceRecordsExist=True
     else:
-      userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
+      userPerfOrganizedByTimestamp=CognitiveExerciseHelperFunctions.organizeUserPerformanceByTimestamp(userPerformanceResponse)
       if(historyBasedOnNumOfTestsAndNotTime):
         if(len(userPerfOrganizedByTimestamp)>pastTests):          
           counter=0;
@@ -236,8 +188,7 @@ class TestSelector:
             break
 
       userScore=self.calculateUserScore(userPerfOrganizedByTimestamp)
-      res.trace.append("user score :"+str(userScore))
-      
+      res.trace.append("user score :"+str(userScore))      
       if(userScore==0):
         chosenDif="1"
       elif(userScore<modifier1):
@@ -300,11 +251,11 @@ class TestSelector:
         finalTestFilePath=finalTest[0][0]    
     tmpList=finalTestname.split('#') #Retrieve the name of the selected test
     if (tmpList[1] is None):
-      res.error="Invalid test name retrieved from ontology, did not contain #"
+      error="Invalid test name retrieved from ontology, did not contain #"
       raise AppError(error,error)       
     finalTestname=tmpList[1]
     res.test=finalTestname
-    return finalTestFilePath,finalTestname
+    return finalTestFilePath
 
   ## @brief Retrieves the questions, answers etc of the test from the xml file
   # @param finalTestFilePath [string] The file path of the xml file that contains the test  
@@ -312,8 +263,10 @@ class TestSelector:
   # @param userLanguage [string] The language of the user
   #
   # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  def retrieveDataFromTestXml(self,finalTestFilePath,res,userLanguage):
-    tree = ET.parse(finalTestFilePath)
+  def retrieveDataFromTestXml(self,testFilePath,res,userLanguage):
+    rospack = rospkg.RosPack()
+    testFilePath=rospack.get_path('rapp_cognitive_exercise')+testFilePath
+    tree = ET.parse(testFilePath)
     root = tree.getroot()
     res.testType=root.find("testType").text.encode('UTF-8')
     res.testSubType=root.find("testSubType").text.encode('UTF-8')
@@ -325,18 +278,6 @@ class TestSelector:
       for answers in question.findall('answer'):
         line.s.append(answers.find("body").text.encode('UTF-8'))
       res.answers.append(line)
-
-  ## @brief Organizes the user's performance entries by timestamp
-  # @param d [dict] The dictionary containing the user's performance entries
-  #
-  # @return d [OrderedDict] The dictionary containing the user's performance entries organized by timestamp
-  def organizeUserPerformance(self,userPerf):
-    d=OrderedDict()
-    for i in range(len(userPerf.tests)):
-      tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i]]
-      d[int(userPerf.timestamps[i])]=[tlist]      
-    d=OrderedDict(sorted(d.items(), key=lambda t: t[0], reverse=True)) #Order is descending    
-    return d
 
   ## @brief Calculates the user's score from the performance entries
   # @param d [dict] The dictionary containing the cognitive test performance entries
@@ -391,7 +332,7 @@ class TestSelector:
   # @return pastMonths [int] Number of months backwards
   # @return pastTests [int] Number of tests backwards
   # @return lookBackTimeStamp [long] The number of months backwards in seconds as in unix timestamp
-  def loadParamDifficultyModifiersAndHistorySettings(self,res):
+  def loadParamDifficultyModifiersAndHistorySettings(self):
     modifier1 = int(rospy.get_param('rapp_cognitive_test_selector_difficulty_modifier_1_from_1_to_2'))     
     modifier2 = int(rospy.get_param('rapp_cognitive_test_selector_difficulty_modifier_2_from_2_to_3'))          
     historyBasedOnNumOfTestsAndNotTime=False

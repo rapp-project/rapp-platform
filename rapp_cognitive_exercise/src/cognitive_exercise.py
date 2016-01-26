@@ -19,15 +19,6 @@
 # contact: akintsakis@issel.ee.auth.gr
 
 import rospy
-import MySQLdb as mdb
-import sys
-import xml.etree.ElementTree as ET
-
-import calendar
-import time
-
-from datetime import datetime
-from os.path import expanduser
 from test_selector import TestSelector
 from recordUserCognitiveTestPerformance import RecordUserCognitiveTestPerformance
 from cognitive_test_creator import CognitiveTestCreator
@@ -50,14 +41,6 @@ from rapp_platform_ros_communications.srv import (
   userScoresForAllCategoriesSrvResponse,
   userScoreHistoryForAllCategoriesSrv,
   userScoreHistoryForAllCategoriesSrvResponse
-  )
-
-from rapp_platform_ros_communications.msg import (
-  StringArrayMsg
-  )
-
-from std_msgs.msg import (
-  String
   )
 
 ## @class CognitiveExercise

@@ -19,31 +19,13 @@
 # contact: akintsakis@issel.ee.auth.gr
 
 import rospy
-import sys
-import calendar
-import time
-from datetime import datetime
-from os.path import expanduser
 from collections import OrderedDict
 from helper_functions import CognitiveExerciseHelperFunctions
 from app_error_exception import AppError
 
 from rapp_platform_ros_communications.srv import (
-  ontologySubSuperClassesOfSrv,
-  ontologySubSuperClassesOfSrvRequest,
-  ontologySubSuperClassesOfSrvResponse,
-  createOntologyAliasSrv,
-  createOntologyAliasSrvRequest,
-  createOntologyAliasSrvResponse,
-  userPerformanceCognitveTestsSrv,
-  userPerformanceCognitveTestsSrvRequest,
   userScoresForAllCategoriesSrvResponse
   )
-
-from rapp_platform_ros_communications.msg import (
-  StringArrayMsg
-  )
-
 ## @class UserScoresForAllCategories
 # @brief Provides the necessary functions for returning the user scores
 #
@@ -58,25 +40,10 @@ class UserScoresForAllCategories:
   # @exception Exception ValueError
   def returnUserScores(self,req):
     try:
-      res = userScoresForAllCategoriesSrvResponse()      
-      
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
-      #if(returnWithError):
-       # return res      
-        
-      returnWithError,testTypesList=self.getTestTypesFromOntology(res)
-      if(returnWithError):
-        return res
-        
-      if(not req.testType==""):
-        if(req.testType not in testTypesList):
-          res.success=False
-          res.error="invalid test type, not contained in ontology subclasses of cognitive test types"
-          res.trace.append("invalid test type, not contained in ontology subclasses of cognitive test types")
-          return res
-        testTypesList=[]
-        testTypesList.append(req.testType)
-        
+      res = userScoresForAllCategoriesSrvResponse()     
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)       
+      testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()    
+      testTypesList=CognitiveExerciseHelperFunctions.determineTestTypeListForReturningScoresOrHistory(req.testType,testTypesList)  
       res.testCategories=testTypesList
       res.testScores=self.calculateUserScoresForCategories(testTypesList,userOntologyAlias,req.upToTime)   
       res.success=True         
@@ -91,31 +58,9 @@ class UserScoresForAllCategories:
       print "Error: can\'t find login file or read data"
       res.success=False
       res.trace.append("Error: can\'t find login file or read data")
-    return res
-
-  ## @brief Queries the ontology and returns the cognitive test types available
-  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
-  #
-  # @return res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoresForAllCategoriesSrv
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
-  # @return testTypesList [list] The list of the available tests as they were read from the ontology
-  def getTestTypesFromOntology(self,res):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_subclasses_of_topic')
-    knowrob_service = rospy.ServiceProxy(serv_topic, ontologySubSuperClassesOfSrv)
-    testTypesReq = ontologySubSuperClassesOfSrvRequest()
-    testTypesReq.ontology_class="CognitiveTests"
-    testTypesResponse = knowrob_service(testTypesReq)
-    if(testTypesResponse.success!=True):
-      res.trace.extend(testTypesResponse.trace)
-      res.trace.append("cannot load test categories from ontology")
-      res.error=testTypesResponse.error+"cannot load test categories from ontology"
-      res.success=False
-      return True,""
-    testTypesList=[]
-    for s in testTypesResponse.results:
-      tmpList=s.split('#')
-      testTypesList.append(tmpList[1])
-    return False,testTypesList
+    except AppError as e:
+      AppError.passErrorToRosSrv(e,res)
+    return res  
 
   ## @brief Calculates and returns the user's scores for the provided test types  
   # @param testTypesList [list] The list of the available tests as they were read from the ontology

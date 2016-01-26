@@ -19,30 +19,13 @@
 # contact: akintsakis@issel.ee.auth.gr
 
 import rospy
-import sys
-import calendar
 import time
-from datetime import datetime
-from os.path import expanduser
-from collections import OrderedDict
 from helper_functions import CognitiveExerciseHelperFunctions
-
-
-
-from rapp_platform_ros_communications.srv import (
-  createOntologyAliasSrv,
-  createOntologyAliasSrvRequest,
-  createOntologyAliasSrvResponse,
-  recordUserCognitiveTestPerformanceSrv,
-  recordUserCognitiveTestPerformanceSrvRequest,
+from app_error_exception import AppError
+from rapp_platform_ros_communications.srv import ( 
   recordUserCognitiveTestPerformanceSrvResponse,
   recordUserPerformanceCognitiveTestsSrv,
-  recordUserPerformanceCognitiveTestsSrvRequest,
-  recordUserPerformanceCognitiveTestsSrvResponse
-  )
-
-from rapp_platform_ros_communications.msg import (
-  StringArrayMsg
+  recordUserPerformanceCognitiveTestsSrvRequest
   )
 
 ## @class RecordUserCognitiveTestPerformance
@@ -59,38 +42,20 @@ class RecordUserCognitiveTestPerformance:
   def recordPerformance(self,req):
     try:
       res = recordUserCognitiveTestPerformanceSrvResponse()
-      
-      serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
-      knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
-      createOntologyAliasReq = createOntologyAliasSrvRequest()
-      createOntologyAliasReq.username=req.username
-      createOntologyAliasResponse = knowrob_service(createOntologyAliasReq)
-      if(createOntologyAliasResponse.success!=True):
-        res.trace=createOntologyAliasResponse.trace
-        res.error=createOntologyAliasResponse.error
-        res.success=False
-        return res
-
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)      
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_record_user_cognitive_tests_performance')
       knowrob_service = rospy.ServiceProxy(serv_topic, recordUserPerformanceCognitiveTestsSrv)
       userPerformanceEntry = recordUserPerformanceCognitiveTestsSrvRequest()
-      userPerformanceEntry.test=req.test
-      #userPerformanceEntry.patient_ontology_alias=createOntologyAliasResponse.ontology_alias
-      userPerformanceEntry.patient_ontology_alias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
+      userPerformanceEntry.test=req.test    
+      userPerformanceEntry.patient_ontology_alias=userOntologyAlias
       userPerformanceEntry.timestamp=int(time.time())
       userPerformanceEntry.score=req.score
-      userPerformanceEntryResponse = knowrob_service(userPerformanceEntry)
-      
+      userPerformanceEntryResponse = knowrob_service(userPerformanceEntry)      
       if(userPerformanceEntryResponse.success!=True):
-        res.trace=userPerformanceEntryResponse.trace
-        res.trace.append("Submitting query to ontology failed, either test or user ontology alias do not exist or test not of the given type")
-        res.error=userPerformanceEntryResponse.error+"Submitting query to ontology failed, either test or user ontology alias do not exist or test not of the given type"
-        res.success=False
-        return res
+        error=userPerformanceEntryResponse.error+"Submitting query to ontology failed, either test or user ontology alias do not exist or test not of the given type"        
       else:
         res.success=True
         res.userCognitiveTestPerformanceEntry=userPerformanceEntryResponse.cognitive_test_performance_entry
-
     except IndexError:
       res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
       res.success=False
@@ -98,9 +63,6 @@ class RecordUserCognitiveTestPerformance:
       print "Error: can\'t find login file or read data"
       res.success=False
       res.trace.append("Error: can\'t find login file or read data")
+    except AppError as e:
+      AppError.passErrorToRosSrv(e,res)
     return res
-
-
-
-
-

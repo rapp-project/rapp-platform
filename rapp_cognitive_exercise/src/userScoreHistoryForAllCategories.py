@@ -19,31 +19,16 @@
 # contact: akintsakis@issel.ee.auth.gr
 
 import rospy
-import sys
-import calendar
-import time
-from datetime import datetime
-from os.path import expanduser
 from collections import OrderedDict
+from app_error_exception import AppError
 from helper_functions import CognitiveExerciseHelperFunctions
-
-
 from rapp_platform_ros_communications.srv import (
-  ontologySubSuperClassesOfSrv,
-  ontologySubSuperClassesOfSrvRequest,
-  ontologySubSuperClassesOfSrvResponse,
-  createOntologyAliasSrv,
-  createOntologyAliasSrvRequest,
-  createOntologyAliasSrvResponse,
-  userPerformanceCognitveTestsSrv,
-  userPerformanceCognitveTestsSrvRequest,
   userScoreHistoryForAllCategoriesSrv,
   userScoreHistoryForAllCategoriesSrvResponse
   )
-
 from rapp_platform_ros_communications.msg import (
-  CognitiveExercisePerformanceRecordsMsg,
   ArrayCognitiveExercisePerformanceRecordsMsg,
+  CognitiveExercisePerformanceRecordsMsg,  
   StringArrayMsg
   )
 
@@ -61,33 +46,14 @@ class UserScoreHistoryForAllCategories:
   # @exception Exception ValueError
   def returnUserHistory(self,req):
     try:
-      res = userScoreHistoryForAllCategoriesSrvResponse()
-      
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
-      #if(returnWithError):
-       # return res      
-
-      returnWithError,fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)
-      if(returnWithError):
-        return res              
-
-      returnWithError,testTypesList=self.getTestTypesFromOntology(res)
-      if(returnWithError):
-        return res
-      
-      if(not req.testType==""):
-        if(req.testType not in testTypesList):
-          res.success=False
-          res.error="invalid test type, not contained in ontology subclasses of cognitive test types"
-          res.trace.append("invalid test type, not contained in ontology subclasses of cognitive test types")
-          return res
-        testTypesList=[]
-        testTypesList.append(req.testType)
-        
-      res.testCategories=testTypesList
-      self.retrieveTestHistoryForTestCategories(testTypesList,userOntologyAlias,fromTime,toTime,res)  
-      res.success=True    
-
+      res = userScoreHistoryForAllCategoriesSrvResponse()      
+      fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)      
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)       
+      testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()    
+      testTypesList=CognitiveExerciseHelperFunctions.determineTestTypeListForReturningScoresOrHistory(req.testType,testTypesList)      
+      res.testCategories=testTypesList      
+      self.assignTestHistoryForTestCategoriesToSrv(testTypesList,userOntologyAlias,fromTime,toTime,res)  
+      res.success=True
     except ValueError:
       res.trace.append("Value Error, probably conversion from integer to string failed. Invalid ontology entries?")
       res.success=False
@@ -98,31 +64,9 @@ class UserScoreHistoryForAllCategories:
       print "Error: can\'t find login file or read data"
       res.success=False
       res.trace.append("Error: can\'t find login file or read data")
+    except AppError as e:
+      AppError.passErrorToRosSrv(e,res)
     return res
-
-  ## @brief Queries the ontology and returns the cognitive test types available
-  # @param res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
-  #
-  # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
-  # @return testTypesList [list] The list of the available tests as they were read from the ontology
-  def getTestTypesFromOntology(self,res):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_subclasses_of_topic')
-    knowrob_service = rospy.ServiceProxy(serv_topic, ontologySubSuperClassesOfSrv)
-    testTypesReq = ontologySubSuperClassesOfSrvRequest()
-    testTypesReq.ontology_class="CognitiveTests"
-    testTypesResponse = knowrob_service(testTypesReq)
-    if(testTypesResponse.success!=True):
-      res.trace.extend(testTypesResponse.trace)
-      res.trace.append("cannot load test categories from ontology")
-      res.error=testTypesResponse.error+"cannot load test categories from ontology"
-      res.success=False
-      return True,""
-    testTypesList=[]
-    for s in testTypesResponse.results:
-      tmpList=s.split('#')
-      testTypesList.append(tmpList[1])
-    return False,testTypesList
 
   ## @brief Retrieves the test history of the user for the provided test categories  
   # @param testTypesList [list] The list of the available tests as they were read from the ontology
@@ -130,11 +74,11 @@ class UserScoreHistoryForAllCategories:
   # @param upToTime [long] The time up to which the user's performance records are taken into account
   # 
   # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
-  def retrieveTestHistoryForTestCategories(self,testTypesList,userOntologyAlias,fromTime,toTime,res):        
+  def assignTestHistoryForTestCategoriesToSrv(self,testTypesList,userOntologyAlias,fromTime,toTime,res):        
     for s in testTypesList:
       userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)            
       if(userPerformanceResponse.success==True): 
-        userPerfOrganizedByTimestamp=self.organizeUserPerformance(userPerformanceResponse)
+        userPerfOrganizedByTimestamp=CognitiveExerciseHelperFunctions.organizeUserPerformanceByTimestamp(userPerformanceResponse)
         sumCategoryScore=0
         sumCategoryScoreDivideBy=0;
         countValidTests=0;
@@ -174,20 +118,7 @@ class UserScoreHistoryForAllCategories:
       toTime=9999999999999999999999
     if (fromTime is None or fromTime==0):
       fromTime=0    
-    if(fromTime>=toTime):
-      res.success=False
-      res.error="Invalid time range, fromTime is later than toTime"
-      return True,0,0      
-    return False,fromTime,toTime
-
-  ## @brief Organizes the user's performance entries by timestamp
-  # @param d [dict] The dictionary containing the user's performance entries
-  #
-  # @return d [OrderedDict] The dictionary containing the user's performance entries organized by timestamp
-  def organizeUserPerformance(self,userPerf):
-    d=OrderedDict()
-    for i in range(len(userPerf.tests)):
-      tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i],userPerf.subtypes[i]]
-      d[int(userPerf.timestamps[i])]=[tlist]
-    d=OrderedDict(sorted(d.items(), key=lambda t: t[0], reverse=True))
-    return d
+    if(fromTime>=toTime):      
+      error="Invalid time range, fromTime is later than toTime"
+      raise AppError(error,error)     
+    return fromTime,toTime
