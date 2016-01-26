@@ -41,6 +41,26 @@ void KnowrobWrapper::dump_ontology_now() {
     KnowrobWrapper::dumpOntologyQuery(dmp);
 }
 
+bool checkIfStringVectorContainsString(std::vector<std::string> vec, std::string a) {  
+  bool stringContained=false;
+  for (int i = 0; i < vec.size(); i++) {
+    if (vec.at(i) == a) {
+        stringContained = true;
+        break;
+    }
+  }
+  return stringContained;
+}
+
+bool checkIfStringContainsString(std::string a, std::string b){
+  std::size_t found = a.find(b);
+  if (found == std::string::npos)
+  {
+    return false;
+  }
+  return true;  
+}
+
 /** 
  * @brief Converts integer to string 
  * @param a [int] The input integer 
@@ -136,13 +156,10 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
     std::vector<std::string> instance_name;
     std::string query = std::string("rdf_instance_from_class(knowrob:'Person") + std::string("',A)");
     json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-
     char status = results.getStatus();
     if (status == 0) {
-        ontology_alias = std::string("User was uninitialized (had no ontology alias), and initilization failed on ontology level");
-        return ontology_alias;
+        throw std::string("User was uninitialized (had no ontology alias), and initilization failed on ontology level");        
     }
-
     for (json_prolog::PrologQueryProxy::iterator it = results.begin();
             it != results.end(); it++) {
         json_prolog::PrologBindings bdg = *it;
@@ -161,17 +178,16 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
     srv.request.where_data.push_back(ros_string_array);
     mysql_update_client.call(srv);
     if (srv.response.success.data != true) {
-        ontology_alias = srv.response.trace[0];
+        std::string error = srv.response.trace[0];
         query = std::string("rdf_retractall(knowrob:'") + ontology_alias + std::string("',rdf:type,knowrob:'Person") + std::string("')");
         results = pl.query(query.c_str());
         status = results.getStatus();
         if (status == 0) {
-            ontology_alias = ontology_alias + std::string(" DB operation failed.. removing instance from ontology also failed...");
+            error = error + std::string(" DB operation failed.. removing instance from ontology also failed...");
         } else if (status == 3) {
-            ontology_alias = ontology_alias + std::string(" DB operation failed..Remove from ontology Success");
+            error = error + std::string(" DB operation failed..Remove from ontology Success");
         }
-        std::string("FAIL") + ontology_alias;
-        return ontology_alias;
+        throw std::string(std::string("FAIL") + error);        
     }
     KnowrobWrapper::dump_ontology_now();
     return ontology_alias;
@@ -301,7 +317,6 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
         char status = results.getStatus();
         if (status == 0) {
             throw std::string("No tests of given type exist");
-
         }
         res.success = true;
         std::vector<std::string> query_ret_tests;
@@ -478,40 +493,27 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
         } else {
             query = std::string("direct_superclassesOf_withCheck(knowrob:'") + req.ontology_class + std::string("',A)");
         }
-
         json_prolog::PrologQueryProxy results = pl.query(query.c_str());
         char status = results.getStatus();
         if (status == 0) {
             throw std::string(std::string("Class: ") + req.ontology_class + std::string(" does not exist"));
         }
-
         res.success = true;
         std::vector<std::string> query_ret;
         for (json_prolog::PrologQueryProxy::iterator it = results.begin();
                 it != results.end(); it++) {
-            json_prolog::PrologBindings bdg = *it;
-            //start remove duplicates
-            int i;
-            int logic = 0;
-            std::string temp_query_result = bdg["A"];
-            std::size_t found = temp_query_result.find(std::string("file:///"));
-            if (found == std::string::npos) {
-                for (int i = 0; i < query_ret.size(); i++) {
-                    if (query_ret.at(i) == temp_query_result) {
-                        logic = 1;
-                    }
-                }
-                if (logic == 0) {
+            json_prolog::PrologBindings bdg = *it;            
+            std::string temp_query_result = bdg["A"];               
+            if (!checkIfStringContainsString(temp_query_result,std::string("file:///"))) {
+                if (!checkIfStringVectorContainsString(query_ret,temp_query_result)) {
                     query_ret.push_back(temp_query_result);
-                }
-                //end removing duplicates
+                }                              
             }
         }
         for (unsigned int i = 0; i < query_ret.size(); i++) {
             res.results.push_back(query_ret[i]);
         }
         return res;
-
     } catch (std::string error) {
         res.success = false;
         res.trace.push_back(error);
@@ -547,21 +549,11 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
         for (json_prolog::PrologQueryProxy::iterator it = results.begin();
                 it != results.end(); it++) {
             json_prolog::PrologBindings bdg = *it;
-            //start remove duplicates
-            int i;
-            int logic = 0;
             std::string temp_query_result = bdg["A"];
-            std::size_t found = temp_query_result.find(std::string("file:///"));
-            if (found == std::string::npos) {
-                for (int i = 0; i < query_ret.size(); i++) {
-                    if (query_ret.at(i) == temp_query_result) {
-                        logic = 1;
-                    }
-                }
-                if (logic == 0) {
+            if (!checkIfStringContainsString(temp_query_result,std::string("file:///"))) {
+                if (!checkIfStringVectorContainsString(query_ret,temp_query_result)) {
                     query_ret.push_back(temp_query_result);
-                }
-                //end removing duplicates
+                }                              
             }
         }
         for (unsigned int i = 0; i < query_ret.size(); i++) {
@@ -643,11 +635,11 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
             throw std::string("Error, empty ontology class");
         }
         std::string ontology_alias = get_ontology_alias(req.username);
-        //ontology_alias
-        std::size_t found = ontology_alias.find(std::string("FAIL"));
+        
+        /*std::size_t found = ontology_alias.find(std::string("FAIL"));
         if (found != std::string::npos) {
             throw ontology_alias;
-        }
+        }*/
         std::vector<std::string> instance_name;
         std::string query = std::string("instanceFromClass_withCheck_andAssign(knowrob:'") + req.ontology_class + std::string("',A,knowrob:'") + ontology_alias + std::string("')");
         res.trace.push_back(query);
@@ -782,19 +774,12 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
         for (json_prolog::PrologQueryProxy::iterator it = results.begin();
                 it != results.end(); it++) {
             json_prolog::PrologBindings bdg = *it;
-            //start removing duplicates
-            int i;
-            int logic = 0;
             std::string temp_query_result = bdg["A"];
-            if (req.ontology_class != std::string("*")) {
-                std::size_t found = temp_query_result.find(std::string("#") + req.ontology_class + std::string("_"));
-                if (found != std::string::npos) {
+            if (!checkIfStringContainsString(temp_query_result,std::string("file:///"))) {
+                if (!checkIfStringVectorContainsString(query_ret,temp_query_result)) {
                     query_ret.push_back(temp_query_result);
-                }
-            } else {
-                query_ret.push_back(temp_query_result);
+                }                              
             }
-            //end removing duplicates
         }
         for (unsigned int i = 0; i < query_ret.size(); i++) {
             res.results.push_back(query_ret[i]);

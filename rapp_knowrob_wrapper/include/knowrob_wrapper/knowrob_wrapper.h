@@ -70,6 +70,9 @@ class KnowrobWrapper
     
     void dump_ontology_now();
     
+    //bool checkIfStringContainsString(std::string a, std::string b);
+    //bool checkIfStringVectorContainsString(std::vector<std::string> vec, std::string a);
+    
 	/** 
 	* @brief Returns the ontology alias of the user
 	* @param user_id [string] The username of the user 
