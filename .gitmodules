@@ -1,3 +1,0 @@
-[submodule "rapp_web_services/modules/RosBridgeJS"]
-	path = rapp_web_services/modules/RosBridgeJS
-	url = https://github.com/klpanagi/RosBridgeJS.git
