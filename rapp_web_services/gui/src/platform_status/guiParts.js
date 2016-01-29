@@ -130,10 +130,10 @@ var ROS_TOPICS_FORM = function(){
 
 
 var HEADER = function(){
-  import service active_ros_nodes();
-  import service active_ros_topics();
-  import service active_ros_services();
-  import service available_services();
+  service active_ros_nodes();
+  service active_ros_topics();
+  service active_ros_services();
+  service available_services();
 
   var _title = 'RAPP Platform Status Web Page';
   var _css = imports.CSS;

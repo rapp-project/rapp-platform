@@ -22,14 +22,14 @@
 var os = require('os');
 var hop = require('hop');
 var path = require('path');
-var Fs = require( path.join(__dirname, 'modules', 'common', 'fileUtils.js') );
+var Fs = require( path.join(__dirname, 'src', 'common', 'fileUtils.js') );
 
 var ifaces = os.networkInterfaces();
 var HOME = process.env.HOME;
 
 var rosEnv = require( path.join(__dirname, 'config', 'env', 'rosbridge.json') );
-var srvEnv = require( path.join(__dirname, 'config', 'env',
-    'hop-services.json') );
+var srvEnv = require( path.join(__dirname, 'config', 'services',
+    'params.json') );
 var pathsEnv = require( path.join(__dirname, 'config', 'env', 'paths.json') );
 
 var env = {
@@ -46,7 +46,10 @@ var env = {
     SERVER_CACHE_DIR: Fs.resolvePath( pathsEnv.cache_dir_server ),
     SERVICES_CACHE_DIR: Fs.resolvePath( pathsEnv.cache_dir_services ),
     LOG_DIR: Fs.resolvePath( pathsEnv.log_dir ),
-    LOG_DIR_SRVS: Fs.resolvePath( pathsEnv.log_dir_services )
+    LOG_DIR_SRVS: Fs.resolvePath( pathsEnv.log_dir_services ),
+    PKG_DIR: __dirname,
+    INCLUDE_DIR: path.join( __dirname, 'src' ),
+    CONFIG_DIR: path.join( __dirname, 'config' )
   }
 };
 

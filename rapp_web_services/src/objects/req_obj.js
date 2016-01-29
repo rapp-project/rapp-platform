@@ -18,29 +18,10 @@
  *
  */
 
-var path = require('path');
-
-var testParams = require( path.join(__dirname, 'params.json') );
-
-exports.TEST = function (){
-  service cognitive_test_chooser();
-
-  var args = {
-    user: testParams.request.args.user,
-    test_type: testParams.request.args.test_type
-  };
-  var success = false;
-  var response = cognitive_test_chooser(args).postSync();
-  //console.log(response);
-
-  var validResponse = testParams.response;
-
-  if(response.test_type === validResponse.test_type &&
-    response.error === validResponse.error)
-  {
-    success = true;
-  }
-
-  return {success: success, output: response, input: args};
+var USER_PERSONAL_INFO = {
+  user: ''
 };
 
+
+
+exports.user_personal_info = USER_PERSONAL_INFO;

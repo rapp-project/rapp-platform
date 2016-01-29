@@ -23,7 +23,7 @@ var path = require('path');
 var testParams = require( path.join(__dirname, 'params.json') );
 
 exports.TEST = function (){
-  import service ontology_subclasses_of();
+  service ontology_subclasses_of();
 
   var args = {
     query: testParams.request.args.query

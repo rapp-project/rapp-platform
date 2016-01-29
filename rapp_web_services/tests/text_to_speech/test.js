@@ -23,7 +23,7 @@ var path = require('path');
 var testParams = require( path.join(__dirname, 'params.json') );
 
 exports.TEST = function (){
-  import service text_to_speech();
+  service text_to_speech();
 
   var success = false;
   var validResponse = testParams.response;

@@ -68,24 +68,24 @@ var path = require('path');
  * Set the include directory path. This directory contains imported modules
  * used while developing HOP Web Services.
  */
-var __includeDir = path.join(__dirname, '..', 'modules');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
 
 /***
  * Set the config directory path. Configuration files are stored under this
  * directory.
  */
-var __configDir = path.join(__dirname, '..', 'config');
+var CONFIG_DIR = path.join(__dirname, '..', 'config');
 
 /***
  * Import the RandomStrGenerator module.
  */
-var RandStringGen = require ( path.join(__includeDir, 'common',
+var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
 /***
  * Import the RosBridgeJS module.
  */
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 /***
@@ -93,7 +93,7 @@ var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
  * configuration parameters.
  * @constant
  */
-var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
+var srvEnv = require( path.join(CONFIG_DIR, 'env', 'hop-services.json') );
 
 
 /*** ------------< Load and set global configuration parameters >----------*/
@@ -102,9 +102,9 @@ var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
  * This variable declares the HOP Service name. The name must be the same
  * as the service definition name, below.
  *
- * ### IMPLEMENTATION. SET __hopServiceName VALUE ###
+ * ### IMPLEMENTATION. SET SERVICE_NAME VALUE ###
  */
-var __hopServiceName = 'example_service';
+var SERVICE_NAME = 'example_service';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
@@ -114,7 +114,7 @@ var __hopServiceId = null;
  *
  * Here we read the value for the ROS-Service name.
  */
-var rosSrvName = srvEnv[__hopServiceName].ros_srv_name;
+var rosSrvName = srvEnv[SERVICE_NAME].ros_srv_name;
 
 /***
  * Initiate connection to rosbridge_websocket_server.
@@ -145,8 +145,8 @@ var randStrGen = new RandStringGen( stringLength );
  * the hop-services.json file under the relevant field for this service.
  * The timeout value is used to timeout client service request.
  */
-var timeout = srvEnv[__hopServiceName].timeout; // ms
-var maxTries = srvEnv[__hopServiceName].retries;
+var timeout = srvEnv[SERVICE_NAME].timeout; // ms
+var maxTries = srvEnv[SERVICE_NAME].retries;
 /* ----------------------------------------------------------------------- */
 
 var color = {
@@ -441,7 +441,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -451,7 +451,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -490,7 +490,7 @@ function register_master_interface()
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg

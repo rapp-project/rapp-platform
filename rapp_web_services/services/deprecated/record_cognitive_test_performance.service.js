@@ -36,22 +36,22 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname, '..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname, '..', 'config');
 
-var RandStringGen = require ( path.join(__includeDir, 'common',
+var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 
 /* ------------< Load and set global configuration parameters >-------------*/
-var __hopServiceName = 'record_cognitive_test_performance';
+var SERVICE_NAME = 'record_cognitive_test_performance';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
-var rosSrvName = ENV.SERVICES[__hopServiceName].ros_srv_name;
+var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -66,8 +66,8 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[__hopServiceName].timeout; // ms
-var maxTries = ENV.SERVICES[__hopServiceName].retries;
+var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
+var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
 /* ----------------------------------------------------------------------- */
 
 
@@ -302,7 +302,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -312,7 +312,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -344,7 +344,7 @@ function register_master_interface()
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg

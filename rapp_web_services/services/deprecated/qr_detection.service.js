@@ -22,7 +22,7 @@
 /***
  * @fileOverview
  *
- * [Speech-detection-google] RAPP Platform front-end web service.
+ * [Qr-Detection] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -36,26 +36,26 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname, '..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname, '..', 'config');
 
-var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
+var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 
-var RandStringGen = require ( path.join(__includeDir, 'common',
+var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 
 /* ------------< Load and set global configuration parameters >-------------*/
-var __hopServiceName = 'speech_detection_google';
+var SERVICE_NAME = 'qr_detection';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
 var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
-/*-------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------- */
 
-var rosSrvName = ENV.SERVICES[__hopServiceName].ros_srv_name;
+var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -64,34 +64,32 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   }
 });
 
-/*----------------< Random String Generator configurations >---------------*/
+
+/*----<Random String Generator configurations---->*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
-/* ----------------------------------------------------------------------- */
+/*------------------------------------------------*/
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[__hopServiceName].timeout; // ms
-var maxTries = ENV.SERVICES[__hopServiceName].retries;
+var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
+var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
 /* ----------------------------------------------------------------------- */
 
 var colors = {
-  error:    String.fromCharCode(0x1B) + '[1;31m',
-  success:  String.fromCharCode(0x1B) + '[1;32m',
-  ok:       String.fromCharCode(0x1B) + '[34m',
-  yellow:   String.fromCharCode(0x1B) + '[33m',
-  clear:    String.fromCharCode(0x1B) + '[0m'
+  error:    '\033[1;31m',
+  success:  '\033[1;31m',
+  clear:    '\033[0m'
 };
-
 
 // Register communication interface with the master-process
 register_master_interface();
 
 
 /**
- *  [Speech-Detection-Google] RAPP Platform front-end web service.
- *  <p> Serves requests for Speech-Detection using google ASR engine. </p>
+ *  [Qr-Detection] RAPP Platform front-end web service.
+ *  <p> Serves requests for qr_detection on given input image frame.</p>
  *
- *  @function speech_detecion_google
+ *  @function qr_detection
  *
  *  @param {Object} args - Service input arguments (object literal).
  *  @param {String} args.file_uri - System uri path of transfered (client) file, as
@@ -99,26 +97,16 @@ register_master_interface();
  *    forwared to this service, as input argument, by the HOP front-end server.
  *    Clients are responsible to declare this field in the multipart/form-data
  *    post field.
- *  @param {String} args.audio_source - A value that represents information
- *    for the audio source. e.g "nao_wav_1_ch".
- *  @param {String} args.user. Username.
- *  @param {String} args.language. Language to use for ASR.
- *    <ul>
- *      <li> 'el' --> Greek </li>
- *      <li> 'en' --> English </li>
- *    </ul>
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
  *    Asynchronous HTTP Response.
- *  @returns {Array} response.words. An array of the detected-words, with
- *    higher confidence.
- *  @returns {Array} response.alternatives. Array of alternative sentences.
- *    <p> e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...] </p>
+ *  @returns {Array} response.qr_centers - An array of qr-center objects.
+ *  @returns {Array} response.qr_messages - The array of the qr-messages. One
+ *    qr_message string message for each found QR code.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-service speech_detection_google({file_uri: '', audio_source: '', user: '',
-  language: ''})
+service qr_detection ( {file_uri:''} )
 {
   /***
    *  For security reasons, if file_uri is not defined under the
@@ -130,12 +118,11 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
         " Abortion for security reasons.";
     postMessage( craft_slaveMaster_msg('log', errorMsg) );
-    console.log(colors.error + '[Speech-Detection-Google]: ' + errorMsg +
-      colors.clear);
+    console.log(colors.error + '[QR-Detection]: ' + errorMsg + colors.clear);
 
     var response = {
-      words: [],
-      alternatives: [],
+      qr_centers: [],
+      qr_messages: [],
       error: errorMsg
     };
 
@@ -151,18 +138,17 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
 
   postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
     '}') );
-  var logMsg = 'Audio data stored at [' + file_uri + ']';
+  var logMsg = 'Image stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
-  var cpFilePath = __servicesCacheDir + fileName.split('.')[0] + '-'  +
-    unqCallId + '.' + fileName.split('.')[1];
+  var cpFilePath = __servicesCacheDir + fileName.split('.')[0] + '-'  + unqCallId +
+    '.' + fileName.split('.')[1];
   cpFilePath = Fs.resolvePath(cpFilePath);
   /* ---------------------------------------------------------------- */
-
 
   /* --------------------- Handle transferred file ------------------------- */
   if (Fs.renameFile(file_uri, cpFilePath) === false)
@@ -173,13 +159,14 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
 
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
-    randStrGen.removeCached(unqCallId); // Dismiss the unique identity key
+    randStrGen.removeCached(unqCallId);
     var response = craft_error_response();
     return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
+
 
   /***
    * Asynchronous http response
@@ -196,14 +183,10 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Fill Ros Service request msg parameters here.
+      // Set Ros Service request arguments here.
       var args = {
-        filename: cpFilePath,
-        audio_type: audio_source,
-        user: user,
-        language: language
+        imageFilename: cpFilePath
       };
-
 
       /***
        * Declare the service response callback here!!
@@ -302,40 +285,42 @@ service speech_detection_google({file_uri: '', audio_source: '', user: '',
 }
 
 
-
 /***
  * Crafts response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
- *  @returns {Object} response - Response object.
- *  @returns {Array} response.words. An array of the detected-words, with
- *    higher confidence.
- *  @returns {Array} response.alternatives. Array of alternative sentences.
- *    <p> e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...] </p>
+ *  @returns {Object} response - Response Object.
+ *  @returns {Array} response.qr_centers - An array of qr-center objects.
+ *  @returns {Array} response.qr_messages - The array of the qr-messages. One
+ *    qr_message string message for each found QR code.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
-  var words = rosbridge_msg.words;
-  var alternatives = rosbridge_msg.alternatives;
+  var qrCenters = rosbridge_msg.qr_centers;
+  var qrMessages = rosbridge_msg.qr_messages;
   var error = rosbridge_msg.error;
 
   var logMsg = 'Returning to client.';
 
   var response = {
-    words: [],
-    alternatives: [],
+    qr_centers: [],
+    qr_messages: [],
     error: ''
   };
 
-  response.words = words;
-
-  for (var ii = 0; ii < alternatives.length; ii++)
+  for (var ii = 0; ii < qrCenters.length; ii++)
   {
-    response.alternatives.push( alternatives[ii].s );
+    var qrPoint = { x: 0, y: 0};
+
+    qrPoint.x = qrCenters[ii].point.x;
+    qrPoint.y = qrCenters[ii].point.y;
+    response.qr_centers.push(qrPoint);
+    response.qr_messages.push(qrMessages[ii]);
   }
+
   response.error = error;
 
   if (error !== '')
@@ -348,7 +333,6 @@ function craft_response(rosbridge_msg)
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-
   return response;
 }
 
@@ -359,12 +343,11 @@ function craft_response(rosbridge_msg)
  */
 function craft_error_response()
 {
-  // Add here to be returned literal
   var errorMsg = 'RAPP Platform Failure';
 
   var response = {
-    words: [],
-    alternatives: [],
+    qr_centers: [],
+    qr_messages: [],
     error: errorMsg
   };
 
@@ -391,7 +374,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -401,7 +384,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -433,7 +416,7 @@ function register_master_interface()
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg

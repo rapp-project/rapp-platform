@@ -19,38 +19,15 @@
  */
 
 
- 
 /***
  * @fileOverview
  *
- * [Cognitive-get-scores] RAPP Platform front-end web service.
+ * [Ontology-is-subsuperclass-of] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
- *
- *  Basic Components (modules)
- *
- *      hop = require('hop').
- *        Import and use hopjs functionalities.
- *        For more information visit:
- *            https://github.com/manuel-serrano/hop
- *
- *      RosBridgeJS.js
- *        Use this module to achieve communication with ROS-framework.
- *        This module integrates a service controller to connect to
- *        the rosbridge-websocket-server.
- *        For more information on rosbridge-websocket-server visit:
- *            http://wiki.ros.org/rosbridge_suite
- *
- *        For more information on the RosBridgeJS module visit:
- *            https://github.com/klpanagi/RosBridgeJS
- *
- *      RandStrGenerator.js
- *        Random string generator class to generate cached unique
- *        identity keys. Used to generate a unique id for each client
- *        service request.
- *
  */
+
 
 var __DEBUG__ = false;
 
@@ -59,23 +36,22 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname, '..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname,'..', 'config');
 
-var RandStringGen = require ( path.join(__includeDir, 'common',
+var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 
-
-/*** ------------< Load and set global configuration parameters >----------*/
-var __hopServiceName = 'cognitive_get_scores';
+/* ------------< Load and set basic configuration parameters >-------------*/
+var SERVICE_NAME = 'ontology_is_subsuperclass_of';
 var __hopServiceId = null;
 /* ----------------------------------------------------------------------- */
 
-var rosSrvName = ENV.SERVICES[__hopServiceName].ros_srv_name;
+var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -84,74 +60,93 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   }
 });
 
+
 /*----------------< Random String Generator configurations >---------------*/
-var stringLength = 5;  // Random-String-Generator string length.
+var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[__hopServiceName].timeout; // ms
-var maxTries = ENV.SERVICES[__hopServiceName].retries;
+
+/* ------< Set timer values for websocket communication to rosbridge> ---- */
+var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
+var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
 /* ----------------------------------------------------------------------- */
 
 
+// Register communication interface with the master-process
 register_master_interface();
 
 
 /**
- *  [Cognitive-get-scores] RAPP Platform front-end web service.
- *  Handles requests for cognitive-get-scores query.
+ *  [Ontology-is-subsuperclass-of] RAPP Platform front-end web service.
+ *  Handles requests for ontology-is-subsuperclass-of query.
  *
- *  @function cognitive_get_scores
+ *  @function ontology_is_subsuperclass_of
  *
  *  @param {Object} args - Service input arguments (literal).
- *  @param {String} args.user - Username.
- *  @param {Number} args.up_to_time - Retrieve scores for up-to-time value.
- *  @param {String} args.test_type - Cognitive Exercise Type.
+ *  @param {String} args.parent_class - The parent class name.
+ *  @param {String} args.child_class - The child class name.
+ *  @param {String} args.recursive - Recursive query.
  *
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
  *    Asynchronous HTTP Response.
- *  @returns {Array} response.test_classes - Cognitive Exercise test classes.
- *  @returnds {Array} response.scores - Performance scores on Cognitive
- *    Exercises.
+ *  @returns {Boolean} response.result - Query result.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  *
  */
-service cognitive_get_scores ( {user:'', up_to_time: 0, test_type: ''} )
+service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recursive: false} )
 {
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
+  var startT = new Date().getTime();
+  var execTime = 0;
+
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName + '}') );
+
+  /**** Boolean parameters are passed as strings onto the URL payload ****/
+  /* -- String to boolean translation -- */
+  if (recursive == 'True' || recursive == 'true') {recursive = true;}
+  else {recursive = false;}
+
+
   /***
-   * Asynchronous http response.
+   * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-      /***
+      /**
        *  Status flags.
-       *===========================*/
+       */
       var respFlag = false;
       var retClientFlag = false;
       var wsError = false;
       var retries = 0;
-      /*===========================*/
+      /* --------------------------------------------------- */
 
+      // Fill Ros Service request msg parameters here.
       var args = {
-        username: user,
-        upToTime: parseInt(up_to_time),
-        testType: test_type
+        parent_class: parent_class,
+        child_class: child_class,
+        recursive: recursive
       };
 
-
+      /***
+       * Declare the service response callback here!!
+       * This callback function will be passed into the rosbridge service
+       * controller and will be called when a response from rosbridge
+       * websocket server arrives.
+       */
       function callback(data){
         respFlag = true;
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         //console.log(data);
+
         // Craft client response using ros service ws response.
         var response = craft_response( data );
         // Asynchronous response to client.
@@ -159,12 +154,16 @@ service cognitive_get_scores ( {user:'', up_to_time: 0, test_type: ''} )
         retClientFlag = true;
       }
 
+      /***
+       * Declare the onerror callback.
+       * The onerror callack function will be called by the service
+       * controller as soon as an error occures, on service request.
+       */
       function onerror(e){
         respFlag = true;
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        // craft error response
         var response = craft_error_response();
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
@@ -172,16 +171,20 @@ service cognitive_get_scores ( {user:'', up_to_time: 0, test_type: ''} )
       }
 
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
         {success: callback, fail: onerror});
 
-
+      /***
+       *  Set Timeout wrapping function.
+       *  Polling in defined time-cycle. Catch timeout connections etc...
+       */
       function asyncWrap(){
         setTimeout( function(){
 
          /***
-          * If received message from rosbridge websocket server or an error
-          * on websocket connection, stop timeout events.
+          *  If received message from rosbridge websocket server or an error
+          *  on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -197,16 +200,15 @@ service cognitive_get_scores ( {user:'', up_to_time: 0, test_type: ''} )
            * Return to client.
            */
           if ( retries >= maxTries )
-        {
-            randStrGen.removeCached( unqCallId );
-
+          {
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-            var response = craft_error_response();
+            execTime = new Date().getTime() - startT;
+            postMessage( craft_slaveMaster_msg('execTime', execTime) );
 
-            // Asynchronous client response.
+            var response = craft_error_response();
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -217,36 +219,39 @@ service cognitive_get_scores ( {user:'', up_to_time: 0, test_type: ''} )
         }, timeout);
       }
       asyncWrap();
-      /*=====================================================================*/
     }, this );
 }
 
 
 
 /***
- * Craft response object.
+ * Crafts response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
  *  @returns {Object} response - Response Object.
+ *  @returns {Boolean} response.result - Query result
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
  *
  */
 function craft_response(rosbridge_msg)
 {
+  var result = rosbridge_msg.result;
   var trace = rosbridge_msg.trace;
   var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
 
-  var testCategories = rosbridge_msg.testCategories;
-  var testScores = rosbridge_msg.testScores;
-
-  var logMsg = 'Returning to client';
+  var logMsg = 'Returning to client.';
 
   var response = {
-    test_classes: testCategories,
-    scores: testScores,
-    error: error
+    result: false,
+    error: ''
   };
 
+  response.result = result;
+
+  response.error = error;
 
   if (error !== '')
   {
@@ -259,7 +264,6 @@ function craft_response(rosbridge_msg)
   }
 
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-
   return response;
 }
 
@@ -267,17 +271,13 @@ function craft_response(rosbridge_msg)
 /***
  *  Craft service error response object. Used to return to client when an
  *  error has been occured, while processing client request.
- *
- *  @returns {Object} response - Response Object.
- *
  */
 function craft_error_response()
 {
-  var errorMsg = 'RAPP Platform Failure';
+  var errorMsg = 'RAPP Platform Failure!';
 
   var response = {
-    test_classes: [],
-    scores: [],
+    result: false,
     error: errorMsg
   };
 
@@ -288,11 +288,23 @@ function craft_error_response()
 }
 
 
+/***
+ *  Register interface with the main hopjs process. After registration
+ *  this worker service can communicate with the main hopjs process through
+ *  websockets.
+ *
+ *  The global scoped postMessage is used in order to send messages to the main
+ *  process.
+ *  Furthermore, the global scoped onmessage callback function declares the
+ *  handler for incoming messages from the hopjs main process.
+ *
+ *  Currently log messages are handled by the main process.
+ */
 function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -302,7 +314,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -328,10 +340,13 @@ function register_master_interface()
 }
 
 
+/***
+ *  Returns master-process comm msg literal.
+ */
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg

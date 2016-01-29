@@ -23,7 +23,7 @@ var path = require('path');
 var testParams = require( path.join(__dirname, 'params.json') );
 
 exports.TEST = function (){
-  import service ontology_is_subsuperclass_of();
+  service ontology_is_subsuperclass_of();
 
   var args = {
     parent_class: testParams.request.args.parent_class,

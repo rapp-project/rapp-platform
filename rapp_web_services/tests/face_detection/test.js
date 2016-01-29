@@ -22,14 +22,14 @@
 var path = require('path');
 var fs = require('fs');
 
-var pkgPath = path.join(__dirname, '../..');
-var Fs = require( path.join(pkgPath, 'modules/common', 'fileUtils.js') );
-var ENV = require( path.join(pkgPath, 'env.js') );
+var ENV = require( path.join(__dirname, '../..', 'env.js') );
+var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
+var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 var testParams = require( path.join(__dirname, 'params.json') );
 
 
 exports.TEST = function (){
-  import service face_detection();
+  service face_detection();
 
   var serverCacheDir = ENV.PATHS.SERVER_CACHE_DIR;
   var success = false;

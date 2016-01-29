@@ -55,17 +55,15 @@ var _CSS = [
 
 
 var _REQUIRE = [
-  resolve(filePath, '../../../tests/tests.js')
 ];
 
 
 var _CLIENT_SCRIPTS = function(){
-  import service active_ros_nodes();
-  import service active_ros_topics();
-  import service active_ros_services();
-  import service available_services();
-  import service exec_test();
-  var TESTS = require( path.join(filePath, '../../../tests/tests.js') );
+  service active_ros_nodes();
+  service active_ros_topics();
+  service active_ros_services();
+  service available_services();
+  service exec_test();
 
   return ~{
 
@@ -78,7 +76,7 @@ var _CLIENT_SCRIPTS = function(){
           text : item.text
         }));
       });
-    };
+    }
 
     function selectPickerStyle(elemId, _style){
       $('#'+elemId).selectpicker({

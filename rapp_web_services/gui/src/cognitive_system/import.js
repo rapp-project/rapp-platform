@@ -61,10 +61,10 @@ var _REQUIRE = [];
 var _CLIENT_SCRIPTS = function( attrs ){
   attrs = attrs || {};
   var _user = attrs.user || '';
-  import service user_personal_info();
-  import service cognitive_get_scores();
-  import service cognitive_get_history();
-  import service plot_data_form();
+  service user_personal_info();
+  service cognitive_get_scores();
+  service cognitive_get_history();
+  service plot_data_form();
 
 
   return ~{

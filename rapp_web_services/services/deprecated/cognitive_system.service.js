@@ -34,8 +34,8 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname, '..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname, '..', 'config');
 
 
 var VIEWS = require( path.join(__dirname, '..', 'gui', 'src', 'cognitive_system',

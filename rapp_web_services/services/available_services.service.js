@@ -36,17 +36,18 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __configDir = path.join(__dirname,'..', 'config');
+var CONFIG_DIR = path.join(__dirname,'..', 'config');
 
-var __hopServiceName = 'available_services';
+var SERVICE_NAME = 'available_services';
 var __hopServiceId = null;
 var __availableServices = [];
 
-
 /* -- Set timer values for websocket communication to rosbridge -- */
-var scanTimer = ENV.SERVICES[__hopServiceName].scan_time * 60 * 1000;  // Minutes
-var initScanWait = ENV.SERVICES[__hopServiceName].initial_scan_wait;
+var scanTimer = ENV.SERVICES[SERVICE_NAME].scan_time * 60 * 1000;  // Minutes
+var initScanWait = ENV.SERVICES[SERVICE_NAME].initial_scan_wait;
 /* --------------------------------------------------------------- */
+
+var srvArgs = ENV.SERVICES[SERVICE_NAME].args;
 
 var colors = {
   error:    String.fromCharCode(0x1B) + '[1;31m',
@@ -78,7 +79,7 @@ function scanServices(){
   console.log(msg);
 
   for(var s in ENV.SERVICES){
-    if(s === __hopServiceName){
+    if(s === SERVICE_NAME){
       __availableServices.push(s);
       continue;
     }
@@ -135,7 +136,7 @@ function scanServices(){
  *  when an error has been occured during service call.
  *
  */
-service available_services (  )
+service available_services ( srvArgs )
 {
   postMessage( craft_slaveMaster_msg('log', 'client-request') );
 
@@ -202,7 +203,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -212,7 +213,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -244,7 +245,7 @@ function register_master_interface()
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg

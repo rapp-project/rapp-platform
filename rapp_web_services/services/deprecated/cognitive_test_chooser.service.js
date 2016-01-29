@@ -22,7 +22,7 @@
 /***
  * @fileOverview
  *
- * [Qr-Detection] RAPP Platform front-end web service.
+ * [Cognitive-Test-Chooser] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -36,26 +36,22 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname, '..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname,'..', 'config');
 
-var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
-
-var RandStringGen = require ( path.join(__includeDir, 'common',
+var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 
 /* ------------< Load and set global configuration parameters >-------------*/
-var __hopServiceName = 'qr_detection';
+var SERVICE_NAME = 'cognitive_test_chooser';
 var __hopServiceId = null;
-var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
-var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
 /* ----------------------------------------------------------------------- */
 
-var rosSrvName = ENV.SERVICES[__hopServiceName].ros_srv_name;
+var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -64,108 +60,71 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   }
 });
 
-
-/*----<Random String Generator configurations---->*/
+/*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
-/*------------------------------------------------*/
-
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[__hopServiceName].timeout; // ms
-var maxTries = ENV.SERVICES[__hopServiceName].retries;
 /* ----------------------------------------------------------------------- */
 
-var colors = {
-  error:    '\033[1;31m',
-  success:  '\033[1;31m',
-  clear:    '\033[0m'
-};
+
+/* ------< Set timer values for websocket communication to rosbridge> ----- */
+var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
+var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
+/* ----------------------------------------------------------------------- */
+
 
 // Register communication interface with the master-process
 register_master_interface();
 
 
 /**
- *  [Qr-Detection] RAPP Platform front-end web service.
- *  <p> Serves requests for qr_detection on given input image frame.</p>
+ *  [Cognitive-Test-Chooser] RAPP Platform front-end web service.
+ *  <p>Serves requests for cognitive-exercise selection</p>
  *
- *  @function qr_detection
+ *  @function cognitive_test_chooser
  *
- *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} args.file_uri - System uri path of transfered (client) file, as
- *    declared in multipart/form-data post field. The file_uri is handled and
- *    forwared to this service, as input argument, by the HOP front-end server.
- *    Clients are responsible to declare this field in the multipart/form-data
- *    post field.
+ *  @param {Object} args - Service input arguments (literal).
+ *  @param {String} args.user - Registered username.
+ *  @param {String} args.test_type - Exercise test-type to request.
+ *
+ *  Currently available test types are:
+ *  <ul>
+ *    <li>ArithmericCts</li>
+ *    <li>ReasoningCts</li>
+ *    <li>AwarenessCts</li>
+ *  </ul>
+ *    By passing an empty string (''), the RAPP Platform Cognitive Exercises
+ *    System is responsible to return a test based on previous user's
+ *    performances.
+ *
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
  *    Asynchronous HTTP Response.
- *  @returns {Array} response.qr_centers - An array of qr-center objects.
- *  @returns {Array} response.qr_messages - The array of the qr-messages. One
- *    qr_message string message for each found QR code.
+ *  @returns {String} response.lang - Language.
+ *  @returns {Array} response.questions - Vector of questions, for selected
+ *    exercise.
+ *  @returns {Array} response.possib_ans - Array of possible answers, for
+ *    selected exercise.
+ *  @returns {Array} response.correct_ans - Vector of correct answers, for
+ *    selected exercise.
+ *  @returns {String} response.test_instance - Selected Exercise's
+ *    test instance name.
+ *  @returns {String} response.test_type - Test-type of selected exercise.
+ *  @returns {String} response.test_subtype - Test-subtype of selected
+ *    exercise.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
+ *
  */
-service qr_detection ( {file_uri:''} )
+service cognitive_test_chooser( {user: '', test_type: ''} )
 {
-  /***
-   *  For security reasons, if file_uri is not defined under the
-   *  server_cache_dir do not operate. HOP server stores the files under the
-   *  __serverCacheDir directory.
-   */
-  if( file_uri.indexOf(__serverCacheDir) === -1 )
-  {
-    var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-        " Abortion for security reasons.";
-    postMessage( craft_slaveMaster_msg('log', errorMsg) );
-    console.log(colors.error + '[QR-Detection]: ' + errorMsg + colors.clear);
-
-    var response = {
-      qr_centers: [],
-      qr_messages: [],
-      error: errorMsg
-    };
-
-    return hop.HTTPResponseJson(response);
-  }
-  /* ----------------------------------------------------------------------- */
-
-  // Assign a unique identification key for this service call.
+  // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
   var startT = new Date().getTime();
   var execTime = 0;
 
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
-    '}') );
-  var logMsg = 'Image stored at [' + file_uri + ']';
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var fileUrl = file_uri.split('/');
-  var fileName = fileUrl[fileUrl.length -1];
-
-  var cpFilePath = __servicesCacheDir + fileName.split('.')[0] + '-'  + unqCallId +
-    '.' + fileName.split('.')[1];
-  cpFilePath = Fs.resolvePath(cpFilePath);
-  /* ---------------------------------------------------------------- */
-
-  /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(file_uri, cpFilePath) === false)
-  {
-    //could not rename file. Probably cannot access the file. Return to client!
-    var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
-      cpFilePath + ']';
-
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-    Fs.rmFile(file_uri);
-    randStrGen.removeCached(unqCallId);
-    var response = craft_error_response();
-    return hop.HTTPResponseJson(response);
-  }
-  logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-  /*-------------------------------------------------------------------------*/
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' +
+    rosSrvName + '}') );
 
 
   /***
@@ -183,10 +142,12 @@ service qr_detection ( {file_uri:''} )
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Set Ros Service request arguments here.
+      // Fill Ros Service request msg parameters here.
       var args = {
-        imageFilename: cpFilePath
+        username: user,
+        testType: test_type
       };
+
 
       /***
        * Declare the service response callback here!!
@@ -199,9 +160,8 @@ service qr_detection ( {file_uri:''} )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
         //console.log(data);
+
         // Craft client response using ros service ws response.
         var response = craft_response( data );
         // Asynchronous response to client.
@@ -219,9 +179,6 @@ service qr_detection ( {file_uri:''} )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
-        // craft error response
         var response = craft_error_response();
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
@@ -241,8 +198,8 @@ service qr_detection ( {file_uri:''} )
         setTimeout( function(){
 
          /***
-          * If received message from rosbridge websocket server or an error
-          * on websocket connection, stop timeout events.
+          *   If received message from rosbridge websocket server or an error
+          *   on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -263,9 +220,6 @@ service qr_detection ( {file_uri:''} )
               ' Could not receive response from rosbridge...';
             postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-            // Remove cached file. Release resources.
-            Fs.rmFile(cpFilePath);
-
             execTime = new Date().getTime() - startT;
             postMessage( craft_slaveMaster_msg('execTime', execTime) );
 
@@ -280,7 +234,6 @@ service qr_detection ( {file_uri:''} )
         }, timeout);
       }
       asyncWrap();
-      /*=================================================================*/
     }, this );
 }
 
@@ -291,47 +244,69 @@ service qr_detection ( {file_uri:''} )
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response Object.
- *  @returns {Array} response.qr_centers - An array of qr-center objects.
- *  @returns {Array} response.qr_messages - The array of the qr-messages. One
- *    qr_message string message for each found QR code.
+ *  @returns {String} response.lang - Language.
+ *  @returns {Array} response.questions - Vector of questions, for selected
+ *    exercise.
+ *  @returns {Array} response.possib_ans - Array of possible answers, for
+ *    selected exercise.
+ *  @returns {Array} response.correct_ans - Vector of correct answers, for
+ *    selected exercise.
+ *  @returns {String} response.test_instance - Selected Exercise's
+ *    test instance name.
+ *  @returns {String} response.test_type - Test-type of selected exercise.
+ *  @returns {String} response.test_subtype - Test-subtype of selected
+ *    exercise.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
-  var qrCenters = rosbridge_msg.qr_centers;
-  var qrMessages = rosbridge_msg.qr_messages;
+  var trace = rosbridge_msg.trace;
+  var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
+  var questions = rosbridge_msg.questions;
+  var answers = rosbridge_msg.answers;
+  var correctAnswers = rosbridge_msg.correctAnswers;
+  var test = rosbridge_msg.test;
+  var testType = rosbridge_msg.testType;
+  var testSubType = rosbridge_msg.testSubType;
+  var language = rosbridge_msg.language;
 
   var logMsg = 'Returning to client.';
 
+
   var response = {
-    qr_centers: [],
-    qr_messages: [],
-    error: ''
+    lang: '', questions: [],
+    possib_ans: [], correct_ans: [],
+    test_instance: '', test_type: '',
+    test_subtype: '', error: ''
   };
 
-  for (var ii = 0; ii < qrCenters.length; ii++)
-  {
-    var qrPoint = { x: 0, y: 0};
+  response.questions = questions;
+  response.correct_ans = correctAnswers;
+  response.test_instance = test;
+  response.test_type = testType;
+  response.test_subtype = testSubType;
+  response.lang = language;
 
-    qrPoint.x = qrCenters[ii].point.x;
-    qrPoint.y = qrCenters[ii].point.y;
-    response.qr_centers.push(qrPoint);
-    response.qr_messages.push(qrMessages[ii]);
+  for (var ii = 0; ii < answers.length; ii++)
+  {
+    response.possib_ans.push( answers[ii].s );
   }
 
-  response.error = error;
-
-  if (error !== '')
+  if (!success)
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
+    logMsg += ' ROS service [' + rosSrvName + '] error ---> ' + error;
+    //console.log(error)
+    response.error = (!error && trace.length) ?
+      trace[trace.length - 1] : error;
   }
   else
   {
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
+
+  //console.log(response);
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   return response;
 }
@@ -346,9 +321,10 @@ function craft_error_response()
   var errorMsg = 'RAPP Platform Failure';
 
   var response = {
-    qr_centers: [],
-    qr_messages: [],
-    error: errorMsg
+    lang: '', questions: [],
+    possib_ans: [], correct_ans: [],
+    test_instance: '', test_type: '',
+    test_subtype: '', error: errorMsg
   };
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
@@ -374,7 +350,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -384,7 +360,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -416,7 +392,7 @@ function register_master_interface()
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg

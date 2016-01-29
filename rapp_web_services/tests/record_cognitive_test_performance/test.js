@@ -23,7 +23,7 @@ var path = require('path');
 var testParams = require( path.join(__dirname, 'params.json') );
 
 exports.TEST = function (){
-  import service record_cognitive_test_performance();
+  service record_cognitive_test_performance();
 
   var args = {
     user: testParams.request.args.user,

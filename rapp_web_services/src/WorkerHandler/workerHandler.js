@@ -49,17 +49,17 @@ __POP_LOG_WINDOWS = false;
 var path = require('path');
 var hop = require('hop');
 
-var __includeDir = path.join(__dirname, '..');
-var __configDir = path.join(__dirname, '..', '..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..');
+var CONFIG_DIR = path.join(__dirname, '..', '..', 'config');
 
-var Rsg_ = require ( path.join(__includeDir, 'common', 'randStringGen.js') );
+var Rsg_ = require ( path.join(INCLUDE_DIR, 'common', 'randStringGen.js') );
 var RunTime_ = require( './runtime.js' );
 var Logger_ = require( './logger.js' );
 var Cache_ = require( './cache.js' );
-var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
+var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 var exec = require('child_process').exec;
 
-var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
+var pathsEnv = require( path.join(CONFIG_DIR, 'env', 'paths.json') );
 
 /* -------------------- Cache directories ------------------------ */
 var __servicesCacheDir = Fs.resolvePath( pathsEnv.cache_dir_services );

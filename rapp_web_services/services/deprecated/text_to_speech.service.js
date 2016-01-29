@@ -22,7 +22,7 @@
 /***
  * @fileOverview
  *
- * [Ontology-superclasses-of] RAPP Platform front-end web service.
+ * [Text-to-Speech] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -36,22 +36,28 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname,'..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname, '..', 'config');
 
-var RandStringGen = require ( path.join(__includeDir, 'common',
+var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
+
+var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 
-/* ------------< Load and set basic configuration parameters >-------------*/
-var __hopServiceName = 'ontology_superclasses_of';
+/* ------------< Load and set global configuration parameters >-------------*/
+var SERVICE_NAME = 'text_to_speech';
 var __hopServiceId = null;
-/* ----------------------------------------------------------------------- */
+var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
+var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
+var audioOutFormat = 'wav';
+var basenamePrefix = 'tts_';
+/* ------------------------------------------------------------------------ */
 
-var rosSrvName = ENV.SERVICES[__hopServiceName].ros_srv_name;
+var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -60,16 +66,14 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   }
 });
 
-
 /*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[__hopServiceName].timeout; // ms
-var maxTries = ENV.SERVICES[__hopServiceName].retries;
+var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
+var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
 /* ----------------------------------------------------------------------- */
 
 
@@ -79,23 +83,29 @@ register_master_interface();
 
 
 /**
- *  [Ontology-superclasses-of] RAPP Platform front-end web service.
- *  Handles requests for ontology-superclasses-of query.
+ *  [Text-To-Speech], RAPP Platform Front-End Web Service.
+ *  Handles client requests for RAPP Platform Text-To-Speech Services.
  *
- *  @function ontology_subclasses_of
+ *  @function text_to_speech
  *
  *  @param {Object} args - Service input arguments (literal).
- *  @param {String} args.query - Recursive query.
+ *  @param {String} args.text - Text to perform TTS on.
+ *  @param {String} args.language - Language to be used for TTS translation.
  *
- *
- *  @returns {Object} response - JSON HTTPResponse Object.
+ *  @returns {Object} response - JSON HTTPResponse object.
  *    Asynchronous HTTP Response.
- *  @returns {Array} response.results - Query results.
+ *  @returns {String} response.payload - Data payload field for the audio/speech
+ *    data. Data are character-encoded to base64.
+ *  @returns {String} response.basename - An optional basename to be used by the clients
+ *  @returns {String} response.encoding - This field declares the character
+ *    encoding that was used to encode the audio/speech data of the payload
+ *    field. Currently only base64 is supported. This field exists for
+ *    future extension purposes.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  *
  */
-service ontology_superclasses_of ( {query:''} )
+service text_to_speech ( {text: '', language: ''} )
 {
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
@@ -103,8 +113,13 @@ service ontology_superclasses_of ( {query:''} )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName + '}') );
+  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
+    '}') );
 
+  // Rename file. Add uniqueId value
+  var audioOutPath = Fs.resolvePath(
+    __servicesCacheDir + basenamePrefix + unqCallId + '.' + audioOutFormat
+    );
 
   /***
    * Asynchronous http response
@@ -112,7 +127,7 @@ service ontology_superclasses_of ( {query:''} )
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
-      /**
+      /***
        *  Status flags.
        */
       var respFlag = false;
@@ -123,8 +138,11 @@ service ontology_superclasses_of ( {query:''} )
 
       // Fill Ros Service request msg parameters here.
       var args = {
-        ontology_class: query
+        text: text,
+         language: language,
+         audio_output: audioOutPath
       };
+
 
       /***
        * Declare the service response callback here!!
@@ -140,7 +158,7 @@ service ontology_superclasses_of ( {query:''} )
         //console.log(data);
 
         // Craft client response using ros service ws response.
-        var response = craft_response( data );
+        var response = craft_response( data, audioOutPath );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -162,6 +180,7 @@ service ontology_superclasses_of ( {query:''} )
         retClientFlag = true;
       }
 
+      /* -------------------------------------------------------- */
 
       // Invoke ROS-Service request.
       ros.callService(rosSrvName, args,
@@ -211,74 +230,58 @@ service ontology_superclasses_of ( {query:''} )
         }, timeout);
       }
       asyncWrap();
+      /*=================================================================*/
     }, this );
 }
 
 
-
 /***
- * Crafts response object.
- *
- *  @param {Object} rosbridge_msg - Return message from rosbridge
- *
- *  @returns {Object} response - Response Object.
- *  @returns {Array} response.results - Query results.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  Craft response object.
  *
  */
-function craft_response(rosbridge_msg)
+function craft_response(rosbridge_msg, audioFilePath)
 {
-  var results = rosbridge_msg.results;
-  var trace = rosbridge_msg.trace;
-  var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
+  var logMsg = 'Returning to client';
 
-  var logMsg = 'Returning to client.';
-
-  var response = {
-    results: [],
-    error: ''
-  };
-
-  for (var ii = 0; ii < results.length; ii++)
-  {
-    response.results.push(results[ii]);
-  }
-
-  response.error = error;
+  var response = {payload: '', basename: '', encoding: '', error: ''};
 
   if (error !== '')
   {
     logMsg += ' ROS service [' + rosSrvName + '] error' +
       ' ---> ' + error;
+    response.error = error;
   }
   else
   {
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
+    if( (audioFile = Fs.readFileSync(audioFilePath)) )
+    {
+      response.payload = audioFile.data.toString('base64');
+      response.basename = audioFile.basename;
+      response.encoding = 'base64';
+      // Remove local file immediately.
+      Fs.rmFile(audioFilePath);
+    }
+    else { response.error = 'RAPP Platform Failure'; }
   }
-
   postMessage( craft_slaveMaster_msg('log', logMsg) );
+  //console.log(crafted_msg)
   return response;
 }
 
 
 /***
- *  Craft service error response object. Used to return to client when an
- *  error has been occured, while processing client request.
+ *  Crafts response message on Platform Failure.
  */
 function craft_error_response()
 {
+  // Add here to be returned literal
   var errorMsg = 'RAPP Platform Failure';
-
-  var response = {
-    results: [],
-    error: errorMsg
-  };
+  var response = {payload: '', basename: '', encoding: '', error: errorMsg};
 
   var logMsg = 'Return to client with error --> ' + errorMsg;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
-
   return response;
 }
 
@@ -299,7 +302,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -309,7 +312,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -341,7 +344,7 @@ function register_master_interface()
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg

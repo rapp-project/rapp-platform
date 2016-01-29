@@ -33,13 +33,14 @@ var hop = require('hop');
 var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
-var PKG_DIR = ENV.PATHS.PKG_DIR;
-var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
+
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname, '..', 'config');
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 
@@ -68,25 +69,11 @@ var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
 var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
 /* ----------------------------------------------------------------------- */
 
-var reqObj = require( path.join(INCLUDE_DIR,
-    'objects', 'req_obj.js') ).user_personal_info;
 
-service user_personal_info( args )
+service user_personal_info( {user: ''} )
 {
-  /* ------ Parse arguments ------ */
-  args = args || {};
-  for( var prop in reqObj ){
-    if( !(prop in args)  ){
-      args[prop] = reqObj[prop];
-    }
-  }
-  var user = args.user;
-  /* ----------------------------- */
-
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
-
-  //console.log(user)
 
   /***
    * Asynchronous http response
@@ -203,15 +190,15 @@ function craft_response(rosbridge_msg)
 {
   var logMsg = 'Returning to client.';
 
+  var success = rosbridge_msg.success;
   var trace = rosbridge_msg.trace;
   var resCols = rosbridge_msg.res_cols;
   var resData = rosbridge_msg.res_data;
   var userInfo = resData.length > 0 ? resData[0].s : [];
-  var error = rosbridge_msg.error || '';
 
   var response = {
     user_info: {},
-    error: error
+    error: ""
   };
 
   // Dynamic definition and value-set for user_info properties.
@@ -219,7 +206,7 @@ function craft_response(rosbridge_msg)
     response.user_info[resCols[ii]] = userInfo[ii];
   }
 
-  if ( error !== '' )
+  if (!success)
   {
     logMsg += ' ROS service [' + rosSrvName + '] error ---> ' + error;
     //console.log(error)
@@ -245,8 +232,8 @@ function craft_error_response()
   var errorMsg = 'RAPP Platform Failure';
 
   var response = {
-    user_info: {},
-    error: errorMsg
+    rapp_users: [],
+    error: ""
   };
 
   var logMsg = 'Return to client with error --> ' + errorMsg;

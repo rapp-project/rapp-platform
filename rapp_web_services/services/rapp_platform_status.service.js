@@ -35,13 +35,12 @@ var hop = require('hop');
 var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
+var PKG_DIR = ENV.PATHS.PKG_DIR;
+var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname, '..', 'config');
+var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 
-var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
-
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
 

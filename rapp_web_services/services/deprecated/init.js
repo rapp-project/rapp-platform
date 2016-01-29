@@ -34,15 +34,15 @@
  */
 
 
+var __DEBUG__ = false;
+
 var hop = require('hop');
 var path = require('path');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
-var PKG_DIR = ENV.PATHS.PKG_DIR;
-var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
-
 var hostname = hop.hostname;
 var port = hop.port;
+
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 

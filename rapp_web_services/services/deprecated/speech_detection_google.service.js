@@ -22,12 +22,11 @@
 /***
  * @fileOverview
  *
- * [Face-Detection] RAPP Platform front-end web service.
+ * [Speech-detection-google] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
  */
-
 
 
 var __DEBUG__ = false;
@@ -37,26 +36,26 @@ var path = require('path');
 
 var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var __includeDir = path.join(__dirname, '..', 'modules');
-var __configDir = path.join(__dirname, '..', 'config');
+var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
+var CONFIG_DIR = path.join(__dirname, '..', 'config');
 
-var Fs = require( path.join(__includeDir, 'common', 'fileUtils.js') );
+var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 
-var RandStringGen = require ( path.join(__includeDir, 'common',
+var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(__includeDir, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
     'Rosbridge.js') );
 
 
 /* ------------< Load and set global configuration parameters >-------------*/
-var __hopServiceName = 'face_detection';
+var SERVICE_NAME = 'speech_detection_google';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
 var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
-/* ----------------------------------------------------------------------- */
+/*-------------------------------------------------------------------------*/
 
-var rosSrvName = ENV.SERVICES[__hopServiceName].ros_srv_name;
+var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -71,8 +70,8 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[__hopServiceName].timeout; // ms
-var maxTries = ENV.SERVICES[__hopServiceName].retries;
+var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
+var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
 /* ----------------------------------------------------------------------- */
 
 var colors = {
@@ -88,30 +87,39 @@ var colors = {
 register_master_interface();
 
 
-
 /**
- *  [Face-Detection] RAPP Platform front-end web service.
- *  <p> Serves requests for face_detection on given input image frame.</p>
+ *  [Speech-Detection-Google] RAPP Platform front-end web service.
+ *  <p> Serves requests for Speech-Detection using google ASR engine. </p>
  *
- *  @function face_detection
+ *  @function speech_detecion_google
  *
  *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} args.file_uri - System uri path of transfered (client)
- *    file, as declared in multipart/form-data post field. The file_uri is
- *    handled and forwared to this service, as input argument,
- *    by the HOP front-end server.
+ *  @param {String} args.file_uri - System uri path of transfered (client) file, as
+ *    declared in multipart/form-data post field. The file_uri is handled and
+ *    forwared to this service, as input argument, by the HOP front-end server.
  *    Clients are responsible to declare this field in the multipart/form-data
  *    post field.
+ *  @param {String} args.audio_source - A value that represents information
+ *    for the audio source. e.g "nao_wav_1_ch".
+ *  @param {String} args.user. Username.
+ *  @param {String} args.language. Language to use for ASR.
+ *    <ul>
+ *      <li> 'el' --> Greek </li>
+ *      <li> 'en' --> English </li>
+ *    </ul>
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
  *    Asynchronous HTTP Response.
- *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {Array} response.words. An array of the detected-words, with
+ *    higher confidence.
+ *  @returns {Array} response.alternatives. Array of alternative sentences.
+ *    <p> e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...] </p>
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-service face_detection ( {file_uri:'', fast: false} )
+service speech_detection_google({file_uri: '', audio_source: '', user: '',
+  language: ''})
 {
-
   /***
    *  For security reasons, if file_uri is not defined under the
    *  server_cache_dir do not operate. HOP server stores the files under the
@@ -122,10 +130,12 @@ service face_detection ( {file_uri:'', fast: false} )
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
         " Abortion for security reasons.";
     postMessage( craft_slaveMaster_msg('log', errorMsg) );
-    console.log(colors.error + '[Face-Detection]: ' + errorMsg + colors.clear);
+    console.log(colors.error + '[Speech-Detection-Google]: ' + errorMsg +
+      colors.clear);
 
     var response = {
-      faces: [],
+      words: [],
+      alternatives: [],
       error: errorMsg
     };
 
@@ -133,7 +143,7 @@ service face_detection ( {file_uri:'', fast: false} )
   }
   /* ----------------------------------------------------------------------- */
 
-  // Assign a unique identification key for this service request.
+  // Assign a unique identification key for this service call.
   var unqCallId = randStrGen.createUnique();
 
   var startT = new Date().getTime();
@@ -141,7 +151,7 @@ service face_detection ( {file_uri:'', fast: false} )
 
   postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
     '}') );
-  var logMsg = 'Image stored at [' + file_uri + ']';
+  var logMsg = 'Audio data stored at [' + file_uri + ']';
   postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
@@ -163,18 +173,13 @@ service face_detection ( {file_uri:'', fast: false} )
 
     postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
-    randStrGen.removeCached(unqCallId);
+    randStrGen.removeCached(unqCallId); // Dismiss the unique identity key
     var response = craft_error_response();
     return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
   postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
-
-  // Workaround for bool and hop
-  if (fast == 'True' || fast == 'true'){ fast = true; }
-  //else { fast_input = false;}
-  if (fast == 'False' || fast == 'false'){ fast = false; }
 
   /***
    * Asynchronous http response
@@ -193,8 +198,10 @@ service face_detection ( {file_uri:'', fast: false} )
 
       // Fill Ros Service request msg parameters here.
       var args = {
-        imageFilename: cpFilePath,
-        fast: fast
+        filename: cpFilePath,
+        audio_type: audio_source,
+        user: user,
+        language: language
       };
 
 
@@ -296,49 +303,39 @@ service face_detection ( {file_uri:'', fast: false} )
 
 
 
-
 /***
  * Crafts response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
- *  @returns {Object} response - Response Object.
- *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {Object} response - Response object.
+ *  @returns {Array} response.words. An array of the detected-words, with
+ *    higher confidence.
+ *  @returns {Array} response.alternatives. Array of alternative sentences.
+ *    <p> e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...] </p>
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
 function craft_response(rosbridge_msg)
 {
-  var faces_up_left = rosbridge_msg.faces_up_left;
-  var faces_down_right = rosbridge_msg.faces_down_right;
+  var words = rosbridge_msg.words;
+  var alternatives = rosbridge_msg.alternatives;
   var error = rosbridge_msg.error;
-  var numFaces = faces_up_left.length;
 
-  var logMsg = 'Returning to client';
+  var logMsg = 'Returning to client.';
 
   var response = {
-    faces: [],
+    words: [],
+    alternatives: [],
     error: ''
   };
 
-  for (var ii = 0; ii < numFaces; ii++)
+  response.words = words;
+
+  for (var ii = 0; ii < alternatives.length; ii++)
   {
-    /***
-     * @namespace face
-     * @property up_left_point - Face bounding box, up-left-point
-     */
-    var face = {
-      up_left_point: {x: 0, y:0},
-      down_right_point: {x: 0, y: 0}
-    };
-
-    face.up_left_point.x = faces_up_left[ii].point.x;
-    face.up_left_point.y = faces_up_left[ii].point.y;
-    face.down_right_point.x = faces_down_right[ii].point.x;
-    face.down_right_point.y = faces_down_right[ii].point.y;
-    response.faces.push( face );
+    response.alternatives.push( alternatives[ii].s );
   }
-
   response.error = error;
 
   if (error !== '')
@@ -362,10 +359,12 @@ function craft_response(rosbridge_msg)
  */
 function craft_error_response()
 {
+  // Add here to be returned literal
   var errorMsg = 'RAPP Platform Failure';
 
   var response = {
-    faces: [],
+    words: [],
+    alternatives: [],
     error: errorMsg
   };
 
@@ -392,7 +391,7 @@ function register_master_interface()
 {
   // Register onexit callback function
   onexit = function(e){
-    console.log("Service [%s] exiting...", __hopServiceName);
+    console.log("Service [%s] exiting...", SERVICE_NAME);
     var logMsg = "Received termination command. Exiting.";
     postMessage( craft_slaveMaster_msg('log', logMsg) );
   };
@@ -402,7 +401,7 @@ function register_master_interface()
     if (__DEBUG__)
     {
       console.log("Service [%s] received message from master process",
-        __hopServiceName);
+        SERVICE_NAME);
       console.log("Msg -->", msg.data);
     }
 
@@ -434,7 +433,7 @@ function register_master_interface()
 function craft_slaveMaster_msg(msgId, msg)
 {
   var _msg = {
-    name: __hopServiceName,
+    name: SERVICE_NAME,
     id:   __hopServiceId,
     msgId: msgId,
     data: msg
