@@ -38,7 +38,9 @@ class RecordUserCognitiveTestPerformance:
   # @param req [rapp_platform_ros_communications::recordUserCognitiveTestPerformanceSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::recordUserCognitiveTestPerformanceSrvResponse::Response&] The ROS service response
   # @exception Exception IndexError
-  # @exception Exception AIOError
+  # @exception Exception IOError
+  # @exception Exception KeyError
+  # @exception Exception AppError
   def recordPerformance(self,req):
     try:
       res = recordUserCognitiveTestPerformanceSrvResponse()

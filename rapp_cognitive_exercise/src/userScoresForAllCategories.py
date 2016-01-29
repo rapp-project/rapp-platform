@@ -35,16 +35,20 @@ class UserScoresForAllCategories:
   ## @brief The callback function of the cognitive exercise user scores for all categories service
   # @param req [rapp_platform_ros_communications::userScoresForAllCategoriesSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The ROS service response
-  # @exception Exception IndexError
-  # @exception Exception AIOError
   # @exception Exception ValueError
+  # @exception Exception IndexError
+  # @exception Exception AppError
   def returnUserScores(self,req):
     try:
-      res = userScoresForAllCategoriesSrvResponse()     
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)       
-      testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()    
-      testTypesList=CognitiveExerciseHelperFunctions.determineTestTypeListForReturningScoresOrHistory(req.testType,testTypesList)  
+      res = userScoresForAllCategoriesSrvResponse()      
+      #Get user ontology alias
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
+      #Get test types from ontology       
+      validtestTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
+      #Construct the test type list for returning their score history    
+      testTypesList=CognitiveExerciseHelperFunctions.determineTestTypeListForReturningScoresOrHistory(req.testType,validtestTypesList)  
       res.testCategories=testTypesList
+      #Calculate scores for test categories
       res.testScores=self.calculateUserScoresForCategories(testTypesList,userOntologyAlias,req.upToTime)   
       res.success=True
     except ValueError:

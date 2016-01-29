@@ -41,17 +41,22 @@ class UserScoreHistoryForAllCategories:
   ## @brief The callback function of the cognitive exercise user score history for all categories service
   # @param req [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The ROS service response
-  # @exception Exception IndexError
-  # @exception Exception AIOError
   # @exception Exception ValueError
+  # @exception Exception IndexError
+  # @exception Exception AppError
   def returnUserHistory(self,req):
     try:
-      res = userScoreHistoryForAllCategoriesSrvResponse()      
-      fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)      
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)       
-      testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()    
-      testTypesList=CognitiveExerciseHelperFunctions.determineTestTypeListForReturningScoresOrHistory(req.testType,testTypesList)      
+      res = userScoreHistoryForAllCategoriesSrvResponse() 
+      #Validate the provided time range     
+      fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)     
+      #Get user ontology alias   
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)    
+      #Get test types from ontology     
+      validtestTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()    
+      #Construct the test type list for returning their score history 
+      testTypesList=CognitiveExerciseHelperFunctions.determineTestTypeListForReturningScoresOrHistory(req.testType,validtestTypesList)      
       res.testCategories=testTypesList      
+      #Retrieve the test history for each test category
       self.assignTestHistoryForTestCategoriesToSrv(testTypesList,userOntologyAlias,fromTime,toTime,res)  
       res.success=True
     except ValueError:
@@ -69,7 +74,8 @@ class UserScoreHistoryForAllCategories:
   ## @brief Retrieves the test history of the user for the provided test categories  
   # @param testTypesList [list] The list of the available tests as they were read from the ontology
   # @param userOntologyAlias [string] The user's ontology alias
-  # @param upToTime [long] The time up to which the user's performance records are taken into account
+  # @param fromTime [long] The time from which the user's performance records are taken into account
+  # @param toTime [long] The time up to which the user's performance records are taken into account
   # 
   # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv
   def assignTestHistoryForTestCategoriesToSrv(self,testTypesList,userOntologyAlias,fromTime,toTime,res):        
@@ -108,9 +114,9 @@ class UserScoreHistoryForAllCategories:
   # @param fromTime [long] The time from which the performance records are evaluated
   # @param toTime [long] The time up to which the performance records are evaluated
   # 
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report  
   # @return fromTime [long] The time from which the performance records are evaluated
   # @return toTime [long] The time up to which the performance records are evaluated
+  # @exception Exception AppError
   def validateTimeRange(self,fromTime,toTime,res):
     if (toTime is None or toTime==0):
       toTime=9999999999999999999999

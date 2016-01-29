@@ -30,6 +30,11 @@ from rapp_platform_ros_communications.msg import (
 class CognitiveExerciseHelperFunctions:
   
   @staticmethod
+  ## @brief Gets the user cognitive test performance records for given test type
+  # @param username [string] The user's username
+  #
+  # @return userPerformanceReq [rapp_platform_ros_communications::userPerformanceCognitveTestsSrvRequest::Request&] The user's performance records
+  # @exception Exception AppError
   def getUserPerformanceRecordsForTestType(testType,userOntologyAlias):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')
     userPerformanceReq=userPerformanceCognitveTestsSrvRequest()
@@ -38,14 +43,13 @@ class CognitiveExerciseHelperFunctions:
     knowrob_service = rospy.ServiceProxy(serv_topic, userPerformanceCognitveTestsSrv)
     return knowrob_service(userPerformanceReq)
  
+
   @staticmethod
-    ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
+  ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
   # @param username [string] The user's username
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
-  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
   # @return ontologyAlias [string] The user's ontology alias
+  # @exception Exception AppError
   def getUserOntologyAlias(username):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')      
     knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
@@ -58,11 +62,9 @@ class CognitiveExerciseHelperFunctions:
 
   @staticmethod
   ## @brief Queries the ontology and returns the cognitive test types available
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   #
-  # @return returnWithError [bool] True if a non recoverable error occured, and the service must immediately return with an error report
-  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
   # @return testTypesList [list] The list of the available tests as they were read from the ontology
+  # @exception Exception AppError
   def getTestTypesFromOntology():
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_subclasses_of_topic')
     knowrob_service = rospy.ServiceProxy(serv_topic, ontologySubSuperClassesOfSrv)
@@ -81,11 +83,12 @@ class CognitiveExerciseHelperFunctions:
   @staticmethod
   ## @brief Queries the MySQL database through the MySQL wrapper and returns the user's language
   # @param username [string] The username of the user as is in the MySQL database
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
+  # @param languageInSrv [string] The user's language for assigning it to the srv response trace
   #
-  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The output arguments of the service as defined in the testSelectorSrv
-  # @return userLanguage [string] The user's language setting
-  def getUserLanguage(username,res):
+  # @return languageInSrv [string] The user's language for assigning it to the srv response trace
+  # @return userLanguage [string] The user's language
+  # @exception Exception AppError
+  def getUserLanguage(username,languageInSrv):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')	
     knowrob_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
     fetchDataSrvReq = fetchDataSrvRequest()
@@ -94,28 +97,36 @@ class CognitiveExerciseHelperFunctions:
     fetchDataSrvResponse = knowrob_service(fetchDataSrvReq)
     if(fetchDataSrvResponse.success.data!=True): 
       raise AppError(fetchDataSrvResponse.trace[0], fetchDataSrvResponse.trace)      
-    res.language=fetchDataSrvResponse.res_data[0].s[0]
+    language=fetchDataSrvResponse.res_data[0].s[0]
     return fetchDataSrvResponse.res_data[0].s[0]
 
   @staticmethod
-  def determineTestTypeListForReturningScoresOrHistory(testType,testTypesList):
+  ## @brief Validates the provided test type or selects all test types from ontology if non provided
+  # @param testType [string] The provided test type
+  # @param validtestTypesList [list] The list of valid test types
+  #
+  # @return testTypesList [list] The list of testTypes returned
+  # @exception Exception AppError
+  def determineTestTypeListForReturningScoresOrHistory(testType,validtestTypesList):
     if(not testType==""):
-      if(testType not in testTypesList):
+      if(testType not in validtestTypesList):
         error="invalid test type, not contained in ontology subclasses of cognitive test types"
         raise AppError(error,error)        
       testTypesList=[]
-      testTypesList.append(req.testType)    
+      testTypesList.append(req.testType)
+    else:
+      testTypesList=validtestTypesList
     return testTypesList
   
   @staticmethod  
   ## @brief Organizes the user's performance entries by timestamp
-  # @param d [dict] The dictionary containing the user's performance entries
+  # @param userPerf [dict] The dictionary containing the user's performance entries
   #
-  # @return d [OrderedDict] The dictionary containing the user's performance entries organized by timestamp
+  # @return userPerfOrganizedByTimestamp [OrderedDict] The dictionary containing the user's performance entries organized by timestamp
   def organizeUserPerformanceByTimestamp(userPerf):
-    d=OrderedDict()
+    userPerfOrganizedByTimestamp=OrderedDict()
     for i in range(len(userPerf.tests)):
       tlist=[userPerf.tests[i],userPerf.scores[i],userPerf.difficulty[i], userPerf.subtypes[i]]
-      d[int(userPerf.timestamps[i])]=[tlist]      
-    d=OrderedDict(sorted(d.items(), key=lambda t: t[0], reverse=True)) #Order is descending    
-    return d
+      userPerfOrganizedByTimestamp[int(userPerf.timestamps[i])]=[tlist]      
+    userPerfOrganizedByTimestamp=OrderedDict(sorted(userPerfOrganizedByTimestamp.items(), key=lambda t: t[0], reverse=True)) #Order is descending    
+    return userPerfOrganizedByTimestamp
