@@ -49,8 +49,9 @@ __POP_LOG_WINDOWS = false;
 var path = require('path');
 var hop = require('hop');
 
-var INCLUDE_DIR = path.join(__dirname, '..');
-var CONFIG_DIR = path.join(__dirname, '..', '..', 'config');
+const ENV = require( path.join(__dirname, '../..', 'env.js') );
+const PKG_DIR = ENV.PATHS.PKG_DIR;
+const INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
 var Rsg_ = require ( path.join(INCLUDE_DIR, 'common', 'randStringGen.js') );
 var RunTime_ = require( './runtime.js' );
@@ -59,21 +60,19 @@ var Cache_ = require( './cache.js' );
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 var exec = require('child_process').exec;
 
-var pathsEnv = require( path.join(CONFIG_DIR, 'env', 'paths.json') );
-
 /* -------------------- Cache directories ------------------------ */
-var __servicesCacheDir = Fs.resolvePath( pathsEnv.cache_dir_services );
-var __serverCacheDir = Fs.resolvePath( pathsEnv.cache_dir_server );
+const SERVICES_CACHE_DIR = ENV.PATHS.SERVICES_CACHE_DIR;
+const __serverCacheDir = ENV.PATHS.SERVER_CACHE_DIR;
 /* --------------------------------------------------------------- */
 
 /* ----------------< Logging configuration >---------------- */
-var __logDirBase = Fs.resolvePath( pathsEnv.log_dir );
-var __logDir = __logDirBase + RunTime_.getDate() + '/';
+const __logDirBase = ENV.PATHS.LOG_DIR;
+const __logDir = __logDirBase + RunTime_.getDate() + '/';
 Logger_.createLogDir(__logDir);  // Create log directory if it does not exist.
 /* --------------------------------------------------------- */
 
 /* --------< Initiate Random String Generator Module >------- */
-var __randStrLength = 5;
+const __randStrLength = 5;
 var RandStrGen_ = new Rsg_( __randStrLength );
 /* ---------------------------------------------------------- */
 
@@ -84,7 +83,7 @@ var __workerId = {};
 /* --------------------------------- */
 
 /* -----------< File cache configuration >--------------- */
-Cache_.createCacheDir(__servicesCacheDir);
+Cache_.createCacheDir(SERVICES_CACHE_DIR);
 Cache_.createCacheDir(__serverCacheDir);
 /* ------------------------------------------------------ */
 
@@ -103,8 +102,6 @@ var color = {
 function popLogWindow(logFile){
   var cmd = 'xterm -e tail -f ' + logFile;
   __child_processes[logFile] = exec(cmd, function(error, stdout, stderr){
-    //console.log('stdout: ' + stdout);
-    //console.log('stderr: ' + stderr);
     if(error !== null){
       console.log('child process exec error: ' + error);
     }
@@ -146,13 +143,13 @@ function handleMsg(msg)
     default:
       break;
   }
-};
+}
 
 
 /*!
  * @brief Creates a unique id for worker and call worker to store it.
  */
-function setWorkerId(workerName)
+function set_worker_id(workerName)
 {
   var unqId = RandStrGen_.createUnique();
 
@@ -164,25 +161,16 @@ function setWorkerId(workerName)
   // ------- <Send workerId> -------- //
   __workers[ workerName ].postMessage(msg);
   __workerId[ workerName ] = unqId;
-};
-
-
-function sendCacheDir(workerName)
-{
-  var msg = {
-    cmdId: 2065,
-    data: __servicesCacheDir
-  };
-  __workers[ workerName ].postMessage(msg);
 }
+
 
 
 /*!
  * @brief Kill worker given by Name
  */
-function killWorker(workerName)
+function kill_worker(workerName)
 {
-  if (serviceExists(workerName))
+  if (service_exists(workerName))
   {
     __workers[workerName].terminate();
     console.log("Terminated worker: %s", workerName);
@@ -195,7 +183,7 @@ function killWorker(workerName)
  * @param worker [{file: <absolute path to worker file>, name: <workerName>}]
  *  (Object literal Array)
  */
-function registerWorker(worker)
+function register_worker(worker)
 {
   try{
   __workers[ worker.name ] = new Worker ( worker.file );
@@ -210,12 +198,10 @@ function registerWorker(worker)
 
   __services = __services.concat(worker.name);
 
-  setWorkerId( worker.name );
-  sendCacheDir( worker.name );
+  set_worker_id( worker.name );
   registerToLogger( worker.name );
 
-  var serviceUrl = 'http://' + hop.hostname + ':' + hop.port + '/hop/' +
-    worker.name;
+  var serviceUrl = service_url( worker.name );
 
   console.log(color.success + '[OK]' + color.clear +
     ' - Initiated HOP Web Service: \n' + color.cyan +
@@ -224,14 +210,14 @@ function registerWorker(worker)
   //  Register 'this' worker onmessage callback
   __workers[ worker.name ].onmessage = function(msg){
     handleMsg(msg.data);
-  }
+  };
 }
 
 
 /*!
  * @brief Checks if service given exists in registered services
  */
-function serviceExists(srvName)
+function service_exists(srvName)
 {
   if (__services.indexOf(srvName) > -1) {return true;}
   else {return false;}
@@ -252,8 +238,13 @@ function terminate()
 }
 
 
+function service_url(srvName){
+  return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
+}
+
+
 // Export Module
 module.exports = {
-  registerWorker: registerWorker,
+  register_worker: register_worker,
   terminate: terminate
-}
+};

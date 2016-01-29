@@ -46,8 +46,8 @@ var port = hop.port;
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 
-var WorkerHandler = require( path.join(INCLUDE_DIR, 'WorkerHandler',
-    'workerHandler.js') );
+var WorkerHandler = require( path.join(INCLUDE_DIR, 'workerhandler',
+    'worker_handler.js') );
 
 var color = {
   error:    String.fromCharCode(0x1B) + '[1;31m',
@@ -90,7 +90,7 @@ function parse_services_dir(dir)
           file: dir + '/' + workerFileList[i],
           name: workerFileList[i].replace( regexp, '' )
         };
-        WorkerHandler.registerWorker(worker);
+        WorkerHandler.register_worker(worker);
         /* --------------------------------------- */
       }
     }

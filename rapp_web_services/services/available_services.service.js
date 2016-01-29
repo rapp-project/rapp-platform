@@ -252,3 +252,8 @@ function craft_slaveMaster_msg(msgId, msg)
   };
   return _msg;
 }
+
+function service_url(srvName){
+  return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
+}
+
