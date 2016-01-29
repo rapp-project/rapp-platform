@@ -193,15 +193,15 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
-      print "Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
       res.success.data=False
-      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
-    except IOError:
-      print "Error: can\'t find login file or read data"
+      res.error="IndexError: " +str(e)
+    except IOError, e:      
       res.success.data=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
     return res
 
   ## @brief Implements the general delete data from table function
@@ -224,15 +224,15 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
-      print "Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
       res.success.data=False
-      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
-    except IOError:
-      print "Error: can\'t find login file or read data"
+      res.error="IndexError: " +str(e)
+    except IOError, e:      
       res.success.data=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
     return res
 
   ## @brief Implements the general update data from table function
@@ -257,15 +257,15 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
-      print "Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
       res.success.data=False
-      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
-    except IOError:
-      print "Error: can\'t find login file or read data"
+      res.error="IndexError: " +str(e)
+    except IOError, e:      
       res.success.data=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
     return res
 
   ## @brief Implements the general fetch data from table function
@@ -300,15 +300,15 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
-      print "Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
       res.success.data=False
-      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
-    except IOError:
-      print "Error: can\'t find login file or read data"
+      res.error="IndexError: " +str(e)
+    except IOError, e:      
       res.success.data=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
     return res
 
   ## @brief Implements the whatRappsCanRun service
@@ -336,15 +336,15 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success.data=False
-      print "Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError:
-      res.trace.append("Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
       res.success.data=False
-      print "Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format"
-    except IOError:
-      print "Error: can\'t find login file or read data"
+      res.error="IndexError: " +str(e)
+    except IOError, e:      
       res.success.data=False
-      res.trace.append("Error: can\'t find login file or read data")
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
     return res
 
   ## @brief Places commas between columns and constructs a string

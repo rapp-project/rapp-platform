@@ -80,7 +80,7 @@ class TestDbWrapper(unittest.TestCase):
     entry1=[]
     req.where_data=[StringArrayMsg(s=entry1)]
     response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Wrong Query Input Format, check for empty required columns list or wrong/incomplete Query data format")
+    self.assertEqual(response.trace[0],"IndexError: list index out of range")
     self.assertFalse(response.success.data)
 
 

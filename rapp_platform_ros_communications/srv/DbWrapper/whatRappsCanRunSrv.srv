@@ -2,6 +2,7 @@ string model_id
 string core_agent_version
 ---
 std_msgs/Bool success
+string error
 string[] trace
 string[] res_cols
 rapp_platform_ros_communications/StringArrayMsg[] res_data
