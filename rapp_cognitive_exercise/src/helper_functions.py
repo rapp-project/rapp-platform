@@ -113,7 +113,7 @@ class CognitiveExerciseHelperFunctions:
         error="invalid test type, not contained in ontology subclasses of cognitive test types"
         raise AppError(error,error)        
       testTypesList=[]
-      testTypesList.append(req.testType)
+      testTypesList.append(testType)
     else:
       testTypesList=validtestTypesList
     return testTypesList
