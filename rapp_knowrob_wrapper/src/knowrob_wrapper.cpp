@@ -24,8 +24,6 @@ limitations under the License.
 #include <ros/package.h>
 #include <fstream>
 
-std::string ontologyDefaultPath = std::string("currentOntologyVersion.owl");
-
 /**  
  * @brief Default constructor 
  */
@@ -35,12 +33,22 @@ KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh) : nh_(nh) {
     mysql_update_client = nh_.serviceClient<rapp_platform_ros_communications::updateDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_update_data");
 }
 
+/** 
+ * @brief Dumps the ontology to default path 
+ */
 void KnowrobWrapper::dump_ontology_now() {
+    //rembember to remove path from here and put it to yaml
+    std::string ontologyDefaultPath = std::string("currentOntologyVersion.owl");
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Request dmp;
     dmp.file_url = ontologyDefaultPath;
     KnowrobWrapper::dumpOntologyQuery(dmp);
 }
 
+/** 
+ * @brief Check if a string is contained in a vector string
+ * @param vec [vector<string>] The vector containing strings
+ * @return a [string] The string to check if it is contained 
+ */
 bool checkIfStringVectorContainsString(std::vector<std::string> vec, std::string a) {  
   bool stringContained=false;
   for (int i = 0; i < vec.size(); i++) {
@@ -52,6 +60,11 @@ bool checkIfStringVectorContainsString(std::vector<std::string> vec, std::string
   return stringContained;
 }
 
+/** 
+ * @brief Checks if the second string is contained within the first string
+ * @param a [string] The first string
+ * @return b [string] The second String
+ */
 bool checkIfStringContainsString(std::string a, std::string b){
   std::size_t found = a.find(b);
   if (found == std::string::npos)
@@ -97,7 +110,7 @@ bool checkIfFileExists(const char *fileName) {
  * @brief Splits string by delimiter
  * @param str [string] The input string 
  * @param sep [string] The delimiter
- * @return arr [std::vector<std::string>] A vector with the string parts as splitted by the delimiter 
+ * @return arr [vector<string>] A vector with the string parts as splitted by the delimiter 
  */
 std::vector<std::string> split(std::string str, std::string sep) {
     char* cstr = const_cast<char*> (str.c_str());
@@ -115,6 +128,7 @@ std::vector<std::string> split(std::string str, std::string sep) {
  * @brief Returns the ontology alias of the user
  * @param user_id [string] The username of the user 
  * @return ontology_alias [string] The ontology_alias of the user or possible error
+ * @exception AppError
  */
 std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
     try {
@@ -150,6 +164,7 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
  * @brief Creates a new ontology alias for a user
  * @param user_id [string] The username of the user 
  * @return ontology_alias [string] The ontology_alias of the user or possible error
+ * @exception AppError
  */
 std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_id) {
     std::string ontology_alias;
@@ -241,67 +256,64 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
  * @brief Implements the create_cognitve_tests ROS service 
  * @param req [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response KnowrobWrapper::create_cognitve_tests(rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request req) {
     rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response res;
-    if (req.test_type == std::string("") || req.test_difficulty < 1 || req.test_path == std::string("") || req.test_subtype == std::string("")) {
-        res.success = false;
-        res.trace.push_back("Error, one or more arguments not provided or out of range. Test variation and test difficulty are positive integers >0");
-        res.error = std::string("Error, one or more arguments not provided or out of range.  Test variation and test difficulty are positive integers >0");
-        return res;
-    }
-
-    std::string path = ros::package::getPath("rapp_cognitive_exercise");
-    std::string temp_check_path = path + req.test_path;
-    const char * c = temp_check_path.c_str();
-    if (!checkIfFileExists(c)) {
-        res.success = false;
-        res.trace.push_back(std::string("Test file does not exist in provided file path"));
-        res.trace.push_back(req.test_path);
-        res.error = std::string("Test file does not exist in provided file path");
-        return res;
-    }
-    std::string difficulty = intToString(req.test_difficulty);
-    std::string query = std::string("createCognitiveTest(knowrob:'") + req.test_type + std::string("',B,'") + difficulty + std::string("','") + req.test_path + std::string("',knowrob:'") + req.test_subtype + std::string("')");
-    json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-    char status = results.getStatus();
-    if (status == 0) {
-        res.success = false;
-        res.trace.push_back(std::string("Test insertion into ontology FAILED, possible error is test type/subtype invalid"));
-        res.error = std::string("Test insertion into ontology FAILED, possible error is test type/subtype invalid");
-        return res;
-    } else if (status == 3) {
-        res.success = true;
-    }
-    std::vector<std::string> query_ret_tests;
-    for (json_prolog::PrologQueryProxy::iterator it = results.begin();
-            it != results.end(); it++) {
-        json_prolog::PrologBindings bdg = *it;
-        std::string temp_query_tests = bdg["B"];
-        query_ret_tests.push_back(temp_query_tests);
-    }
-
-    for (unsigned int i = 0; i < query_ret_tests.size(); i++) {
-        res.test_name = (query_ret_tests[i]);
-    }
-    std::string tmp_test_name;
-    tmp_test_name.assign(res.test_name.c_str());
-    std::vector<std::string> test_created = split(tmp_test_name, std::string("#"));
-
-    if (test_created.size() == 2) {
-        for (unsigned int i = 0; i < req.supported_languages.size(); i++) {
-            query = std::string("rdf_assert(knowrob:'") + test_created[1] + std::string("',knowrob:supportedLanguages,knowrob:'") + req.supported_languages[i] + std::string("')");
-            results = pl.query(query.c_str());
+    try {
+        if (req.test_type == std::string("") || req.test_difficulty < 1 || req.test_path == std::string("") || req.test_subtype == std::string("")) {
+             throw std::string("Error, one or more arguments not provided or out of range. Test variation and test difficulty are positive integers >0");
         }
+    
+        std::string path = ros::package::getPath("rapp_cognitive_exercise");
+        std::string temp_check_path = path + req.test_path;
+        const char * c = temp_check_path.c_str();
+        if (!checkIfFileExists(c)) {
+            throw std::string("Test file does not exist in provided file path"); 
+        }
+        std::string difficulty = intToString(req.test_difficulty);
+        std::string query = std::string("createCognitiveTest(knowrob:'") + req.test_type + std::string("',B,'") + difficulty + std::string("','") + req.test_path + std::string("',knowrob:'") + req.test_subtype + std::string("')");
+        json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+        char status = results.getStatus();
+        if (status == 0) {
+            throw std::string("Test insertion into ontology FAILED, possible error is test type/subtype invalid"); 
+        } else if (status == 3) {
+            res.success = true;
+        }
+        std::vector<std::string> query_ret_tests;
+        for (json_prolog::PrologQueryProxy::iterator it = results.begin();
+                it != results.end(); it++) {
+            json_prolog::PrologBindings bdg = *it;
+            std::string temp_query_tests = bdg["B"];
+            query_ret_tests.push_back(temp_query_tests);
+        }    
+        for (unsigned int i = 0; i < query_ret_tests.size(); i++) {
+            res.test_name = (query_ret_tests[i]);
+        }
+        std::string tmp_test_name;
+        tmp_test_name.assign(res.test_name.c_str());
+        std::vector<std::string> test_created = split(tmp_test_name, std::string("#"));    
+        if (test_created.size() == 2) {
+            for (unsigned int i = 0; i < req.supported_languages.size(); i++) {
+                query = std::string("rdf_assert(knowrob:'") + test_created[1] + std::string("',knowrob:supportedLanguages,knowrob:'") + req.supported_languages[i] + std::string("')");
+                results = pl.query(query.c_str());
+            }
+        }
+        KnowrobWrapper::dump_ontology_now();
+        return res;
+    } catch (std::string error) {
+        res.success = false;
+        res.trace.push_back(error);
+        res.error = error;
+        return res;
     }
-    KnowrobWrapper::dump_ontology_now();
-    return res;
 }
 
 /** 
  * @brief Implements the cognitive_tests_of_type ROS service 
  * @param req [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapper::cognitive_tests_of_type(rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request req) {
     rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response res;
@@ -355,6 +367,7 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
  * @brief Implements the user_performance_cognitve_tests ROS service 
  * @param req [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response KnowrobWrapper::user_performance_cognitve_tests(rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request req) {
     rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response res;
@@ -411,47 +424,49 @@ rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response Know
  * @brief Implements the clear_user_cognitive_tests_performance_records ROS service 
  * @param req [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response KnowrobWrapper::clear_user_cognitive_tests_performance_records(rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request req) {
     rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response res;
-    if (req.username == std::string("")) {
+    try{
+        if (req.username == std::string("")) {
+            throw std::string("Error, ontology alias empty");   
+        }
+        std::string currentAlias = get_ontology_alias(req.username);
+        if (req.test_type == std::string("")) {
+            std::string query = std::string("rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'") + currentAlias + std::string("'),rdf_retractall(P,L,S)");
+            json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+            char status = results.getStatus();
+            if (status == 0) {
+                throw std::string("No performance records exist for the user or invalid user or invalid test type");   
+            } else if (status == 3) {
+                res.success = true;
+            }
+        } else {
+            std::string query = std::string("rdf_has(A,rdf:type,knowrob:'") + req.test_type + std::string("'),rdf_has(P,knowrob:cognitiveTestPerformedTestName,A),rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'") + currentAlias + std::string("'),rdf_retractall(P,L,S)");
+            json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+            char status = results.getStatus();
+            if (status == 0) {
+                throw std::string("No performance records exist for the user or invalid user or invalid test type");      
+            } else if (status == 3) {
+                res.success = true;
+            }
+        }
+        KnowrobWrapper::dump_ontology_now();
+        return res;
+    } catch (std::string error) {
         res.success = false;
-        res.trace.push_back("Error, ontology alias empty");
-        res.error = std::string("Error, ontology alias empty");
+        res.trace.push_back(error);
+        res.error = error;
         return res;
     }
-    std::string currentAlias = get_ontology_alias(req.username);
-    if (req.test_type == std::string("")) {
-        std::string query = std::string("rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'") + currentAlias + std::string("'),rdf_retractall(P,L,S)");
-        json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-        char status = results.getStatus();
-        if (status == 0) {
-            res.success = false;
-            res.error = std::string("No performance records exist for the user or invalid user or invalid test type");
-            return res;
-        } else if (status == 3) {
-            res.success = true;
-        }
-    } else {
-        std::string query = std::string("rdf_has(A,rdf:type,knowrob:'") + req.test_type + std::string("'),rdf_has(P,knowrob:cognitiveTestPerformedTestName,A),rdf_has(P,knowrob:cognitiveTestPerformedPatient,knowrob:'") + currentAlias + std::string("'),rdf_retractall(P,L,S)");
-        json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-        char status = results.getStatus();
-        if (status == 0) {
-            res.success = false;
-            res.error = std::string("No performance records exist for the user or invalid user or invalid test type");
-            return res;
-        } else if (status == 3) {
-            res.success = true;
-        }
-    }
-    KnowrobWrapper::dump_ontology_now();
-    return res;
 }
 
 /** 
  * @brief Implements the create_ontology_alias ROS service 
  * @param req [rapp_platform_ros_communications::createOntologyAliasSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::createOntologyAliasSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrapper::create_ontology_alias(rapp_platform_ros_communications::createOntologyAliasSrv::Request req) {
     rapp_platform_ros_communications::createOntologyAliasSrv::Response res;
@@ -480,6 +495,7 @@ rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrappe
  * @brief Implements the subclassesOf ROS service 
  * @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response KnowrobWrapper::subclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req) {
     rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
@@ -526,6 +542,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
  * @brief Implements the superclassesOf ROS service 
  * @param req [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response KnowrobWrapper::superclassesOfQuery(rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req) {
     rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response res;
@@ -572,6 +589,7 @@ rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response Knowrob
  * @brief Implements the isSubSuperclass ROS service 
  * @param req [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response KnowrobWrapper::isSubSuperclassOfQuery(rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request req) {
     rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response res;
@@ -624,6 +642,7 @@ rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response Knowrob
  * @brief Implements the createInstance ROS service 
  * @param req [rapp_platform_ros_communications::createInstanceSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::createInstanceSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::createInstanceQuery(rapp_platform_ros_communications::createInstanceSrv::Request req) {
     rapp_platform_ros_communications::createInstanceSrv::Response res;
@@ -634,12 +653,7 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
         if (req.ontology_class == std::string("")) {
             throw std::string("Error, empty ontology class");
         }
-        std::string ontology_alias = get_ontology_alias(req.username);
-        
-        /*std::size_t found = ontology_alias.find(std::string("FAIL"));
-        if (found != std::string::npos) {
-            throw ontology_alias;
-        }*/
+        std::string ontology_alias = get_ontology_alias(req.username); 
         std::vector<std::string> instance_name;
         std::string query = std::string("instanceFromClass_withCheck_andAssign(knowrob:'") + req.ontology_class + std::string("',A,knowrob:'") + ontology_alias + std::string("')");
         res.trace.push_back(query);
@@ -677,6 +691,7 @@ rapp_platform_ros_communications::createInstanceSrv::Response KnowrobWrapper::cr
  * @brief Implements the dumpOntology ROS service 
  * @param req [rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::dumpOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req) {
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
@@ -717,6 +732,7 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
  * @brief Implements the loadOntology ROS service 
  * @param req [rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&] The ROS service request 
  * @return res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&] The ROS service response 
+ * @exception AppError
  */
 rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::loadOntologyQuery(rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req) {
     rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
@@ -751,7 +767,8 @@ rapp_platform_ros_communications::ontologyLoadDumpSrv::Response KnowrobWrapper::
 /** 
  * @brief Implements the returnUserInstancesOfClass ROS service 
  * @param req [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request&] The ROS service request 
- * @return res [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response&] The ROS service response 
+ * @return res [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response&] The ROS service response
+ * @exception AppError
  */
 rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response KnowrobWrapper::user_instances_of_class(rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request req) {
     rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response res;
@@ -792,5 +809,3 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
         return res;
     }
 }
-
-
