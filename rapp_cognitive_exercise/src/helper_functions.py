@@ -85,10 +85,9 @@ class CognitiveExerciseHelperFunctions:
   # @param username [string] The username of the user as is in the MySQL database
   # @param languageInSrv [string] The user's language for assigning it to the srv response trace
   #
-  # @return languageInSrv [string] The user's language for assigning it to the srv response trace
   # @return userLanguage [string] The user's language
   # @exception Exception AppError
-  def getUserLanguage(username,languageInSrv):
+  def getUserLanguage(username):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')	
     knowrob_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
     fetchDataSrvReq = fetchDataSrvRequest()
@@ -96,8 +95,7 @@ class CognitiveExerciseHelperFunctions:
     fetchDataSrvReq.where_data=[StringArrayMsg(s=["username",username])]
     fetchDataSrvResponse = knowrob_service(fetchDataSrvReq)
     if(fetchDataSrvResponse.success.data!=True): 
-      raise AppError(fetchDataSrvResponse.trace[0], fetchDataSrvResponse.trace)      
-    language=fetchDataSrvResponse.res_data[0].s[0]
+      raise AppError(fetchDataSrvResponse.trace[0], fetchDataSrvResponse.trace)    
     return fetchDataSrvResponse.res_data[0].s[0]
 
   @staticmethod

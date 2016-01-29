@@ -73,7 +73,8 @@ class TestSelector:
       #Get user ontology alias
       userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)      
       #Get user language
-      userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.username,res.language)
+      userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.username)
+      res.language=userLanguage
       #Get test types from ontology
       testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
       #Determine the test type of the to be selected test
@@ -83,7 +84,8 @@ class TestSelector:
       #Get all tests of a give type from the ontology
       testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res.trace)            
       #Determine the least recently used (LRU) test and retrieve the .xml test file
-      testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp,res.test)
+      testName,testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp)      
+      res.test=testName
       #Parse the .xml test file name and assign the data to the testSelectorSrvResponse response srv           
       self.retrieveDataFromTestXml(testFilePath,userLanguage,res)      
       res.success=True
@@ -230,12 +232,11 @@ class TestSelector:
   # @param testsOfTypeOrdered [dict] The cognitive tests of the given type and difficulty setting
   # @param noUserPerformanceRecordsExist [bool] True if no user performance records exit for the user for the given test type
   # @param userPerfOrganizedByTimestamp [OrderedDict] The user's performance records in a dictionary, ordered by timestamp  
-  # @param testName [string] The name of the test 
   # 
   # @return finalTestFilePath [string] The file path of the xml file that contains the test
   # @return testName [string] The name of the test     
   # @exception Exception AppError
-  def getLRUtestOfTypeAndXmlPath(self,testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp,testName):    
+  def getLRUtestOfTypeAndXmlPath(self,testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp):    
     finalTestname=""
     finalTestFilePath=""
     if(noUserPerformanceRecordsExist):
@@ -261,7 +262,7 @@ class TestSelector:
       error="Invalid test name retrieved from ontology, did not contain #"
       raise AppError(error,error)
     testName=tmpList[1]
-    return finalTestFilePath
+    return testName,finalTestFilePath
 
   ## @brief Retrieves the questions, answers etc of the test from the xml file
   # @param testFilePath [string] The file path of the xml file that contains the test  
