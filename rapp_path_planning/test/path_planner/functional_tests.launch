@@ -1,6 +1,10 @@
 <launch> 
    <node type="path_planning_ros_node" pkg="rapp_path_planning" name="rapp_path_planning"/> 
-   <test time-limit="100" test-name="path_planning_functional" pkg="rapp_path_planning" type="functional_tests.py"/> 
+<param name="rapp_map_server_functional_test1/upload_map_trigger" type="bool" value="False"/>
+   <node type="rapp_map_server" pkg="rapp_map_server" name="rapp_map_server_functional_test1" args="$(find rapp_map_server)/maps/523_m.yaml"/> 
+<param name="rapp_map_server_functional_test2/upload_map_trigger" type="bool" value="True"/>
+   <node type="rapp_map_server" pkg="rapp_map_server" name="rapp_map_server_functional_test2" args="$(find rapp_map_server)/maps/523_m.yaml"/> 
+   <test time-limit="100" test-name="path_planning_functional" pkg="rapp_path_planning" type="functional_tests.py" args="--screen"/> 
   <rosparam file="$(find rapp_path_planning)/cfg/path_planning_params.yaml" 
     command="load" />
  </launch> 

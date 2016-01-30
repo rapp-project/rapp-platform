@@ -7,14 +7,15 @@
 
 /**
  * @class PathPlanner
- * @brief Class that implements a path planning algorithm based on
- * global_planner and map_server ROS nodes
+ * @brief Class that implements a path planning algorithm based on global_planner and map_server ROS nodes
  */
 class PathPlanner
 {
   public:
-
-    // Default constructor
+    
+    /** 
+     * @brief   Default constructor
+    */
     PathPlanner(void);
 
     /** 
@@ -28,14 +29,14 @@ class PathPlanner
      /** 
      * @brief   Configures sequence. Sets map, approprate costmap parameters for specified robot type, sets global_planner to use detemined algorithm.
      * @param   seq_nr [std::string] ID of current sequence,
-     * @param   map_name [std::string] Name of map that should be passed to global_planner,
+     * @param   map_path [std::string] Path to the map that should be passed to global_planner,
      * @param   robot_type [std::string] Name of robot_type. It is used to configure costmap,
      * @param   algorithm [std::string] Name of algorithm that should be used by global_planner,
      * @param   &nh_ [ros::NodeHandle] node handler for getParam() method,
      * @return  [bool] Returns if sequence was configured correctly. Returns false if PathPlanner could not configure sequence in 5 sec.
 
     */  
-    bool configureSequence(std::string seq_nr, std::string map_name, std::string robot_type, std::string algorithm, ros::NodeHandle &nh_);
+    bool configureSequence(std::string seq_nr, std::string map_path, std::string robot_type, std::string algorithm, ros::NodeHandle &nh_);
 
     /**
      * @brief   Starts planning service of determined planning sequence.
@@ -76,7 +77,7 @@ class PathPlanner
                                     * 4 : wrong algorithm
                             -> error_message : error explenation
                             -> path : vector of PoseStamped objects
-     */
+     
 
 
 
@@ -84,8 +85,9 @@ class PathPlanner
 
 
     navfn::MakeNavPlanResponse plannPath(std::string map_path, std::string robot, std::string algorithm, geometry_msgs::PoseStamped start, geometry_msgs::PoseStamped goal, ros::NodeHandle& nh);
+*/
+      private:
 
-  private:
 
 };
 

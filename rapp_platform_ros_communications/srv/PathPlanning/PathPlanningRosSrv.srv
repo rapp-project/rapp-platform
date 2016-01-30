@@ -1,4 +1,6 @@
 # Contains path to the desired map
+string user_name
+# Contains path to the desired map
 string map_name
 # Contains type of the robot. It is required to determine it's parameters (footprint etc.)
 string robot_type

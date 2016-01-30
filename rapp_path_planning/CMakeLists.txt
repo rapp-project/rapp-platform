@@ -33,6 +33,9 @@ include_directories(include
 add_library(path_planner_lib
   src/path_planner.cpp
   )
+add_library(path_planning_lib
+  src/path_planning.cpp
+  )
 target_link_libraries(path_planner_lib
   ${catkin_LIBRARIES}
   )
@@ -55,17 +58,24 @@ add_dependencies(path_planning_ros_node
   ${catkin_EXPORTED_TARGETS}
 )
 
+add_dependencies(path_planning_lib
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
+
 ## Tests
 if (CATKIN_ENABLE_TESTING)
   # unit tests
-  catkin_add_gtest(path_planner_unit_test 
-    test/path_planner/unit_tests.cpp
-    )
-  target_link_libraries(path_planner_unit_test 
-    ${catkin_LIBRARIES}
-    path_planner_lib
-    gtest_main
-    )
+#  catkin_add_gtest(path_planner_unit_test 
+#    test/path_planner/unit_tests.cpp
+#    )
+
+#  target_link_libraries(path_planner_unit_test 
+#    ${catkin_LIBRARIES}
+#    path_planner_lib
+#    path_planning_lib
+#    gtest_main
+#    )
 
  #  functional tests
   add_rostest(test/path_planner/functional_tests.launch)

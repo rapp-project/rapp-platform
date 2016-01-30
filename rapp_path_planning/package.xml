@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>rapp_path_planning</name>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
   <description>The rapp_path_planning package</description>
 
-  <maintainer email="wojciechdudek.mai@gmail.com">Wojciech Dudek</maintainer>
+  <maintainer email="wojciechdudek.mail@gmail.com">Wojciech Dudek</maintainer>
 
   <license>MIT</license>
 

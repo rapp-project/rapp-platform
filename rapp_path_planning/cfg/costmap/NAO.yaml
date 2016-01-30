@@ -3,7 +3,7 @@ robot_base_frame: base_link
 update_frequency: 2.0
 publish_frequency: 1.0
 plugins: 
-    - {name: static_map,       type: "costmap_2d::StaticLayer"}
+    - {name: rapp_static_map,       type: "costmap_2d::RappStaticLayer"}
     - {name: inflater,       type: "costmap_2d::InflationLayer"}
 #set if you want the voxel map published
 publish_voxel_map: false

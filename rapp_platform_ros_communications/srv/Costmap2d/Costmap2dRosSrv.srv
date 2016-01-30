@@ -1,0 +1,3 @@
+nav_msgs/OccupancyGrid map
+---
+byte status
