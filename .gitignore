@@ -11,6 +11,7 @@ ROS_NOBUILD
 CATKIN_IGNORE
 bags/
 
+*.orig
 *Action.msg
 *Feedback.msg
 *Goal.msg

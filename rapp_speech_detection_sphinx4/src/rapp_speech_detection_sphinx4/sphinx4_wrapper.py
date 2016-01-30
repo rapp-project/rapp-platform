@@ -25,7 +25,9 @@ import time
 import os
 from global_parameters import GlobalParams
 import rospy
-from rapp_tools import *
+
+from rapp_utilities import RappUtilities
+from rapp_exceptions import RappError
 
 from rapp_platform_ros_communications.srv import(
     AudioProcessingDenoiseSrv,
@@ -124,7 +126,7 @@ class Sphinx4Wrapper():
   def _readLine(self):
     line = self.socket_connection.recv(1024)
     if self._globalParams._allow_sphinx_output == True:
-      rapp_print( line )
+      RappUtilities.rapp_print( line )
     return line
 
   ## Perform Sphinx4 initialization
@@ -133,13 +135,13 @@ class Sphinx4Wrapper():
   # @param conf [dictionary] Contains the configuration parameters
   def _initializeSphinxProcess(self, conf = None):
 
-    rapp_print('Initializing Sphinx subprocess')
-    rapp_print(self._jar_path)
+    RappUtilities.rapp_print('Initializing Sphinx subprocess')
+    RappUtilities.rapp_print(self._jar_path)
 
-    rapp_print('Setting up socket IPC')
+    RappUtilities.rapp_print('Setting up socket IPC')
     self._createSocket()
 
-    rapp_print('Forking subprocess')
+    RappUtilities.rapp_print('Forking subprocess')
     if self._globalParams._allow_sphinx_output == True:
       self._sphinxSubprocess = subprocess.Popen( \
           ["java", "-cp", self._jar_path, "Sphinx4", \
@@ -155,7 +157,7 @@ class Sphinx4Wrapper():
               str(self._sphinx_socket_PORT)], \
             stdout = DEVNULL, stderr = DEVNULL )
 
-    rapp_print('Awaiting socket connection')
+    RappUtilities.rapp_print('Awaiting socket connection')
     self.socket_connection, addr = self._sphinx_socket.accept()
 
     if conf != None:
@@ -171,7 +173,8 @@ class Sphinx4Wrapper():
     self._sphinx_socket.bind( (HOST, 0) )
     self._sphinx_socket_PORT = self._sphinx_socket.getsockname()[1]
     self._sphinx_socket.listen( 1 )
-    rapp_print('Socket created. PORT: ' + str(self._sphinx_socket_PORT))
+    RappUtilities.rapp_print('Socket created. PORT: ' + \
+        str(self._sphinx_socket_PORT))
 
   ## Perform Sphinx4 configuration
   #
@@ -347,7 +350,7 @@ class Sphinx4Wrapper():
       silence_req.audio_file = prev_audio_file
       silence_req.threshold = profile['detect_silence_threshold']
       silence_res = self._detect_silence_service(silence_req)
-      rapp_print("Silence detection results: " + str(silence_res))
+      RappUtilities.rapp_print("Silence detection results: " + str(silence_res))
       if silence_res.silence == "true":
         return ["Error: No speech detected. RSD = " + str(silence_res.level)]
 

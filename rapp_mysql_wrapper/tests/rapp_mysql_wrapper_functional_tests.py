@@ -224,12 +224,12 @@ class TestDbWrapper(unittest.TestCase):
     rospy.wait_for_service(serv_topic)
     db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
     req = writeDataSrv()
-    req.req_cols=["username","firstname","lastname","email","email_id","ontology_alias","pwd","usrgroup","created","accessed","enabled","activation"]
+    req.req_cols=["username","firstname","lastname","email","ontology_alias","pwd","usrgroup","created","accessed","enabled","activation"]
     #req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
     entry1=StringArrayMsg()
-    entry1=["'testingDB1'","'testingDB1'","'testingDB1'","'test@test'","NULL","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
+    entry1=["'testingDB1'","'testingDB1'","'testingDB1'","'test1@test'","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
     entry2=StringArrayMsg()
-    entry2=["'testingDB2'","'testingDB2'","'testingDB1'","'test@test'","NULL","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
+    entry2=["'testingDB2'","'testingDB2'","'testingDB1'","'test2@test'","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
     req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
 
     response = db_service(req.req_cols,req.req_data)

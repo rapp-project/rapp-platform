@@ -25,7 +25,8 @@ import hashlib
 import threading
 
 from speech_recognition_sphinx4 import *
-from rapp_tools import *
+
+from rapp_utilities import RappUtilities
 
 
 from rapp_platform_ros_communications.srv import (
@@ -93,15 +94,15 @@ class SpeechRecognitionSphinx4HandlerNode():
   def _getPreconfigurationNames(self):
     preconf = []
 
-    rapp_print( 'Fetcing preconfiguration names' )
+    RappUtilities.rapp_print( 'Fetcing preconfiguration names' )
     # Get number of requested preconfigurations
     confNumber = \
        rospy.get_param("rapp_speech_detection_sphinx4_preconfigure_number")
 
     # Too many configurations
     if confNumber > self._threads:
-      rapp_print("Sphinx preconfigurations requested exceed Sphinx" + \
-             "processes. Truncating", 'WARN')
+      RappUtilities.rapp_print("Sphinx preconfigurations requested exceed " + \
+          "Sphinx processes. Truncating", 'WARN')
       confNumber = self._threads
 
     # Check actual unique configurations provided
@@ -112,7 +113,8 @@ class SpeechRecognitionSphinx4HandlerNode():
         if uniqueConfigurations > confNumber:
           uniqueConfigurations = confNumber
     else:
-      rapp_print("Preconfigurations requested, but none was provided", 'ERROR')
+      RappUtilities.rapp_print("Preconfigurations requested, but none was " + \
+          "provided", 'ERROR')
       for it in range(self._threads):
         preconf.append(None)
       return preconf
@@ -123,7 +125,7 @@ class SpeechRecognitionSphinx4HandlerNode():
     for it in range(self._threads - confNumber):
       preconf.append(None)
 
-    rapp_print(str(preconf), 'DEBUG')
+    RappUtilities.rapp_print(str(preconf), 'DEBUG')
     return preconf
 
 
@@ -133,7 +135,7 @@ class SpeechRecognitionSphinx4HandlerNode():
   # @return res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvResponse] The service response
   def handleSpeechRecognitionCallback(self, req):
 
-    rapp_print("Received service request", 'DEBUG')
+    RappUtilities.rapp_print("Received service request", 'DEBUG')
     res = SpeechRecognitionSphinx4TotalSrvResponse()
 
     request_hash = self._calculateRequestHash( req )
@@ -148,7 +150,8 @@ class SpeechRecognitionSphinx4HandlerNode():
       if proc['running'] == False and \
          proc['configuration_hash'] == request_hash:
 
-        rapp_print("Found Sphinx process with same configuration", 'DEBUG')
+        RappUtilities.rapp_print("Found Sphinx process with same configuration",\
+            'DEBUG')
         proc['running'] = True
         self._lock.release()
         res = proc['sphinx'].speechRecognitionBatch( req )
@@ -169,7 +172,7 @@ class SpeechRecognitionSphinx4HandlerNode():
         proc['configuration_hash'] = request_hash
         proc['running'] = True
 
-        rapp_print("Found Sphinx process", 'DEBUG')
+        RappUtilities.rapp_print("Found Sphinx process", 'DEBUG')
         self._lock.release()
         res = proc['sphinx'].speechRecognitionBatch( req )
 
@@ -205,6 +208,6 @@ class SpeechRecognitionSphinx4HandlerNode():
 if __name__ == "__main__":
   rospy.init_node('SpeechRecognitionSphinx4')
   SpeechRecognitionSphinx4HandlerNode = SpeechRecognitionSphinx4HandlerNode()
-  rapp_print("Sphinx4 Handler node initialized", 'DEBUG')
+  RappUtilities.rapp_print("Sphinx4 Handler node initialized", 'DEBUG')
   rospy.spin()
 

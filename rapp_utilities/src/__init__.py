@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#! /usr/bin/env python
 
 #Copyright 2015 RAPP
 
@@ -14,15 +14,5 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-from rapp_tools import *
-
-## @class RappError
-# Provides a RAPP specific exception
-class RappError(Exception):
-  """Error handling in RAPP"""
-
-  def __init__(self, value):
-    self.value = value
-
-  def __str__(self):
-    return repr(self.value)
+from rapp_utilities import RappUtilities
+from rapp_exceptions import RappError

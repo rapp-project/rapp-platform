@@ -22,7 +22,7 @@ import os
 roslib.load_manifest("rapp_speech_detection_sphinx4")
 
 from rapp_speech_detection_sphinx4 import EnglishSupport
-from rapp_speech_detection_sphinx4 import RappError
+from rapp_exceptions import RappError
 
 class TestAudioProcessing(unittest.TestCase):
     def setUp(self):
@@ -87,12 +87,7 @@ class TestAudioProcessing(unittest.TestCase):
 
     def test_limitedVocabularyConfigurationFiles_notExistentWords(self):
         # This produces the proper files without the erroneous words
-        try:
-            [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
+        with self.assertRaises(Exception) as err:
+          [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\
                     ['kakakakaka', 'lslslslsl', 'a', 'test'],\
-                    [],\
-                    [])
-        except RappError as e:
-            self.assertNotEqual(e.value, '')
-            self.assertNotEqual(e.value, True)
-
+                    [], [])

@@ -26,9 +26,9 @@ import shutil
 import os
 
 from global_parameters import GlobalParams
-from rapp_exceptions import RappError
 
-from rapp_tools import *
+from rapp_exceptions import RappError
+from rapp_utilities import RappUtilities
 
 ## @class LimitedVocabularyCreator
 # @brief Creates temporary configuration files for the input limited vocabulary
@@ -88,10 +88,10 @@ class LimitedVocabularyCreator():
   def createConfigurationFiles(self, words, grammar, sentences):
     tmp_configuration = self._sphinx_configuration
 
-    rapp_print( "Creating configuration files with parameters:" )
-    rapp_print( "Words: " + str(words) )
-    rapp_print( "Sentences: " + str(sentences) )
-    rapp_print( "Grammar: " + str(grammar) )
+    RappUtilities.rapp_print( "Creating configuration files with parameters:" )
+    RappUtilities.rapp_print( "Words: " + str(words) )
+    RappUtilities.rapp_print( "Sentences: " + str(sentences) )
+    RappUtilities.rapp_print( "Grammar: " + str(grammar) )
     # Create custom dictionary file
     tmp_configuration['dictionary'] = os.path.join( self._languages_package, \
         'custom.dict' )
@@ -156,7 +156,7 @@ class LimitedVocabularyCreator():
     custom_sentences.close()
 
     # Run script to fix the language model
-    rapp_print( "Sphinx: Creating language model files\n" )
+    RappUtilities.rapp_print( "Sphinx: Creating language model files\n" )
     if self._globalParams._allow_sphinx_output == True:
         bash_file = self._globalParams._language_models_url + "/greekPack/run.sh"
         bash_command = "cp " + bash_file + " " + self._languages_package + \

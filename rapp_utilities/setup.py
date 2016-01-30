@@ -14,11 +14,10 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-from english_support import EnglishSupport
-from greek_support import GreekSupport
-from greek_english_support import GreekEnglishSupport
-from language_support import LanguageSupport
-from limited_vocabulary_creator import LimitedVocabularyCreator
-from sphinx4_configuration_params import SphinxConfigurationParams
-from speech_recognition_sphinx4 import SpeechRecognitionSphinx4
-from global_parameters import GlobalParams
+from distutils.core import setup
+from catkin_pkg.python_setup import generate_distutils_setup as catkin_setup
+
+dist = catkin_setup( \
+    packages=['rapp_utilities','rapp_exceptions'], package_dir={'': 'src'})
+
+setup(**dist)

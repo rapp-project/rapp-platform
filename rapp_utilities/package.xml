@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapp_utilities</name>
+  <version>0.0.0</version>
+  <description>The rapp_utilities package</description>
+
+  <maintainer email="aris.thallas@iti.gr">Aris Thallas</maintainer>
+
+  <license>APACHE 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>rospy</depend>
+
+  <export>
+  </export>
+</package>

@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   roslib
   std_msgs
+  rapp_utilities
   rapp_platform_ros_communications
 )
 
@@ -17,6 +18,7 @@ catkin_package(
     roslib
     rospy
     std_msgs
+    rapp_utilities
     rapp_platform_ros_communications
 )
 

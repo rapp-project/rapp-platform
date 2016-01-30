@@ -261,38 +261,38 @@ class GreekSupport(LanguageSupport):
     englified_words = {}
     for word in words:
       initial_word = word
-      rapp_print ("Initial word: " + initial_word)
+      RappUtilities.rapp_print ("Initial word: " + initial_word)
       # transform capital _letters
       for cap in self._capital_letters:
         initial_word = initial_word.replace(cap, self._capital_letters[cap])
-      rapp_print ("Caps to small: " + initial_word)
+      RappUtilities.rapp_print ("Caps to small: " + initial_word)
       # fix english version of _letters
       eng_w = initial_word
       for lit in self._literal_letters:
         eng_w = eng_w.replace(lit, self._literal_letters[lit])
       englified_words[eng_w] = word
-      rapp_print ("Englified: " + eng_w)
+      RappUtilities.rapp_print ("Englified: " + eng_w)
       # check _phonemes
       for ph in self._phonemes:
         initial_word = initial_word.replace(ph, self._phonemes[ph])
-      rapp_print ("Phonemes: " + initial_word)
+      RappUtilities.rapp_print ("Phonemes: " + initial_word)
       # check special two digit letters
       for stdl in self._all_special_two_digit_letters:
         initial_word = initial_word.replace(stdl, \
             self._all_special_two_digit_letters[stdl])
-      rapp_print ("Special 2 digit letters: " + initial_word)
+      RappUtilities.rapp_print ("Special 2 digit letters: " + initial_word)
       # check two-digit letters
       for let in self._two_digit_letters:
         initial_word = initial_word.replace(let, self._two_digit_letters[let])
-      rapp_print ("2 digit letters: " + initial_word)
+      RappUtilities.rapp_print ("2 digit letters: " + initial_word)
       # check specific rules
       for sr in self._s_specific_rules:
         initial_word = initial_word.replace(sr, self._s_specific_rules[sr])
-      rapp_print ("specific rules: " + initial_word)
+      RappUtilities.rapp_print ("specific rules: " + initial_word)
       # check the rest of the letters
       for l in self._letters:
         initial_word = initial_word.replace(l, self._letters[l])
-      rapp_print ("rest of letters: " + initial_word)
+      RappUtilities.rapp_print ("rest of letters: " + initial_word)
 
       enhanced_words[eng_w] = []
       temp = initial_word.split(' ')

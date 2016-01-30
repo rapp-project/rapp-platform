@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/python
 
 #Copyright 2015 RAPP
 
@@ -14,11 +14,13 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-from english_support import EnglishSupport
-from greek_support import GreekSupport
-from greek_english_support import GreekEnglishSupport
-from language_support import LanguageSupport
-from limited_vocabulary_creator import LimitedVocabularyCreator
-from sphinx4_configuration_params import SphinxConfigurationParams
-from speech_recognition_sphinx4 import SpeechRecognitionSphinx4
-from global_parameters import GlobalParams
+## @class RappError
+# Provides a RAPP specific exception
+class RappError(Exception):
+  """Error handling in RAPP"""
+
+  def __init__(self, value):
+    self.value = value
+
+  def __str__(self):
+    return repr(self.value)

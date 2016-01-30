@@ -66,33 +66,6 @@ LOCK TABLES `tblDep` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `tblEmail`
---
-
-DROP TABLE IF EXISTS `tblEmail`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblEmail` (
-  `id` int(12) NOT NULL AUTO_INCREMENT,
-  `username` varchar(32) NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `server` varchar(128) NOT NULL,
-  `email` varchar(128) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uid` (`username`,`password`,`server`,`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tblEmail`
---
-
-LOCK TABLES `tblEmail` WRITE;
-/*!40000 ALTER TABLE `tblEmail` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tblEmail` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `tblLibrary`
 --
 
@@ -306,7 +279,6 @@ CREATE TABLE `tblUser` (
   `firstname` varchar(128) NOT NULL,
   `lastname` varchar(128) NOT NULL,
   `email` varchar(254) NOT NULL,
-  `email_id` int(12) DEFAULT NULL,
   `language` varchar(32) NOT NULL,
   `ontology_alias` varchar(32) DEFAULT NULL,
   `pwd` char(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
@@ -317,9 +289,7 @@ CREATE TABLE `tblUser` (
   `activation` binary(16) NOT NULL COMMENT 'uuid-v4',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `uid` (`firstname`,`lastname`,`email_id`),
-  KEY `tblUser_ibfk_1` (`email_id`),
-  CONSTRAINT `tblUser_ibfk_1` FOREIGN KEY (`email_id`) REFERENCES `tblEmail` (`id`)
+  UNIQUE KEY `uid` (`firstname`,`lastname`,`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -329,7 +299,7 @@ CREATE TABLE `tblUser` (
 
 LOCK TABLES `tblUser` WRITE;
 /*!40000 ALTER TABLE `tblUser` DISABLE KEYS */;
-INSERT INTO `tblUser` VALUES (25,'rapp','rapp','rapp','',NULL,'el','Person_DpphmPqg','',5,'2015-11-02 08:47:32','0000-00-00 00:00:00',0,'\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0');
+INSERT INTO `tblUser` VALUES (25,'rapp','rapp','rapp','testmail@rapp.com','el','Person_DpphmPqg','',5,'2015-11-02 08:47:32','0000-00-00 00:00:00',0,'\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0');
 /*!40000 ALTER TABLE `tblUser` ENABLE KEYS */;
 UNLOCK TABLES;
 
