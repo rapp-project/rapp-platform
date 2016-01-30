@@ -22,9 +22,10 @@
 /***
  * @fileOverview
  *
- * [Face-Detection] RAPP Platform front-end web service.
+ * [Path-planning] RAPP Platform front-end web service.
  *
- *  @author Konstantinos Panayiotou
+ *  @author Wojciech Dudek
+ *  @mail wojciechsbox@gmail.com
  *  @copyright Rapp Project EU 2015
  */
 
@@ -50,7 +51,7 @@ var srvEnv = require( path.join(__configDir, 'env', 'hop-services.json') );
 var pathsEnv = require( path.join(__configDir, 'env', 'paths.json') );
 
 /* ------------< Load and set global configuration parameters >-------------*/
-var __hopServiceName = 'path_planning_send_map';
+var __hopServiceName = 'path_planning_upload_map';
 var __hopServiceId = null;
 var __servicesCacheDir = Fs.resolvePath( pathsEnv.cache_dir_services );
 var __serverCacheDir = Fs.resolvePath( pathsEnv.cache_dir_server );
@@ -109,7 +110,7 @@ var colors = {
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-service path_planning_send_map({PNGfile_uri: '', YAMLfile_uri: '', user_name: '', map_name: ''})
+service path_planning_upload_map({PNGfile_uri: '', YAMLfile_uri: '', user_name: '', map_name: ''})
 /*, resolution: 0.02, origin: [0,0, 0], negate: 0, occupied_thresh: 0.65, free_thresh: 0.196)*/
 {
 
