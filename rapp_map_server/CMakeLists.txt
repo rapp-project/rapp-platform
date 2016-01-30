@@ -6,6 +6,7 @@ find_package(catkin REQUIRED
             roscpp
             tf
             nav_msgs
+  	    rapp_platform_ros_communications
         )
 
 find_package(Boost REQUIRED COMPONENTS system)
@@ -26,6 +27,7 @@ catkin_package(
         roscpp
         tf
         nav_msgs
+	rapp_platform_ros_communications
 )
 
 include_directories( include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} )
@@ -38,7 +40,10 @@ target_link_libraries(rapp_map_server
     yaml-cpp
     ${catkin_LIBRARIES}
 )
-
+add_dependencies(rapp_map_server
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
 #add_executable(rapp_map_server-map_saver src/map_saver.cpp)
 #set_target_properties(rapp_map_server-map_saver PROPERTIES OUTPUT_NAME map_saver)
 #target_link_libraries(rapp_map_server-map_saver

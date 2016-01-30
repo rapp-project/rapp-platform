@@ -45,12 +45,21 @@
 #include <stdlib.h>
 #include <libgen.h>
 #include <fstream>
-
+#include <boost/filesystem.hpp>
+#include <sstream>
 #include "ros/ros.h"
 #include "ros/console.h"
 #include "map_server/image_loader.h"
 #include "nav_msgs/MapMetaData.h"
 #include "yaml-cpp/yaml.h"
+#include "rapp_platform_ros_communications/MapServerGetMapRosSrv.h"
+#include "rapp_platform_ros_communications/MapServerUploadMapRosSrv.h"
+#include "std_srvs/Empty.h"
+//get rapp-platform home directory
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
 
 #ifdef HAVE_NEW_YAMLCPP
 // The >> operator disappeared in yaml-cpp 0.5, so this function is
@@ -66,8 +75,107 @@ class MapServer
 {
   public:
     /** Trivial constructor */
-    MapServer(const std::string& fname, double res)
+    MapServer(std::string fname)
     {
+      if ((homedir = getenv("HOME")) == NULL) {
+      homedir = getpwuid(getuid())->pw_dir;
+    }
+      map_pub = n.advertise<nav_msgs::OccupancyGrid>("/map", 1, true);
+
+      bool update_status = updateMap(fname,0);
+      std::string node_name = ros::this_node::getName();
+
+      get_service = n.advertiseService(node_name+"/get_map", &MapServer::mapCallback, this);
+    //
+    // check if the map_upload service should be advertised 
+    //
+      upload_map_trigger_name = "/"+node_name+"/upload_map_trigger";
+      if (n.hasParam(upload_map_trigger_name)){
+         n.getParam(upload_map_trigger_name,upload_map_trigger);
+      }else{
+        upload_map_trigger = false;
+      }
+      if (upload_map_trigger){
+        upload_service = n.advertiseService(node_name+"/upload_map", &MapServer::mapUploadCallback, this);
+      }
+      // Latched publisher for metadata
+      metadata_pub= n.advertise<nav_msgs::MapMetaData>("map_metadata", 1, true);
+      metadata_pub.publish( meta_data_message_ );
+     
+      // Latched publisher for data
+      map_pub.publish( map_resp_.map );
+
+    }
+
+  private:
+    const char *homedir;
+    std::string upload_map_trigger_name;
+    bool upload_map_trigger;
+    ros::NodeHandle n;
+    ros::Publisher map_pub;
+    ros::Publisher metadata_pub;
+    ros::ServiceServer get_service,upload_service,test_service;
+    std::string fname;
+    bool deprecated;
+
+    bool mapUploadCallback(rapp_platform_ros_communications::MapServerUploadMapRosSrv::Request  &req,
+                     rapp_platform_ros_communications::MapServerUploadMapRosSrv::Response &res)
+    {
+
+    YAML::Node yaml_node;
+    yaml_node["image"] = req.map_name+".png";
+    yaml_node["resolution"] = req.resolution;
+    yaml_node["origin"] = req.origin;
+    yaml_node["negate"] = req.negate;
+    yaml_node["occupied_thresh"] = req.occupied_thresh;
+
+
+    std::ostringstream ss;
+    yaml_node["free_thresh"] = req.free_thresh;
+
+    std::string user = req.user_name;
+    std::string map = req.map_name;
+    std::string homedir_str = homedir;
+    std::string map_path = homedir_str+"/rapp_platform_files/maps/rapp/"+user;
+
+    boost::filesystem::create_directories(map_path);
+    std::string yaml_path = map_path+"/"+map+".yaml";
+    std::ofstream fout(yaml_path.c_str());
+    fout << yaml_node;
+    std::string png_path = map_path+"/"+map+".png";
+
+    std::ofstream outfile (png_path.c_str(),std::ofstream::binary);
+
+    char* buffer = reinterpret_cast<char*>(req.data.data());
+    long size = strlen(buffer);
+    // write to outfile
+    ROS_INFO_STREAM ("User: "<<user<< " saved map: "<< png_path << "\n size of the map: " << req.file_size << " bytes" );
+
+    outfile.write (buffer,req.file_size);
+
+      // // release dynamically-allocated memory
+    outfile.close();
+    res.status = true;
+    return true;
+    }
+    /** Callback invoked when someone requests our service */
+    bool mapCallback(rapp_platform_ros_communications::MapServerGetMapRosSrv::Request  &req,
+                     rapp_platform_ros_communications::MapServerGetMapRosSrv::Response &res )
+    {
+      // request is empty; we ignore it
+      std::string node_name = ros::this_node::getName();
+      std::string param_name = node_name+"/setMap";
+
+      const char * param_name_char = param_name.c_str();
+
+      if (n.hasParam(param_name_char)){
+         n.getParam(param_name_char,fname);
+        updateMap(req.map_path,0);
+      }
+      res.map = map_resp_.map;
+      return true;
+    }
+    bool updateMap(const std::string fname, double res){
       std::string mapfname = "";   
       double origin[3];
       int negate;
@@ -76,10 +184,8 @@ class MapServer
       std::string frame_id;
       ros::NodeHandle private_nh("~");
       private_nh.param("frame_id", frame_id, std::string("map"));
-      deprecated = (res != 0);
+      deprecated = false;//(res != 0);
       if (!deprecated) {
-        //mapfname = fname + ".pgm";
-        //std::ifstream fin((fname + ".yaml").c_str());
         std::ifstream fin(fname.c_str());
         if (fin.fail()) {
           ROS_ERROR("Map_server could not open %s.", fname.c_str());
@@ -160,6 +266,7 @@ class MapServer
 
       ROS_INFO("Loading map from image \"%s\"", mapfname.c_str());
       map_server::loadMapFromFile(&map_resp_,mapfname.c_str(),res,negate,occ_th,free_th, origin, trinary);
+
       map_resp_.map.info.map_load_time = ros::Time::now();
       map_resp_.map.header.frame_id = frame_id;
       map_resp_.map.header.stamp = ros::Time::now();
@@ -168,56 +275,16 @@ class MapServer
                map_resp_.map.info.height,
                map_resp_.map.info.resolution);
       meta_data_message_ = map_resp_.map.info;
-
-      //service = n.advertiseService("static_map", &MapServer::mapCallback, this);
-      //pub = n.advertise<nav_msgs::MapMetaData>("map_metadata", 1,
-
-      // Latched publisher for metadata
-      metadata_pub= n.advertise<nav_msgs::MapMetaData>("map_metadata", 1, true);
-      metadata_pub.publish( meta_data_message_ );
-      
-      // Latched publisher for data
-      //std::string node_name = ros::this_node::getName();
-      map_pub = n.advertise<nav_msgs::OccupancyGrid>("/map", 1, true);//(node_name+"/map", 1, true);
       map_pub.publish( map_resp_.map );
-    }
-
-  private:
-    ros::NodeHandle n;
-    ros::Publisher map_pub;
-    ros::Publisher metadata_pub;
-    ros::ServiceServer service;
-    bool deprecated;
-
-    /** Callback invoked when someone requests our service */
-    bool mapCallback(nav_msgs::GetMap::Request  &req,
-                     nav_msgs::GetMap::Response &res )
-    {
-      // request is empty; we ignore it
-
-      // = operator is overloaded to make deep copy (tricky!)
-      res = map_resp_;
-      ROS_INFO("Sending map");
 
       return true;
     }
-
     /** The map data is cached here, to be sent out to service callers
      */
     nav_msgs::MapMetaData meta_data_message_;
     nav_msgs::GetMap::Response map_resp_;
 
-    /*
-    void metadataSubscriptionCallback(const ros::SingleSubscriberPublisher& pub)
-    {
-      pub.publish( meta_data_message_ );
-    }
-    */
-
-};/*
-bool service_Callback(std::string fname){
-    MapServer ms(fname, 0);
-}*/
+};
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "map_server");
@@ -234,31 +301,8 @@ int main(int argc, char **argv)
 
   try
   {    
-	MapServer ms(fname, 0);
-	ros::NodeHandle nh;
-	std::string node_name = ros::this_node::getName();
-	std::string param_name = node_name+"/setMap";
+	MapServer ms(fname);
 
-	const char * param_name_char = param_name.c_str();
-	std::string param_val="empty";
-	std::string param_val_old="empty";
-	while (nh.ok()){
-		nh.getParam(param_name_char,param_val);
-
-		if (param_val == param_val_old)
-			ros::Duration(0.5).sleep();
-		else{
-
-			MapServer ms(param_val, 0);			
-		}
-		param_val_old = param_val;
-
-	}
-
-/*
-std::string srv_name = "/"+node_name+"/setMap";
-const char * srv_name_char = srv_name.c_str();
-	nh.advertiseService(srv_name_char, std_msgs::String, service_Callback);*/
     ros::spin();
   }
   catch(std::runtime_error& e)
