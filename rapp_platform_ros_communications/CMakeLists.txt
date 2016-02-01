@@ -35,6 +35,7 @@ add_service_files(
   /CognitiveExercise/userScoreHistoryForAllCategoriesSrv.srv
   
   /CaffeWrapper/imageClassificationSrv.srv
+  /CaffeWrapper/ontologyClassBridgeSrv.srv
 
   /DbWrapper/DbWrapperSrv.srv
   /DbWrapper/fetchDataSrv.srv

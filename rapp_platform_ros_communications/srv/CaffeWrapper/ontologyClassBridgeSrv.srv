@@ -1,0 +1,7 @@
+string caffeClass
+---
+bool success
+string ontologyClass
+string error
+string[] trace
+

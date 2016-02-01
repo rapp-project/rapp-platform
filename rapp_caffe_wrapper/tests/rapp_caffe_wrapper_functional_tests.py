@@ -26,7 +26,10 @@ from os.path import expanduser
 from rapp_platform_ros_communications.srv import (
   imageClassificationSrv,
   imageClassificationSrvRequest,
-  imageClassificationSrvResponse  
+  imageClassificationSrvResponse,
+  ontologyClassBridgeSrv,
+  ontologyClassBridgeSrvRequest,
+  ontologyClassBridgeSrvResponse  
   )
 
 
@@ -47,7 +50,20 @@ class TestCaffeWrapper(unittest.TestCase):
     response = test_service(req)     
     self.assertEqual(response.success, True) 
     self.assertEqual(response.objectClass, "toilet seat") 
+
+  def test_caffe_ontology_class_bridge_valid(self):
+    ros_service = rospy.get_param(\
+            "rapp_caffe_wrapper_get_ontology_class_equivalent")
+    rospy.wait_for_service(ros_service)
     
+    test_service = rospy.ServiceProxy(\
+            ros_service, ontologyClassBridgeSrv)
+
+    req = ontologyClassBridgeSrvRequest()
+    req.caffeClass = "toilet seat"
+    response = test_service(req)     
+    self.assertEqual(response.success, True) 
+    self.assertEqual(response.ontologyClass, "toilet")     
 
 ## The main function. Initializes the Rapp caffe wrapper functional tests
 if __name__ == '__main__':

@@ -1,3 +1,5 @@
 rapp_caffe_wrapper_image_classification: /rapp/rapp_caffe_wrapper/image_classification
+rapp_caffe_wrapper_get_ontology_class_equivalent: /rapp/rapp_caffe_wrapper/get_ontology_class_equivalent
+ontology_class_bridge_file: /home/thanos/rapp_platform_files/caffeOntologyClassesBridge
 
 
