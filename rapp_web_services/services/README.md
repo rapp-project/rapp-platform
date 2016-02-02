@@ -31,7 +31,7 @@ These services are used in order to communicate with the RAPP Platform ecosystem
 qr_detection ( {file_uri: ''} )
 ```
 
-##### Input parameters
+##### Service request
 
 - file_uri: Destination where the posted file data (**image file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -40,7 +40,7 @@ qr_detection ( {file_uri: ''} )
 file = {'file_uri': open(<to-send-file-path>, 'rb')}
 ```
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -50,7 +50,7 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 
 - qr_centers: Vector that containes points (x,y) of found QR in an image frame.
 - qr_messages: Vector that containes message descriptions of found QR in an image frame.
-- error: If error was encountered, an error message is pushed in this field and returned to the client.
+- error: Error message.
 
 Response Sample:
 
@@ -69,7 +69,7 @@ Response Sample:
 face_detection ( {file_uri: ''} )
 ```
 
-##### Input parameters
+##### Service request
 
 - file_uri: Destination where the posted file data (**image file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -78,7 +78,7 @@ face_detection ( {file_uri: ''} )
 file = {'file_uri': open(<to-send-file-path>, 'rb')}
 ```
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -95,7 +95,7 @@ Point coordinates are presented in Cartesian Coordinate System as:
 - faces: Dynamic vector that contains recognized faces in an image frame.
 - up_left_point: This Object literal contains the up-left point coordinates of detected face.
 - up_left_point: This Object literal contains the down-right point coordinates of detected face.
-- error: If error was encountered, an error message is pushed in this field and returned to the client.
+- error: Error message.
 
 Response Sample:
 
@@ -119,7 +119,7 @@ Response Sample:
 set_denoise_profile ( {file_uri: '', audio_source: '', user: ''} )
 ```
 
-##### Input parameters
+##### Service request
 
 - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -132,7 +132,7 @@ file = {'file_uri': open(<to-send-file-path>, 'rb')}
 - **'user'**: User’s name. Used for per-user profile denoise configurations.
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -140,11 +140,8 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 { error: '<error_message>' }
 ```
 
-- error: If error was encountered, an error message is pushed in this field and returned to the client.
+- error: Error message.
 
-```javascript
-{ error:"RAPP Platform Failure!" }
-```
 
 #### Speech-Detection-Sphinx4
 
@@ -152,7 +149,7 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 speech_detection_sphinx4 ( { file_uri: '', language: '', audio_source: '', words: [], sentences: [], grammar: [], user: ''})
 ```
 
-##### Input parameters
+##### Service request
 
 - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -168,7 +165,7 @@ file = {'file_uri': open(<to-send-file-path>, 'rb')}
 - **'user'**: User’s name. Used for per-user profile denoise configurations.
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -176,7 +173,7 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 { words: [], error: '<error_message>' }
 ```
 
-- **'error'**: If error was encountered, an error message is pushed in this field and returned to the client.
+- **'error'**: Error message.
 - **'words[]'**: A vector that contains the "words-found"
 
 
@@ -186,7 +183,7 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 speech_detection_sphinx4 ( { file_uri: '', audio_source: '',  user: '', language: ''} )
 ```
 
-##### Input parameters
+##### Service request
 
 - **'file_uri'**: Destination where the posted file data (**audio data file**) are saved by hop-server. Data are posted using a multipart/form-data post request using this field. e.g.
 
@@ -199,7 +196,7 @@ file = {'file_uri': open(<to-send-file-path>, 'rb')}
 - **'user'**: User’s name. Used for per-user profile denoise configurations.
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -208,7 +205,7 @@ the received data.
 { words: [], alternatives: [] error: '<error_message>' }
 ```
 
-- **'error'**: If error was encountered, an error message is pushed in this field and returned to the client.
+- **'error'**: Error message.
 - **'words[]'**: A vector that contains the "words-found" with highest confidence.
 - **'alternatives[[]]'**: Alternative sentences. e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...]
 
@@ -225,12 +222,12 @@ The following Platform services give access to the Platform integrated Ontology 
 ontology_subclasses_of ( { query: ''} )
 ```
 
-##### Input parameters
+##### Service request
 
 - **'query'**: The query to the ontology database.
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -240,7 +237,7 @@ the received data.
 ```
 
 - **'results'**: Query results returned from ontology database.
-- **'error'**: If error was encountered, an error message is pushed in this field and returned to the client.
+- **'error'**: Error message.
 
 
 ```javascript
@@ -260,12 +257,12 @@ the received data.
 ontology_superclasses_of ( { query: ''} )
 ```
 
-##### Input parameters
+##### Service request
 
 - **'query'**: The query to the ontology database.
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -274,7 +271,7 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 ```
 
 - **'results'**: Query results returned from ontology database.
-- **'error'**: If error was encountered, an error message is pushed in this field and returned to the client.
+- **'error'**: Error message.
 
 
 #### Ontology-Is-SubSuperClass-Of
@@ -283,14 +280,14 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 ontology_is_subsuperclass_of ( { parent_class: '', child_class: '', recursive: false } )
 ```
 
-##### Input parameters
+##### Service request
 
 - **'parent_class'**: The parent class name.
 - **'child_class'**: The child class name.
 - **'recursive'**: Defines if a recursive procedure will be used (true/false).
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -300,7 +297,7 @@ the received data.
 ```
 
 - **'result'**: Success index on ontology-is-subsuperclass-of query.
-- **'error'**: If error was encountered, an error message is pushed in this field and returned to the client.
+- **'error'**: Error message.
 
 
 
@@ -313,13 +310,13 @@ the received data.
 text_to_speech( { text: '', language: ''} )
 ```
 
-##### Input parameters
+##### Service request
 
 - **'text'**: Input text to translate to audio data.
 - **'language'**: Language to be used for the TTS module. Valid values are currently **el** and **en**
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
 the received data.
@@ -345,13 +342,13 @@ cognitive_test_chooser( { user: '', test_type: '' } )
 ```
 
 
-##### Input parameters
+##### Service request
 
 - **'user'**: Username of client used to retrieve information from database. e.g "klpanagi"
 - **'test_type'**: Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
 
 
-##### Response/Return-Data
+##### Service response
 
  The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode
  the received data.
@@ -375,14 +372,14 @@ cognitive_test_chooser( { user: '', test_type: '' } )
 record_cognitive_test_performance( { user: '', test_instance: '', score: 0 } )
 ```
 
-##### Input parameters
+##### Service request
 
 - **'user'**: Username of client used to retrieve information from database. e.g "klpanagi"
 - **'test_instance'**: Cognitive Exercise test instance. The full cognitive test entry name as reported by the **cognitive_test_chooser()**.
 - **'score'**: User's performance score on given test entry.
 
 
-##### Response/Return-Data
+##### Service response
 
 The returned data are in *JSON* representation. A JSON.load() from client side must follow in order to decode the received data.
 
@@ -392,6 +389,26 @@ The returned data are in *JSON* representation. A JSON.load() from client side m
 
 - **'performace_entry'**: User's cognitive test performance entry in ontology.
 - **'error'**: If error was encountered, an error message is pushed in this field.
+
+
+#### Available-Services
+
+```javascript
+available_services()
+```
+
+##### Service request
+
+None.
+
+##### Service response
+
+```javascript
+{ services: '', error: '' }
+```
+
+- **'services'**: An array of available RAPP Platform Services.
+- **'error'**: Error message.
 
 
 ### Health - RAPP Platform Status
