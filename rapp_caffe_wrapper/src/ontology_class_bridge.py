@@ -39,7 +39,7 @@ class OntologyClassBridge:
   def getOntologyClassEquivalent(self,req):
     try:      
       res=ontologyClassBridgeSrvResponse()      
-      mapFile = rospy.get_param("ontology_class_bridge_file")
+      mapFile = home = expanduser("~")+rospy.get_param("ontology_class_bridge_file")
       caffeToOntologyClassesDict=self.loadMappingIntoDictionary(mapFile)
       res.ontologyClass=caffeToOntologyClassesDict[req.caffeClass]  
       res.success=True     

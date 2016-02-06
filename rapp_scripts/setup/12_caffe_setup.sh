@@ -31,7 +31,7 @@ RappPlatformFilesPath="${HOME}/rapp_platform_files"
 KnowrobPath="${RappPlatformPath}/knowrob_catkin_ws"
 
 #Copy mapping of caffe classes to ontology classes file in RappPlatformFiles
-cp ./caffeOntologyClassesBridge $RappPlatformFilesPath
+cp ./caffeOntologyClassesBridge $RappPlatformFilesPath"/"
 
 # Install deb package dependencies
 sudo apt-get install -qq -y libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler &> /dev/null
