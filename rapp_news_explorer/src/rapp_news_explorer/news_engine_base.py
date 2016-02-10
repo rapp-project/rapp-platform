@@ -42,6 +42,8 @@ class NewsEngineBase(object):
         ## The base news engine url
         self._url = ''
 
+        ## Seconds to wait for any server response
+        self._server_timeout = 1.0
         ## The value of valid response status code
         self._accepted_status = 200
 
@@ -57,16 +59,32 @@ class NewsEngineBase(object):
     # @exceptions RappError Request error
     def perform_request(self, param, header=None):
         if header is None:
-            response = requests.get(param)
+            try:
+                response = requests.get(
+                    self._url, params=param, timeout=self._server_timeout)
+            except requests.RequestException as err:
+                RappUtilities.rapp_print(err, 'ERROR')
+                raise RappError(err)
         else:
-            response = requests.get(param, headers=header)
+            try:
+                response = requests.get(
+                    self._url, params=param, headers=header,
+                    timeout=self._server_timeout)
+            except requests.RequestException as err:
+                RappUtilities.rapp_print(err, 'ERROR')
+                raise RappError(err)
 
-        if response.status_code == self._accepted_status or \
-           response.status_code in self._accepted_status:
+        RappUtilities.rapp_print(response.url, 'DEBUG')
+
+        if (isinstance(self._accepted_status, int) and
+                response.status_code == self._accepted_status) or \
+            (isinstance(self._accepted_status, list) and
+                response.status_code in self._accepted_status):
             return response
 
-        raise RappError('Request error. Status code: ' +
-                        str(response.status_code))
+        error = 'Request error. Status code: ' + str(response.status_code)
+        RappUtilities.rapp_print(error, 'ERROR')
+        raise RappError(error)
 
     ## @brief Abstract method to fetch news from news engine
     @abc.abstractmethod

@@ -24,6 +24,9 @@ from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 
 
+## @class EngineFactory
+# @brief Creates and returns the class of the news engine requested.
+#   Implements a factory pattern.
 class EngineFactory(object):
 
     ## @brief Select proper news engine according to request

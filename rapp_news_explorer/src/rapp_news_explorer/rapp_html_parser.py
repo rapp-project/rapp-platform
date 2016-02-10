@@ -44,4 +44,4 @@ class RappHTMLParser(HTMLParser):
     def get_data(self):
         final_str = ''.join(self.fed)
         self.fed = []
-        return final_str
+        return final_str.encode('utf-8')

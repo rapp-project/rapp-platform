@@ -25,6 +25,8 @@ from rapp_news_explorer.engine_factory import EngineFactory
 from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 
+from rapp_platform_ros_communications.msg import NewsStoryMsg
+
 from rapp_platform_ros_communications.srv import (
     NewsExplorerSrv,
     NewsExplorerSrvResponse
@@ -62,11 +64,37 @@ class NewsExplorerNode(object):
     #  The service response
     def fetch_news_srv_callback(self, req):
         response = NewsExplorerSrvResponse()
+
         try:
             engine = self._engine_factory.select_news_engine(req.newsEngine)
         except RappError as err:
-            response.error = err
+            response.error = str(err)
             return response
+        try:
+            results = engine.fetch_news(req)
+        except RappError as err:
+            response.error = str(err)
+            return response
+
+        return self._create_service_response(results)
+
+    ## @brief The callback to fetch news
+    #
+    # @param results [list<dict>] The server results containing the stories
+    #
+    # @return res
+    # [rapp_platform_ros_communications::NewsExplorer::NewsExplorerSrvResponse]
+    #  The service response
+    def _create_service_response(self, results):
+        response = NewsExplorerSrvResponse()
+        for result in results:
+            msg = NewsStoryMsg()
+            msg.title = result['title']
+            msg.content = result['content']
+            msg.publishedDate = result['publishedDate']
+            msg.url = result['url']
+            response.stories.append(msg)
+        return response
 
 
 if __name__ == "__main__":
