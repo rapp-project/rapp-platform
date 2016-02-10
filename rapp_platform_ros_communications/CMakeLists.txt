@@ -18,6 +18,7 @@ add_message_files(
   FILES
   StringArrayMsg.msg
   CognitiveExercisePerformanceRecordsMsg.msg
+  NewsStoryMsg.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -52,6 +53,8 @@ add_service_files(
   /OntologyWrapper/clearUserPerformanceCognitveTestsSrv.srv
 
   /FaceDetection/FaceDetectionRosSrv.srv
+
+  /NewsExplorer/NewsExplorerSrv.srv
 
   /QrDetection/QrDetectionRosSrv.srv
 

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapp_news_explorer</name>
+  <version>0.0.0</version>
+  <description>The rapp_news_explorer package</description>
+
+  <maintainer email="aris.thallas@iti.gr">Aris Thallas</maintainer>
+  <author>Aris Thallas</author>
+
+
+  <license>APACHE 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>rapp_platform_ros_communications</depend>
+  <depend>rapp_utilities</depend>
+
+  <export>
+  </export>
+
+</package>

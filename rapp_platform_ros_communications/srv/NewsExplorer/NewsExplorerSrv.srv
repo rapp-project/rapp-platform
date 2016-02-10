@@ -1,0 +1,13 @@
+# Request
+string newsEngine
+string[] keywords
+string[] excludeTitles # List of previously read articles
+string regionEdition   # Which region/country to query
+string topic           # headlines, sports, politics etc
+int8 storyNum          # number of news stories
+
+---
+# Response
+string error           # Error description
+
+rapp_platform_ros_communications/NewsStoryMsg[] stories

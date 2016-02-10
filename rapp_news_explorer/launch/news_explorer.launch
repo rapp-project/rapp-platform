@@ -1,0 +1,12 @@
+<launch>
+  <node
+    name="rapp_news_explorer_node"
+    pkg="rapp_news_explorer"
+    type="news_explorer_node.py"
+    output="screen"
+  />
+  <rosparam
+    file="$(find rapp_news_explorer)/cfg/news_explorer_params.yaml"
+    command="load"
+  />
+</launch>
