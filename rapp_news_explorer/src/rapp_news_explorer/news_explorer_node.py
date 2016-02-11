@@ -91,6 +91,7 @@ class NewsExplorerNode(object):
             msg = NewsStoryMsg()
             msg.title = result['title']
             msg.content = result['content']
+            msg.publisher = result['publisher']
             msg.publishedDate = result['publishedDate']
             msg.url = result['url']
             response.stories.append(msg)

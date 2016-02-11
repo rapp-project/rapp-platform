@@ -116,6 +116,11 @@ class GoogleNewsEngine(NewsEngineBase):
             story['content'] = self._html_parser.get_data()
 
             # Get story date
+            self._html_parser.feed(result['publisher'])
+            story['publisher'] = \
+                self._html_parser.get_data()
+
+            # Get story date
             self._html_parser.feed(result['publishedDate'])
             story['publishedDate'] = \
                 self._html_parser.get_data()
