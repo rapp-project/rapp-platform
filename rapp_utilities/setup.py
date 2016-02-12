@@ -17,7 +17,11 @@
 from distutils.core import setup
 from catkin_pkg.python_setup import generate_distutils_setup as catkin_setup
 
-dist = catkin_setup( \
-    packages=['rapp_utilities','rapp_exceptions'], package_dir={'': 'src'})
+dist = catkin_setup(
+    packages=['rapp_utilities',
+              'rapp_exceptions',
+              'rapp_http_request_handler',
+              'rapp_http_json_parser.py'],
+    package_dir={'': 'src'})
 
 setup(**dist)

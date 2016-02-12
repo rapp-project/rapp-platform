@@ -20,15 +20,11 @@
 
 
 import abc
-import requests
-from rapp_news_explorer.rapp_html_parser import RappHTMLParser
-try:
-    import simplejson as json
-except ImportError:
-    import json
 
 from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
+from rapp_http_request_handler import RappHttpRequestHandler
+from rapp_http_json_parser import RappHttpJSONParser
 
 
 ## @class NewsEngineBase
@@ -42,49 +38,14 @@ class NewsEngineBase(object):
         ## The base news engine url
         self._url = ''
 
-        ## Seconds to wait for any server response
-        self._server_timeout = 1.0
         ## The value of valid response status code
         self._accepted_status = 200
 
+        ## Perform http requests to servers
+        self._http_request = RappHttpRequestHandler()
+
         ## Strips html tags from strings
-        self._html_parser = RappHTMLParser()
-
-    ## @brief Execute the request and verify response
-    #
-    # @param header [dict] The request's additional headers dictionary
-    #
-    # @return response [request module response] The servers response
-    #
-    # @exceptions RappError Request error
-    def perform_request(self, param, header=None):
-        if header is None:
-            try:
-                response = requests.get(
-                    self._url, params=param, timeout=self._server_timeout)
-            except requests.RequestException as err:
-                RappUtilities.rapp_print(err, 'ERROR')
-                raise RappError(err)
-        else:
-            try:
-                response = requests.get(
-                    self._url, params=param, headers=header,
-                    timeout=self._server_timeout)
-            except requests.RequestException as err:
-                RappUtilities.rapp_print(err, 'ERROR')
-                raise RappError(err)
-
-        RappUtilities.rapp_print(response.url, 'DEBUG')
-
-        if (isinstance(self._accepted_status, int) and
-                response.status_code == self._accepted_status) or \
-            (isinstance(self._accepted_status, list) and
-                response.status_code in self._accepted_status):
-            return response
-
-        error = 'Request error. Status code: ' + str(response.status_code)
-        RappUtilities.rapp_print(error, 'ERROR')
-        raise RappError(error)
+        self.rapp_http_json_parser = RappHttpJSONParser()
 
     ## @brief Abstract method to fetch news from news engine
     @abc.abstractmethod

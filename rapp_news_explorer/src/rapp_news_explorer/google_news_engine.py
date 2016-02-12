@@ -70,8 +70,14 @@ class GoogleNewsEngine(NewsEngineBase):
             # Fetch a number of results from the server
             # (8 per request, due to Google's restrictions)
             try:
-                response = self.perform_request(param_dict)
+                response = self._http_request.perform_request(self._url,
+                                                              param_dict)
             except RappError as err:
+                RappUtilities.rapp_print(err, 'ERROR')
+                raise err
+
+            if response['responseStatus'] != 200:
+                err = 'Http request failed' + response['responseStatus']
                 RappUtilities.rapp_print(err, 'ERROR')
                 raise err
 
@@ -95,39 +101,17 @@ class GoogleNewsEngine(NewsEngineBase):
     # @param exclude_list [string]
     #   The list of titles to be excluded from the results
     def _handle_server_response(self, response, story_list, exclude_list):
-        try:
-            response_json = response.json()
-        except ValueError as err:
-            RappUtilities.rapp_print(err, 'ERROR')
-            raise RappError(err)
 
-        for result in response_json['responseData']['results']:
+        keys = {'titleNoFormatting': 'title',
+                'content': 'content',
+                'publisher': 'publisher',
+                'publishedDate': 'publishedDate',
+                'unescapedUrl': 'url'}
+
+        for result in response['responseData']['results']:
             story = {}
 
-            # Get story title
-            self._html_parser.feed(result['titleNoFormatting'])
-            story['title'] = self._html_parser.get_data()
-            # Skip stories from excluded list
-            if story['title'] in exclude_list:
-                continue
-
-            # Get story content
-            self._html_parser.feed(result['content'])
-            story['content'] = self._html_parser.get_data()
-
-            # Get story date
-            self._html_parser.feed(result['publisher'])
-            story['publisher'] = \
-                self._html_parser.get_data()
-
-            # Get story date
-            self._html_parser.feed(result['publishedDate'])
-            story['publishedDate'] = \
-                self._html_parser.get_data()
-
-            # Get story url
-            self._html_parser.feed(result['unescapedUrl'])
-            story['url'] = self._html_parser.get_data()
+            story = self.rapp_http_json_parser.find_values(keys, result)
 
             # Keep unique stories
             story_list.append(story)
