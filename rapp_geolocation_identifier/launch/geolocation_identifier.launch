@@ -1,0 +1,12 @@
+<launch>
+  <node
+    name="rapp_geolocation_identifier_node"
+    pkg="rapp_geolocation_identifier"
+    type="geolocation_identifier_node.py"
+    output="screen"
+  />
+  <rosparam
+    file="$(find rapp_geolocation_identifier)/cfg/geolocation_identifier_params.yaml"
+    command="load"
+  />
+</launch>
