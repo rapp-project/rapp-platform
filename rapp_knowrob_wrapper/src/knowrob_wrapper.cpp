@@ -809,3 +809,15 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
         return res;
     }
 }
+
+	/** 
+	* @brief Implements the register_image_object_to_ontology ROS service 
+	* @param req [rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request&] The ROS service request 
+	* @return res [rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response&] The ROS service response 
+	*/ 
+rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response register_image_object_to_ontology(rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request req) {
+  rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response res;
+  
+  return res;
+}
+  
