@@ -33,7 +33,10 @@ class RappHttpJSONParser(object):
         result = {}
 
         for key in key_dict:
-            self._html_parser.feed(json_data[key])
-            result[key_dict[key]] = self._html_parser.get_data()
+            if isinstance(json_data[key], str):
+                self._html_parser.feed(json_data[key])
+                result[key_dict[key]] = self._html_parser.get_data()
+            else:
+                result[key_dict[key]] = json_data[key]
 
         return result
