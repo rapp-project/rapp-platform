@@ -75,7 +75,6 @@ class GeolocatorNode(object):
             response.error = str(err)
             return response
 
-        print results
         return self._create_service_response(results)
 
     ## @brief The callback to geolocalize
@@ -87,7 +86,6 @@ class GeolocatorNode(object):
     # [rapp_platform_ros_communications::Geolocator::GeolocatorSrvResponse]
     #  The service response
     def _create_service_response(self, result):
-        RappUtilities.rapp_print(result, 'INFO')
         response = GeolocatorSrvResponse()
         response.city = result['city']
         response.country = result['country']

@@ -42,7 +42,6 @@ class IpAPILocator(GeolocatorBase):
     #
     # @return [dict] The server results
     def fetch_geolocation(self, req):
-        RappUtilities.rapp_print(req.ip, 'WARN')
 
         try:
             response = self._http_request.perform_request(self._url + req.ip)
@@ -69,7 +68,6 @@ class IpAPILocator(GeolocatorBase):
     #
     # @return values [dict] The final values
     def _handle_server_response(self, response):
-        #  print response
 
         # {'server_response_name':'ros_service_name'}
         keys = {'city': 'city',
