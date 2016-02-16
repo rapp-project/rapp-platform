@@ -26,45 +26,46 @@ from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 
 from rapp_platform_ros_communications.srv import (
-    GeolocationIdentifierSrv,
-    GeolocationIdentifierSrvResponse
+    GeolocatorSrv,
+    GeolocatorSrvResponse
     )
 
 
-## @class GeolocationIdentifierNode
+## @class GeolocatorNode
 # @brief Calculates geolocation via IP
-class GeolocationIdentifierNode(object):
+class GeolocatorNode(object):
 
     ## @brief Constructor
     def __init__(self):
         ## Factory that returns proper geolocator
         self._geolocator_factory = GeolocatorFactory()
 
-        if rospy.has_param('rapp_geolocation_identifier_locate_topic'):
+        if rospy.has_param('rapp_geolocator_locate_topic'):
             srv_topic = \
-                rospy.get_param("rapp_geolocation_identifier_locate_topic")
+                rospy.get_param("rapp_geolocator_locate_topic")
         else:
             srv_topic = ''
             RappUtilities.rapp_print('Geolocator topic not found!', 'ERROR')
 
         fetch_service = rospy.Service(
-            srv_topic, GeolocationIdentifierSrv, self.fetch_location_srv_callback
+            srv_topic, GeolocatorSrv, self.fetch_location_srv_callback
             )
 
-    ## @brief The callback to identify geolocation
+    ## @brief The callback to calculate geolocation
     #
     # @param req
-    #   [rapp_platform_ros_communications::GeolocationIdentifier::GeolocationIdentifierSrv]
+    #   [rapp_platform_ros_communications::Geolocator::GeolocatorSrv]
     #   The service request
     #
     # @return res
-    # [rapp_platform_ros_communications::GeolocationIdentifier::GeolocationIdentifierSrvResponse]
+    # [rapp_platform_ros_communications::Geolocator::GeolocatorSrvResponse]
     #  The service response
     def fetch_location_srv_callback(self, req):
-        response = GeolocationIdentifierSrvResponse()
+        response = GeolocatorSrvResponse()
 
         try:
-            locator = self._geolocator_factory.select_geolocator()
+            locator = \
+                self._geolocator_factory.select_geolocator(req.geolocator)
         except RappError as err:
             response.error = str(err)
             return response
@@ -79,14 +80,15 @@ class GeolocationIdentifierNode(object):
 
     ## @brief The callback to geolocalize
     #
-    # @param results [dict] The server results containing the location information
+    # @param results [dict]
+    #  The server results containing the location information
     #
     # @return res
-    # [rapp_platform_ros_communications::GeolocationIdentifier::GeolocationIdentifierSrvResponse]
+    # [rapp_platform_ros_communications::Geolocator::GeolocatorSrvResponse]
     #  The service response
     def _create_service_response(self, result):
         RappUtilities.rapp_print(result, 'INFO')
-        response = GeolocationIdentifierSrvResponse()
+        response = GeolocatorSrvResponse()
         response.city = result['city']
         response.country = result['country']
         response.countryCode = result['countryCode']
@@ -99,7 +101,7 @@ class GeolocationIdentifierNode(object):
 
 
 if __name__ == "__main__":
-    rospy.init_node('GeolocationIdentifier')
-    geolocator_identifier_node = GeolocationIdentifierNode()
-    RappUtilities.rapp_print("Geolocation Identifier node initialized")
+    rospy.init_node('Geolocator')
+    geolocator_node = GeolocatorNode()
+    RappUtilities.rapp_print("Geolocator node initialized")
     rospy.spin()

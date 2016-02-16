@@ -18,7 +18,7 @@
 # Authors: Aris Thallas
 # contact: aris.thallas@{iti.gr, gmail.com}
 
-from rapp_geolocation_identifier.ip_api_locator import IpAPILocator
+from rapp_geolocator.ip_api_locator import IpAPILocator
 
 from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
@@ -31,10 +31,10 @@ class GeolocatorFactory(object):
 
     ## @brief Select proper geolocator according to request
     #
-    # @param engine [string] The name of the geolocator
+    # @param geolocator [string] The name of the geolocator
     #
     # @return res
-    #  [rapp_geolocation_identifier.rapp_geolocation_identifier.GeolocatorBase]
+    #  [rapp_geolocator.rapp_geolocator.GeolocatorBase]
     #  The geolocator
     #
     # @exceptions RappError Wrong geolocator provided by user

@@ -14,10 +14,7 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-from distutils.core import setup
-from catkin_pkg.python_setup import generate_distutils_setup as catkin_setup
-
-dist = catkin_setup(packages=['rapp_geolocation_identifier'],
-                    package_dir={'': 'src'})
-
-setup(**dist)
+from rapp_geolocator.geolocator_node import GeolocatorNode
+from rapp_geolocator.geolocator_factory import GeolocatorFactory
+from rapp_geolocator.geolocator_base import GeolocatorBase
+from rapp_geolocator.ip_api_locator import IpAPILocator

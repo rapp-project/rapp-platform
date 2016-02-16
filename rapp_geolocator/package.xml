@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>rapp_geolocation_identifier</name>
+  <name>rapp_geolocator</name>
   <version>0.0.0</version>
-  <description>The rapp_geolocation_identifier package</description>
+  <description>The rapp_geolocator package</description>
 
   <maintainer email="aris.thallas@iti.gr">Aris Thallas</maintainer>
   <author>Aris Thallas</author>

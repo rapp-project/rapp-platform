@@ -55,7 +55,7 @@ add_service_files(
   /FaceDetection/FaceDetectionRosSrv.srv
 
   /NewsExplorer/NewsExplorerSrv.srv
-  /GeolocationIdentifier/GeolocationIdentifierSrv.srv
+  /Geolocator/GeolocatorSrv.srv
 
   /QrDetection/QrDetectionRosSrv.srv
 

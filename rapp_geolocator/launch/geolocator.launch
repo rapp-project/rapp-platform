@@ -1,0 +1,12 @@
+<launch>
+  <node
+    name="rapp_geolocator_node"
+    pkg="rapp_geolocator"
+    type="geolocator_node.py"
+    output="screen"
+  />
+  <rosparam
+    file="$(find rapp_geolocator)/cfg/geolocator_params.yaml"
+    command="load"
+  />
+</launch>

@@ -18,7 +18,7 @@
 # Authors: Aris Thallas
 # contact: aris.thallas@{iti.gr, gmail.com}
 
-from rapp_geolocation_identifier.geolocator_base import(
+from rapp_geolocator.geolocator_base import(
     GeolocatorBase,
     RappUtilities,
     RappError
@@ -37,7 +37,7 @@ class IpAPILocator(GeolocatorBase):
     ## @brief Fetch the location
     #
     # @param req
-    #   [rapp_platform_ros_communications::GeolocationIdentifier::GeolocationIdentifierSrv]
+    #   [rapp_platform_ros_communications::Geolocator::GeolocatorSrv]
     #   The service request
     #
     # @return [dict] The server results

@@ -1,4 +1,5 @@
 string ip
+string geolocator
 ---
 string error
 
