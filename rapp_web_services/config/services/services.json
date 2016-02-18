@@ -1,0 +1,21 @@
+{
+  "face_detection": {
+    "launch": true,
+    "anonymous": false,
+    "name": "face_detection",
+    "url_name": "face_detection",
+    "namespace": "poutses",
+    "timeout": 15000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_face_detection/detect_faces"
+  },
+  "available_services": {
+    "launch": true,
+    "anonymous": false,
+    "name": "available_services",
+    "url_name": "available_services",
+    "namespace": "",
+    "scan_time": 2,
+    "initial_scan_wait": 1000
+  }
+}

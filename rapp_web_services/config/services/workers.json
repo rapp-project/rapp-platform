@@ -1,0 +1,14 @@
+{
+  "face_detection": {
+    "path": "workers/face_detection/worker.js",
+    "services": [
+      "face_detection"
+    ]
+  },
+  "available_services": {
+    "path": "workers/available_services/worker.js",
+    "services": [
+      "available_services"
+    ]
+  }
+}
