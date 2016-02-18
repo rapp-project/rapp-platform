@@ -1,0 +1,14 @@
+{
+  "client_request": {
+    "file_uri": "",
+    "fast": false
+  },
+  "client_response": {
+    "faces": [],
+    "error": ""
+  },
+  "ros_svc": {
+    "imageFilename": "",
+    "fast": false
+  }
+}

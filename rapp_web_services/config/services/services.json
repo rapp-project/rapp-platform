@@ -4,7 +4,7 @@
     "anonymous": false,
     "name": "face_detection",
     "url_name": "face_detection",
-    "namespace": "poutses",
+    "namespace": "",
     "timeout": 15000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_face_detection/detect_faces"
@@ -17,5 +17,16 @@
     "namespace": "",
     "scan_time": 2,
     "initial_scan_wait": 1000
+  },
+  "user_personal_info":{
+    "launch": true,
+    "anonymous": false,
+    "name": "user_personal_info",
+    "url_name": "user_personal_info",
+    "namespace": "",
+    "timeout": 5000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_mysql_wrapper/tbl_user_fetch_data"
   }
+
 }

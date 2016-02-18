@@ -28,26 +28,30 @@
  *  @copyright Rapp Project EU 2015
  */
 
-
-var __DEBUG__ = false;
-
 var hop = require('hop');
 var path = require('path');
+var util = require('util');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
+var PKG_DIR = ENV.PATHS.PKG_DIR;
+var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var CONFIG_DIR = path.join(__dirname,'..', 'config');
+var svcUtils = require(path.join(INCLUDE_DIR, 'common',
+    'svc_utils.js'));
 
-var SERVICE_NAME = 'available_services';
-var __hopServiceId = null;
+var interfaces = require( path.join(__dirname, 'interfaces.json') );
+
+/* ------------< Load parameters >-------------*/
+var svcParams = ENV.SERVICES.available_services;
+var SERVICE_NAME = svcParams.name;
+var rosSrvName = svcParams.ros_srv_name;
+
+
 var __availableServices = [];
 
 /* -- Set timer values for websocket communication to rosbridge -- */
-var scanTimer = ENV.SERVICES[SERVICE_NAME].scan_time * 60 * 1000;  // Minutes
-var initScanWait = ENV.SERVICES[SERVICE_NAME].initial_scan_wait;
+var scanTimer = svcParams.scan_time * 60 * 1000;  // Minutes
+var initScanWait = svcParams.initial_scan_wait;
 /* --------------------------------------------------------------- */
-
-var srvArgs = ENV.SERVICES[SERVICE_NAME].args;
 
 var colors = {
   error:    String.fromCharCode(0x1B) + '[1;31m',
@@ -56,10 +60,6 @@ var colors = {
   yellow:   String.fromCharCode(0x1B) + '[33m',
   clear:    String.fromCharCode(0x1B) + '[0m'
 };
-
-
-// Register communication interface with the master-process
-register_master_interface();
 
 
 /***
@@ -119,7 +119,6 @@ function scanServices(){
 }, initScanWait);
 
 
-
 /**
  *  [Available-Services], RAPP Platform Front-End Web Service.
  *  Returns a list of currently available RAPP Platform Web Services.
@@ -136,124 +135,23 @@ function scanServices(){
  *  when an error has been occured during service call.
  *
  */
-service available_services ( srvArgs )
+function svcImpl ( kwargs )
 {
-  postMessage( craft_slaveMaster_msg('log', 'client-request') );
-
   /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-      var response = craft_response();
+      var response = interfaces.client_response;
+      response.services = __availableServices;
       sendResponse( hop.HTTPResponseJson(response) );
     }, this);
 }
 
 
-/***
- *  Craft response object.
- *
- *  @returns {Object} response - JSON HTTPResponse object.
- *  @returns {Array} response.services - List of RAPP Platform available
- *  services.
- *  @returns {String} response.error - Error message string to be filled
- *  when an error has been occured during service call.
- *
- */
-function craft_response()
-{
-  var response = {
-    services: __availableServices,
-    error: ''
-  };
-
-  return response;
-}
-
-
-/***
- *  Craft service error response object. Used to return to client when an
- *  error has been occured, while processing client request.
- */
-function craft_error_respose()
-{
-  var response = {
-    services: [],
-    error: 'RAPP Platform Failure'
-  };
-
-  return response;
-}
-
-
-/***
- *  Register interface with the main hopjs process. After registration
- *  this worker service can communicate with the main hopjs process through
- *  websockets.
- *
- *  The global scoped postMessage is used in order to send messages to the main
- *  process.
- *  Furthermore, the global scoped onmessage callback function declares the
- *  handler for incoming messages from the hopjs main process.
- *
- *  Currently log messages are handled by the main process.
- */
-function register_master_interface()
-{
-  // Register onexit callback function
-  onexit = function(e){
-    console.log("Service [%s] exiting...", SERVICE_NAME);
-    var logMsg = "Received termination command. Exiting.";
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-  };
-
-  // Register onmessage callback function
-  onmessage = function(msg){
-    if (__DEBUG__)
-    {
-      console.log("Service [%s] received message from master process",
-        SERVICE_NAME);
-      console.log("Msg -->", msg.data);
-    }
-
-    var logMsg = 'Received message from master process --> [' +
-      msg.data + ']';
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-    var cmd = msg.data.cmdId;
-    var data = msg.data.data;
-    switch (cmd)
-    {
-      case 2055:  // Set worker ID
-        __hopServiceId = data;
-        break;
-      default:
-        break;
-    }
-  };
-
-  // On initialization inform master and append to log file
-  var logMsg = "Initiated worker";
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-}
-
-
-/***
- *  Returns master-process comm msg literal.
- */
-function craft_slaveMaster_msg(msgId, msg)
-{
-  var _msg = {
-    name: SERVICE_NAME,
-    id:   __hopServiceId,
-    msgId: msgId,
-    data: msg
-  };
-  return _msg;
-}
-
 function service_url(srvName){
   return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
 }
 
+
+registerSvc(svcImpl, svcParams);

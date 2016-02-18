@@ -28,8 +28,13 @@ var ifaces = os.networkInterfaces();
 var HOME = process.env.HOME;
 
 var rosEnv = require( path.join(__dirname, 'config', 'env', 'rosbridge.json') );
+
 var srvEnv = require( path.join(__dirname, 'config', 'services',
-    'params.json') );
+    'services.json') );
+
+var workerEnv = require( path.join(__dirname, 'config', 'services',
+    'workers.json') );
+
 var pathsEnv = require( path.join(__dirname, 'config', 'env', 'paths.json') );
 
 var env = {
@@ -41,6 +46,7 @@ var env = {
     HOSTNAME: rosEnv.ip_addr,
     PORT: rosEnv.port
   },
+  WORKERS: workerEnv,
   SERVICES: srvEnv,
   PATHS: {
     SERVER_CACHE_DIR: Fs.resolvePath( pathsEnv.cache_dir_server ),
@@ -49,7 +55,9 @@ var env = {
     LOG_DIR_SRVS: Fs.resolvePath( pathsEnv.log_dir_services ),
     PKG_DIR: __dirname,
     INCLUDE_DIR: path.join( __dirname, 'src' ),
-    CONFIG_DIR: path.join( __dirname, 'config' )
+    CONFIG_DIR: path.join( __dirname, 'config' ),
+    SERVICES_DIR: path.join( __dirname, 'workers' ),
+    WORKERS_DIR: path.join( __dirname, 'workers' )
   }
 };
 

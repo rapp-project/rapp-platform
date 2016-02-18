@@ -31,10 +31,13 @@
 
 var hop = require('hop');
 var path = require('path');
+var util = require('util');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
 var PKG_DIR = ENV.PATHS.PKG_DIR;
 var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
+
+var svcUtils = require(path.join(INCLUDE_DIR, 'common',
+    'svc_utils.js'));
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
@@ -42,13 +45,13 @@ var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
 var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
+var interfaces = require( path.join(__dirname, 'interfaces.json') );
 
-/* ------------< Load and set global configuration parameters >-------------*/
-var SERVICE_NAME = 'user_personal_info';
-var __hopServiceId = null;
+/* ------------< Load parameters >-------------*/
+var svcParams = ENV.SERVICES.user_personal_info;
+var SERVICE_NAME = svcParams.name;
+var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
-
-var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -64,29 +67,24 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
-var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
+var timeout = svcParams.timeout; // ms
+var maxTries = svcParams.retries;
 /* ----------------------------------------------------------------------- */
 
-var reqObj = require( path.join(INCLUDE_DIR,
-    'objects', 'req_obj.js') ).user_personal_info;
 
-service user_personal_info( args )
+function svcImpl( kwargs )
 {
+  kwargs = kwargs || {};
   /* ------ Parse arguments ------ */
-  args = args || {};
-  for( var prop in reqObj ){
-    if( !(prop in args)  ){
-      args[prop] = reqObj[prop];
-    }
+  var user = kwargs.user || '';
+  if( ! user ){
+    var response = svcUtils.errorResponse(interfaces.client_reponse);
+    return hop.HTTPResponseJson(response);
   }
-  var user = args.user;
   /* ----------------------------- */
 
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
-
-  //console.log(user)
 
   /***
    * Asynchronous http response
@@ -142,7 +140,7 @@ service user_personal_info( args )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        var response = craft_error_response();
+        var response = svcUtils.errorResponse(interfaces.client_response)();
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -183,7 +181,7 @@ service user_personal_info( args )
 
             execTime = new Date().getTime() - startT;
 
-            var response = craft_error_response();
+            var response = svcUtils.errorResponse(interfaces.client_response)();
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -199,7 +197,8 @@ service user_personal_info( args )
 }
 
 
-function craft_response(rosbridge_msg)
+
+function parseRosbridgeMsg(rosbridge_msg)
 {
   var logMsg = 'Returning to client.';
 
@@ -209,10 +208,8 @@ function craft_response(rosbridge_msg)
   var userInfo = resData.length > 0 ? resData[0].s : [];
   var error = rosbridge_msg.error || '';
 
-  var response = {
-    user_info: {},
-    error: error
-  };
+  var response = interfaces.client_reponse;
+  response.error = error;
 
   // Dynamic definition and value-set for user_info properties.
   for (var ii = 0; ii < resCols.length; ii++){
@@ -222,43 +219,14 @@ function craft_response(rosbridge_msg)
   if ( error !== '' )
   {
     logMsg += ' ROS service [' + rosSrvName + '] error ---> ' + error;
-    //console.log(error)
-    response.error = (!error && trace.length) ?
-      trace[trace.length - 1] : error;
   }
   else
   {
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
 
-  //console.log(response);
   return response;
 }
 
 
-/***
- *  Craft service error response object. Used to return to client when an
- *  error has been occured, while processing client request.
- */
-function craft_error_response()
-{
-  var errorMsg = 'RAPP Platform Failure';
-
-  var response = {
-    user_info: {},
-    error: errorMsg
-  };
-
-  var logMsg = 'Return to client with error --> ' + errorMsg;
-
-  return response;
-}
-
-
-
-/****************************************************************************/
-
-function service_url(srvName){
-  return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
-}
-
+registerSvc(svcImpl, svcParams);

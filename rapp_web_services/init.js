@@ -37,68 +37,49 @@
 var hop = require('hop');
 var path = require('path');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
-var PKG_DIR = ENV.PATHS.PKG_DIR;
-var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
-
+const ENV = require( path.join(__dirname, 'env.js') );
+const PKG_DIR = ENV.PATHS.PKG_DIR;
+const INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
+const SERVICES_CACHE_DIR = ENV.PATHS.SERVICES_CACHE_DIR;
+const SERVER_CACHE_DIR = ENV.PATHS.SERVER_CACHE_DIR;
+/* --------------------------------------------------------------- */
 var hostname = hop.hostname;
 var port = hop.port;
+var workers = require('./config/services/workers.json');
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
+var logger = new (require( path.join(INCLUDE_DIR, 'common', 'logger.js') ))(
+  {console: true, file: false, ns: 'Service Handler'});
+if( createCacheDir(SERVICES_CACHE_DIR) ){
+  logger.info('...Services caching in ' + SERVICES_CACHE_DIR);
+}else{
+  logger.error('Failed to create cache directories: ' + SERVICES_CACHE_DIR);
+}
 
-var WorkerHandler = require( path.join(INCLUDE_DIR, 'workerhandler',
-    'worker_handler.js') );
+var srvHandler = new ( require( path.join(INCLUDE_DIR, 'servicehandler',
+    'service_handler.js') ))({logger: logger});
 
-var color = {
-  error:    String.fromCharCode(0x1B) + '[1;31m',
-  success:  String.fromCharCode(0x1B) + '[1;32m',
-  ok:       String.fromCharCode(0x1B) + '[34m',
-  yellow:   String.fromCharCode(0x1B) + '[33m',
-  clear:    String.fromCharCode(0x1B) + '[0m'
-};
-
-//  Hop services list by name
-var srvList = [];
-//  Hop services files found by full name
-var srvFileList = [];
-
-
-/***
- *  Parse directories where services are stored. Javascript files with a:
- *    .service.js
- *  extension are imported and registered as HOP Web Services,
- *  under the HOP Server.
- *
- */
-parse_services_dir(__dirname);
-
-
-function parse_services_dir(dir)
-{
-  // Load files from located under given as input directory (dir)
-  var workerFileList = Fs.lsSync( dir );
-
-  // Loop through files list and search for worker services declered files
-  for (var i in workerFileList){
-    if ( path.extname( workerFileList[i] ) == '.js' ){
-      var regexp = /.service.js/g;
-      // If match then it is a hop service file.
-      if ( workerFileList[i].match(regexp) ){
-        console.log("Found hop service file: [%s]", workerFileList[i]);
-        /* -----------< Register worker >--------- */
-        var worker = {
-          file: dir + '/' + workerFileList[i],
-          name: workerFileList[i].replace( regexp, '' )
-        };
-        WorkerHandler.register_worker(worker);
-        /* --------------------------------------- */
-      }
-    }
-  }
+for(var w in workers){
+  var worker = {
+    file: path.join(__dirname, workers[w].path),
+    name: w,
+  };
+  srvHandler.registerWorker( worker );
 }
 
 
-/* ------------------- Process Handling ----------------- */
+function createCacheDir( dir ){
+  this.cacheDir = dir;
+  if( this.cacheDir === undefined || this.cacheDir === '' )
+  {
+    return false;
+  }
+  if( ! Fs.createDirRecur(this.cacheDir) ){
+    return false;
+  }
+  return true;
+}
+
 
 // Prevents the program from closing instantly
 // Does not work with hop-client!!!!!

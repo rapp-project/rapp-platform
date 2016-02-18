@@ -404,7 +404,7 @@ None.
 ##### Service response
 
 ```javascript
-{ services: '', error: '' }
+{ services: [], error: '' }
 ```
 
 - **'services'**: An array of available RAPP Platform Services.

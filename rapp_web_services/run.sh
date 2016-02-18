@@ -55,7 +55,7 @@ CURRENTDIR=$(dirname ${BASH_SOURCE[0]})
 ## Set executable paths ##
 SERVICEDIR=${CURRENTDIR}/services
 JSFILE=init.js
-JSEXECPATH=${SERVICEDIR}/${JSFILE}
+JSEXECPATH="${CURRENTDIR}/${JSFILE}"
 CFG_DIR=${CURRENTDIR}/config/hop
 
 ## Hop Web Server run on this port

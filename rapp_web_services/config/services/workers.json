@@ -10,5 +10,12 @@
     "services": [
       "available_services"
     ]
+  },
+  "user_personal_info": {
+    "path": "workers/user_personal_info/worker.js",
+    "services": [
+      "user_personal_info"
+    ]
   }
+
 }
