@@ -25,6 +25,8 @@ from weather_reporter_factory import WeatherReporterFactory
 from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 
+from rapp_platform_ros_communications.msg import WeatherForecastMsg
+
 from rapp_platform_ros_communications.srv import (
     WeatherReporterCurrentSrv,
     WeatherReporterCurrentSrvResponse,
@@ -109,12 +111,12 @@ class WeatherReporterNode(object):
             response.error = str(err)
             return response
         try:
-            results = w_reporter.fetch_current_weather(req)
+            results = w_reporter.fetch_weather_forecast(req)
         except RappError as err:
             response.error = str(err)
             return response
 
-        return self._create_current_service_response(results)
+        return self._create_forecast_service_response(results)
 
     ## @brief Creates proper response
     #
@@ -139,6 +141,17 @@ class WeatherReporterNode(object):
 
         return response
 
+    def _create_forecast_service_response(self, result):
+        response = WeatherReporterForecastSrvResponse()
+
+        for res in result:
+            msg = WeatherForecastMsg()
+            msg.high_temperature = res['high_temperature']
+            msg.low_temperature = res['low_temperature']
+            msg.description = res['description']
+            msg.date = res['date']
+            response.forecast.append(msg)
+        return response
 
 if __name__ == "__main__":
     rospy.init_node('WeatherReporter')

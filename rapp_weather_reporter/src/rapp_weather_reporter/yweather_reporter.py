@@ -54,7 +54,7 @@ class YWeatherReporter(WeatherReporterBase):
 
     def _fetch_yweather_report(self, city_id, param_metric='True'):
         try:
-            return self._client.fetch_weather(city_id, param_metric)
+            return self._client.fetch_weather(city_id, metric=param_metric)
         except (urllib2.URLError, xml.etree.ElementTree.ParseError) as err:
             RappUtilities.rapp_print(err, 'ERROR')
             raise RappError(err)
@@ -80,7 +80,9 @@ class YWeatherReporter(WeatherReporterBase):
     #
     # @return [dict] The server results
     def fetch_weather_forecast(self, req):
-        pass
+        city_id = self._fetch_city_id(req.city)
+        weather_xml = self._fetch_yweather_report(city_id, req.metric)
+        return self._handle_weather_forecast_report(weather_xml)
 
     ## @brief Handles the server's response
     #
@@ -100,4 +102,16 @@ class YWeatherReporter(WeatherReporterBase):
         response['wind_temperature'] = report['wind']['chill']
         response['wind_direction'] = report['wind']['compass']
 
+        return response
+
+    def _handle_weather_forecast_report(self, report):
+        response = []
+        for forecast in report['forecast']:
+            fore = {}
+            fore['high_temperature'] = forecast['high']
+            fore['low_temperature'] = forecast['low']
+            fore['low_temperature'] = forecast['low']
+            fore['description'] = forecast['text']
+            fore['date'] = forecast['date']
+            response.append(fore)
         return response
