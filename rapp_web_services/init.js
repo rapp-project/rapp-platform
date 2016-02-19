@@ -55,14 +55,12 @@ if( createCacheDir(SERVICES_CACHE_DIR) ){
 var srvHandler = new ( require( path.join(INCLUDE_DIR, 'servicehandler',
     'service_handler.js') ))({logger: logger});
 
-for(var w in workers){
-  var worker = {
-    file: path.join(__dirname, workers[w].path),
-    name: w,
-  };
-  srvHandler.registerWorker( worker );
-}
 
+launchWorkers(workers);
+
+
+/** ---------------------- [Util functions] --------------------- */
+/** ------------------------------------------------------------- */
 
 function createCacheDir( dir ){
   this.cacheDir = dir;
@@ -76,6 +74,20 @@ function createCacheDir( dir ){
   return true;
 }
 
+
+function launchWorkers( workers ){
+  for(var w in workers){
+    if( (workers[w].launch === true) || ( workers[w].launch) === undefined ){
+      var worker = {
+        file: path.join(__dirname, workers[w].path),
+        name: w,
+      };
+      srvHandler.registerWorker( worker );
+    }
+  }
+}
+
+/** ------------------------------------------------------------- */
 
 // Prevents the program from closing instantly
 // Does not work with hop-client!!!!!
