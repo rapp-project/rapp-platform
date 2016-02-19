@@ -20,7 +20,7 @@
 
 
 var clientRes = function( userInfo, error ){
-  userInfo = userInfo || [];
+  userInfo = userInfo || {};
   error = error || '';
   var obj = {
     user_info: userInfo,

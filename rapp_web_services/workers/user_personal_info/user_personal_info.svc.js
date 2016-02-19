@@ -49,7 +49,6 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
 var svcParams = ENV.SERVICES.user_personal_info;
-var SERVICE_NAME = svcParams.name;
 var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
 
@@ -123,7 +122,7 @@ function svcImpl( kwargs )
         //console.log(data);
 
         // Craft client response using ros service ws response.
-        var response = craft_response( data );
+        var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -147,7 +146,7 @@ function svcImpl( kwargs )
 
 
       // Invoke ROS-Service request.
-      ros.callService(rosSrvName, args,
+      ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
       /***
@@ -200,6 +199,7 @@ function svcImpl( kwargs )
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var logMsg = 'Returning to client.';
+  //console.log(rosbridge_msg);
 
   var trace = rosbridge_msg.trace;
   var resCols = rosbridge_msg.res_cols;
@@ -208,7 +208,6 @@ function parseRosbridgeMsg(rosbridge_msg)
   var error = rosbridge_msg.error || '';
 
   var response = new interfaces.client_res();
-  response.error = error;
 
   // Dynamic definition and value-set for user_info properties.
   for (var ii = 0; ii < resCols.length; ii++){
