@@ -37,6 +37,16 @@
     "timeout": 15000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_qr_detection/detect_qrs"
+  },
+  "cognitive_get_history": {
+    "launch": true,
+    "anonymous": false,
+    "name": "cognitive_get_history",
+    "url_name": "cognitive_get_history",
+    "namespace": "",
+    "timeout": 15000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_history"
   }
 
 }

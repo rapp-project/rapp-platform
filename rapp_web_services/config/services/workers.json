@@ -1,26 +1,37 @@
 {
   "face_detection": {
+    "launch": true,
     "path": "workers/face_detection/worker.js",
     "services": [
       "face_detection"
     ]
   },
   "available_services": {
+    "launch": true,
     "path": "workers/available_services/worker.js",
     "services": [
       "available_services"
     ]
   },
   "user_personal_info": {
+    "launch": true,
     "path": "workers/user_personal_info/worker.js",
     "services": [
       "user_personal_info"
     ]
   },
   "qr_detection": {
+    "launch": true,
     "path": "workers/qr_detection/worker.js",
     "services": [
       "qr_detection"
+    ]
+  },
+  "cognitive_get_history": {
+    "launch": true,
+    "path": "workers/cognitive_get_history/worker.js",
+    "services": [
+      "cognitive_get_history"
     ]
   }
 
