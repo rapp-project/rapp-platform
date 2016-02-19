@@ -47,7 +47,7 @@ var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
 var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
-var interfaces = require( path.join(__dirname, 'interfaces.json') );
+var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
 var svcParams = ENV.SERVICES.face_detection;
@@ -103,7 +103,7 @@ function svcImpl ( kwargs )
   var fast = kwargs.fast || false;
 
   if( ! file_uri ){
-    var response = svcUtils.errorResponse(interfaces.client_reponse);
+    var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
   }
 
@@ -116,7 +116,7 @@ function svcImpl ( kwargs )
   {
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
         " Abortion for security reasons.";
-    var response = svcUtils.errorResponse(interfaces.client_response);
+    var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
 
   }
@@ -149,7 +149,7 @@ function svcImpl ( kwargs )
 
     Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId);
-    var response = svcUtils.errorResponse(interfaces.client_response);
+    var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
@@ -176,10 +176,9 @@ function svcImpl ( kwargs )
       /* --------------------------------------------------- */
 
       // Fill Ros Service request msg parameters here.
-      var args = {
-        imageFilename: cpFilePath,
-        fast: fast
-      };
+      var rosSvcReq = new interfaces.ros_req();
+      rosSvcReq.imageFilename = cpFilePath;
+      rosSvcReq.fast = fast;
 
 
       /***
@@ -216,7 +215,7 @@ function svcImpl ( kwargs )
         // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
         // craft error response
-        var response = svcUtils.errorResponse(interfaces.client_response);
+        var response = svcUtils.errorResponse(new interfaces.client_res());
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -224,7 +223,7 @@ function svcImpl ( kwargs )
 
 
       // Invoke ROS-Service request.
-      ros.callService(rosSrvName, args,
+      ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
       /***
@@ -260,7 +259,7 @@ function svcImpl ( kwargs )
 
             execTime = new Date().getTime() - startT;
 
-            var response = svcUtils.errorResponse(interfaces.client_response);
+            var response = svcUtils.errorResponse(new interfaces.client_res());
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -295,7 +294,7 @@ function parseRosbridgeMsg(rosbridge_msg)
 
   var logMsg = 'Returning to client';
 
-  var response = interfaces.client_reponse;
+  var response = new interfaces.client_res();
 
   for (var ii = 0; ii < numFaces; ii++)
   {

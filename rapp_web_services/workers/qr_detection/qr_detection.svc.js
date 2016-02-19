@@ -22,43 +22,43 @@
 /***
  * @fileOverview
  *
- * [Face-Detection] RAPP Platform front-end web service.
+ * [Qr-Detection] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
  */
 
-
-
-var __DEBUG__ = false;
-
 var hop = require('hop');
 var path = require('path');
+var util = require('util');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
 
-var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
-var CONFIG_DIR = path.join(__dirname, '..', 'config');
+var PKG_DIR = ENV.PATHS.PKG_DIR;
+var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
+
+var svcUtils = require(path.join(INCLUDE_DIR, 'common',
+    'svc_utils.js'));
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
+var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/* ------------< Load and set global configuration parameters >-------------*/
-var SERVICE_NAME = 'face_detection';
-var __hopServiceId = null;
-var __servicesCacheDir = Fs.resolvePath( ENV.PATHS.SERVICES_CACHE_DIR );
-var __serverCacheDir = Fs.resolvePath( ENV.PATHS.SERVER_CACHE_DIR );
+/* ------------< Load parameters >-------------*/
+var svcParams = ENV.SERVICES.qr_detection;
+var SERVICE_NAME = svcParams.name;
+var rosSrvName = svcParams.ros_srv_name;
+
+var SERVICES_CACHE_DIR = ENV.PATHS.SERVICES_CACHE_DIR;
+var SERVER_CACHE_DIR = ENV.PATHS.SERVER_CACHE_DIR;
 /* ----------------------------------------------------------------------- */
 
-var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
-
-// Initiate communication with rosbridge-websocket-server
+// Instantiate interface to rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   reconnect: true, onconnection: function(){
     // .
@@ -71,65 +71,54 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
-var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
+var timeout = svcParams.timeout; // ms
+var maxTries = svcParams.retries;
 /* ----------------------------------------------------------------------- */
-
-var colors = {
-  error:    String.fromCharCode(0x1B) + '[1;31m',
-  success:  String.fromCharCode(0x1B) + '[1;32m',
-  ok:       String.fromCharCode(0x1B) + '[34m',
-  yellow:   String.fromCharCode(0x1B) + '[33m',
-  clear:    String.fromCharCode(0x1B) + '[0m'
-};
-
-
-// Register communication interface with the master-process
-register_master_interface();
-
 
 
 /**
- *  [Face-Detection] RAPP Platform front-end web service.
- *  <p> Serves requests for face_detection on given input image frame.</p>
+ *  [Qr-Detection] RAPP Platform front-end web service.
+ *  <p> Serves requests for qr_detection on given input image frame.</p>
  *
- *  @function face_detection
+ *  @function qr_detection
  *
  *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} args.file_uri - System uri path of transfered (client)
- *    file, as declared in multipart/form-data post field. The file_uri is
- *    handled and forwared to this service, as input argument,
- *    by the HOP front-end server.
+ *  @param {String} args.file_uri - System uri path of transfered (client) file, as
+ *    declared in multipart/form-data post field. The file_uri is handled and
+ *    forwared to this service, as input argument, by the HOP front-end server.
  *    Clients are responsible to declare this field in the multipart/form-data
  *    post field.
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
  *    Asynchronous HTTP Response.
- *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {Array} response.qr_centers - An array of qr-center objects.
+ *  @returns {Array} response.qr_messages - The array of the qr-messages. One
+ *    qr_message string message for each found QR code.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-service face_detection ( {file_uri:'', fast: false} )
+function svcImpl ( kwargs )
 {
+  kwargs = kwargs || {};
+  var file_uri = kwargs.file_uri || '';
+
+  if( ! file_uri ){
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    return hop.HTTPResponseJson(response);
+  }
 
   /***
    *  For security reasons, if file_uri is not defined under the
    *  server_cache_dir do not operate. HOP server stores the files under the
-   *  __serverCacheDir directory.
+   *  SERVER_CACHE_DIR directory.
    */
-  if( file_uri.indexOf(__serverCacheDir) === -1 )
+  if( file_uri.indexOf(SERVER_CACHE_DIR) === -1 )
   {
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
         " Abortion for security reasons.";
-    postMessage( craft_slaveMaster_msg('log', errorMsg) );
-    console.log(colors.error + '[Face-Detection]: ' + errorMsg + colors.clear);
-
-    var response = {
-      faces: [],
-      error: errorMsg
-    };
-
+    var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
+
   }
   /* ----------------------------------------------------------------------- */
 
@@ -139,16 +128,13 @@ service face_detection ( {file_uri:'', fast: false} )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName +
-    '}') );
   var logMsg = 'Image stored at [' + file_uri + ']';
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
   var fileUrl = file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
-  var cpFilePath = __servicesCacheDir + fileName.split('.')[0] + '-'  +
+  var cpFilePath = SERVICES_CACHE_DIR + fileName.split('.')[0] + '-'  +
     unqCallId + '.' + fileName.split('.')[1];
   cpFilePath = Fs.resolvePath(cpFilePath);
   /* ---------------------------------------------------------------- */
@@ -161,20 +147,13 @@ service face_detection ( {file_uri:'', fast: false} )
     var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
       cpFilePath + ']';
 
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
     Fs.rmFile(file_uri);
     randStrGen.removeCached(unqCallId);
-    var response = craft_error_response();
+    var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
   /*-------------------------------------------------------------------------*/
-
-  // Workaround for bool and hop
-  if (fast == 'True' || fast == 'true'){ fast = true; }
-  //else { fast_input = false;}
-  if (fast == 'False' || fast == 'false'){ fast = false; }
 
   /***
    * Asynchronous http response
@@ -192,10 +171,8 @@ service face_detection ( {file_uri:'', fast: false} )
       /* --------------------------------------------------- */
 
       // Fill Ros Service request msg parameters here.
-      var args = {
-        imageFilename: cpFilePath,
-        fast: fast
-      };
+      var rosSvcReq = new interfaces.ros_req();
+      rosSvcReq.imageFilename = cpFilePath;
 
 
       /***
@@ -213,7 +190,7 @@ service face_detection ( {file_uri:'', fast: false} )
         Fs.rmFile(cpFilePath);
         //console.log(data);
         // Craft client response using ros service ws response.
-        var response = craft_response( data );
+        var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -232,7 +209,7 @@ service face_detection ( {file_uri:'', fast: false} )
         // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
         // craft error response
-        var response = craft_error_response();
+        var response = svcUtils.errorResponse(new interfaces.client_res());
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -240,7 +217,7 @@ service face_detection ( {file_uri:'', fast: false} )
 
 
       // Invoke ROS-Service request.
-      ros.callService(rosSrvName, args,
+      ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
       /***
@@ -261,7 +238,6 @@ service face_detection ( {file_uri:'', fast: false} )
           var logMsg = 'Reached rosbridge response timeout' + '---> [' +
             timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
             'Retry-' + retries;
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           /***
            * Fail. Did not receive message from rosbridge.
@@ -271,15 +247,13 @@ service face_detection ( {file_uri:'', fast: false} )
           {
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
             // Remove cached file. Release resources.
             Fs.rmFile(cpFilePath);
 
             execTime = new Date().getTime() - startT;
-            postMessage( craft_slaveMaster_msg('execTime', execTime) );
 
-            var response = craft_error_response();
+            var response = svcUtils.errorResponse(new interfaces.client_res());
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -295,48 +269,36 @@ service face_detection ( {file_uri:'', fast: false} )
 }
 
 
-
-
 /***
  * Crafts response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response Object.
- *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {Array} response.qr_centers - An array of qr-center objects.
+ *  @returns {Array} response.qr_messages - The array of the qr-messages. One
+ *    qr_message string message for each found QR code.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-function craft_response(rosbridge_msg)
+function parseRosbridgeMsg(rosbridge_msg)
 {
-  var faces_up_left = rosbridge_msg.faces_up_left;
-  var faces_down_right = rosbridge_msg.faces_down_right;
+  var qrCenters = rosbridge_msg.qr_centers;
+  var qrMessages = rosbridge_msg.qr_messages;
   var error = rosbridge_msg.error;
-  var numFaces = faces_up_left.length;
 
-  var logMsg = 'Returning to client';
+  var logMsg = 'Returning to client.';
 
-  var response = {
-    faces: [],
-    error: ''
-  };
+  var response = new interfaces.client_res();
 
-  for (var ii = 0; ii < numFaces; ii++)
+  for (var ii = 0; ii < qrCenters.length; ii++)
   {
-    /***
-     * @namespace face
-     * @property up_left_point - Face bounding box, up-left-point
-     */
-    var face = {
-      up_left_point: {x: 0, y:0},
-      down_right_point: {x: 0, y: 0}
-    };
+    var qrPoint = { x: 0, y: 0};
 
-    face.up_left_point.x = faces_up_left[ii].point.x;
-    face.up_left_point.y = faces_up_left[ii].point.y;
-    face.down_right_point.x = faces_down_right[ii].point.x;
-    face.down_right_point.y = faces_down_right[ii].point.y;
-    response.faces.push( face );
+    qrPoint.x = qrCenters[ii].point.x;
+    qrPoint.y = qrCenters[ii].point.y;
+    response.qr_centers.push(qrPoint);
+    response.qr_messages.push(qrMessages[ii]);
   }
 
   response.error = error;
@@ -350,94 +312,9 @@ function craft_response(rosbridge_msg)
   {
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
 
   return response;
 }
 
 
-/***
- *  Craft service error response object. Used to return to client when an
- *  error has been occured, while processing client request.
- */
-function craft_error_response()
-{
-  var errorMsg = 'RAPP Platform Failure';
-
-  var response = {
-    faces: [],
-    error: errorMsg
-  };
-
-  var logMsg = 'Return to client with error --> ' + errorMsg;
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-  return response;
-}
-
-
-/***
- *  Register interface with the main hopjs process. After registration
- *  this worker service can communicate with the main hopjs process through
- *  websockets.
- *
- *  The global scoped postMessage is used in order to send messages to the main
- *  process.
- *  Furthermore, the global scoped onmessage callback function declares the
- *  handler for incoming messages from the hopjs main process.
- *
- *  Currently log messages are handled by the main process.
- */
-function register_master_interface()
-{
-  // Register onexit callback function
-  onexit = function(e){
-    console.log("Service [%s] exiting...", SERVICE_NAME);
-    var logMsg = "Received termination command. Exiting.";
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-  };
-
-  // Register onmessage callback function
-  onmessage = function(msg){
-    if (__DEBUG__)
-    {
-      console.log("Service [%s] received message from master process",
-        SERVICE_NAME);
-      console.log("Msg -->", msg.data);
-    }
-
-    var logMsg = 'Received message from master process --> [' +
-      msg.data + ']';
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-    var cmd = msg.data.cmdId;
-    var data = msg.data.data;
-    switch (cmd)
-    {
-      case 2055:  // Set worker ID
-        __hopServiceId = data;
-        break;
-      default:
-        break;
-    }
-  };
-
-  // On initialization inform master and append to log file
-  var logMsg = "Initiated worker";
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-}
-
-
-/***
- *  Returns master-process comm msg literal.
- */
-function craft_slaveMaster_msg(msgId, msg)
-{
-  var _msg = {
-    name: SERVICE_NAME,
-    id:   __hopServiceId,
-    msgId: msgId,
-    data: msg
-  };
-  return _msg;
-}
+registerSvc(svcImpl, svcParams);

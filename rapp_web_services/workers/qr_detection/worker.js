@@ -28,7 +28,7 @@ var workerUtils = require(path.join(ENV.PATHS.INCLUDE_DIR, 'common',
     'worker_utils.js'));
 
 // Set worker thread name under the global scope. (WORKER.name)
-workerUtils.setWorkerName('face_detection');
+workerUtils.setWorkerName('qr_detection');
 
 // Declare the worker's onmessage callback function.
 onmessage = workerUtils.onMessage;

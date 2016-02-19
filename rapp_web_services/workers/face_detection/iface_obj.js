@@ -19,20 +19,44 @@
  */
 
 
-var path = require('path');
+var client_res = function( faces, error ){
+  faces = faces || [];
+  error = error || '';
+  var obj = {
+    faces: faces,
+    error: faces
+  };
+  return obj;
+};
 
-var ENV = require( path.join(__dirname, '../..', 'env.js') );
 
-// Include it even if not used!!! Sets properties to the thread's global scope.
-var workerUtils = require(path.join(ENV.PATHS.INCLUDE_DIR, 'common',
-    'worker_utils.js'));
+var client_req = function( file_uri, fast ){
+  file_uri = file_uri || '';
+  fast = fast || false;
+  var obj = {
+    file_uri: file_uri,
+    fast: fast
+  };
+  return obj;
+};
 
-// Set worker thread name under the global scope. (WORKER.name)
-workerUtils.setWorkerName('face_detection');
 
-// Declare the worker's onmessage callback function.
-onmessage = workerUtils.onMessage;
+var ros_req = function( filepath, fast ){
+  filepath = filepath || '';
+  fast = fast || false;
+  var obj = {
+    imageFilename: filepath,
+    fast: fast
+  };
+  return obj;
+};
 
-// Launch all services assigned to this worker thread.
-// Search in workers.json config file for assigned web services.
-workerUtils.launchSvcAll();
+
+var ros_res = function(){
+
+};
+
+exports.client_res = client_res;
+exports.client_req = client_req;
+exports.ros_req = ros_req;
+exports.ros_res = ros_res;

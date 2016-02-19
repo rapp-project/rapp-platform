@@ -45,7 +45,7 @@ var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
 var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
-var interfaces = require( path.join(__dirname, 'interfaces.json') );
+var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
 var svcParams = ENV.SERVICES.user_personal_info;
@@ -78,7 +78,7 @@ function svcImpl( kwargs )
   /* ------ Parse arguments ------ */
   var user = kwargs.user || '';
   if( ! user ){
-    var response = svcUtils.errorResponse(interfaces.client_reponse);
+    var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
   }
   /* ----------------------------- */
@@ -102,12 +102,11 @@ function svcImpl( kwargs )
       /* --------------------------------------------------- */
 
       // Fill Ros Service request msg parameters here.
-      var args = {
-        req_cols: [
-          'username', 'firstname', 'lastname', 'email',
-          'language', 'ontology_alias', 'usrgroup', 'created'],
-        where_data: [{s: ['username', user]}]
-      };
+      var rosSvcReq = new interfaces.ros_req();
+      rosSvcReq.req_cols = [
+        'username', 'firstname', 'lastname', 'email',
+        'language', 'ontology_alias', 'usrgroup', 'created'];
+      rosSvcReq.where_data = [{s: ['username', user]}];
 
 
       /***
@@ -140,7 +139,7 @@ function svcImpl( kwargs )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        var response = svcUtils.errorResponse(interfaces.client_response)();
+        var response = svcUtils.errorResponse(new interfaces.client_res());
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -181,7 +180,7 @@ function svcImpl( kwargs )
 
             execTime = new Date().getTime() - startT;
 
-            var response = svcUtils.errorResponse(interfaces.client_response)();
+            var response = svcUtils.errorResponse(new interfaces.client_res());
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -208,7 +207,7 @@ function parseRosbridgeMsg(rosbridge_msg)
   var userInfo = resData.length > 0 ? resData[0].s : [];
   var error = rosbridge_msg.error || '';
 
-  var response = interfaces.client_reponse;
+  var response = new interfaces.client_res();
   response.error = error;
 
   // Dynamic definition and value-set for user_info properties.

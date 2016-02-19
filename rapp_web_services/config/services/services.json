@@ -27,6 +27,16 @@
     "timeout": 5000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_mysql_wrapper/tbl_user_fetch_data"
+  },
+  "qr_detection": {
+    "launch": true,
+    "anonymous": false,
+    "name": "qr_detection",
+    "url_name": "qr_detection",
+    "namespace": "",
+    "timeout": 15000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_qr_detection/detect_qrs"
   }
 
 }

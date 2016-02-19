@@ -21,13 +21,8 @@
 
 /***
  * @fileOverview
- *
- *  Parse Services directory. Files with a:
- *    .service.js
- *  extension are loaded and registered, as HOP Web services,
- *  under the HOP server.
- *
  *  This source file is loaded by the HOP server on execution-time.
+ *  Instatiates a ServiceHandler and registers found workers.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -43,6 +38,7 @@ const INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 const SERVICES_CACHE_DIR = ENV.PATHS.SERVICES_CACHE_DIR;
 const SERVER_CACHE_DIR = ENV.PATHS.SERVER_CACHE_DIR;
 /* --------------------------------------------------------------- */
+
 var hostname = hop.hostname;
 var port = hop.port;
 var workers = require('./config/services/workers.json');

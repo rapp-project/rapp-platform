@@ -18,10 +18,43 @@
  *
  */
 
-var USER_PERSONAL_INFO = {
-  user: ''
+
+var clientRes = function( qrCenters, qrMessages, error ){
+  qrCenters = qrCenters || [];
+  qrMessages = qrMessages || [];
+  error = error || '';
+  var obj = {
+    qr_centers: qrCenters,
+    qr_messages: qrMessages,
+    error: error
+  };
+  return obj;
 };
 
 
+var clientReq = function( fileUri ){
+  fileUri = fileUri || '';
+  var obj = {
+    file_uri: fileUri
+  };
+  return obj;
+};
 
-exports.user_personal_info = USER_PERSONAL_INFO;
+
+var rosReq = function( filepath ){
+  filepath = filepath || '';
+  var obj = {
+    imageFilename: filepath
+  };
+  return obj;
+};
+
+
+var rosRes = function(){
+
+};
+
+exports.client_res = clientRes;
+exports.client_req = clientReq;
+exports.ros_req = rosReq;
+exports.ros_res = rosRes;

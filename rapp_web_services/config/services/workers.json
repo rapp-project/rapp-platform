@@ -16,6 +16,12 @@
     "services": [
       "user_personal_info"
     ]
+  },
+  "qr_detection": {
+    "path": "workers/qr_detection/worker.js",
+    "services": [
+      "qr_detection"
+    ]
   }
 
 }
