@@ -52,29 +52,28 @@
  *
  */
 
-var __DEBUG__ = false;
-
 var hop = require('hop');
 var path = require('path');
+var util = require('util');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
+var PKG_DIR = ENV.PATHS.PKG_DIR;
+var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
-var CONFIG_DIR = path.join(__dirname, '..', 'config');
+var svcUtils = require(path.join(INCLUDE_DIR, 'common',
+    'svc_utils.js'));
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
+var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/*** ------------< Load and set global configuration parameters >----------*/
-var SERVICE_NAME = 'cognitive_get_history';
-var __hopServiceId = null;
+/* ------------< Load parameters >-------------*/
+var svcParams = ENV.SERVICES.cognitive_get_history;
+var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
-
-var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -83,18 +82,16 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   }
 });
 
+
 /*----------------< Random String Generator configurations >---------------*/
-var stringLength = 5;  // Random-String-Generator string length.
+var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
-var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
+var timeout = svcParams.timeout; // ms
+var maxTries = svcParams.retries;
 /* ----------------------------------------------------------------------- */
-
-
-register_master_interface();
 
 
 /**
@@ -117,8 +114,22 @@ register_master_interface();
  *    when an error has been occured during service call.
  *
  */
-service cognitive_get_history ( {user:'', from_time: 0, to_time: 0, test_type: ''} )
+function svcImpl( kwargs )
 {
+  var req = new interfaces.client_req();
+  var error = '';
+
+  /* ------ Parse arguments ------ */
+  kwargs = kwargs || {};
+  for( var i in req ){
+    req[i] = kwargs[i] || undefined;
+  }
+  if( ! req.user ){
+    error = 'Empty \"user\" field';
+    var response = svcUtils.errorResponse(new interfaces.client_res(error));
+    return hop.HTTPResponseJson(response);
+  }
+
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
@@ -137,12 +148,11 @@ service cognitive_get_history ( {user:'', from_time: 0, to_time: 0, test_type: '
       var retries = 0;
       /*===========================*/
 
-      var args = {
-        username: user,
-        fromTime: parseInt(from_time),
-        toTime: parseInt(to_time),
-        testType: test_type
-      };
+      var rosSvcReq = new interfaces.ros_req();
+      rosSvcReq.username = req.user;
+      rosSvcReq.fromTime = parseInt(req.from_time);
+      rosSvcReq.toTime= parseInt(req.to_time);
+      rosSvcReq.testType= req.test_type;
 
 
       function callback(data){
@@ -152,7 +162,7 @@ service cognitive_get_history ( {user:'', from_time: 0, to_time: 0, test_type: '
         randStrGen.removeCached( unqCallId );
         //console.log(data);
         // Craft client response using ros service ws response.
-        var response = craft_response( data );
+        var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -164,14 +174,14 @@ service cognitive_get_history ( {user:'', from_time: 0, to_time: 0, test_type: '
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         // craft error response
-        var response = craft_error_response();
+        var response = svcUtils.errorResponse(new interfaces.client_res());
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
 
-      ros.callService(rosSrvName, args,
+      ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
 
@@ -189,7 +199,6 @@ service cognitive_get_history ( {user:'', from_time: 0, to_time: 0, test_type: '
           var logMsg = 'Reached rosbridge response timeout' + '---> [' +
             timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
             'Retry-' + retries;
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           /***
            * Fail. Did not receive message from rosbridge.
@@ -201,9 +210,8 @@ service cognitive_get_history ( {user:'', from_time: 0, to_time: 0, test_type: '
 
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
-            var response = craft_error_response();
+            var response = svcUtils.errorResponse(new interfaces.client_res());
 
             // Asynchronous client response.
             sendResponse( hop.HTTPResponseJson(response));
@@ -230,7 +238,7 @@ service cognitive_get_history ( {user:'', from_time: 0, to_time: 0, test_type: '
  *  @returns {Object} response - Response Object.
  *
  */
-function craft_response(rosbridge_msg)
+function parseRosbridgeMsg(rosbridge_msg)
 {
   var trace = rosbridge_msg.trace;
   var success = rosbridge_msg.success;
@@ -238,10 +246,8 @@ function craft_response(rosbridge_msg)
   var recordsPerClass = rosbridge_msg.recordsPerTestType;
   var testClasses = rosbridge_msg.testCategories;
 
-  var response = {
-    records: {},
-    error: error
-  };
+  var response = new interfaces.client_res();
+  response.error = error;
 
   var logMsg = 'Returning to client';
 
@@ -265,83 +271,8 @@ function craft_response(rosbridge_msg)
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
 
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-
   return response;
 }
 
 
-/***
- *  Craft service error response object. Used to return to client when an
- *  error has been occured, while processing client request.
- *
- *  @returns {Object} response - Response Object.
- *
- */
-function craft_error_response()
-{
-  var errorMsg = 'RAPP Platform Failure';
-
-  var response = {
-    records: {},
-    error: errorMsg
-  };
-
-
-  var logMsg = 'Return to client with error --> ' + errorMsg;
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-  return response;
-}
-
-
-function register_master_interface()
-{
-  // Register onexit callback function
-  onexit = function(e){
-    console.log("Service [%s] exiting...", SERVICE_NAME);
-    var logMsg = "Received termination command. Exiting.";
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-  };
-
-  // Register onmessage callback function
-  onmessage = function(msg){
-    if (__DEBUG__)
-    {
-      console.log("Service [%s] received message from master process",
-        SERVICE_NAME);
-      console.log("Msg -->", msg.data);
-    }
-
-    var logMsg = 'Received message from master process --> [' +
-      msg.data + ']';
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-    var cmd = msg.data.cmdId;
-    var data = msg.data.data;
-    switch (cmd)
-    {
-      case 2055:  // Set worker ID
-        __hopServiceId = data;
-        break;
-      default:
-        break;
-    }
-  };
-
-  // On initialization inform master and append to log file
-  var logMsg = "Initiated worker";
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-}
-
-
-function craft_slaveMaster_msg(msgId, msg)
-{
-  var _msg = {
-    name: SERVICE_NAME,
-    id:   __hopServiceId,
-    msgId: msgId,
-    data: msg
-  };
-  return _msg;
-}
+registerSvc(svcImpl, svcParams);
