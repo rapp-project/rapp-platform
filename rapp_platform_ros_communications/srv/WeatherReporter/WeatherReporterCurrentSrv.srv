@@ -1,0 +1,15 @@
+string city
+string weather_reporter
+int8 metric
+---
+string error
+
+string date
+string temperature
+string weather_description
+string humidity
+string visibility
+string pressure
+string wind_speed
+string wind_temperature
+string wind_direction

@@ -1,0 +1,7 @@
+string city
+string weather_reporter
+int8 metric
+---
+string error
+
+rapp_platform_ros_communications/WeatherForecastMsg[] forecast

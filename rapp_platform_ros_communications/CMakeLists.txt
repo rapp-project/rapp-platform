@@ -19,6 +19,7 @@ add_message_files(
   StringArrayMsg.msg
   CognitiveExercisePerformanceRecordsMsg.msg
   NewsStoryMsg.msg
+  WeatherForecastMsg.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -56,6 +57,9 @@ add_service_files(
 
   /NewsExplorer/NewsExplorerSrv.srv
   /Geolocator/GeolocatorSrv.srv
+
+  /WeatherReporter/WeatherReporterCurrentSrv.srv
+  /WeatherReporter/WeatherReporterForecastSrv.srv
 
   /QrDetection/QrDetectionRosSrv.srv
 

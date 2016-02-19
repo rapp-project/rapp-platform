@@ -1,0 +1,12 @@
+<launch>
+  <node
+    name="rapp_weather_reporter_node"
+    pkg="rapp_weather_reporter"
+    type="weather_reporter_node.py"
+    output="screen"
+  />
+  <rosparam
+    file="$(find rapp_weather_reporter)/cfg/weather_reporter_params.yaml"
+    command="load"
+  />
+</launch>

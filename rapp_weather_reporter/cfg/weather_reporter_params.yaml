@@ -1,0 +1,2 @@
+rapp_weather_current_topic : /rapp/rapp_weather_reporter/current_weather
+rapp_weather_forecast_topic : /rapp/rapp_weather_reporter/weather_forecast
