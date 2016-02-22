@@ -57,7 +57,19 @@
     "timeout": 15000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_score"
+  },
+  "cognitive_test_chooser": {
+    "launch": true,
+    "anonymous": false,
+    "name": "cognitive_test_chooser",
+    "url_name": "cognitive_test_chooser",
+    "namespace": "",
+    "timeout": 15000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser"
   }
+
+
 
 
 

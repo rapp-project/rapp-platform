@@ -40,6 +40,13 @@
     "services": [
       "cognitive_get_scores"
     ]
+  },
+  "cognitive_test_chooser": {
+    "launch": true,
+    "path": "workers/cognitive_test_chooser/worker.js",
+    "services": [
+      "cognitive_test_chooser"
+    ]
   }
 
 }
