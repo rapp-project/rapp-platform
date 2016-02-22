@@ -122,11 +122,12 @@ function svcImpl( kwargs )
   /* ------ Parse arguments ------ */
   kwargs = kwargs || {};
   for( var i in req ){
-    req[i] = kwargs[i] || undefined;
+    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
   }
   if( ! req.user ){
     error = 'Empty \"user\" field';
-    var response = svcUtils.errorResponse(new interfaces.client_res(error));
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = error;
     return hop.HTTPResponseJson(response);
   }
 
