@@ -33,6 +33,13 @@
     "services": [
       "cognitive_get_history"
     ]
+  },
+  "cognitive_get_scores": {
+    "launch": true,
+    "path": "workers/cognitive_get_scores/worker.js",
+    "services": [
+      "cognitive_get_scores"
+    ]
   }
 
 }

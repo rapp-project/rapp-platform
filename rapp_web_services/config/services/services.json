@@ -47,6 +47,18 @@
     "timeout": 15000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_history"
+  },
+  "cognitive_get_scores": {
+    "launch": true,
+    "anonymous": false,
+    "name": "cognitive_get_scores",
+    "url_name": "cognitive_get_scores",
+    "namespace": "",
+    "timeout": 15000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_score"
   }
+
+
 
 }
