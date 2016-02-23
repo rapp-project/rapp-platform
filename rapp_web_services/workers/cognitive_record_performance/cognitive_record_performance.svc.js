@@ -29,29 +29,28 @@
  */
 
 
-var __DEBUG__ = false;
-
 var hop = require('hop');
 var path = require('path');
+var util = require('util');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
+var PKG_DIR = ENV.PATHS.PKG_DIR;
+var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
-var CONFIG_DIR = path.join(__dirname, '..', 'config');
+var svcUtils = require(path.join(INCLUDE_DIR, 'common',
+    'svc_utils.js'));
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
+var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/* ------------< Load and set global configuration parameters >-------------*/
-var SERVICE_NAME = 'record_cognitive_test_performance';
-var __hopServiceId = null;
+/* ------------< Load parameters >-------------*/
+var svcParams = ENV.SERVICES.cognitive_get_scores;
+var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
-
-var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -60,19 +59,17 @@ var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   }
 });
 
+
 /*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
+
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
-var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
+var timeout = svcParams.timeout; // ms
+var maxTries = svcParams.retries;
 /* ----------------------------------------------------------------------- */
-
-
-// Register communication interface with the master-process
-register_master_interface();
 
 
 
@@ -97,9 +94,26 @@ register_master_interface();
  *    when an error has been occured during service call.
  *
  */
-service record_cognitive_test_performance( {user: '', test_instance: '',
-  score: 0} )
+//service record_cognitive_test_performance( {user: '', test_instance: '',
+  //score: 0} )
+function svcImpl( kwargs )
 {
+  var req = new interfaces.client_req();
+  var error = '';
+
+  /* ------ Parse arguments ------ */
+  kwargs = kwargs || {};
+  for( var i in req ){
+    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
+  }
+  if( ! req.user ){
+    error = 'Empty \"user\" field';
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+
+
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
