@@ -45,14 +45,14 @@ class TestCurrentYWeatherReporter(unittest.TestCase):
         self._test_service = rospy.ServiceProxy(
             service_topic, WeatherReporterCurrentSrv)
 
-    @unittest.expectedFailure
+    #  @unittest.expectedFailure
     def test_check_default_values(self):
         req = WeatherReporterCurrentSrvRequest()
         response = self._test_service(req)
         self.assertEqual(response.error,
             "'City provided is wrong or not supported'")
 
-    @unittest.expectedFailure
+    #  @unittest.expectedFailure
     def test_actual_city(self):
         req = WeatherReporterCurrentSrvRequest()
         for city in self._cities:
@@ -61,11 +61,11 @@ class TestCurrentYWeatherReporter(unittest.TestCase):
             self.assertEqual(response.error, "")
             self.assertNotEqual(response.temperature, "")
 
-    @unittest.expectedFailure
+    #  @unittest.expectedFailure
     def test_random_city(self):
         req = WeatherReporterCurrentSrvRequest()
         req.city = \
-            ''.join(random.choice(string.ascii_letters) for _ in range(10))
+            ''.join(random.choice(string.ascii_letters) for _ in range(20))
         response = self._test_service(req)
         self.assertEqual(response.error,
             "'City provided is wrong or not supported'")

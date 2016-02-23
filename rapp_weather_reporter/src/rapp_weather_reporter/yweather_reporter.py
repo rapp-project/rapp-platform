@@ -40,17 +40,29 @@ class YWeatherReporter(WeatherReporterBase):
 
 
     def _fetch_city_id(self, city_str):
-        try:
-            city_id = self._client.fetch_woeid(city_str)
-        except (urllib2.URLError, xml.etree.ElementTree.ParseError) as err:
-            RappUtilities.rapp_print(err, 'ERROR')
-            raise RappError(err)
-        else:
-            if city_id is None:
-                err = 'City provided is wrong or not supported'
+        counter = 4
+        while counter != 0:
+            try:
+                city_id = self._client.fetch_woeid(city_str)
+            except urllib2.URLError as err:
+                RappUtilities.rapp_print(err, 'ERROR')
+                counter -= 1
+            except ( xml.etree.ElementTree.ParseError) as err:
                 RappUtilities.rapp_print(err, 'ERROR')
                 raise RappError(err)
-        return city_id
+            else:
+                if city_id is None:
+                    counter -= 1
+                else:
+                    return city_id
+
+        if city_id is None:
+            err = 'City provided is wrong or not supported'
+        else:
+            err = 'Yweather server error'
+        RappUtilities.rapp_print(err, 'ERROR')
+        raise RappError(err)
+
 
     def _fetch_yweather_report(self, city_id, param_metric='True'):
         try:
