@@ -2,14 +2,12 @@
 Header header
 # General string for simple queries
 string ontology_alias
-string test_type
+bool image_class_exists_in_ontology
+string image_ontology_class
+string image_path
+int32 timestamp
 ---
 # The results of the query
-string[] tests
-string[] subtypes
-string[] scores
-string[] difficulty
-string[] timestamps
 string[] trace
 bool success 
 string error
