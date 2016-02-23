@@ -48,7 +48,7 @@ var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.cognitive_get_scores;
+var svcParams = ENV.SERVICES.cognitive_record_performance;
 var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
 
@@ -107,11 +107,24 @@ function svcImpl( kwargs )
     req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
   }
   if( ! req.user ){
-    error = 'Empty \"user\" field';
+    error = 'Empty \"user\" argument';
     var response = svcUtils.errorResponse(new interfaces.client_res());
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
+  if( ! req.test_instance ){
+    error = 'Empty \"test_instance\" argument';
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  if( ! req.score ){
+    error = 'Empty \"score\" argument';
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  req.score = parseInt(req.score);
 
 
   // Assign a unique identification key for this service request.
@@ -120,7 +133,6 @@ function svcImpl( kwargs )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName + '}') );
 
   /***
    * Asynchronous http response
@@ -138,11 +150,10 @@ function svcImpl( kwargs )
       /* --------------------------------------------------- */
 
       // Fill Ros Service request msg parameters here.
-      var args = {
-        username: user,
-        test:     test_instance,
-        score:    parseInt(score)
-      };
+      var rosSvcReq = new interfaces.ros_req();
+      rosSvcReq.username = req.user;
+      rosSvcReq.test = req.test_instance;
+      rosSvcReq.score = req.score;
 
 
       /***
@@ -159,7 +170,7 @@ function svcImpl( kwargs )
         //console.log(data);
 
         // Craft client response using ros service ws response.
-        var response = craft_response( data );
+        var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -175,7 +186,7 @@ function svcImpl( kwargs )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        var response = craft_error_response();
+        var response = svcUtils.errorResponse(new interfaces.client_res());
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -183,7 +194,7 @@ function svcImpl( kwargs )
 
 
       // Invoke ROS-Service request.
-      ros.callService(rosSrvName, args,
+      ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
       /***
@@ -204,7 +215,6 @@ function svcImpl( kwargs )
           var logMsg = 'Reached rosbridge response timeout' + '---> [' +
             timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
             'Retry-' + retries;
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           /***
            * Fail. Did not receive message from rosbridge.
@@ -214,12 +224,10 @@ function svcImpl( kwargs )
           {
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
             execTime = new Date().getTime() - startT;
-            postMessage( craft_slaveMaster_msg('execTime', execTime) );
 
-            var response = craft_error_response();
+            var response = svcUtils.errorResponse(new interfaces.client_res());
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -247,7 +255,7 @@ function svcImpl( kwargs )
  *    when an error has been occured during service call.
  *
  */
-function craft_response(rosbridge_msg)
+function parseRosbridgeMsg(rosbridge_msg)
 {
   var performance_entry = rosbridge_msg.userCognitiveTestPerformanceEntry;
   var trace = rosbridge_msg.trace;
@@ -256,112 +264,22 @@ function craft_response(rosbridge_msg)
 
   var logMsg = 'Returning to client.';
 
-  var response = {
-    performance_entry: '',
-    error: ''
-  };
-
+  var response = new interfaces.client_res();
   response.performance_entry = performance_entry;
+  response.error = error;
 
   if ( ! success )
   {
     logMsg += ' ROS service [' + rosSrvName + '] error' +
       ' ---> ' + error;
-    response.error = (!error && trace.length) ?
-      trace[trace.length - 1] : error;
   }
   else
   {
     logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
 
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
   return response;
 }
 
 
-/***
- *  Craft service error response object. Used to return to client when an
- *  error has been occured, while processing client request.
- */
-function craft_error_response()
-{
-  var errorMsg = 'RAPP Platform Failure!';
-
-  var response = {
-    performance_entry: '',
-    error: errorMsg
-  };
-
-  var logMsg = 'Return to client with error --> ' + errorMsg;
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-  return response;
-}
-
-
-/***
- *  Register interface with the main hopjs process. After registration
- *  this worker service can communicate with the main hopjs process through
- *  websockets.
- *
- *  The global scoped postMessage is used in order to send messages to the main
- *  process.
- *  Furthermore, the global scoped onmessage callback function declares the
- *  handler for incoming messages from the hopjs main process.
- *
- *  Currently log messages are handled by the main process.
- */
-function register_master_interface()
-{
-  // Register onexit callback function
-  onexit = function(e){
-    console.log("Service [%s] exiting...", SERVICE_NAME);
-    var logMsg = "Received termination command. Exiting.";
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-  };
-
-  // Register onmessage callback function
-  onmessage = function(msg){
-    if (__DEBUG__)
-    {
-      console.log("Service [%s] received message from master process",
-        SERVICE_NAME);
-      console.log("Msg -->", msg.data);
-    }
-
-    var logMsg = 'Received message from master process --> [' +
-      msg.data + ']';
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-    var cmd = msg.data.cmdId;
-    var data = msg.data.data;
-    switch (cmd)
-    {
-      case 2055:  // Set worker ID
-        __hopServiceId = data;
-        break;
-      default:
-        break;
-    }
-  };
-
-  // On initialization inform master and append to log file
-  var logMsg = "Initiated worker";
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-}
-
-
-/***
- *  Returns master-process comm msg literal.
- */
-function craft_slaveMaster_msg(msgId, msg)
-{
-  var _msg = {
-    name: SERVICE_NAME,
-    id:   __hopServiceId,
-    msgId: msgId,
-    data: msg
-  };
-  return _msg;
-}
+registerSvc(svcImpl, svcParams);

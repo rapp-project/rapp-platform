@@ -47,6 +47,12 @@
     "services": [
       "cognitive_test_chooser"
     ]
+  },
+  "cognitive_record_performance": {
+    "launch": true,
+    "path": "workers/cognitive_record_performance/worker.js",
+    "services": [
+      "cognitive_record_performance"
+    ]
   }
-
 }
