@@ -23,3 +23,6 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+if (CATKIN_ENABLE_TESTING)
+  add_rostest(tests/google_news_explorer_test.launch)
+endif()

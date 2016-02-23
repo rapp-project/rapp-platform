@@ -76,6 +76,7 @@ class RappHttpRequestHandler(object):
         except requests.RequestException as err:
             RappUtilities.rapp_print(err, 'ERROR')
             raise RappError(err)
+        RappUtilities.rapp_print('URL: ' + response.url, 'DEBUG')
 
         if (isinstance(self._accepted_status, int) and
                 response.status_code == self._accepted_status) or \

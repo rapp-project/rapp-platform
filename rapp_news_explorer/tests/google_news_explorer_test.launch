@@ -1,0 +1,20 @@
+<launch>
+  <node
+    name="google_news_explorer_test"
+    pkg="rapp_news_explorer"
+    type="news_explorer_node.py"
+    output="screen"
+    />
+
+  <rosparam
+    file="$(find rapp_news_explorer)/cfg/news_explorer_params.yaml"
+    command="load"
+    />
+
+  <test
+    time-limit="100"
+    test-name="test_google_news"
+    pkg="rapp_news_explorer"
+    type="google_news_explorer_test.py"
+    />
+</launch>

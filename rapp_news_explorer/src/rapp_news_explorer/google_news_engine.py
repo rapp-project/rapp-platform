@@ -50,10 +50,22 @@ class GoogleNewsEngine(NewsEngineBase):
     #
     # @return [list<dict>] The server results containing the stories
     def fetch_news(self, req):
-        if req.storyNum <= 0:
+        if req.storyNum < 0:
             error = 'Requested negative number of news stories.'
             RappUtilities.rapp_print(error, 'ERROR')
             raise RappError(error)
+        elif req.storyNum == 0:
+            warn = 'Requested zero news stories. Providing default number of 5'
+            RappUtilities.rapp_print(warn, 'DEBUG')
+            req.storyNum = 5
+
+        if req.storyNum < self._max_stories:
+            max_stories = req.storyNum
+        else:
+            warn = 'Too many stories requested. Truncating to: ' + \
+                    str(self._max_stories)
+            RappUtilities.rapp_print(warn, 'DEBUG')
+            max_stories = self._max_stories
 
         max_stories = req.storyNum if req.storyNum < self._max_stories else \
             self._max_stories
@@ -77,18 +89,18 @@ class GoogleNewsEngine(NewsEngineBase):
                 raise err
 
             if response['responseStatus'] != 200:
-                err = 'Http request failed' + response['responseStatus']
+                err = 'Http request failed. Error code: ' + str(response['responseStatus'])
                 RappUtilities.rapp_print(err, 'ERROR')
-                raise err
+                raise RappError(err)
 
             # Process servers results. Extract titles etc and add to previous
             # results
             try:
-                self._handle_server_response(
+                final_stories = self._handle_server_response(
                     response, final_stories, req.excludeTitles)
             except RappError as err:
                 RappUtilities.rapp_print(err, 'ERROR')
-                raise err
+                raise RappError(err)
 
         # Keep the requested number of stories
         final_stories = final_stories[:max_stories]
@@ -108,14 +120,19 @@ class GoogleNewsEngine(NewsEngineBase):
                 'publishedDate': 'publishedDate',
                 'unescapedUrl': 'url'}
 
+        new_story_list = list(story_list)
         for result in response['responseData']['results']:
             story = {}
 
             story = self.rapp_http_json_parser.find_values(keys, result)
 
+            if story['title'] in exclude_list:
+                continue
+
             # Keep unique stories
-            story_list.append(story)
-            story_list = {v['title']: v for v in story_list}.values()
+            new_story_list.append(story)
+            new_story_list = {v['title']: v for v in new_story_list}.values()
+        return new_story_list
 
     ## @brief Create parameter dictionary for request module
     #
@@ -131,13 +148,13 @@ class GoogleNewsEngine(NewsEngineBase):
             if req.topic == '':
                 RappUtilities.rapp_print('Wrong query provided.' +
                                          ' Falling back to default topic',
-                                         'WARN')
-            params['topic'] = 'h'
+                                         'DEBUG')
+                params['topic'] = 'h'
         else:
             if req.topic != '':
                 RappUtilities.rapp_print('Provided both query and topic. ' +
                                          'Ignoring topic',
-                                         'WARN')
+                                         'DEBUG')
             params['q'] = query_str
 
         if req.regionEdition != '':

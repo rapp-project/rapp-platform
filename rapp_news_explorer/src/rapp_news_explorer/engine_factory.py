@@ -42,6 +42,9 @@ class EngineFactory(object):
 
         # Set google as a default news engine
         if engine == '':
+            RappUtilities.rapp_print('No search engine provided. Falling ' +
+                                     'back to default (Google News)',
+                                     'DEBUG')
             engine = 'google'
 
         if engine == 'google':
