@@ -1,0 +1,20 @@
+<launch>
+  <node
+    name="ip_api_geolocator_test"
+    pkg="rapp_geolocator"
+    type="geolocator_node.py"
+    output="screen"
+    />
+
+  <rosparam
+    file="$(find rapp_geolocator)/cfg/geolocator_params.yaml"
+    command="load"
+    />
+
+  <test
+    time-limit="100"
+    test-name="test_ip_api_news"
+    pkg="rapp_geolocator"
+    type="ip_api_geolocator_test.py"
+    />
+</launch>

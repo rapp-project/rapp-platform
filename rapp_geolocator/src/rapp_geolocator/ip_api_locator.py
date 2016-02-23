@@ -43,6 +43,10 @@ class IpAPILocator(GeolocatorBase):
     # @return [dict] The server results
     def fetch_geolocation(self, req):
 
+        if req.ip == '':
+            err = 'No IP provided'
+            raise RappError(err)
+
         try:
             response = self._http_request.perform_request(self._url + req.ip)
         except RappError as err:
