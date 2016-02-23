@@ -15,7 +15,6 @@
 #limitations under the License.
 
 from rapp_news_explorer.news_explorer_node import NewsExplorerNode
-from rapp_news_explorer.rapp_html_parser import RappHTMLParser
 from rapp_news_explorer.engine_factory import EngineFactory
 from rapp_news_explorer.news_engine_base import NewsEngineBase
 from rapp_news_explorer.google_news_engine import GoogleNewsEngine

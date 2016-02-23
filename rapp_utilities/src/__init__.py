@@ -18,3 +18,4 @@ from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 from rapp_http_request_handler import RappHttpRequestHandler
 from rapp_http_json_parser import RappHttpJSONParser
+from rapp_html_parser import RappHTMLParser
