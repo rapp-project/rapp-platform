@@ -28,6 +28,7 @@
  *
  */
 
+var winston;
 try{
   winston = require('winston');
 }

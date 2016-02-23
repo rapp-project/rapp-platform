@@ -54,5 +54,12 @@
     "services": [
       "cognitive_record_performance"
     ]
+  },
+  "email_support": {
+    "launch": true,
+    "path": "workers/email_support/worker.js",
+    "services": [
+      "email_send"
+    ]
   }
 }

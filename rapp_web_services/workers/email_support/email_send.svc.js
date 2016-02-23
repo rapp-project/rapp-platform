@@ -40,6 +40,7 @@ var svcUtils = require(path.join(INCLUDE_DIR, 'common',
     'svc_utils.js'));
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
+var zip = require( path.join(INCLUDE_DIR, 'common', 'zip.js') );
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
@@ -50,7 +51,7 @@ var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.face_detection;
+var svcParams = ENV.SERVICES.email_send;
 var SERVICE_NAME = svcParams.name;
 var rosSrvName = svcParams.ros_srv_name;
 
@@ -98,27 +99,27 @@ var maxTries = svcParams.retries;
  */
 function svcImpl ( kwargs )
 {
-  kwargs = kwargs || {};
-  var file_uri = kwargs.file_uri || '';
-  var fast = kwargs.fast || false;
+  var req = new interfaces.client_req();
+  var error = '';
 
-  if( ! file_uri ){
-    var response = svcUtils.errorResponse(new interfaces.client_res());
-    return hop.HTTPResponseJson(response);
+  /* ------ Parse arguments ------ */
+  kwargs = kwargs || {};
+  for( var i in req ){
+    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
   }
+
 
   /***
    *  For security reasons, if file_uri is not defined under the
    *  server_cache_dir do not operate. HOP server stores the files under the
    *  SERVER_CACHE_DIR directory.
    */
-  if( file_uri.indexOf(SERVER_CACHE_DIR) === -1 )
+  if( (! req.file_uri) || (req.file_uri.indexOf(SERVER_CACHE_DIR) === -1) )
   {
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
         " Abortion for security reasons.";
     var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
-
   }
   /* ----------------------------------------------------------------------- */
 
@@ -128,10 +129,10 @@ function svcImpl ( kwargs )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  var logMsg = 'Image stored at [' + file_uri + ']';
+  var logMsg = 'Image stored at [' + req.file_uri + ']';
 
   /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var fileUrl = file_uri.split('/');
+  var fileUrl = req.file_uri.split('/');
   var fileName = fileUrl[fileUrl.length -1];
 
   var cpFilePath = SERVICES_CACHE_DIR + fileName.split('.')[0] + '-'  +
@@ -141,25 +142,22 @@ function svcImpl ( kwargs )
 
 
   /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(file_uri, cpFilePath) === false)
+  if (Fs.renameFile(req.file_uri, cpFilePath) === false)
   {
     //could not rename file. Probably cannot access the file. Return to client!
-    var logMsg = 'Failed to rename file: [' + file_uri + '] --> [' +
+    var logMsg = 'Failed to rename file: [' + req.file_uri + '] --> [' +
       cpFilePath + ']';
 
-    Fs.rmFile(file_uri);
+    Fs.rmFile(req.file_uri);
     randStrGen.removeCached(unqCallId);
     var response = svcUtils.errorResponse(new interfaces.client_res());
     return hop.HTTPResponseJson(response);
   }
-  logMsg = 'Created copy of file ' + file_uri + ' at ' + cpFilePath;
+  logMsg = 'Created copy of file ' + req.file_uri + ' at ' + cpFilePath;
   /*-------------------------------------------------------------------------*/
-
-  // Workaround for bool and hop
-  if (fast == 'True' || fast == 'true'){ fast = true; }
-  //else { fast_input = false;}
-  if (fast == 'False' || fast == 'false'){ fast = false; }
-
+  console.log(cpFilePath)
+  zip.unzip(cpFilePath)
+  return hop.HTTPResponseJson({error: 'Poutses'})
   /***
    * Asynchronous http response
    */

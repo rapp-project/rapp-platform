@@ -30,12 +30,27 @@ var clientRes = function( faces, error ){
 };
 
 
-var clientReq = function( filepath, fast ){
+var clientReq = function( filepath, email, passwd, server, port,
+  recipients, body, subject)
+{
   filepath = filepath || '';
-  fast = fast || false;
+  email = email || '';
+  passwd = passwd || '';
+  server = server || '';
+  port = port || '';
+  recipients = recipients || [];
+  body = body || '';
+  subject = subject || '';
+
   var obj = {
     file_uri: filepath,
-    fast: fast
+    email: email,
+    passwd: passwd,
+    server: server,
+    port: port,
+    recipients: recipients,
+    body: body,
+    subject: subject
   };
   return obj;
 };
