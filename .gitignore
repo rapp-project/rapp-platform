@@ -68,6 +68,7 @@ Thumbs.db
 *.rar
 *.tar
 *.zip
+!rapp_testing_tools/test_data/zip_files/*.zip
 
 
 # General #
