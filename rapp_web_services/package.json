@@ -9,7 +9,10 @@
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-jsdoc": "~1.1.0",
     "ink-docstrap": "~0.5.2",
-    "grunt-shell": "~1.1.2",
-    "winston": "~2.1.1"
+    "grunt-shell": "~1.1.2"
+  },
+  "dependencies": {
+    "winston": "~2.1.1",
+    "adm-zip": "~0.4.7"
   }
 }
