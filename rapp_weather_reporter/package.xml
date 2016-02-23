@@ -17,6 +17,8 @@
   <depend>rapp_platform_ros_communications</depend>
   <depend>rapp_utilities</depend>
 
+  <test_depend>rostest</test_depend>
+
   <export>
   </export>
 

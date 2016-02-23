@@ -31,16 +31,16 @@ class WeatherReporterFactory(object):
 
     ## @brief Select proper weather reporter according to request
     #
-    # @param weather_reporter [string] The name of the weather reporter 
+    # @param weather_reporter [string] The name of the weather reporter
     #
     # @return res
     #  [rapp_weather_reporter.rapp_weather_reporter.WeatherReporterBase]
-    #  The weather reporter 
+    #  The weather reporter
     #
     # @exceptions RappError Wrong weather reporter provided by user
     def select_weather_reporter(self, weather_reporter=''):
 
-        # Set yweather(Yahoo) as a default weather reporter 
+        # Set yweather(Yahoo) as a default weather reporter
         if weather_reporter == '':
             weather_reporter = 'yweather'
 

@@ -23,3 +23,7 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+if (CATKIN_ENABLE_TESTING)
+  add_rostest(tests/yweather_reporter_current_test.launch)
+  add_rostest(tests/yweather_reporter_forecast_test.launch)
+endif()

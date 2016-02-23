@@ -1,0 +1,20 @@
+<launch>
+  <node
+    name="yweather_reporter_current_test"
+    pkg="rapp_weather_reporter"
+    type="weather_reporter_node.py"
+    output="screen"
+    />
+
+  <rosparam
+    file="$(find rapp_weather_reporter)/cfg/weather_reporter_params.yaml"
+    command="load"
+    />
+
+  <test
+    time-limit="100"
+    test-name="test_current_yweather_reporter"
+    pkg="rapp_weather_reporter"
+    type="yweather_reporter_current_test.py"
+    />
+</launch>
