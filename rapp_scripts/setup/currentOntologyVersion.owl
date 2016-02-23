@@ -26614,8 +26614,18 @@ Note that a physical object, being three-dimensional, can only be partially loca
 </owl:Class>
 
 <owl:ObjectProperty rdf:about="&knowrob;belongsToUser">
-  <rdfs:domain rdf:resource="&knowrob;Person"/>
   <rdfs:range rdf:resource="&knowrob;Thing"/>
+  <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="&knowrob;imageFilePath">
+  <rdfs:range rdf:resource="&xsd;string"/> 
+  <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:about="&knowrob;imageCreationTimestamp">
+  <rdfs:range rdf:resource="&xsd;int"/>
+  <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
 </owl:ObjectProperty>
 
 <owl:Class rdf:about="&knowrob;SandwichShop-FastFoodRestaurant">
