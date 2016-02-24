@@ -122,8 +122,8 @@ class LimitedVocabularyCreator():
       gram_words = gram.split(" ")
       for gw in gram_words:
           if gw not in words and gram not in words:
-              raise RappError('Word ' + gw + ' is not in words but\
-                      exists in grammar')
+              raise RappError('Word ' + gw +
+                      ' is not in words but exists in grammar')
 
       custom_grammar.write("public <cmd" + str(counter) + ">=" + "\"" + gram + "\";\n")
       #custom_grammar.write("\"" + gram + "\"")
@@ -146,8 +146,8 @@ class LimitedVocabularyCreator():
         sent_words = sent.split(" ")
         for sw in sent_words:
             if sw not in words and sent not in words:
-                raise RappError('Word ' + sw + ' is not in words but\
-                      exists in a sentence')
+                raise RappError('Word ' + sw +
+                        ' is not in words but exists in a sentence')
 
         custom_sentences.write("<s> " + sent + " </s>\n")
     else:

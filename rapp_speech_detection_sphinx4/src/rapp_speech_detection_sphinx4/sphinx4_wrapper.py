@@ -377,31 +377,10 @@ class Sphinx4Wrapper():
         else:
             break
 
-    backup_directory = \
-        os.path.expanduser("~/rapp_platform_files/rapp_speech_recognition_sphinx4/")\
-        + user
-    if not os.path.isdir(backup_directory):
-      os.makedirs(backup_directory)
-
-    # Keep the original file:
-    command = "cp " + audio_file + " " + backup_directory + "/" + \
-            audio_file.split("/")[-1]
-    com_res = os.system(command)
-    if com_res != 0:
-      return ["Error: Server cp malfunctioned"]
-
     for f in audio_to_be_erased:
-      clean_file = f.split("/")[-1]
-      command = "cp " + f + " " + backup_directory + \
-          "/" + clean_file
-      os.system(command)
-      if com_res != 0:
-        return ["Error: Server cp malfunctioned"]
-
-    for f in audio_to_be_erased:
-      command = "rm " + f
-      os.system(command)
-      if com_res != 0:
+      try:
+          os.remove(f)
+      except OSError as e:
         return ["Error: Server rm malfunctioned"]
 
     return words

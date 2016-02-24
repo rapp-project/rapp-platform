@@ -250,8 +250,8 @@ class SpeechRecognitionSphinx4():
       return res
 
     # Actual sphinx4 configuration
-    RappUtilities.rapp_print ("Configuration: \n")
-    RappUtilities.rapp_print (conf)
+    RappUtilities.rapp_print("Configuration: \n")
+    RappUtilities.rapp_print(conf)
     self._sphinx4.configureSphinx(conf)
     return res
 
