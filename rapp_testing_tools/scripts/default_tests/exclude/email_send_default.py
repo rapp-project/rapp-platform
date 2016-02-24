@@ -34,13 +34,16 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    self.zipFile = join(pkgDir, 'test_data', 'image_audio_sample.zip')
+    self.zipFile = join(pkgDir, 'test_data', 'zip_files', \
+            'image_audio_sample.zip')
+    # self.zipFile = join(pkgDir, 'test_data',
+            # 'Lenna.png')
     self.svcReq = {
-      'email': 'klpanagi@gmail.com',
-      'passwd': '1234',
-      'server': '',
-      'port': '9004',
-      'recipients': ['a','b'],
+      'email': "rapp.platform@gmail.com",
+      'passwd': '',
+      'server': 'smtp.gmail.com',
+      'port': '587',
+      'recipients': ['klpanagi@gmail.com', 'rapp.platform@gmail.com'],
       'body': 'Email body rapp test',
       'subject': 'Rapp Test',
       'file': self.zipFile

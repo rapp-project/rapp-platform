@@ -29,6 +29,7 @@
  */
 
 var AdmZip;
+var RAND_STR_LENGTH = 5;
 
 try{
   AdmZip = require('adm-zip');
@@ -40,12 +41,17 @@ catch( e ){
 var fs = require('fs');
 var path = require('path');
 
+var RandStrGen = require(path.join(__dirname, 'randStringGen.js'));
+var strGen = new RandStrGen( RAND_STR_LENGTH );
 
-function _unzip(zipFilepath, outPath){
+var Fs = require(path.join(__dirname, 'fileUtils.js'));
+
+
+function _unzip( zipFilepath, outPath ){
   if(! outPath){
-    outPath = path.dirname(zipFilepath);
+    var ext = strGen.createUnique();
+    outPath = path.join(path.dirname(zipFilepath), ext);
   }
-  console.log(outPath);
   //var readStream = fs.createReadStream(zipFilepath);
   //var writeStream = fs.createWriteStream(outPath);
   try{
@@ -56,10 +62,31 @@ function _unzip(zipFilepath, outPath){
     console.error(e);
     return false;
   }
-  return true;
+  var files = Fs.lsSync(outPath);
+  var filepaths = [];
+  for( var i in files ){
+    filepaths.push(path.join(outPath, files[i]));
+  }
+  var stat = {
+    files: files,
+    outpath: outPath,
+    filepaths: filepaths
+  };
+  return stat;
 }
 
 
+function isZipFile( zipFilepath ){
+  try{
+    var zip = new AdmZip(zipFilepath);
+  }
+  catch(e){
+    return false;
+  }
+  return true;
+}
+
 module.exports = {
-  unzip: _unzip
+  unzip: _unzip,
+  isZipFile: isZipFile
 };
