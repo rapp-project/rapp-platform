@@ -107,6 +107,25 @@ function svcImpl ( kwargs )
   for( var i in req ){
     req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
   }
+  if( ! req.email ){
+    error = 'Empty \"email\" argument';
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  req.recipients = JSON.parse(req.recipients) || [];
+  if( ! req.recipients ){
+    error = 'Empty \"recipients\" argument';
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  if( ! req.server ){
+    error = 'Empty \"server\" argument';
+    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
 
 
   /***
@@ -155,9 +174,15 @@ function svcImpl ( kwargs )
   }
   logMsg = 'Created copy of file ' + req.file_uri + ' at ' + cpFilePath;
   /*-------------------------------------------------------------------------*/
-  console.log(cpFilePath)
-  zip.unzip(cpFilePath)
-  return hop.HTTPResponseJson({error: 'Poutses'})
+
+  var _files = [];
+  if( zip.isZipFile(cpFilePath) ){
+    _files = zip.unzip(cpFilePath).filepaths;
+  }
+  else{
+    _files.push(cpFilePath);
+  }
+
   /***
    * Asynchronous http response
    */
@@ -175,8 +200,14 @@ function svcImpl ( kwargs )
 
       // Fill Ros Service request msg parameters here.
       var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.imageFilename = cpFilePath;
-      rosSvcReq.fast = fast;
+      rosSvcReq.userEmail = req.email;
+      rosSvcReq.password = req.passwd;
+      rosSvcReq.server = req.server;
+      rosSvcReq.port = req.port;
+      rosSvcReq.recipients = req.recipients;
+      rosSvcReq.body = req.body;
+      rosSvcReq.subject = req.subject;
+      rosSvcReq.files = _files;
 
 
       /***
@@ -285,43 +316,13 @@ function svcImpl ( kwargs )
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
-  var faces_up_left = rosbridge_msg.faces_up_left;
-  var faces_down_right = rosbridge_msg.faces_down_right;
-  var error = rosbridge_msg.error;
-  var numFaces = faces_up_left.length;
-
+  var success = rosbridge_msg.status;
   var logMsg = 'Returning to client';
 
   var response = new interfaces.client_res();
 
-  for (var ii = 0; ii < numFaces; ii++)
-  {
-    /***
-     * @namespace face
-     * @property up_left_point - Face bounding box, up-left-point
-     */
-    var face = {
-      up_left_point: {x: 0, y:0},
-      down_right_point: {x: 0, y: 0}
-    };
-
-    face.up_left_point.x = faces_up_left[ii].point.x;
-    face.up_left_point.y = faces_up_left[ii].point.y;
-    face.down_right_point.x = faces_down_right[ii].point.x;
-    face.down_right_point.y = faces_down_right[ii].point.y;
-    response.faces.push( face );
-  }
-
-  response.error = error;
-
-  if (error !== '')
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
-  }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
+  if( success < 0 ){
+    response.error = "Failed to send email";
   }
 
   return response;

@@ -16,7 +16,7 @@
     "url_name": "available_services",
     "namespace": "",
     "scan_time": 2,
-    "initial_scan_wait": 1000
+    "initial_scan_wait": 5000
   },
   "user_personal_info":{
     "launch": true,
@@ -86,7 +86,7 @@
     "namespace": "",
     "timeout": 15000,
     "retries": 1,
-    "ros_srv_name": "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance"
+    "ros_srv_name": "/rapp/rapp_email_send/send_email"
   }
 
 }

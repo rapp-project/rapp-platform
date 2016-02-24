@@ -19,12 +19,10 @@
  */
 
 
-var clientRes = function( faces, error ){
-  faces = faces || [];
+var clientRes = function( error ){
   error = error || '';
   var obj = {
-    faces: faces,
-    error: faces
+    error: error
   };
   return obj;
 };
@@ -56,19 +54,39 @@ var clientReq = function( filepath, email, passwd, server, port,
 };
 
 
-var rosReq = function( filepath, fast ){
-  filepath = filepath || '';
-  fast = fast || false;
+var rosReq = function( files, email, passwd, server, port,
+  recipients, body, subject)
+{
+  files = files || [];
+  email = email || '';
+  passwd = passwd || '';
+  server = server || '';
+  port = port || '';
+  recipients = recipients || [];
+  body = body || '';
+  subject = subject || '';
+
   var obj = {
-    imageFilename: filepath,
-    fast: fast
+    files: files,
+    userEmail: email,
+    password: passwd,
+    server: server,
+    port: port,
+    recipients: recipients,
+    body: body,
+    subject: subject
   };
   return obj;
 };
 
 
 var rosRes = function(){
+  var stat = 0;
 
+  var obj = {
+    status: stat
+  };
+  return obj;
 };
 
 exports.client_res = clientRes;
