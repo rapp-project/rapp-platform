@@ -126,7 +126,7 @@ class GoogleNewsEngine(NewsEngineBase):
 
             story = self.rapp_http_json_parser.find_values(keys, result)
 
-            if story['title'] in exclude_list:
+            if story['title'].encode('utf-8') in exclude_list:
                 continue
 
             # Keep unique stories
@@ -159,6 +159,7 @@ class GoogleNewsEngine(NewsEngineBase):
 
         if req.regionEdition != '':
             params['ned'] = req.regionEdition
+        #  params['start'] = str(iters * int(self._params['rsz']) % 64)
         params['start'] = str(iters)
 
         params.update(self._params)
