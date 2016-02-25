@@ -24,7 +24,8 @@
 RappPlatformPath="${HOME}/rapp_platform"
 NoiseProfilesPath="$HOME/rapp_platform_files/audio_processing/rapp/noise_profile"
 cmusphinxUrl="https://github.com/skerit/cmusphinx"
-sphinxbaseUrl="https://github.com/cmusphinx/sphinxbase.git"
+# sphinxbaseUrl="https://github.com/cmusphinx/sphinxbase.git"
+sphinxbaseUrl="https://github.com/rapp-project/sphinxbase.git"
 
 #download and compile sphinx4 extra libraries
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Libraries \e[0m"
@@ -45,7 +46,7 @@ sudo make install &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Sphinx4 Base \e[0m"
 cd ${RappPlatformPath}
-git clone ${sphinxbaseUrl} &> /dev/null
+git clone -b rapp_stable ${sphinxbaseUrl} &> /dev/null
 cd sphinxbase
 ./autogen.sh &> /dev/null
 make &> /dev/null

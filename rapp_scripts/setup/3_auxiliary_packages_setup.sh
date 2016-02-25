@@ -41,7 +41,7 @@ sudo apt-get install -y npm nodejs -qq &> /dev/null
 sudo ln -s /usr/bin/nodejs /usr/bin/node
 
 # Install python yweather package
-sudo pip install yweather
+sudo pip install yweather &> /dev/null
 
 # Grunt-Cli
 sudo npm install -g grunt-cli &> /dev/null
