@@ -8,4 +8,7 @@
   <include file="$(find rapp_text_to_speech_espeak)/launch/text_to_speech_espeak.launch" />
   <include file="$(find rapp_cognitive_exercise)/launch/cognitive_exercise.launch" />
   <include file="$(find rapp_email)/launch/email.launch" />
+  <include file="$(find rapp_geolocator)/launch/geolocator.launch" />
+  <include file="$(find rapp_news_explorer)/launch/news_explorer.launch" />
+  <include file="$(find rapp_weather_reporter)/launch/weather_reporter.launch" />
 </launch>
