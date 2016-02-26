@@ -53,9 +53,9 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 var svcParams = ENV.SERVICES.text_to_speech;
 var SERVICE_NAME = svcParams.name;
 var rosSrvName = svcParams.ros_srv_name;
-var audioOutFormat = svcParams.audio_file_format;
+var audioOutFormat = svcParams.audio_file_format || "wav";
 var audioOutPath = ENV.PATHS.SERVICES_CACHE_DIR;
-var basenamePrefix = svcParams.basename;
+var basenamePrefix = svcParams.audio_file_basename || "tts_";
 /* ----------------------------------------------------------------------- */
 
 // Instantiate interface to rosbridge-websocket-server
@@ -114,6 +114,7 @@ function svcImpl( kwargs )
   }
   if ( ! req.text ){
     error = 'Empty \"text\" field';
+    response.error = error;
     return hop.HTTPResponseJson(response);
   }
   if ( ! req.language ){
@@ -167,9 +168,11 @@ function svcImpl( kwargs )
         //console.log(data);
 
         // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data, audioOutPath );
+        var response = parseRosbridgeMsg( data, filePath );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
+        // Remove audio file.
+        Fs.rmFile(filePath);
         retClientFlag = true;
       }
 
@@ -228,6 +231,7 @@ function svcImpl( kwargs )
 
             var response = new interfaces.client_res();
             response.error = svcUtils.ERROR_MSG_DEFAULT;
+
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -276,3 +280,4 @@ function parseRosbridgeMsg(rosbridge_msg, audioFilePath)
 }
 
 
+registerSvc(svcImpl, svcParams);
