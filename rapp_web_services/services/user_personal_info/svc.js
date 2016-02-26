@@ -19,38 +19,15 @@
  */
 
 
-
 /***
  * @fileOverview
  *
- * [Cognitive-get-scores] RAPP Platform front-end web service.
+ * [Rapp-Platform-Status] RAPP Platform front-end web service. HTML response.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
- *
- *  Basic Components (modules)
- *
- *      hop = require('hop').
- *        Import and use hopjs functionalities.
- *        For more information visit:
- *            https://github.com/manuel-serrano/hop
- *
- *      RosBridgeJS.js
- *        Use this module to achieve communication with ROS-framework.
- *        This module integrates a service controller to connect to
- *        the rosbridge-websocket-server.
- *        For more information on rosbridge-websocket-server visit:
- *            http://wiki.ros.org/rosbridge_suite
- *
- *        For more information on the RosBridgeJS module visit:
- *            https://github.com/klpanagi/RosBridgeJS
- *
- *      RandStrGenerator.js
- *        Random string generator class to generate cached unique
- *        identity keys. Used to generate a unique id for each client
- *        service request.
- *
  */
+
 
 var hop = require('hop');
 var path = require('path');
@@ -71,7 +48,7 @@ var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.cognitive_get_scores;
+var svcParams = ENV.SERVICES.user_personal_info;
 var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
 
@@ -88,81 +65,64 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-
 /* ------< Set timer values for websocket communication to rosbridge> ----- */
 var timeout = svcParams.timeout; // ms
 var maxTries = svcParams.retries;
 /* ----------------------------------------------------------------------- */
 
-/**
- *  [Cognitive-get-scores] RAPP Platform front-end web service.
- *  Handles requests for cognitive-get-scores query.
- *
- *  @function cognitive_get_scores
- *
- *  @param {Object} args - Service input arguments (literal).
- *  @param {String} args.user - Username.
- *  @param {Number} args.up_to_time - Retrieve scores for up-to-time value.
- *  @param {String} args.test_type - Cognitive Exercise Type.
- *
- *
- *  @returns {Object} response - JSON HTTPResponse Object.
- *    Asynchronous HTTP Response.
- *  @returns {Array} response.test_classes - Cognitive Exercise test classes.
- *  @returnds {Array} response.scores - Performance scores on Cognitive
- *    Exercises.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
- *
- */
+
 function svcImpl( kwargs )
 {
-  var req = new interfaces.client_req();
-  var error = '';
-
-  /* ------ Parse arguments ------ */
   kwargs = kwargs || {};
-  for( var i in req ){
-    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
-  }
-  if( ! req.user ){
+  /* ------ Parse arguments ------ */
+  var user = kwargs.user || '';
+  if( ! user ){
     error = 'Empty \"user\" field';
-    var response = svcUtils.errorResponse(new interfaces.client_res());
+    var response = new interfaces.client_res();
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
-
+  /* ----------------------------- */
 
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
   /***
-   * Asynchronous http response.
+   * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
 
       /***
        *  Status flags.
-       *===========================*/
+       */
       var respFlag = false;
       var retClientFlag = false;
       var wsError = false;
       var retries = 0;
-      /*===========================*/
+      /* --------------------------------------------------- */
 
+      // Fill Ros Service request msg parameters here.
       var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.username = req.user;
-      rosSvcReq.upToTime = parseInt(req.up_to_time);
-      rosSvcReq.testType = req.test_type;
+      rosSvcReq.req_cols = [
+        'username', 'firstname', 'lastname', 'email',
+        'language', 'ontology_alias', 'usrgroup', 'created'];
+      rosSvcReq.where_data = [{s: ['username', user]}];
 
 
+      /***
+       * Declare the service response callback here!!
+       * This callback function will be passed into the rosbridge service
+       * controller and will be called when a response from rosbridge
+       * websocket server arrives.
+       */
       function callback(data){
         respFlag = true;
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         //console.log(data);
+
         // Craft client response using ros service ws response.
         var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
@@ -170,29 +130,38 @@ function svcImpl( kwargs )
         retClientFlag = true;
       }
 
+      /***
+       * Declare the onerror callback.
+       * The onerror callack function will be called by the service
+       * controller as soon as an error occures, on service request.
+       */
       function onerror(e){
         respFlag = true;
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        // craft error response
-        var response = svcUtils.errorResponse(new interfaces.client_res());
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
 
+      // Invoke ROS-Service request.
       ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
-
+      /***
+       * Set Timeout wrapping function.
+       * Polling in defined time-cycle. Catch timeout connections etc...
+       */
       function asyncWrap(){
         setTimeout( function(){
 
          /***
-          * If received message from rosbridge websocket server or an error
-          * on websocket connection, stop timeout events.
+          *   If received message from rosbridge websocket server or an error
+          *   on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -207,15 +176,15 @@ function svcImpl( kwargs )
            * Return to client.
            */
           if ( retries >= maxTries )
-        {
-            randStrGen.removeCached( unqCallId );
-
+          {
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
 
-            var response = svcUtils.errorResponse(new interfaces.client_res());
+            execTime = new Date().getTime() - startT;
 
-            // Asynchronous client response.
+            var response = new interfaces.client_res();
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
+
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -226,46 +195,33 @@ function svcImpl( kwargs )
         }, timeout);
       }
       asyncWrap();
-      /*=====================================================================*/
     }, this );
+
 }
 
 
 
-/***
- * Craft response object.
- *
- *  @param {Object} rosbridge_msg - Return message from rosbridge
- *  @returns {Object} response - Response Object.
- *
- */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var trace = rosbridge_msg.trace;
-  var success = rosbridge_msg.success;
-  var error = rosbridge_msg.error;
-
-  var testCategories = rosbridge_msg.testCategories;
-  var testScores = rosbridge_msg.testScores;
-
-  var logMsg = 'Returning to client';
+  var resCols = rosbridge_msg.res_cols;
+  var resData = rosbridge_msg.res_data;
+  var userInfo = resData.length > 0 ? resData[0].s : [];
+  var error = rosbridge_msg.error || '';
 
   var response = new interfaces.client_res();
-  response.test_classes = testCategories;
-  response.scores = testScores;
-  response.error = error;
 
-  if (error !== '')
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
+  if( error ){
+    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    return response;
   }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
+
+  for (var ii = 0; ii < resCols.length; ii++){
+    response.user_info[resCols[ii]] = userInfo[ii];
   }
 
   return response;
 }
+
 
 registerSvc(svcImpl, svcParams);

@@ -94,8 +94,20 @@ var launchSvcAll = function(){
 
   for( var i in workerSvc ){
     if( ENV.SERVICES[ workerSvc[i] ].launch ){
-      require( path.join(workerDir,
-        ENV.SERVICES[ workerSvc[i] ].name + '.svc.js'));
+
+      if( ENV.SERVICES[ workerSvc[i] ].path ){
+        require(
+          path.join(ENV.PATHS.SERVICES_DIR, ENV.SERVICES[ workerSvc[i] ].path)
+        );
+      }
+      else{
+        require(
+          path.join(
+            ENV.PATHS.SERVICES_DIR,
+            ENV.SERVICES[ workerSvc[i] ].name, 'svc.js'
+          )
+        );
+      }
     }
   }
 };

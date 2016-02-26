@@ -117,6 +117,7 @@ var maxTries = svcParams.retries;
 function svcImpl( kwargs )
 {
   var req = new interfaces.client_req();
+  var response = new interfaces.client_res();
   var error = '';
 
   /* ------ Parse arguments ------ */
@@ -126,7 +127,6 @@ function svcImpl( kwargs )
   }
   if( ! req.user ){
     error = 'Empty \"user\" field';
-    var response = svcUtils.errorResponse(new interfaces.client_res());
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
@@ -175,7 +175,8 @@ function svcImpl( kwargs )
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         // craft error response
-        var response = svcUtils.errorResponse(new interfaces.client_res());
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -205,14 +206,14 @@ function svcImpl( kwargs )
            * Fail. Did not receive message from rosbridge.
            * Return to client.
            */
-          if ( retries >= maxTries )
-        {
+          if ( retries >= maxTries ){
             randStrGen.removeCached( unqCallId );
 
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
 
-            var response = svcUtils.errorResponse(new interfaces.client_res());
+            var response = new interfaces.client_res();
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
 
             // Asynchronous client response.
             sendResponse( hop.HTTPResponseJson(response));
@@ -248,9 +249,11 @@ function parseRosbridgeMsg(rosbridge_msg)
   var testClasses = rosbridge_msg.testCategories;
 
   var response = new interfaces.client_res();
-  response.error = error;
 
-  var logMsg = 'Returning to client';
+  if( error ){
+    response.error = error;
+    return response;
+  }
 
   for( var ii = 0; ii < testClasses.length; ii++ ){
     try{
@@ -260,16 +263,6 @@ function parseRosbridgeMsg(rosbridge_msg)
     catch(e){
       response.records[testClasses[ii].toLowerCase()] = [];
     }
-  }
-
-  if (error !== '')
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
-  }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
 
   return response;

@@ -22,7 +22,7 @@
 /***
  * @fileOverview
  *
- * [Face-Detection] RAPP Platform front-end web service.
+ * [Cognitive-Test-Chooser] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -39,8 +39,6 @@ var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 var svcUtils = require(path.join(INCLUDE_DIR, 'common',
     'svc_utils.js'));
 
-var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
-
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
@@ -50,20 +48,17 @@ var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.face_detection;
-var SERVICE_NAME = svcParams.name;
+var svcParams = ENV.SERVICES.cognitive_test_chooser;
 var rosSrvName = svcParams.ros_srv_name;
-
-var SERVICES_CACHE_DIR = ENV.PATHS.SERVICES_CACHE_DIR;
-var SERVER_CACHE_DIR = ENV.PATHS.SERVER_CACHE_DIR;
 /* ----------------------------------------------------------------------- */
 
-// Instantiate interface to rosbridge-websocket-server
+// Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   reconnect: true, onconnection: function(){
     // .
   }
 });
+
 
 /*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
@@ -77,93 +72,67 @@ var maxTries = svcParams.retries;
 
 
 /**
- *  [Face-Detection] RAPP Platform front-end web service.
- *  <p> Serves requests for face_detection on given input image frame.</p>
+ *  [Cognitive-Test-Chooser] RAPP Platform front-end web service.
+ *  <p>Serves requests for cognitive-exercise selection</p>
  *
- *  @function face_detection
+ *  @function cognitive_test_chooser
  *
- *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} args.file_uri - System uri path of transfered (client)
- *    file, as declared in multipart/form-data post field. The file_uri is
- *    handled and forwared to this service, as input argument,
- *    by the HOP front-end server.
- *    Clients are responsible to declare this field in the multipart/form-data
- *    post field.
+ *  @param {Object} args - Service input arguments (literal).
+ *  @param {String} args.user - Registered username.
+ *  @param {String} args.test_type - Exercise test-type to request.
+ *
+ *  Currently available test types are:
+ *  <ul>
+ *    <li>ArithmericCts</li>
+ *    <li>ReasoningCts</li>
+ *    <li>AwarenessCts</li>
+ *  </ul>
+ *    By passing an empty string (''), the RAPP Platform Cognitive Exercises
+ *    System is responsible to return a test based on previous user's
+ *    performances.
+ *
  *
  *  @returns {Object} response - JSON HTTPResponse Object.
  *    Asynchronous HTTP Response.
- *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {String} response.lang - Language.
+ *  @returns {Array} response.questions - Vector of questions, for selected
+ *    exercise.
+ *  @returns {Array} response.possib_ans - Array of possible answers, for
+ *    selected exercise.
+ *  @returns {Array} response.correct_ans - Vector of correct answers, for
+ *    selected exercise.
+ *  @returns {String} response.test_instance - Selected Exercise's
+ *    test instance name.
+ *  @returns {String} response.test_type - Test-type of selected exercise.
+ *  @returns {String} response.test_subtype - Test-subtype of selected
+ *    exercise.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
+ *
  */
-function svcImpl ( kwargs )
+function svcImpl( kwargs )
 {
   var req = new interfaces.client_req();
+  var response = new interfaces.client_res();
   var error = '';
 
+  /* ------ Parse arguments ------ */
   kwargs = kwargs || {};
   for( var i in req ){
     req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
   }
-  // Workaround for bool and hop
-  if (req.fast === 'True' || req.fast === 'true'){
-    req.fast = true;
-  }
-  if (req.fast === 'False' || req.fast === 'false'){
-    req.fast = false;
-  }
-
-  if( ! req.file_uri ){
-    var response = svcUtils.errorResponse(new interfaces.client_res());
+  if( ! req.user ){
+    error = 'Empty \"user\" field';
+    response.error = error;
     return hop.HTTPResponseJson(response);
   }
 
-  /***
-   *  For security reasons, if file_uri is not defined under the
-   *  server_cache_dir do not operate. HOP server stores the files under the
-   *  SERVER_CACHE_DIR directory.
-   */
-  if( req.file_uri.indexOf(SERVER_CACHE_DIR) === -1 )
-  {
-    var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-        " Abortion for security reasons.";
-    var response = svcUtils.errorResponse(new interfaces.client_res());
-    return hop.HTTPResponseJson(response);
-  }
-  /* ----------------------------------------------------------------------- */
 
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
   var startT = new Date().getTime();
   var execTime = 0;
-
-  var logMsg = 'Image stored at [' + req.file_uri + ']';
-
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var fileUrl = req.file_uri.split('/');
-  var fileName = fileUrl[fileUrl.length -1];
-
-  var cpFilePath = SERVICES_CACHE_DIR + fileName.split('.')[0] + '-'  +
-    unqCallId + '.' + fileName.split('.')[1];
-  cpFilePath = Fs.resolvePath(cpFilePath);
-  /* ---------------------------------------------------------------- */
-
-
-  /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(req.file_uri, cpFilePath) === false)
-  {
-    //could not rename file. Probably cannot access the file. Return to client!
-    var logMsg = 'Failed to rename file: [' + req.file_uri + '] --> [' +
-      cpFilePath + ']';
-
-    Fs.rmFile(req.file_uri);
-    randStrGen.removeCached(unqCallId);
-    var response = svcUtils.errorResponse(new interfaces.client_res());
-    return hop.HTTPResponseJson(response);
-  }
-  logMsg = 'Created copy of file ' + req.file_uri + ' at ' + cpFilePath;
-  /*-------------------------------------------------------------------------*/
 
 
   /***
@@ -181,10 +150,10 @@ function svcImpl ( kwargs )
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Fill Ros Service request msg parameters here.
+      // Create the ROS-Srv request object
       var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.imageFilename = cpFilePath;
-      rosSvcReq.fast = req.fast;
+      rosSvcReq.username = req.user;
+      rosSvcReq.testType = req.test_type;
 
 
       /***
@@ -198,9 +167,8 @@ function svcImpl ( kwargs )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
         //console.log(data);
+
         // Craft client response using ros service ws response.
         var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
@@ -218,10 +186,8 @@ function svcImpl ( kwargs )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
-        // craft error response
-        var response = svcUtils.errorResponse(new interfaces.client_res());
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -240,8 +206,8 @@ function svcImpl ( kwargs )
         setTimeout( function(){
 
          /***
-          * If received message from rosbridge websocket server or an error
-          * on websocket connection, stop timeout events.
+          *   If received message from rosbridge websocket server or an error
+          *   on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -260,12 +226,11 @@ function svcImpl ( kwargs )
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
 
-            // Remove cached file. Release resources.
-            Fs.rmFile(cpFilePath);
-
             execTime = new Date().getTime() - startT;
 
-            var response = svcUtils.errorResponse(new interfaces.client_res());
+            var response = new interfaces.client_res();
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
+
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -276,7 +241,6 @@ function svcImpl ( kwargs )
         }, timeout);
       }
       asyncWrap();
-      /*=================================================================*/
     }, this );
 }
 
@@ -287,52 +251,57 @@ function svcImpl ( kwargs )
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response Object.
- *  @returns {Array} response.faces - An array of face-objects.
+ *  @returns {String} response.lang - Language.
+ *  @returns {Array} response.questions - Vector of questions, for selected
+ *    exercise.
+ *  @returns {Array} response.possib_ans - Array of possible answers, for
+ *    selected exercise.
+ *  @returns {Array} response.correct_ans - Vector of correct answers, for
+ *    selected exercise.
+ *  @returns {String} response.test_instance - Selected Exercise's
+ *    test instance name.
+ *  @returns {String} response.test_type - Test-type of selected exercise.
+ *  @returns {String} response.test_subtype - Test-subtype of selected
+ *    exercise.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
-  var faces_up_left = rosbridge_msg.faces_up_left;
-  var faces_down_right = rosbridge_msg.faces_down_right;
+  var trace = rosbridge_msg.trace;
+  var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
-  var numFaces = faces_up_left.length;
-
-  var logMsg = 'Returning to client';
+  var questions = rosbridge_msg.questions;
+  var answers = rosbridge_msg.answers;
+  var correctAnswers = rosbridge_msg.correctAnswers;
+  var test = rosbridge_msg.test;
+  var testType = rosbridge_msg.testType;
+  var testSubType = rosbridge_msg.testSubType;
+  var language = rosbridge_msg.language;
 
   var response = new interfaces.client_res();
+
+  if( error ){
+    response.error = error;
+    return response;
+  }
+
+  response.questions = questions;
+  response.correct_ans = correctAnswers;
+  response.test_instance = test;
+  response.test_type = testType;
+  response.test_subtype = testSubType;
+  response.lang = language;
   response.error = error;
 
-  for (var ii = 0; ii < numFaces; ii++)
+  for (var ii = 0; ii < answers.length; ii++)
   {
-    /***
-     * @namespace face
-     * @property up_left_point - Face bounding box, up-left-point
-     */
-    var face = {
-      up_left_point: {x: 0, y:0},
-      down_right_point: {x: 0, y: 0}
-    };
-
-    face.up_left_point.x = faces_up_left[ii].point.x;
-    face.up_left_point.y = faces_up_left[ii].point.y;
-    face.down_right_point.x = faces_down_right[ii].point.x;
-    face.down_right_point.y = faces_down_right[ii].point.y;
-    response.faces.push( face );
+    response.possib_ans.push( answers[ii].s );
   }
 
-
-  if (error !== '')
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
-  }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
-  }
-
+  //console.log(response);
   return response;
 }
+
 
 registerSvc(svcImpl, svcParams);

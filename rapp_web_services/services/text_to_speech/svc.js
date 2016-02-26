@@ -22,7 +22,7 @@
 /***
  * @fileOverview
  *
- * [Rapp-Platform-Status] RAPP Platform front-end web service. HTML response.
+ * [Text-to-Speech] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -39,6 +39,8 @@ var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 var svcUtils = require(path.join(INCLUDE_DIR, 'common',
     'svc_utils.js'));
 
+var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
+
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
@@ -48,17 +50,20 @@ var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.user_personal_info;
+var svcParams = ENV.SERVICES.text_to_speech;
+var SERVICE_NAME = svcParams.name;
 var rosSrvName = svcParams.ros_srv_name;
+var audioOutFormat = svcParams.audio_file_format;
+var audioOutPath = ENV.PATHS.SERVICES_CACHE_DIR;
+var basenamePrefix = svcParams.basename;
 /* ----------------------------------------------------------------------- */
 
-// Initiate communication with rosbridge-websocket-server
+// Instantiate interface to rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
   reconnect: true, onconnection: function(){
     // .
   }
 });
-
 
 /*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
@@ -71,19 +76,62 @@ var maxTries = svcParams.retries;
 /* ----------------------------------------------------------------------- */
 
 
+
+
+
+/**
+ *  [Text-To-Speech], RAPP Platform Front-End Web Service.
+ *  Handles client requests for RAPP Platform Text-To-Speech Services.
+ *
+ *  @function text_to_speech
+ *
+ *  @param {Object} args - Service input arguments (literal).
+ *  @param {String} args.text - Text to perform TTS on.
+ *  @param {String} args.language - Language to be used for TTS translation.
+ *
+ *  @returns {Object} response - JSON HTTPResponse object.
+ *    Asynchronous HTTP Response.
+ *  @returns {String} response.payload - Data payload field for the audio/speech
+ *    data. Data are character-encoded to base64.
+ *  @returns {String} response.basename - An optional basename to be used by the clients
+ *  @returns {String} response.encoding - This field declares the character
+ *    encoding that was used to encode the audio/speech data of the payload
+ *    field. Currently only base64 is supported. This field exists for
+ *    future extension purposes.
+ *  @returns {String} response.error - Error message string to be filled
+ *    when an error has been occured during service call.
+ *
+ */
 function svcImpl( kwargs )
 {
+  var req = new interfaces.client_req();
+  var response = new interfaces.client_res();
+  var error = '';
+
   kwargs = kwargs || {};
-  /* ------ Parse arguments ------ */
-  var user = kwargs.user || '';
-  if( ! user ){
-    var response = svcUtils.errorResponse(new interfaces.client_res());
+  for( var i in req ){
+    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
+  }
+  if ( ! req.text ){
+    error = 'Empty \"text\" field';
     return hop.HTTPResponseJson(response);
   }
-  /* ----------------------------- */
+  if ( ! req.language ){
+    error = 'Empty \"language\" field';
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
 
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
+
+  var startT = new Date().getTime();
+  var execTime = 0;
+
+  // Rename file. Add uniqueId value
+  var filePath = path.join(audioOutPath,
+    basenamePrefix + unqCallId + '.' + audioOutFormat
+    );
 
   /***
    * Asynchronous http response
@@ -100,13 +148,10 @@ function svcImpl( kwargs )
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Fill Ros Service request msg parameters here.
       var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.req_cols = [
-        'username', 'firstname', 'lastname', 'email',
-        'language', 'ontology_alias', 'usrgroup', 'created'];
-      rosSvcReq.where_data = [{s: ['username', user]}];
-
+      rosSvcReq.audio_output = filePath;
+      rosSvcReq.language = req.language;
+      rosSvcReq.text = req.text;
 
       /***
        * Declare the service response callback here!!
@@ -122,7 +167,7 @@ function svcImpl( kwargs )
         //console.log(data);
 
         // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data );
+        var response = parseRosbridgeMsg( data, audioOutPath );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -138,27 +183,29 @@ function svcImpl( kwargs )
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        var response = svcUtils.errorResponse(new interfaces.client_res());
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
       }
 
+      /* -------------------------------------------------------- */
 
       // Invoke ROS-Service request.
       ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
       /***
-       * Set Timeout wrapping function.
-       * Polling in defined time-cycle. Catch timeout connections etc...
+       *  Set Timeout wrapping function.
+       *  Polling in defined time-cycle. Catch timeout connections etc...
        */
       function asyncWrap(){
         setTimeout( function(){
 
          /***
-          *   If received message from rosbridge websocket server or an error
-          *   on websocket connection, stop timeout events.
+          *  If received message from rosbridge websocket server or an error
+          *  on websocket connection, stop timeout events.
           */
           if ( respFlag || wsError || retClientFlag ) { return; }
 
@@ -179,7 +226,8 @@ function svcImpl( kwargs )
 
             execTime = new Date().getTime() - startT;
 
-            var response = svcUtils.errorResponse(new interfaces.client_res());
+            var response = new interfaces.client_res();
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -190,41 +238,41 @@ function svcImpl( kwargs )
         }, timeout);
       }
       asyncWrap();
+      /*=================================================================*/
     }, this );
-
 }
 
 
-
-function parseRosbridgeMsg(rosbridge_msg)
+/***
+ *  Craft response object.
+ *
+ */
+function parseRosbridgeMsg(rosbridge_msg, audioFilePath)
 {
-  var logMsg = 'Returning to client.';
-  //console.log(rosbridge_msg);
-
-  var trace = rosbridge_msg.trace;
-  var resCols = rosbridge_msg.res_cols;
-  var resData = rosbridge_msg.res_data;
-  var userInfo = resData.length > 0 ? resData[0].s : [];
-  var error = rosbridge_msg.error || '';
+  var error = rosbridge_msg.error;
+  var logMsg = 'Returning to client';
 
   var response = new interfaces.client_res();
 
-  // Dynamic definition and value-set for user_info properties.
-  for (var ii = 0; ii < resCols.length; ii++){
-    response.user_info[resCols[ii]] = userInfo[ii];
+  if ( error )
+  {
+    logMsg += ' ROS service [' + rosSrvName + '] error' +
+      ' ---> ' + error;
+    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    return response;
   }
 
-  if ( error !== '' )
+  if( (audioFile = Fs.readFileSync(audioFilePath)) )
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error ---> ' + error;
+    response.payload = audioFile.data.toString('base64');
+    response.basename = audioFile.basename;
+    response.encoding = 'base64';
+    // Remove local file immediately.
+    Fs.rmFile(audioFilePath);
   }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
-  }
+  //console.log(crafted_msg)
 
   return response;
 }
 
 
-registerSvc(svcImpl, svcParams);

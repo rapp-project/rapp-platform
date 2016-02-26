@@ -56,7 +56,7 @@ var env = {
     PKG_DIR: __dirname,
     INCLUDE_DIR: path.join( __dirname, 'src' ),
     CONFIG_DIR: path.join( __dirname, 'config' ),
-    SERVICES_DIR: path.join( __dirname, 'workers' ),
+    SERVICES_DIR: path.join( __dirname, 'services' ),
     WORKERS_DIR: path.join( __dirname, 'workers' )
   }
 };

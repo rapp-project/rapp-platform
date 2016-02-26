@@ -38,7 +38,7 @@ var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 var svcUtils = require(path.join(INCLUDE_DIR, 'common',
     'svc_utils.js'));
 
-var interfaces = require( path.join(__dirname, 'interfaces.json') );
+var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
 var svcParams = ENV.SERVICES.available_services;
@@ -142,7 +142,7 @@ function svcImpl ( kwargs )
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-      var response = interfaces.client_response;
+      var response = new interfaces.client_res();
       response.services = __availableServices;
       sendResponse( hop.HTTPResponseJson(response) );
     }, this);
