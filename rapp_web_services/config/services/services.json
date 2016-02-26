@@ -142,7 +142,7 @@
     "ros_srv_name": "/rapp/rapp_audio_processing/set_noise_profile"
   },
   "speech_detection_google": {
-    "launch": false,
+    "launch": true,
     "anonymous": false,
     "name": "speech_detection_google",
     "url_name": "speech_detection_google",

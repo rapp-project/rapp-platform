@@ -84,6 +84,14 @@
     "services": [
       "set_noise_profile"
     ]
+  },
+  "speech_detection_google": {
+    "launch": true,
+    "path": "workers/speech_detection_google/worker.js",
+    "services": [
+      "speech_detection_google"
+    ]
   }
+
 
 }
