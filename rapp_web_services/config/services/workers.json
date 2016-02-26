@@ -91,7 +91,13 @@
     "services": [
       "speech_detection_google"
     ]
+  },
+  "speech_detection_sphinx4": {
+    "launch": true,
+    "path": "workers/speech_detection_sphinx4/worker.js",
+    "services": [
+      "speech_detection_sphinx4"
+    ]
   }
-
 
 }
