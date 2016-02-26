@@ -236,7 +236,6 @@ function svcImpl ( kwargs )
         // craft error response
         var response = new interfaces.client_res();
         response.error = svcUtils.ERROR_MSG_DEFAULT;
-        console.log(response);
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;

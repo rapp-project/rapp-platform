@@ -51,7 +51,7 @@ class RappInterfaceTest:
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
     response = self.rappCloud.user_personal_info(self.user)
-    print response
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
