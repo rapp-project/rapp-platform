@@ -77,6 +77,13 @@
     "services": [
       "text_to_speech"
     ]
+  },
+  "set_noise_profile": {
+    "launch": true,
+    "path": "workers/set_noise_profile/worker.js",
+    "services": [
+      "set_noise_profile"
+    ]
   }
 
 }

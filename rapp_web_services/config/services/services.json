@@ -132,7 +132,7 @@
     "audio_file_basename": "tts_"
   },
   "set_noise_profile": {
-    "launch": false,
+    "launch": true,
     "anonymous": false,
     "name": "set_noise_profile",
     "url_name": "set_noise_profile",
