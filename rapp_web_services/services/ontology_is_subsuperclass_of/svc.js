@@ -29,29 +29,28 @@
  */
 
 
-var __DEBUG__ = false;
-
 var hop = require('hop');
 var path = require('path');
+var util = require('util');
 
-var ENV = require( path.join(__dirname, '..', 'env.js') );
+var PKG_DIR = ENV.PATHS.PKG_DIR;
+var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var INCLUDE_DIR = path.join(__dirname, '..', 'modules');
-var CONFIG_DIR = path.join(__dirname,'..', 'config');
+var svcUtils = require(path.join(INCLUDE_DIR, 'common',
+    'svc_utils.js'));
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(INCLUDE_DIR, 'RosBridgeJS', 'src',
+var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
+var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/* ------------< Load and set basic configuration parameters >-------------*/
-var SERVICE_NAME = 'ontology_is_subsuperclass_of';
-var __hopServiceId = null;
+/* ------------< Load parameters >-------------*/
+var svcParams = ENV.SERVICES.ontology_is_subsuperclass_of;
+var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
-
-var rosSrvName = ENV.SERVICES[SERVICE_NAME].ros_srv_name;
 
 // Initiate communication with rosbridge-websocket-server
 var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
@@ -67,14 +66,10 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 
-/* ------< Set timer values for websocket communication to rosbridge> ---- */
-var timeout = ENV.SERVICES[SERVICE_NAME].timeout; // ms
-var maxTries = ENV.SERVICES[SERVICE_NAME].retries;
+/* ------< Set timer values for websocket communication to rosbridge> ----- */
+var timeout = svcParams.timeout; // ms
+var maxTries = svcParams.retries;
 /* ----------------------------------------------------------------------- */
-
-
-// Register communication interface with the master-process
-register_master_interface();
 
 
 /**
@@ -96,20 +91,53 @@ register_master_interface();
  *    when an error has been occured during service call.
  *
  */
-service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recursive: false} )
+function svcImpl( kwargs )
 {
+  var req = new interfaces.client_req();
+  var response = new interfaces.client_res();
+  var error = '';
+
+  /* ------ Parse arguments ------ */
+  kwargs = kwargs || {};
+  for( var i in req ){
+    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
+  }
+  if( ! req.parent_class ){
+    error = 'Empty \"parent_class\" field';
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  if( ! req.child_class ){
+    error = 'Empty \"child_class\" field';
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  // Workaround for bool and hop
+  switch( req.recursive ){
+    case "True":
+      req.recursive = true;
+      break;
+    case "true":
+      req.recursive = true;
+      break;
+    case "False":
+      req.recursive = false;
+      break;
+    case "false":
+      req.recursive = false;
+      break;
+    case undefined:
+      req.recursive = false;
+      break;
+    default:
+      break;
+  }
+
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
   var startT = new Date().getTime();
   var execTime = 0;
-
-  postMessage( craft_slaveMaster_msg('log', 'client-request {' + rosSrvName + '}') );
-
-  /**** Boolean parameters are passed as strings onto the URL payload ****/
-  /* -- String to boolean translation -- */
-  if (recursive == 'True' || recursive == 'true') {recursive = true;}
-  else {recursive = false;}
 
 
   /***
@@ -127,12 +155,11 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
       var retries = 0;
       /* --------------------------------------------------- */
 
-      // Fill Ros Service request msg parameters here.
-      var args = {
-        parent_class: parent_class,
-        child_class: child_class,
-        recursive: recursive
-      };
+      // Craft ROS Svc message.
+      var rosSvcReq = new interfaces.ros_req();
+      rosSvcReq.parent_class = req.parent_class;
+      rosSvcReq.child_class = req.child_class;
+      rosSvcReq.recursive = req.recursive;
 
       /***
        * Declare the service response callback here!!
@@ -148,7 +175,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
         //console.log(data);
 
         // Craft client response using ros service ws response.
-        var response = craft_response( data );
+        var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -164,7 +191,8 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
         if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        var response = craft_error_response();
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -172,7 +200,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
 
 
       // Invoke ROS-Service request.
-      ros.callService(rosSrvName, args,
+      ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
       /***
@@ -193,7 +221,6 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
           var logMsg = 'Reached rosbridge response timeout' + '---> [' +
             timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
             'Retry-' + retries;
-          postMessage( craft_slaveMaster_msg('log', logMsg) );
 
           /***
            * Fail. Did not receive message from rosbridge.
@@ -203,12 +230,12 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
           {
             logMsg = 'Reached max_retries [' + maxTries + ']' +
               ' Could not receive response from rosbridge...';
-            postMessage( craft_slaveMaster_msg('log', logMsg) );
 
             execTime = new Date().getTime() - startT;
-            postMessage( craft_slaveMaster_msg('execTime', execTime) );
 
-            var response = craft_error_response();
+            var response = new interfaces.client_res();
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
+
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -235,7 +262,7 @@ service ontology_is_subsuperclass_of ( {parent_class: '', child_class: '', recur
  *    when an error has been occured during service call.
  *
  */
-function craft_response(rosbridge_msg)
+function parseRosbridgeMsg(rosbridge_msg)
 {
   var result = rosbridge_msg.result;
   var trace = rosbridge_msg.trace;
@@ -244,112 +271,17 @@ function craft_response(rosbridge_msg)
 
   var logMsg = 'Returning to client.';
 
-  var response = {
-    result: false,
-    error: ''
-  };
+  var response = new interfaces.client_res();
+
+  if( error ){
+    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    return response;
+  }
 
   response.result = result;
 
-  response.error = error;
-
-  if (error !== '')
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
-  }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
-  }
-
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
   return response;
 }
 
 
-/***
- *  Craft service error response object. Used to return to client when an
- *  error has been occured, while processing client request.
- */
-function craft_error_response()
-{
-  var errorMsg = 'RAPP Platform Failure!';
-
-  var response = {
-    result: false,
-    error: errorMsg
-  };
-
-  var logMsg = 'Return to client with error --> ' + errorMsg;
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-  return response;
-}
-
-
-/***
- *  Register interface with the main hopjs process. After registration
- *  this worker service can communicate with the main hopjs process through
- *  websockets.
- *
- *  The global scoped postMessage is used in order to send messages to the main
- *  process.
- *  Furthermore, the global scoped onmessage callback function declares the
- *  handler for incoming messages from the hopjs main process.
- *
- *  Currently log messages are handled by the main process.
- */
-function register_master_interface()
-{
-  // Register onexit callback function
-  onexit = function(e){
-    console.log("Service [%s] exiting...", SERVICE_NAME);
-    var logMsg = "Received termination command. Exiting.";
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-  };
-
-  // Register onmessage callback function
-  onmessage = function(msg){
-    if (__DEBUG__)
-    {
-      console.log("Service [%s] received message from master process",
-        SERVICE_NAME);
-      console.log("Msg -->", msg.data);
-    }
-
-    var logMsg = 'Received message from master process --> [' +
-      msg.data + ']';
-    postMessage( craft_slaveMaster_msg('log', logMsg) );
-
-    var cmd = msg.data.cmdId;
-    var data = msg.data.data;
-    switch (cmd)
-    {
-      case 2055:  // Set worker ID
-        __hopServiceId = data;
-        break;
-      default:
-        break;
-    }
-  };
-
-  // On initialization inform master and append to log file
-  var logMsg = "Initiated worker";
-  postMessage( craft_slaveMaster_msg('log', logMsg) );
-}
-
-
-/***
- *  Returns master-process comm msg literal.
- */
-function craft_slaveMaster_msg(msgId, msg)
-{
-  var _msg = {
-    name: SERVICE_NAME,
-    id:   __hopServiceId,
-    msgId: msgId,
-    data: msg
-  };
-  return _msg;
-}
+registerSvc(svcImpl, svcParams);

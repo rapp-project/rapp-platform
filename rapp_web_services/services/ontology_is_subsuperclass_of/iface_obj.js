@@ -21,7 +21,7 @@
 
 var clientRes = function( ){
   var obj = {
-    results: [],
+    result: false,
     error: ''
   };
   return obj;
@@ -30,7 +30,9 @@ var clientRes = function( ){
 
 var clientReq = function( ){
   var obj = {
-    query: ''
+    parent_class: '',
+    child_class: '',
+    recursive: false
   };
   return obj;
 };
@@ -38,7 +40,9 @@ var clientReq = function( ){
 
 var rosReq = function( ){
   var obj = {
-    ontology_class: ''
+    parent_class: '',
+    child_class: '',
+    recursive: false
   };
   return obj;
 };

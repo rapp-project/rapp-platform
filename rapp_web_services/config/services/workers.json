@@ -61,5 +61,22 @@
     "services": [
       "email_send"
     ]
+  },
+  "ontology": {
+    "launch": true,
+    "path": "workers/ontology/worker.js",
+    "services": [
+      "ontology_subclasses_of",
+      "ontology_superclasses_of",
+      "ontology_is_subsuperclass_of"
+    ]
+  },
+  "text_to_speech": {
+    "launch": true,
+    "path": "workers/text_to_speech/worker.js",
+    "services": [
+      "text_to_speech"
+    ]
   }
+
 }
