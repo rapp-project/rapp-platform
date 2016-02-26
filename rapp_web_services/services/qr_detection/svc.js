@@ -100,11 +100,17 @@ var maxTries = svcParams.retries;
 function svcImpl ( kwargs )
 {
   var req = new interfaces.client_req();
+  var response = new interfaces.client_res();
   var error = '';
 
   kwargs = kwargs || {};
   for( var i in req ){
     req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
+  }
+  if( ! req.file_uri ){
+    error = 'No image file received';
+    response.error = error;
+    return hop.HTTPResponseJson(response);
   }
 
 
@@ -117,9 +123,8 @@ function svcImpl ( kwargs )
   {
     var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
         " Abortion for security reasons.";
-    var response = svcUtils.errorResponse(new interfaces.client_res());
+    response.error = svcUtils.ERROR_MSG_DEFAULT;
     return hop.HTTPResponseJson(response);
-
   }
   /* ----------------------------------------------------------------------- */
 
@@ -150,7 +155,8 @@ function svcImpl ( kwargs )
 
     Fs.rmFile(req.file_uri);
     randStrGen.removeCached(unqCallId);
-    var response = svcUtils.errorResponse(new interfaces.client_res());
+
+    response.error = svcUtils.ERROR_MSG_DEFAULT;
     return hop.HTTPResponseJson(response);
   }
   logMsg = 'Created copy of file ' + req.file_uri + ' at ' + cpFilePath;
@@ -210,7 +216,8 @@ function svcImpl ( kwargs )
         // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
         // craft error response
-        var response = svcUtils.errorResponse(new interfaces.client_res());
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -254,7 +261,9 @@ function svcImpl ( kwargs )
 
             execTime = new Date().getTime() - startT;
 
-            var response = svcUtils.errorResponse(new interfaces.client_res());
+            var response = new interfaces.client_res();
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
+
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;
@@ -292,6 +301,11 @@ function parseRosbridgeMsg(rosbridge_msg)
 
   var response = new interfaces.client_res();
 
+  if( error ){
+    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    return response;
+  }
+
   for (var ii = 0; ii < qrCenters.length; ii++)
   {
     var qrPoint = { x: 0, y: 0};
@@ -300,18 +314,6 @@ function parseRosbridgeMsg(rosbridge_msg)
     qrPoint.y = qrCenters[ii].point.y;
     response.qr_centers.push(qrPoint);
     response.qr_messages.push(qrMessages[ii]);
-  }
-
-  response.error = error;
-
-  if (error !== '')
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
-  }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
   }
 
   return response;
