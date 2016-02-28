@@ -51,7 +51,6 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
 var svcParams = ENV.SERVICES.qr_detection;
-var SERVICE_NAME = svcParams.name;
 var rosSrvName = svcParams.ros_srv_name;
 
 var SERVICES_CACHE_DIR = ENV.PATHS.SERVICES_CACHE_DIR;
@@ -134,32 +133,20 @@ function svcImpl ( kwargs )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  var logMsg = 'Image stored at [' + req.file_uri + ']';
+  var cpFilePath = '';
 
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var fileUrl = req.file_uri.split('/');
-  var fileName = fileUrl[fileUrl.length -1];
-
-  var cpFilePath = SERVICES_CACHE_DIR + fileName.split('.')[0] + '-'  +
-    unqCallId + '.' + fileName.split('.')[1];
-  cpFilePath = Fs.resolvePath(cpFilePath);
-  /* ---------------------------------------------------------------- */
-
-
-  /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(req.file_uri, cpFilePath) === false)
-  {
-    //could not rename file. Probably cannot access the file. Return to client!
-    var logMsg = 'Failed to rename file: [' + req.file_uri + '] --> [' +
-      cpFilePath + ']';
-
+  try{
+    cpFilePath = svcUtils.cpInFile(req.file_uri, ENV.PATHS.SERVICES_CACHE_DIR,
+      unqCallId);
+  }
+  catch(e){
+    console.log(e);
     Fs.rmFile(req.file_uri);
     randStrGen.removeCached(unqCallId);
 
     response.error = svcUtils.ERROR_MSG_DEFAULT;
     return hop.HTTPResponseJson(response);
   }
-  logMsg = 'Created copy of file ' + req.file_uri + ' at ' + cpFilePath;
   /*-------------------------------------------------------------------------*/
 
   /***

@@ -32,6 +32,10 @@
  *
  */
 
+var util = require('util');
+var path = require('path');
+var Fs = require(path.join(__dirname, 'fileUtils.js'));
+
 var ON_ERROR_DEFAULT_MSG = "RAPP Platform Failure";
 
 var registerSvc = function( svcImpl, svcParams ){
@@ -88,6 +92,35 @@ var getSvcUrl = function( svcName, callback ){
 };
 
 
+var cpInFile = function( filepath, destdir, unqId){
+  if( ! filepath ){
+    throw new Error("Not a source file path was provided");
+  }
+  if( ! destdir ){
+    throw new Error("Not a destinatio directory path was provided");
+  }
+  // Accept copies even if not a unique id is provided. Simple Copy.
+  unqId = unqId || '';
+
+  var fileUrl = filepath.split('/');
+  var filename = fileUrl[fileUrl.length -1];
+
+  var cpFilepath = destdir + filename.split('.')[0] + '-'  +
+    unqId + '.' + filename.split('.')[1];
+  cpFilepath = Fs.resolvePath(cpFilepath);
+
+  if (Fs.renameFile(filepath, cpFilepath) === false)
+  {
+    //could not rename file. Probably cannot access the file. Return to client!
+    throw new Error(
+      util.format("Failed to cp {%s} -> {%s}", filepath, cpFilepath)
+      );
+  }
+  return cpFilepath;
+};
+
+
 exports.registerSvc = registerSvc;
 exports.errorResponse = errorResponse;
 exports.ERROR_MSG_DEFAULT = ON_ERROR_DEFAULT_MSG;
+exports.cpInFile = cpInFile;

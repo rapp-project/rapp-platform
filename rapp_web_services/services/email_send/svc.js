@@ -100,6 +100,7 @@ var maxTries = svcParams.retries;
 function svcImpl ( kwargs )
 {
   var req = new interfaces.client_req();
+  var response = new interfaces.client_res();
   var error = '';
 
   /* ------ Parse arguments ------ */
@@ -109,38 +110,20 @@ function svcImpl ( kwargs )
   }
   if( ! req.email ){
     error = 'Empty \"email\" argument';
-    var response = svcUtils.errorResponse(new interfaces.client_res());
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
   req.recipients = JSON.parse(req.recipients) || [];
   if( ! req.recipients ){
     error = 'Empty \"recipients\" argument';
-    var response = svcUtils.errorResponse(new interfaces.client_res());
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
   if( ! req.server ){
     error = 'Empty \"server\" argument';
-    var response = svcUtils.errorResponse(new interfaces.client_res());
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
-
-
-  /***
-   *  For security reasons, if file_uri is not defined under the
-   *  server_cache_dir do not operate. HOP server stores the files under the
-   *  SERVER_CACHE_DIR directory.
-   */
-  if( (! req.file_uri) || (req.file_uri.indexOf(SERVER_CACHE_DIR) === -1) )
-  {
-    var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-        " Abortion for security reasons.";
-    var response = svcUtils.errorResponse(new interfaces.client_res());
-    return hop.HTTPResponseJson(response);
-  }
-  /* ----------------------------------------------------------------------- */
 
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
@@ -148,39 +131,45 @@ function svcImpl ( kwargs )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  var logMsg = 'Image stored at [' + req.file_uri + ']';
-
-  /* --< Perform renaming on the reived file. Add uniqueId value> --- */
-  var fileUrl = req.file_uri.split('/');
-  var fileName = fileUrl[fileUrl.length -1];
-
-  var cpFilePath = SERVICES_CACHE_DIR + fileName.split('.')[0] + '-'  +
-    unqCallId + '.' + fileName.split('.')[1];
-  cpFilePath = Fs.resolvePath(cpFilePath);
-  /* ---------------------------------------------------------------- */
-
-
-  /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(req.file_uri, cpFilePath) === false)
-  {
-    //could not rename file. Probably cannot access the file. Return to client!
-    var logMsg = 'Failed to rename file: [' + req.file_uri + '] --> [' +
-      cpFilePath + ']';
-
-    Fs.rmFile(req.file_uri);
-    randStrGen.removeCached(unqCallId);
-    var response = svcUtils.errorResponse(new interfaces.client_res());
-    return hop.HTTPResponseJson(response);
-  }
-  logMsg = 'Created copy of file ' + req.file_uri + ' at ' + cpFilePath;
-  /*-------------------------------------------------------------------------*/
-
   var _files = [];
-  if( zip.isZipFile(cpFilePath) ){
-    _files = zip.unzip(cpFilePath).filepaths;
-  }
-  else{
-    _files.push(cpFilePath);
+
+  // if the request body include a file to be attached to the email.
+  if( req.file_uri ){
+    /***
+     *  For security reasons, if file_uri is not defined under the
+     *  server_cache_dir do not operate. HOP server stores the files under the
+     *  SERVER_CACHE_DIR directory.
+     */
+    if( req.file_uri.indexOf(SERVER_CACHE_DIR) === -1 )
+    {
+      var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
+        " Abortion for security reasons.";
+      response.error = svcUtils.ERROR_MSG_DEFAULT;
+      return hop.HTTPResponseJson(response);
+    }
+    /* ----------------------------------------------------------------------- */
+
+    var cpFilePath = '';
+
+    try{
+      cpFilePath = svcUtils.cpInFile(req.file_uri, ENV.PATHS.SERVICES_CACHE_DIR,
+        unqCallId);
+    }
+    catch(e){
+      console.log(e);
+      Fs.rmFile(req.file_uri);
+      randStrGen.removeCached(unqCallId);
+
+      response.error = svcUtils.ERROR_MSG_DEFAULT;
+      return hop.HTTPResponseJson(response);
+    }
+
+    if( zip.isZipFile(cpFilePath) ){
+      _files = zip.unzip(cpFilePath).filepaths;
+    }
+    else{
+      _files.push(cpFilePath);
+    }
   }
 
   /***
@@ -244,7 +233,8 @@ function svcImpl ( kwargs )
         // Remove cached file. Release resources.
         Fs.rmFile(cpFilePath);
         // craft error response
-        var response = svcUtils.errorResponse(new interfaces.client_res());
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
         retClientFlag = true;
@@ -288,7 +278,9 @@ function svcImpl ( kwargs )
 
             execTime = new Date().getTime() - startT;
 
-            var response = svcUtils.errorResponse(new interfaces.client_res());
+            var response = new interfaces.client_res();
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
+
             sendResponse( hop.HTTPResponseJson(response));
             retClientFlag = true;
             return;

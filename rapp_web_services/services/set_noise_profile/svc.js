@@ -143,25 +143,14 @@ function svcImpl( kwargs )
   var startT = new Date().getTime();
   var execTime = 0;
 
-  var logMsg = 'Audio data file stored at [' + req.file_uri + ']';
+  var cpFilePath = '';
 
-  /* --< Rename file. Add uniqueId value> --- */
-  var fileUrl = req.file_uri.split('/');
-  var fileName = fileUrl[fileUrl.length -1];
-
-  var cpFilePath = SERVER_CACHE_DIR + fileName.split('.')[0] + '-'  +
-    unqCallId + '.' + fileName.split('.')[1];
-  cpFilePath = Fs.resolvePath(cpFilePath);
-  /* ---------------------------------------------------------------- */
-
-
-  /* --------------------- Handle transferred file ------------------------- */
-  if (Fs.renameFile(req.file_uri, cpFilePath) === false)
-  {
-    //could not rename file. Probably cannot access the file. Return to client!
-    logMsg = 'Failed to rename file: [' + req.file_uri + '] --> [' +
-      cpFilePath + ']';
-
+  try{
+    cpFilePath = svcUtils.cpInFile(req.file_uri, ENV.PATHS.SERVICES_CACHE_DIR,
+      unqCallId);
+  }
+  catch(e){
+    console.log(e);
     Fs.rmFile(req.file_uri);
     randStrGen.removeCached(unqCallId);
 
@@ -169,6 +158,7 @@ function svcImpl( kwargs )
     return hop.HTTPResponseJson(response);
   }
   /*-------------------------------------------------------------------------*/
+
 
   /***
    * Asynchronous http response
