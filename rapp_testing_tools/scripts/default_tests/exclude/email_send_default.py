@@ -36,8 +36,6 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     self.zipFile = join(pkgDir, 'test_data', 'zip_files', \
             'image_audio_sample.zip')
-    # self.zipFile = join(pkgDir, 'test_data',
-            # 'Lenna.png')
     self.svcReq = {
       'email': "rapp.platform@gmail.com",
       'passwd': '',
@@ -66,10 +64,5 @@ class RappInterfaceTest:
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
-
-    faces = response['faces']
-    if self.valid_faces == faces:
-      return [True, self.elapsed_time]
     else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
-
+        return [True, self.elapsed_time]
