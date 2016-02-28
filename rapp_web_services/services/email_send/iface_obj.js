@@ -19,72 +19,49 @@
  */
 
 
-var clientRes = function( error ){
-  error = error || '';
+var clientRes = function( ){
   var obj = {
-    error: error
+    error: ''
   };
   return obj;
 };
 
 
-var clientReq = function( filepath, email, passwd, server, port,
-  recipients, body, subject)
+var clientReq = function( )
 {
-  filepath = filepath || '';
-  email = email || '';
-  passwd = passwd || '';
-  server = server || '';
-  port = port || '';
-  recipients = recipients || [];
-  body = body || '';
-  subject = subject || '';
-
   var obj = {
-    file_uri: filepath,
-    email: email,
-    passwd: passwd,
-    server: server,
-    port: port,
-    recipients: recipients,
-    body: body,
-    subject: subject
+    file_uri: '',
+    email: '',
+    passwd: '',
+    server: '',
+    port: '',
+    recipients: [],
+    body: '',
+    subject: ''
   };
   return obj;
 };
 
 
-var rosReq = function( files, email, passwd, server, port,
-  recipients, body, subject)
+var rosReq = function( )
 {
-  files = files || [];
-  email = email || '';
-  passwd = passwd || '';
-  server = server || '';
-  port = port || '';
-  recipients = recipients || [];
-  body = body || '';
-  subject = subject || '';
-
   var obj = {
-    files: files,
-    userEmail: email,
-    password: passwd,
-    server: server,
-    port: port,
-    recipients: recipients,
-    body: body,
-    subject: subject
+    files: [],
+    userEmail: '',
+    password: '',
+    server: '',
+    port: '',
+    recipients: [],
+    body: '',
+    subject: ''
   };
   return obj;
 };
 
 
 var rosRes = function(){
-  var stat = 0;
-
   var obj = {
-    status: stat
+    status: 0
   };
   return obj;
 };
