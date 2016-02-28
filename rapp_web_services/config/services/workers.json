@@ -59,7 +59,8 @@
     "launch": true,
     "path": "workers/email_support/worker.js",
     "services": [
-      "email_send"
+      "email_send",
+      "email_fetch"
     ]
   },
   "ontology": {

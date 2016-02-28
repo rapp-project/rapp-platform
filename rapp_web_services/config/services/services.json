@@ -89,6 +89,16 @@
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_email_send/send_email"
   },
+  "email_fetch": {
+    "launch": true,
+    "anonymous": false,
+    "name": "email_fetch",
+    "url_name": "email_fetch",
+    "namespace": "",
+    "timeout": 15000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_email_receive/receive_email"
+  },
   "ontology_subclasses_of": {
     "launch": true,
     "anonymous": false,
