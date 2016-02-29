@@ -138,9 +138,12 @@ class EmailReceiver(object):
     mailMsg.dateTime = str(mail['Date'])
     mailMsg.sender = str(mail['From'])
     mailMsg.receivers = []
-    mailMsg.receivers.append( str(mail['To']) )
-    if str(mail['cc']) is not None:
-      mailMsg.receivers.append( str(mail['cc']) )
+    for receiver in str(mail['To']).split(','):
+      mailMsg.receivers.append(receiver.strip())
+
+    if mail['cc'] is not None:
+      for receiver in str(mail['cc']).split(','):
+        mailMsg.receivers.append(receiver.strip())
     mailMsg.attachmentPaths = []
 
     attachmentCounter = 1
@@ -282,7 +285,6 @@ class EmailReceiver(object):
       RappUtilities.rapp_print( err, 'ERROR')
       raise err
 
-    RappUtilities.rapp_print( 'lasjdflskdfjas', 'ERROR')
     return imap
 
 
