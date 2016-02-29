@@ -505,6 +505,26 @@ function isFile(_path)
 }
 
 
+function readTextFile( filepath, encoding ){
+  // Encoding is set to utf8 by default
+  encoding = encoding || 'utf8';
+
+  if( ! filepath ){
+    throw new Error("Not a filepath provided");
+  }
+
+  filepath = resolvePath(filepath);
+  var text = '';
+  try{
+    text = fs.readFileSync(filepath, encoding);
+  }
+  catch(e){
+    throw new Error(e);
+  }
+
+  return text;
+}
+
 module.exports = {
   resolvePath: resolvePath,
   readFileSync: readFileSync,
@@ -520,5 +540,6 @@ module.exports = {
   copyFile: copyFile,
   parentDir: parentDir,
   isDirectory: isDirectory,
-  isFile: isFile
+  isFile: isFile,
+  readTextFile: readTextFile
 };
