@@ -170,6 +170,17 @@
     "timeout": 30000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text"
+  },
+  "news_explore": {
+    "launch": true,
+    "anonymous": false,
+    "name": "news_explore",
+    "url_name": "news_explore",
+    "namespace": "",
+    "timeout": 30000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_news_explorer/fetch_news"
   }
+
 
 }

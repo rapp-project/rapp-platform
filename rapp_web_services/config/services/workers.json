@@ -99,6 +99,13 @@
     "services": [
       "speech_detection_sphinx4"
     ]
+  },
+  "news_explore": {
+    "launch": true,
+    "path": "workers/news_explore/worker.js",
+    "services": [
+      "news_explore"
+    ]
   }
 
 }
