@@ -60,7 +60,7 @@ var rosReq = function( )
 };
 
 
-var rosRes = function(){
+var rosRes = function( ){
   var obj = {
     status: 0,
     emails: []
@@ -68,7 +68,22 @@ var rosRes = function(){
   return obj;
 };
 
+
+var emailEntry = function( ){
+  var obj = {
+    sender: '',
+    receivers: [],
+    date: '',
+    subject: '',
+    body: '',
+    attachments: []
+  };
+  return obj;
+};
+
+
 exports.client_res = clientRes;
 exports.client_req = clientReq;
 exports.ros_req = rosReq;
 exports.ros_res = rosRes;
+exports.email_entry = emailEntry;
