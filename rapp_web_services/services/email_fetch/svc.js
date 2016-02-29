@@ -42,6 +42,9 @@ var svcUtils = require(path.join(INCLUDE_DIR, 'common',
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
+var Fs = require ( path.join(INCLUDE_DIR, 'common',
+    'fileUtils.js') );
+
 var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
@@ -269,7 +272,29 @@ function parseRosbridgeMsg(rosbridge_msg)
     return response;
   }
 
-  console.log(emails);
+  for( var i in emails ){
+    var emailEntry = new interfaces.email_entry();
+    emailEntry.sender = emails[i].sender;
+    for( var j in emails[i].receivers){
+      emailEntry.receivers.push(emails[i].receivers[j]);
+    }
+
+    emailEntry.date = emails[i].dateTime;
+    emailEntry.subject = emails[i].subject;
+
+    var body = '';
+    try{
+      body = Fs.readTextFile(emails[i].bodyPath);
+    }
+    catch(e){
+      console.log(e);
+      body = '';
+    }
+    emailEntry.body = body;
+
+    response.emails.push(emailEntry);
+  }
+
   return response;
 }
 
