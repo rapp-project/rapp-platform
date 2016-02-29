@@ -22,10 +22,10 @@
 
 
 RappPlatformPath="${HOME}/rapp_platform"
-BiglooIndex="bigloo"
-BiglooUrl="ftp://ftp-sop.inria.fr/indes/rapp/hop/${BiglooIndex}.tar.gz"
+BiglooIndex="bigloo4.3a"
+BiglooUrl="ftp://ftp-sop.inria.fr/indes/rapp/hop/bigloo.tar.gz"
 HopRepoUrl="https://github.com/manuel-serrano/hop.git"
-HopCommitIndex="7673c6e318425e880a05818626f689229699e157"
+HopCommitIndex="23199eaf18a8ed38f596483d4d7dd4e322985fbe"
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing HOP by repos \e[0m"
 
@@ -43,8 +43,8 @@ cd hop-bigloo
 wget ${BiglooUrl} &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Bigloo \e[0m"
-tar -zxf "${BiglooIndex}.tar.gz" &> /dev/null
-cd bigloo4.2c
+tar -zxf "bigloo.tar.gz" &> /dev/null
+cd ${BiglooIndex}
 ./configure &> /dev/null
 make &> /dev/null
 make test &> /dev/null
