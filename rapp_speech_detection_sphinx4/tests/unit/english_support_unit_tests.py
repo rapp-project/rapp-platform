@@ -62,7 +62,7 @@ class TestAudioProcessing(unittest.TestCase):
                     [],\
                     [])
         except RappError as e:
-            self.assertEqual(e.value, True)
+            self.assertEqual(e.client_error, True)
 
         jar_path = conf['jar_path']
         jar_path = jar_path.split(':')

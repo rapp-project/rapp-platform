@@ -57,7 +57,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertEqual( response.error, '' )
+        self.assertEqual( response.service_report.error, '' )
         if ( response.words != ['ναι', 'όχι', 'ναι'] ):
             self.assertEqual( 'Word miss-match', '' )
 
@@ -82,7 +82,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
           req.user = 'rapp'
 
           response = test_service(req)
-          self.assertEqual( response.error, '' )
+          self.assertEqual( response.service_report.error, '' )
           if ( response.words != ['ναι', 'όχι', 'ναι'] ):
               self.assertEqual( 'Word miss-match', '' )
 
@@ -106,7 +106,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertNotEqual( response.error, '' )
+        self.assertNotEqual( response.service_report.error, '' )
 
     def test_batchServiceErrorSentences(self):
         rospack = rospkg.RosPack()
@@ -128,7 +128,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertNotEqual( response.error, '' )
+        self.assertNotEqual( response.service_report.error, '' )
 
     def test_batchServiceErrorGrammar(self):
         rospack = rospkg.RosPack()
@@ -150,7 +150,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertNotEqual( response.error, '' )
+        self.assertNotEqual( response.service_report.error, '' )
 
     def test_batchServiceWrongFile(self):
         rospack = rospkg.RosPack()
@@ -172,7 +172,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertNotEqual( response.error, '' )
+        self.assertNotEqual( response.service_report.error, '' )
 
     def test_batchServiceWrongUser(self):
         rospack = rospkg.RosPack()
@@ -194,7 +194,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'not_existing_user'
 
         response = test_service(req)
-        self.assertNotEqual( response.error, '' )
+        self.assertNotEqual( response.service_report.error, '' )
 
     def test_batchServiceWrongType(self):
         rospack = rospkg.RosPack()
@@ -216,7 +216,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertNotEqual( response.error, '' )
+        self.assertNotEqual( response.service_report.error, '' )
 
     def test_batchService1Ch(self):
         rospack = rospkg.RosPack()
@@ -237,7 +237,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertEqual( response.error, '' )
+        self.assertEqual( response.service_report.error, '' )
         if ( response.words != ['ναι'] ):
             self.assertEqual( 'Word miss-match', '' )
 
@@ -261,7 +261,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertEqual( response.error, '' )
+        self.assertEqual( response.service_report.error, '' )
         if ( response.words != ['ναι', 'όχι', 'ναι'] ):
             self.assertEqual( 'Word miss-match', '' )
 
@@ -285,7 +285,7 @@ class SpeechDetSphinx4Func(unittest.TestCase):
         req.user = 'rapp'
 
         response = test_service(req)
-        self.assertEqual( response.error, '' )
+        self.assertEqual( response.service_report.error, '' )
         if ( response.words != ['στειλε', 'mail'] ):
             self.assertEqual( 'Word miss-match', '' )
 

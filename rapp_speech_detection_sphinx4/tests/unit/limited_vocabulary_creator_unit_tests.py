@@ -42,7 +42,7 @@ class TestAudioProcessing(unittest.TestCase):
         try:
             conf = self.module.createConfigurationFiles(words, grammar, sentences)
         except RappError as e:
-            self.assertEqual(e.value, True)
+            self.assertEqual(e.client_error, True)
 
         # Check if files are there
         jar_path = conf['jar_path']
@@ -105,7 +105,7 @@ class TestAudioProcessing(unittest.TestCase):
         try:
             conf = self.module.createConfigurationFiles(words, grammar, sentences)
         except RappError as e:
-            self.assertEqual(e.value, True)
+            self.assertEqual(e.client_error, True)
 
         # Check if files are there
         jar_path = conf['jar_path']

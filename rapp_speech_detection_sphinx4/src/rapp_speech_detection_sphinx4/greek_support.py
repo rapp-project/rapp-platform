@@ -342,6 +342,6 @@ class GreekSupport(LanguageSupport):
               englified_phonemes_dict, englified_grammar, englified_sentences \
             )
     except RappError as e:
-        raise RappError(e.value)
+        raise RappError(e.client_error)
 
     return [limited_sphinx_configuration, englified_to_greek_dict]
