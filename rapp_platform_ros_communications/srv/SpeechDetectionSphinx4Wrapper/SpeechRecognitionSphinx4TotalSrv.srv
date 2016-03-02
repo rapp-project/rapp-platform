@@ -6,5 +6,6 @@ string path
 string audio_source
 string user
 ---
-string error
+
+rapp_platform_ros_communications/ServiceReportMsg service_report
 string[] words
