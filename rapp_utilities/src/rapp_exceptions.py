@@ -17,10 +17,8 @@
 ## @class RappError
 # Provides a RAPP specific exception
 class RappError(Exception):
-  """Error handling in RAPP"""
+    """Error handling in RAPP"""
 
-  def __init__(self, value):
-    self.value = value
-
-  def __str__(self):
-    return repr(self.value)
+    def __init__(self, client_error='', server_error=''):
+        self.client_error = client_error
+        self.server_error = server_error
