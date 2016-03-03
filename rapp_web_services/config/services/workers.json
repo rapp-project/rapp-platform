@@ -106,6 +106,15 @@
     "services": [
       "news_explore"
     ]
+  },
+  "geolocation": {
+    "launch": true,
+    "path": "workers/geolocation/worker.js",
+    "services": [
+      "geolocation"
+    ]
   }
+
+
 
 }

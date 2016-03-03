@@ -180,7 +180,16 @@
     "timeout": 30000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_news_explorer/fetch_news"
+  },
+  "geolocation": {
+    "launch": true,
+    "anonymous": false,
+    "name": "geolocation",
+    "url_name": "geolocation",
+    "namespace": "",
+    "timeout": 30000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_geolocator/locate"
   }
-
 
 }
