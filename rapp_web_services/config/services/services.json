@@ -17,7 +17,7 @@
     "url_name": "available_services",
     "namespace": "",
     "scan_time": 2,
-    "initial_scan_wait": 5000
+    "initial_scan_wait": 10000
   },
   "user_personal_info":{
     "launch": true,
@@ -190,6 +190,18 @@
     "timeout": 30000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_geolocator/locate"
+  },
+  "weather_report_forecast": {
+    "launch": true,
+    "anonymous": false,
+    "name": "weather_report_forecast",
+    "url_name": "weather_report_forecast",
+    "namespace": "",
+    "timeout": 30000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_weather_reporter/weather_forecast"
   }
+
+
 
 }

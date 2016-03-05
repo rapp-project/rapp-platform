@@ -113,8 +113,13 @@
     "services": [
       "geolocation"
     ]
+  },
+  "weather_report": {
+    "launch": true,
+    "path": "workers/weather_report/worker.js",
+    "services": [
+      "weather_report_forecast"
+    ]
   }
-
-
 
 }
