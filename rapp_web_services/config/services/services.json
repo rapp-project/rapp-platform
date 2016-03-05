@@ -200,8 +200,17 @@
     "timeout": 30000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_weather_reporter/weather_forecast"
+  },
+  "weather_report_current": {
+    "launch": true,
+    "anonymous": false,
+    "name": "weather_report_current",
+    "url_name": "weather_report_current",
+    "namespace": "",
+    "timeout": 30000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_weather_reporter/current_weather"
   }
-
 
 
 }

@@ -118,7 +118,8 @@
     "launch": true,
     "path": "workers/weather_report/worker.js",
     "services": [
-      "weather_report_forecast"
+      "weather_report_forecast",
+      "weather_report_current"
     ]
   }
 
