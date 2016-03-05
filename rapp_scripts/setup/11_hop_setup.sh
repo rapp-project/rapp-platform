@@ -25,7 +25,7 @@ RappPlatformPath="${HOME}/rapp_platform"
 BiglooIndex="bigloo4.3a"
 BiglooUrl="ftp://ftp-sop.inria.fr/indes/rapp/hop/bigloo.tar.gz"
 HopRepoUrl="https://github.com/manuel-serrano/hop.git"
-HopCommitIndex="23199eaf18a8ed38f596483d4d7dd4e322985fbe"
+HopCommitIndex="58c2d43e43d1358b6d65506f8167a0cdfcd3ca51"
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing HOP by repos \e[0m"
 
