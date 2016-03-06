@@ -1,0 +1,6 @@
+<launch>
+  <node name="rapp_hazard_detection_node" pkg="rapp_hazard_detection" 
+    type="hazard_detection_ros_node" output="screen" />
+  <rosparam file="$(find rapp_hazard_detection)/cfg/hazard_detection_params.yaml" 
+    command="load" />
+</launch>

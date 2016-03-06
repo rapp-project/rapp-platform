@@ -1,0 +1,5 @@
+<launch>
+  <node type="hazard_detection_ros_node" pkg="rapp_hazard_detection" name="rapp_hazard_detection"/> 
+  <test time-limit="100" test-name="hazard_detection_functional" pkg="rapp_hazard_detection" type="functional_tests.py"/> 
+  <rosparam file="$(find rapp_hazard_detection)/cfg/hazard_detection_params.yaml" command="load" />
+</launch>
