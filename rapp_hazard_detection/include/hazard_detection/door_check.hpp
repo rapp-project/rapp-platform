@@ -28,12 +28,18 @@ limitations under the License.
 #include <opencv2/opencv.hpp>
 
 /**
- * 
+ * Class implementing methods related with door angle estimation behaviour. 
  */
 class DoorCheck {
 public:
   /**
+   * Estimate angle of the door. Camera should be pointed to the contact
+   * point of the door frame with the floor.
    * 
+   * \param fname path to the image file
+   * \param debug if set, debug information is produced
+   * 
+   * \return estimateg door opening angle (in degrees) 
    */
   int process( const std::string & fname, bool debug=false );
 
