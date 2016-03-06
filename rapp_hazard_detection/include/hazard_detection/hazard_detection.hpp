@@ -79,6 +79,9 @@ class HazardDetection
 
     /**< Member variable holding the door check ROS service name */
     std::string doorCheckTopic_;
+    
+    /**< Door check implementation*/
+    DoorCheck door_check;
 };
 
 #endif // RAPP_HAZARD_DETECTION
