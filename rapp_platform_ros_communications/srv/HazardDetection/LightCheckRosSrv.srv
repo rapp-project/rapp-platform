@@ -1,0 +1,8 @@
+# Contains info about time and reference
+Header header
+# The image's filename to perform light checking
+string imageFilename
+---
+# Light level in the center of the provided image
+int32 light_level
+string error

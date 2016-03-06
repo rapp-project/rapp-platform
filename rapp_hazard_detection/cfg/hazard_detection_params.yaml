@@ -1,0 +1,5 @@
+rapp_hazard_detection_light_check_topic: /rapp/rapp_hazard_detection/light_check
+rapp_hazard_detection_door_check_topic: /rapp/rapp_hazard_detection/door_check
+
+# This variable holds the maximum simultaneous calls the node can serve
+rapp_hazard_detection_threads: 10
