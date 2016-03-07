@@ -1,4 +1,10 @@
 {
+"path_planning_planPath2d": {
+    "Mode": "Deploy",
+    "timeout": 45000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_path_planning/planPath2d"
+  },
 "path_planning_upload_map": {
     "Mode": "Deploy",
     "timeout": 45000,
