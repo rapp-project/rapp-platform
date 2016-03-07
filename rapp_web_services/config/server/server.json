@@ -1,0 +1,29 @@
+{
+  "mode": "devel",
+  "paths": {
+    "hop_dir": "~/.hop",
+    "log_dir": "~/.hop/log/server",
+    "cache_dir": "~/.hop/cache/server",
+    "hoprc": ""
+  },
+  "run": {
+    "port": 9001,
+    "scheduler": "accept-many",
+    "maxthreads": 100,
+    "clear_cache": true,
+    "https": {
+      "enable": false,
+      "pkey_filepath": "",
+      "cert_filepath": ""
+    },
+    "addr_listen": ""
+  },
+  "logging": {
+    "verbosity": 5,
+    "debug": 2,
+    "warning": 0,
+    "security": 1,
+    "time": true,
+    "color": true
+  }
+}

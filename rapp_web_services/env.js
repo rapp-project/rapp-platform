@@ -20,28 +20,27 @@
 
 
 var os = require('os');
-var hop = require('hop');
 var path = require('path');
-var Fs = require( path.join(__dirname, 'src', 'common', 'fileUtils.js') );
+var Fs = require( path.join(__dirname, 'src/common', 'fileUtils.js'));
 
 var ifaces = os.networkInterfaces();
 var HOME = process.env.HOME;
 
-var rosEnv = require( path.join(__dirname, 'config', 'env', 'rosbridge.json') );
+var rosEnv = require(path.join(__dirname, 'config/env', 'rosbridge.json'));
 
-var srvEnv = require( path.join(__dirname, 'config', 'services',
-    'services.json') );
+var srvEnv = require(path.join(__dirname, 'config/services',
+    'services.json'));
 
-var workerEnv = require( path.join(__dirname, 'config', 'services',
-    'workers.json') );
+var workerEnv = require(path.join(__dirname, 'config/services',
+    'workers.json'));
 
-var pathsEnv = require( path.join(__dirname, 'config', 'env', 'paths.json') );
+var pathsEnv = require(path.join(__dirname, 'config/env', 'paths.json'));
+
+var serverCfg = require(path.join(__dirname,
+    'config/server/server.js'));
 
 var env = {
-  SERVER: {
-    PORT: hop.port,
-    HOSTNAME: hop.hostname
-  },
+  SERVER: serverCfg,
   ROSBRIDGE: {
     HOSTNAME: rosEnv.ip_addr,
     PORT: rosEnv.port

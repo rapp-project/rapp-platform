@@ -1,6 +1,6 @@
 /*global module:false*/
 module.exports = function(grunt) {
-
+  var path = require('path');
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -50,6 +50,16 @@ module.exports = function(grunt) {
           }
         }
       },
+      hop_launch: {
+        command: function(err, stdout, stderr){
+           return require(path.join(__dirname, 'hop_server.launch.js'));
+        },
+        options: {
+          execOptions: {
+            maxBuffer: Infinity
+          }
+        }
+      },
       clean_doc: {
         command: 'rm -rf doc/'
       }
@@ -78,5 +88,6 @@ module.exports = function(grunt) {
 
   // Initiate HOP task
   grunt.registerTask('init-hop', ['shell:init_hop']);
+  grunt.registerTask('hop-server', ['shell:hop_launch']);
 
 };

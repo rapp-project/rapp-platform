@@ -58,6 +58,11 @@ JSFILE=init.js
 JSEXECPATH="${CURRENTDIR}/${JSFILE}"
 CFG_DIR=${CURRENTDIR}/config/hop
 
+## Secure Channel - HTTPS
+HTTPS_ENABLE=true
+HTTPS_PKEY="${HOME}/.cert/server.key"
+HTTPS_CERT="${HOME}/.cert/server.crt"
+
 ## Hop Web Server run on this port
 PORT=9001
 
@@ -87,7 +92,7 @@ FAST_SERVER_EVENT=false
 REPORT_EXECTIME=false
 
 ## Verbosity ##
-VERB_LEVEL=1 #10 Default
+VERB_LEVEL=5 #10 Default
 DEBUG_LEVEL=1 #10 Default
 WARN_LEVEL=1 #10 Default
 SECURITY_LEVEL=0
@@ -116,6 +121,14 @@ if [ ${FAST_SERVER_EVENT} == true ]; then
   FLAGS+=" --fast-server-event"
 else
   FLAGS+=" --no-fast-server-event"
+fi
+
+if [ ${HTTPS_ENABLE} == true ]; then
+  FLAGS+=" --https"
+  FLAGS+=" --https-pkey ${HTTPS_PKEY}"
+  FLAGS+=" --https-cert ${HTTPS_CERT}"
+else
+  FLAGS+=" --no-https"
 fi
 
 FLAGS+=" --cache-dir ${CACHEDIR} "
