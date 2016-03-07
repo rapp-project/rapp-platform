@@ -12,9 +12,9 @@
     "maxthreads": 100,
     "clear_cache": true,
     "https": {
-      "enable": false,
-      "pkey_filepath": "",
-      "cert_filepath": ""
+      "enable": true,
+      "pkey_filepath": "~/.cert/server.key",
+      "cert_filepath": "~/.cert/server.crt"
     },
     "addr_listen": ""
   },
