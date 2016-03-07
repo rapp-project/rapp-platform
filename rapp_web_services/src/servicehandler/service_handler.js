@@ -68,7 +68,8 @@ function ServiceHandler( args ){
    * ------------------------ */
   this.serverParams = {
     hostname: hop.hostname,
-    port: hop.port
+    port: hop.port,
+    protocol: (require(hop.config).HTTPSPort) ? "https" : "http"
   };
 }
 
@@ -281,8 +282,8 @@ ServiceHandler.prototype.registerWorker = function( worker )
  * @param {String} path - Service's path (e.g. /hop/face_detection).
  */
 ServiceHandler.prototype.serviceUrl = function( path ){
-  return util.format('http://%s:%s%s', this.serverParams.hostname,
-    this.serverParams.port, path);
+  return util.format('%s://%s:%s%s', this.serverParams.protocol,
+    this.serverParams.hostname, this.serverParams.port, path);
 };
 
 

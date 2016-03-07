@@ -79,14 +79,15 @@ function scanServices(){
   console.log(msg);
 
   for(var s in ENV.SERVICES){
+    var srvName = ENV.SERVICES[s].name;
+    var srvUrlName = ENV.SERVICES[s].url_name;
     if(s === SERVICE_NAME){
-      __availableServices.push(s);
+      __availableServices.push(srvName);
       continue;
     }
     var response = undefined;
     var args = {};
-    var webService = hop.webService('http://' + hop.hostname + ':' + hop.port +
-      '/hop/' + s);
+    var webService = hop.webService(serviceUrl(srvUrlName));
     var srv = webService(args);
 
     try{
@@ -98,7 +99,7 @@ function scanServices(){
       continue;
     }
     console.log(colors.success + "\n ---> [OK]: " + s + colors.clear + "\n");
-    __availableServices.push(s);
+    __availableServices.push(srvName);
   }
 
   console.log(colors.ok + "\n <UpRunning Services>" + colors.clear);
@@ -149,8 +150,9 @@ function svcImpl ( kwargs )
 }
 
 
-function service_url(srvName){
-  return 'http://' + hop.hostname + ':' + hop.port + '/hop/' + srvName;
+function serviceUrl(srvName){
+  var protocol = require(hop.config).HTTPSPort ? "https" : "http";
+  return util.format('%s://%s:%s/hop/%s', protocol, hop.hostname, hop.port, srvName);
 }
 
 
