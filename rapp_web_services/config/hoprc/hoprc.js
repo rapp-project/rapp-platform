@@ -21,6 +21,7 @@ var rappAccessDirs = [
 
 /*
  * Default RAPP User.
+ * Directory access permissions.
  */
 user.add({
   name: "rapp",
@@ -32,7 +33,7 @@ user.add({
 
 
 /*
- * Anonymous user. Only allowed for anonymous local requests.
+ * Anonymous requests.
  */
 user.add({
   name: "anonymous",
