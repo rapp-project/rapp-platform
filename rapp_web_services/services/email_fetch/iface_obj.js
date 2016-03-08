@@ -82,8 +82,17 @@ var emailEntry = function( ){
 };
 
 
+var attachment = function( ){
+  var obj = {
+    filename: '',
+    data: ''
+  };
+  return obj;
+};
+
 exports.client_res = clientRes;
 exports.client_req = clientReq;
 exports.ros_req = rosReq;
 exports.ros_res = rosRes;
 exports.email_entry = emailEntry;
+exports.attachment = attachment;

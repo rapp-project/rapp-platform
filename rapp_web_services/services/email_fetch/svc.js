@@ -272,12 +272,26 @@ function parseRosbridgeMsg(rosbridge_msg)
     return response;
   }
 
-  for( var i in emails ){
+
+  for ( var i in emails ){
     var emailEntry = new interfaces.email_entry();
     emailEntry.sender = emails[i].sender;
-    for( var j in emails[i].receivers){
+    for ( var j in emails[i].receivers){
       emailEntry.receivers.push(emails[i].receivers[j]);
     }
+
+    for ( var j in emails[i].attachmentPaths ){
+      var fPath = emails[i].attachmentPaths[j];
+      var attachment = new interfaces.attachment();
+      var f = Fs.readFileSync(fPath);
+      if( f )
+      {
+        attachment.filename = f.basename;
+        attachment.data = f.data.toString('base64');
+        emailEntry.attachments.push(attachment);
+      }
+    }
+
 
     emailEntry.date = emails[i].dateTime;
     emailEntry.subject = emails[i].subject;
