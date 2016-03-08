@@ -26614,7 +26614,7 @@ Note that a physical object, being three-dimensional, can only be partially loca
 </owl:Class>
 
 <owl:ObjectProperty rdf:about="&knowrob;belongsToUser">
-  <rdfs:range rdf:resource="&knowrob;Thing"/>
+  <rdfs:range rdf:resource="&knowrob;Person"/>
   <rdfs:domain rdf:resource="&knowrob;SpatialThing-Localized"/>
 </owl:ObjectProperty>
 
@@ -57716,7 +57716,7 @@ See also xAxisPredicateOfSystem and zAxisPredicateOfSystem.</rdfs:comment>
 
 <owl:ObjectProperty rdf:about="&knowrob;cognitiveTestPerformedPatient">
   <rdfs:domain rdf:resource="&knowrob;CognitiveTestPerformed"/>
-  <rdfs:range rdf:resource="&knowrob;Patient"/>
+  <rdfs:range rdf:resource="&knowrob;Person"/>
 </owl:ObjectProperty>
 
 <owl:AllDisjointClasses>

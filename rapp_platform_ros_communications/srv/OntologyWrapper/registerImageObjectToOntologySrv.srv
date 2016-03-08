@@ -1,13 +1,14 @@
 # Contains info about time and reference
 Header header
 # General string for simple queries
-string ontology_alias
+string user_ontology_alias
 bool image_class_exists_in_ontology
-string image_ontology_class
+string object_ontology_class
 string image_path
 int32 timestamp
 ---
 # The results of the query
+string object_entry
 string[] trace
 bool success 
 string error
