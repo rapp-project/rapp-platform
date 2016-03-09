@@ -19,11 +19,155 @@ limitations under the License.
 ******************************************************************************/
 
 #include <hazard_detection/door_check.hpp>
+#include <hazard_detection/Line.hpp>
 
-int DoorCheck::process( const std::string & fname, bool debug ) {
-  cv::Mat img = cv::imread(fname);
+
+
+int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
+  cv::Mat img = cv::imread(fname, CV_LOAD_IMAGE_GRAYSCALE);
   
+  // check, whether image is properly loaded
   if (img.empty()) return -1;
+
+  // adaptive thresholding - results similar to edge detection
+  cv::Mat img_thr;
+  cv::adaptiveThreshold(img, img_thr, 255, params.thr_method, cv::THRESH_BINARY_INV, params.thr_block, params.thr_c);
   
-  return 0;
+  int prop_width = img.size().width;
+  int prop_height = img.size().height;
+
+  // detect line segments
+  std::vector<cv::Vec4i> tmp_lines;
+  cv::HoughLinesP( img_thr, tmp_lines, 1, CV_PI/180, params.hough_thr, params.hough_len, params.hough_gap);
+
+  std::vector<Line> lines;
+  for( size_t i = 0; i < tmp_lines.size(); i++ )
+  {
+    lines.push_back(Line(cv::Point(tmp_lines[i][0], tmp_lines[i][1]), cv::Point(tmp_lines[i][2], tmp_lines[i][3])));
+  }
+  
+  // estimate door angle
+  Line line;
+
+  std::vector<Line> lines_v, lines_h;
+
+  for (int i = 0; i < lines.size(); ++i) {
+    line = lines[i];
+    if (abs(line.getAngle()) < M_PI/6) {
+      lines_h.push_back(line);
+    } else
+    if (abs(line.getAngle()) > 2*M_PI/6) {
+      lines_v.push_back(line);
+    } else {
+      // skip line
+    }
+  }
+
+  std::vector<cv::Point2f> points_v, points_h;
+
+  /*for (int i = 0; i < 20; ++i) {
+    std::random_shuffle(lines_v.begin(), lines_v.end());
+  }*/
+
+  // center line - vertical door frame
+  Line * cl = NULL;
+
+  // score of center line
+  float cl_score = 0;
+
+  for (int i = 0; i < lines_v.size(); ++i) {
+    Line * tmp = &lines_v[i];
+    
+    // angle score - 1 for perfectly vertical line
+    float angle_score = abs(tmp->getAngle()) / (M_PI/2);
+    
+    // position score - 1 for centered line
+    float mean_x = (tmp->getP1().x + tmp->getP2().x) / 2;
+    float cx = 0.5 * prop_width;
+    float position_score = 1.0 - fabs(cx - mean_x) / cx;
+    
+    // length score - 1 for line at least half of image height
+    float length_score = 2 * tmp->length() / prop_height;
+    if (length_score > 1) length_score = 1;
+    
+    float tmp_score = angle_score * position_score * length_score;
+    if (tmp_score > cl_score) {
+      cl = tmp;
+      cl_score = tmp_score;
+    }
+  }
+
+  //if (cl)
+  //  cl->setCol(cv::Scalar(255, 0, 255));
+    
+  // left line - left floor/wall crossing
+  Line * ll = NULL;
+
+  // score of left line
+  float ll_score = 0;
+
+  for (int i = 0; i < lines_h.size(); ++i) {
+    Line * tmp = &lines_h[i];
+    
+    // angle score - 1 for perfectly horizontal line
+    float angle_score = (M_PI/2 - abs(tmp->getAngle())) / (M_PI/2);
+    
+    // position score - 1 for line centered on the left part
+    float mean_x = (tmp->getP1().x + tmp->getP2().x) / 2;
+    float cx = 0.25 * prop_width;
+    float position_score = 1.0 - fabs(cx - mean_x) / cx;
+    
+    // length score - 1 for line at least half of image width
+    float length_score = 2 * tmp->length() / prop_width;
+    if (length_score > 1) length_score = 1;
+    
+    float tmp_score = angle_score * position_score * length_score;
+    if (tmp_score > ll_score) {
+      ll = tmp;
+      ll_score = tmp_score;
+    }
+  }
+
+  //if (ll)
+  //  ll->setCol(cv::Scalar(0, 0, 255));
+    
+  // right line - right floor/wall crossing
+  Line * rl = NULL;
+
+  // score of right line
+  float rl_score = 0;
+
+  for (int i = 0; i < lines_h.size(); ++i) {
+    Line * tmp = &lines_h[i];
+    
+    // angle score - 1 for perfectly horizontal line
+    float angle_score = (M_PI/2 - abs(tmp->getAngle())) / (M_PI/2);
+    
+    // position score - 1 for line centered on the left part
+    float mean_x = (tmp->getP1().x + tmp->getP2().x) / 2;
+    float cx = 0.75 * prop_width;
+    float position_score = 1.0 - fabs(cx - mean_x) / cx;
+    
+    // length score - 1 for line at least half of image width
+    float length_score = 2 * tmp->length() / prop_width;
+    if (length_score > 1) length_score = 1;
+    
+    float tmp_score = angle_score * position_score * length_score;
+    if (tmp_score > rl_score) {
+      rl = tmp;
+      rl_score = tmp_score;
+    }
+  }
+
+  //if (rl)
+  //  rl->setCol(cv::Scalar(0, 0, 255));
+    
+  float angle = 0;
+  if (ll && rl) {
+    angle = fabs(ll->getAngle() - rl->getAngle()) * 180 / 3.1415;
+  } else {
+    angle = 90;
+  }
+
+  return angle;
 }
