@@ -26,6 +26,7 @@ from shutil import copyfile
 import ntpath
 
 from cloud_agent_mysql_functions import CloudAgentMysqlFunctions
+
 from rapp_platform_ros_communications.srv import (
   createContainerSrv,
   createContainerSrvResponse  
@@ -40,30 +41,35 @@ class CreateContainer:
   
   def createContainer(self,req):
     res = createContainerSrvResponse()
-    #CloudAgentMysqlFunctions.writeCloudAgentEntry("0","kati","kati","kati","kati")
-    #CloudAgentMysqlFunctions.writeCloudAgentServiceEntry("14","test","test","0","0")
-    #CloudAgentMysqlFunctions.writeCloudAgentServiceArgumentsEntry("12","test")
+    from docker import Client
+    #cli = Client(base_url='tcp://127.0.0.1:2375')
+    cli = Client(base_url='unix://var/run/docker.sock')
     
+    directory=os.getenv("HOME")+'/rapp_platform_files/tempDockerFileBuilds/'
+    if not os.path.exists(directory):
+      os.makedirs(directory)
     
+    #tmpDirectory=directory=os.getenv("HOME")+'/rapp_platform_files/tempDockerFileBuilds/'+'tmpBuild'
+    localFile=ntpath.basename(req.tarUri)
     
-    #from docker import Client
-    #cli = Client(base_url='unix://var/run/docker.sock')
+    f = open(directory+'/Dockerfile','w')
+    f.write('FROM ubuntu\n ADD t.tar.gz /home/\n RUN bash /home/setup.sh\n RUN bash /home/run.sh\n') # python will convert \n to os.linesep
+    f.close()
+    copyfile(req.tarUri, directory+'/'+localFile)
     
-    #directory=os.getenv("HOME")+'/rapp_platform_files/tempDockerFileBuilds/'
-    #if not os.path.exists(directory):
-      #os.makedirs(directory)
-
-    #localFile=ntpath.basename(req.tarUri)
+    #dockerfile = '\nFROM ubuntu\n \
+    #ADD '+localFile+' /home/\n \
+    #RUN ls /home/\n \
+    #RUN bash /home/setup.sh\n \
+    #RUN bash /home/run.sh'
+        
+    #print dockerfile
     
-    #f = open(directory+'/Dockerfile','w')
-    #f.write('FROM ubuntu\n ADD t.tar.gz /home/\n RUN bash /home/setup.sh\n RUN bash /home/run.sh\n') # python will convert \n to os.linesep
-    #f.close()
-    #copyfile(req.tarUri, directory+'/'+localFile)
-
-    #response = [line for line in cli.build(path=directory, rm=True, tag='yourname/volume')]
+    #f = BytesIO(dockerfile.encode('utf-8'))
+    response = [line for line in cli.build(path=directory, rm=True, tag='yourname/volume')]
     
-
-    #print(response)
+    #container = cli.create_container(image='ubuntu', command='/bin/sleep 30')
+    print(response)
 
     print "something" 
     
