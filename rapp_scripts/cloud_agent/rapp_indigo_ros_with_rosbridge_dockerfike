@@ -1,0 +1,18 @@
+FROM ros:indigo-ros-base
+MAINTAINER Aris Thallas aris.thallas@gmail.com
+LABEL Description="This is the basic RAPP ROS setup with rosbridge"
+
+RUN apt-get update && apt-get install -y \
+ sudo \
+ build-essential \
+ ros-indigo-rosbridge-suite \
+&& rm -rf /var/lib/apt/lists/*
+
+RUN useradd -r -m -c "RAPP user" -s /bin/bash rapp && \
+ echo "rapp:rapp" | chpasswd && \
+ adduser rapp sudo
+
+USER rapp
+ARG RAPP_HOME=/home/rapp
+WORKDIR $RAPP_HOME
+RUN /bin/bash -c "echo source /opt/ros/indigo/setup.bash --extend >> .bashrc"
