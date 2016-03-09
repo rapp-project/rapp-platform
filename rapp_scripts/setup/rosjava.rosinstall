@@ -1,4 +1,4 @@
 #- git: {local-name: rosjava_bootstrap, uri: 'https://github.com/rapp-project/rosjava_bootstrap.git', version: indigo}
 - git: {local-name: rosjava_core, uri: 'https://github.com/rapp-project/rosjava_core.git', version: indigo}
-- git: {local-name: rosjava_extras, uri: 'https://github.com/rapp-project/rosjava_extras.git', version: indigo}
+#- git: {local-name: rosjava_extras, uri: 'https://github.com/rapp-project/rosjava_extras.git', version: indigo}
 #- git: {local-name: zeroconf_jmdns_suite, uri: 'https://github.com/rapp-project/zeroconf_jmdns_suite.git', version: indigo}
