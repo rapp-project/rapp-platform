@@ -78,5 +78,5 @@ if (CATKIN_ENABLE_TESTING)
 #    )
 
  #  functional tests
-  add_rostest(test/path_planner/functional_tests.launch)
+  add_rostest(test/path_planning/functional_tests.launch)
 endif()
