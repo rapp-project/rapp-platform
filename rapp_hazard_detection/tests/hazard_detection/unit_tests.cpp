@@ -140,7 +140,7 @@ class DoorCheckTest : public ::testing::Test
 };
 
 /**
- * @brief Tests light detection with a missing file. Should return 0
+ * @brief Tests door angle detection with a missing file. Should return 0
  */
 TEST_F(DoorCheckTest, file_not_exists_test)
 {
@@ -150,7 +150,16 @@ TEST_F(DoorCheckTest, file_not_exists_test)
   EXPECT_EQ(-1, door_angle);
 }
 
-
+/**
+ * @brief Tests door angle detection with a example file. Should return positive value
+ */
+TEST_F(DoorCheckTest, door_open_test)
+{
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  std::string s = path + std::string("/test_data/hazard_detection_samples/door_1.png");
+  int door_angle = door_check_->process(s);
+  EXPECT_GT(door_angle, 1);
+}
 
 /**
  * @brief The main function. Initialized the unit tests
