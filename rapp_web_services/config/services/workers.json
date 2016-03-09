@@ -121,6 +121,14 @@
       "weather_report_forecast",
       "weather_report_current"
     ]
+  },
+  "object_recognition": {
+    "launch": true,
+    "path": "workers/object_recognition/worker.js",
+    "services": [
+      "object_recognition"
+    ]
   }
+
 
 }

@@ -210,6 +210,16 @@
     "timeout": 30000,
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_weather_reporter/current_weather"
+  },
+  "object_recognition": {
+    "launch": true,
+    "anonymous": false,
+    "name": "object_recognition",
+    "url_name": "object_recognition",
+    "namespace": "",
+    "timeout": 30000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_caffe_wrapper/image_classification"
   }
 
 
