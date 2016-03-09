@@ -90,6 +90,10 @@ public:
     return r;
   }
 
+  void draw(cv::Mat img, cv::Scalar color) {
+    cv::line(img, p1, p2, color, 2);
+  }
+
 private:
 
   void computeLineEquation()
