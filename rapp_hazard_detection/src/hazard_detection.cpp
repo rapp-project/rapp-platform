@@ -29,6 +29,16 @@ HazardDetection::HazardDetection(void)
   // Creating the service server concerning the light_check functionality
   lightCheckService_ = nh_.advertiseService(lightCheckTopic_,
     &HazardDetection::lightCheckCallback, this);
+
+  // Fetching the service topic URI parameter
+  if(!nh_.getParam("/rapp_hazard_detection_door_check_topic", doorCheckTopic_))
+  {
+    ROS_ERROR("Door check topic param does not exist");
+  }
+  
+  // Creating the service server concerning the door_check functionality
+  doorCheckService_ = nh_.advertiseService(doorCheckTopic_,
+    &HazardDetection::doorCheckCallback, this);
 }
 
 bool HazardDetection::lightCheckCallback(
