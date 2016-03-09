@@ -44,5 +44,7 @@ bool HazardDetection::doorCheckCallback(
       rapp_platform_ros_communications::DoorCheckRosSrv::Request& req,
       rapp_platform_ros_communications::DoorCheckRosSrv::Response& res )
 {
+  int door_angle = door_check.process(req.imageFilename);
+  res.door_angle = door_angle;
   return true;
 }
