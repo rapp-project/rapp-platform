@@ -1,0 +1,37 @@
+<package>
+    <name>rapp_map_server</name>
+    <version>1.12.0</version>
+    <description>
+	Rapp_map_server is based on map_server ROS package (http://wiki.ros.org/map_server). Rapp_map_server advertises following services:
+ -> ${node_name}/get_map - responds with nav_msgs/OccupancyGrid map needed by rapp_static_layer 
+			  plugin of costmap_2d ROS package during path planning sequence,
+ -> ${node_name}/upload_map - generates map_name.yaml configuration file and saves map_name.png
+			      data file in /home/rapp/rapp_platform_files/rapp/${user_name}/ 	
+			      directory.
+    </description>
+    <author>Brian Gerkey, Tony Pratkanis</author>
+    <author>contradict@gmail.com</author>
+    <author>Wojciech Dudek</author>
+    <maintainer email="wojciechdudek.mail@gmail.com">Wojciech Dudek</maintainer>
+    <license>BSD</license>
+
+    <buildtool_depend version_gte="0.5.68">catkin</buildtool_depend>
+
+    <build_depend>nav_msgs</build_depend>
+    <build_depend>roscpp</build_depend>
+    <build_depend>rostest</build_depend>
+    <build_depend>sdl-image</build_depend>
+    <build_depend>tf</build_depend>
+    <build_depend>yaml-cpp</build_depend>
+    <build_depend>rapp_platform_ros_communications</build_depend>
+
+    <run_depend>nav_msgs</run_depend>
+    <run_depend>roscpp</run_depend>
+    <run_depend>rostest</run_depend>
+    <run_depend>sdl-image</run_depend>
+    <run_depend>tf</run_depend>
+    <run_depend>yaml-cpp</run_depend>
+    <run_depend>rapp_platform_ros_communications</run_depend>
+
+    <test_depend>rospy</test_depend>
+</package>

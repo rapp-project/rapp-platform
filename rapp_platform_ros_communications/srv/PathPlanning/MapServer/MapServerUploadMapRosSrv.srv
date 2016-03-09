@@ -1,0 +1,11 @@
+string user_name
+string map_name
+float32 resolution
+float32[] origin
+int16 negate
+float32 occupied_thresh
+float32 free_thresh
+uint32 file_size
+char[] data
+---
+byte status

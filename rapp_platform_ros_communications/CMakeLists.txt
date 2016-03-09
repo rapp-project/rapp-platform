@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_runtime
   std_msgs
   geometry_msgs
+  nav_msgs
 )
 
 ################################################
@@ -89,6 +90,11 @@ add_service_files(
   
   /HazardDetection/LightCheckRosSrv.srv
   /HazardDetection/DoorCheckRosSrv.srv
+
+  /PathPlanning/PathPlanningRosSrv.srv
+  /Costmap2d/Costmap2dRosSrv.srv
+  /PathPlanning/MapServer/MapServerGetMapRosSrv.srv
+  /PathPlanning/MapServer/MapServerUploadMapRosSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -96,6 +102,7 @@ generate_messages(
   DEPENDENCIES
   std_msgs  # Or other packages containing msgs
   geometry_msgs
+  nav_msgs
 )
 
 ###################################
