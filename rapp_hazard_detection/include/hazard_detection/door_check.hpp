@@ -28,6 +28,59 @@ limitations under the License.
 #include <opencv2/opencv.hpp>
 
 /**
+ * Parameters for door checking behaviour.
+ */
+struct DoorCheckParams {
+  // -------------------------------------------------------------------
+  // Adaptive threshold parameters 
+  // -------------------------------------------------------------------
+  
+  /// Adaptive thresholding algorithm to use, ADAPTIVE_THRESH_MEAN_C or ADAPTIVE_THRESH_GAUSSIAN_C.
+  int thr_method;
+  
+  /// Size of a pixel neighborhood that is used to calculate a threshold value for the pixel: 3, 5, 7, and so on.
+  int thr_block;
+  
+  /// Constant subtracted from the mean or weighted mean. Normally, it is positive but may be zero or negative as well.
+  int thr_c;
+  
+  // -------------------------------------------------------------------
+  // Hough line detector parameters
+  // -------------------------------------------------------------------
+  
+  /// Maximum allowed gap between points on the same line to link them.
+  int hough_gap;
+  
+  /// Minimum line length. Line segments shorter than that are rejected.
+  int hough_len;
+  
+  /// Accumulator threshold parameter. Only those lines are returned that get enough votes (>threshold).
+  int hough_thr;
+  
+  // -------------------------------------------------------------------
+  // Additional parameters
+  // -------------------------------------------------------------------
+  
+  /// Debug flag. If set, additional output is produced.
+  bool debug;
+  
+  // -------------------------------------------------------------------
+  // Contructors
+  // -------------------------------------------------------------------
+  
+  /// Default constructor with "optimal" parameters.
+  DoorCheckParams() :
+    thr_method(cv::ADAPTIVE_THRESH_GAUSSIAN_C),
+    thr_block(1),
+    thr_c(3),
+    hough_gap(20),
+    hough_len(60),
+    hough_thr(80),
+    debug(false)
+  {}
+};
+
+/**
  * Class implementing methods related with door angle estimation behaviour. 
  */
 class DoorCheck {
@@ -37,11 +90,11 @@ public:
    * point of the door frame with the floor.
    * 
    * \param fname path to the image file
-   * \param debug if set, debug information is produced
+   * \param params processing parameters
    * 
    * \return estimateg door opening angle (in degrees) 
    */
-  int process( const std::string & fname, bool debug=false );
+  int process( const std::string & fname, DoorCheckParams params = DoorCheckParams() );
 
 protected:
 };
