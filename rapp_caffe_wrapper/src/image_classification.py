@@ -16,7 +16,7 @@
 
 # Author: Athanassios Kintsakis
 # contact: akintsakis@issel.ee.auth.gr
-
+ 
 import rospy
 import sys
 import numpy as np
@@ -34,22 +34,21 @@ from rapp_platform_ros_communications.msg import (
   )
 
 
-  
-## @class MySQLdbWrapper
-# @brief The mysql wrapper ros node
 class ImageClassification:
   
   def classifyImage(self,req):
     res = imageClassificationSrvResponse()
-    
+        
     
     caffe_root = expanduser("~")+'/rapp_platform/caffe/'  # this file is expected to be in {caffe_root}/examples
     import sys
     sys.path.insert(0, caffe_root + 'python')
     print np.__version__
-
+    
+    import os    
+    os.environ['GLOG_minloglevel'] = '2'
     import caffe
-
+    
     start_time = time.time()
     #plt.rcParams['figure.figsize'] = (10, 10)
     #plt.rcParams['image.interpolation'] = 'nearest'
