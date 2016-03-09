@@ -62,6 +62,8 @@ add_service_files(
   /OntologyWrapper/clearUserPerformanceCognitveTestsSrv.srv
   /OntologyWrapper/registerImageObjectToOntologySrv.srv
 
+  /CloudAgentManager/createContainerSrv.srv
+
   /FaceDetection/FaceDetectionRosSrv.srv
 
   /NewsExplorer/NewsExplorerSrv.srv

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapp_cloud_agent_manager</name>
+  <version>0.0.1</version>
+  <description>The rapp_cloud_agent_manager package</description>
+
+  <maintainer email="akintsakis@issel.ee.auth.gr">Athanassios Kintsakis</maintainer>
+
+  <license>APACHE 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>rostest</depend>
+  <depend>rapp_platform_ros_communications</depend>
+</package>
