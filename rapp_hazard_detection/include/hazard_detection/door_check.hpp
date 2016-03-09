@@ -71,7 +71,7 @@ struct DoorCheckParams {
   /// Default constructor with "optimal" parameters.
   DoorCheckParams() :
     thr_method(cv::ADAPTIVE_THRESH_GAUSSIAN_C),
-    thr_block(1),
+    thr_block(3),
     thr_c(3),
     hough_gap(20),
     hough_len(60),

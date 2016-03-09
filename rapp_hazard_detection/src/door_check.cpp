@@ -53,8 +53,12 @@ int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
 
   for (int i = 0; i < lines.size(); ++i) {
     line = lines[i];
+
+    line.draw(img, cv::Scalar(255,255,255));
     if (abs(line.getAngle()) < M_PI/6) {
       lines_h.push_back(line);
+
+      line.draw(img, cv::Scalar(128)); 
     } else
     if (abs(line.getAngle()) > 2*M_PI/6) {
       lines_v.push_back(line);
@@ -77,9 +81,9 @@ int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
 
   for (int i = 0; i < lines_v.size(); ++i) {
     Line * tmp = &lines_v[i];
-    
+
     // angle score - 1 for perfectly vertical line
-    float angle_score = abs(tmp->getAngle()) / (M_PI/2);
+    float angle_score = fabs(tmp->getAngle()) / (M_PI/2);
     
     // position score - 1 for centered line
     float mean_x = (tmp->getP1().x + tmp->getP2().x) / 2;
@@ -97,9 +101,9 @@ int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
     }
   }
 
-  //if (cl)
-  //  cl->setCol(cv::Scalar(255, 0, 255));
-    
+  if (cl)
+    cl->draw(img, cv::Scalar(0, 0, 0));
+
   // left line - left floor/wall crossing
   Line * ll = NULL;
 
@@ -110,12 +114,14 @@ int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
     Line * tmp = &lines_h[i];
     
     // angle score - 1 for perfectly horizontal line
-    float angle_score = (M_PI/2 - abs(tmp->getAngle())) / (M_PI/2);
+    float angle_score = (M_PI/2 - fabs(tmp->getAngle())) / (M_PI/2);
     
     // position score - 1 for line centered on the left part
     float mean_x = (tmp->getP1().x + tmp->getP2().x) / 2;
     float cx = 0.25 * prop_width;
     float position_score = 1.0 - fabs(cx - mean_x) / cx;
+    // ignore lines laying on the right side 
+    if (mean_x > 0.5 * prop_width) position_score = 0;
     
     // length score - 1 for line at least half of image width
     float length_score = 2 * tmp->length() / prop_width;
@@ -128,8 +134,8 @@ int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
     }
   }
 
-  //if (ll)
-  //  ll->setCol(cv::Scalar(0, 0, 255));
+  if (ll)
+    ll->draw(img, cv::Scalar(0));
     
   // right line - right floor/wall crossing
   Line * rl = NULL;
@@ -141,13 +147,15 @@ int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
     Line * tmp = &lines_h[i];
     
     // angle score - 1 for perfectly horizontal line
-    float angle_score = (M_PI/2 - abs(tmp->getAngle())) / (M_PI/2);
+    float angle_score = (M_PI/2 - fabs(tmp->getAngle())) / (M_PI/2);
     
     // position score - 1 for line centered on the left part
     float mean_x = (tmp->getP1().x + tmp->getP2().x) / 2;
     float cx = 0.75 * prop_width;
     float position_score = 1.0 - fabs(cx - mean_x) / cx;
-    
+    // ignore lines laying on the left side 
+    if (mean_x < 0.5 * prop_width) position_score = 0;
+  
     // length score - 1 for line at least half of image width
     float length_score = 2 * tmp->length() / prop_width;
     if (length_score > 1) length_score = 1;
@@ -159,15 +167,18 @@ int DoorCheck::process( const std::string & fname, DoorCheckParams params ) {
     }
   }
 
-  //if (rl)
-  //  rl->setCol(cv::Scalar(0, 0, 255));
-    
+  if (rl)
+    rl->draw(img, cv::Scalar(0));
+
   float angle = 0;
   if (ll && rl) {
     angle = fabs(ll->getAngle() - rl->getAngle()) * 180 / 3.1415;
   } else {
     angle = 90;
   }
+
+  if (params.debug)
+    cv::imwrite("/tmp/door_out.png", img);
 
   return angle;
 }
