@@ -68,9 +68,9 @@ make pycaffe &> /dev/null
 # Warning this download is very slow
 #./scripts/download_model_binary.py ./models/bvlc_reference_caffenet
 echo "Cloning rapp-resources Repo"
-cd ~
+cd ~/rapp_platform_files
 git clone https://github.com/rapp-project/rapp-resources.git &> /dev/null
-cd ~/rapp-resources
+cd ~/rapp_platform_files/rapp-resources
 rm -rf ~/rapp_platform/caffe/models/
 #copy models into caffe directory
 cp -r ./caffe/caffe_models ~/rapp_platform/caffe/models
@@ -81,7 +81,7 @@ rm bvlc_reference_caffenet_piece_*
 
 #create example images folder and load sample image
 mkdir ~/rapp_platform_files/image_processing
-cp -r ~/rapp-resources/caffe/example_images ~/rapp_platform_files/image_processing/
-cp ~/rapp-resources/caffe/synset_words.txt ~/rapp_platform/caffe/data/ilsvrc12/synset_words.txt
+cp -r ~/rapp_platform_files/rapp-resources/caffe/example_images ~/rapp_platform_files/image_processing/
+cp ~/rapp_platform_files/rapp-resources/caffe/synset_words.txt ~/rapp_platform/caffe/data/ilsvrc12/synset_words.txt
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Caffe installation Finished \e[0m"
