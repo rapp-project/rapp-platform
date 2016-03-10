@@ -22,13 +22,9 @@ import os
 
 from rapp_platform_ros_communications.srv import (
   ApplicationTokenGenerationSrv,
-<<<<<<< HEAD
   ApplicationTokenGenerationSrvResponse,
   ApplicationTokenAuthenticationSrv,
   ApplicationTokenAuthenticationSrvResponse
-=======
-  ApplicationTokenGenerationSrvResponse
->>>>>>> first commit of application token generator
   )
 
 from rapp_exceptions import RappError
@@ -36,10 +32,7 @@ from rapp_exceptions import RappError
 class ApplicationAuthenticationManager:
 
   def __init__(self):
-<<<<<<< HEAD
     # Token generation service
-=======
->>>>>>> first commit of application token generator
     self.generate_token_topic = rospy.get_param("rapp_generate_token_topic")
     if(not self.generate_token_topic):
         rospy.logerr("Application authentication: Token generation topic does not exist")
@@ -47,7 +40,6 @@ class ApplicationAuthenticationManager:
     self.generate_token_service = rospy.Service(self.generate_token_topic, \
         ApplicationTokenGenerationSrv, self.generate_token_callback)
 
-<<<<<<< HEAD
     # Token authentication service
     self.authenticate_token_topic = rospy.get_param("rapp_authenticate_token_topic")
     if(not self.authenticate_token_topic):
@@ -57,14 +49,10 @@ class ApplicationAuthenticationManager:
         ApplicationTokenAuthenticationSrv, self.authenticate_token_callback)
 
   # The token generation service callback
-=======
-  # The service callback
->>>>>>> first commit of application token generator
   def generate_token_callback(self, req):
 
     res = ApplicationTokenGenerationSrvResponse()
     res.error = ''
-<<<<<<< HEAD
     res.token = ''.join(random.SystemRandom().choice(string.ascii_uppercase + \
             string.digits) for _ in range(32))
     # Write these to DB
@@ -77,9 +65,6 @@ class ApplicationAuthenticationManager:
     res.error = ''
     res.authenticated = ''
     # Check with database
-=======
-    res.token = 'test'
->>>>>>> first commit of application token generator
     return res
 
 if __name__ == "__main__":

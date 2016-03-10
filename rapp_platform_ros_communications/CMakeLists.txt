@@ -105,7 +105,11 @@ add_service_files(
   /ApplicationAuthentication/ApplicationTokenAuthenticationSrv.srv
 =======
   /ApplicationAuthentication/ApplicationTokenGenerationSrv.srv
+<<<<<<< HEAD
 >>>>>>> first commit of application token generator
+=======
+  /ApplicationAuthentication/ApplicationTokenAuthenticationSrv.srv
+>>>>>>> Added authentication functionality. Remains to connect with DB
 )
 
 ## Generate added messages and services with any dependencies listed here
