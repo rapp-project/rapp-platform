@@ -98,6 +98,8 @@ add_service_files(
   /Costmap2d/Costmap2dRosSrv.srv
   /PathPlanning/MapServer/MapServerGetMapRosSrv.srv
   /PathPlanning/MapServer/MapServerUploadMapRosSrv.srv
+
+  /ApplicationAuthentication/ApplicationTokenGenerationSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here

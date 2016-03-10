@@ -1,0 +1,2 @@
+rapp_generate_token_topic: /rapp/rapp_application_authentication/generate_application_token
+rapp_authenticate_token: /rapp/rapp_application_authentication/authenticate

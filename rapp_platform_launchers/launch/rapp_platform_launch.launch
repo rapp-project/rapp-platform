@@ -15,4 +15,5 @@
   <include file="$(find rapp_caffe_wrapper)/launch/caffe_wrapper.launch" />
   <include file="$(find rapp_hazard_detection)/launch/hazard_detection.launch" />
   <include file="$(find rapp_path_planning)/launch/path_planning.launch" />
+  <include file="$(find rapp_application_authentication_manager )/launch/application_authentication.launch" />
 </launch>

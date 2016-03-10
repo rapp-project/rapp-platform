@@ -1,0 +1,5 @@
+string username
+string robot_mac_address
+---
+string error
+string token
