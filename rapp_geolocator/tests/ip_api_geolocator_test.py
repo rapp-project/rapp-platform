@@ -44,11 +44,14 @@ class TestIpApiGeolocator(unittest.TestCase):
         self._test_service = rospy.ServiceProxy(
             service_topic, GeolocatorSrv)
 
+
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_check_default_values(self):
         req = GeolocatorSrvRequest()
         response = self._test_service(req)
         self.assertEqual(response.error, "'No IP provided'")
 
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_wrong_geolocator(self):
         req = GeolocatorSrvRequest()
         req.geolocator = \
@@ -56,12 +59,14 @@ class TestIpApiGeolocator(unittest.TestCase):
         response = self._test_service(req)
         self.assertEqual(response.error, "'Wrong ip locator provided'")
 
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_right_ip(self):
         req = GeolocatorSrvRequest()
         req.ip = '155.209.15.20'
         response = self._test_service(req)
         self.assertEqual(response.error, '')
 
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_bad_ip(self):
         req = GeolocatorSrvRequest()
         req.ip = '955.209.15.20'

@@ -46,6 +46,7 @@ class TestGoogleNewsExplorer(unittest.TestCase):
         self._test_service = rospy.ServiceProxy(
             service_topic, NewsExplorerSrv)
 
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_check_default_values(self):
         req = NewsExplorerSrvRequest()
         response = self._test_service(req)
@@ -55,6 +56,8 @@ class TestGoogleNewsExplorer(unittest.TestCase):
             self.assertNotIn(story.title, titles)
             titles.append(story.title)
 
+
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_random_keyword(self):
         req = NewsExplorerSrvRequest()
         req.storyNum = 5
@@ -66,6 +69,8 @@ class TestGoogleNewsExplorer(unittest.TestCase):
         self.assertEqual(len(response.stories), 0)
         self.assertEqual(response.error, "")
 
+
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_wrong_engine(self):
         req = NewsExplorerSrvRequest()
         req.newsEngine = \
@@ -74,6 +79,8 @@ class TestGoogleNewsExplorer(unittest.TestCase):
         self.assertEqual(len(response.stories), 0)
         self.assertEqual(response.error, "'Wrong news engine provided'")
 
+
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_too_many_stories(self):
         req = NewsExplorerSrvRequest()
         req.storyNum = 100
@@ -81,6 +88,8 @@ class TestGoogleNewsExplorer(unittest.TestCase):
         self.assertLess(len(response.stories), req.storyNum)
         self.assertEqual(response.error, '')
 
+
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_random_region(self):
         req = NewsExplorerSrvRequest()
         req.regionEdition = \
@@ -89,6 +98,8 @@ class TestGoogleNewsExplorer(unittest.TestCase):
         self.assertEqual(len(response.stories), 5)
         self.assertEqual(response.error, '')
 
+
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_random_topic(self):
         req = NewsExplorerSrvRequest()
         req.topic = \
@@ -96,6 +107,8 @@ class TestGoogleNewsExplorer(unittest.TestCase):
         response = self._test_service(req)
         self.assertNotEqual(response.error, '')
 
+
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_exclude_files(self):
         req = NewsExplorerSrvRequest()
 

@@ -46,6 +46,7 @@ class TestCurrentYWeatherReporter(unittest.TestCase):
             service_topic, WeatherReporterCurrentSrv)
 
     #  @unittest.expectedFailure
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_check_default_values(self):
         req = WeatherReporterCurrentSrvRequest()
         response = self._test_service(req)
@@ -53,6 +54,7 @@ class TestCurrentYWeatherReporter(unittest.TestCase):
             "'City provided is wrong or not supported'")
 
     #  @unittest.expectedFailure
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_actual_city(self):
         req = WeatherReporterCurrentSrvRequest()
         for city in self._cities:
@@ -62,6 +64,7 @@ class TestCurrentYWeatherReporter(unittest.TestCase):
             self.assertNotEqual(response.temperature, "")
 
     #  @unittest.expectedFailure
+    @unittest.skip('Skipping tests - Uncomment decorators to test manually')
     def test_random_city(self):
         req = WeatherReporterCurrentSrvRequest()
         req.city = \
