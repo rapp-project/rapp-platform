@@ -33,19 +33,6 @@ class HumanDetFunc(unittest.TestCase):
     """Handles the human detection functional tests
     """
 
-    ## Tests human detection with Lenna image. Should return 1 human
-    def test_humanExists(self):
-        rospack = rospkg.RosPack()
-        human_service = rospy.get_param("rapp_human_detection_detect_humans_topic")
-        rospy.wait_for_service(human_service)
-        fd_service = rospy.ServiceProxy(human_service, HumanDetectionRosSrv)
-        req = HumanDetectionRosSrvRequest()
-        req.imageFilename = rospack.get_path('rapp_testing_tools') + \
-                '/test_data/Lenna.png'
-        response = fd_service(req)
-        humans_num = len(response.humans_up_left)
-        self.assertEqual( humans_num, 1 )
-
     ## Tests human detection with a NAO captured image. Should return 1 human
     def test_humanExists_realistic(self):
         rospack = rospkg.RosPack()
@@ -54,7 +41,7 @@ class HumanDetFunc(unittest.TestCase):
         fd_service = rospy.ServiceProxy(human_service, HumanDetectionRosSrv)
         req = HumanDetectionRosSrvRequest()
         req.imageFilename = rospack.get_path('rapp_testing_tools') + \
-                '/test_data/human_samples/etsardou_medium.jpg'
+                '/test_data/human_detection_samples/NAO_picture_3.png'
         response = fd_service(req)
         humans_num = len(response.humans_up_left)
         self.assertEqual( humans_num, 1 )
@@ -67,7 +54,7 @@ class HumanDetFunc(unittest.TestCase):
         fd_service = rospy.ServiceProxy(human_service, HumanDetectionRosSrv)
         req = HumanDetectionRosSrvRequest()
         req.imageFilename = rospack.get_path('rapp_testing_tools') + \
-                '/test_data/human_samples/klpanagi_medium_straight.jpg'
+                '/test_data/human_detection_samples/NAO_picture_10.png'
         response = fd_service(req)
         humans_num = len(response.humans_up_left)
         self.assertEqual( humans_num, 1 )
@@ -80,8 +67,8 @@ class HumanDetFunc(unittest.TestCase):
         fd_service = rospy.ServiceProxy(human_service, HumanDetectionRosSrv)
         req = HumanDetectionRosSrvRequest()
         req.imageFilename = rospack.get_path('rapp_testing_tools') + \
-                '/test_data/Lenna.png'
-        for i in range(0, 20):
+                '/test_data/human_detection_samples/NAO_picture_3.png'
+        for i in range(0, 10):
             response = fd_service(req)
             humans_num = len(response.humans_up_left)
             self.assertEqual( humans_num, 1 )
@@ -107,7 +94,7 @@ class HumanDetFunc(unittest.TestCase):
         fd_service = rospy.ServiceProxy(human_service, HumanDetectionRosSrv)
         req = HumanDetectionRosSrvRequest()
         req.imageFilename = rospack.get_path('rapp_testing_tools') + \
-                '/test_data/qr_code_rapp.png'
+                '/test_data/file_does_not_exist.png'
         response = fd_service(req)
         humans_num = len(response.humans_up_left)
         self.assertEqual( humans_num, 0 )

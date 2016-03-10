@@ -57,11 +57,11 @@ class HumanDetectionTest : public ::testing::Test
 /**
  * @brief Tests human detection with the Lenna image. Should be successful
  */ 
-TEST_F(HumanDetectionTest, lenna_test)
+TEST_F(HumanDetectionTest, human_test)
 {
   std::string path = ros::package::getPath("rapp_testing_tools");
-  std::string s = path + std::string("/test_data/Lenna.png");
-  std::vector<cv::Rect> humans = human_detector_->findHumans(s);
+  std::string s = path + std::string("/test_data/human_detection_samples/NAO_picture_3.png");
+  std::vector<cv::Rect> humans = human_detector_->findHuman2D(s);
   EXPECT_EQ(1,humans.size());
 }
 
@@ -72,7 +72,7 @@ TEST_F(HumanDetectionTest, qr_test)
 {
   std::string path = ros::package::getPath("rapp_testing_tools");
   std::string s = path + std::string("/test_data/qr_code_rapp.jpg");
-  std::vector<cv::Rect> humans = human_detector_->findHumans(s);
+  std::vector<cv::Rect> humans = human_detector_->findHuman2D(s);
   EXPECT_EQ(0,humans.size());
 }
 
@@ -83,7 +83,7 @@ TEST_F(HumanDetectionTest, file_not_exists_test)
 {
   std::string path = ros::package::getPath("rapp_testing_tools");
   std::string s = path + std::string("/test_data/not_existent_file.jpg");
-  std::vector<cv::Rect> humans = human_detector_->findHumans(s);
+  std::vector<cv::Rect> humans = human_detector_->findHuman2D(s);
   EXPECT_EQ(0,humans.size());
 }
 
@@ -93,7 +93,7 @@ TEST_F(HumanDetectionTest, file_not_exists_test)
 TEST_F(HumanDetectionTest, zero_sized_image_test)
 {
   cv::Mat tmp_img(0, 0, CV_8UC1);
-  std::vector<cv::Rect> humans = human_detector_->detectHumans(tmp_img);
+  std::vector<cv::Rect> humans = human_detector_->detectHuman2D(tmp_img);
   EXPECT_EQ(0,humans.size());
 }
 
