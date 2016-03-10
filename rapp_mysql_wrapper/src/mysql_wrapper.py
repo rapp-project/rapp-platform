@@ -225,6 +225,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def writeData(self,req,tblName):
     try:
+      print tblName
       res = writeDataSrvResponse()
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'RappStore');

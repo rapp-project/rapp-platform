@@ -25,7 +25,7 @@ from io import BytesIO
 from shutil import copyfile
 import ntpath
 
-
+from cloud_agent_mysql_functions import CloudAgentMysqlFunctions
 from rapp_platform_ros_communications.srv import (
   createContainerSrv,
   createContainerSrvResponse  
@@ -40,35 +40,30 @@ class CreateContainer:
   
   def createContainer(self,req):
     res = createContainerSrvResponse()
-    from docker import Client
-    #cli = Client(base_url='tcp://127.0.0.1:2375')
-    cli = Client(base_url='unix://var/run/docker.sock')
+    #CloudAgentMysqlFunctions.writeCloudAgentEntry("0","kati","kati","kati","kati")
+    #CloudAgentMysqlFunctions.writeCloudAgentServiceEntry("14","test","test","0","0")
+    #CloudAgentMysqlFunctions.writeCloudAgentServiceArgumentsEntry("12","test")
     
-    directory=os.getenv("HOME")+'/rapp_platform_files/tempDockerFileBuilds/'
-    if not os.path.exists(directory):
-      os.makedirs(directory)
     
-    #tmpDirectory=directory=os.getenv("HOME")+'/rapp_platform_files/tempDockerFileBuilds/'+'tmpBuild'
-    localFile=ntpath.basename(req.tarUri)
     
-    f = open(directory+'/Dockerfile','w')
-    f.write('FROM ubuntu\n ADD t.tar.gz /home/\n RUN bash /home/setup.sh\n RUN bash /home/run.sh\n') # python will convert \n to os.linesep
-    f.close()
-    copyfile(req.tarUri, directory+'/'+localFile)
+    #from docker import Client
+    #cli = Client(base_url='unix://var/run/docker.sock')
     
-    #dockerfile = '\nFROM ubuntu\n \
-    #ADD '+localFile+' /home/\n \
-    #RUN ls /home/\n \
-    #RUN bash /home/setup.sh\n \
-    #RUN bash /home/run.sh'
-        
-    #print dockerfile
+    #directory=os.getenv("HOME")+'/rapp_platform_files/tempDockerFileBuilds/'
+    #if not os.path.exists(directory):
+      #os.makedirs(directory)
+
+    #localFile=ntpath.basename(req.tarUri)
     
-    #f = BytesIO(dockerfile.encode('utf-8'))
-    response = [line for line in cli.build(path=directory, rm=True, tag='yourname/volume')]
+    #f = open(directory+'/Dockerfile','w')
+    #f.write('FROM ubuntu\n ADD t.tar.gz /home/\n RUN bash /home/setup.sh\n RUN bash /home/run.sh\n') # python will convert \n to os.linesep
+    #f.close()
+    #copyfile(req.tarUri, directory+'/'+localFile)
+
+    #response = [line for line in cli.build(path=directory, rm=True, tag='yourname/volume')]
     
-    #container = cli.create_container(image='ubuntu', command='/bin/sleep 30')
-    print(response)
+
+    #print(response)
 
     print "something" 
     

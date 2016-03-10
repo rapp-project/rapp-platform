@@ -43,6 +43,56 @@ LOCK TABLES `SSHkey` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `application_token`
+--
+
+DROP TABLE IF EXISTS `application_token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `application_token` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `token` varchar(256) NOT NULL,
+  `robot_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `application_token_ibfk_1` (`robot_id`),
+  CONSTRAINT `application_token_ibfk_1` FOREIGN KEY (`robot_id`) REFERENCES `robots` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `application_token`
+--
+
+LOCK TABLES `application_token` WRITE;
+/*!40000 ALTER TABLE `application_token` DISABLE KEYS */;
+/*!40000 ALTER TABLE `application_token` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `application_token_services`
+--
+
+DROP TABLE IF EXISTS `application_token_services`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `application_token_services` (
+  `token_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `service_name` varchar(128) NOT NULL,
+  PRIMARY KEY (`token_id`,`service_name`),
+  CONSTRAINT `application_token_services_ibfk_1` FOREIGN KEY (`token_id`) REFERENCES `application_token` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `application_token_services`
+--
+
+LOCK TABLES `application_token_services` WRITE;
+/*!40000 ALTER TABLE `application_token_services` DISABLE KEYS */;
+/*!40000 ALTER TABLE `application_token_services` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cloud_agent`
 --
 
@@ -53,7 +103,7 @@ CREATE TABLE `cloud_agent` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `image_identifier` varchar(256) NOT NULL,
-  `taball_path` varchar(256) NOT NULL,
+  `tarball_path` varchar(256) NOT NULL,
   `container_identifier` varchar(256) NOT NULL,
   `container_type` varchar(256) NOT NULL,
   PRIMARY KEY (`id`),
@@ -369,7 +419,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`,`email`),
   UNIQUE KEY `c_id` (`email`),
   UNIQUE KEY `user_idx` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -391,4 +441,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-10 13:29:31
+-- Dump completed on 2016-03-10 16:59:30
