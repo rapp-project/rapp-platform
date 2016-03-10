@@ -1,0 +1,6 @@
+<launch>
+  <node name="rapp_human_detection_node" pkg="rapp_human_detection" 
+    type="human_detection_ros_node" output="screen" />
+  <rosparam file="$(find rapp_human_detection)/cfg/human_detection_params.yaml" 
+    command="load" />
+</launch>

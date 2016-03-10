@@ -1,0 +1,11 @@
+# Contains info about time and reference
+Header header
+# The image's filename to perform face detection
+string imageFilename
+# Flag to define if a fast detection if desired
+bool fast
+---
+# Container for detected face positions
+geometry_msgs/PointStamped[] humans_up_left
+geometry_msgs/PointStamped[] humans_down_right
+string error

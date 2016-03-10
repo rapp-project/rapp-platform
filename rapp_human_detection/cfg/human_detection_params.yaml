@@ -1,0 +1,4 @@
+rapp_human_detection_detect_humans_topic: /rapp/rapp_human_detection/detect_humans
+
+# This variable holds the maximum simultaneous calls the node can serve
+rapp_human_detection_threads: 10

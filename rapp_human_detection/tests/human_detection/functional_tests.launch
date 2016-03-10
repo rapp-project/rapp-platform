@@ -1,0 +1,7 @@
+<launch> 
+   <node type="human_detection_ros_node" pkg="rapp_human_detection" name="rapp_human_detection"/> 
+   <test time-limit="100" test-name="human_detection_functional" pkg="rapp_human_detection" type="functional_tests.py"/> 
+  <rosparam file="$(find rapp_human_detection)/cfg/human_detection_params.yaml" 
+    command="load" />
+ </launch> 
+ 
