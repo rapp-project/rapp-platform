@@ -125,10 +125,10 @@ source ~/.bashrc
 sudo ldconfig
 source ~/.bashrc
 #-------------------------------- Docker setup ----------------------------------#
-./13_docker_setup.sh || \
-  {
-    echo -e "[Error]: RAPP Platform installation failed on installing Docker";
-    exit 1;
-  }
-sudo ldconfig
-source ~/.bashrc
+#./13_docker_setup.sh || \
+#  {
+#    echo -e "[Error]: RAPP Platform installation failed on installing Docker";
+#    exit 1;
+#  }
+#sudo ldconfig
+#source ~/.bashrc

@@ -162,6 +162,62 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_what_rapps_can_run Not found error")
     self.serv=rospy.Service(self.serv_topic, whatRappsCanRunSrv, self.whatRappsCanRunDataHandler)
+    
+    
+    #cloud agent tables
+    #cloud_agent services launch
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_fetch_data_topic")
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblCloudAgentFetchDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_write_data_topic")
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblCloudAgentWriteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_delete_data_topic")
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblCloudAgentDeleteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_update_data_topic")
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblCloudAgentUpdateDataHandler)
+    
+    #cloud_agent_service services launch
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_fetch_data_topic")
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblCloudAgentServiceFetchDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_write_data_topic")
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblCloudAgentServiceWriteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_delete_data_topic")
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblCloudAgentServiceDeleteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_update_data_topic")
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblCloudAgentServiceUpdateDataHandler)
+
+    #cloud_agent_service_arguments_ services launch
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_arguments_fetch_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_arguments_fetch_data_topic")
+    self.serv=rospy.Service(self.serv_topic, fetchDataSrv, self.tblCloudAgentServiceArgumentsFetchDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_arguments_write_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_arguments_write_data_topic")
+    self.serv=rospy.Service(self.serv_topic, writeDataSrv, self.tblCloudAgentServiceArgumentsWriteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_arguments_delete_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_arguments_delete_data_topic")
+    self.serv=rospy.Service(self.serv_topic, deleteDataSrv, self.tblCloudAgentServiceArgumentsDeleteDataHandler)
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_cloud_agent_service_arguments_update_data_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_cloud_agent_service_arguments_update_data_topic")
+    self.serv=rospy.Service(self.serv_topic, updateDataSrv, self.tblCloudAgentServiceArgumentsUpdateDataHandler)
 
   ## @brief Implements the general write data to table function
   # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
@@ -630,4 +686,100 @@ class MySQLdbWrapper:
     return res
 
 
+#cloud agent callbacks
 
+  ## @brief The tbl cloud_agent fetch data service callback
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentFetchDataHandler(self,req):
+    res = fetchDataSrvResponse()
+    res=self.fetchData(req,"cloud_agent")
+    return res
+
+  ## @brief The tbl cloud_agent write data service callback
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
+  def tblCloudAgentWriteDataHandler(self,req):
+    res = writeDataSrvResponse()
+    res=self.writeData(req,"cloud_agent")
+    return res
+
+  ## @brief The tbl cloud_agent delete data service callback
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentDeleteDataHandler(self,req):
+    res = deleteDataSrvResponse()
+    res=self.deleteData(req,"cloud_agent")
+    return res
+
+  ## @brief The tbl cloud_agent update data service callback
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentUpdateDataHandler(self,req):
+    res = updateDataSrvResponse()
+    res=self.updateData(req,"cloud_agent")
+    return res
+
+  ## @brief The tbl cloud_agent_service fetch data service callback
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentServiceFetchDataHandler(self,req):
+    res = fetchDataSrvResponse()
+    res=self.fetchData(req,"cloud_agent_service")
+    return res
+
+  ## @brief The tbl cloud_agent_service write data service callback
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
+  def tblCloudAgentServiceWriteDataHandler(self,req):
+    res = writeDataSrvResponse()
+    res=self.writeData(req,"cloud_agent_service")
+    return res
+
+  ## @brief The tbl cloud_agent_service delete data service callback
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentServiceDeleteDataHandler(self,req):
+    res = deleteDataSrvResponse()
+    res=self.deleteData(req,"cloud_agent_service")
+    return res
+
+  ## @brief The tbl cloud_agent_service update data service callback
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentServiceUpdateDataHandler(self,req):
+    res = updateDataSrvResponse()
+    res=self.updateData(req,"cloud_agent_service")
+    return res
+    
+  ## @brief The tbl cloud_agent_service_arguments fetch data service callback
+  # @param req [rapp_platform_ros_communications::fetchDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentServiceArgumentsFetchDataHandler(self,req):
+    res = fetchDataSrvResponse()
+    res=self.fetchData(req,"cloud_agent_service_arguments")
+    return res
+
+  ## @brief The tbl cloud_agent_service_arguments write data service callback
+  # @param req [rapp_platform_ros_communications::writeDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
+  def tblCloudAgentServiceArgumentsWriteDataHandler(self,req):
+    res = writeDataSrvResponse()
+    res=self.writeData(req,"cloud_agent_service_arguments")
+    return res
+
+  ## @brief The tbl cloud_agent_service_arguments delete data service callback
+  # @param req [rapp_platform_ros_communications::deleteDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentServiceArgumentsDeleteDataHandler(self,req):
+    res = deleteDataSrvResponse()
+    res=self.deleteData(req,"cloud_agent_service_arguments")
+    return res
+
+  ## @brief The tbl cloud_agent_service_arguments update data service callback
+  # @param req [rapp_platform_ros_communications::updateDataSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
+  def tblCloudAgentServiceArgumentsUpdateDataHandler(self,req):
+    res = updateDataSrvResponse()
+    res=self.updateData(req,"cloud_agent_service_arguments")
+    return res
