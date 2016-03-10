@@ -1,4 +1,12 @@
 {
+  "hazard_detection": {
+    "launch": true,
+    "path": "workers/hazard_detection/worker.js",
+    "services": [
+      "hazard_detection_light_check",
+      "hazard_detection_door_check"
+    ]
+  },
   "face_detection": {
     "launch": true,
     "path": "workers/face_detection/worker.js",
