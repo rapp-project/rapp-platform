@@ -86,7 +86,6 @@ class MySQLdbWrapper:
       rospy.logerror("rapp_mysql_wrapper_get_services_by_token_service_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, getServicesByTokenSrv, self.getServicesByTokenDataHandler) 
     
-
   def getUserOntologyAlias(self,req):
     try:
       res = getUserOntologyAliasSrvResponse()        
@@ -370,3 +369,4 @@ class MySQLdbWrapper:
     res = getServicesByTokenSrvResponse()
     res=self.getServicesByToken(req)
     return res
+

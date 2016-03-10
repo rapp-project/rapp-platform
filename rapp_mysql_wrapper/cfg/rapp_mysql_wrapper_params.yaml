@@ -6,4 +6,3 @@ rapp_mysql_wrapper_register_new_token_service_service_topic: /rapp/rapp_mysql_wr
 rapp_mysql_wrapper_auth_token_by_service_topic: /rapp/rapp_mysql_wrapper/auth_token_by_service
 rapp_mysql_wrapper_get_services_by_token_service_topic: /rapp/rapp_mysql_wrapper/get_services_by_token
 
-
