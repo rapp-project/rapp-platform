@@ -87,7 +87,7 @@ module.exports = function(grunt) {
   grunt.registerTask('clean-doc', ['shell:clean_doc']);
 
   // Initiate HOP task
-  grunt.registerTask('init-hop', ['shell:init_hop']);
-  grunt.registerTask('hop-server', ['shell:hop_launch']);
+  grunt.registerTask('init-hop', ['shell:hop_launch']);
+  grunt.registerTask('hop-server', ['shell:init_hop']);
 
 };

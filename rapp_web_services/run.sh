@@ -140,8 +140,8 @@ fi
 if [ ${USE_CLIENTOUTPUT} == true ]; then
   FLAGS+=" --client-output ${CLIENTOUTPUT}"
 fi
-FLAGS+=" --scheduler ${SCHEDULER}"
-FLAGS+=" --max-threads ${MAXTHREADS}"
+#FLAGS+=" --scheduler ${SCHEDULER}"
+#FLAGS+=" --max-threads ${MAXTHREADS}"
 
 if [ ${REPORT_EXECTIME} = true ]; then
   FLAGS+=" --time "
