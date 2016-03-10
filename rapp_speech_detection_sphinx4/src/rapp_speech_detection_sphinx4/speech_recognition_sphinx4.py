@@ -44,11 +44,6 @@ from rapp_platform_ros_communications.srv import (
   SpeechRecognitionSphinx4TotalSrvResponse
   )
 
-from rapp_platform_ros_communications.srv import (
-  fetchDataSrv,
-  fetchDataSrvRequest
-  )
-
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
@@ -96,24 +91,6 @@ class SpeechRecognitionSphinx4():
     if configurationName != None:
       self._createPreconfiguration( configurationName )
 
-    ## Defines whether database authentication should be used
-    self._use_db_authentication = rospy.get_param(\
-        "rapp_speech_detection_sphinx4_use_db_authentication")
-
-    #---------------------------Check db authentication------------------------#
-    if self._use_db_authentication == True:
-      serv_db_topic = \
-          rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
-      ## The database authentication service client
-      #
-      # Used to identify user performed the speech recognition request.
-      # (see mysql_wrapper.MySQLdbWrapper.fetchData)
-      self._authentication_service = rospy.ServiceProxy(\
-              serv_db_topic, fetchDataSrv)
-
-    if(not self._use_db_authentication):
-      rospy.logerror("Sphinx4 Seech Detection use authentication param not found")
-
 
   ## @brief Requests the configuration's sha1 hash
   #
@@ -151,19 +128,6 @@ class SpeechRecognitionSphinx4():
   def speechRecognitionBatch(self, req):
 
     total_res = SpeechRecognitionSphinx4TotalSrvResponse()
-
-    #-------------------------Check with database-------------------------#
-    if self._use_db_authentication == True:
-      req_db = fetchDataSrv()
-      req_db.req_cols=["username"]
-      entry1=["username", req.user]
-      req_db.where_data=[StringArrayMsg(s=entry1)]
-
-      resp = self._authentication_service(req_db.req_cols, req_db.where_data)
-      if resp.success.data != True or len(resp.res_data) == 0:
-        total_res.error = "Non authenticated user"
-        RappUtilities.rapp_print(total_res.error, 'ERROR')
-        return total_res
 
     RappUtilities.rapp_print('Configuring Sphinx')
     conf_res = SpeechRecognitionSphinx4ConfigureSrvResponse()
