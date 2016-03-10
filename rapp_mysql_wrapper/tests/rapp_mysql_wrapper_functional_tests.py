@@ -83,6 +83,377 @@ class TestDbWrapper(unittest.TestCase):
     self.assertEqual(response.trace[0],"IndexError: list index out of range")
     self.assertFalse(response.success.data)
 
+  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblUser
+  def testTblUserWriteReadDeleteCheck(self):
+    #Write
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_write_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_user_write_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
+    req = writeDataSrv()
+    req.req_cols=["name","email","pwd","activated","language","ontology_alias"]
+    #req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
+    entry1=StringArrayMsg()
+    entry1=["'rappMysqlTestTemp1'","'rappMysqlTestTemp1@test.com'","'rappMysqlTestTemp1TestPass'","'Y'","'el'","NULL"]
+    entry2=StringArrayMsg()
+    entry2=["'rappMysqlTestTemp2'","'rappMysqlTestTemp2@test.com'","'rappMysqlTestTemp2TestPass'","'Y'","'el'","NULL"]
+    req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
+
+    response = db_service(req.req_cols,req.req_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    #Read what was written
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_user_fetch_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    req = fetchDataSrv()
+    req.req_cols=["name","email"]
+    entry1=["name","rappMysqlTestTemp1"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    self.assertEqual(response.res_data[0].s[0],"rappMysqlTestTemp1")
+    #self.assertEqual(response.res_data[1].s[0],"rappMysqlTestTemp1@test.com")
+    #Update written
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_update_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_user_update_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
+    req = updateDataSrv()
+    req.set_cols=["name='rappMysqlTestTemp1'"]
+    entry1=["name","rappMysqlTestTemp2"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.set_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    #Read again
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_user_read_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    req = fetchDataSrv()
+    req.req_cols=["name","email"]
+    entry1=["name","rappMysqlTestTemp1"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    self.assertEqual(response.res_data[0].s[0],"rappMysqlTestTemp1")
+    self.assertEqual(response.res_data[1].s[0],"rappMysqlTestTemp1")
+    #Delete updated
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_delete_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_user_delete_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
+    req = deleteDataSrv()
+    entry1=["name","rappMysqlTestTemp1"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    #Check if it was deleted
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    if(not serv_topic):
+      rospy.logerror("mysql_wrapper_user_read_data topic param not found")
+    rospy.wait_for_service(serv_topic)
+    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    req = fetchDataSrv()
+    req.req_cols=["name","email"]
+    entry1=["name","rappMysqlTestTemp1"]
+    req.where_data=[StringArrayMsg(s=entry1)]
+    response = db_service(req.req_cols,req.where_data)
+    self.assertEqual(response.trace[0],"Success")
+    self.assertTrue(response.success.data)
+    self.assertTrue((len(response.res_data)<1))
+
+
+  ### Tests the the write,read,update,delete rapp mysql wrapper services of the tblModel
+  #def testTblModelWriteReadDeleteCheck(self):
+    ##Write
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_model_write_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("rapp_mysql_wrapper_model_write_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
+    #req = writeDataSrv()
+    #req.req_cols=["model_str","manufacturer","version","arch","os","picture"] 
+    #entry1=StringArrayMsg()
+    #entry1=["'testingDB1'","'testingDB1'","'10.1'","'test'","'test'","'test'"]
+    #entry2=StringArrayMsg()
+    #entry2=["'testingDB2'","'testingDB1'","'10.1'","'test'","'test'","'test'"]
+    #req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
+
+    #response = db_service(req.req_cols,req.req_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    ##Read what was written
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("rapp_mysql_wrapper_model_fetch_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["model_str","manufacturer"]
+    #entry1=["manufacturer","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertEqual(response.res_data[0].s[0],"testingDB1")
+    #self.assertEqual(response.res_data[1].s[0],"testingDB2")
+    ##Update written
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_model_update_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("rapp_mysql_wrapper_model_update_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
+    #req = updateDataSrv()
+    #req.set_cols=["model_str='testingDB3'"]
+    #entry1=["model_str","testingDB2"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.set_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    ##Read again
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("rapp_mysql_wrapper_model_read_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["model_str","manufacturer"]
+    #entry1=["manufacturer","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertEqual(response.res_data[0].s[1],"testingDB1")
+    #self.assertEqual(response.res_data[1].s[1],"testingDB1")
+    ##Delete updated
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_model_delete_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("rapp_mysql_wrapper_model_delete_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
+    #req = deleteDataSrv()
+    #entry1=["manufacturer","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    ##Check if it was deleted
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("rapp_mysql_wrapper_model_read_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["model_str","manufacturer"]
+    #entry1=["model_str","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertTrue((len(response.res_data)<1))
+
+  ### Tests the the write,read,update,delete rapp mysql wrapper services of the tblRapp
+  #def testTblRappWriteReadDeleteCheck(self):
+    ##Write
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_write_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_rapp_write_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
+    #req = writeDataSrv()
+    #req.req_cols=["rapp","version","arch","lang","owner","directory","enabled","timestamp"]
+    #entry1=StringArrayMsg()
+    #entry1=["'testingDB1'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
+    #entry2=StringArrayMsg()
+    #entry2=["'testingDB2'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
+    #req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
+
+    #response = db_service(req.req_cols,req.req_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+
+    ##Read what was written
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_rapp_fetch_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["rapp","directory"]
+    #entry1=["directory","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertEqual(response.res_data[0].s[0],"testingDB1")
+    #self.assertEqual(response.res_data[1].s[0],"testingDB2")
+    ##Update written
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_update_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_rapp_update_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
+    #req = updateDataSrv()
+    #req.set_cols=["rapp='testingDB3'"]
+    #entry1=["rapp","testingDB2"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.set_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    ##Read again
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["rapp","directory"]
+    #entry1=["directory","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertEqual(response.res_data[0].s[0],"testingDB1")
+    #self.assertEqual(response.res_data[1].s[0],"testingDB3")
+    ##Delete updated
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_delete_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_rapp_delete_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
+    #req = deleteDataSrv()
+    #entry1=["directory","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    ##Check if it was deleted
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["rapp","directory"]
+    #entry1=["directory","testingDB1"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertTrue((len(response.res_data)<1))
+
+
+  ### Tests the the write,read,update,delete rapp mysql wrapper services of the tblRobot
+  #def testTblRobotWriteReadDeleteCheck(self):
+    ##Write
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_write_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("rapp_mysql_wrapper_robot_write_data_topic NOT FOUND ERROR")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
+    #req = writeDataSrv()
+    #req.req_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
+    ##req.req_cols=[String("id"),String("macddr"), String("model"),String("owner"), String("timestamp")]
+    #req.req_cols=["macddr", "model","owner", "timestamp"]
+    #entry1=StringArrayMsg()
+    #entry1=["'1800000'", "'1'","'25'", "'2014-11-23 09:04:13'"]
+    #entry2=StringArrayMsg()
+    #entry2=["'1900000'", "'1'","'25'", "'2014-11-23 07:04:13'"]
+    #req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
+
+    #response = db_service(req.req_cols,req.req_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+
+    ##Read what was written
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_robot_read_data_topic")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["macddr"]
+    #entry1=["macddr","1800000"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertEqual(response.res_data[0].s[0],"1800000")
+    ##self.assertEqual(response.res_data[1].s[0].data,"extreme3")
+    ##Update written
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_update_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_robot_update_data_topic")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
+    #req = updateDataSrv()
+    #req.set_cols=["timestamp='2014-11-23 09:04:13'"]
+    #entry1=["macddr",'1900000']
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.set_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    ##Read again
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_robot_fetch_data_topic")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["macddr","model"]
+    #entry1=["timestamp","2014-11-23 09:04:13"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertEqual(response.res_data[0].s[0],"1800000")
+    #self.assertEqual(response.res_data[1].s[0],"1900000")
+    ##Delete updated
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_delete_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_robot_delete_data_topic")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
+    #req = deleteDataSrv()
+
+    #entry1=["timestamp","2014-11-23 09:04:13"]
+    #entry2=["model","1"]
+    #req.where_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
+    #response = db_service(req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    ##Check if it was deleted
+    #serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
+    #if(not serv_topic):
+      #rospy.logerror("mysql_wrapper_robot_write_delete_topic")
+    #rospy.wait_for_service(serv_topic)
+    #db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
+    #req = fetchDataSrv()
+    #req.req_cols=["macddr","model"]
+    #entry1=["timestamp","2014-11-23 09:04:13"]
+    #req.where_data=[StringArrayMsg(s=entry1)]
+    #response = db_service(req.req_cols,req.where_data)
+    #self.assertEqual(response.trace[0],"Success")
+    #self.assertTrue(response.success.data)
+    #self.assertTrue((len(response.res_data)<1))
+
+
+
+## The main function. Initializes the Rapp mysql wrapper functional tests
+if __name__ == '__main__':
+  import rosunit
+  rosunit.unitrun(PKG, 'TestDbWrapper', TestDbWrapper)
 
   #def testSubmitCorrectQuery(self):
     #serv_topic = rospy.get_param('mysql_wrapper_user_fetch_data_topic')
@@ -215,371 +586,6 @@ class TestDbWrapper(unittest.TestCase):
     #self.assertEqual(response.res_data[1].s[0].data,"2")
     #self.assertEqual(response.res_data[1].s[5].data,"486d18ed96603f0bbae4567y2c98cc80750402b28c1d4069d5df7c570ded0307")
 
-  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblUser
-  def testTblUserWriteReadDeleteCheck(self):
-    #Write
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_write_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_write_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
-    req = writeDataSrv()
-    req.req_cols=["username","firstname","lastname","email","ontology_alias","pwd","usrgroup","created","accessed","enabled","activation"]
-    #req.req_cols=["idsd","macddr", "model","owner", "timestamp"]
-    entry1=StringArrayMsg()
-    entry1=["'testingDB1'","'testingDB1'","'testingDB1'","'test1@test'","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
-    entry2=StringArrayMsg()
-    entry2=["'testingDB2'","'testingDB2'","'testingDB1'","'test2@test'","NULL","'86'","'0'","'2014-15-15 18:01:34'","'0000-00-00 00:00:00'","'1'","'555'"]
-    req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-
-    response = db_service(req.req_cols,req.req_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Read what was written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_fetch_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["firstname","lastname"]
-    entry1=["lastname","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB2")
-    #Update written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_update_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_update_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
-    req = updateDataSrv()
-    req.set_cols=["firstname='testingDB1'"]
-    entry1=["firstname","testingDB2"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.set_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Read again
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_read_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["firstname","lastname"]
-    entry1=["firstname","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB1")
-    #Delete updated
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_delete_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_delete_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
-    req = deleteDataSrv()
-    entry1=["firstname","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Check if it was deleted
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_user_read_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["firstname","lastname"]
-    entry1=["firstname","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertTrue((len(response.res_data)<1))
-
-
-  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblModel
-  def testTblModelWriteReadDeleteCheck(self):
-    #Write
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_model_write_data_topic')
-    if(not serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_model_write_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
-    req = writeDataSrv()
-    req.req_cols=["model_str","manufacturer","version","arch","os","picture"] 
-    entry1=StringArrayMsg()
-    entry1=["'testingDB1'","'testingDB1'","'10.1'","'test'","'test'","'test'"]
-    entry2=StringArrayMsg()
-    entry2=["'testingDB2'","'testingDB1'","'10.1'","'test'","'test'","'test'"]
-    req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-
-    response = db_service(req.req_cols,req.req_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Read what was written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_model_fetch_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["model_str","manufacturer"]
-    entry1=["manufacturer","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB2")
-    #Update written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_model_update_data_topic')
-    if(not serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_model_update_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
-    req = updateDataSrv()
-    req.set_cols=["model_str='testingDB3'"]
-    entry1=["model_str","testingDB2"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.set_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Read again
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_model_read_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["model_str","manufacturer"]
-    entry1=["manufacturer","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[1],"testingDB1")
-    self.assertEqual(response.res_data[1].s[1],"testingDB1")
-    #Delete updated
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_model_delete_data_topic')
-    if(not serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_model_delete_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
-    req = deleteDataSrv()
-    entry1=["manufacturer","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Check if it was deleted
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_model_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_model_read_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["model_str","manufacturer"]
-    entry1=["model_str","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertTrue((len(response.res_data)<1))
-
-  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblRapp
-  def testTblRappWriteReadDeleteCheck(self):
-    #Write
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_write_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_write_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
-    req = writeDataSrv()
-    req.req_cols=["rapp","version","arch","lang","owner","directory","enabled","timestamp"]
-    entry1=StringArrayMsg()
-    entry1=["'testingDB1'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
-    entry2=StringArrayMsg()
-    entry2=["'testingDB2'","'1.01'","'15'","'1'","'25'","'testingDB1'","'0'","'555'"]
-    req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-
-    response = db_service(req.req_cols,req.req_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-
-    #Read what was written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_fetch_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["rapp","directory"]
-    entry1=["directory","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB2")
-    #Update written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_update_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_update_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
-    req = updateDataSrv()
-    req.set_cols=["rapp='testingDB3'"]
-    entry1=["rapp","testingDB2"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.set_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Read again
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["rapp","directory"]
-    entry1=["directory","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[0],"testingDB1")
-    self.assertEqual(response.res_data[1].s[0],"testingDB3")
-    #Delete updated
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_delete_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_delete_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
-    req = deleteDataSrv()
-    entry1=["directory","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Check if it was deleted
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_rapp_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_rapp_read_data topic param not found")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["rapp","directory"]
-    entry1=["directory","testingDB1"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertTrue((len(response.res_data)<1))
-
-
-  ## Tests the the write,read,update,delete rapp mysql wrapper services of the tblRobot
-  def testTblRobotWriteReadDeleteCheck(self):
-    #Write
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_write_data_topic')
-    if(not serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_robot_write_data_topic NOT FOUND ERROR")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, writeDataSrv)
-    req = writeDataSrv()
-    req.req_cols=[]#[String(data="model_str"),String(data="manufacturer"),String(data="version"),String(data="arch"),String(data="os"),String(data="picture")]
-    #req.req_cols=[String("id"),String("macddr"), String("model"),String("owner"), String("timestamp")]
-    req.req_cols=["macddr", "model","owner", "timestamp"]
-    entry1=StringArrayMsg()
-    entry1=["'1800000'", "'1'","'25'", "'2014-11-23 09:04:13'"]
-    entry2=StringArrayMsg()
-    entry2=["'1900000'", "'1'","'25'", "'2014-11-23 07:04:13'"]
-    req.req_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-
-    response = db_service(req.req_cols,req.req_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-
-    #Read what was written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_robot_read_data_topic")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["macddr"]
-    entry1=["macddr","1800000"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[0],"1800000")
-    #self.assertEqual(response.res_data[1].s[0].data,"extreme3")
-    #Update written
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_update_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_robot_update_data_topic")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, updateDataSrv)
-    req = updateDataSrv()
-    req.set_cols=["timestamp='2014-11-23 09:04:13'"]
-    entry1=["macddr",'1900000']
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.set_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Read again
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_robot_fetch_data_topic")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["macddr","model"]
-    entry1=["timestamp","2014-11-23 09:04:13"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertEqual(response.res_data[0].s[0],"1800000")
-    self.assertEqual(response.res_data[1].s[0],"1900000")
-    #Delete updated
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_delete_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_robot_delete_data_topic")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, deleteDataSrv)
-    req = deleteDataSrv()
-
-    entry1=["timestamp","2014-11-23 09:04:13"]
-    entry2=["model","1"]
-    req.where_data=[StringArrayMsg(s=entry1),StringArrayMsg(s=entry2)]
-    response = db_service(req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    #Check if it was deleted
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_robot_fetch_data_topic')
-    if(not serv_topic):
-      rospy.logerror("mysql_wrapper_robot_write_delete_topic")
-    rospy.wait_for_service(serv_topic)
-    db_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    req = fetchDataSrv()
-    req.req_cols=["macddr","model"]
-    entry1=["timestamp","2014-11-23 09:04:13"]
-    req.where_data=[StringArrayMsg(s=entry1)]
-    response = db_service(req.req_cols,req.where_data)
-    self.assertEqual(response.trace[0],"Success")
-    self.assertTrue(response.success.data)
-    self.assertTrue((len(response.res_data)<1))
-
 
   ##test tblAppsRobots
   #def testTblAppsRobotsRead(self):
@@ -636,8 +642,3 @@ class TestDbWrapper(unittest.TestCase):
     #self.assertEqual(response.res_data[0].s[1].data,"1")
     #self.assertEqual(response.res_data[0].s[2].data,"1")
     #self.assertEqual(response.res_data[0].s[2].data,"1")
-
-## The main function. Initializes the Rapp mysql wrapper functional tests
-if __name__ == '__main__':
-  import rosunit
-  rosunit.unitrun(PKG, 'TestDbWrapper', TestDbWrapper)

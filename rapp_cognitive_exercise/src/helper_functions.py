@@ -92,7 +92,7 @@ class CognitiveExerciseHelperFunctions:
     knowrob_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
     fetchDataSrvReq = fetchDataSrvRequest()
     fetchDataSrvReq.req_cols=["language"]
-    fetchDataSrvReq.where_data=[StringArrayMsg(s=["username",username])]
+    fetchDataSrvReq.where_data=[StringArrayMsg(s=["name",username])]
     fetchDataSrvResponse = knowrob_service(fetchDataSrvReq)
     if(fetchDataSrvResponse.success.data!=True): 
       raise AppError(fetchDataSrvResponse.trace[0], fetchDataSrvResponse.trace)    

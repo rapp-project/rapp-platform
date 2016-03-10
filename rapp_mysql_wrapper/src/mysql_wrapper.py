@@ -426,7 +426,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblUserFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tblUser")
+    res=self.fetchData(req,"users")
     return res
 
   ## @brief The tbl user write data service callback
@@ -434,7 +434,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def tblUserWriteDataHandler(self,req):
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tblUser")
+    res=self.writeData(req,"users")
     return res
 
   ## @brief The tbl user delete data service callback
@@ -442,7 +442,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblUserDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
-    res=self.deleteData(req,"tblUser")
+    res=self.deleteData(req,"users")
     return res
 
   ## @brief The tbl user update data service callback
@@ -450,7 +450,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblUserUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblUser")
+    res=self.updateData(req,"users")
     return res
 
   ## @brief The tbl model fetch data service callback
@@ -514,7 +514,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblRappUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblRapp")
+    res=self.updateData(req,"robots")
     return res
 
   ## @brief The tbl robot fetch data service callback
@@ -522,7 +522,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::fetchDataSrvResponse::Response&] The ROS service response
   def tblRobotFetchDataHandler(self,req):
     res = fetchDataSrvResponse()
-    res=self.fetchData(req,"tblRobot")
+    res=self.fetchData(req,"robots")
     return res
 
   ## @brief The tbl robot write data service callback
@@ -530,7 +530,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::writeDataResponse::Response&] The ROS service response
   def tblRobotWriteDataHandler(self,req):
     res = writeDataSrvResponse()
-    res=self.writeData(req,"tblRobot")
+    res=self.writeData(req,"robots")
     return res
 
   ## @brief The tbl robot delete data service callback
@@ -538,7 +538,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::deleteDataSrvResponse::Response&] The ROS service response
   def tblRobotDeleteDataHandler(self,req):
     res = deleteDataSrvResponse()
-    res=self.deleteData(req,"tblRobot")
+    res=self.deleteData(req,"robots")
     return res
 
   ## @brief The tbl robot update data service callback
@@ -546,7 +546,7 @@ class MySQLdbWrapper:
   # @param res [rapp_platform_ros_communications::updateDataSrvResponse::Response&] The ROS service response
   def tblRobotUpdateDataHandler(self,req):
     res = updateDataSrvResponse()
-    res=self.updateData(req,"tblRobot")
+    res=self.updateData(req,"robots")
     return res
 
   ## @brief The tbl appsRobots fetch data service callback

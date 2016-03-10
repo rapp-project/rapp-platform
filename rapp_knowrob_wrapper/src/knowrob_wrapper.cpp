@@ -137,7 +137,7 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
         rapp_platform_ros_communications::StringArrayMsg ros_string_array;
         std::vector<std::string> req_cols;
         req_cols.push_back("ontology_alias");
-        ros_string_array.s.push_back("username");
+        ros_string_array.s.push_back("name");
         ros_string_array.s.push_back(user_id);
         srv.request.req_cols = req_cols;
         srv.request.where_data.push_back(ros_string_array);
