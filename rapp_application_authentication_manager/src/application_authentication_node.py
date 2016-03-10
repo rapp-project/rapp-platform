@@ -22,7 +22,9 @@ import os
 
 from rapp_platform_ros_communications.srv import (
   ApplicationTokenGenerationSrv,
-  ApplicationTokenGenerationSrvResponse
+  ApplicationTokenGenerationSrvResponse,
+  ApplicationTokenAuthenticationSrv,
+  ApplicationTokenAuthenticationSrvResponse
   )
 
 from rapp_exceptions import RappError
@@ -30,6 +32,7 @@ from rapp_exceptions import RappError
 class ApplicationAuthenticationManager:
 
   def __init__(self):
+    # Token generation service
     self.generate_token_topic = rospy.get_param("rapp_generate_token_topic")
     if(not self.generate_token_topic):
         rospy.logerr("Application authentication: Token generation topic does not exist")
@@ -37,12 +40,31 @@ class ApplicationAuthenticationManager:
     self.generate_token_service = rospy.Service(self.generate_token_topic, \
         ApplicationTokenGenerationSrv, self.generate_token_callback)
 
-  # The service callback
+    # Token authentication service
+    self.authenticate_token_topic = rospy.get_param("rapp_authenticate_token_topic")
+    if(not self.authenticate_token_topic):
+        rospy.logerr("Application authentication: Token authentication topic does not exist")
+
+    self.authenticate_token_service = rospy.Service(self.authenticate_token_topic, \
+        ApplicationTokenAuthenticationSrv, self.authenticate_token_callback)
+
+  # The token generation service callback
   def generate_token_callback(self, req):
 
     res = ApplicationTokenGenerationSrvResponse()
     res.error = ''
-    res.token = 'test'
+    res.token = ''.join(random.SystemRandom().choice(string.ascii_uppercase + \
+            string.digits) for _ in range(32))
+    # Write these to DB
+    return res
+
+  # The token authentication service callback
+  def authenticate_token_callback(self, req):
+
+    res = ApplicationTokenAuthenticationSrvResponse()
+    res.error = ''
+    res.authenticated = ''
+    # Check with database
     return res
 
 if __name__ == "__main__":

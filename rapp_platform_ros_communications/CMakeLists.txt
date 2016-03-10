@@ -100,6 +100,7 @@ add_service_files(
   /PathPlanning/MapServer/MapServerUploadMapRosSrv.srv
 
   /ApplicationAuthentication/ApplicationTokenGenerationSrv.srv
+  /ApplicationAuthentication/ApplicationTokenAuthenticationSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
