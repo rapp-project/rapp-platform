@@ -31,7 +31,9 @@ from rapp_platform_ros_communications.srv import (
   updateDataSrv,
   updateDataSrvResponse,
   whatRappsCanRunSrv,
-  whatRappsCanRunSrvResponse
+  whatRappsCanRunSrvResponse,
+  authTokenByServiceSrv,
+  authTokenByServiceSrvResponse,
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -163,6 +165,11 @@ class MySQLdbWrapper:
       rospy.logerror("rapp_mysql_wrapper_what_rapps_can_run Not found error")
     self.serv=rospy.Service(self.serv_topic, whatRappsCanRunSrv, self.whatRappsCanRunDataHandler)
     
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_auth_token_by_service_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_auth_token_by_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, authTokenByServiceSrv, self.authTokenByServiceDataHandler)    
+        
     
     #cloud agent tables
     #cloud_agent services launch
@@ -245,6 +252,7 @@ class MySQLdbWrapper:
       cur.execute("LOCK TABLES "+tblName+" WRITE")
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
+      con.close()
       res.success.data=True
       res.trace.append("Success")
     except mdb.Error, e:
@@ -276,6 +284,7 @@ class MySQLdbWrapper:
       cur.execute("LOCK TABLES "+tblName+" WRITE")
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
+      con.close()
       res.success.data=True
       res.trace.append("Success")
     except mdb.Error, e:
@@ -309,6 +318,7 @@ class MySQLdbWrapper:
       cur.execute("LOCK TABLES "+tblName+" WRITE")
       cur.execute(query)
       cur.execute("UNLOCK TABLES")
+      con.close()
       res.success.data=True
       res.trace.append("Success")
     except mdb.Error, e:
@@ -352,6 +362,7 @@ class MySQLdbWrapper:
         res.res_cols=self.getTableColumnNames(tblName)
       else:
         res.res_cols=req.req_cols
+      con.close()
       res.success.data=True
       res.trace.append("Success")
     except mdb.Error, e:
@@ -404,6 +415,41 @@ class MySQLdbWrapper:
       res.error="IOError: " +str(e)
     return res
 
+  def authTokenByService(self,req):
+    try:
+      res = authTokenByServiceSrvResponse()  
+      res.authentication_success=False  
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
+      cur = con.cursor()
+      cur.execute("select service_name from application_token_services where token_id=(select id from application_token where token=%s) and service_name=%s",(req.token,req.service_name))   
+      result_set = cur.fetchall()
+      print result_set
+      if(result_set and len(result_set[0])>0):
+        if(result_set[0][0]==req.service_name):
+          res.authentication_success=True
+      else:
+        cur.execute("select service_name from application_token_services where token_id=(select id from application_token where token=%s) and service_name='*'",(req.token))   
+        result_set = cur.fetchall()
+        if(result_set and len(result_set[0])>0 ):
+          if(result_set[0][0]=='*'):
+            res.authentication_success=True
+      con.close()
+      res.success=True
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+    #except IndexError, e:
+      #res.trace.append("IndexError: " +str(e))
+      #res.success=False
+      #res.error="IndexError: " +str(e)
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+    return res  
+    
   ## @brief Places commas between columns and constructs a string
   # @param cols [list] the input columns
   # @return returncols [string] the output string
@@ -686,6 +732,13 @@ class MySQLdbWrapper:
     res=self.whatRappsCanRun(req,"tblRappsModelsVersion")
     return res
 
+  ## @brief The authTokenByService service callback
+  # @param req [rapp_platform_ros_communications::authTokenByServiceSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::authTokenByServiceSrvRequest::Response&] The ROS service response
+  def authTokenByServiceDataHandler(self,req):
+    res = authTokenByServiceSrvResponse()
+    res=self.authTokenByService(req)
+    return res
 
 #cloud agent callbacks
 

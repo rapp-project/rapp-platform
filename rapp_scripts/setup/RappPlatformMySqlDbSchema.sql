@@ -56,7 +56,7 @@ CREATE TABLE `application_token` (
   PRIMARY KEY (`id`),
   KEY `application_token_ibfk_1` (`robot_id`),
   CONSTRAINT `application_token_ibfk_1` FOREIGN KEY (`robot_id`) REFERENCES `robots` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +65,7 @@ CREATE TABLE `application_token` (
 
 LOCK TABLES `application_token` WRITE;
 /*!40000 ALTER TABLE `application_token` DISABLE KEYS */;
+INSERT INTO `application_token` VALUES (1,'rapptesttoken',0);
 /*!40000 ALTER TABLE `application_token` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +81,7 @@ CREATE TABLE `application_token_services` (
   `service_name` varchar(128) NOT NULL,
   PRIMARY KEY (`token_id`,`service_name`),
   CONSTRAINT `application_token_services_ibfk_1` FOREIGN KEY (`token_id`) REFERENCES `application_token` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,6 +90,7 @@ CREATE TABLE `application_token_services` (
 
 LOCK TABLES `application_token_services` WRITE;
 /*!40000 ALTER TABLE `application_token_services` DISABLE KEYS */;
+INSERT INTO `application_token_services` VALUES (1,'rapp_service_name');
 /*!40000 ALTER TABLE `application_token_services` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,6 +374,7 @@ CREATE TABLE `robots` (
 
 LOCK TABLES `robots` WRITE;
 /*!40000 ALTER TABLE `robots` DISABLE KEYS */;
+INSERT INTO `robots` VALUES (0,'rapp','rapp','rapp','rapp','rapp');
 /*!40000 ALTER TABLE `robots` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -441,4 +444,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-10 16:59:30
+-- Dump completed on 2016-03-10 18:06:25

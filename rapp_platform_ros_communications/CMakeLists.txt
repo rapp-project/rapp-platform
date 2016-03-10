@@ -46,6 +46,7 @@ add_service_files(
   /DbWrapper/writeDataSrv.srv
   /DbWrapper/deleteDataSrv.srv
   /DbWrapper/whatRappsCanRunSrv.srv
+  /DbWrapper/authTokenByServiceSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
