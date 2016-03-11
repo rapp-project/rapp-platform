@@ -1,0 +1,6 @@
+string user_token
+---
+string robot_id
+bool success
+string error
+string[] trace

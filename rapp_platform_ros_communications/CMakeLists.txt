@@ -49,6 +49,7 @@ add_service_files(
   /DbWrapper/registerNewTokenServiceSrv.srv
   /DbWrapper/getServicesByTokenSrv.srv
   /DbWrapper/getUserIdByTokenSrv.srv
+  /DbWrapper/getRobotIdByUserTokenSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv

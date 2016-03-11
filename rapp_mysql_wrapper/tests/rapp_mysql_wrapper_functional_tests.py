@@ -25,19 +25,28 @@ import rospy
 from rapp_platform_ros_communications.srv import (
   authTokenByServiceSrv,
   authTokenByServiceSrvResponse,
+  authTokenByServiceSrvRequest,
   getUserOntologyAliasSrv,
   getUserOntologyAliasSrvResponse,
   getUserOntologyAliasSrvRequest,
   registerUserOntologyAliasSrv,
   registerUserOntologyAliasSrvResponse,
+  registerUserOntologyAliasSrvRequest,
   getUserLanguageSrv,
   getUserLanguageSrvResponse,
+  getUserLanguageSrvRequest,
   registerNewTokenSrv,
   registerNewTokenSrvResponse,
+  registerNewTokenSrvRequest,
   registerNewTokenServiceSrv,
   registerNewTokenServiceSrvResponse,
+  registerNewTokenServiceSrvRequest,
   getServicesByTokenSrv,
-  getServicesByTokenSrvResponse
+  getServicesByTokenSrvResponse,
+  getServicesByTokenSrvRequest,
+  getUserIdByTokenSrv,
+  getUserIdByTokenSrvResponse,
+  getUserIdByTokenSrvRequest
   )
 
 ## @class TestDbWrapper 
@@ -53,9 +62,45 @@ class TestDbWrapper(unittest.TestCase):
     req = getUserOntologyAliasSrvRequest()
     req.user_id="0"        
     response = test_service(req)     
-    self.assertEqual(response.success, True) 
+    self.assertTrue(response.success) 
     self.assertEqual(response.ontology_alias,"Person_DpphmPqg")
 
+  def testgetUserIdByToken(self):
+    ros_service = rospy.get_param("rapp_mysql_wrapper_get_user_id_by_token_service_topic")
+    if(not ros_service):
+      rospy.logerror("rapp_mysql_wrapper_get_user_id_by_token_service_topic NOT FOUND ERROR")
+    rospy.wait_for_service(ros_service)    
+    test_service = rospy.ServiceProxy(ros_service, getUserIdByTokenSrv)
+    req = getUserIdByTokenSrvRequest()
+    req.token="rapptesttoken"        
+    response = test_service(req)     
+    self.assertTrue(response.success)  
+    self.assertEqual(response.user_id,"0")
+
+  def testgetServicesByToken(self):
+    ros_service = rospy.get_param("rapp_mysql_wrapper_get_services_by_token_service_topic")
+    if(not ros_service):
+      rospy.logerror("rapp_mysql_wrapper_get_services_by_token_service_topic NOT FOUND ERROR")
+    rospy.wait_for_service(ros_service)    
+    test_service = rospy.ServiceProxy(ros_service, getServicesByTokenSrv)
+    req = getServicesByTokenSrvRequest()
+    req.token="rapptesttoken"        
+    response = test_service(req)     
+    self.assertTrue(response.success) 
+    self.assertTrue("rapp_service_name" in response.services)
+    
+  def testgetUserLanguage(self):
+    ros_service = rospy.get_param("rapp_mysql_wrapper_get_user_language_service_topic")
+    if(not ros_service):
+      rospy.logerror("rapp_mysql_wrapper_get_user_language_service_topic NOT FOUND ERROR")
+    rospy.wait_for_service(ros_service)    
+    test_service = rospy.ServiceProxy(ros_service, getServicesByTokenSrv)
+    req = getServicesByTokenSrvRequest()
+    req.token="rapptesttoken"        
+    response = test_service(req)     
+    self.assertTrue(response.success) 
+    self.assertTrue("rapp_service_name" in response.services)
+        
 ## The main function. Initializes the Rapp mysql wrapper functional tests
 if __name__ == '__main__':
   import rosunit
