@@ -137,6 +137,13 @@
       "object_recognition"
     ]
   }
+  "human_detection": {
+    "launch": true,
+    "path": "workers/human_detection/worker.js",
+    "services": [
+      "human_detection"
+    ]
+  }
 
 
 }

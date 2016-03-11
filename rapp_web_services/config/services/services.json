@@ -241,6 +241,16 @@
     "retries": 1,
     "ros_srv_name": "/rapp/rapp_caffe_wrapper/image_classification"
   }
+  "human_detection": {
+    "launch": true,
+    "anonymous": false,
+    "name": "human_detection",
+    "url_name": "human_detection",
+    "namespace": "",
+    "timeout": 30000,
+    "retries": 1,
+    "ros_srv_name": "/rapp/rapp_human_detection/detect_humans"
+  }
 
 
 }
