@@ -92,7 +92,6 @@ add_service_files(
 
   /TextToSpeechEspeak/TextToSpeechSrv.srv
   
-<<<<<<< HEAD
   /HazardDetection/LightCheckRosSrv.srv
   /HazardDetection/DoorCheckRosSrv.srv
 
@@ -103,13 +102,6 @@ add_service_files(
 
   /ApplicationAuthentication/ApplicationTokenGenerationSrv.srv
   /ApplicationAuthentication/ApplicationTokenAuthenticationSrv.srv
-=======
-  /ApplicationAuthentication/ApplicationTokenGenerationSrv.srv
-<<<<<<< HEAD
->>>>>>> first commit of application token generator
-=======
-  /ApplicationAuthentication/ApplicationTokenAuthenticationSrv.srv
->>>>>>> Added authentication functionality. Remains to connect with DB
 )
 
 ## Generate added messages and services with any dependencies listed here
