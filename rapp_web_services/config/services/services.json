@@ -1,24 +1,4 @@
 {
-  "hazard_detection_door_check" : {
-    "launch": true,
-    "anonymous": false,
-    "name": "hazard_detection_door_check",
-    "url_name": "hazard_detection_door_check",
-    "namespace": "",
-    "timeout": 15000,
-    "retiries:": 1,
-    "ros_srv_name": "/rapp/rapp_hazard_detection/door_check" 
-  },
-  "hazard_detection_light_check" : {
-    "launch": true,
-    "anonymous": false,
-    "name": "hazard_detection_light_check",
-    "url_name": "hazard_detection_light_check",
-    "namespace": "",
-    "timeout": 15000,
-    "retiries:": 1,
-    "ros_srv_name": "/rapp/rapp_hazard_detection/light_check"
-  },
   "face_detection": {
     "launch": true,
     "anonymous": false,
