@@ -58,9 +58,9 @@ class CognitiveExercise:
       rospy.logerror("rapp_knowrob_wrapper_create_ontology_alias param not found")
     rospy.wait_for_service(self.serv_topic)
     
-    self.serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')
+    self.serv_topic = rospy.get_param('rapp_mysql_wrapper_get_user_language_service_topic')
     if(not self.serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_user_fetch_data_topic param not found")
+      rospy.logerror("rapp_mysql_wrapper_get_user_language_service_topic param not found")
     rospy.wait_for_service(self.serv_topic)
     
     self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_user_performance_cognitve_tests')

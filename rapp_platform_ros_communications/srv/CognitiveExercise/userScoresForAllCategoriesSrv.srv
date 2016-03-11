@@ -1,4 +1,4 @@
-string username
+string user_id
 string testType
 int64 upToTime
 ---

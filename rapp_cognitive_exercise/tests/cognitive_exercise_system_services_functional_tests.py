@@ -54,7 +54,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
                 ros_service, testSelectorSrv)
 
         req = testSelectorSrvRequest()
-        req.username="rapp"        
+        req.user_id="0"        
         req.testType="ArithmeticCts"
         response = test_service(req)     
         self.assertEqual(response.success, True)  
@@ -69,7 +69,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
                 ros_service, testSelectorSrv)
     
         req = testSelectorSrvRequest()
-        req.username="rapp"        
+        req.user_id="0"        
         req.testType=""
         response = test_service(req)     
         self.assertEqual(response.success, True)    
@@ -84,7 +84,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
                 ros_service, recordUserCognitiveTestPerformanceSrv)
 
         req = recordUserCognitiveTestPerformanceSrvRequest()
-        req.username="rapp"        
+        req.user_id="0"        
         req.test="ArithmeticCts_stXqnGrc"
         req.score=10
         response = test_service(req)     
@@ -113,7 +113,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
                 ros_service, userScoresForAllCategoriesSrv)
 
         req = userScoresForAllCategoriesSrvRequest()
-        req.username="rapp"
+        req.user_id="0"
         req.upToTime=10000000000000
         response = test_service(req)     
         self.assertEqual(response.success, True)          
@@ -129,7 +129,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
                 ros_service, userScoreHistoryForAllCategoriesSrv)
 
         req = userScoreHistoryForAllCategoriesSrvRequest()
-        req.username="rapp"
+        req.user_id="0"
         req.toTime=0
         req.fromTime=0
         response = test_service(req)     

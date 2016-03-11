@@ -71,9 +71,9 @@ class TestSelector:
       #Load parameters from yaml file
       difficultyModifier1to2,difficultyModifier2to3,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp=self.loadParamDifficultyModifiersAndHistorySettings()
       #Get user ontology alias
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)      
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.user_id)      
       #Get user language
-      userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.username)
+      userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.user_id)
       res.language=userLanguage
       #Get test types from ontology
       testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()

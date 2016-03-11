@@ -42,7 +42,7 @@ class UserScoresForAllCategories:
     try:
       res = userScoresForAllCategoriesSrvResponse()      
       #Get user ontology alias
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.user_id)
       #Get test types from ontology       
       validtestTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
       #Construct the test type list for returning their score history    

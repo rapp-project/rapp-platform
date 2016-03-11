@@ -28,9 +28,9 @@ limitations under the License.
  * @brief Default constructor 
  */
 KnowrobWrapper::KnowrobWrapper(ros::NodeHandle nh) : nh_(nh) {
-    mysql_write_client = nh_.serviceClient<rapp_platform_ros_communications::writeDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_write_data");
-    mysql_fetch_client = nh_.serviceClient<rapp_platform_ros_communications::fetchDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_fetch_data");
-    mysql_update_client = nh_.serviceClient<rapp_platform_ros_communications::updateDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_update_data");
+    mysql_register_user_ontology_alias_client = nh_.serviceClient<rapp_platform_ros_communications::registerUserOntologyAliasSrv>("/rapp/rapp_mysql_wrapper/register_user_ontology_alias");
+    mysql_get_user_ontology_alias_client = nh_.serviceClient<rapp_platform_ros_communications::getUserOntologyAliasSrv>("/rapp/rapp_mysql_wrapper/get_user_ontology_alias");
+    //mysql_update_client = nh_.serviceClient<rapp_platform_ros_communications::updateDataSrv>("/rapp/rapp_mysql_wrapper/tbl_user_update_data");
 }
 
 /** 
@@ -133,22 +133,23 @@ std::vector<std::string> split(std::string str, std::string sep) {
 std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
     try {
         std::string ontology_alias;
-        rapp_platform_ros_communications::fetchDataSrv srv;
-        rapp_platform_ros_communications::StringArrayMsg ros_string_array;
-        std::vector<std::string> req_cols;
-        req_cols.push_back("ontology_alias");
-        ros_string_array.s.push_back("name");
-        ros_string_array.s.push_back(user_id);
-        srv.request.req_cols = req_cols;
-        srv.request.where_data.push_back(ros_string_array);
-        mysql_fetch_client.call(srv);
-        if (srv.response.success.data != true) {
-            throw std::string(std::string("FAIL") + srv.response.trace[0]);
+        rapp_platform_ros_communications::getUserOntologyAliasSrv srv;
+        //rapp_platform_ros_communications::StringArrayMsg ros_string_array;
+        //std::vector<std::string> req_cols;
+        //req_cols.push_back("ontology_alias");
+        //ros_string_array.s.push_back("name");
+        //ros_string_array.s.push_back(user_id);
+        //srv.request.req_cols = req_cols;
+        //srv.request.where_data.push_back(ros_string_array);
+        srv.request.user_id=user_id;
+        mysql_get_user_ontology_alias_client.call(srv);
+        if (srv.response.success != true) {
+            throw std::string(std::string("FAIL: User not found, incorrect username?") + srv.response.trace[0]);
         } else {
-            if (srv.response.res_data.size() < 1) {
-                throw std::string("FAIL: User not found, incorrect username?");
-            }
-            ontology_alias = srv.response.res_data[0].s[0];
+           // if (srv.response.res_data.size() < 1) {
+           //     throw std::string("FAIL: User not found, incorrect username?");
+           // }
+            ontology_alias = srv.response.ontology_alias;
             if (ontology_alias == std::string("None")) {
                 ontology_alias = create_ontology_alias_for_new_user(user_id);
             }
@@ -185,14 +186,16 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
     std::vector<std::string> splitted = split(ontology_alias, std::string("#"));
     ontology_alias = splitted[1];
 
-    rapp_platform_ros_communications::updateDataSrv srv;
-    srv.request.set_cols.push_back("ontology_alias='" + std::string(ontology_alias) + std::string("'"));
-    rapp_platform_ros_communications::StringArrayMsg ros_string_array;
-    ros_string_array.s.push_back(std::string("username"));
-    ros_string_array.s.push_back(user_id);
-    srv.request.where_data.push_back(ros_string_array);
-    mysql_update_client.call(srv);
-    if (srv.response.success.data != true) {
+    rapp_platform_ros_communications::registerUserOntologyAliasSrv srv;
+    //srv.request.set_cols.push_back("ontology_alias='" + std::string(ontology_alias) + std::string("'"));
+    //rapp_platform_ros_communications::StringArrayMsg ros_string_array;
+    //ros_string_array.s.push_back(std::string("username"));
+    //ros_string_array.s.push_back(user_id);
+    //srv.request.where_data.push_back(ros_string_array);
+    srv.request.user_id=user_id;
+    srv.request.ontology_alias=std::string(ontology_alias);
+    mysql_register_user_ontology_alias_client.call(srv);
+    if (srv.response.success != true) {
         std::string error = srv.response.trace[0];
         query = std::string("rdf_retractall(knowrob:'") + ontology_alias + std::string("',rdf:type,knowrob:'Person") + std::string("')");
         results = pl.query(query.c_str());

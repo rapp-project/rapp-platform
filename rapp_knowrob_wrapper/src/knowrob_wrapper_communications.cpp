@@ -28,8 +28,9 @@ limitations under the License.
 KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_)
 {
   ros::service::waitForService("json_prolog/query", -1);
-  ros::service::waitForService("rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_write_data", -1);
-  ros::service::waitForService("rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_fetch_data", -1); 
+  ros::service::waitForService("/rapp/rapp_mysql_wrapper/register_user_ontology_alias", -1);
+  ros::service::waitForService("/rapp/rapp_mysql_wrapper/get_user_ontology_alias", -1); 
+
 
   if(!nh_.getParam("/rapp_knowrob_wrapper_subclasses_of_topic", subclasses_of_service_topic_))
   {

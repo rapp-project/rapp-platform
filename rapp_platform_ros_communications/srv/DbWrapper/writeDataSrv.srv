@@ -1,6 +1,0 @@
-string[] req_cols
-rapp_platform_ros_communications/StringArrayMsg[] req_data
----
-std_msgs/Bool success
-string error
-string[] trace

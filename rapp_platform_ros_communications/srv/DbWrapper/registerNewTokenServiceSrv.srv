@@ -1,0 +1,6 @@
+string token
+string service_name
+---
+bool success
+string error
+string[] trace

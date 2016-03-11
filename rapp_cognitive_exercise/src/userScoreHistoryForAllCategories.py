@@ -50,7 +50,7 @@ class UserScoreHistoryForAllCategories:
       #Validate the provided time range     
       fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)     
       #Get user ontology alias   
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)    
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.user_id)    
       #Get test types from ontology     
       validtestTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()    
       #Construct the test type list for returning their score history 

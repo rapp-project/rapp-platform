@@ -21,9 +21,8 @@ limitations under the License.
 #include <string>
 #include <iostream>
 #include <json_prolog/prolog.h>
-#include <rapp_platform_ros_communications/fetchDataSrv.h>
-#include <rapp_platform_ros_communications/writeDataSrv.h>
-#include <rapp_platform_ros_communications/updateDataSrv.h>
+#include <rapp_platform_ros_communications/registerUserOntologyAliasSrv.h>
+#include <rapp_platform_ros_communications/getUserOntologyAliasSrv.h>
 #include <rapp_platform_ros_communications/StringArrayMsg.h>
 #include <rapp_platform_ros_communications/createInstanceSrv.h>
 #include <rapp_platform_ros_communications/ontologyInstancesOfSrv.h>
@@ -54,13 +53,13 @@ class KnowrobWrapper
     json_prolog::Prolog pl;
     
     /**< The mysql write to tblUser client server */
-    ros::ServiceClient mysql_write_client;
+    ros::ServiceClient mysql_register_user_ontology_alias_client;
     
     /**< The mysql fetch from tblUser client server */
-    ros::ServiceClient mysql_fetch_client;
+    ros::ServiceClient mysql_get_user_ontology_alias_client;
     
     /**< The mysql update tblUser client server */
-    ros::ServiceClient mysql_update_client;
+    //ros::ServiceClient mysql_update_client;
 
   public:
 

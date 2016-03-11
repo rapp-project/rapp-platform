@@ -1,0 +1,6 @@
+string token
+---
+string[] services
+bool success
+string error
+string[] trace

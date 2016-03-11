@@ -18,9 +18,9 @@ from rapp_platform_ros_communications.srv import (
   userPerformanceCognitveTestsSrvRequest,
   userScoreHistoryForAllCategoriesSrv,
   userScoreHistoryForAllCategoriesSrvResponse,
-  fetchDataSrv,
-  fetchDataSrvRequest,
-  fetchDataSrvResponse
+  getUserLanguageSrv,
+  getUserLanguageSrvRequest,
+  getUserLanguageSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (  
@@ -87,16 +87,15 @@ class CognitiveExerciseHelperFunctions:
   #
   # @return userLanguage [string] The user's language
   # @exception Exception AppError
-  def getUserLanguage(username):
-    serv_topic = rospy.get_param('rapp_mysql_wrapper_user_fetch_data_topic')	
-    knowrob_service = rospy.ServiceProxy(serv_topic, fetchDataSrv)
-    fetchDataSrvReq = fetchDataSrvRequest()
-    fetchDataSrvReq.req_cols=["language"]
-    fetchDataSrvReq.where_data=[StringArrayMsg(s=["name",username])]
-    fetchDataSrvResponse = knowrob_service(fetchDataSrvReq)
-    if(fetchDataSrvResponse.success.data!=True): 
-      raise AppError(fetchDataSrvResponse.trace[0], fetchDataSrvResponse.trace)    
-    return fetchDataSrvResponse.res_data[0].s[0]
+  def getUserLanguage(user_id):
+    serv_topic = rospy.get_param('rapp_mysql_wrapper_get_user_language_service_topic')	
+    mysql_service = rospy.ServiceProxy(serv_topic, getUserLanguageSrv)
+    getUserLanguageSrvReq = getUserLanguageSrvRequest()
+    getUserLanguageSrvReq.user_id=user_id   
+    getUserLanguageSrvResponse = mysql_service(getUserLanguageSrvReq)
+    if(getUserLanguageSrvResponse.success!=True): 
+      raise AppError(getUserLanguageSrv.trace[0], getUserLanguageSrv.trace)    
+    return getUserLanguageSrvResponse.user_language
 
   @staticmethod
   ## @brief Validates the provided test type or selects all test types from ontology if non provided
