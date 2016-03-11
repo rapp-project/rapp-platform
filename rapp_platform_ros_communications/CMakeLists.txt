@@ -48,6 +48,7 @@ add_service_files(
   /DbWrapper/getUserLanguageSrv.srv
   /DbWrapper/registerNewTokenServiceSrv.srv
   /DbWrapper/getServicesByTokenSrv.srv
+  /DbWrapper/getUserIdByTokenSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv

@@ -35,7 +35,9 @@ from rapp_platform_ros_communications.srv import (
   registerNewTokenServiceSrv,
   registerNewTokenServiceSrvResponse,
   getServicesByTokenSrv,
-  getServicesByTokenSrvResponse
+  getServicesByTokenSrvResponse,
+  getUserIdByTokenSrv,
+  getUserIdByTokenSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -85,7 +87,12 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_get_services_by_token_service_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, getServicesByTokenSrv, self.getServicesByTokenDataHandler) 
-    
+
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_user_id_by_token_service_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_get_user_id_by_token_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, getUserIdByTokenSrv, self.getUserIdByTokenDataHandler) 
+
   def getUserOntologyAlias(self,req):
     try:
       res = getUserOntologyAliasSrvResponse()        
@@ -273,7 +280,32 @@ class MySQLdbWrapper:
     con.close()
     return res  
 
-    
+  def getUserIdByToken(self,req):
+    try:
+      res = getUserIdByTokenSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
+      cur = con.cursor()           
+      cur.execute("select id from users where id=(select owner from myrobots where id=(select robot_id from application_token where token=%s))",(req.token))   
+      result_set = cur.fetchall()
+      if(result_set and len(result_set[0])>0):
+        res.user_id=str(result_set[0][0])
+        res.success=True
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+    con.close()
+    return res  
+
   ## @brief Gets the columns of the table
   # @return Columns [list] the columns of the table
   def getTableColumnNames(self,tblName):
@@ -370,3 +402,10 @@ class MySQLdbWrapper:
     res=self.getServicesByToken(req)
     return res
 
+  ## @brief The getUserIdByTokenSrv service callback
+  # @param req [rapp_platform_ros_communications::getUserIdByTokenSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::getUserIdByTokenSrvRequest::Response&] The ROS service response
+  def getUserIdByTokenDataHandler(self,req):
+    res = getUserIdByTokenSrvResponse()
+    res=self.getUserIdByToken(req)
+    return res

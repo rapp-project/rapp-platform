@@ -30,7 +30,7 @@ CREATE TABLE `SSHkey` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `user` (`user`),
   CONSTRAINT `fk_user` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,8 +55,8 @@ CREATE TABLE `application_token` (
   `robot_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `application_token_ibfk_1` (`robot_id`),
-  CONSTRAINT `application_token_ibfk_1` FOREIGN KEY (`robot_id`) REFERENCES `robots` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  CONSTRAINT `application_token_ibfk_1` FOREIGN KEY (`robot_id`) REFERENCES `myrobots` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +65,7 @@ CREATE TABLE `application_token` (
 
 LOCK TABLES `application_token` WRITE;
 /*!40000 ALTER TABLE `application_token` DISABLE KEYS */;
-INSERT INTO `application_token` VALUES (1,'rapptesttoken',0);
+INSERT INTO `application_token` VALUES (1,'rapptesttoken',1);
 /*!40000 ALTER TABLE `application_token` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +111,7 @@ CREATE TABLE `cloud_agent` (
   PRIMARY KEY (`id`),
   KEY `cloud_agent_ibfk_1` (`user_id`),
   CONSTRAINT `cloud_agent_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,7 +140,7 @@ CREATE TABLE `cloud_agent_service` (
   PRIMARY KEY (`id`),
   KEY `cloud_agent_service_ibfk_1` (`cloud_agent_id`),
   CONSTRAINT `cloud_agent_service_ibfk_1` FOREIGN KEY (`cloud_agent_id`) REFERENCES `cloud_agent` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +166,7 @@ CREATE TABLE `cloud_agent_service_arguments` (
   PRIMARY KEY (`id`),
   KEY `cloud_agent_service_arguments_ibfk_1` (`cloud_agent_service_id`),
   CONSTRAINT `cloud_agent_service_arguments_ibfk_1` FOREIGN KEY (`cloud_agent_service_id`) REFERENCES `cloud_agent_service` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -193,8 +193,8 @@ CREATE TABLE `downloads` (
   PRIMARY KEY (`id`),
   KEY `owner` (`owner`),
   KEY `rapp` (`rapp`),
-  CONSTRAINT `downloads_ibfk_2` FOREIGN KEY (`rapp`) REFERENCES `rapps` (`id`),
-  CONSTRAINT `downloads_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`)
+  CONSTRAINT `downloads_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`),
+  CONSTRAINT `downloads_ibfk_2` FOREIGN KEY (`rapp`) REFERENCES `rapps` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -219,7 +219,7 @@ CREATE TABLE `keywords` (
   `name` varchar(32) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -244,7 +244,7 @@ CREATE TABLE `languages` (
   `version` varchar(7) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +274,7 @@ CREATE TABLE `myrobots` (
   UNIQUE KEY `mac` (`mac`),
   KEY `owner` (`owner`),
   CONSTRAINT `myrobots_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -283,6 +283,7 @@ CREATE TABLE `myrobots` (
 
 LOCK TABLES `myrobots` WRITE;
 /*!40000 ALTER TABLE `myrobots` DISABLE KEYS */;
+INSERT INTO `myrobots` VALUES (1,0,'rapptestrobot','something','something','2016-03-11 12:28:03');
 /*!40000 ALTER TABLE `myrobots` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,7 +310,7 @@ CREATE TABLE `rapps` (
   KEY `language` (`language`),
   CONSTRAINT `rapps_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `rapps_ibfk_2` FOREIGN KEY (`robot`) REFERENCES `robots` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -338,7 +339,7 @@ CREATE TABLE `repos` (
   UNIQUE KEY `uc_name` (`name`),
   KEY `owner` (`owner`),
   CONSTRAINT `repos_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -365,7 +366,7 @@ CREATE TABLE `robots` (
   `arch` varchar(6) NOT NULL,
   `platform` varchar(12) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -392,7 +393,7 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`id`),
   KEY `rapp` (`rapp`),
   CONSTRAINT `tags_ibfk_1` FOREIGN KEY (`rapp`) REFERENCES `rapps` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -422,7 +423,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`,`email`),
   UNIQUE KEY `c_id` (`email`),
   UNIQUE KEY `user_idx` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -431,7 +432,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (0,'rapp','rapp@rapp.com','rappPass','Y','el','Person_DpphmPqg');
+INSERT INTO `users` VALUES (0,'rapp','rapp@rapp.com','rappPass','Y','el','Person_DpphmPqg'),(1,'takis','tak','tak','Y','el','aadw');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -444,4 +445,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-10 18:06:25
+-- Dump completed on 2016-03-11 14:53:41
