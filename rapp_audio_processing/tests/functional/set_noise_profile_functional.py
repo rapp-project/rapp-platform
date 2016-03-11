@@ -135,23 +135,6 @@ class AudioProcessingSetNoiseProfileFunc(unittest.TestCase):
         self.assertNotEqual( response.error, '' )
         self.assertEqual( response.success, 'false' )
 
-    def test_setNoiseProfileService_not_valid_user(self):
-        rospack = rospkg.RosPack()
-        aux = rospack.get_path('rapp_testing_tools') + '/test_data'
-
-        conf_service = rospy.get_param("rapp_audio_processing_set_noise_profile_topic")
-        rospy.wait_for_service(conf_service)
-        test_service = rospy.ServiceProxy(conf_service, AudioProcessingSetNoiseProfileSrv)
-
-        req = AudioProcessingSetNoiseProfileSrvRequest()
-        req.audio_file_type = 'nao_wav_4_ch'
-        req.noise_audio_file = aux + '/silence_wav_d05_a1.wav'
-        req.user = 'not_existent_user'
-        response = test_service(req)
-        self.assertNotEqual( response.error, '' )
-        self.assertEqual( response.success, 'false' )
-
-
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'AudioProcessingSetNoiseProfileFunc', AudioProcessingSetNoiseProfileFunc)

@@ -41,11 +41,6 @@ from rapp_platform_ros_communications.srv import (
   AudioProcessingTransformAudioSrvRequest
   )
 
-from rapp_platform_ros_communications.srv import (
-  fetchDataSrv,
-  fetchDataSrvRequest
-  )
-
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
@@ -121,18 +116,6 @@ class SpeechToTextGoogle:
   # @param language [string] The language in which the ASR will be performed
   # @return The transcript from Google
   def speech_to_text(self, file_path, user, audio_file_type, language):
-
-    # Check the user
-    serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
-    authentication_service = rospy.ServiceProxy(serv_db_topic, fetchDataSrv)
-    req_db = fetchDataSrv()
-    req_db.req_cols=["username"]
-    entry1=["username", user]
-    req_db.where_data=[StringArrayMsg(s=entry1)]
-
-    resp = authentication_service(req_db.req_cols, req_db.where_data)
-    if resp.success.data != True or len(resp.res_data) == 0:
-      raise RappError("Non authenticated user")
 
     # Check if file exists
     if not os.path.isfile(file_path):

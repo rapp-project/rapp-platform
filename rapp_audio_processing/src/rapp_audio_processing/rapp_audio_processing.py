@@ -39,11 +39,6 @@ from rapp_platform_ros_communications.srv import (
   AudioProcessingTransformAudioSrvResponse
   )
 
-from rapp_platform_ros_communications.srv import (
-  fetchDataSrv,
-  fetchDataSrvRequest
-  )
-
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
@@ -141,20 +136,6 @@ class AudioProcessing:
   # @return res [rapp_platform_ros_comminications::AudioProcessing::AudioProcessingSetNoiseProfileSrvResponse] The set noise profile response
   def setNoiseProfileCallback(self, req):
     res = AudioProcessingSetNoiseProfileSrvResponse()
-
-    #-------------------------Check with database-------------------------#
-    serv_db_topic = rospy.get_param("rapp_mysql_wrapper_user_fetch_data_topic")
-    authentication_service = rospy.ServiceProxy(serv_db_topic, fetchDataSrv)
-    req_db = fetchDataSrv()
-    req_db.req_cols=["username"]
-    entry1=["username", req.user]
-    req_db.where_data=[StringArrayMsg(s=entry1)]
-
-    resp = authentication_service(req_db.req_cols, req_db.where_data)
-    if resp.success.data != True or len(resp.res_data) == 0:
-      res.success = "false"
-      res.error = "Non authenticated user"
-      return res
 
     #-------------------------set noise profile-------------------------#
     ret = self._set_noise_profile_module.setNoise_profile(\
