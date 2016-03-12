@@ -148,7 +148,8 @@
     "launch": true,
     "path": "workers/path_planning/worker.js",
     "services": [
-      "path_planning_upload_map"
+      "path_planning_upload_map",
+      "path_planning_plan_path_2d"
     ]
   }
 
