@@ -14,4 +14,5 @@
   <include file="$(find rapp_weather_reporter)/launch/weather_reporter.launch" />
   <include file="$(find rapp_caffe_wrapper)/launch/caffe_wrapper.launch" />
   <include file="$(find rapp_hazard_detection)/launch/hazard_detection.launch" />
+  <include file="$(find rapp_path_planning)/launch/path_planning.launch" />
 </launch>
