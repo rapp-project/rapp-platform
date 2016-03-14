@@ -47,9 +47,9 @@ function resolvePath( _path )
   var newPath = '';
   if ( _path.match( regexp ) )
   {
-    var user = process.env.LOGNAME;
+    var home = process.env.HOME;
     /*<Replaces "~" with "/home/user">*/
-    newPath = _path.replace( regexp, '/home/' + user );
+    newPath = _path.replace( regexp, home );
   }
   else
   {

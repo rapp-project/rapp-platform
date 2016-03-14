@@ -70,16 +70,16 @@ MAXTHREADS=100
 ## Logging definitions
 # Timestamp to be added onto log file name
 TIMESTAMP=`date -d "today" +"%Y%m%d%H%M"`
-LOGDIR="/home/${USER}/.hop/log/server"
+LOGDIR="${HOME}/.hop/log/server"
 LOGFILENAME="hop-server-${TIMESTAMP}.log"
 LOGFILE="${LOGDIR}/${LOGFILENAME}"
-CAPTUREFILE="/home/${USER}/capturefile.log"
-CLIENTOUTPUT="/home/${USER}/client-output.log"
+CAPTUREFILE="${HOME}/capturefile.log"
+CLIENTOUTPUT="${HOME}/client-output.log"
 USE_CAPTUREFILE=false
 USE_CLIENTOUTPUT=false
 
 ## File caching configurations
-CACHEDIR="/home/${USER}/.hop/cache/server"
+CACHEDIR="${HOME}/.hop/cache/server"
 CLEARCACHE=true
 
 ## HOP Server Configurations.
