@@ -8,11 +8,9 @@
   },
   "run": {
     "port": 9001,
-    "scheduler": "accept-many",
-    "maxthreads": 100,
     "clear_cache": true,
     "https": {
-      "enable": true,
+      "enable": false,
       "pkey_filepath": "~/.cert/server.key",
       "cert_filepath": "~/.cert/server.crt"
     },

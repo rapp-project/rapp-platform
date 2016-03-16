@@ -21,12 +21,8 @@
 var path = require('path');
 var util = require('util');
 var sys = require('sys');
-var spawn = require('child_process').spawn;
-var exec = require('child_process').exec;
 
 var serverCfg = require(path.join(__dirname, 'env.js')).SERVER;
-
-var child;
 
 var command = 'hop';
 command += " --http-port " + serverCfg.run.port;
@@ -37,8 +33,6 @@ command = (serverCfg.run.https.enable) ? (command + " --https " +
 command += " --rc-file " + serverCfg.paths.hoprc;
 command += " --cache-dir " + serverCfg.paths.cache_dir;
 command += " --log-file " + serverCfg.paths.log_file;
-//command += " --scheduler " + serverCfg.run.scheduler;
-//command += "  --max-threads " + serverCfg.run.maxthreads;
 command += " -v" + serverCfg.logging.verbosity;
 command += " -w" + serverCfg.logging.warning;
 command += " -g" + serverCfg.logging.debug;
@@ -48,7 +42,5 @@ command = (! serverCfg.logging.color) ? (command + " --no-color ") : command;
 for (var i in serverCfg.launch_files){
   command += serverCfg.launch_files[i] + " ";
 }
-
-console.log(command)
 
 module.exports = command;

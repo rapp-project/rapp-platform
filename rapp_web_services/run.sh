@@ -56,21 +56,15 @@ CURRENTDIR=$(dirname ${BASH_SOURCE[0]})
 SERVICEDIR=${CURRENTDIR}/services
 JSFILE=init.js
 JSEXECPATH="${CURRENTDIR}/${JSFILE}"
-CFG_DIR=${CURRENTDIR}/config/hop
+CFG_DIR=${CURRENTDIR}/config/hoprc
 
 ## Secure Channel - HTTPS
-HTTPS_ENABLE=true
+HTTPS_ENABLE=false
 HTTPS_PKEY="${HOME}/.cert/server.key"
 HTTPS_CERT="${HOME}/.cert/server.crt"
 
 ## Hop Web Server run on this port
 PORT=9001
-
-## Define the scheduler type to be used
-SCHEDULER="accept-many"
-
-## Maximum number of handling HTTP requests.
-MAXTHREADS=100
 
 ## Logging definitions
 # Timestamp to be added onto log file name
@@ -89,7 +83,6 @@ CLEARCACHE=true
 
 ## HOP Server Configurations.
 FAST_SERVER_EVENT=false
-REPORT_EXECTIME=false
 
 ## Verbosity ##
 VERB_LEVEL=5 #10 Default
@@ -139,12 +132,6 @@ if [ ${USE_CAPTUREFILE} == true ]; then
 fi
 if [ ${USE_CLIENTOUTPUT} == true ]; then
   FLAGS+=" --client-output ${CLIENTOUTPUT}"
-fi
-#FLAGS+=" --scheduler ${SCHEDULER}"
-#FLAGS+=" --max-threads ${MAXTHREADS}"
-
-if [ ${REPORT_EXECTIME} = true ]; then
-  FLAGS+=" --time "
 fi
 
 FLAGS+=" --rc-file ${RC_FILE} "
