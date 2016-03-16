@@ -22,8 +22,8 @@
 
 
 RappPlatformPath="${HOME}/rapp_platform"
-BiglooIndex="bigloo"
-BiglooUrl="ftp://ftp-sop.inria.fr/indes/rapp/hop/${BiglooIndex}.tar.gz"
+BiglooTar="bigloo4.2c-beta08Dec15.tar.gz"
+BiglooUrl="ftp://ftp-sop.inria.fr/indes/rapp/hop/2015-12-08/${BiglooTar}"
 HopRepoUrl="https://github.com/manuel-serrano/hop.git"
 HopCommitIndex="7673c6e318425e880a05818626f689229699e157"
 
@@ -40,11 +40,15 @@ sudo apt-get install libunistring-dev &> /dev/null
 cd ${RappPlatformPath}
 mkdir hop-bigloo
 cd hop-bigloo
-wget ${BiglooUrl} &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Bigloo \e[0m"
-tar -zxf "${BiglooIndex}.tar.gz" &> /dev/null
-cd bigloo4.2c
+# Fetch bigloo sources
+wget ${BiglooUrl} &> /dev/null
+# Create bigloo directory to unpack sources
+mkdir bigloo
+# Unpack bigloo - Strip folder from inside the tarball
+tar xf "${BiglooTar}" -C bigloo --strip-components=1 &> /dev/null
+cd bigloo
 ./configure &> /dev/null
 make &> /dev/null
 make test &> /dev/null
