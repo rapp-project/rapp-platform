@@ -63,12 +63,11 @@ launchWorkers(workers);
 /** ------------------------------------------------------------- */
 
 function createCacheDir( dir ){
-  this.cacheDir = dir;
-  if( this.cacheDir === undefined || this.cacheDir === '' )
+  if( dir === undefined || dir === '' )
   {
     return false;
   }
-  if( ! Fs.createDirRecur(this.cacheDir) ){
+  if( ! Fs.createDirRecur(dir) ){
     return false;
   }
   return true;

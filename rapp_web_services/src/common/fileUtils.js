@@ -220,6 +220,7 @@ function createDirRecur( dirPath )
     // Then create the child directory
     createDirRecur(dirPath);
   }
+  return true;
 }
 
 
