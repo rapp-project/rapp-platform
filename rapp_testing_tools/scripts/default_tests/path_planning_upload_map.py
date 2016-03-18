@@ -39,12 +39,12 @@ class RappInterfaceTest:
         'png_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.png'),
         'yaml_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.yaml'),
         'user': 'rapp',
-        'map_name': '523m'
+        'map_name': '523_m_obstacle_2'
     }
 
     self.validRes = {
         'success': True,
-        'error': ''        
+        'error': ''
     }
 
 
