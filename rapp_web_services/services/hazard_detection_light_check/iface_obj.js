@@ -19,30 +19,26 @@
  */
 
 
-var client_res = function( light_level, error ){
-  light_level = light_level || -1;
-  error = error || '';
+var client_res = function( ){
   var obj = {
-    light_level: light_level,
-    error: error
+    light_level: -1,
+    error: ''
   };
   return obj;
 };
 
 
-var client_req = function( file_uri ){
-  file_uri = file_uri || '';
+var client_req = function( ){
   var obj = {
-    file_uri: file_uri
+    file: []
   };
   return obj;
 };
 
 
-var ros_req = function( filepath ){
-  filepath = filepath || '';
+var ros_req = function( ){
   var obj = {
-    imageFilename: filepath
+    imageFilename: ''
   };
   return obj;
 };

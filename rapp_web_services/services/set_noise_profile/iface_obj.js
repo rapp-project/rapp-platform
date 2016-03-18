@@ -29,7 +29,7 @@ var client_res = function( ){
 
 var client_req = function( ){
   var obj = {
-    file_uri: '',
+    file: [],
     audio_source: '',
     user: ''
   };

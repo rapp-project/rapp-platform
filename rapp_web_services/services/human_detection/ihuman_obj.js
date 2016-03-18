@@ -19,30 +19,26 @@
  */
 
 
-var client_res = function( humans, error ){
-  humans = humans || [];
-  error = error || '';
+var client_res = function( ){
   var obj = {
-    humans: humans,
-    error: error
+    humans: [],
+    error: ''
   };
   return obj;
 };
 
 
-var client_req = function( file_uri ){
-  file_uri = file_uri || '';
+var client_req = function( ){
   var obj = {
-    file_uri: file_uri
+    file: []
   };
   return obj;
 };
 
 
-var ros_req = function( filepath ){
-  filepath = filepath || '';
+var ros_req = function(){
   var obj = {
-    imageFilename: filepath
+    imageFilename: ''
   };
   return obj;
 };

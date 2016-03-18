@@ -120,15 +120,22 @@ function svcImpl( kwargs )
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
 
+  kwargs = kwargs || {};
   var req = new interfaces.client_req();
   var response = new interfaces.client_res();
   var error = '';
 
-  /* ------ Parse arguments ------ */
-  kwargs = kwargs || {};
-  for( var i in req ){
-    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
+  /* Sniff argument values from request body and create client_req object */
+  try{
+    svcUtils.sniffArgs(kwargs, req);
   }
+  catch(e){
+    error = "Service call arguments error";
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  /* -------------------------------------------------------------------- */
+
   if( ! req.user ){
     error = 'Empty \"user\" field';
     response.error = error;
@@ -206,12 +213,11 @@ function svcImpl( kwargs )
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
-  console.log(rosbridge_msg);
   error = rosbridge_msg.error_message;
 
   var response = new interfaces.client_res();
   if( error ){
-    response.error = rosbridge_msg.error;
+    response.error = error;
     return response;
   }
 

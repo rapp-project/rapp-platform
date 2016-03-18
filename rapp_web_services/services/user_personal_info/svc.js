@@ -74,11 +74,23 @@ var maxTries = svcParams.retries;
 function svcImpl( kwargs )
 {
   kwargs = kwargs || {};
-  /* ------ Parse arguments ------ */
-  var user = kwargs.user || '';
-  if( ! user ){
+  var req = new interfaces.client_req();
+  var response = new interfaces.client_res();
+  var error = '';
+
+  /* Sniff argument values from request body and create client_req object */
+  try{
+    svcUtils.sniffArgs(kwargs, req);
+  }
+  catch(e){
+    error = "Service call arguments error";
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  /* -------------------------------------------------------------------- */
+
+  if( ! req.user ){
     error = 'Empty \"user\" field';
-    var response = new interfaces.client_res();
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
@@ -92,33 +104,14 @@ function svcImpl( kwargs )
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-
-      /***
-       *  Status flags.
-       */
-      var respFlag = false;
-      var retClientFlag = false;
-      var wsError = false;
-      var retries = 0;
-      /* --------------------------------------------------- */
-
-      // Fill Ros Service request msg parameters here.
       var rosSvcReq = new interfaces.ros_req();
       rosSvcReq.req_cols = [
         'username', 'firstname', 'lastname', 'email',
         'language', 'ontology_alias', 'usrgroup', 'created'];
-      rosSvcReq.where_data = [{s: ['username', user]}];
+      rosSvcReq.where_data = [{s: ['username', req.user]}];
 
 
-      /***
-       * Declare the service response callback here!!
-       * This callback function will be passed into the rosbridge service
-       * controller and will be called when a response from rosbridge
-       * websocket server arrives.
-       */
       function callback(data){
-        respFlag = true;
-        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         //console.log(data);
@@ -127,75 +120,21 @@ function svcImpl( kwargs )
         var response = parseRosbridgeMsg( data );
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
-        retClientFlag = true;
       }
 
-      /***
-       * Declare the onerror callback.
-       * The onerror callack function will be called by the service
-       * controller as soon as an error occures, on service request.
-       */
       function onerror(e){
-        respFlag = true;
-        if( retClientFlag ) { return; }
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
         var response = new interfaces.client_res();
         response.error = svcUtils.ERROR_MSG_DEFAULT;
         // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
-        retClientFlag = true;
       }
 
-
-      // Invoke ROS-Service request.
       ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
-      /***
-       * Set Timeout wrapping function.
-       * Polling in defined time-cycle. Catch timeout connections etc...
-       */
-      function asyncWrap(){
-        setTimeout( function(){
-
-         /***
-          *   If received message from rosbridge websocket server or an error
-          *   on websocket connection, stop timeout events.
-          */
-          if ( respFlag || wsError || retClientFlag ) { return; }
-
-          retries += 1;
-
-          var logMsg = 'Reached rosbridge response timeout' + '---> [' +
-            timeout.toString() + '] ms ... Reconnecting to rosbridge.' +
-            'Retry-' + retries;
-
-          /***
-           * Fail. Did not receive message from rosbridge.
-           * Return to client.
-           */
-          if ( retries >= maxTries )
-          {
-            logMsg = 'Reached max_retries [' + maxTries + ']' +
-              ' Could not receive response from rosbridge...';
-
-            execTime = new Date().getTime() - startT;
-
-            var response = new interfaces.client_res();
-            response.error = svcUtils.ERROR_MSG_DEFAULT;
-
-            sendResponse( hop.HTTPResponseJson(response));
-            retClientFlag = true;
-            return;
-          }
-          /*--------------------------------------------------------*/
-          asyncWrap();
-
-        }, timeout);
-      }
-      asyncWrap();
-    }, this );
+    }, this);
 
 }
 
@@ -212,7 +151,7 @@ function parseRosbridgeMsg(rosbridge_msg)
   var response = new interfaces.client_res();
 
   if( error ){
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    response.error = error;
     return response;
   }
 

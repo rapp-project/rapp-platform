@@ -30,7 +30,7 @@ var clientRes = function( ){
 
 var clientReq = function( ){
   var obj = {
-    file_uri: ''
+    file: []
   };
   return obj;
 };

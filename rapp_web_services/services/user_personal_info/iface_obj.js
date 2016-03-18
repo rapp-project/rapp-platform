@@ -19,33 +19,29 @@
  */
 
 
-var clientRes = function( userInfo, error ){
-  userInfo = userInfo || {};
-  error = error || '';
+var clientRes = function( ){
   var obj = {
-    user_info: userInfo,
-    error: error
+    user_info: {},
+    error: ''
   };
   return obj;
 };
 
 
-var clientReq = function( user ){
-  user = user || '';
+var clientReq = function( ){
   var obj = {
-    user: user
+    user: ''
   };
   return obj;
 };
 
 
-var rosReq = function( reqCols, whereData ){
-  reqCols = reqCols || ['username', 'firstname', 'lastname', 'email',
-                        'language', 'ontology_alias', 'usrgroup', 'created'];
-  whereData = whereData || [];
+var rosReq = function( ){
+  var reqCols = ['username', 'firstname', 'lastname', 'email',
+      'language', 'ontology_alias', 'usrgroup', 'created'];
   var obj = {
-    req_cols: reqCols,
-    where_data: whereData
+    req_cols: [],
+    where_data: []
   };
   return obj;
 };

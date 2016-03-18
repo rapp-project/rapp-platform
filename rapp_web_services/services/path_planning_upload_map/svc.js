@@ -94,14 +94,22 @@ var maxTries = svcParams.retries;
  */
 function svcImpl ( kwargs )
 {
+  kwargs = kwargs || {};
   var req = new interfaces.client_req();
   var response = new interfaces.client_res();
   var error = '';
 
-  kwargs = kwargs || {};
-  for( var i in req ){
-    req[i] = (kwargs[i] !== undefined) ? kwargs[i] : req[i];
+  /* Sniff argument values from request body and create client_req object */
+  try{
+    svcUtils.sniffArgs(kwargs, req);
   }
+  catch(e){
+    error = "Service call arguments error";
+    response.error = error;
+    return hop.HTTPResponseJson(response);
+  }
+  /* -------------------------------------------------------------------- */
+
   if( ! req.png_file ){
     error = 'No map image file received';
     response.error = error;
@@ -167,6 +175,7 @@ function svcImpl ( kwargs )
   else{
     response.success = true;
   }
+
   Fs.rmFile(req.png_file);
   Fs.rmFile(req.yaml_file);
   randStrGen.removeCached(unqCallId);

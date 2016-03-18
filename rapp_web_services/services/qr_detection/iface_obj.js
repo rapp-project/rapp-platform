@@ -19,32 +19,27 @@
  */
 
 
-var clientRes = function( qrCenters, qrMessages, error ){
-  qrCenters = qrCenters || [];
-  qrMessages = qrMessages || [];
-  error = error || '';
+var clientRes = function( ){
   var obj = {
-    qr_centers: qrCenters,
-    qr_messages: qrMessages,
-    error: error
+    qr_centers: [],
+    qr_messages: [],
+    error: ''
   };
   return obj;
 };
 
 
-var clientReq = function( fileUri ){
-  fileUri = fileUri || '';
+var clientReq = function( ){
   var obj = {
-    file_uri: fileUri
+    file: []
   };
   return obj;
 };
 
 
-var rosReq = function( filepath ){
-  filepath = filepath || '';
+var rosReq = function( ){
   var obj = {
-    imageFilename: filepath
+    imageFilename: ''
   };
   return obj;
 };

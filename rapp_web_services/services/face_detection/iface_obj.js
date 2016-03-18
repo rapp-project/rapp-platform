@@ -19,40 +19,34 @@
  */
 
 
-var client_res = function( faces, error ){
-  faces = faces || [];
-  error = error || '';
+var client_res = function( ){
   var obj = {
-    faces: faces,
-    error: error
+    faces: [],
+    error: ''
   };
   return obj;
 };
 
 
-var client_req = function( file_uri, fast ){
-  file_uri = file_uri || '';
-  fast = fast || false;
+var client_req = function( ){
   var obj = {
-    file_uri: file_uri,
-    fast: fast
+    file: [],
+    fast: false
   };
   return obj;
 };
 
 
-var ros_req = function( filepath, fast ){
-  filepath = filepath || '';
-  fast = fast || false;
+var ros_req = function( ){
   var obj = {
-    imageFilename: filepath,
-    fast: fast
+    imageFilename: '',
+    fast: false
   };
   return obj;
 };
 
 
-var ros_res = function(){
+var ros_res = function( ){
 
 };
 
