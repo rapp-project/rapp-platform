@@ -120,7 +120,64 @@ var cpInFile = function( filepath, destdir, unqId){
 };
 
 
+/*!
+ * @brief Sniff service arguments as obtained from the post request form.
+ *  'json': {}  - Json string that contains the plain param=value
+ *  'file': [] - An array that containes files posted in multipart/form-data
+ */
+var sniffArgs = function( svcInArgs, reqObj ){
+  svcInArgs = svcInArgs || {};
+  var jsonField = svcInArgs.json || '';
+  var _file = svcInArgs.file || [];
+  var obj = {};
+
+  if ( (jsonField) &&  (isJson(jsonField)) ){
+    obj = JSON.parse(jsonField);
+  }
+  obj.file = [];
+
+  if ( _file ){
+    if ( _file instanceof Array ){
+       //An Array of files
+      obj.file = svcInArgs.file;
+    }
+    else{
+       //meaning single file.
+      obj.file.push(_file);
+    }
+  }
+
+  for ( var prop in svcInArgs ){
+    if ( (prop !== "json") && (prop !== "file") ){
+      obj[prop] = svcInArgs[prop];
+    }
+  }
+
+  for( var i in reqObj ){
+    reqObj[i] = (obj[i] !== undefined) ? obj[i] : reqObj[i];
+  }
+};
+
+
+/*!
+ *  Check if input value is in json string representation.
+ *
+ *  @returns True if isJson.
+ */
+var isJson = function( data ){
+  try{
+    JSON.parse(data);
+  }
+  catch(e){
+    return false;
+  }
+  return true;
+};
+
+
+
 exports.registerSvc = registerSvc;
 exports.errorResponse = errorResponse;
 exports.ERROR_MSG_DEFAULT = ON_ERROR_DEFAULT_MSG;
 exports.cpInFile = cpInFile;
+exports.sniffArgs = sniffArgs;
