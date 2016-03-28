@@ -129,6 +129,7 @@ function svcImpl( kwargs )
     response.error = error;
     return hop.HTTPResponseJson(response);
   }
+  req.score = parseInt(req.score);
 
   // Assign a unique identification key for this service request.
   var unqCallId = randStrGen.createUnique();
