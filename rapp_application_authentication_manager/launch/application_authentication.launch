@@ -1,6 +1,12 @@
 <launch>
-  <node name="rapp_application_authentication_manager_node" pkg="rapp_application_authentication_manager" type="application_authentication_node.py" output="screen"/>
-  <rosparam file="$(find rapp_application_authentication_manager)/cfg/rapp_application_authentication_manager_params.yaml" 
-    command="load" />
-
+  <node
+    name="rapp_application_authentication_manager_node"
+    pkg="rapp_application_authentication_manager"
+    type="application_authentication_node.py"
+    output="screen"
+    />
+  <rosparam
+    file="$(find rapp_application_authentication_manager)/cfg/rapp_application_authentication_manager_params.yaml"
+    command="load"
+    />
 </launch>

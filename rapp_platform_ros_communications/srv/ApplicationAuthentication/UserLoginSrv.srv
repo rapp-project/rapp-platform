@@ -1,5 +1,6 @@
 string username
-string robot_mac_address
+string password
+string user_token
 ---
 string error
 string token

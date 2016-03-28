@@ -1,2 +1,3 @@
-rapp_generate_token_topic: /rapp/rapp_application_authentication/generate_application_token
-rapp_authenticate_token_topic: /rapp/rapp_application_authentication/authenticate
+rapp_add_new_user_topic: /rapp/rapp_application_authentication/add_new_user
+rapp_login_user: /rapp/rapp_application_authentication/login
+rapp_authenticate_token_topic: /rapp/rapp_application_authentication/authenticate_token

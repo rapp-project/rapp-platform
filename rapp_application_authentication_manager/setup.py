@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#! /usr/bin/env python
 
 #Copyright 2015 RAPP
 
@@ -14,13 +14,13 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-import sys
+# Authors: Aris Thallas
+# contact: aris.thallas@{iti.gr, gmail.com}
 
-class RappError(Exception):
-  """Error handling in RAPP"""
+from distutils.core import setup
+from catkin_pkg.python_setup import generate_distutils_setup as catkin_setup
 
-  def __init__(self, value):
-    self.value = value
+dist = catkin_setup(packages=['rapp_application_authentication_manager'],
+                    package_dir={'': 'src'})
 
-  def __str__(self):
-    return repr(self.value)
+setup(**dist)
