@@ -18,9 +18,12 @@
 # Authors: Aris Thallas
 # contact: aris.thallas@{iti.gr, gmail.com}
 
-import random
 import re
+import random
+import string
 import bcrypt
+import base64
+from passlib.hash import sha256_crypt
 
 import rospy
 
@@ -135,10 +138,14 @@ class ApplicationAuthenticationManager:
             res.error = 'Session already active'
             return res
 
-        #  TODO: generate new token here
-        res.token = \
-            ''.join(random.SystemRandom().choice(string.ascii_uppercase +
-                    string.digits) for _ in range(32))
+        #  Generate token
+        rand_str = \
+            ''.join(random.SystemRandom().choice(string.ascii_letters +
+                    string.digits + string.punctuation) for _ in range(64))
+        hash_str = sha256_crypt.encrypt(rand_str)
+        index = hash_str.find('$', 3)
+        hash_str = hash_str[index+1:]
+        res.token = base64.b64encode(hash_str)
 
         self._db_handler.write_new_application_token(
             req.username, req.user_token, res.token)

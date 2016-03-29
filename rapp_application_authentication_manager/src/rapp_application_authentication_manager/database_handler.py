@@ -25,14 +25,29 @@ class DatabaseHandler(object):
         #  TODO: initialize sql wrapper
         pass
 
-    def verify_store_token(self, token):
+    ## Verify that the token exists in store db
+    #
+    # @param store_token [string] The token
+    #
+    # @return status [bool] True if token exists, false otherwise
+    def verify_store_token(self, store_token):
         #  TODO
         pass
 
+    ## Verify that username exists in platform db
+    #
+    # @param username [string] The username
+    #
+    # @return status [bool] True if username exists, false otherwise
     def username_exists(self, username):
         #  TODO
         pass
 
+    ## Retrieve user's password from platform db
+    #
+    # @param username [string] The username
+    #
+    # @return password [string] Password associated with username
     def get_user_password(self, username):
         #  TODO
         pass
@@ -41,18 +56,42 @@ class DatabaseHandler(object):
         #  TODO
         pass
 
+    ## Retrieve username associated with application_token from platform db
+    #
+    # @param token [string] The user's application token
+    #
+    # @return username [string] The username
     def get_token_user(self, app_token):
         #  TODO
         pass
 
+    ## Check if there is an active session (token) for the specified user and
+    # store_token (device_token)
+    #
+    # @param username [string] The username
+    # @param store_token [string] The device_token associated with the appl_token
+    #
+    # @return status [bool] True if token exists, false otherwise
     def verify_active_robot_session(self, username, store_token):
         #  TODO
         pass
 
+    ## Write new user to the platform db
+    #
+    # @param username [string] The username
+    # @param password [string] The user's password
+    # @param store_token [string] The user's store token
+    #
+    # @return status [bool] True if token exists, false otherwise
     def add_new_user(self, username, password, store_token):
         #  TODO
         pass
 
-    def write_new_application_token(self, username, user_token, appl_token):
+    ## Write new token to the platform db
+    #
+    # @param username [string] The user issuing the token
+    # @param store_token [string] The device_token of the application token
+    # @param app_token [string] The user's application token
+    def write_new_application_token(self, username, store_token, appl_token):
         #  TODO
         pass
