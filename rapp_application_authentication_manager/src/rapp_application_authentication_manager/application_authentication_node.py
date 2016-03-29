@@ -20,7 +20,7 @@
 
 import random
 import re
-import bycrypt
+import bcrypt
 
 import rospy
 
@@ -96,14 +96,16 @@ class ApplicationAuthenticationManager:
                 suggestion = '_' + \
                     ''.join(random.SystemRandom().choice(string.digits)
                             for _ in range(5))
-                if not self._db_handler.username_exists(req.username + suggestion):
+                if not self._db_handler.username_exists(
+                        req.username + suggestion):
                     res.suggested_username = req.username + suggestion
                     return res
             return res
 
         password_hash = bcrypt.hashpw(req.password, bcrypt.gensalt())
 
-        self._db_handler.add_new_user(req.username, password_hash)
+        self._db_handler.add_new_user(
+            req.username, password_hash, req.user_token)
         return res
 
     # The token authentication service callback
@@ -113,23 +115,23 @@ class ApplicationAuthenticationManager:
         res.error = ''
         res.authenticated = ''
         if self._db_handler.verify_active_application_session(req.token):
-            res.authenticated = self._db_handler.get_token_user(req.token):
+            res.username = self._db_handler.get_token_user(req.token)
         else:
             res.error = 'Invalid token'
         return res
-
 
     # User login service callback
     def login_callback(self, req):
         res = UserLoginSrvResponse()
 
-        password_hash = bcrypt.hashpw(req.password, bcrypt.gensalt())
-        if not passself._db_handler.verify_user_credentials(req.username, password_hash):
+        password = self._db_handler.get_user_password(req.username)
+        if bcrypt.hashpw(req.password, password) != password:
             res.error = 'Wrong credentials'
             return res
 
 
-        if self._db_handler.find_active_robot_session(user_token):
+        if self._db_handler.verify_active_robot_session(req.username, req.user_token):
+            # TODO: verify that user_token is actual and active store token
             res.error = 'Session already active'
             return res
 
@@ -138,7 +140,8 @@ class ApplicationAuthenticationManager:
             ''.join(random.SystemRandom().choice(string.ascii_uppercase +
                     string.digits) for _ in range(32))
 
-        #  TODO: update db
+        self._db_handler.write_new_application_token(
+            req.username, req.user_token, res.token)
 
         return res
 

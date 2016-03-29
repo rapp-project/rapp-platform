@@ -33,16 +33,26 @@ class DatabaseHandler(object):
         #  TODO
         pass
 
-    def verify_user_credentials(self, username, password):
+    def get_user_password(self, username):
         #  TODO
         pass
 
     def verify_active_application_token(self, token):
         #  TODO
+        pass
+
+    def get_token_user(self, app_token):
+        #  TODO
+        pass
 
     def verify_active_robot_session(self, username, store_token):
         #  TODO
+        pass
 
-    def add_new_user(self, username, password):
+    def add_new_user(self, username, password, store_token):
         #  TODO
-       pass
+        pass
+
+    def write_new_application_token(self, username, user_token, appl_token):
+        #  TODO
+        pass

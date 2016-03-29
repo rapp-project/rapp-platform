@@ -1,4 +1,4 @@
 string token
 ---
 string error
-string authenticated
+string username 

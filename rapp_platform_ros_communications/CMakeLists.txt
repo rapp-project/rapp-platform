@@ -36,7 +36,7 @@ add_service_files(
   /CognitiveExercise/userScoreHistoryForAllCategoriesSrv.srv
 
   /HumanDetection/HumanDetectionRosSrv.srv
-  
+
   /CaffeWrapper/imageClassificationSrv.srv
   /CaffeWrapper/ontologyClassBridgeSrv.srv
 
@@ -93,7 +93,7 @@ add_service_files(
   /AudioProcessing/AudioProcessingTransformAudioSrv.srv
 
   /TextToSpeechEspeak/TextToSpeechSrv.srv
-  
+
   /HazardDetection/LightCheckRosSrv.srv
   /HazardDetection/DoorCheckRosSrv.srv
 
@@ -102,8 +102,9 @@ add_service_files(
   /PathPlanning/MapServer/MapServerGetMapRosSrv.srv
   /PathPlanning/MapServer/MapServerUploadMapRosSrv.srv
 
-  /ApplicationAuthentication/ApplicationTokenGenerationSrv.srv
-  /ApplicationAuthentication/ApplicationTokenAuthenticationSrv.srv
+  /ApplicationAuthentication/UserTokenAuthenticationSrv.srv
+  /ApplicationAuthentication/UserLoginSrv.srv
+  /ApplicationAuthentication/AddNewUserSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here
