@@ -88,48 +88,46 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
 
 
 function svcImpl( kwargs )
 {
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
   var clientHostname = this.socket.hostname;
   var clientIpaddr = this.socket.hostAddr;
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.ipaddr ){
-    // Retrieve client ip from request.
-    // If the connection was established through a Proxy Server then the
-    // returned information will be related to the Proxy Server location.
-    req.ipaddr = clientIpaddr;
-  }
-
-  // Assign a unique identification key for this service request.
-  var unqCallId = randStrGen.createUnique();
 
   /***
    * Asynchronous http response.
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      kwargs = kwargs || {};
+      var req = new interfaces.client_req();
+      var response = new interfaces.client_res();
+      var error = '';
+
+
+      /* Sniff argument values from request body and create client_req object */
+      try{
+        svcUtils.parseReq(kwargs, req);
+      }
+      catch(e){
+        error = "Service call arguments error";
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* -------------------------------------------------------------------- */
+
+      if( ! req.ipaddr ){
+        // Retrieve client ip from request.
+        // If the connection was established through a Proxy Server then the
+        // returned information will be related to the Proxy Server location.
+        req.ipaddr = clientIpaddr;
+      }
+
+      // Assign a unique identification key for this service request.
+      var unqCallId = randStrGen.createUnique();
+
       var rosSvcReq = new interfaces.ros_req();
       rosSvcReq.ip = req.ipaddr;
       rosSvcReq.geolocator = req.engine;
@@ -158,6 +156,16 @@ function svcImpl( kwargs )
 
       ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
+
+      /***
+       *  Timeout this request. Return to client.
+       */
+      setTimeout(function(){
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+      }, svcParams.timeout);
+      /* ----------------------------------------------- */
 
     }, this);
 }

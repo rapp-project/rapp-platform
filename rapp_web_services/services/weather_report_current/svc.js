@@ -88,44 +88,42 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
 
 
 function svcImpl( kwargs )
 {
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.city ){
-    error = 'Empty \"city\" argument';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-
-  // Assign a unique identification key for this service request.
-  var unqCallId = randStrGen.createUnique();
-
   /***
    * Asynchronous http response.
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      kwargs = kwargs || {};
+      var req = new interfaces.client_req();
+      var response = new interfaces.client_res();
+      var error = '';
+
+      /* Sniff argument values from request body and create client_req object */
+      try{
+        svcUtils.parseReq(kwargs, req);
+      }
+      catch(e){
+        error = "Service call arguments error";
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* -------------------------------------------------------------------- */
+
+      if( ! req.city ){
+        error = 'Empty \"city\" argument';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+
+      // Assign a unique identification key for this service request.
+      var unqCallId = randStrGen.createUnique();
+
       var rosSvcReq = new interfaces.ros_req();
       rosSvcReq.city = req.city;
       rosSvcReq.weather_reporter = req.weather_reporter;
@@ -152,11 +150,20 @@ function svcImpl( kwargs )
         sendResponse( hop.HTTPResponseJson(response) );
       }
 
-
       ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
-     }, this);
+      /***
+       *  Timeout this request. Return to client.
+       */
+      setTimeout(function(){
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+      }, svcParams.timeout);
+      /* ----------------------------------------------- */
+
+    }, this);
 }
 
 

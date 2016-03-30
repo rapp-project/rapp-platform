@@ -125,7 +125,7 @@ var cpInFile = function( filepath, destdir, unqId){
  *  'json': {}  - Json string that contains the plain param=value
  *  'file': [] - An array that containes files posted in multipart/form-data
  */
-var sniffArgs = function( svcInArgs, reqObj ){
+var parseReq = function( svcInArgs, reqObj ){
   svcInArgs = svcInArgs || {};
   var jsonField = svcInArgs.json || '';
   var _file = svcInArgs.file || [];
@@ -180,4 +180,4 @@ exports.registerSvc = registerSvc;
 exports.errorResponse = errorResponse;
 exports.ERROR_MSG_DEFAULT = ON_ERROR_DEFAULT_MSG;
 exports.cpInFile = cpInFile;
-exports.sniffArgs = sniffArgs;
+exports.parseReq = parseReq;

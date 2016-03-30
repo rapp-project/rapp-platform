@@ -89,10 +89,6 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
 
 /**
  *  [Cognitive-get-scores] RAPP Platform front-end web service.
@@ -117,57 +113,61 @@ var maxTries = svcParams.retries;
  */
 function svcImpl( kwargs )
 {
-  // Assign a unique identification key for this service request.
-  var unqCallId = randStrGen.createUnique();
-
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.user ){
-    error = 'Empty \"user\" field';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.map_name ){
-    error = 'Empty \"map_name\" field';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.robot_type ){
-    error = 'Empty \"user\" field';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.start ){
-    error = 'Empty \"user\" field';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.goal ){
-    error = 'Empty \"user\" field';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-
-
   /***
    * Asynchronous http response.
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      kwargs = kwargs || {};
+      var req = new interfaces.client_req();
+      var response = new interfaces.client_res();
+      var error = '';
+
+      /* Sniff argument values from request body and create client_req object */
+      try{
+        svcUtils.parseReq(kwargs, req);
+      }
+      catch(e){
+        error = "Service call arguments error";
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* -------------------------------------------------------------------- */
+      var unqCallId = randStrGen.createUnique();
+
+      if( ! req.user ){
+        error = 'Empty \"user\" field';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.map_name ){
+        error = 'Empty \"map_name\" field';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.robot_type ){
+        error = 'Empty \"user\" field';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.start ){
+        error = 'Empty \"user\" field';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.goal ){
+        error = 'Empty \"user\" field';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+
+
       var rosMsg = new interfaces.ros_req();
       rosMsg.user_name = req.user_name;
       rosMsg.map_name = req.map_name;
@@ -199,7 +199,18 @@ function svcImpl( kwargs )
 
       ros.callService(rosSrvName, rosMsg,
         {success: callback, fail: onerror});
-  }, this);
+
+      /***
+       *  Timeout this request. Return to client.
+       */
+      setTimeout(function(){
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+      }, svcParams.timeout);
+      /* ----------------------------------------------- */
+
+    }, this);
 }
 
 

@@ -66,11 +66,6 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
-
 
 /**
  *  [Ontology-subclasses-of] RAPP Platform front-end web service.
@@ -91,73 +86,81 @@ var maxTries = svcParams.retries;
  */
 function svcImpl( kwargs )
 {
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.query ){
-    error = 'Empty \"query\" field';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-
-  // Assign a unique identification key for this service request.
-  var unqCallId = randStrGen.createUnique();
-
-  var startT = new Date().getTime();
-  var execTime = 0;
-
-
   /***
    * Asynchronous http response
    */
  return hop.HTTPResponseAsync(
    function( sendResponse ) {
-      var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.ontology_class = req.query;
+     kwargs = kwargs || {};
+     var req = new interfaces.client_req();
+     var response = new interfaces.client_res();
+     var error = '';
+
+     /* Sniff argument values from request body and create client_req object */
+     try{
+       svcUtils.parseReq(kwargs, req);
+     }
+     catch(e){
+       error = "Service call arguments error";
+       response.error = error;
+       sendResponse( hop.HTTPResponseJson(response) );
+        return;
+     }
+     /* -------------------------------------------------------------------- */
+
+     if( ! req.query ){
+       error = 'Empty \"query\" field';
+       response.error = error;
+       sendResponse( hop.HTTPResponseJson(response) );
+        return;
+     }
+
+     // Assign a unique identification key for this service request.
+     var unqCallId = randStrGen.createUnique();
+
+     var rosSvcReq = new interfaces.ros_req();
+     rosSvcReq.ontology_class = req.query;
 
 
-      function callback(data){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        //console.log(data);
+     function callback(data){
+       // Remove this call id from random string generator cache.
+       randStrGen.removeCached( unqCallId );
+       //console.log(data);
 
-        // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data );
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
-      }
+       // Craft client response using ros service ws response.
+       var response = parseRosbridgeMsg( data );
+       // Asynchronous response to client.
+       sendResponse( hop.HTTPResponseJson(response) );
+     }
+
+     /***
+      * Declare the onerror callback.
+      * The onerror callack function will be called by the service
+      * controller as soon as an error occures, on service request.
+      */
+     function onerror(e){
+       // Remove this call id from random string generator cache.
+       randStrGen.removeCached( unqCallId );
+       var response = new interfaces.client_res();
+       response.error = svcUtils.ERROR_MSG_DEFAULT;
+       // Asynchronous response to client.
+       sendResponse( hop.HTTPResponseJson(response) );
+     }
+
+     ros.callService(rosSrvName, rosSvcReq,
+       {success: callback, fail: onerror});
 
       /***
-       * Declare the onerror callback.
-       * The onerror callack function will be called by the service
-       * controller as soon as an error occures, on service request.
+       *  Timeout this request. Return to client.
        */
-      function onerror(e){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
+      setTimeout(function(){
         var response = new interfaces.client_res();
         response.error = svcUtils.ERROR_MSG_DEFAULT;
-        // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
-      }
+      }, svcParams.timeout);
+      /* ----------------------------------------------- */
 
-      ros.callService(rosSrvName, rosSvcReq,
-        {success: callback, fail: onerror});
-
-    }, this);
+   }, this);
 }
 
 
@@ -185,7 +188,7 @@ function parseRosbridgeMsg(rosbridge_msg)
   var response = new interfaces.client_res();
 
   if( error ){
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    response.error = error;
     return response;
   }
 

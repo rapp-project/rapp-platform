@@ -66,11 +66,6 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
-
 
 /**
  *  [Face-Detection] RAPP Platform front-end web service.
@@ -94,49 +89,51 @@ var maxTries = svcParams.retries;
  */
 function svcImpl ( kwargs )
 {
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.email ){
-    error = 'Empty \"email\" argument';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.server ){
-    error = 'Empty \"server\" argument';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  // To Number input arguments conversions
-  req.from_date = req.from_date;
-  req.to_date = req.to_date;
-  req.num_emails = req.num_emails;
-
-  // Assign a unique identification key for this service request.
-  var unqCallId = randStrGen.createUnique();
-
-  var startT = new Date().getTime();
-  var execTime = 0;
-
-
   /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      kwargs = kwargs || {};
+      var req = new interfaces.client_req();
+      var response = new interfaces.client_res();
+      var error = '';
+
+      /* Sniff argument values from request body and create client_req object */
+      try{
+        svcUtils.parseReq(kwargs, req);
+      }
+      catch(e){
+        error = "Service call arguments error";
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* -------------------------------------------------------------------- */
+
+      if( ! req.email ){
+        error = 'Empty \"email\" argument';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.server ){
+        error = 'Empty \"server\" argument';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      // To Number input arguments conversions
+      req.from_date = req.from_date;
+      req.to_date = req.to_date;
+      req.num_emails = req.num_emails;
+
+      // Assign a unique identification key for this service request.
+      var unqCallId = randStrGen.createUnique();
+
+      var startT = new Date().getTime();
+      var execTime = 0;
+
       var rosSvcReq = new interfaces.ros_req();
       rosSvcReq.email = req.email;
       rosSvcReq.password = req.passwd;
@@ -181,6 +178,16 @@ function svcImpl ( kwargs )
 
       ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
+
+      /***
+       *  Timeout this request. Return to client.
+       */
+      setTimeout(function(){
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+      }, svcParams.timeout);
+      /* ----------------------------------------------- */
 
     }, this);
 }

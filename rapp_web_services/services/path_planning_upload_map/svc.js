@@ -60,10 +60,7 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
+
 
 /**
  *  [Path-planning-upload-map] RAPP Platform front-end web service.
@@ -94,94 +91,107 @@ var maxTries = svcParams.retries;
  */
 function svcImpl ( kwargs )
 {
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.png_file ){
-    error = 'No map image file received';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.yaml_file ){
-    error = 'No map image file received';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.user ){
-    error = 'Provide username argument (user).';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.map_name ){
-    error = 'Not a map_name argument provided.';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-
   /***
-   *  For security reasons, if file_uri is not defined under the
-   *  server_cache_dir do not operate. HOP server stores the files under the
-   *  SERVER_CACHE_DIR directory.
+   * Asynchronous http response
    */
-  if( req.png_file.indexOf(SERVER_CACHE_DIR) === -1 )
-  {
-    var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-        " Abortion for security reasons.";
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
-    return hop.HTTPResponseJson(response);
-  }
-  if( req.yaml_file.indexOf(SERVER_CACHE_DIR) === -1 )
-  {
-    var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-        " Abortion for security reasons.";
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
-    return hop.HTTPResponseJson(response);
-  }
-  /* ----------------------------------------------------------------------- */
+  return hop.HTTPResponseAsync(
+    function( sendResponse ) {
+      kwargs = kwargs || {};
+      var req = new interfaces.client_req();
+      var response = new interfaces.client_res();
+      var error = '';
 
-  var cpPNGFilePath = "~/rapp_platform_files/maps/"+req.user+"/"+req.map_name+".png";
-  var cpYAMLFilePath = "~/rapp_platform_files/maps/"+req.user+"/"+req.map_name+".yaml";
+      /* Sniff argument values from request body and create client_req object */
+      try{
+        svcUtils.parseReq(kwargs, req);
+      }
+      catch(e){
+        error = "Service call arguments error";
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* -------------------------------------------------------------------- */
 
-  var unqCallId = randStrGen.createUnique();
+      if( ! req.png_file ){
+        error = 'No map image file received';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.yaml_file ){
+        error = 'No map image file received';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.user ){
+        error = 'Provide username argument (user).';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.map_name ){
+        error = 'Not a map_name argument provided.';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
 
-  // create user directory if one does not exist.
-  if(!Fs.isDirectory("~/rapp_platform_files/maps/"+req.user)){
-    Fs.createDirRecur("~/rapp_platform_files/maps/"+req.user);
-  }
+      /***
+       *  For security reasons, if file_uri is not defined under the
+       *  server_cache_dir do not operate. HOP server stores the files under the
+       *  SERVER_CACHE_DIR directory.
+       */
+      if( req.png_file.indexOf(SERVER_CACHE_DIR) === -1 )
+      {
+        var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
+          " Abortion for security reasons.";
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( req.yaml_file.indexOf(SERVER_CACHE_DIR) === -1 )
+      {
+        var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
+          " Abortion for security reasons.";
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* ----------------------------------------------------------------------- */
 
-  // coppy .png and .yaml files from the server_cache_dir
-  if ( ! Fs.renameFile(req.png_file, cpPNGFilePath) ){
-    response.error = "Failed to upload map png to RAPP Platform.";
-    response.success = false;
-    return hop.HTTPResponseJson(response);
-  }
-  if ( ! Fs.renameFile(req.yaml_file, cpYAMLFilePath) ){
-    response.error = "Failed to upload map yaml to RAPP Platform.";
-    response.success = false;
-  }
-  else{
-    response.success = true;
-  }
+      var cpPNGFile = "~/rapp_platform_files/maps/"+req.user+"/"+req.map_name+".png";
+      var cpYAMLFile = "~/rapp_platform_files/maps/"+req.user+"/"+req.map_name+".yaml";
 
-  Fs.rmFile(req.png_file);
-  Fs.rmFile(req.yaml_file);
-  randStrGen.removeCached(unqCallId);
+      var unqCallId = randStrGen.createUnique();
 
-  return hop.HTTPResponseJson(response);
+      // create user directory if one does not exist.
+      if(!Fs.isDirectory("~/rapp_platform_files/maps/"+req.user)){
+        Fs.createDirRecur("~/rapp_platform_files/maps/"+req.user);
+      }
+
+      // coppy .png and .yaml files from the server_cache_dir
+      if ( ! Fs.renameFile(req.png_file, cpPNGFile) ){
+        response.error = "Failed to upload map png to RAPP Platform.";
+        response.success = false;
+      }
+      if ( ! Fs.renameFile(req.yaml_file, cpYAMLFile) ){
+        response.error = "Failed to upload map yaml to RAPP Platform.";
+        response.success = false;
+      }
+      else{
+        response.success = true;
+      }
+
+      Fs.rmFile(req.png_file);
+      Fs.rmFile(req.yaml_file);
+      randStrGen.removeCached(unqCallId);
+
+      sendResponse( hop.HTTPResponseJson(response) );
+
+    }, this);
 }
 
 
-registerSvc(svcImpl, svcParams);
+  registerSvc(svcImpl, svcParams);

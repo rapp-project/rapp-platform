@@ -70,10 +70,6 @@ var stringLength = 5;
 var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
 
 
 /**
@@ -108,86 +104,90 @@ var maxTries = svcParams.retries;
  */
 function svcImpl( kwargs )
 {
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.file.length ){
-    error = 'No audio file received';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.audio_source ){
-    error = 'Emptry \"audio_source\" argument';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.user ){
-    error = 'Emptry \"user\" argument';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  if( ! req.language ){
-    error = 'Emptry \"language\" argument';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-
-
-  /***
-   *  For security reasons, if file_uri is not defined under the
-   *  server_cache_dir do not operate. HOP server stores the files under the
-   *  __serverCacheDir directory.
-   */
-  if( req.file[0].indexOf(SERVER_CACHE_DIR) === -1 )
-  {
-    var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-        " Abortion for security reasons.";
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
-    return hop.HTTPResponseJson(response);
-  }
-  /* ----------------------------------------------------------------------- */
-
-  // Assign a unique identification key for this service call.
-  var unqCallId = randStrGen.createUnique();
-
-  var startT = new Date().getTime();
-  var execTime = 0;
-
-  var cpFilePath = '';
-
-  try{
-    cpFilePath = svcUtils.cpInFile(req.file[0], ENV.PATHS.SERVICES_CACHE_DIR,
-      unqCallId);
-  }
-  catch(e){
-    console.log(e);
-    Fs.rmFile(req.file[0]);
-    randStrGen.removeCached(unqCallId);
-
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
-    return hop.HTTPResponseJson(response);
-  }
-  /*-------------------------------------------------------------------------*/
-
-
   /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      kwargs = kwargs || {};
+      var req = new interfaces.client_req();
+      var response = new interfaces.client_res();
+      var error = '';
+
+      /* Sniff argument values from request body and create client_req object */
+      try{
+        svcUtils.parseReq(kwargs, req);
+      }
+      catch(e){
+        error = "Service call arguments error";
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* -------------------------------------------------------------------- */
+
+      if( ! req.file.length ){
+        error = 'No audio file received';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.audio_source ){
+        error = 'Emptry \"audio_source\" argument';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.user ){
+        error = 'Emptry \"user\" argument';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      if( ! req.language ){
+        error = 'Emptry \"language\" argument';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+
+
+      /***
+       *  For security reasons, if file_uri is not defined under the
+       *  server_cache_dir do not operate. HOP server stores the files under the
+       *  __serverCacheDir directory.
+       */
+      if( req.file[0].indexOf(SERVER_CACHE_DIR) === -1 )
+      {
+        var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
+          " Abortion for security reasons.";
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* ----------------------------------------------------------------------- */
+
+      // Assign a unique identification key for this service call.
+      var unqCallId = randStrGen.createUnique();
+
+      var cpFilePath = '';
+
+      try{
+        cpFilePath = svcUtils.cpInFile(req.file[0], ENV.PATHS.SERVICES_CACHE_DIR,
+          unqCallId);
+      }
+      catch(e){
+        console.log(e);
+        Fs.rmFile(req.file[0]);
+        randStrGen.removeCached(unqCallId);
+
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /*-------------------------------------------------------------------------*/
+
+
       var rosSvcReq = new interfaces.ros_req();
       rosSvcReq.filename = cpFilePath;
       rosSvcReq.audio_type = req.audio_source;
@@ -222,6 +222,16 @@ function svcImpl( kwargs )
       ros.callService(rosSrvName, rosSvcReq,
         {success: callback, fail: onerror});
 
+      /***
+       *  Timeout this request. Return to client.
+       */
+      setTimeout(function(){
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+      }, svcParams.timeout);
+      /* ----------------------------------------------- */
+
     }, this);
 }
 
@@ -251,7 +261,7 @@ function parseRosbridgeMsg(rosbridge_msg)
   var response = new interfaces.client_res();
 
   if( error ){
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    response.error = error;
     return response;
   }
 

@@ -89,11 +89,6 @@ var randStrGen = new RandStringGen( stringLength );
 /* ----------------------------------------------------------------------- */
 
 
-/* ------< Set timer values for websocket communication to rosbridge> ----- */
-var timeout = svcParams.timeout; // ms
-var maxTries = svcParams.retries;
-/* ----------------------------------------------------------------------- */
-
 /**
  *  [Cognitive-get-scores] RAPP Platform front-end web service.
  *  Handles requests for cognitive-get-scores query.
@@ -117,50 +112,50 @@ var maxTries = svcParams.retries;
  */
 function svcImpl( kwargs )
 {
-  kwargs = kwargs || {};
-  var req = new interfaces.client_req();
-  var response = new interfaces.client_res();
-  var error = '';
-
-  /* Sniff argument values from request body and create client_req object */
-  try{
-    svcUtils.sniffArgs(kwargs, req);
-  }
-  catch(e){
-    error = "Service call arguments error";
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-  /* -------------------------------------------------------------------- */
-
-  if( ! req.user ){
-    error = 'Empty \"user\" field';
-    response.error = error;
-    return hop.HTTPResponseJson(response);
-  }
-
-  // Assign a unique identification key for this service request.
-  var unqCallId = randStrGen.createUnique();
-
   /***
    * Asynchronous http response.
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      kwargs = kwargs || {};
+      var req = new interfaces.client_req();
+      var response = new interfaces.client_res();
+      var error = '';
 
-      var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.username = req.user;
-      rosSvcReq.upToTime = req.up_to_time;
-      rosSvcReq.testType = req.test_type;
+      /* Sniff argument values from request body and create client_req object */
+      try{
+        svcUtils.parseReq(kwargs, req);
+      }
+      catch(e){
+        error = "Service call arguments error";
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+      /* -------------------------------------------------------------------- */
+
+      if( ! req.user ){
+        error = 'Empty \"user\" field';
+        response.error = error;
+        sendResponse( hop.HTTPResponseJson(response) );
+        return;
+      }
+
+      // Assign a unique identification key for this service request.
+      var unqCallId = randStrGen.createUnique();
+
+
+      var rosMsg = new interfaces.ros_req();
+      rosMsg.username = req.user;
+      rosMsg.upToTime = req.up_to_time;
+      rosMsg.testType = req.test_type;
 
 
       function callback(data){
         // Remove this call id from random string generator cache.
         randStrGen.removeCached( unqCallId );
-        //console.log(data);
         // Craft client response using ros service ws response.
         var response = parseRosbridgeMsg( data );
-        // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
       }
 
@@ -170,13 +165,21 @@ function svcImpl( kwargs )
         // craft error response
         var response = new interfaces.client_res();
         response.error = svcUtils.ERROR_MSG_DEFAULT;
-        // Asynchronous response to client.
         sendResponse( hop.HTTPResponseJson(response) );
       }
 
-
-      ros.callService(rosSrvName, rosSvcReq,
+      ros.callService(rosSrvName, rosMsg,
         {success: callback, fail: onerror});
+
+      /***
+       *  Timeout this request. Return to client.
+       */
+      setTimeout(function(){
+        var response = new interfaces.client_res();
+        response.error = svcUtils.ERROR_MSG_DEFAULT;
+        sendResponse( hop.HTTPResponseJson(response) );
+      }, svcParams.timeout);
+      /* ----------------------------------------------- */
 
     }, this);
 }
@@ -203,7 +206,7 @@ function parseRosbridgeMsg(rosbridge_msg)
 
   var response = new interfaces.client_res();
   if( error ){
-    response.error = svcUtils.ERROR_MSG_DEFAULT;
+    response.error = error;
     return response;
   }
 
