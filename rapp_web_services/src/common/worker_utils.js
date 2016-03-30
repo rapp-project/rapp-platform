@@ -64,10 +64,10 @@ var registerSvc = function( svcImpl, svcParams ){
     svc.name = (svcParams.namespace) ?
       util.format("%s/%s", svcParams.namespace, svcParams.name) :
       svcParams.url_name;
-    msg.svc_path = svc.path;
-    msg.svc_frame = svc;
-    postMessage(msg);
   }
+  msg.svc_path = svc.path;
+  msg.svc_frame = svc;
+  postMessage(msg);
 
   WORKER.services.push(svcParams.name);
 };
@@ -82,8 +82,7 @@ var setWorkerName = function( wName ){
   if( ! wName ){
     throw new Error("Invalid set of Arguments. Missing wName!");
   }
-  global.WORKER = global.WORKER || {};
-  global.WORKER.name = wName;
+  global.WORKER = global.WORKER || {name: wName, services: []};
 };
 
 
@@ -116,7 +115,6 @@ var launchSvcAll = function(){
 // Global worker thread space hack!!
 global.ENV = require( path.join(__dirname, '../..', 'env.js') );
 global.registerSvc = registerSvc;
-global.WORKER = {name: '', services: []};
 
 
 exports.callParent = callParent;

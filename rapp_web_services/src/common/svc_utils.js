@@ -38,59 +38,6 @@ var Fs = require(path.join(__dirname, 'fileUtils.js'));
 
 var ON_ERROR_DEFAULT_MSG = "RAPP Platform Failure";
 
-var registerSvc = function( svcImpl, svcParams ){
-  // Register service to service handler.
-  var msg = {
-    request: "svc_registration",
-    svc_name: svcParams.name,
-    worker_name: svcParams.worker,
-    svc_frame: undefined,
-    svc_path: ''
-  };
-
-  var svc = new hop.Service( svcImpl );
-  // Set path if not anonymous service
-  if( ! svcParams.anonymous ){
-    svc.name = (svcParams.namespace) ?
-      util.format("%s/%s", svcParams.namespace, svcParams.name) :
-      svcParams.url_name;
-    msg.svc_path = svc.path;
-    msg.svc_frame = svc;
-    postMessage(msg);
-  }
-};
-
-
-/*!
- * @brief Returns the client-response object after appending an error message
- * under the "error" property.
- * If not an errorMsg is provided, a default error message is used.
- * The default Platform's error message used can be obtained from:
- *  ON_ERROR_DEFAULT_MSG.
- *
- * @param {Object} respObj - Client-Response Object of the service.
- * @param {String} errorMsg - The error message.
- */
-var errorResponse = function( respObj, errorMsg ){
-  errorMsg = errorMsg || ON_ERROR_DEFAULT_MSG;
-  respObj = respObj || {error: ''};
-  respObj.error = errorMsg;
-  return respObj;
-};
-
-
-/*!
- * @brief Call parent Worker thread to get the absolute url path of a
- * web service.
- *
- * @param {String} svcName - Service's name.
- * @param {Function} callback - Callback function to execute on message
- * received from parent worker thread.
- */
-var getSvcUrl = function( svcName, callback ){
-  //TODO !!!!!!
-};
-
 
 var cpInFile = function( filepath, destdir, unqId){
   if( ! filepath ){
@@ -176,8 +123,6 @@ var isJson = function( data ){
 
 
 
-exports.registerSvc = registerSvc;
-exports.errorResponse = errorResponse;
 exports.ERROR_MSG_DEFAULT = ON_ERROR_DEFAULT_MSG;
 exports.cpInFile = cpInFile;
 exports.parseReq = parseReq;
