@@ -151,6 +151,12 @@
       "path_planning_upload_map",
       "path_planning_plan_path_2d"
     ]
+  },
+  "authentication": {
+    "launch": true,
+    "path": "workers/authentication/worker.js",
+    "services": [
+      "auth_service_access"
+    ]
   }
-
 }

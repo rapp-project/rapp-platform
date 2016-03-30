@@ -6,7 +6,6 @@
     "url_name": "hazard_detection_door_check",
     "namespace": "",
     "timeout": 45000,
-    "retiries:": 1,
     "ros_srv_name": "/rapp/rapp_hazard_detection/door_check"
   },
   "hazard_detection_light_check" : {
@@ -16,7 +15,6 @@
     "url_name": "hazard_detection_light_check",
     "namespace": "",
     "timeout": 45000,
-    "retiries:": 1,
     "ros_srv_name": "/rapp/rapp_hazard_detection/light_check"
   },
   "face_detection": {
@@ -26,7 +24,6 @@
     "url_name": "face_detection",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_face_detection/detect_faces"
   },
   "available_services": {
@@ -46,7 +43,6 @@
     "url_name": "user_personal_info",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_mysql_wrapper/tbl_user_fetch_data"
   },
   "qr_detection": {
@@ -56,7 +52,6 @@
     "url_name": "qr_detection",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_qr_detection/detect_qrs"
   },
   "cognitive_get_history": {
@@ -66,7 +61,6 @@
     "url_name": "cognitive_get_history",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_history"
   },
   "cognitive_get_scores": {
@@ -76,7 +70,6 @@
     "url_name": "cognitive_get_scores",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_score"
   },
   "cognitive_test_chooser": {
@@ -86,7 +79,6 @@
     "url_name": "cognitive_test_chooser",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser"
   },
   "cognitive_record_performance": {
@@ -96,7 +88,6 @@
     "url_name": "cognitive_record_performance",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance"
   },
   "email_send": {
@@ -106,7 +97,6 @@
     "url_name": "email_send",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_email_send/send_email"
   },
   "email_fetch": {
@@ -116,7 +106,6 @@
     "url_name": "email_fetch",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_email_receive/receive_email"
   },
   "ontology_subclasses_of": {
@@ -126,7 +115,6 @@
     "url_name": "ontology_subclasses_of",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_knowrob_wrapper/subclasses_of"
   },
   "ontology_superclasses_of": {
@@ -136,7 +124,6 @@
     "url_name": "ontology_superclasses_of",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_knowrob_wrapper/superclasses_of"
   },
   "ontology_is_subsuperclass_of": {
@@ -146,7 +133,6 @@
     "url_name": "ontology_is_subsuperclass_of",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_knowrob_wrapper/is_subsuperclass_of"
   },
   "text_to_speech": {
@@ -156,7 +142,6 @@
     "url_name": "text_to_speech",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_text_to_speech_espeak/text_to_speech_topic",
     "audio_file_format": "wav",
     "audio_file_basename": "tts_"
@@ -168,7 +153,6 @@
     "url_name": "set_noise_profile",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_audio_processing/set_noise_profile"
   },
   "speech_detection_google": {
@@ -178,7 +162,6 @@
     "url_name": "speech_detection_google",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_speech_detection_google/speech_to_text"
   },
   "speech_detection_sphinx4": {
@@ -188,7 +171,6 @@
     "url_name": "speech_detection_sphinx4",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text"
   },
   "news_explore": {
@@ -198,7 +180,6 @@
     "url_name": "news_explore",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_news_explorer/fetch_news"
   },
   "geolocation": {
@@ -208,7 +189,6 @@
     "url_name": "geolocation",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_geolocator/locate"
   },
   "weather_report_forecast": {
@@ -218,7 +198,6 @@
     "url_name": "weather_report_forecast",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_weather_reporter/weather_forecast"
   },
   "weather_report_current": {
@@ -228,7 +207,6 @@
     "url_name": "weather_report_current",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_weather_reporter/current_weather"
   },
   "object_recognition": {
@@ -238,7 +216,6 @@
     "url_name": "object_recognition",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_caffe_wrapper/image_classification"
   },
   "human_detection": {
@@ -248,7 +225,6 @@
     "url_name": "human_detection",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_human_detection/detect_humans"
   },
   "path_planning_upload_map": {
@@ -258,7 +234,6 @@
     "url_name": "path_planning_upload_map",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1
   },
   "path_planning_plan_path_2d": {
     "launch": true,
@@ -267,8 +242,15 @@
     "url_name": "path_planning_plan_path_2d",
     "namespace": "",
     "timeout": 45000,
-    "retries": 1,
     "ros_srv_name": "/rapp/rapp_path_planning/planPath2d"
+  },
+  "auth_service_access": {
+    "launch": true,
+    "anonymous": false,
+    "name": "auth_service_access",
+    "url_name": "auth_service_access",
+    "namespace": "",
+    "timeout": 45000,
+    "ros_srv_name": ""
   }
-
 }
