@@ -42,9 +42,7 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /* ------------< Load parameters >-------------*/
 var svcParams = ENV.SERVICES.available_services;
-var SERVICE_NAME = svcParams.name;
 var rosSrvName = svcParams.ros_srv_name;
-
 
 var __availableServices = [];
 
@@ -53,71 +51,35 @@ var scanTimer = svcParams.scan_time * 60 * 1000;  // Minutes
 var initScanWait = svcParams.initial_scan_wait;
 /* --------------------------------------------------------------- */
 
-var colors = {
-  error:    String.fromCharCode(0x1B) + '[1;31m',
-  success:  String.fromCharCode(0x1B) + '[1;32m',
-  ok:       String.fromCharCode(0x1B) + '[34m',
-  yellow:   String.fromCharCode(0x1B) + '[33m',
-  clear:    String.fromCharCode(0x1B) + '[0m'
-};
-
+onmessage = function( msg ){
+  __availableServices.length = 0;
+  for ( var i in msg.data ){
+  // HOP sends a weird array value sometimes !!!
+    if ( msg.data[i].car !== undefined ){
+      continue;
+    }
+    __availableServices.push(msg.data[i]);
+  }
+}
 
 /***
  *  Scan services for up-and-running available services.
  *  Scan timer value is used triggers this function invocation.
  */
 setTimeout(
-function scanServices(){
-  __availableServices.length = 0;
+  function getActiveServices(){
+    var msg = {
+      worker_name: WORKER.name,
+      request: "active_services"
+    };
+    postMessage(msg);
 
-  var msg = colors.yellow +
-    '\n------------------------------------------------------------\n' +
-    ' --->   [Scanning Web Services for availability]           ' +
-    '\n------------------------------------------------------------\n' +
-    colors.clear;
+    setTimeout(function(){
+      getActiveServices();
+    }, scanTimer);
 
-  console.log(msg);
-
-  for(var s in ENV.SERVICES){
-    var srvName = ENV.SERVICES[s].name;
-    var srvUrlName = ENV.SERVICES[s].url_name;
-    if(s === SERVICE_NAME){
-      __availableServices.push(srvName);
-      continue;
-    }
-    var response = undefined;
-    var args = {};
-    var webService = hop.webService(serviceUrl(srvUrlName));
-    var srv = webService(args);
-
-    try{
-      response = srv.postSync();
-    }
-    catch(e){
-      console.log(colors.error + "\n ---> [Failed]: " + s + colors.clear +
-        "\n");
-      continue;
-    }
-    console.log(colors.success + "\n ---> [OK]: " + s + colors.clear + "\n");
-    __availableServices.push(srvName);
-  }
-
-  console.log(colors.ok + "\n <UpRunning Services>" + colors.clear);
-
-  for(var i in __availableServices){
-    console.log("    *[%s] - %s", i, __availableServices[i]);
-  }
-
-  msg = colors.yellow +
-    '\n------------------------------------------------------------' +
-    '\n------------------------------------------------------------\n' +
-    colors.clear;
-  console.log(msg);
-
-  setTimeout(function(){
-    scanServices();
-  }, scanTimer);
-}, initScanWait);
+  }, initScanWait
+);
 
 
 /**
@@ -138,21 +100,9 @@ function scanServices(){
  */
 function svcImpl ( kwargs )
 {
-  /***
-   * Asynchronous http response
-   */
-  return hop.HTTPResponseAsync(
-    function( sendResponse ) {
-      var response = new interfaces.client_res();
-      response.services = __availableServices;
-      sendResponse( hop.HTTPResponseJson(response) );
-    }, this);
-}
-
-
-function serviceUrl(srvName){
-  var protocol = require(hop.config).HTTPSPort ? "https" : "http";
-  return util.format('%s://%s:%s/hop/%s', protocol, hop.hostname, hop.port, srvName);
+  var response = new interfaces.client_res();
+  response.services = __availableServices;
+  return hop.HTTPResponseJson(response);
 }
 
 

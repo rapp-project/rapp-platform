@@ -43,7 +43,6 @@ const INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
 var Rsg = require ( path.join(INCLUDE_DIR, 'common', 'randStringGen.js') );
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
-var exec = require('child_process').exec;
 
 
 /*!
@@ -138,10 +137,7 @@ ServiceHandler.prototype.parseWorkerMsg = function( msg ){
       var svcFrame = msg.data.svc_frame || undefined;
       var svcPath = msg.data.svc_path || '';
 
-      var succ = this.registerService(svcName, svcFrame, svcPath, wName);
-      response.error = succ ? "Service registration failed!" : "";
-      this.workers[ wName ].postMessage(response);
-
+      this.registerService(svcName, svcFrame, svcPath, wName);
       break;
 
     case "get_svc_url":
@@ -157,7 +153,20 @@ ServiceHandler.prototype.parseWorkerMsg = function( msg ){
         response.svc_url = this.getSvcUrl( svcName );
       }
 
-      this.worker[ wName ].postMessage(response);
+      this.workers[ wName ].postMessage(response);
+      break;
+
+    case "active_services":
+      var activeServices = [];
+      for ( var k in this.services ){
+        activeServices.push(
+          {
+            name: k,
+            url: this.services[ k ].url
+          }
+        );
+      }
+      this.workers[ wName ].postMessage(activeServices);
       break;
 
     default:
