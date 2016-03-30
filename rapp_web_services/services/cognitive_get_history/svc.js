@@ -62,6 +62,9 @@ var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 var svcUtils = require(path.join(INCLUDE_DIR, 'common',
     'svc_utils.js'));
 
+var auth = require(path.join(INCLUDE_DIR, 'common',
+    'auth.js'));
+
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
@@ -111,73 +114,86 @@ var randStrGen = new RandStringGen( stringLength );
  */
 function svcImpl( kwargs )
 {
+  var request = this;
+
   /***
    * Asynchronous http response.
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-      kwargs = kwargs || {};
-      var req = new interfaces.client_req();
-      var response = new interfaces.client_res();
-      var error = '';
+      auth.authRequest(request, svcParams.name,
+        authSuccess, authSuccess//authFail);
 
-      /***
-       * Sniff argument values from request body and
-       * create client_req object
-       */
-      try{
-        svcUtils.parseReq(kwargs, req);
-      }
-      catch(e){
-        error = "Service call arguments error";
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      /* ------------------------------------------ */
-
-      /* ------ Pare arguments ------ */
-      if( ! req.user ){
-        error = 'Empty \"user\" field';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-
-      // Assign a unique identification key for this service request.
-      var unqCallId = randStrGen.createUnique();
-
-
-      var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.username = req.user;
-      rosSvcReq.fromTime = req.from_time;
-      rosSvcReq.toTime= req.to_time;
-      rosSvcReq.testType= req.test_type;
-
-
-      function callback(data){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        //console.log(data);
-        // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data );
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
-      }
-
-      function onerror(e){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        // craft error response
+      function authSuccess(){
+        kwargs = kwargs || {};
+        var req = new interfaces.client_req();
         var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
+        var error = '';
+
+        /***
+         * Sniff argument values from request body and
+         * create client_req object
+         */
+        try{
+          svcUtils.parseReq(kwargs, req);
+        }
+        catch(e){
+          error = "Service call arguments error";
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        /* ------------------------------------------ */
+
+        /* ------ Pare arguments ------ */
+        if( ! req.user ){
+          error = 'Empty \"user\" field';
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+
+        // Assign a unique identification key for this service request.
+        var unqCallId = randStrGen.createUnique();
+
+
+        var rosSvcReq = new interfaces.ros_req();
+        rosSvcReq.username = req.user;
+        rosSvcReq.fromTime = req.from_time;
+        rosSvcReq.toTime= req.to_time;
+        rosSvcReq.testType= req.test_type;
+
+
+        function callback(data){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          //console.log(data);
+          // Craft client response using ros service ws response.
+          var response = parseRosbridgeMsg( data );
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
+        }
+
+        function onerror(e){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          // craft error response
+          var response = new interfaces.client_res();
+          response.error = svcUtils.ERROR_MSG_DEFAULT;
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
+        }
+
+
+        ros.callService(rosSrvName, rosSvcReq,
+          {success: callback, fail: onerror});
       }
 
-
-      ros.callService(rosSrvName, rosSvcReq,
-        {success: callback, fail: onerror});
+      function authFail(){
+        var response = auth.responseAuthFailed();
+        console.log(response);
+        sendResponse(response);
+      }
 
       /***
        *  Timeout this request. Return to client.
