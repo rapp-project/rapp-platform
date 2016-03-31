@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.5.47, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: RappStore
+-- Host: localhost    Database: rapp_platform
 -- ------------------------------------------------------
 -- Server version	5.5.47-0ubuntu0.14.04.1
 
@@ -16,33 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `SSHkey`
---
-
-DROP TABLE IF EXISTS `SSHkey`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `SSHkey` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user` int(10) unsigned NOT NULL,
-  `keyfile` varchar(256) NOT NULL,
-  `fingerprint` char(64) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user` (`user`),
-  CONSTRAINT `fk_user` FOREIGN KEY (`user`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `SSHkey`
---
-
-LOCK TABLES `SSHkey` WRITE;
-/*!40000 ALTER TABLE `SSHkey` DISABLE KEYS */;
-/*!40000 ALTER TABLE `SSHkey` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `application_token`
 --
 
@@ -52,11 +25,16 @@ DROP TABLE IF EXISTS `application_token`;
 CREATE TABLE `application_token` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `token` varchar(256) NOT NULL,
-  `robot_id` int(10) unsigned NOT NULL,
+  `platform_user_id` int(10) unsigned NOT NULL,
+  `device_token` varchar(256) NOT NULL,
+  `status` tinyint(3) unsigned DEFAULT '1',
+  `creation_time` bigint(20) unsigned NOT NULL,
+  `expiration_time` bigint(20) unsigned NOT NULL,
+  `last_update_time` bigint(20) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `application_token_ibfk_1` (`robot_id`),
-  CONSTRAINT `application_token_ibfk_1` FOREIGN KEY (`robot_id`) REFERENCES `myrobots` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  KEY `platform_user_id` (`platform_user_id`),
+  CONSTRAINT `application_token_ibfk_1` FOREIGN KEY (`platform_user_id`) REFERENCES `platform_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,34 +43,45 @@ CREATE TABLE `application_token` (
 
 LOCK TABLES `application_token` WRITE;
 /*!40000 ALTER TABLE `application_token` DISABLE KEYS */;
-INSERT INTO `application_token` VALUES (1,'rapptesttoken',1);
+INSERT INTO `application_token` VALUES (1,'rapp_token',1,'rapp_device_token',1,1459412069,1000,1000);
 /*!40000 ALTER TABLE `application_token` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `application_token_services`
---
-
-DROP TABLE IF EXISTS `application_token_services`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `application_token_services` (
-  `token_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `service_name` varchar(128) NOT NULL,
-  PRIMARY KEY (`token_id`,`service_name`),
-  CONSTRAINT `application_token_services_ibfk_1` FOREIGN KEY (`token_id`) REFERENCES `application_token` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `application_token_services`
---
-
-LOCK TABLES `application_token_services` WRITE;
-/*!40000 ALTER TABLE `application_token_services` DISABLE KEYS */;
-INSERT INTO `application_token_services` VALUES (1,'rapp_service_name');
-/*!40000 ALTER TABLE `application_token_services` ENABLE KEYS */;
-UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger `token_created_BEFORE_INSERT`
+  before insert on `application_token`
+  for each row
+    set NEW.creation_time = UNIX_TIMESTAMP(UTC_TIMESTAMP()) */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger `token_updated_BEFORE_UPDATE`
+  before update on `application_token`
+  for each row
+     set NEW.`last_update_time` = UNIX_TIMESTAMP(UTC_TIMESTAMP()) */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `cloud_agent`
@@ -103,15 +92,15 @@ DROP TABLE IF EXISTS `cloud_agent`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cloud_agent` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `image_identifier` varchar(256) NOT NULL,
+  `platform_user_id` int(10) unsigned NOT NULL,
   `tarball_path` varchar(256) NOT NULL,
   `container_identifier` varchar(256) NOT NULL,
+  `image_identifier` varchar(256) NOT NULL,
   `container_type` varchar(256) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `cloud_agent_ibfk_1` (`user_id`),
-  CONSTRAINT `cloud_agent_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `platform_user_id` (`platform_user_id`),
+  CONSTRAINT `cloud_agent_ibfk_1` FOREIGN KEY (`platform_user_id`) REFERENCES `platform_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,35 +113,6 @@ LOCK TABLES `cloud_agent` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `cloud_agent_service`
---
-
-DROP TABLE IF EXISTS `cloud_agent_service`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cloud_agent_service` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cloud_agent_id` int(10) unsigned NOT NULL,
-  `service_name` varchar(256) NOT NULL,
-  `service_type` varchar(256) NOT NULL,
-  `container_port` int(5) NOT NULL,
-  `host_port` int(5) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `cloud_agent_service_ibfk_1` (`cloud_agent_id`),
-  CONSTRAINT `cloud_agent_service_ibfk_1` FOREIGN KEY (`cloud_agent_id`) REFERENCES `cloud_agent` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cloud_agent_service`
---
-
-LOCK TABLES `cloud_agent_service` WRITE;
-/*!40000 ALTER TABLE `cloud_agent_service` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cloud_agent_service` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `cloud_agent_service_arguments`
 --
 
@@ -162,11 +122,11 @@ DROP TABLE IF EXISTS `cloud_agent_service_arguments`;
 CREATE TABLE `cloud_agent_service_arguments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cloud_agent_service_id` int(10) unsigned NOT NULL,
-  `argument_name` varchar(256) NOT NULL,
+  `argument_name` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `cloud_agent_service_arguments_ibfk_1` (`cloud_agent_service_id`),
-  CONSTRAINT `cloud_agent_service_arguments_ibfk_1` FOREIGN KEY (`cloud_agent_service_id`) REFERENCES `cloud_agent_service` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `cloud_agent_service_id` (`cloud_agent_service_id`),
+  CONSTRAINT `cloud_agent_service_arguments_ibfk_1` FOREIGN KEY (`cloud_agent_service_id`) REFERENCES `cloud_agent_services` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,262 +139,82 @@ LOCK TABLES `cloud_agent_service_arguments` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `downloads`
+-- Table structure for table `cloud_agent_services`
 --
 
-DROP TABLE IF EXISTS `downloads`;
+DROP TABLE IF EXISTS `cloud_agent_services`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `downloads` (
+CREATE TABLE `cloud_agent_services` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `owner` int(10) unsigned NOT NULL,
-  `rapp` int(10) unsigned NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `cloud_agent_id` int(10) unsigned NOT NULL,
+  `service_name` varchar(256) NOT NULL,
+  `service_type` varchar(32) NOT NULL,
+  `container_port` smallint(5) unsigned NOT NULL,
+  `host_port` smallint(5) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `owner` (`owner`),
-  KEY `rapp` (`rapp`),
-  CONSTRAINT `downloads_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`),
-  CONSTRAINT `downloads_ibfk_2` FOREIGN KEY (`rapp`) REFERENCES `rapps` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `cloud_agent_id` (`cloud_agent_id`),
+  CONSTRAINT `cloud_agent_services_ibfk_1` FOREIGN KEY (`cloud_agent_id`) REFERENCES `cloud_agent` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `downloads`
+-- Dumping data for table `cloud_agent_services`
 --
 
-LOCK TABLES `downloads` WRITE;
-/*!40000 ALTER TABLE `downloads` DISABLE KEYS */;
-/*!40000 ALTER TABLE `downloads` ENABLE KEYS */;
+LOCK TABLES `cloud_agent_services` WRITE;
+/*!40000 ALTER TABLE `cloud_agent_services` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cloud_agent_services` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `keywords`
+-- Table structure for table `platform_user`
 --
 
-DROP TABLE IF EXISTS `keywords`;
+DROP TABLE IF EXISTS `platform_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `keywords` (
+CREATE TABLE `platform_user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `keywords`
---
-
-LOCK TABLES `keywords` WRITE;
-/*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
-/*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `languages`
---
-
-DROP TABLE IF EXISTS `languages`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `languages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
-  `version` varchar(7) NOT NULL,
+  `username` varchar(32) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `ontology_alias` varchar(64) DEFAULT NULL,
+  `language` varchar(64) NOT NULL,
+  `device_token` varchar(128) NOT NULL,
+  `creation_time` bigint(20) unsigned NOT NULL,
+  `status` tinyint(3) unsigned DEFAULT '1',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `languages`
+-- Dumping data for table `platform_user`
 --
 
-LOCK TABLES `languages` WRITE;
-/*!40000 ALTER TABLE `languages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `languages` ENABLE KEYS */;
+LOCK TABLES `platform_user` WRITE;
+/*!40000 ALTER TABLE `platform_user` DISABLE KEYS */;
+INSERT INTO `platform_user` VALUES (1,'rapp','rapp','Person_DpphmPqg','el','rapp',1000,1);
+/*!40000 ALTER TABLE `platform_user` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `myrobots`
---
-
-DROP TABLE IF EXISTS `myrobots`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `myrobots` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `owner` int(10) unsigned NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `mac` char(17) NOT NULL,
-  `token` char(64) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `mac` (`mac`),
-  KEY `owner` (`owner`),
-  CONSTRAINT `myrobots_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `myrobots`
---
-
-LOCK TABLES `myrobots` WRITE;
-/*!40000 ALTER TABLE `myrobots` DISABLE KEYS */;
-INSERT INTO `myrobots` VALUES (1,0,'rapptestrobot','something','something','2016-03-11 12:28:03');
-/*!40000 ALTER TABLE `myrobots` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `rapps`
---
-
-DROP TABLE IF EXISTS `rapps`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rapps` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  `owner` int(10) unsigned NOT NULL,
-  `robot` int(10) unsigned NOT NULL,
-  `language` int(10) unsigned NOT NULL,
-  `license` varchar(64) NOT NULL,
-  `version` varchar(7) NOT NULL,
-  `timestamp` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uc_key` (`name`,`robot`,`version`),
-  KEY `owner` (`owner`),
-  KEY `robot` (`robot`),
-  KEY `language` (`language`),
-  CONSTRAINT `rapps_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `rapps_ibfk_2` FOREIGN KEY (`robot`) REFERENCES `robots` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `rapps`
---
-
-LOCK TABLES `rapps` WRITE;
-/*!40000 ALTER TABLE `rapps` DISABLE KEYS */;
-/*!40000 ALTER TABLE `rapps` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `repos`
---
-
-DROP TABLE IF EXISTS `repos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `repos` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `owner` int(10) unsigned NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `private` char(1) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uc_name` (`name`),
-  KEY `owner` (`owner`),
-  CONSTRAINT `repos_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `repos`
---
-
-LOCK TABLES `repos` WRITE;
-/*!40000 ALTER TABLE `repos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `repos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `robots`
---
-
-DROP TABLE IF EXISTS `robots`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `robots` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
-  `model` varchar(30) NOT NULL,
-  `producer` varchar(30) NOT NULL,
-  `arch` varchar(6) NOT NULL,
-  `platform` varchar(12) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `robots`
---
-
-LOCK TABLES `robots` WRITE;
-/*!40000 ALTER TABLE `robots` DISABLE KEYS */;
-INSERT INTO `robots` VALUES (0,'rapp','rapp','rapp','rapp','rapp');
-/*!40000 ALTER TABLE `robots` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tags`
---
-
-DROP TABLE IF EXISTS `tags`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tags` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
-  `rapp` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `rapp` (`rapp`),
-  CONSTRAINT `tags_ibfk_1` FOREIGN KEY (`rapp`) REFERENCES `rapps` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tags`
---
-
-LOCK TABLES `tags` WRITE;
-/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tags` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  `email` varchar(256) NOT NULL,
-  `pwd` char(60) NOT NULL,
-  `activated` char(1) NOT NULL,
-  `language` varchar(32) NOT NULL,
-  `ontology_alias` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`,`email`),
-  UNIQUE KEY `c_id` (`email`),
-  UNIQUE KEY `user_idx` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (0,'rapp','rapp@rapp.com','rappPass','Y','el','Person_DpphmPqg'),(1,'takis','tak','tak','Y','el','aadw');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 trigger `user_created_BEFORE_INSERT`
+  before insert on `platform_user`
+  for each row
+    set NEW.creation_time = UNIX_TIMESTAMP(UTC_TIMESTAMP()) */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -445,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-11 14:53:41
+-- Dump completed on 2016-03-31 19:03:33
