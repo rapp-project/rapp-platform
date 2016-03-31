@@ -1,6 +1,8 @@
 string username
+string password
+string store_token
+string language
 ---
-string user_language
 bool success
 string error
 string[] trace

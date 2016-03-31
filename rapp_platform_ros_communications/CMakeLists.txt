@@ -40,16 +40,15 @@ add_service_files(
   /CaffeWrapper/imageClassificationSrv.srv
   /CaffeWrapper/ontologyClassBridgeSrv.srv
 
-  /DbWrapper/whatRappsCanRunSrv.srv
-  /DbWrapper/authTokenByServiceSrv.srv
-  /DbWrapper/registerNewTokenSrv.srv
+  /DbWrapper/checkIfUserExistsSrv.srv
   /DbWrapper/getUserOntologyAliasSrv.srv
-  /DbWrapper/registerUserOntologyAliasSrv.srv
   /DbWrapper/getUserLanguageSrv.srv
-  /DbWrapper/registerNewTokenServiceSrv.srv
-  /DbWrapper/getServicesByTokenSrv.srv
-  /DbWrapper/getUserIdByTokenSrv.srv
-  /DbWrapper/getRobotIdByUserTokenSrv.srv
+  /DbWrapper/registerUserOntologyAliasSrv.srv
+  /DbWrapper/getUserPasswordSrv.srv
+  /DbWrapper/getUsernameAssociatedWithApplicationTokenSrv.srv
+  /DbWrapper/createNewPlatformUserSrv.srv
+  /DbWrapper/createNewApplicationTokenSrv.srv
+  /DbWrapper/checkActiveApplicationTokenSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv

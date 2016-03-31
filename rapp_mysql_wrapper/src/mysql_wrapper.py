@@ -22,24 +22,33 @@ import MySQLdb as mdb
 import sys
 
 from rapp_platform_ros_communications.srv import (
-  authTokenByServiceSrv,
-  authTokenByServiceSrvResponse,
   getUserOntologyAliasSrv,
+  getUserOntologyAliasSrvRequest,
   getUserOntologyAliasSrvResponse,
   registerUserOntologyAliasSrv,
+  registerUserOntologyAliasSrvRequest,
   registerUserOntologyAliasSrvResponse,
+  checkIfUserExistsSrv,
+  checkIfUserExistsSrvResponse,
+  checkIfUserExistsSrvRequest,
   getUserLanguageSrv,
+  getUserLanguageSrvRequest,
   getUserLanguageSrvResponse,
-  registerNewTokenSrv,
-  registerNewTokenSrvResponse,
-  registerNewTokenServiceSrv,
-  registerNewTokenServiceSrvResponse,
-  getServicesByTokenSrv,
-  getServicesByTokenSrvResponse,
-  getUserIdByTokenSrv,
-  getUserIdByTokenSrvResponse,
-  getRobotIdByUserTokenSrv,
-  getRobotIdByUserTokenSrvResponse
+  getUserPasswordSrv,
+  getUserPasswordSrvResponse,
+  getUserPasswordSrvRequest,
+  getUsernameAssociatedWithApplicationTokenSrv,
+  getUsernameAssociatedWithApplicationTokenSrvResponse,
+  getUsernameAssociatedWithApplicationTokenSrvRequest,
+  createNewPlatformUserSrv,
+  createNewPlatformUserSrvResponse,
+  createNewPlatformUserSrvRequest,
+  createNewApplicationTokenSrv,
+  createNewApplicationTokenSrvRequest,
+  createNewApplicationTokenSrvResponse,
+  checkActiveApplicationTokenSrv,
+  checkActiveApplicationTokenSrvRequest,
+  checkActiveApplicationTokenSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -58,12 +67,6 @@ class MySQLdbWrapper:
   #
   # Declares the callbacks of the node's services
   def __init__(self):
-    
-    
-    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_auth_token_by_service_topic")
-    if(not self.serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_auth_token_by_service_topic Not found error")
-    self.serv=rospy.Service(self.serv_topic, authTokenByServiceSrv, self.authTokenByServiceDataHandler)    
         
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_user_ontology_alias_service_topic")
     if(not self.serv_topic):
@@ -78,274 +81,308 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_user_language_service_topic")
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_get_user_language_service_topic Not found error")
-    self.serv=rospy.Service(self.serv_topic, getUserLanguageSrv, self.getUserLanguageDataHandler) 
- 
-    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_register_new_token_service_service_topic")
+    self.serv=rospy.Service(self.serv_topic, getUserLanguageSrv, self.getUserLanguageDataHandler)      
+
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_check_if_user_exists_service_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_register_new_token_service_service_topic Not found error")
-    self.serv=rospy.Service(self.serv_topic, registerNewTokenServiceSrv, self.registerNewTokenServiceDataHandler) 
+      rospy.logerror("rapp_mysql_wrapper_check_if_user_exists_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, checkIfUserExistsSrv, self.checkIfUserExistsDataHandler) 
 
-    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_services_by_token_service_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_user_password_service_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_get_services_by_token_service_topic Not found error")
-    self.serv=rospy.Service(self.serv_topic, getServicesByTokenSrv, self.getServicesByTokenDataHandler) 
+      rospy.logerror("rapp_mysql_wrapper_get_user_password_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, getUserPasswordSrv, self.getUserPasswordDataHandler) 
 
-    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_user_id_by_token_service_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_username_associated_with_application_token_service_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_get_user_id_by_token_service_topic Not found error")
-    self.serv=rospy.Service(self.serv_topic, getUserIdByTokenSrv, self.getUserIdByTokenDataHandler) 
+      rospy.logerror("rapp_mysql_wrapper_get_username_associated_with_application_token_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, getUsernameAssociatedWithApplicationTokenSrv, self.getUsernameAssociatedWithApplicationTokenDataHandler) 
 
-    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_robot_id_by_user_token_service_topic")
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_create_new_platform_user_service_topic")
     if(not self.serv_topic):
-      rospy.logerror("rapp_mysql_wrapper_get_robot_id_by_user_token_service_topic Not found error")
-    self.serv=rospy.Service(self.serv_topic, getRobotIdByUserTokenSrv, self.getRobotIdByUserTokenDataHandler)     
+      rospy.logerror("rapp_mysql_wrapper_create_new_platform_user_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, createNewPlatformUserSrv, self.createNewPlatformUserDataHandler)
 
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_create_new_application_token_service_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_create_new_application_token_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, createNewApplicationTokenSrv, self.createNewApplicationTokenDataHandler)
 
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_check_active_application_token_service_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_check_active_application_token_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, checkActiveApplicationTokenSrv, self.checkActiveApplicationTokenDataHandler)
+    
   def getUserOntologyAlias(self,req):
     try:
       res = getUserOntologyAliasSrvResponse()        
       db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()
-      cur.execute("select ontology_alias from users where id=%s",(req.user_id))   
+      cur.execute("select ontology_alias from platform_user where username=%s",(req.username))   
       result_set = cur.fetchall()
       #print result_set
       if(result_set and len(result_set[0])>0): 
         res.ontology_alias=result_set[0][0]
         res.success=True
+      con.close()
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success=False
       res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))
       res.success=False
       res.error="IndexError: " +str(e)
+      con.close()
     except IOError, e:      
       res.success=False
       res.trace.append("IOError: " +str(e))
       res.error="IOError: " +str(e)
-    con.close()
+      con.close()
     return res  
 
   def registerUserOntologyAlias(self,req):
     try:
       res = registerUserOntologyAliasSrvResponse()        
       db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()
-      cur.execute("LOCK TABLES users WRITE") 
-      cur.execute("update users set ontology_alias=%s where id=%s",(req.ontology_alias,req.user_id))   
+      cur.execute("LOCK TABLES platform_user WRITE") 
+      cur.execute("update platform_user set ontology_alias=%s where username=%s",(req.ontology_alias,req.username))   
       cur.execute("UNLOCK TABLES")
       result_set = cur.fetchall()
       res.success=True
+      con.close()
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success=False
       res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))
       res.success=False
       res.error="IndexError: " +str(e)
+      con.close()
     except IOError, e:      
       res.success=False
       res.trace.append("IOError: " +str(e))
       res.error="IOError: " +str(e)
-    con.close()
+      con.close()
     return res 
 
   def getUserLanguage(self,req):
     try:
       res = getUserLanguageSrvResponse()        
       db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()      
-      cur.execute("select language from users where id=%s",(req.user_id))  
+      cur.execute("select language from platform_user where username=%s",(req.username))  
       result_set = cur.fetchall()
       if(result_set and len(result_set[0])>0): 
         res.user_language=result_set[0][0]
         res.success=True
+      con.close()
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success=False
       res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))
       res.success=False
       res.error="IndexError: " +str(e)
+      con.close()
     except IOError, e:      
       res.success=False
       res.trace.append("IOError: " +str(e))
       res.error="IOError: " +str(e)
-    con.close()
+      con.close()
     return res 
 
-  def registerNewToken(self,req):
+  def checkIfUserExists(self,req):
     try:
-      res = registerNewTokenSrvResponse()        
+      res = checkIfUserExistsSrvResponse()        
       db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
-      cur = con.cursor()
-      cur.execute("LOCK TABLES application_token WRITE") 
-      cur.execute("insert into application_token (token,robot_id) values(%s,%s)",(req.token,req.robot_id))   
-      cur.execute("UNLOCK TABLES")
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("select username from platform_user where username=%s",(req.username))   
       result_set = cur.fetchall()
+      res.user_exists=False
+      if(result_set and len(result_set[0])>0):
+        res.user_exists=True        
       res.success=True
+      con.close()
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success=False
       res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))
       res.success=False
       res.error="IndexError: " +str(e)
+      con.close()
     except IOError, e:      
       res.success=False
       res.trace.append("IOError: " +str(e))
       res.error="IOError: " +str(e)
-    con.close()
-    return res     
+      con.close()
+    return res  
 
-  def registerNewTokenService(self,req):
+  def getUserPassword(self,req):
     try:
-      res = registerNewTokenServiceSrvResponse()        
+      res = getUserPasswordSrvResponse()        
       db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
-      cur = con.cursor()
-      cur.execute("LOCK TABLES application_token_services WRITE, application_token WRITE") 
-      cur.execute("insert into application_token_services values((select id from application_token where token=%s),%s)",(req.token,req.service_name))   
-      cur.execute("UNLOCK TABLES")
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("select password from platform_user where username=%s",(req.username))   
       result_set = cur.fetchall()
+      if(result_set and len(result_set[0])>0):
+        res.success=True        
+        res.password=result_set[0][0]
       res.success=True
+      con.close()
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
       res.success=False
       res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))
       res.success=False
       res.error="IndexError: " +str(e)
+      con.close()
     except IOError, e:      
       res.success=False
       res.trace.append("IOError: " +str(e))
       res.error="IOError: " +str(e)
-    con.close()
+      con.close()
+    return res  
+
+  def getUsernameAssociatedWithApplicationToken(self,req):
+    try:
+      res = getUsernameAssociatedWithApplicationTokenSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("select username from platform_user where id=(select platform_user_id from application_token where token=%s)",(req.application_token)) 
+      result_set = cur.fetchall()
+      if(result_set and len(result_set[0])>0):
+        res.success=True        
+        res.username=result_set[0][0]
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res  
+
+  def createNewPlatformUser(self,req):
+    try:
+      res = createNewPlatformUserSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()    
+      cur.execute("LOCK TABLES platform_user WRITE")       
+      cur.execute("insert into platform_user (username,password,language,device_token,creation_time) values (%s,%s,%s,%s,UNIX_TIMESTAMP(UTC_TIMESTAMP()))",(req.username,req.password,req.language,req.store_token)) 
+      cur.execute("UNLOCK TABLES")
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res
+
+  def createNewApplicationToken(self,req):
+    try:
+      res = createNewApplicationTokenSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()    
+      cur.execute("LOCK TABLES application_token WRITE, platform_user WRITE")       
+      cur.execute("insert into application_token (token,platform_user_id,device_token,creation_time) VALUES (%s,(select id from platform_user where username=%s),%s,UNIX_TIMESTAMP(UTC_TIMESTAMP()))",(req.application_token,req.username,req.store_token)) 
+      cur.execute("UNLOCK TABLES")
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res
+
+  def checkActiveApplicationToken(self,req):
+    try:
+      res = checkActiveApplicationTokenSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("select token from application_token where platform_user_id=(select id from platform_user where username=%s) and status=1 and device_token=%s",(req.username,req.device_token))   
+      result_set = cur.fetchall()
+      res.application_token_exists=False
+      if(result_set and len(result_set[0])>0):
+        res.application_token_exists=True        
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
     return res 
-
-  def authTokenByService(self,req):
-    try:
-      res = authTokenByServiceSrvResponse()        
-      db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
-      cur = con.cursor()           
-      cur.execute("select service_name from application_token_services where token_id=(select id from application_token where token=%s) and (service_name=%s or service_name='*')",(req.token,req.service_name))   
-      result_set = cur.fetchall()
-      if(result_set and len(result_set[0])>0):
-        if(result_set[0][0]==req.service_name):
-          res.authentication_success=True
-      else:
-        res.authentication_success=False       
-      res.success=True
-    except mdb.Error, e:
-      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
-      res.success=False
-      res.error="Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError, e:
-      res.trace.append("IndexError: " +str(e))
-      res.success=False
-      res.error="IndexError: " +str(e)
-    except IOError, e:      
-      res.success=False
-      res.trace.append("IOError: " +str(e))
-      res.error="IOError: " +str(e)
-    con.close()
-    return res  
-    
-  def getServicesByToken(self,req):
-    try:
-      res = getServicesByTokenSrvResponse()        
-      db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
-      cur = con.cursor()           
-      cur.execute("select service_name from application_token_services where token_id=(select token_id from application_token where token=%s)",(req.token))   
-      result_set = cur.fetchall()
-      for i in range(len(result_set)):
-        for j in range(len(result_set[i])):   
-          res.services.append((str(result_set[i][j])))      
-      res.success=True
-    except mdb.Error, e:
-      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
-      res.success=False
-      res.error="Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError, e:
-      res.trace.append("IndexError: " +str(e))
-      res.success=False
-      res.error="IndexError: " +str(e)
-    except IOError, e:      
-      res.success=False
-      res.trace.append("IOError: " +str(e))
-      res.error="IOError: " +str(e)
-    con.close()
-    return res  
-
-  def getUserIdByToken(self,req):
-    try:
-      res = getUserIdByTokenSrvResponse()        
-      db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
-      cur = con.cursor()           
-      cur.execute("select id from users where id=(select owner from myrobots where id=(select robot_id from application_token where token=%s))",(req.token))   
-      result_set = cur.fetchall()
-      if(result_set and len(result_set[0])>0):
-        res.user_id=str(result_set[0][0])
-        res.success=True
-    except mdb.Error, e:
-      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
-      res.success=False
-      res.error="Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError, e:
-      res.trace.append("IndexError: " +str(e))
-      res.success=False
-      res.error="IndexError: " +str(e)
-    except IOError, e:      
-      res.success=False
-      res.trace.append("IOError: " +str(e))
-      res.error="IOError: " +str(e)
-    con.close()
-    return res  
-
-  def getRobotIdByUserToken(self,req):
-    try:
-      res = getRobotIdByUserTokenSrvResponse()        
-      db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
-      cur = con.cursor()           
-      cur.execute("select id from myrobots where token=%s",(req.user_token))   
-      result_set = cur.fetchall()
-      if(result_set and len(result_set[0])>0):
-        res.robot_id=str(result_set[0][0])
-        res.success=True
-    except mdb.Error, e:
-      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
-      res.success=False
-      res.error="Error %d: %s" % (e.args[0],e.args[1])
-    except IndexError, e:
-      res.trace.append("IndexError: " +str(e))
-      res.success=False
-      res.error="IndexError: " +str(e)
-    except IOError, e:      
-      res.success=False
-      res.trace.append("IOError: " +str(e))
-      res.error="IOError: " +str(e)
-    con.close()
-    return res  
 
   ## @brief Gets the columns of the table
   # @return Columns [list] the columns of the table
   def getTableColumnNames(self,tblName):
     db_username,db_password=self.getLogin()
     try:
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore');
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()
       cur.execute("Show columns from "+tblName)
       result_set = cur.fetchall()
@@ -371,7 +408,7 @@ class MySQLdbWrapper:
   def checkConnection(self):
     try:
       db_username,db_password=self.getLogin()
-      con = mdb.connect('localhost', db_username, db_password, 'RappStore')
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform')
       cur = con.cursor()
       cur.execute("SELECT VERSION()")
       ver = cur.fetchone()
@@ -380,14 +417,6 @@ class MySQLdbWrapper:
     except mdb.Error, e:
       print "Error %d: %s" % (e.args[0],e.args[1])
 
-  ## @brief The authTokenByService service callback
-  # @param req [rapp_platform_ros_communications::authTokenByServiceSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::authTokenByServiceSrvRequest::Response&] The ROS service response
-  def authTokenByServiceDataHandler(self,req):
-    res = authTokenByServiceSrvResponse()
-    res=self.authTokenByService(req)
-    return res
-    
   ## @brief The getUserOntologyAlias service callback
   # @param req [rapp_platform_ros_communications::getUserOntologyAliasSrvResponse::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::getUserOntologyAliasSrvRequest::Response&] The ROS service response
@@ -420,34 +449,50 @@ class MySQLdbWrapper:
     res=self.registerNewToken(req)
     return res
 
-  ## @brief The registerNewTokenServiceSrv service callback
-  # @param req [rapp_platform_ros_communications::registerNewTokenServiceSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::registerNewTokenServiceSrvRequest::Response&] The ROS service response
-  def registerNewTokenServiceDataHandler(self,req):
-    res = registerNewTokenServiceSrvResponse()
-    res=self.registerNewTokenService(req)
-    return res
-    
-  ## @brief The getServicesByTokenSrv service callback
-  # @param req [rapp_platform_ros_communications::getServicesByTokenSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getServicesByTokenSrvRequest::Response&] The ROS service response
-  def getServicesByTokenDataHandler(self,req):
-    res = getServicesByTokenSrvResponse()
-    res=self.getServicesByToken(req)
+  ## @brief The checkIfUserExistsSrv service callback
+  # @param req [rapp_platform_ros_communications::checkIfUserExistsSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::checkIfUserExistsSrvRequest::Response&] The ROS service response
+  def checkIfUserExistsDataHandler(self,req):
+    res = checkIfUserExistsSrvResponse()
+    res=self.checkIfUserExists(req)
+    return res   
+
+  ## @brief The getUserPasswordSrv service callback
+  # @param req [rapp_platform_ros_communications::getUserPasswordSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::getUserPasswordSrvRequest::Response&] The ROS service response
+  def getUserPasswordDataHandler(self,req):
+    res = getUserPasswordSrvResponse()
+    res=self.getUserPassword(req)
+    return res 
+
+  ## @brief The getUsernameAssociatedWithApplicationTokenSrv service callback
+  # @param req [rapp_platform_ros_communications::getUsernameAssociatedWithApplicationTokenSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::getUsernameAssociatedWithApplicationTokenSrvRequest::Response&] The ROS service response
+  def getUsernameAssociatedWithApplicationTokenDataHandler(self,req):
+    res = getUsernameAssociatedWithApplicationTokenSrvResponse()
+    res=self.getUsernameAssociatedWithApplicationToken(req)
+    return res 
+
+  ## @brief The createNewPlatformUserSrv service callback
+  # @param req [rapp_platform_ros_communications::createNewPlatformUserSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::createNewPlatformUserSrvRequest::Response&] The ROS service response
+  def createNewPlatformUserDataHandler(self,req):
+    res = createNewPlatformUserSrvResponse()
+    res=self.createNewPlatformUser(req)
+    return res 
+
+  ## @brief The createNewApplicationTokenSrv service callback
+  # @param req [rapp_platform_ros_communications::createNewApplicationTokenSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::createNewApplicationTokenSrvRequest::Response&] The ROS service response
+  def createNewApplicationTokenDataHandler(self,req):
+    res = createNewApplicationTokenSrvResponse()
+    res=self.createNewApplicationToken(req)
     return res
 
-  ## @brief The getUserIdByTokenSrv service callback
-  # @param req [rapp_platform_ros_communications::getUserIdByTokenSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getUserIdByTokenSrvRequest::Response&] The ROS service response
-  def getUserIdByTokenDataHandler(self,req):
-    res = getUserIdByTokenSrvResponse()
-    res=self.getUserIdByToken(req)
+  ## @brief The checkActiveApplicationTokenSrv service callback
+  # @param req [rapp_platform_ros_communications::checkActiveApplicationTokenSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::checkActiveApplicationTokenSrvRequest::Response&] The ROS service response
+  def checkActiveApplicationTokenDataHandler(self,req):
+    res = checkActiveApplicationTokenSrvResponse()
+    res=self.checkActiveApplicationToken(req)
     return res
-
-  ## @brief The getRobotIdByUserTokenSrv service callback
-  # @param req [rapp_platform_ros_communications::getRobotIdByUserTokenSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getRobotIdByUserTokenSrvRequest::Response&] The ROS service response
-  def getRobotIdByUserTokenDataHandler(self,req):
-    res = getRobotIdByUserTokenSrvResponse()
-    res=self.getRobotIdByUserToken(req)
-    return res    

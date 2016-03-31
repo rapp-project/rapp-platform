@@ -1,6 +1,6 @@
-string token
+string application_token
 ---
-string[] services
+string username
 bool success
 string error
 string[] trace

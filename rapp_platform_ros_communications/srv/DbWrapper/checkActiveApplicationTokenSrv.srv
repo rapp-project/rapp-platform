@@ -1,6 +1,7 @@
 string username
+string device_token
 ---
-string user_language
+bool application_token_exists
 bool success
 string error
 string[] trace

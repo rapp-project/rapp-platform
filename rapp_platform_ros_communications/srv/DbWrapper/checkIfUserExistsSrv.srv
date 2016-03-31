@@ -1,6 +1,6 @@
-string token
+string username
 ---
-string user_id
+bool user_exists
 bool success
 string error
 string[] trace
