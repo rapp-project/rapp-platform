@@ -44,7 +44,7 @@ class RecordUserCognitiveTestPerformance:
   def recordPerformance(self,req):
     try:
       res = recordUserCognitiveTestPerformanceSrvResponse()
-      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.user_id)      
+      userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)      
       serv_topic = rospy.get_param('rapp_knowrob_wrapper_record_user_cognitive_tests_performance')
       knowrob_service = rospy.ServiceProxy(serv_topic, recordUserPerformanceCognitiveTestsSrv)
       userPerformanceEntry = recordUserPerformanceCognitiveTestsSrvRequest()

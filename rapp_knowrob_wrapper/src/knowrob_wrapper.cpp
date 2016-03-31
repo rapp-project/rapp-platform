@@ -126,11 +126,11 @@ std::vector<std::string> split(std::string str, std::string sep) {
 
 /** 
  * @brief Returns the ontology alias of the user
- * @param user_id [string] The username of the user 
+ * @param username [string] The username of the user 
  * @return ontology_alias [string] The ontology_alias of the user or possible error
  * @exception AppError
  */
-std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
+std::string KnowrobWrapper::get_ontology_alias(std::string username) {
     try {
         std::string ontology_alias;
         rapp_platform_ros_communications::getUserOntologyAliasSrv srv;
@@ -141,7 +141,7 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
         //ros_string_array.s.push_back(user_id);
         //srv.request.req_cols = req_cols;
         //srv.request.where_data.push_back(ros_string_array);
-        srv.request.user_id=user_id;
+        srv.request.username=username;
         mysql_get_user_ontology_alias_client.call(srv);
         if (srv.response.success != true) {
             throw std::string(std::string("FAIL: User not found, incorrect username?") + srv.response.trace[0]);
@@ -151,7 +151,7 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
            // }
             ontology_alias = srv.response.ontology_alias;
             if (ontology_alias == std::string("None")) {
-                ontology_alias = create_ontology_alias_for_new_user(user_id);
+                ontology_alias = create_ontology_alias_for_new_user(username);
             }
         }
         return ontology_alias;
@@ -163,11 +163,11 @@ std::string KnowrobWrapper::get_ontology_alias(std::string user_id) {
 
 /** 
  * @brief Creates a new ontology alias for a user
- * @param user_id [string] The username of the user 
+ * @param username [string] The username of the user 
  * @return ontology_alias [string] The ontology_alias of the user or possible error
  * @exception AppError
  */
-std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_id) {
+std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string username) {
     std::string ontology_alias;
     std::vector<std::string> instance_name;
     std::string query = std::string("rdf_instance_from_class(knowrob:'Person") + std::string("',A)");
@@ -192,7 +192,7 @@ std::string KnowrobWrapper::create_ontology_alias_for_new_user(std::string user_
     //ros_string_array.s.push_back(std::string("username"));
     //ros_string_array.s.push_back(user_id);
     //srv.request.where_data.push_back(ros_string_array);
-    srv.request.user_id=user_id;
+    srv.request.username=username;
     srv.request.ontology_alias=std::string(ontology_alias);
     mysql_register_user_ontology_alias_client.call(srv);
     if (srv.response.success != true) {

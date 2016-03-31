@@ -87,11 +87,11 @@ class CognitiveExerciseHelperFunctions:
   #
   # @return userLanguage [string] The user's language
   # @exception Exception AppError
-  def getUserLanguage(user_id):
+  def getUserLanguage(username):
     serv_topic = rospy.get_param('rapp_mysql_wrapper_get_user_language_service_topic')	
     mysql_service = rospy.ServiceProxy(serv_topic, getUserLanguageSrv)
     getUserLanguageSrvReq = getUserLanguageSrvRequest()
-    getUserLanguageSrvReq.user_id=user_id   
+    getUserLanguageSrvReq.username=username   
     getUserLanguageSrvResponse = mysql_service(getUserLanguageSrvReq)
     if(getUserLanguageSrvResponse.success!=True): 
       raise AppError(getUserLanguageSrv.trace[0], getUserLanguageSrv.trace)    
