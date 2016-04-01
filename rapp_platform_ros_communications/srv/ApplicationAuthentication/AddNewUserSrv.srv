@@ -1,6 +1,7 @@
 string username
 string password
 string user_token
+string language
 ---
 string error
 string suggested_username

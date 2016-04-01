@@ -80,7 +80,6 @@ class ApplicationAuthenticationManager:
     # The token generation service callback
     def add_new_user_callback(self, req):
         res = AddNewUserSrvResponse()
-        res.error = ''
 
         # Verify that username -> alphanumeric + dash + underscore
         if not re.match("^[\w\d_-]*$", req.username) :
@@ -106,10 +105,17 @@ class ApplicationAuthenticationManager:
             return res
 
         password_hash = bcrypt.hashpw(req.password, bcrypt.gensalt())
+        #  RappUtilities.rapp_print(password_hash, 'WARN')
 
-        self._db_handler.add_new_user(
-            req.username, password_hash, req.user_token)
-        return res
+        try:
+            self._db_handler.add_new_user(
+                req.username, password_hash, req.user_token, req.language)
+        except RappError as e:
+            res.error = 'Error'
+        else:
+            res.error = ''
+        finally:
+            return res
 
     # The token authentication service callback
     def authenticate_token_callback(self, req):
@@ -117,7 +123,7 @@ class ApplicationAuthenticationManager:
         res = UserTokenAuthenticationSrvResponse()
         res.error = ''
         res.authenticated = ''
-        if self._db_handler.verify_active_application_session(req.token):
+        if self._db_handler.verify_active_application_token(req.token):
             res.username = self._db_handler.get_token_user(req.token)
         else:
             res.error = 'Invalid token'
@@ -127,7 +133,11 @@ class ApplicationAuthenticationManager:
     def login_callback(self, req):
         res = UserLoginSrvResponse()
 
-        password = self._db_handler.get_user_password(req.username)
+        try:
+            password = self._db_handler.get_user_password(req.username)
+        except RappError as e:
+            res.error = 'Wrong credentials'
+            return res
         if bcrypt.hashpw(req.password, password) != password:
             res.error = 'Wrong credentials'
             return res
@@ -147,11 +157,15 @@ class ApplicationAuthenticationManager:
         hash_str = hash_str[index+1:]
         res.token = base64.b64encode(hash_str)
 
-        self._db_handler.write_new_application_token(
-            req.username, req.user_token, res.token)
-
-        return res
-
+        try:
+            self._db_handler.write_new_application_token(
+                req.username, req.user_token, res.token)
+        except RappError as e:
+            res.error = 'Wrong credentials'
+        else:
+            res.error = ''
+        finally:
+            return res
 
 if __name__ == "__main__":
     rospy.init_node('application_authentication_node')

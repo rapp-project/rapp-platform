@@ -9,4 +9,8 @@
     file="$(find rapp_application_authentication_manager)/cfg/rapp_application_authentication_manager_params.yaml"
     command="load"
     />
+  <rosparam
+    file="$(find rapp_mysql_wrapper)/cfg/rapp_mysql_wrapper_params.yaml"
+    command="load"
+    />
 </launch>
