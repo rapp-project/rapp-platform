@@ -28,6 +28,8 @@ from passlib.hash import sha256_crypt
 import rospy
 
 from database_handler import DatabaseHandler
+
+from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 
 from rapp_platform_ros_communications.srv import (
@@ -104,8 +106,8 @@ class ApplicationAuthenticationManager:
                     return res
             return res
 
+        # TODO: Add password restrictions (length etc.)
         password_hash = bcrypt.hashpw(req.password, bcrypt.gensalt())
-        #  RappUtilities.rapp_print(password_hash, 'WARN')
 
         try:
             self._db_handler.add_new_user(
@@ -122,7 +124,7 @@ class ApplicationAuthenticationManager:
 
         res = UserTokenAuthenticationSrvResponse()
         res.error = ''
-        res.authenticated = ''
+        res.username = ''
         if self._db_handler.verify_active_application_token(req.token):
             res.username = self._db_handler.get_token_user(req.token)
         else:
@@ -142,9 +144,12 @@ class ApplicationAuthenticationManager:
             res.error = 'Wrong credentials'
             return res
 
+        # TODO: verify that user_token is actual and active store token
+        if not self._db_handler.verify_store_token(req.user_token):
+            res.error = 'Invalid user'
+            return res
 
         if self._db_handler.verify_active_robot_session(req.username, req.user_token):
-            # TODO: verify that user_token is actual and active store token
             res.error = 'Session already active'
             return res
 

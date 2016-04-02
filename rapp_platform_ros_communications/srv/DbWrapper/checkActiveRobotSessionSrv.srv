@@ -1,4 +1,5 @@
-string application_token
+string username
+string device_token
 ---
 bool application_token_exists
 bool success

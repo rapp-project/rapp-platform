@@ -2,10 +2,24 @@ CREATE TABLE IF NOT EXISTS `platform_user` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(32) NOT NULL UNIQUE,
   `password` varchar(64) NOT NULL,
+  `ontology_alias` varchar(64) DEFAULT NULL,
+  `language` varchar(64) NOT NULL,
   `device_token` varchar(128) NOT NULL,
   `creation_time` bigint unsigned NOT NULL,
   `status` tinyint unsigned DEFAULT 1
 ) CHARSET=utf8;
+
+--  INSERT INTO `platform_user`
+  --  (id, username, password, ontology_alias, language, device_token, status)
+  --  VALUES(
+    --  1,
+    --  'rapp',
+    --  '$2b$12$0RzTZr6bjbqRDTzT4SYBV.I44fG6RHUjMtqxeP2c6Qaansh03GhTC',
+    --  'Person_DpphmPqg',
+    --  'el',
+    --  'rapp',
+    --  1
+  --  );
 
 CREATE TABLE IF NOT EXISTS `application_token` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
@@ -19,6 +33,18 @@ CREATE TABLE IF NOT EXISTS `application_token` (
 
   FOREIGN KEY (`platform_user_id`) REFERENCES `platform_user` (`id`)
 ) CHARSET=utf8;
+
+--  INSERT INTO `application_token`
+--  VALUES(
+  --  1,
+  --  'rapp_token',
+  --  1,
+  --  'rapp_device_token',
+  --  1,
+  --  1459412069,
+  --  1000,
+  --  1000
+--  );
 
 CREATE TABLE IF NOT EXISTS `cloud_agent` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
@@ -63,6 +89,7 @@ create trigger `token_created_BEFORE_INSERT`
   before insert on `application_token`
   for each row
     set NEW.creation_time = UNIX_TIMESTAMP(UTC_TIMESTAMP());
+    set NEW.last_update_time = UNIX_TIMESTAMP(UTC_TIMESTAMP());
 
 
 drop trigger if exists `token_updated_BEFORE_UPDATE`;

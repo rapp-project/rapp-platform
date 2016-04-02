@@ -46,6 +46,9 @@ from rapp_platform_ros_communications.srv import (
   createNewApplicationTokenSrv,
   createNewApplicationTokenSrvRequest,
   createNewApplicationTokenSrvResponse,
+  checkActiveRobotSessionSrv,
+  checkActiveRobotSessionSrvRequest,
+  checkActiveRobotSessionSrvResponse,
   checkActiveApplicationTokenSrv,
   checkActiveApplicationTokenSrvRequest,
   checkActiveApplicationTokenSrvResponse
@@ -112,6 +115,11 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_check_active_application_token_service_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, checkActiveApplicationTokenSrv, self.checkActiveApplicationTokenDataHandler)
+
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_check_active_robot_session_service_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_check_active_robot_session_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, checkActiveRobotSessionSrv, self.checkActiveRobotSessionDataHandler)
     
   def getUserOntologyAlias(self,req):
     try:
@@ -239,10 +247,10 @@ class MySQLdbWrapper:
       cur = con.cursor()           
       cur.execute("select password from platform_user where username=%s",(req.username))   
       result_set = cur.fetchall()
+      res.success=False
       if(result_set and len(result_set[0])>0):
         res.success=True        
         res.password=result_set[0][0]
-      res.success=True
       con.close()
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
@@ -347,9 +355,9 @@ class MySQLdbWrapper:
       con.close()
     return res
 
-  def checkActiveApplicationToken(self,req):
+  def checkActiveRobotSession(self,req):
     try:
-      res = checkActiveApplicationTokenSrvResponse()        
+      res = checkActiveRobotSessionSrvResponse()        
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()           
@@ -376,6 +384,37 @@ class MySQLdbWrapper:
       res.error="IOError: " +str(e)
       con.close()
     return res 
+
+  def checkActiveApplicationToken(self,req):
+    try:
+      res = checkActiveApplicationTokenSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("select token from application_token where token=%s and status=1",(req.application_token))   
+      result_set = cur.fetchall()
+      res.application_token_exists=False
+      if(result_set and len(result_set[0])>0):
+        res.application_token_exists=True        
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res 
+    pass
 
   ## @brief Gets the columns of the table
   # @return Columns [list] the columns of the table
@@ -495,4 +534,9 @@ class MySQLdbWrapper:
   def checkActiveApplicationTokenDataHandler(self,req):
     res = checkActiveApplicationTokenSrvResponse()
     res=self.checkActiveApplicationToken(req)
+    return res
+
+  def checkActiveRobotSessionDataHandler(self,req):
+    res = checkActiveRobotSessionSrvResponse()
+    res=self.checkActiveRobotSession(req)
     return res

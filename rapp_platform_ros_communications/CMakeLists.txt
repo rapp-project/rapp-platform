@@ -49,6 +49,7 @@ add_service_files(
   /DbWrapper/createNewPlatformUserSrv.srv
   /DbWrapper/createNewApplicationTokenSrv.srv
   /DbWrapper/checkActiveApplicationTokenSrv.srv
+  /DbWrapper/checkActiveRobotSessionSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
