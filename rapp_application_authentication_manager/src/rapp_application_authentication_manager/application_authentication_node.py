@@ -182,6 +182,12 @@ class ApplicationAuthenticationManager:
         if not self._db_handler.verify_store_token(req.device_token):
             res.error = 'Invalid user'
             return res
+        else:
+            try:
+                self._db_handler.add_store_token_to_device(req.device_token)
+            except RappError as e:
+                res.error = 'Wrong credentials'
+                return res
 
         if self._db_handler.verify_active_robot_session(req.username, req.device_token):
             res.error = 'Session already active'

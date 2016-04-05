@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `platform_user` (
   `ontology_alias` varchar(64) DEFAULT NULL,
   `language_id` int unsigned,
 
-  `creation_time` bigint unsigned NOT NULL,
+  `creation_time` bigint unsigned NOT NULL DEFAULT 1,
 
   FOREIGN KEY (`language_id`) REFERENCES `language` (`id`)
 ) ENGINE=InnoDB CHARSET=utf8;
@@ -35,7 +35,7 @@ ALTER TABLE `platform_user` ADD
 
 CREATE TABLE IF NOT EXISTS `device` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
-  `token` varchar(256) NOT NULL,
+  `token` varchar(128) NOT NULL UNIQUE,
   `description` text,
   `status` tinyint unsigned DEFAULT 1
 ) ENGINE=InnoDB CHARSET=utf8;
@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS `application_token` (
   `device_id` int unsigned NOT NULL,
   `status` tinyint unsigned DEFAULT 1,
 
-  `creation_time` bigint unsigned NOT NULL,
-  `expiration_time` bigint unsigned NOT NULL,
-  `last_update_time` bigint unsigned NOT NULL,
+  `creation_time` bigint unsigned NOT NULL DEFAULT 1,
+  `expiration_time` bigint unsigned NOT NULL DEFAULT 1,
+  `last_update_time` bigint unsigned NOT NULL DEFAULT 1,
 
   FOREIGN KEY (`platform_user_id`) REFERENCES `platform_user` (`id`),
   FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)

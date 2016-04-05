@@ -22,6 +22,8 @@ import MySQLdb as mdb
 import sys
 
 from rapp_platform_ros_communications.srv import (
+  addStoreTokenToDeviceSrv,
+  addStoreTokenToDeviceSrvResponse,
   getUserOntologyAliasSrv,
   getUserOntologyAliasSrvRequest,
   getUserOntologyAliasSrvResponse,
@@ -120,6 +122,11 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_check_active_robot_session_service_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, checkActiveRobotSessionSrv, self.checkActiveRobotSessionDataHandler)
+
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_add_store_token_to_device_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_add_store_token_to_device_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, addStoreTokenToDeviceSrv, self.addStoreTokenToDeviceDataHandler)
     
   def getUserOntologyAlias(self,req):
     try:
@@ -333,8 +340,8 @@ class MySQLdbWrapper:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()    
-      cur.execute("LOCK TABLES application_token WRITE, platform_user WRITE")       
-      cur.execute("insert into application_token (token,platform_user_id,device_token,creation_time) VALUES (%s,(select id from platform_user where username=%s),%s,UNIX_TIMESTAMP(UTC_TIMESTAMP()))",(req.application_token,req.username,req.store_token)) 
+      cur.execute("LOCK TABLES application_token WRITE, platform_user READ, device READ")       
+      cur.execute("insert into application_token (token,platform_user_id,device_id) VALUES (%s,(select id from platform_user where username=%s), (select id from device where token=%s))",(req.application_token,req.username,req.store_token)) 
       cur.execute("UNLOCK TABLES")
       res.success=True
       con.close()
@@ -355,13 +362,42 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  def addStoreTokenToDevice(self,req):
+    try:
+      res = addStoreTokenToDeviceSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("LOCK TABLES device WRITE") 
+      cur.execute("insert into device (token, description) values (%s,'rapp store device') on duplicate key update token=token",(req.store_token))   
+      cur.execute("UNLOCK TABLES")
+      result_set = cur.fetchall()
+      res.error = ''
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res 
+
   def checkActiveRobotSession(self,req):
     try:
       res = checkActiveRobotSessionSrvResponse()        
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()           
-      cur.execute("select token from application_token where platform_user_id=(select id from platform_user where username=%s) and status=1 and device_token=%s",(req.username,req.device_token))   
+      cur.execute("select token from application_token where platform_user_id=(select id from platform_user where username=%s) and status=1 and device_id=(select id from device where token=%s)",(req.username,req.device_token))   
       result_set = cur.fetchall()
       res.application_token_exists=False
       if(result_set and len(result_set[0])>0):
@@ -539,4 +575,9 @@ class MySQLdbWrapper:
   def checkActiveRobotSessionDataHandler(self,req):
     res = checkActiveRobotSessionSrvResponse()
     res=self.checkActiveRobotSession(req)
+    return res
+
+  def addStoreTokenToDeviceDataHandler(self,req):
+    res = addStoreTokenToDeviceSrvResponse()
+    res=self.addStoreTokenToDevice(req)
     return res

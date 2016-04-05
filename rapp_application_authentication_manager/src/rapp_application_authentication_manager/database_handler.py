@@ -24,6 +24,8 @@ from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 
 from rapp_platform_ros_communications.srv import (
+    addStoreTokenToDeviceSrv,
+    addStoreTokenToDeviceSrvRequest,
     getUserOntologyAliasSrv,
     getUserOntologyAliasSrvRequest,
     registerUserOntologyAliasSrv,
@@ -115,16 +117,27 @@ class DatabaseHandler(object):
         self._add_new_user_proxy = \
             rospy.ServiceProxy(add_new_user_topic, createNewPlatformUserSrv)
 
-        create_new_apll_token_topic = rospy.get_param(
+        create_new_appl_token_topic = rospy.get_param(
             "rapp_mysql_wrapper_create_new_application_token_service_topic")
-        if not create_new_apll_token_topic:
+        if not create_new_appl_token_topic:
             RappUtilities.rapp_print(
                 'rapp_mysql_wrapper_create_new_application_token_' +
-                'create_new_apll_token_topic NOT FOUND', 'ERROR')
-        rospy.wait_for_service(create_new_apll_token_topic)
+                'create_new_appl_token_topic NOT FOUND', 'ERROR')
+        rospy.wait_for_service(create_new_appl_token_topic)
 
         self._create_new_app_token_proxy = rospy.ServiceProxy(
-            create_new_apll_token_topic, createNewApplicationTokenSrv)
+            create_new_appl_token_topic, createNewApplicationTokenSrv)
+
+        add_store_token_to_device_topic = rospy.get_param(
+            "rapp_mysql_wrapper_add_store_token_to_device_topic")
+        if not add_store_token_to_device_topic:
+            RappUtilities.rapp_print(
+                'rapp_mysql_wrapper_add_store_token_to_device_topic NOT FOUND',
+                'ERROR')
+        rospy.wait_for_service(add_store_token_to_device_topic)
+
+        self._add_store_token_to_device_proxy = rospy.ServiceProxy(
+            add_store_token_to_device_topic, addStoreTokenToDeviceSrv)
 
     ## Verify that the token exists in store db
     #
@@ -251,5 +264,21 @@ class DatabaseHandler(object):
             RappUtilities.rapp_print('Succesfully wrote new token', 'DEBUG')
         else:
             msg = 'Could not write new application token to the database'
+            RappUtilities.rapp_print(msg, 'ERROR')
+            raise RappError(msg)
+
+    ## Write store token the device table
+    #
+    # @param store_token [string] The device_token of the application token
+    def add_store_token_to_device(self, store_token):
+        req = addStoreTokenToDeviceSrvRequest()
+        req.store_token = store_token
+        res = self._add_store_token_to_device_proxy(req)
+
+        if res.error == '':
+            RappUtilities.rapp_print('Succesfully wrote new token', 'DEBUG')
+        else:
+            RappUtilities.rapp_print(res.error, 'ERROR')
+            msg = 'Could not write store token to the database'
             RappUtilities.rapp_print(msg, 'ERROR')
             raise RappError(msg)
