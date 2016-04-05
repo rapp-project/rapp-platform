@@ -1,6 +1,5 @@
 string username
 string password
-string store_token
 string language
 ---
 bool success

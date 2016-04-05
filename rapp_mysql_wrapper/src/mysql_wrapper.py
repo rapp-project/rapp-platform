@@ -305,8 +305,8 @@ class MySQLdbWrapper:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()    
-      cur.execute("LOCK TABLES platform_user WRITE")       
-      cur.execute("insert into platform_user (username,password,language,device_token,creation_time) values (%s,%s,%s,%s,UNIX_TIMESTAMP(UTC_TIMESTAMP()))",(req.username,req.password,req.language,req.store_token)) 
+      cur.execute("LOCK TABLES platform_user WRITE, platform_user as p2 READ, language READ")       
+      cur.execute("insert into `platform_user` (`username`,`password`,`language_id`,`creator_id`) values (%s, %s, (select `id` from `language` where `name`=%s), (select `id` from platform_user as p2 where `username`='rapp_store'))",(req.username,req.password,req.language)) 
       cur.execute("UNLOCK TABLES")
       res.success=True
       con.close()

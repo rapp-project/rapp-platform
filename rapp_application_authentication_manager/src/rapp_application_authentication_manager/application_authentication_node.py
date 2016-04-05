@@ -112,7 +112,7 @@ class ApplicationAuthenticationManager:
 
     # The token generation service callback
     def add_new_user_from_store_callback(self, req):
-        res = AddNewUserSrvResponse()
+        res = AddNewUserFromStoreSrvResponse()
 
         # Verify that username -> alphanumeric + dash + underscore
         if not re.match("^[\w\d_-]*$", req.username) :
@@ -141,8 +141,8 @@ class ApplicationAuthenticationManager:
         password_hash = bcrypt.hashpw(req.password, bcrypt.gensalt())
 
         try:
-            self._db_handler.add_new_user(
-                req.username, password_hash, req.device_token, req.language)
+            self._db_handler.add_new_user_from_store(
+                req.username, password_hash, req.language)
         except RappError as e:
             res.error = 'Error'
         else:

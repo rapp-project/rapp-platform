@@ -220,17 +220,17 @@ class DatabaseHandler(object):
     # @param language [string] The user's language
     #
     # @return status [bool] True if token exists, false otherwise
-    def add_new_user(self, username, password, store_token, language):
+    def add_new_user_from_store(self, username, password, language):
         req = createNewPlatformUserSrvRequest()
         req.username = username
         req.password = password
-        req.store_token = store_token
         req.language = language
 
         response = self._add_new_user_proxy(req)
         if response.success:
             RappUtilities.rapp_print('Succesfully wrote new user', 'DEBUG')
         else:
+            RappUtilities.rapp_print(response.error, 'ERROR')
             msg = 'Could not write new user to the database'
             RappUtilities.rapp_print(msg, 'ERROR')
             raise RappError(msg)
