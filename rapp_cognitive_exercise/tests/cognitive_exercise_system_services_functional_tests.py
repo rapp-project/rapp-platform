@@ -37,7 +37,19 @@ from rapp_platform_ros_communications.srv import (
   userScoresForAllCategoriesSrvResponse,
   userScoreHistoryForAllCategoriesSrv,
   userScoreHistoryForAllCategoriesSrvRequest,
-  userScoreHistoryForAllCategoriesSrvResponse
+  userScoreHistoryForAllCategoriesSrvResponse,
+  createNewPlatformUserSrv,
+  createNewPlatformUserSrvResponse,
+  createNewPlatformUserSrvRequest,
+  removePlatformUserSrv,
+  removePlatformUserSrvRequest,
+  removePlatformUserSrvResponse,
+  retractUserOntologyAliasSrv,
+  retractUserOntologyAliasSrvRequest,
+  retractUserOntologyAliasSrvResponse,
+  getUserOntologyAliasSrv,
+  getUserOntologyAliasSrvRequest,
+  getUserOntologyAliasSrvResponse
   )
 
 ## @class CognitiveExerciseFunc 
@@ -57,7 +69,9 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.username="rapp"        
         req.testType="ArithmeticCts"
         response = test_service(req)     
-        self.assertEqual(response.success, True)  
+        self.assertEqual(response.success, True) 
+        self.assertEqual(len(response.questions)>=1, True) 
+        
         
     ## Tests the cognitive exercise test chooser service when test type is not provided  
     def test_chooser_no_type(self):
@@ -135,6 +149,69 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, True)          
         self.assertEqual(len(response.recordsPerTestType)>1,True)
+        
+    def test_create_new_platform_user_and_request_cognitive_test_then_cleanup(self):
+        #create user
+        ros_service = rospy.get_param("rapp_mysql_wrapper_create_new_platform_user_service_topic")
+        rospy.wait_for_service(ros_service)    
+        test_service = rospy.ServiceProxy(ros_service, createNewPlatformUserSrv)
+        req = createNewPlatformUserSrvRequest()
+        req.username="temp_to_delete"
+        req.password="temp_to_delete"
+        req.language="el"
+        req.store_token="temp_to_delete"              
+        response = test_service(req)     
+        self.assertTrue(response.success) 
+        
+        #request test
+        ros_service = rospy.get_param("rapp_cognitive_exercise_chooser_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, testSelectorSrv)
+
+        req = testSelectorSrvRequest()
+        req.username="temp_to_delete"        
+        req.testType="ArithmeticCts"
+        response = test_service(req)     
+        self.assertEqual(response.success, True)     
+        self.assertEqual(len(response.questions)>=1, True)   
+        
+        #get user's ontology alias
+        ros_service = rospy.get_param("rapp_mysql_wrapper_get_user_ontology_alias_service_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, getUserOntologyAliasSrv)
+
+        req = getUserOntologyAliasSrvRequest()
+        req.username="temp_to_delete"
+        response = test_service(req)     
+        self.assertEqual(response.success, True)  
+        ontology_alias=response.ontology_alias
+        
+        #retract user's ontology alias
+        ros_service = rospy.get_param("rapp_knowrob_wrapper_retract_user_ontology_alias")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, retractUserOntologyAliasSrv)
+
+        req = retractUserOntologyAliasSrvRequest()
+        req.ontology_alias=ontology_alias
+        response = test_service(req)     
+        self.assertEqual(response.success, True) 
+        
+        #remove user        
+        ros_service = rospy.get_param("rapp_mysql_wrapper_remove_platform_user_service_topic")
+        rospy.wait_for_service(ros_service)    
+        test_service = rospy.ServiceProxy(ros_service, removePlatformUserSrv)
+        req = removePlatformUserSrvRequest()
+        req.username="temp_to_delete"             
+        response = test_service(req)     
+        self.assertTrue(response.success) 
+        
+        
         
 ## The main function. Initializes the Cognitive Exercise System functional tests
 if __name__ == '__main__':
