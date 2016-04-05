@@ -51,15 +51,80 @@ class DatabaseHandler(object):
 
     def __init__(self):
         #  TODO: initialize sql wrapper
-        service_topic = rospy.get_param(
+        user_exists_topic = rospy.get_param(
             "rapp_mysql_wrapper_check_if_user_exists_service_topic")
-        if not service_topic:
+        if not user_exists_topic:
             RappUtilities.rapp_print(
                 'rapp_mysql_wrapper_check_if_user_exists_service_topic ' +
                 'NOT FOUND', 'ERROR')
-        rospy.wait_for_service(service_topic)
+        rospy.wait_for_service(user_exists_topic)
         self._username_exists_proxy = \
-            rospy.ServiceProxy(service_topic, checkIfUserExistsSrv)
+            rospy.ServiceProxy(user_exists_topic, checkIfUserExistsSrv)
+
+        get_passwd_topic = rospy.get_param(
+            "rapp_mysql_wrapper_get_user_password_service_topic")
+        if not get_passwd_topic:
+            RappUtilities.rapp_print(
+                'rapp_mysql_wrapper_get_user_password_service_topic ' +
+                'NOT FOUND', 'ERROR')
+        rospy.wait_for_service(get_passwd_topic)
+        self._get_user_passwd_proxy = \
+            rospy.ServiceProxy(get_passwd_topic, getUserPasswordSrv)
+
+        verify_appl_token_topic = rospy.get_param(
+            "rapp_mysql_wrapper_check_active_" +
+            "application_token_service_topic")
+        if not verify_appl_token_topic:
+            RappUtilities.rapp_print(
+                "rapp_mysql_wrapper_check_active_" +
+                "application_token_service_topic NOT FOUND", 'ERROR')
+        rospy.wait_for_service(verify_appl_token_topic)
+        self._verify_appl_token_proxy = rospy.ServiceProxy(
+            verify_appl_token_topic, checkActiveApplicationTokenSrv)
+
+        get_token_user_topic = rospy.get_param(
+            "rapp_mysql_wrapper_get_username_associated_" +
+            "with_application_token_service_topic")
+        if not get_token_user_topic:
+            RappUtilities.rapp_print(
+                'rapp_mysql_wrapper_get_username_associated_with' +
+                '_application_token_service_topic NOT FOUND', 'ERROR')
+        rospy.wait_for_service(get_token_user_topic)
+        self._get_token_user_proxy = rospy.ServiceProxy(
+            get_token_user_topic, getUsernameAssociatedWithApplicationTokenSrv)
+
+        verify_robot_session_topic = rospy.get_param(
+            "rapp_mysql_wrapper_check_active_" +
+            "robot_session_service_topic")
+        if not verify_robot_session_topic:
+            RappUtilities.rapp_print(
+                "rapp_mysql_wrapper_check_active_" +
+                "robot_session_service_topic NOT FOUND", 'ERROR')
+        rospy.wait_for_service(verify_robot_session_topic)
+        self._verify_robot_session_proxy = rospy.ServiceProxy(
+            verify_robot_session_topic, checkActiveRobotSessionSrv)
+
+        add_new_user_topic = rospy.get_param(
+            "rapp_mysql_wrapper_create_new_platform_user_service_topic")
+        if not add_new_user_topic:
+            RappUtilities.rapp_print(
+                'rapp_mysql_wrapper_create_new_platform_user_service_topic ' +
+                'NOT FOUND', 'ERROR')
+        rospy.wait_for_service(add_new_user_topic)
+
+        self._add_new_user_proxy = \
+            rospy.ServiceProxy(add_new_user_topic, createNewPlatformUserSrv)
+
+        create_new_apll_token_topic = rospy.get_param(
+            "rapp_mysql_wrapper_create_new_application_token_service_topic")
+        if not create_new_apll_token_topic:
+            RappUtilities.rapp_print(
+                'rapp_mysql_wrapper_create_new_application_token_' +
+                'create_new_apll_token_topic NOT FOUND', 'ERROR')
+        rospy.wait_for_service(create_new_apll_token_topic)
+
+        self._create_new_app_token_proxy = rospy.ServiceProxy(
+            create_new_apll_token_topic, createNewApplicationTokenSrv)
 
     ## Verify that the token exists in store db
     #
@@ -92,19 +157,10 @@ class DatabaseHandler(object):
     #
     # @return password [string] Password associated with username
     def get_user_password(self, username):
-        service_topic = rospy.get_param(
-            "rapp_mysql_wrapper_get_user_password_service_topic")
-        if not service_topic:
-            RappUtilities.rapp_print(
-                'rapp_mysql_wrapper_get_user_password_service_topic ' +
-                'NOT FOUND', 'ERROR')
-        rospy.wait_for_service(service_topic)
-
-        test_service = rospy.ServiceProxy(service_topic, getUserPasswordSrv)
         req = getUserPasswordSrvRequest()
         req.username = username
 
-        response = test_service(req)
+        response = self._get_user_passwd_proxy(req)
         if response.success:
             return response.password
         else:
@@ -116,21 +172,11 @@ class DatabaseHandler(object):
     #
     # @return status [bool] True if it is valid, flase otherwise
     def verify_active_application_token(self, application_token):
-        service_topic = rospy.get_param(
-            "rapp_mysql_wrapper_check_active_" +
-            "application_token_service_topic")
-        if not service_topic:
-            RappUtilities.rapp_print(
-                "rapp_mysql_wrapper_check_active_" +
-                "application_token_service_topic NOT FOUND", 'ERROR')
-        rospy.wait_for_service(service_topic)
 
-        test_service = \
-            rospy.ServiceProxy(service_topic, checkActiveApplicationTokenSrv)
         req = checkActiveApplicationTokenSrvRequest()
         req.application_token = application_token
 
-        response = test_service(req)
+        response = self._verify_appl_token_proxy(req)
         if response.success:
             return response.application_token_exists
         else:
@@ -142,21 +188,10 @@ class DatabaseHandler(object):
     #
     # @return username [string] The username
     def get_token_user(self, app_token):
-        service_topic = rospy.get_param(
-            "rapp_mysql_wrapper_get_username_associated_" +
-            "with_application_token_service_topic")
-        if not service_topic:
-            RappUtilities.rapp_print(
-                'rapp_mysql_wrapper_get_username_associated_with' +
-                '_application_token_service_topic NOT FOUND', 'ERROR')
-        rospy.wait_for_service(service_topic)
-
-        test_service = rospy.ServiceProxy(
-            service_topic, getUsernameAssociatedWithApplicationTokenSrv)
         req = getUsernameAssociatedWithApplicationTokenSrvRequest()
         req.application_token = app_token
 
-        response = test_service(req)
+        response = self._get_token_user_proxy(req)
         return response.username
 
     ## Check if there is an active session (token) for the specified user and
@@ -167,22 +202,11 @@ class DatabaseHandler(object):
     #
     # @return status [bool] True if token exists, false otherwise
     def verify_active_robot_session(self, username, store_token):
-        service_topic = rospy.get_param(
-            "rapp_mysql_wrapper_check_active_" +
-            "robot_session_service_topic")
-        if not service_topic:
-            RappUtilities.rapp_print(
-                "rapp_mysql_wrapper_check_active_" +
-                "robot_session_service_topic NOT FOUND", 'ERROR')
-        rospy.wait_for_service(service_topic)
-
-        test_service = \
-            rospy.ServiceProxy(service_topic, checkActiveRobotSessionSrv)
         req = checkActiveRobotSessionSrvRequest()
         req.username = username
         req.device_token = store_token
 
-        response = test_service(req)
+        response = self._verify_robot_session_proxy(req)
         if response.success:
             return response.application_token_exists
         else:
@@ -197,23 +221,13 @@ class DatabaseHandler(object):
     #
     # @return status [bool] True if token exists, false otherwise
     def add_new_user(self, username, password, store_token, language):
-        service_topic = rospy.get_param(
-            "rapp_mysql_wrapper_create_new_platform_user_service_topic")
-        if not service_topic:
-            RappUtilities.rapp_print(
-                'rapp_mysql_wrapper_create_new_platform_user_service_topic ' +
-                'NOT FOUND', 'ERROR')
-        rospy.wait_for_service(service_topic)
-
-        test_service = \
-            rospy.ServiceProxy(service_topic, createNewPlatformUserSrv)
         req = createNewPlatformUserSrvRequest()
         req.username = username
         req.password = password
         req.store_token = store_token
         req.language = language
 
-        response = test_service(req)
+        response = self._add_new_user_proxy(req)
         if response.success:
             RappUtilities.rapp_print('Succesfully wrote new user', 'DEBUG')
         else:
@@ -227,22 +241,12 @@ class DatabaseHandler(object):
     # @param store_token [string] The device_token of the application token
     # @param app_token [string] The user's application token
     def write_new_application_token(self, username, store_token, appl_token):
-        service_topic = rospy.get_param(
-            "rapp_mysql_wrapper_create_new_application_token_service_topic")
-        if not service_topic:
-            RappUtilities.rapp_print(
-                'rapp_mysql_wrapper_create_new_application_token_' +
-                'service_topic NOT FOUND', 'ERROR')
-        rospy.wait_for_service(service_topic)
-
-        test_service = \
-            rospy.ServiceProxy(service_topic, createNewApplicationTokenSrv)
         req = createNewApplicationTokenSrvRequest()
         req.username = username
         req.store_token = store_token
         req.application_token = appl_token
 
-        response = test_service(req)
+        response = self._create_new_app_token_proxy(req)
         if response.success:
             RappUtilities.rapp_print('Succesfully wrote new token', 'DEBUG')
         else:

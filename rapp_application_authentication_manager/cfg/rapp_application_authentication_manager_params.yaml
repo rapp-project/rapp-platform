@@ -1,3 +1,5 @@
-rapp_add_new_user_topic: /rapp/rapp_application_authentication/add_new_user
+rapp_add_new_user_from_store_topic: /rapp/rapp_application_authentication/add_new_user_from_store
+rapp_add_new_user_from_platform_topic: /rapp/rapp_application_authentication/add_new_user_from_platfrom
+rapp_login_user_from_store: /rapp/rapp_application_authentication/login_from_store
 rapp_login_user: /rapp/rapp_application_authentication/login
 rapp_authenticate_token_topic: /rapp/rapp_application_authentication/authenticate_token

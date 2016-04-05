@@ -1,6 +1,7 @@
 string username
 string password
 string device_token
+string language
 ---
 string error
-string token
+string suggested_username

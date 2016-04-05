@@ -104,7 +104,8 @@ add_service_files(
 
   /ApplicationAuthentication/UserTokenAuthenticationSrv.srv
   /ApplicationAuthentication/UserLoginSrv.srv
-  /ApplicationAuthentication/AddNewUserSrv.srv
+  /ApplicationAuthentication/AddNewUserFromStoreSrv.srv
+  /ApplicationAuthentication/AddNewUserFromPlatformSrv.srv
 )
 
 ## Generate added messages and services with any dependencies listed here

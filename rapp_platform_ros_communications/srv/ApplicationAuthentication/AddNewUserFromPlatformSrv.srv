@@ -1,6 +1,7 @@
 string username
 string password
-string user_token
+string new_user_username
+string new_user_password
 string language
 ---
 string error

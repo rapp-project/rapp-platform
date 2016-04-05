@@ -33,8 +33,10 @@ from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
 
 from rapp_platform_ros_communications.srv import (
-    AddNewUserSrv,
-    AddNewUserSrvResponse,
+    AddNewUserFromPlatformSrv,
+    AddNewUserFromPlatformSrvResponse,
+    AddNewUserFromStoreSrv,
+    AddNewUserFromStoreSrvResponse,
     UserTokenAuthenticationSrv,
     UserTokenAuthenticationSrvResponse,
     UserLoginSrv,
@@ -48,14 +50,26 @@ class ApplicationAuthenticationManager:
 
         self._db_handler = DatabaseHandler()
 
-        # Token generation service
-        rapp_add_new_user_topic = rospy.get_param("rapp_add_new_user_topic")
-        if not rapp_add_new_user_topic:
-            rospy.logerr("Application authentication: " +
-                         "Token generation topic does not exist")
-        add_new_user_srv = rospy.Service(rapp_add_new_user_topic,
-                                         AddNewUserSrv,
-                                         self.add_new_user_callback)
+        # Create new user using platfrom credentials
+        rapp_add_new_user_from_platform_topic = \
+            rospy.get_param("rapp_add_new_user_from_platform_topic")
+        if not rapp_add_new_user_from_platform_topic:
+            msg = "Add new user from platform topic does not exist"
+            RappUtilities.rapp_print(msg, 'ERROR')
+        add_new_user_from_platform_srv = \
+            rospy.Service(rapp_add_new_user_from_platform_topic,
+                          AddNewUserFromPlatformSrv,
+                          self.add_new_user_from_platform_callback)
+
+        # Create new user using store credentials
+        rapp_add_new_user_from_store_topic = \
+            rospy.get_param("rapp_add_new_user_from_store_topic")
+        if not rapp_add_new_user_from_store_topic:
+            msg = "Add new user from store topic does not exist"
+            RappUtilities.rapp_print(msg, 'ERROR')
+        add_new_user_srv = rospy.Service(rapp_add_new_user_from_store_topic,
+                                         AddNewUserFromStoreSrv,
+                                         self.add_new_user_from_store_callback)
 
         # Token authentication service
         authenticate_token_topic = \
@@ -69,18 +83,35 @@ class ApplicationAuthenticationManager:
                           UserTokenAuthenticationSrv,
                           self.authenticate_token_callback)
 
+        # Login using sore credentials
+        login_from_store_topic = \
+            rospy.get_param("rapp_login_user_from_store")
+        if not login_from_store_topic:
+            msg = "Login user from store topic does not exist"
+            RappUtilities.rapp_print(msg, 'ERROR')
+        login_user_from_store_srv = \
+            rospy.Service(login_from_store_topic,
+                          UserLoginSrv,
+                          self.login_from_store_callback)
+
         # Login
         login_topic = \
             rospy.get_param("rapp_login_user")
         if not login_topic:
-            rospy.logerr("Application authentication: " +
-                         "Login topic does not exist")
+            msg = "Login user topic does not exist"
+            RappUtilities.rapp_print(msg, 'ERROR')
 
-        login_user_srv = rospy.Service(
-            login_topic, UserLoginSrv, self.login_callback)
+        login_user_srv = \
+            rospy.Service(login_topic,
+                          UserLoginSrv,
+                          self.login_callback)
+
+    # TODO: Desc
+    def add_new_user_from_platform_callback(self, req):
+        pass
 
     # The token generation service callback
-    def add_new_user_callback(self, req):
+    def add_new_user_from_store_callback(self, req):
         res = AddNewUserSrvResponse()
 
         # Verify that username -> alphanumeric + dash + underscore
@@ -88,7 +119,7 @@ class ApplicationAuthenticationManager:
             res.error = 'Invalid username characters'
             return res
 
-        if not self._db_handler.verify_store_token(req.user_token):
+        if not self._db_handler.verify_store_token(req.device_token):
             res.error = 'Invalid user'
             return res
 
@@ -111,7 +142,7 @@ class ApplicationAuthenticationManager:
 
         try:
             self._db_handler.add_new_user(
-                req.username, password_hash, req.user_token, req.language)
+                req.username, password_hash, req.device_token, req.language)
         except RappError as e:
             res.error = 'Error'
         else:
@@ -131,8 +162,11 @@ class ApplicationAuthenticationManager:
             res.error = 'Invalid token'
         return res
 
-    # User login service callback
     def login_callback(self, req):
+        pass
+
+    # User login service callback
+    def login_from_store_callback(self, req):
         res = UserLoginSrvResponse()
 
         try:
@@ -144,12 +178,12 @@ class ApplicationAuthenticationManager:
             res.error = 'Wrong credentials'
             return res
 
-        # TODO: verify that user_token is actual and active store token
-        if not self._db_handler.verify_store_token(req.user_token):
+        # TODO: verify that device_token is actual and active store token
+        if not self._db_handler.verify_store_token(req.device_token):
             res.error = 'Invalid user'
             return res
 
-        if self._db_handler.verify_active_robot_session(req.username, req.user_token):
+        if self._db_handler.verify_active_robot_session(req.username, req.device_token):
             res.error = 'Session already active'
             return res
 
@@ -164,7 +198,7 @@ class ApplicationAuthenticationManager:
 
         try:
             self._db_handler.write_new_application_token(
-                req.username, req.user_token, res.token)
+                req.username, req.device_token, res.token)
         except RappError as e:
             res.error = 'Wrong credentials'
         else:
