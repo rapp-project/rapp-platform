@@ -53,6 +53,7 @@ add_service_files(
   /DbWrapper/addStoreTokenToDeviceSrv.srv
   /DbWrapper/validateUserRoleSrv.srv
   /DbWrapper/validateExistingPlatformDeviceTokenSrv.srv
+  /DbWrapper/removePlatformUserSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv

@@ -1,0 +1,6 @@
+string username
+---
+string password
+bool success
+string error
+string[] trace

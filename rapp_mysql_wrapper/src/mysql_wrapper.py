@@ -60,6 +60,9 @@ from rapp_platform_ros_communications.srv import (
   validateExistingPlatformDeviceTokenSrv,
   validateExistingPlatformDeviceTokenSrvResponse,
   validateExistingPlatformDeviceTokenSrvRequest
+  removePlatformUserSrv,
+  removePlatformUserSrvRequest,
+  removePlatformUserSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -128,6 +131,12 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_check_active_application_token_service_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, checkActiveApplicationTokenSrv, self.checkActiveApplicationTokenDataHandler)
+    
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_remove_platform_user_service_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_remove_platform_user_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, removePlatformUserSrv, self.removePlatformUserDataHandler)
+    
 
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_check_active_robot_session_service_topic")
     if(not self.serv_topic):
@@ -349,6 +358,35 @@ class MySQLdbWrapper:
       res.error="IOError: " +str(e)
       con.close()
     return res
+
+  def removePlatformUser(self,req):
+    try:
+      res = removePlatformUserSrvResponse()
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()
+      cur.execute("LOCK TABLES platform_user WRITE")
+      cur.execute("delete from platform_user where username=%s",(req.username))
+      cur.execute("UNLOCK TABLES")
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res
+
 
   def createNewApplicationToken(self,req):
     try:
@@ -664,3 +702,10 @@ class MySQLdbWrapper:
     res=self.validateExistingPlatformDeviceToken(req)
     return res
 
+  ## @brief The removePlatformUserSrv service callback
+  # @param req [rapp_platform_ros_communications::removePlatformUserSrvResponse::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::removePlatformUserSrvRequest::Response&] The ROS service response
+  def removePlatformUserDataHandler(self,req):
+    res = removePlatformUserSrvResponse()
+    res=self.removePlatformUser(req)
+    return res

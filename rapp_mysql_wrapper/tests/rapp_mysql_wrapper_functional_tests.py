@@ -49,7 +49,10 @@ from rapp_platform_ros_communications.srv import (
   createNewApplicationTokenSrvResponse,
   checkActiveApplicationTokenSrv,
   checkActiveApplicationTokenSrvRequest,
-  checkActiveApplicationTokenSrvResponse
+  checkActiveApplicationTokenSrvResponse,
+  removePlatformUserSrv,
+  removePlatformUserSrvRequest,
+  removePlatformUserSrvResponse
   )
 
 ## @class TestDbWrapper 
@@ -148,6 +151,31 @@ class TestDbWrapper(unittest.TestCase):
     response = test_service(req)     
     self.assertTrue(response.success) 
     self.assertTrue(response.application_token_exists) 
+    
+  def testCreateAndRemoveNewPlatformUser(self):
+    ros_service = rospy.get_param("rapp_mysql_wrapper_create_new_platform_user_service_topic")
+    if(not ros_service):
+      rospy.logerror("rapp_mysql_wrapper_create_new_platform_user_service_topic NOT FOUND ERROR")
+    rospy.wait_for_service(ros_service)    
+    test_service = rospy.ServiceProxy(ros_service, createNewPlatformUserSrv)
+    req = createNewPlatformUserSrvRequest()
+    req.username="temp_to_delete"
+    req.password="temp_to_delete"
+    req.language="el"
+    req.store_token="temp_to_delete"              
+    response = test_service(req)     
+    self.assertTrue(response.success) 
+    
+    ros_service = rospy.get_param("rapp_mysql_wrapper_remove_platform_user_service_topic")
+    if(not ros_service):
+      rospy.logerror("rapp_mysql_wrapper_remove_platform_user_service_topic NOT FOUND ERROR")
+    rospy.wait_for_service(ros_service)    
+    test_service = rospy.ServiceProxy(ros_service, removePlatformUserSrv)
+    req = removePlatformUserSrvRequest()
+    req.username="temp_to_delete"             
+    response = test_service(req)     
+    self.assertTrue(response.success) 
+
 
 ## The main function. Initializes the Rapp mysql wrapper functional tests
 if __name__ == '__main__':
