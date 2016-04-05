@@ -35,6 +35,7 @@
 var path = require('path');
 var util = require('util');
 
+var webService = require('./webService.js');
 
 var callParent = function( msg ){
   postMessage(msg);
@@ -92,21 +93,31 @@ var launchSvcAll = function(){
     ENV.PATHS.PKG_DIR, ENV.WORKERS[ WORKER.name ].path));
 
   for( var i in workerSvc ){
-    if( ENV.SERVICES[ workerSvc[i] ].launch ){
+    var svcParams = ENV.SERVICES[ workerSvc[i] ];
+    if( svcParams.launch ){
+      var srcPath = '';
 
-      if( ENV.SERVICES[ workerSvc[i] ].path ){
-        require(
-          path.join(ENV.PATHS.SERVICES_DIR, ENV.SERVICES[ workerSvc[i] ].path)
-        );
+      if( svcParams.path ){
+        srcPath = path.join(
+          ENV.PATHS.SERVICES_DIR, svcParams.path);
       }
       else{
-        require(
-          path.join(
-            ENV.PATHS.SERVICES_DIR,
-            ENV.SERVICES[ workerSvc[i] ].name, 'svc.js'
-          )
+        srcPath = path.join(
+          ENV.PATHS.SERVICES_DIR,
+          svcParams.name, 'svc.js'
         );
       }
+      var svcImpl = require(srcPath);
+      var options = {
+        name: svcParams.name,
+        urlName: svcParams.url_name,
+        workerName: WORKER.name,
+        anonymous: svcParams.anonymous,
+        namespace: svcParams.namespace
+      };
+      var svc = new webService(svcImpl, options);
+      // Register this service to the service handler
+      svc.register();
     }
   }
 };
@@ -114,7 +125,6 @@ var launchSvcAll = function(){
 
 // Global worker thread space hack!!
 global.ENV = require( path.join(__dirname, '../..', 'env.js') );
-global.registerSvc = registerSvc;
 
 
 exports.callParent = callParent;

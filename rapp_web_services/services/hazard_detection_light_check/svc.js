@@ -232,4 +232,5 @@ function parseRosbridgeMsg(rosbridge_msg)
   return response;
 }
 
-registerSvc(svcImpl, svcParams);
+
+module.exports = svcImpl;

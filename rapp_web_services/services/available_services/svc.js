@@ -106,4 +106,4 @@ function svcImpl ( kwargs )
 }
 
 
-registerSvc(svcImpl, svcParams);
+module.exports = svcImpl;

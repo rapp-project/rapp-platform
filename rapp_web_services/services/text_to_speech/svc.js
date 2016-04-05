@@ -214,4 +214,4 @@ function parseRosbridgeMsg(rosbridge_msg, audioFilePath)
 }
 
 
-registerSvc(svcImpl, svcParams);
+module.exports = svcImpl;

@@ -245,4 +245,4 @@ function parseRosbridgeMsg(rosbridge_msg)
 }
 
 
-registerSvc(svcImpl, svcParams);
+module.exports = svcImpl;

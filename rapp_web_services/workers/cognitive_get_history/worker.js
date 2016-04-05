@@ -29,9 +29,6 @@ var workerUtils = require(path.join(ENV.PATHS.INCLUDE_DIR, 'common',
 // Set worker thread name under the global scope. (WORKER.name)
 workerUtils.setWorkerName('cognitive_get_history');
 
-// Declare the worker's onmessage callback function.
-onmessage = workerUtils.onMessage;
-
 // Launch all services assigned to this worker thread.
 // Search in workers.json config file for assigned web services.
 workerUtils.launchSvcAll();

@@ -221,7 +221,7 @@ function parseRosbridgeMsg(rosbridge_msg)
   var response = new interfaces.client_res();
 
   if( error ){
-    response.error = error;;
+    response.error = error;
     return response;
   }
 
@@ -230,4 +230,5 @@ function parseRosbridgeMsg(rosbridge_msg)
   return response;
 }
 
-registerSvc(svcImpl, svcParams);
+
+module.exports = svcImpl;
