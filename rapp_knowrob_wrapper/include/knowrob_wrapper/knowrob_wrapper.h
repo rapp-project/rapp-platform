@@ -38,6 +38,7 @@ limitations under the License.
 #include <rapp_platform_ros_communications/recordUserPerformanceCognitiveTestsSrv.h>
 #include <rapp_platform_ros_communications/clearUserPerformanceCognitveTestsSrv.h>
 #include <rapp_platform_ros_communications/registerImageObjectToOntologySrv.h>
+#include <rapp_platform_ros_communications/retractUserOntologyAliasSrv.h>
 
 /** 
 * @class KnowrobWrapper 
@@ -192,7 +193,14 @@ class KnowrobWrapper
 	*/ 
     rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response register_image_object_to_ontology(rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request req);
 
-    //std::vector<std::string> userInstancesFromClassQuery(std::string ontology_class);
-    //std::vector<std::string> checkIfClassExists(std::string classValue);
-    //
+	/** 
+	* @brief Implements the retract_user_ontology_alias ROS service 
+	* @param req [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request&] The ROS service request 
+	* @return res [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response&] The ROS service response 
+	*/ 
+    rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response retract_user_ontology_alias(rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request req);
+
+
+
+
 };

@@ -99,6 +99,12 @@ class KnowrobWrapperCommunications
     ros::ServiceServer clear_user_cognitive_tests_performance_records_service_;
     /**< Member variable holding the clear_user_cognitive_tests_performance_records ROS service topic */
     std::string clear_user_cognitive_tests_performance_records_topic_;
+    
+	/**< The retract_user_ontology_alias service server */
+    ros::ServiceServer retract_user_ontology_alias_service_;
+    /**< Member variable holding the retract_user_ontology_alias ROS service topic */
+    std::string retract_user_ontology_alias_topic_;    
+    
 
     //ros::ServiceServer userInstancesFromClassService_;
     //std::string userInstancesFromClassServiceTopic_;
@@ -245,11 +251,14 @@ class KnowrobWrapperCommunications
       rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request& req,
       rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response& res);
 
-    //bool userInstancesFromClassCallback(
-      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
-
-    //bool assignAttributeValueCallback(
-      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-      //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res);
+	/** 
+	* @brief Serves the retract_user_ontology_alias ROS service callback 
+	* @param req [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request&] The ROS service request 
+	* @param res [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response&] The ROS service response 
+	* @return bool - The success status of the call 
+	*/ 
+    bool retract_user_ontology_alias_callback(
+      rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request& req,
+      rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response& res);
+     
 };

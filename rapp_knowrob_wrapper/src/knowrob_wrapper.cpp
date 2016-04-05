@@ -135,7 +135,7 @@ rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrappe
         if (req.username == std::string("")) {
             throw std::string("Error, empty username");
         }
-         std::string currentAlias = get_ontology_alias(req.username);
+        std::string currentAlias = get_ontology_alias(req.username);
         // std::size_t found = currentAlias.find(std::string("FAIL"));
         // if (found != std::string::npos) {
         //     throw currentAlias;
@@ -159,19 +159,19 @@ rapp_platform_ros_communications::createOntologyAliasSrv::Response KnowrobWrappe
  * @exception AppError
  */
 std::string KnowrobWrapper::get_ontology_alias(std::string username) {
-        std::string ontology_alias;
-        rapp_platform_ros_communications::getUserOntologyAliasSrv srv;
-        srv.request.username = username;
-        mysql_get_user_ontology_alias_client.call(srv);
-        if (srv.response.success != true) {
-            throw std::string(std::string("FAIL: User not found, incorrect username?"));
-        } else {
-            ontology_alias = srv.response.ontology_alias;
-            if (ontology_alias == std::string("None")) {
-                ontology_alias = create_ontology_alias_for_new_user(username);
-            }
+    std::string ontology_alias;
+    rapp_platform_ros_communications::getUserOntologyAliasSrv srv;
+    srv.request.username = username;
+    mysql_get_user_ontology_alias_client.call(srv);
+    if (srv.response.success != true) {
+        throw std::string(std::string("FAIL: User not found, incorrect username?"));
+    } else {
+        ontology_alias = srv.response.ontology_alias;
+        if (ontology_alias == std::string("None")) {
+            ontology_alias = create_ontology_alias_for_new_user(username);
         }
-        return ontology_alias;
+    }
+    return ontology_alias;
 }
 
 /**
@@ -798,37 +798,68 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
  */
 rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response KnowrobWrapper::register_image_object_to_ontology(rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request req) {
     rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response res;
+    try {
 
-    if (req.user_ontology_alias == std::string("") || req.timestamp < 1 || req.image_path == std::string("") || req.object_ontology_class == std::string("")) {
+        if (req.user_ontology_alias == std::string("") || req.timestamp < 1 || req.image_path == std::string("") || req.object_ontology_class == std::string("")) {
+            res.success = false;
+            res.trace.push_back("Error, one or more arguments not provided or out of range");
+            res.error = std::string("Error, one or more arguments not provided or out of range");
+            return res;
+        }
+        //std::string ontology_alias = get_ontology_alias(req.username);
+        std::string timestamp = intToString(req.timestamp);
+        std::string query = std::string("ObjectcreateObjectAndRegisterImage(Object,knowrob:'") + req.object_ontology_class + std::string("',knowrob:'") + req.user_ontology_alias + std::string("','") + timestamp + std::string("','") + req.image_path + std::string("')");
+        //query = std::string("cognitiveTestPerformed(B,knowrob:'") + req.patient_ontology_alias + std::string("',knowrob:'") + req.test + std::string("','") + timestamp + std::string("','") + score + std::string("',knowrob:'Person',knowrob:'CognitiveTestPerformed')");
+        json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+        char status = results.getStatus();
+        if (status == 0) {
+            res.success = false;
+            res.trace.push_back(std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias"));
+            res.error = std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias");
+            return res;
+        } else if (status == 3) {
+            res.success = true;
+        }
+        std::vector<std::string> query_ret_tests;
+        for (json_prolog::PrologQueryProxy::iterator it = results.begin();
+                it != results.end(); it++) {
+            json_prolog::PrologBindings bdg = *it;
+            std::string temp_query_tests = bdg["Object"];
+            query_ret_tests.push_back(temp_query_tests);
+        }
+        for (unsigned int i = 0; i < query_ret_tests.size(); i++) {
+            res.object_entry = (query_ret_tests[i]);
+        }
+        KnowrobWrapper::dump_ontology_now();
+        return res;
+    } catch (std::string error) {
         res.success = false;
-        res.trace.push_back("Error, one or more arguments not provided or out of range");
-        res.error = std::string("Error, one or more arguments not provided or out of range");
+        res.trace.push_back(error);
+        res.error = error;
         return res;
     }
-    //std::string ontology_alias = get_ontology_alias(req.username);
-    std::string timestamp = intToString(req.timestamp);
-    std::string query = std::string("ObjectcreateObjectAndRegisterImage(Object,knowrob:'") + req.object_ontology_class + std::string("',knowrob:'") + req.user_ontology_alias + std::string("','") + timestamp + std::string("','") + req.image_path + std::string("')");
-    //query = std::string("cognitiveTestPerformed(B,knowrob:'") + req.patient_ontology_alias + std::string("',knowrob:'") + req.test + std::string("','") + timestamp + std::string("','") + score + std::string("',knowrob:'Person',knowrob:'CognitiveTestPerformed')");
-    json_prolog::PrologQueryProxy results = pl.query(query.c_str());
-    char status = results.getStatus();
-    if (status == 0) {
-        res.success = false;
-        res.trace.push_back(std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias"));
-        res.error = std::string("Test performance entry insertion into ontology FAILED, either invalid test or patient alias");
+}
+
+rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response KnowrobWrapper::retract_user_ontology_alias(rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request req) {
+    rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response res;
+    try {
+        if (req.ontology_alias == std::string("")) {
+            throw std::string("User ontology_alias not provided");
+        }
+        std::string query = std::string("rdf_retractall(knowrob:'"+req.ontology_alias+"',rdf:type,knowrob:'Person')");
+        json_prolog::PrologQueryProxy results = pl.query(query.c_str());
+        char status = results.getStatus();
+        if (status == 0) {
+            throw std::string("Retract failed at ontology level");   
+        } else if (status == 3) {
+            res.success = true;
+        }
+        KnowrobWrapper::dump_ontology_now();
         return res;
-    } else if (status == 3) {
-        res.success = true;
+    } catch (std::string error) {
+        res.success = false;
+        res.trace.push_back(error);
+        res.error = error;
+        return res;
     }
-    std::vector<std::string> query_ret_tests;
-    for (json_prolog::PrologQueryProxy::iterator it = results.begin();
-            it != results.end(); it++) {
-        json_prolog::PrologBindings bdg = *it;
-        std::string temp_query_tests = bdg["Object"];
-        query_ret_tests.push_back(temp_query_tests);
-    }
-    for (unsigned int i = 0; i < query_ret_tests.size(); i++) {
-        res.object_entry = (query_ret_tests[i]);
-    }
-    KnowrobWrapper::dump_ontology_now();
-    return res;
 }

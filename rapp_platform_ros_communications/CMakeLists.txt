@@ -69,6 +69,7 @@ add_service_files(
   /OntologyWrapper/recordUserPerformanceCognitiveTestsSrv.srv
   /OntologyWrapper/clearUserPerformanceCognitveTestsSrv.srv
   /OntologyWrapper/registerImageObjectToOntologySrv.srv
+  /OntologyWrapper/retractUserOntologyAliasSrv.srv
 
   /CloudAgentManager/createContainerSrv.srv
 

@@ -123,21 +123,13 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   clear_user_cognitive_tests_performance_records_service_ = nh_.advertiseService(clear_user_cognitive_tests_performance_records_topic_,
     &KnowrobWrapperCommunications::clear_user_cognitive_tests_performance_records_callback, this);
 
-  //if(!nh_.getParam("/ontology_user_instances_from_class_topic", userInstancesFromClassServiceTopic_))
-  //{
-    //ROS_ERROR("ontology_user_instances_from_class_topic");
-  //}
+  if(!nh_.getParam("/rapp_knowrob_wrapper_retract_user_ontology_alias", retract_user_ontology_alias_topic_))
+  {
+    ROS_ERROR("rapp_knowrob_wrapper_retract_user_ontology_alias not found");
+  }
+  retract_user_ontology_alias_service_ = nh_.advertiseService(retract_user_ontology_alias_topic_,
+    &KnowrobWrapperCommunications::retract_user_ontology_alias_callback, this);
 
-  //userInstancesFromClassService_ = nh_.advertiseService(userInstancesFromClassServiceTopic_,
-    //&KnowrobWrapperCommunications::userInstancesFromClassCallback, this);
-
-  //if(!nh_.getParam("/ontology_assign_attribute_value", assignAttributeValueServiceTopic_))
-  //{
-    //ROS_ERROR("ontology_assign_attribute_value");
-  //}
-
-  //assignAttributeValueService_ = nh_.advertiseService(assignAttributeValueServiceTopic_,
-    //&KnowrobWrapperCommunications::assignAttributeValueCallback, this);
 
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
@@ -338,37 +330,16 @@ bool KnowrobWrapperCommunications::clear_user_cognitive_tests_performance_record
   return true;
 }
 
-//bool KnowrobWrapperCommunications::userInstancesFromClassCallback(
-  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
-//{
-  ////std::cout<<req.return_cols[0].data;
-  //std::vector<std::string> res_ =
-    //knowrob_wrapper.userInstancesFromClassQuery(req.query_term.data);
-  //for(unsigned int i = 0 ; i < res_.size() ; i++)
-  //{
-    //std_msgs::String s;
-    //s.data = res_[i];
-    //res.results.push_back(s);
-  //}
-
-  //return true;
-//}
-
-//bool KnowrobWrapperCommunications::assignAttributeValueCallback(
-  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Request& req,
-  //rapp_platform_ros_communications::OntologySimpleQuerySrv::Response& res)
-//{
-  ////std::cout<<req.return_cols[0].data;
-  //std::vector<std::string> res_ =
-    //knowrob_wrapper.assignAttributeValueQuery(req.query_term.data);
-  //for(unsigned int i = 0 ; i < res_.size() ; i++)
-  //{
-    //std_msgs::String s;
-    //s.data = res_[i];
-    //res.results.push_back(s);
-  //}
-
-  //return true;
-//}
-
+/** 
+* @brief Serves the retract_user_ontology_alias ROS service callback 
+* @param req [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
+bool KnowrobWrapperCommunications::retract_user_ontology_alias_callback(
+  rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request& req,
+  rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response& res)
+{
+  res=knowrob_wrapper.retract_user_ontology_alias(req);
+  return true;
+}
