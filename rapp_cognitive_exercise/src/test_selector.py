@@ -75,19 +75,22 @@ class TestSelector:
       #Get user language
       userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.username)
       res.language=userLanguage
-      #Get test types from ontology
-      testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
-      #Determine the test type of the to be selected test
-      testType=self.determineTestType(req.testType,testTypesList,userOntologyAlias,res.trace)        
-      #Get user performance records and determine difficulty of the to be selected test for given test type
-      chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.getUserPerformanceRecordsAndDetermineTestDifficultyForTestType(testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,difficultyModifier1to2,difficultyModifier2to3,historyBasedOnNumOfTestsAndNotTime,pastTests,res.trace)
-      #Get all tests of a give type from the ontology
-      testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res.trace)            
-      #Determine the least recently used (LRU) test and retrieve the .xml test file
-      testName,testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp)      
-      res.test=testName
-      #Parse the .xml test file name and assign the data to the testSelectorSrvResponse response srv           
-      self.retrieveDataFromTestXml(testFilePath,userLanguage,res)      
+      if(not req.overwriteTestXmlFile==""):
+        self.retrieveDataFromTestXml("/cognitiveTests/"+req.overwriteTestXmlFile,userLanguage,res)         
+      else:
+        #Get test types from ontology
+        testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
+        #Determine the test type of the to be selected test
+        testType=self.determineTestType(req.testType,testTypesList,userOntologyAlias,res.trace)        
+        #Get user performance records and determine difficulty of the to be selected test for given test type
+        chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.getUserPerformanceRecordsAndDetermineTestDifficultyForTestType(testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,difficultyModifier1to2,difficultyModifier2to3,historyBasedOnNumOfTestsAndNotTime,pastTests,res.trace)
+        #Get all tests of a give type from the ontology
+        testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res.trace)            
+        #Determine the least recently used (LRU) test and retrieve the .xml test file
+        testName,testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp)      
+        res.test=testName
+        #Parse the .xml test file name and assign the data to the testSelectorSrvResponse response srv           
+        self.retrieveDataFromTestXml(testFilePath,userLanguage,res)      
       res.success=True
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))

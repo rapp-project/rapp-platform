@@ -1,5 +1,6 @@
 string username
 string testType
+string overwriteTestXmlFile
 ---
 bool success
 string error
