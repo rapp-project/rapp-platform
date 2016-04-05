@@ -179,6 +179,7 @@ class TestSelector:
       trace.extend(userPerformanceResponse.trace)
       trace.append("KnowRob wrapper returned no performance records for this user.. will start with a difficulty setting of 1")
       noUserPerformanceRecordsExist=True
+      chosenDif="1"
     else:
       userPerfOrganizedByTimestamp=CognitiveExerciseHelperFunctions.organizeUserPerformanceByTimestamp(userPerformanceResponse)
       if(historyBasedOnNumOfTestsAndNotTime):
@@ -195,7 +196,7 @@ class TestSelector:
           else:
             break
       userScore=self.calculateUserScore(userPerfOrganizedByTimestamp)
-      trace.append("user score :"+str(userScore))      
+      trace.append("user score :"+str(userScore))    
       if(userScore==0):
         chosenDif="1"
       elif(userScore<difficultyModifier1to2):

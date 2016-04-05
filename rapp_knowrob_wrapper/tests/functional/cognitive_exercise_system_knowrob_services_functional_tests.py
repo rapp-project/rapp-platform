@@ -33,11 +33,14 @@ from rapp_platform_ros_communications.srv import (
   recordUserPerformanceCognitiveTestsSrvResponse,
   userPerformanceCognitveTestsSrv,
   userPerformanceCognitveTestsSrvRequest,
-  userPerformanceCognitveTestsSrvResponse
+  userPerformanceCognitveTestsSrvResponse,
+  createOntologyAliasSrv,
+  createOntologyAliasSrvRequest,
+  createOntologyAliasSrvResponse
   )
 
-## @class OntologyFunc 
-# Inherits the unittest.TestCase class in order to offer functional tests functionality 
+## @class OntologyFunc
+# Inherits the unittest.TestCase class in order to offer functional tests functionality
 class OntologyFunc(unittest.TestCase):
 
     ## Test cognitive tests of existent type
@@ -73,6 +76,35 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.success, False)
         self.assertEqual(response.error, 'No tests of given type exist')
+
+    ## Test get user ontology alias of existent user
+    def test_get_user_ontology_alias_existent_user(self):
+        subclasses_of_service = rospy.get_param(\
+                "rapp_knowrob_wrapper_create_ontology_alias")
+        rospy.wait_for_service(subclasses_of_service)
+
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, createOntologyAliasSrv)
+
+        req = createOntologyAliasSrvRequest()
+        req.username="rapp"
+        response = test_service(req)
+        self.assertEqual(response.success, True)
+        self.assertEqual(response.ontology_alias,'Person_DpphmPqg')
+
+    ## Test get user ontology alias of nonexistent user
+    def test_get_user_ontology_alias_nonexistent_user(self):
+        subclasses_of_service = rospy.get_param(\
+                "rapp_knowrob_wrapper_create_ontology_alias")
+        rospy.wait_for_service(subclasses_of_service)
+
+        test_service = rospy.ServiceProxy(\
+                subclasses_of_service, createOntologyAliasSrv)
+
+        req = createOntologyAliasSrvRequest()
+        req.username="rapprapprapprapp"
+        response = test_service(req)
+        self.assertEqual(response.success, False)
 
 	## Test user performance of existent user and test type
     def test_user_performance_existent_user_and_test(self):
@@ -204,17 +236,3 @@ class OntologyFunc(unittest.TestCase):
 if __name__ == '__main__':
     import rosunit
     rosunit.unitrun(PKG, 'OntologyFunc', OntologyFunc)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
