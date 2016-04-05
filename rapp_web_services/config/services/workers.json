@@ -156,7 +156,10 @@
     "launch": true,
     "path": "workers/authentication/worker.js",
     "services": [
-      "auth_service_access"
+      "auth_service_access",
+      "register_user_from_store",
+      "register_user_from_platform",
+      "login_user"
     ]
   }
 }

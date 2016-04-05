@@ -252,5 +252,33 @@
     "namespace": "",
     "timeout": 45000,
     "ros_srv_name": "/rapp/rapp_application_authentication/authenticate_token"
+  },
+  "register_user_from_store": {
+    "launch": true,
+    "anonymous": false,
+    "name": "register_user_from_store",
+    "url_name": "register_user_from_store",
+    "namespace": "",
+    "timeout": 45000,
+    "ros_srv_name": "/rapp/rapp_application_authentication/add_new_user_from_store"
+  },
+  "register_user_from_platform": {
+    "launch": true,
+    "anonymous": false,
+    "name": "register_user_from_platform",
+    "url_name": "register_user_from_platform",
+    "namespace": "",
+    "timeout": 45000,
+    "ros_srv_name": "/rapp/rapp_application_authentication/add_new_user_from_platfrom"
+  },
+  "login_user": {
+    "launch": true,
+    "anonymous": false,
+    "name": "login_user",
+    "url_name": "login_user",
+    "namespace": "",
+    "timeout": 45000,
+    "ros_srv_name": "/rapp/rapp_application_authentication/login"
   }
+
 }
