@@ -233,7 +233,7 @@
     "name": "path_planning_upload_map",
     "url_name": "path_planning_upload_map",
     "namespace": "",
-    "timeout": 45000,
+    "timeout": 45000
   },
   "path_planning_plan_path_2d": {
     "launch": true,
@@ -251,6 +251,6 @@
     "url_name": "auth_service_access",
     "namespace": "",
     "timeout": 45000,
-    "ros_srv_name": ""
+    "ros_srv_name": "/rapp/rapp_application_authentication/authenticate_token"
   }
 }

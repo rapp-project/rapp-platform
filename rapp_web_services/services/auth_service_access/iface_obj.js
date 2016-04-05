@@ -22,7 +22,7 @@
 var clientRes = function(){
   var obj = {
     error: '',
-    success: false
+    username: ''
   };
   return obj;
 };
@@ -37,14 +37,17 @@ var clientReq = function(){
 };
 
 
+// UserTokenAuthenticationSrv.srv
 var rosReq = function(){
   var obj = {
+    token: ''
   };
   return obj;
 };
 
 
 var rosRes = function(){
+  return {error: '', username: ''};
 
 };
 

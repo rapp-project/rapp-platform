@@ -23,7 +23,7 @@ var authRequest = function ( req, svcName, successClb, failClb ){
   var options = {
     // service call failure callback
     fail: failClb
-  }
+  };
 
   var authSvcFrame = auth_service_access({
     token: token,
@@ -31,24 +31,23 @@ var authRequest = function ( req, svcName, successClb, failClb ){
   });
 
   authSvcFrame.post(function(response){
-    console.log(response)
-    if ( response.success == true ){
-      successClb();
-    }
-    else{
+    if ( response.error ){
       failClb();
     }
-  }, options)
-}
+    else{
+      successClb();
+    }
+  }, options);
+};
 
 
 var responseAuthFailed = function(){
   var options = {
     startLine: "HTTP/1.1 401 Unauthorized"
-  }
+  };
   var response = hop.HTTPResponseString("Authentication Failure", options);
   return response;
-}
+};
 
 
 module.exports.authRequest = authRequest;

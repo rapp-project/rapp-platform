@@ -103,7 +103,9 @@ function svcImpl( kwargs )
       // Assign a unique identification key for this service request.
       var unqCallId = randStrGen.createUnique();
 
-      var rosSvcReq = new interfaces.ros_req();
+      var rosMsg = new interfaces.ros_req();
+      rosMsg.token = req.token;
+
 
       function callback(data){
         // Remove this call id from random string generator cache.
@@ -126,7 +128,7 @@ function svcImpl( kwargs )
       }
 
 
-      ros.callService(rosSrvName, rosSvcReq,
+      ros.callService(rosSrvName, rosMsg,
         {success: callback, fail: onerror});
 
       /***
@@ -156,16 +158,16 @@ function parseRosbridgeMsg(rosbridge_msg)
 {
   var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
+  var username = rosbridge_msg.username;
 
   var response = new interfaces.client_res();
 
   if( error ){
     response.error = error;
-    response.success = false
     return response;
   }
-  response.success = true;
 
+  response.username = username;
   return response;
 }
 
