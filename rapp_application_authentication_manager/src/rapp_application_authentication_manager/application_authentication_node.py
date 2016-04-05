@@ -108,78 +108,129 @@ class ApplicationAuthenticationManager:
 
     # TODO: Desc
     def add_new_user_from_platform_callback(self, req):
-        pass
+        res = AddNewUserFromPlatformSrvResponse()
+
+        try:
+            self._verify_user_credentials(
+                req.creator_username, req.creator_password)
+            self._db_handler.validate_user_role(req.creator_username)
+            self._validate_username_format(req.new_user_username)
+        except RappError as e:
+            res.error = e.value
+            return res
+
+        try:
+            unique_username = \
+                self._verify_new_username_uniqueness(req.new_user_username)
+        except RappError as e:
+            res.error = e.value
+            return res
+        else:
+            if unique_username != '':
+                res.error = 'Username exists'
+                res.suggested_username = unique_username
+                return res
+
+        try:
+            self._add_new_user_to_db(
+                req.new_user_username,
+                req.new_user_password,
+                req.creator_username,
+                req.language
+                )
+        except RappError as e:
+            res.error = e.value
+        return res
 
     # The token generation service callback
     def add_new_user_from_store_callback(self, req):
         res = AddNewUserFromStoreSrvResponse()
+        res.error = ''
 
         # Verify that username -> alphanumeric + dash + underscore
-        if not re.match("^[\w\d_-]*$", req.username) :
-            res.error = 'Invalid username characters'
+        try:
+            self._validate_username_format(req.username)
+        except RappError as e:
+            res.error = e.value
             return res
 
-        if not self._db_handler.verify_store_token(req.device_token):
+        if not self._db_handler.verify_store_device_token(req.device_token):
             res.error = 'Invalid user'
             return res
 
-        if self._db_handler.username_exists(req.username):
-            res.error = 'Username exists'
-            counter = 0
-            while True and counter <= 10:
-                counter += 1
-                suggestion = '_' + \
-                    ''.join(random.SystemRandom().choice(string.digits)
-                            for _ in range(5))
-                if not self._db_handler.username_exists(
-                        req.username + suggestion):
-                    res.suggested_username = req.username + suggestion
-                    return res
-            return res
-
-        # TODO: Add password restrictions (length etc.)
-        password_hash = bcrypt.hashpw(req.password, bcrypt.gensalt())
-
+        # Verify that username is unique, i.e. does not exist
         try:
-            self._db_handler.add_new_user_from_store(
-                req.username, password_hash, req.language)
+            unique_username = \
+                self._verify_new_username_uniqueness(req.username)
         except RappError as e:
-            res.error = 'Error'
-        else:
-            res.error = ''
-        finally:
+            res.error = e.value
             return res
-
-    # The token authentication service callback
-    def authenticate_token_callback(self, req):
-
-        res = UserTokenAuthenticationSrvResponse()
-        res.error = ''
-        res.username = ''
-        if self._db_handler.verify_active_application_token(req.token):
-            res.username = self._db_handler.get_token_user(req.token)
         else:
-            res.error = 'Invalid token'
+            if unique_username != '':
+                res.error = 'Username exists'
+                res.suggested_username = unique_username
+                return res
+
+        # Add new user to the database
+        try:
+            self._add_new_user_to_db(
+                req.username,
+                req.password,
+                'rapp_store',
+                req.language
+                )
+        except RappError as e:
+            res.error = e.value
         return res
 
     def login_callback(self, req):
-        pass
+        res = UserLoginSrvResponse()
+
+        try:
+            self._verify_user_credentials(req.username, req.password)
+        except RappError as e:
+            res.error = e.value
+            return res
+
+        if not self._db_handler.verify_platform_device_token(req.device_token):
+            res.error = 'Invalid user'
+            return res
+
+        if self._db_handler.verify_active_robot_session(
+                req.username, req.device_token):
+            res.error = 'Session already active'
+            return res
+
+        rand_str = \
+            ''.join(random.SystemRandom().choice(string.ascii_letters +
+                    string.digits + string.punctuation) for _ in range(64))
+        hash_str = sha256_crypt.encrypt(rand_str)
+        index = hash_str.find('$', 3)
+        hash_str = hash_str[index+1:]
+        new_token = base64.b64encode(hash_str)
+
+        try:
+            self._db_handler.write_new_application_token(
+                req.username, req.device_token, new_token)
+        except RappError as e:
+            res.error = 'Wrong credentials'
+        else:
+            res.error = ''
+            res.token = new_token
+        return res
 
     # User login service callback
     def login_from_store_callback(self, req):
         res = UserLoginSrvResponse()
 
         try:
-            password = self._db_handler.get_user_password(req.username)
+            self._verify_user_credentials(req.username, req.password)
         except RappError as e:
-            res.error = 'Wrong credentials'
-            return res
-        if bcrypt.hashpw(req.password, password) != password:
-            res.error = 'Wrong credentials'
+            res.error = e.value
             return res
 
         # TODO: verify that device_token is actual and active store token
-        if not self._db_handler.verify_store_token(req.device_token):
+        if not self._db_handler.verify_store_device_token(req.device_token):
             res.error = 'Invalid user'
             return res
         else:
@@ -189,7 +240,8 @@ class ApplicationAuthenticationManager:
                 res.error = 'Wrong credentials'
                 return res
 
-        if self._db_handler.verify_active_robot_session(req.username, req.device_token):
+        if self._db_handler.verify_active_robot_session(
+                req.username, req.device_token):
             res.error = 'Session already active'
             return res
 
@@ -209,8 +261,53 @@ class ApplicationAuthenticationManager:
             res.error = 'Wrong credentials'
         else:
             res.error = ''
-        finally:
-            return res
+        return res
+
+    # Verify username and password
+    def _verify_user_credentials(self, username, password):
+        passwd = self._db_handler.get_user_password(username)
+        if bcrypt.hashpw(password, passwd) != passwd:
+            raise RappError("Wrong Credentials")
+
+    def _verify_new_username_uniqueness(self, username):
+        if self._db_handler.username_exists(username):
+            counter = 0
+            while True and counter <= 10:
+                counter += 1
+                suggestion = '_' + \
+                    ''.join(random.SystemRandom().choice(string.digits)
+                            for _ in range(5))
+                if not self._db_handler.username_exists(
+                        username + suggestion):
+                    return username + suggestion
+            raise RappError('Could specify a username suggestion')
+        else:
+            return ''
+
+    def _validate_username_format(self, username):
+        if not re.match("^[\w\d_-]*$", username) or len(username) < 5 or \
+                len(username) > 15:
+            raise RappError('Invalid username characters')
+
+    def _add_new_user_to_db(self, new_user_username, new_user_password,
+                            creator_username, language):
+
+        password_hash = bcrypt.hashpw(new_user_password, bcrypt.gensalt())
+
+        self._db_handler.add_new_user(
+            new_user_username, password_hash, creator_username, language)
+
+    # The token authentication service callback
+    def authenticate_token_callback(self, req):
+
+        res = UserTokenAuthenticationSrvResponse()
+        res.error = ''
+        res.username = ''
+        if self._db_handler.verify_active_application_token(req.token):
+            res.username = self._db_handler.get_token_user(req.token)
+        else:
+            res.error = 'Invalid token'
+        return res
 
 if __name__ == "__main__":
     rospy.init_node('application_authentication_node')

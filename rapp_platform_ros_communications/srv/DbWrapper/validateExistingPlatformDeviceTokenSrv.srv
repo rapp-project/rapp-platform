@@ -1,0 +1,6 @@
+string device_token
+---
+bool device_token_exists
+bool success
+string error
+string[] trace

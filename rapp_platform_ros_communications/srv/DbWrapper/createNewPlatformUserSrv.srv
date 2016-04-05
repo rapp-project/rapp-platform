@@ -1,5 +1,6 @@
 string username
 string password
+string creator_username
 string language
 ---
 bool success

@@ -51,6 +51,8 @@ add_service_files(
   /DbWrapper/checkActiveApplicationTokenSrv.srv
   /DbWrapper/checkActiveRobotSessionSrv.srv
   /DbWrapper/addStoreTokenToDeviceSrv.srv
+  /DbWrapper/validateUserRoleSrv.srv
+  /DbWrapper/validateExistingPlatformDeviceTokenSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv

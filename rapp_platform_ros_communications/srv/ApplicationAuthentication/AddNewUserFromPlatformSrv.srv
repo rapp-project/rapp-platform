@@ -1,5 +1,5 @@
-string username
-string password
+string creator_username
+string creator_password
 string new_user_username
 string new_user_password
 string language

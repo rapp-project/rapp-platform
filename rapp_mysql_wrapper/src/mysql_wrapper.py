@@ -53,7 +53,13 @@ from rapp_platform_ros_communications.srv import (
   checkActiveRobotSessionSrvResponse,
   checkActiveApplicationTokenSrv,
   checkActiveApplicationTokenSrvRequest,
-  checkActiveApplicationTokenSrvResponse
+  checkActiveApplicationTokenSrvResponse,
+  validateUserRoleSrv,
+  validateUserRoleSrvResponse,
+  validateUserRoleSrvRequest,
+  validateExistingPlatformDeviceTokenSrv,
+  validateExistingPlatformDeviceTokenSrvResponse,
+  validateExistingPlatformDeviceTokenSrvRequest
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -113,6 +119,11 @@ class MySQLdbWrapper:
       rospy.logerror("rapp_mysql_wrapper_create_new_application_token_service_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, createNewApplicationTokenSrv, self.createNewApplicationTokenDataHandler)
 
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_validate_existing_platform_device_token_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_validate_existing_platform_device_token_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, validateExistingPlatformDeviceTokenSrv, self.validateExistingPlatformDeviceTokenDataHandler)
+
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_check_active_application_token_service_topic")
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_check_active_application_token_service_topic Not found error")
@@ -127,6 +138,11 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_add_store_token_to_device_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, addStoreTokenToDeviceSrv, self.addStoreTokenToDeviceDataHandler)
+
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_validate_user_role_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_validate_user_role_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, validateUserRoleSrv, self.validateUserRoleDataHandler)
     
   def getUserOntologyAlias(self,req):
     try:
@@ -313,7 +329,7 @@ class MySQLdbWrapper:
       con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()    
       cur.execute("LOCK TABLES platform_user WRITE, platform_user as p2 READ, language READ")       
-      cur.execute("insert into `platform_user` (`username`,`password`,`language_id`,`creator_id`) values (%s, %s, (select `id` from `language` where `name`=%s), (select `id` from platform_user as p2 where `username`='rapp_store'))",(req.username,req.password,req.language)) 
+      cur.execute("insert into `platform_user` (`username`,`password`,`language_id`,`creator_id`) values (%s, %s, (select `id` from `language` where `name`=%s), (select `id` from platform_user as p2 where `username`=%s))",(req.username,req.password,req.language,req.creator_username)) 
       cur.execute("UNLOCK TABLES")
       res.success=True
       con.close()
@@ -391,6 +407,32 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  def validateUserRole(self,req):
+    try:
+      res = validateUserRoleSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("select username from platform_user where username=%s and role <= 10",(req.username))   
+      result_set = cur.fetchall()
+      res.error = 'Invalid role'
+      if(result_set and len(result_set[0])>0):
+        res.error = ''
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res 
+
   def checkActiveRobotSession(self,req):
     try:
       res = checkActiveRobotSessionSrvResponse()        
@@ -450,7 +492,37 @@ class MySQLdbWrapper:
       res.error="IOError: " +str(e)
       con.close()
     return res 
-    pass
+
+  def validateExistingPlatformDeviceToken(self,req):
+    try:
+      res = validateExistingPlatformDeviceTokenSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()           
+      cur.execute("select token from device where token=%s and status=1",(req.device_token))   
+      result_set = cur.fetchall()
+      res.device_token_exists=False
+      res.success=False
+      if(result_set and len(result_set[0])>0):
+        res.device_token_exists=True        
+        res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:      
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res 
 
   ## @brief Gets the columns of the table
   # @return Columns [list] the columns of the table
@@ -581,3 +653,14 @@ class MySQLdbWrapper:
     res = addStoreTokenToDeviceSrvResponse()
     res=self.addStoreTokenToDevice(req)
     return res
+
+  def validateUserRoleDataHandler(self,req):
+    res = validateUserRoleSrvResponse()
+    res=self.validateUserRole(req)
+    return res
+
+  def validateExistingPlatformDeviceTokenDataHandler(self,req):
+    res = validateExistingPlatformDeviceTokenSrvResponse()
+    res=self.validateExistingPlatformDeviceToken(req)
+    return res
+

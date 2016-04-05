@@ -1,0 +1,4 @@
+string username
+---
+string error
+string[] trace

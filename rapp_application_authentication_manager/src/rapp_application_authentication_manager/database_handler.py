@@ -45,7 +45,11 @@ from rapp_platform_ros_communications.srv import (
     checkActiveApplicationTokenSrv,
     checkActiveApplicationTokenSrvRequest,
     checkActiveRobotSessionSrv,
-    checkActiveRobotSessionSrvRequest
+    checkActiveRobotSessionSrvRequest,
+    validateUserRoleSrv,
+    validateUserRoleSrvRequest,
+    validateExistingPlatformDeviceTokenSrv,
+    validateExistingPlatformDeviceTokenSrvRequest
 )
 
 
@@ -139,15 +143,51 @@ class DatabaseHandler(object):
         self._add_store_token_to_device_proxy = rospy.ServiceProxy(
             add_store_token_to_device_topic, addStoreTokenToDeviceSrv)
 
-    ## Verify that the token exists in store db
+        validate_user_role_topic = rospy.get_param(
+            "rapp_mysql_wrapper_validate_user_role_topic")
+        if not validate_user_role_topic:
+            RappUtilities.rapp_print(
+                'rapp_mysql_wrapper_validate_user_role_topic NOT FOUND',
+                'ERROR')
+        rospy.wait_for_service(validate_user_role_topic)
+
+        self._validate_user_role_proxy = rospy.ServiceProxy(
+            validate_user_role_topic, validateUserRoleSrv)
+
+        validate_existing_device_topic = rospy.get_param(
+            "rapp_mysql_wrapper_validate_existing_platform_device_token_topic")
+        if not validate_existing_device_topic:
+            RappUtilities.rapp_print(
+                'rapp_mysql_wrapper_validate_' +
+                'existing_platform_device_token_topic NOT FOUND',
+                'ERROR')
+        rospy.wait_for_service(validate_existing_device_topic)
+
+        self._validate_existing_device_token_proxy = rospy.ServiceProxy(
+            validate_existing_device_topic,
+            validateExistingPlatformDeviceTokenSrv)
+
+    ## Verify that the device token exists in store db
     #
-    # @param store_token [string] The token
+    # @param device_token [string] The token
     #
     # @return status [bool] True if token exists, false otherwise
-    def verify_store_token(self, store_token):
+    def verify_store_device_token(self, device_token):
         #  TODO
         #  pass
         return True
+
+    ## Verify that the device token exists in platform db
+    #
+    # @param device_token [string] The token
+    #
+    # @return status [bool] True if token exists, false otherwise
+    def verify_platform_device_token(self, device_token):
+        req = validateExistingPlatformDeviceTokenSrvRequest()
+        req.device_token = device_token
+
+        response = self._validate_existing_device_token_proxy(req)
+        return response.success
 
     ## Verify that username exists in platform db
     #
@@ -177,7 +217,7 @@ class DatabaseHandler(object):
         if response.success:
             return response.password
         else:
-            raise RappError('Password fetch failed')
+            raise RappError('Wrong credentials')
 
     ## Check if the application_token is active/valid
     #
@@ -233,10 +273,11 @@ class DatabaseHandler(object):
     # @param language [string] The user's language
     #
     # @return status [bool] True if token exists, false otherwise
-    def add_new_user_from_store(self, username, password, language):
+    def add_new_user(self, username, password, creator, language):
         req = createNewPlatformUserSrvRequest()
         req.username = username
         req.password = password
+        req.creator_username = creator
         req.language = language
 
         response = self._add_new_user_proxy(req)
@@ -280,5 +321,18 @@ class DatabaseHandler(object):
         else:
             RappUtilities.rapp_print(res.error, 'ERROR')
             msg = 'Could not write store token to the database'
+            RappUtilities.rapp_print(msg, 'ERROR')
+            raise RappError(msg)
+
+    def validate_user_role(self, username):
+        req = validateUserRoleSrvRequest()
+        req.username = username
+        res = self._validate_user_role_proxy(req)
+
+        if res.error == '':
+            RappUtilities.rapp_print('Proper user role', 'DEBUG')
+        else:
+            #  RappUtilities.rapp_print(res.trace, 'ERROR')
+            msg = 'Invalid user role'
             RappUtilities.rapp_print(msg, 'ERROR')
             raise RappError(msg)
