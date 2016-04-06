@@ -1,4 +1,4 @@
-INSERT INTO `language` (`name`) VALUES ('el');
+--  INSERT INTO `language` (`name`) VALUES ('el');
 
 --  INSERT INTO `platform_user`
   --  (username, password, ontology_alias, language_id, role, creator_id)
@@ -10,6 +10,7 @@ INSERT INTO `language` (`name`) VALUES ('el');
     --  0,
     --  1
   --  );
+
 INSERT INTO `platform_user`
   (username, password, role, creator_id)
   VALUES(

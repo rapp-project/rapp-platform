@@ -21,21 +21,25 @@
 ##
 
 ##
-#  Create and import RappStore database.
+#  Create and import rapp_platform database.
 ##
 
-path=$(pwd)
-dump="/RappPlatformMySqlDbSchema.sql"
-pth=$path$dump
+CREATION=$(pwd)"/rapp_platform_sql_creation.sql"
+SCHEMA=$(pwd)"/rapp_platform_sql_schema.sql"
+VALUES=$(pwd)"/rapp_platform_sql_inserts.sql"
 echo -e "\e[1m\e[103m\e[31m [RAPP] MySQL RAPP database import \e[0m"
 
 if [ "$1" != 'travis' ]; then
   echo "Insert MySQL root Password"
 fi
-echo "Create database RappStore" | mysql -u root -p$1
+mysql -u root -p$1 < $CREATION
 if [ "$1" != 'travis' ]; then
   echo "Insert MySQL root Password"
 fi
-mysql -u root -p$1 RappStore < $pth
+mysql -u root -p$1 rapp_platform < $SCHEMA
+if [ "$1" != 'travis' ]; then
+  echo "Insert MySQL root Password"
+fi
+mysql -u root -p$1 rapp_platform < $VALUES
 
 

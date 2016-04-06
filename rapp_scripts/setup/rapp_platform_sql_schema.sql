@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS `language` (
   `name` varchar(32) NOT NULL UNIQUE
 ) ENGINE=InnoDB CHARSET=utf8;
 
+INSERT INTO `language` (`name`) VALUES ('el');
+
 CREATE TABLE IF NOT EXISTS `platform_user` (
   `id` int unsigned AUTO_INCREMENT PRIMARY KEY,
   `username` varchar(32) NOT NULL UNIQUE,

@@ -30,7 +30,7 @@ echo "CREATE USER 'dummyUser'@'localhost' IDENTIFIED BY 'changeMe'" | mysql -u r
 if [ "$1" != 'travis' ]; then
   echo "Insert MySQL root Password"
 fi
-echo "GRANT ALL ON RappStore.* TO 'dummyUser'@'localhost'" | mysql -u root -p$1
+echo "GRANT ALL ON rapp_platform.* TO 'dummyUser'@'localhost'" | mysql -u root -p$1
 if [ "$1" != 'travis' ]; then
   echo "If prompted insert root sudo password"
 fi
