@@ -57,6 +57,23 @@ from rapp_platform_ros_communications.srv import (
 class CognitiveExerciseFunc(unittest.TestCase):
 
     ## Tests the cognitive exercise test chooser service when test type is provided
+    def test_chooser_overwrite(self):
+        ros_service = rospy.get_param(\
+                "rapp_cognitive_exercise_chooser_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, testSelectorSrv)
+
+        req = testSelectorSrvRequest()
+        req.username="rapp"        
+        req.testType="ArithmeticCts"
+        overwriteTestXmlFile="ArithmeticCts_BasicArithmeticCts_diff1.xml"
+        response = test_service(req)     
+        self.assertEqual(response.success, True) 
+        self.assertEqual(len(response.questions)>=1, True) 
+        self.assertEqual(response.test,"ArithmeticCts_tDjYwuhx")
+
     def test_chooser_basic(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
@@ -70,8 +87,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.testType="ArithmeticCts"
         response = test_service(req)     
         self.assertEqual(response.success, True) 
-        self.assertEqual(len(response.questions)>=1, True) 
-        
+        self.assertEqual(len(response.questions)>=1, True)         
         
     ## Tests the cognitive exercise test chooser service when test type is not provided  
     def test_chooser_no_type(self):
