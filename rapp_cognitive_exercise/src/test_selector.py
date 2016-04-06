@@ -88,7 +88,7 @@ class TestSelector:
         testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res.trace)            
         #Determine the least recently used (LRU) test and retrieve the .xml test file
         testName,testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp)      
-        res.test=testName
+        #res.test=testName
         #Parse the .xml test file name and assign the data to the testSelectorSrvResponse response srv           
         self.retrieveDataFromTestXml(testFilePath,userLanguage,res)      
       res.success=True
@@ -281,6 +281,7 @@ class TestSelector:
     root = tree.getroot()
     res.testType=root.find("testType").text.encode('UTF-8')
     res.testSubType=root.find("testSubType").text.encode('UTF-8')
+    res.test=root.find("name").text.encode('UTF-8')
     language=root.find('Languages')
     for question in language.find(userLanguage):
       res.questions.append(question.find("body").text.encode('UTF-8'))
