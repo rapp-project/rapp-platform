@@ -44,13 +44,19 @@ from rapp_platform_ros_communications.srv import (
     )
 
 
+## @class ApplicationAuthenticationManager
+# @brief Provides user management features
 class ApplicationAuthenticationManager:
 
+    ## @brief ROS Service initializations
     def __init__(self):
 
+        ## Handles the database queries
+        #
+        # (see database_handler.DatabaseHandler)
         self._db_handler = DatabaseHandler()
 
-        # Create new user using platfrom credentials
+        # Create new user using platform credentials
         rapp_add_new_user_from_platform_topic = \
             rospy.get_param("rapp_add_new_user_from_platform_topic")
         if not rapp_add_new_user_from_platform_topic:
@@ -83,7 +89,7 @@ class ApplicationAuthenticationManager:
                           UserTokenAuthenticationSrv,
                           self.authenticate_token_callback)
 
-        # Login using sore credentials
+        # Login using store credentials
         login_from_store_topic = \
             rospy.get_param("rapp_login_user_from_store")
         if not login_from_store_topic:
@@ -106,14 +112,20 @@ class ApplicationAuthenticationManager:
                           UserLoginSrv,
                           self.login_callback)
 
-    # TODO: Desc
+    ## @brief Add new platform user using platform credentials
+    #
+    # @param req [rapp_platform_ros_communications::ApplicationAuthentication::AddNewUserFromPlatformSrvRequest] The service request
+    #
+    # @return res [rapp_platform_ros_communications::ApplicationAuthentication::AddNewUserFromPlatformSrvResponse] The service response
     def add_new_user_from_platform_callback(self, req):
         res = AddNewUserFromPlatformSrvResponse()
 
         try:
             self._verify_user_credentials(
                 req.creator_username, req.creator_password)
+
             self._db_handler.validate_user_role(req.creator_username)
+
             self._validate_username_format(req.new_user_username)
         except RappError as e:
             res.error = e.value
@@ -142,7 +154,11 @@ class ApplicationAuthenticationManager:
             res.error = e.value
         return res
 
-    # The token generation service callback
+    ## @brief Add new platform user using rapp_store credentials
+    #
+    # @param req [rapp_platform_ros_communications::ApplicationAuthentication::AddNewUserFromStoreSrvRequest] The service request
+    #
+    # @return res [rapp_platform_ros_communications::ApplicationAuthentication::AddNewUserFromStoreSrvResponse] The service response
     def add_new_user_from_store_callback(self, req):
         res = AddNewUserFromStoreSrvResponse()
         res.error = ''
@@ -183,6 +199,11 @@ class ApplicationAuthenticationManager:
             res.error = e.value
         return res
 
+    ## @brief Login existing user using platform device token
+    #
+    # @param req [rapp_platform_ros_communications::ApplicationAuthentication::UserLoginSrvRequest] The service request
+    #
+    # @return res [rapp_platform_ros_communications::ApplicationAuthentication::UserLoginSrvResponse] The service response
     def login_callback(self, req):
         res = UserLoginSrvResponse()
 
@@ -219,7 +240,11 @@ class ApplicationAuthenticationManager:
             res.token = new_token
         return res
 
-    # User login service callback
+    ## @brief Login existing user using store device token
+    #
+    # @param req [rapp_platform_ros_communications::ApplicationAuthentication::UserLoginSrvRequest] The service request
+    #
+    # @return res [rapp_platform_ros_communications::ApplicationAuthentication::UserLoginSrvResponse] The service response
     def login_from_store_callback(self, req):
         res = UserLoginSrvResponse()
 
@@ -229,7 +254,6 @@ class ApplicationAuthenticationManager:
             res.error = e.value
             return res
 
-        # TODO: verify that device_token is actual and active store token
         if not self._db_handler.verify_store_device_token(req.device_token):
             res.error = 'Invalid user'
             return res
@@ -263,12 +287,40 @@ class ApplicationAuthenticationManager:
             res.error = ''
         return res
 
-    # Verify username and password
+    ## @brief Authenticate token
+    #
+    # @param req [rapp_platform_ros_communications::ApplicationAuthentication::UserTokenAuthenticationSrvRequest] The service request
+    #
+    # @return res [rapp_platform_ros_communications::ApplicationAuthentication::UserTokenAuthenticationSrvResponse] The service response
+    def authenticate_token_callback(self, req):
+
+        res = UserTokenAuthenticationSrvResponse()
+        res.error = ''
+        res.username = ''
+        if self._db_handler.verify_active_application_token(req.token):
+            res.username = self._db_handler.get_token_user(req.token)
+        else:
+            res.error = 'Invalid token'
+        return res
+
+    ## @brief Verify username and password
+    #
+    # @param username [string] The username
+    # @param password [string] Password associated with username
+    #
+    # @exception RappError Username does not exist or password does not match
     def _verify_user_credentials(self, username, password):
         passwd = self._db_handler.get_user_password(username)
         if bcrypt.hashpw(password, passwd) != passwd:
             raise RappError("Wrong Credentials")
 
+    ## @brief Verify that new username is unique
+    #
+    # @param username [string] The username
+    #
+    # @return suggestion [string] A suggested username if the provided already exists
+    #
+    # @exception RappError Username exists and can not find a username suggestion
     def _verify_new_username_uniqueness(self, username):
         if self._db_handler.username_exists(username):
             counter = 0
@@ -284,11 +336,22 @@ class ApplicationAuthenticationManager:
         else:
             return ''
 
+    ## @brief Verify that new username complies with a set of rules
+    #
+    # Alphanumerics, dashes and underscores are allowed
+    #
+    # @param username [string] The username
+    #
+    # @exception RappError Username violates rules
     def _validate_username_format(self, username):
         if not re.match("^[\w\d_-]*$", username) or len(username) < 5 or \
                 len(username) > 15:
             raise RappError('Invalid username characters')
 
+    ## @brief Create password hash and store to the databse
+    #
+    # @param username [string] The username
+    # @param password [string] The password
     def _add_new_user_to_db(self, new_user_username, new_user_password,
                             creator_username, language):
 
@@ -296,18 +359,6 @@ class ApplicationAuthenticationManager:
 
         self._db_handler.add_new_user(
             new_user_username, password_hash, creator_username, language)
-
-    # The token authentication service callback
-    def authenticate_token_callback(self, req):
-
-        res = UserTokenAuthenticationSrvResponse()
-        res.error = ''
-        res.username = ''
-        if self._db_handler.verify_active_application_token(req.token):
-            res.username = self._db_handler.get_token_user(req.token)
-        else:
-            res.error = 'Invalid token'
-        return res
 
 if __name__ == "__main__":
     rospy.init_node('application_authentication_node')
