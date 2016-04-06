@@ -793,13 +793,12 @@ rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response Knowro
 
 /**
  * @brief Implements the register_image_object_to_ontology ROS service
- * @param req [rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request&] The ROS service request
- * @return res [rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response&] The ROS service response
+ * @param req [rapp_platform_ros_communications::registerImageToOntologySrv::Request&] The ROS service request
+ * @return res [rapp_platform_ros_communications::registerImageToOntologySrv::Response&] The ROS service response
  */
-rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response KnowrobWrapper::register_image_object_to_ontology(rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request req) {
-    rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response res;
+rapp_platform_ros_communications::registerImageToOntologySrv::Response KnowrobWrapper::register_image_object_to_ontology(rapp_platform_ros_communications::registerImageToOntologySrv::Request req) {
+    rapp_platform_ros_communications::registerImageToOntologySrv::Response res;
     try {
-
         if (req.user_ontology_alias == std::string("") || req.timestamp < 1 || req.image_path == std::string("") || req.object_ontology_class == std::string("")) {
             res.success = false;
             res.trace.push_back("Error, one or more arguments not provided or out of range");
@@ -808,7 +807,8 @@ rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response Kno
         }
         //std::string ontology_alias = get_ontology_alias(req.username);
         std::string timestamp = intToString(req.timestamp);
-        std::string query = std::string("ObjectcreateObjectAndRegisterImage(Object,knowrob:'") + req.object_ontology_class + std::string("',knowrob:'") + req.user_ontology_alias + std::string("','") + timestamp + std::string("','") + req.image_path + std::string("')");
+        
+        std::string query = std::string("createObjectAndRegisterImage(Object,knowrob:'") + req.object_ontology_class + std::string("',knowrob:'") + req.user_ontology_alias + std::string("','") + timestamp + std::string("','") + req.image_path + std::string("')");
         //query = std::string("cognitiveTestPerformed(B,knowrob:'") + req.patient_ontology_alias + std::string("',knowrob:'") + req.test + std::string("','") + timestamp + std::string("','") + score + std::string("',knowrob:'Person',knowrob:'CognitiveTestPerformed')");
         json_prolog::PrologQueryProxy results = pl.query(query.c_str());
         char status = results.getStatus();

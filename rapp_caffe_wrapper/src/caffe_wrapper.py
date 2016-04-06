@@ -23,12 +23,15 @@ import sys
 
 from image_classification import ImageClassification
 from ontology_class_bridge import OntologyClassBridge
+from image_registration_to_ontology import ImageRegistrationToOntology
 
 from rapp_platform_ros_communications.srv import (
   imageClassificationSrv,
   imageClassificationSrvResponse,
   ontologyClassBridgeSrv,
-  ontologyClassBridgeSrvResponse
+  ontologyClassBridgeSrvResponse,
+  registerImageToOntologySrv,
+  registerImageToOntologySrvResponse 
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -61,6 +64,11 @@ class RappCaffeWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_caffe_wrapper_get_ontology_class_equivalent")
     self.serv=rospy.Service(self.serv_topic, ontologyClassBridgeSrv, self.ontologyClassBridgeDataHandler)     
+    
+    self.serv_topic = rospy.get_param("rapp_caffe_wrapper_register_image_to_ontology")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_caffe_wrapper_register_image_to_ontology")
+    self.serv=rospy.Service(self.serv_topic, registerImageToOntologySrv, self.registerImageToOntologyDataHandler)  
 
     
   def imageClassificationDataHandler(self,req):
@@ -74,3 +82,10 @@ class RappCaffeWrapper:
     it = OntologyClassBridge()
     res=it.getOntologyClassEquivalent(req)
     return res
+
+  def registerImageToOntologyDataHandler(self,req):
+    res =registerImageToOntologySrvResponse()
+    it = ImageRegistrationToOntology()
+    res=it.registerImage(req)
+    return res
+

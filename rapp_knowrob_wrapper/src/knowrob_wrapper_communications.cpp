@@ -130,6 +130,14 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   retract_user_ontology_alias_service_ = nh_.advertiseService(retract_user_ontology_alias_topic_,
     &KnowrobWrapperCommunications::retract_user_ontology_alias_callback, this);
 
+  if(!nh_.getParam("/rapp_knowrob_wrapper_register_image_object_to_ontology", register_image_object_to_ontology_topic_))
+  {
+    ROS_ERROR("rapp_knowrob_wrapper_register_image_object_to_ontology not found");
+  }
+  register_image_object_to_ontology_service_ = nh_.advertiseService(register_image_object_to_ontology_topic_,
+    &KnowrobWrapperCommunications::register_image_object_to_ontology_callback, this);
+    
+
 
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;
@@ -341,5 +349,19 @@ bool KnowrobWrapperCommunications::retract_user_ontology_alias_callback(
   rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response& res)
 {
   res=knowrob_wrapper.retract_user_ontology_alias(req);
+  return true;
+}
+
+/** 
+* @brief Serves the register_image_object_to_ontology ROS service callback 
+* @param req [rapp_platform_ros_communications::registerImageToOntologySrv::Request&] The ROS service request 
+* @param res [rapp_platform_ros_communications::registerImageToOntologySrv::Response&] The ROS service response 
+* @return bool - The success status of the call 
+*/ 
+bool KnowrobWrapperCommunications::register_image_object_to_ontology_callback(
+  rapp_platform_ros_communications::registerImageToOntologySrv::Request& req,
+  rapp_platform_ros_communications::registerImageToOntologySrv::Response& res)
+{
+  res=knowrob_wrapper.register_image_object_to_ontology(req);
   return true;
 }

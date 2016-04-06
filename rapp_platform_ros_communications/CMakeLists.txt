@@ -39,6 +39,7 @@ add_service_files(
 
   /CaffeWrapper/imageClassificationSrv.srv
   /CaffeWrapper/ontologyClassBridgeSrv.srv
+  /CaffeWrapper/registerImageToOntologySrv.srv
 
   /DbWrapper/checkIfUserExistsSrv.srv
   /DbWrapper/getUserOntologyAliasSrv.srv

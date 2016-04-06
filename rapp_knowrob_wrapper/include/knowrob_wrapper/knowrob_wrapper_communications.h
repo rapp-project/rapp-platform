@@ -105,7 +105,10 @@ class KnowrobWrapperCommunications
     /**< Member variable holding the retract_user_ontology_alias ROS service topic */
     std::string retract_user_ontology_alias_topic_;    
     
-
+	/**< The register_image_object_to_ontology service server */
+    ros::ServiceServer register_image_object_to_ontology_service_;
+    /**< Member variable holding the register_image_object_to_ontology ROS service topic */
+    std::string register_image_object_to_ontology_topic_;  
     //ros::ServiceServer userInstancesFromClassService_;
     //std::string userInstancesFromClassServiceTopic_;
 
@@ -260,5 +263,15 @@ class KnowrobWrapperCommunications
     bool retract_user_ontology_alias_callback(
       rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request& req,
       rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response& res);
+      
+  /** 
+	* @brief Serves the register_image_object_to_ontology ROS service callback 
+	* @param req [rapp_platform_ros_communications::registerImageToOntologySrv::Request&] The ROS service request 
+	* @param res [rapp_platform_ros_communications::registerImageToOntologySrv::Response&] The ROS service response 
+	* @return bool - The success status of the call 
+	*/ 
+    bool register_image_object_to_ontology_callback(
+      rapp_platform_ros_communications::registerImageToOntologySrv::Request& req,
+      rapp_platform_ros_communications::registerImageToOntologySrv::Response& res);
      
 };

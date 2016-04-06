@@ -1,0 +1,9 @@
+string username
+string caffeClass
+string currentImagePath
+---
+string object_entry
+bool success
+string error
+string[] trace
+
