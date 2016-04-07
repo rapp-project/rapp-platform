@@ -30,8 +30,7 @@ var clientRes = function(){
 
 var clientReq = function(){
   var obj = {
-    token: '',
-    svc_name: ''
+    token: ''
   };
   return obj;
 };

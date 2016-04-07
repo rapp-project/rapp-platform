@@ -32,10 +32,10 @@ var authRequest = function ( req, svcName, successClb, failClb ){
 
   authSvcFrame.post(function(response){
     if ( response.error ){
-      failClb();
+      failClb(response.error);
     }
     else{
-      successClb();
+      successClb(response.username);
     }
   }, options);
 };

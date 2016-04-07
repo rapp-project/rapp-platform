@@ -74,6 +74,7 @@ function svcImpl( kwargs )
       var error = '';
 
 
+
       /***
        * Sniff argument values from request body and
        * create client_req object
@@ -161,4 +162,4 @@ function parseRosbridgeMsg(rosbridge_msg)
 }
 
 
-registerSvc(svcImpl, svcParams);
+module.exports = svcImpl;
