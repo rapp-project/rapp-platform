@@ -47,6 +47,7 @@ class TestCaffeWrapper(unittest.TestCase):
 
     req = imageClassificationSrvRequest()
     req.objectFileUrl= expanduser("~")+"/rapp_platform_files/image_processing/example_images/toilet.jpg"
+    req.registerToOntology=False
     response = test_service(req)     
     self.assertEqual(response.success, True) 
     self.assertEqual(response.objectClass, "toilet seat") 
@@ -60,11 +61,29 @@ class TestCaffeWrapper(unittest.TestCase):
             ros_service, ontologyClassBridgeSrv)
 
     req = ontologyClassBridgeSrvRequest()
-    req.caffeClass = "toilet seat"
+    req.caffeClass = "refrigerator, icebox"
     response = test_service(req)     
     self.assertEqual(response.success, True) 
-    self.assertEqual(response.ontologyClass, "toilet")     
+    self.assertEqual(response.ontologyClass, "Refrigerator")     
 
+  def test_image_classification_with_registration(self):
+    ros_service = rospy.get_param(\
+            "rapp_caffe_wrapper_image_classification")
+    rospy.wait_for_service(ros_service)
+    
+    test_service = rospy.ServiceProxy(\
+            ros_service, imageClassificationSrv)
+
+    req = imageClassificationSrvRequest()
+    req.objectFileUrl= expanduser("~")+"/rapp_platform_files/image_processing/example_images/refrigerator.jpg"
+    req.registerToOntology=True
+    req.username="rapp"
+    response = test_service(req)     
+    self.assertEqual(response.success, True) 
+    self.assertEqual(response.objectClass, "refrigerator, icebox") 
+    self.assertEqual(response.error, "")
+    self.assertTrue("Refrigerator" in response.ontologyNameOfImage) 
+    
 ## The main function. Initializes the Rapp caffe wrapper functional tests
 if __name__ == '__main__':
   import rosunit

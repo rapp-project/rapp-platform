@@ -271,7 +271,7 @@ class KnowrobWrapperCommunications
 	* @return bool - The success status of the call 
 	*/ 
     bool register_image_object_to_ontology_callback(
-      rapp_platform_ros_communications::registerImageToOntologySrv::Request& req,
-      rapp_platform_ros_communications::registerImageToOntologySrv::Response& res);
+      rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request& req,
+      rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response& res);
      
 };

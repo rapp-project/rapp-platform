@@ -2,6 +2,7 @@ rapp_caffe_wrapper_image_classification: /rapp/rapp_caffe_wrapper/image_classifi
 rapp_caffe_wrapper_get_ontology_class_equivalent: /rapp/rapp_caffe_wrapper/get_ontology_class_equivalent
 rapp_caffe_wrapper_register_image_to_ontology: /rapp/rapp_caffe_wrapper/register_image_to_ontology
 ontology_class_bridge_file: /rapp_platform_files/caffeOntologyClassesBridge
+user_images_folder: /rapp_platform_files/image_processing/user_images/
 
 
 

@@ -1,6 +1,7 @@
 string caffeClass
 ---
 bool success
+bool existsInOntology
 string ontologyClass
 string error
 string[] trace

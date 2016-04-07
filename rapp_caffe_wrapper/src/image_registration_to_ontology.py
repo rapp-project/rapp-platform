@@ -22,20 +22,86 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import os
+import shutil
 from os.path import expanduser
-
+from app_error_exception import AppError
 from rapp_platform_ros_communications.srv import (
+  createOntologyAliasSrv,
+  createOntologyAliasSrvRequest,
+  createOntologyAliasSrvResponse,
   registerImageToOntologySrv,
-  registerImageToOntologySrvResponse  
+  registerImageToOntologySrvResponse,
+  registerImageToOntologySrvRequest,
+  registerImageObjectToOntologySrv,
+  registerImageObjectToOntologySrvRequest,
+  registerImageObjectToOntologySrvResponse
   )
 
 
 class ImageRegistrationToOntology:
   
   def registerImage(self,req):
-    res = registerImageToOntologySrvResponse()
+    try:      
+      res = registerImageToOntologySrvResponse()  
+      ontologyAlias=self.getUserOntologyAlias(req.username)         
+      baseDestinationFolder = rospy.get_param("user_images_folder")+req.username+"_"+ontologyAlias+"/"
+      ontologyName=self.registerImageToOntology(req,baseDestinationFolder)
+      ontologyName=ontologyName.split('#')[1]  
+      
+      baseDestinationFolderUserAdjusted=expanduser("~")+baseDestinationFolder
+      print baseDestinationFolderUserAdjusted
+      if not os.path.exists(baseDestinationFolderUserAdjusted):
+        os.makedirs(baseDestinationFolderUserAdjusted)
+         
+      shutil.copy(req.imagePath, baseDestinationFolderUserAdjusted+ontologyName)
+      res.object_entry=ontologyName
+      res.success=True  
+    
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.error="IndexError: "+str(e)
+      res.success=False
+    except IOError, e:
+      res.success=False
+      res.trace.append("IOError: "+str(e))
+      res.error="IOError: "+str(e)
+    except AppError as e:
+      AppError.passErrorToRosSrv(e,res)     
+    except KeyError, e:
+      res.success=False
+      res.trace.append('"KeyError, probably caffe class does not exist or no ontology equivalent exists for "%s"' % str(e))
+      res.error='"KeyError, probably caffe class does not exist or no ontology equivalent exists for "%s"' % str(e)
     return res
+    
 
+  ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
+  # @param username [string] The user's username
+  #
+  # @return ontologyAlias [string] The user's ontology alias
+  # @exception Exception AppError
+  def getUserOntologyAlias(self,username):
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')      
+    knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
+    createOntologyAliasReq = createOntologyAliasSrvRequest()
+    createOntologyAliasReq.username=username
+    createOntologyAliasResponse = knowrob_service(createOntologyAliasReq)
+    if(createOntologyAliasResponse.success!=True):
+      raise AppError(createOntologyAliasResponse.error, createOntologyAliasResponse.trace)      
+    return createOntologyAliasResponse.ontology_alias
 
-
+  def registerImageToOntology(self,req,baseDestinationFolder):
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_register_image_object_to_ontology')
+    knowrob_service = rospy.ServiceProxy(serv_topic, registerImageObjectToOntologySrv)
+    registerImageObjectToOntologyReq = registerImageObjectToOntologySrvRequest()
+    registerImageObjectToOntologyReq.user_ontology_alias=self.getUserOntologyAlias(req.username)    
+    registerImageObjectToOntologyReq.image_path=baseDestinationFolder
+    registerImageObjectToOntologyReq.caffe_class=req.caffeClass
+    registerImageObjectToOntologyReq.timestamp=int(time.time())
+    registerImageObjectToOntologyReq.object_ontology_class=req.ontologyClass
+    registerImageObjectToOntologyResponse = knowrob_service(registerImageObjectToOntologyReq)
+    if(registerImageObjectToOntologyResponse.success!=True):     
+      registerImageObjectToOntologyResponse.trace.append("Error in registering the image to the ontology")
+      raise AppError(registerImageObjectToOntologyResponse.error+"Error in registering the image to the ontology",registerImageObjectToOntologyResponse.trace)   
+    return registerImageObjectToOntologyResponse.object_entry
 

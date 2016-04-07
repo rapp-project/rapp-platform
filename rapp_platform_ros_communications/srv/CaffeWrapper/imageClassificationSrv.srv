@@ -1,6 +1,9 @@
 string objectFileUrl
+string username
+bool registerToOntology
 ---
 bool success
+string ontologyNameOfImage
 string objectClass
 string error
 string[] trace

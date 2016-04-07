@@ -20,7 +20,7 @@
 import rospy
 import sys
 from os.path import expanduser
-
+from app_error_exception import AppError
 from rapp_platform_ros_communications.srv import (
   ontologyClassBridgeSrv,
   ontologyClassBridgeSrvResponse  
@@ -29,11 +29,8 @@ from rapp_platform_ros_communications.srv import (
 from rapp_platform_ros_communications.msg import (
   StringArrayMsg
   )
-
-
   
-## @class MySQLdbWrapper
-# @brief The mysql wrapper ros node
+
 class OntologyClassBridge:
   
   def getOntologyClassEquivalent(self,req):
@@ -41,7 +38,12 @@ class OntologyClassBridge:
       res=ontologyClassBridgeSrvResponse()      
       mapFile = home = expanduser("~")+rospy.get_param("ontology_class_bridge_file")
       caffeToOntologyClassesDict=self.loadMappingIntoDictionary(mapFile)
-      res.ontologyClass=caffeToOntologyClassesDict[req.caffeClass]  
+      if (req.caffeClass in caffeToOntologyClassesDict):
+        res.ontologyClass=caffeToOntologyClassesDict[req.caffeClass]  
+        res.existsInOntology=True
+      else:
+        res.existsInOntology=False
+        res.ontologyClass="SpatialThing-Localized-Unspecified"
       res.success=True     
     
     except KeyError, e:
@@ -58,8 +60,8 @@ class OntologyClassBridge:
       currentList=s.split("\t")
       if(len(currentList)>=3):        
         caffeToOntologyClassesDict[currentList[1]]=currentList[2]        
-        print currentList[2]
-        print caffeToOntologyClassesDict[currentList[1]]
+        #print currentList[2]
+        #print caffeToOntologyClassesDict[currentList[1]]
     return caffeToOntologyClassesDict
         
 

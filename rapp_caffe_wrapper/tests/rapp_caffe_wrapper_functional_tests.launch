@@ -1,4 +1,6 @@
 <launch> 
+  <include file="$(find rapp_knowrob_wrapper)/launch/knowrob_wrapper.launch" />
+  <include file="$(find rapp_mysql_wrapper)/launch/mysql_wrapper.launch" />
   <include file="$(find rapp_caffe_wrapper)/launch/caffe_wrapper.launch" />
   <test time-limit="100" test-name="rapp_caffe_wrapper_services_functional" pkg="rapp_caffe_wrapper" type="rapp_caffe_wrapper_functional_tests.py"/> 
  </launch> 

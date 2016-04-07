@@ -2,8 +2,8 @@
 Header header
 # General string for simple queries
 string user_ontology_alias
-bool image_class_exists_in_ontology
 string object_ontology_class
+string caffe_class
 string image_path
 int32 timestamp
 ---

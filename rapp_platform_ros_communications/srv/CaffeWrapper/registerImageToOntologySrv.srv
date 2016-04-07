@@ -1,6 +1,7 @@
 string username
+string ontologyClass
 string caffeClass
-string currentImagePath
+string imagePath
 ---
 string object_entry
 bool success
