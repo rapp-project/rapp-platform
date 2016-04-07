@@ -47,11 +47,10 @@ class RappInterfaceTest:
     start_time = timeit.default_timer()
     response = self.rappCloud.object_recognition(self.filepath)
 
-    print response
-
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
+
 
   def validate(self, response):
     error = response['error']

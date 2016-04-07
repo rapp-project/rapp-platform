@@ -35,14 +35,13 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    self.file_uri = join(pkgDir, 'test_data', 'microphone_nai.wav')
 
+    self.file_uri = join(pkgDir, 'test_data', 'microphone_nai.wav')
     self.language = 'el'
     self.audio_source = 'headset'
     self.words = [u'ναι', u'οχι']
     self.sentences = self.words
     self.grammar = []
-    self.user = 'rapp'
     self.valid_words_found = [u'ναι']
 
 
@@ -54,14 +53,14 @@ class RappInterfaceTest:
         self.words,\
         self.sentences,\
         self.grammar,\
-        self.file_uri,\
-        self.user)
+        self.file_uri)
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
-  def validate(self, response):
 
+  def validate(self, response):
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]

@@ -21,7 +21,7 @@
 import os
 import timeit
 import rospkg
-from os.path import join
+from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -34,29 +34,24 @@ class RappInterfaceTest:
     self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    self.file_uri = join(pkgDir, 'test_data',
-        'denoise_source.wav')
-
+    self.file_uri = path.join(pkgDir, 'test_data', 'denoise_source.wav')
     self.audio_source = "nao_wav_1_ch"
-    self.user = "rapp"
+
 
   def execute(self):
-
     start_time = timeit.default_timer()
     response = self.rappCloud.set_noise_profile(self.file_uri, \
-        self.audio_source, self.user)
+        self.audio_source)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
-  def validate(self, response):
 
+  def validate(self, response):
     error = response['error']
 
     if error != "":
       return [error, self.elapsed_time]
-    if True:
-      return [True, self.elapsed_time]
     else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
+      return [True, self.elapsed_time]
 

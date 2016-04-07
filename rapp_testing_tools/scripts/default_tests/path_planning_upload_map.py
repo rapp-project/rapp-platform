@@ -38,7 +38,6 @@ class RappInterfaceTest:
     self.request = {
         'png_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.png'),
         'yaml_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.yaml'),
-        'user': 'rapp',
         'map_name': '523_m_obstacle_2'
     }
 
@@ -51,8 +50,8 @@ class RappInterfaceTest:
   def execute(self):
     start_time = timeit.default_timer()
     response = self.rappCloud.path_planning_upload_map(self.request['png_file'], \
-            self.request['yaml_file'], self.request['user'], self.request['map_name'])
-    print response
+            self.request['yaml_file'], self.request['map_name'])
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

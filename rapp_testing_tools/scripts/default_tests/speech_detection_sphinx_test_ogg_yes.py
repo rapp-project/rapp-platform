@@ -43,11 +43,10 @@ class RappInterfaceTest:
     self.words = [u'yes', u'no']
     self.sentences = self.words
     self.grammar = []
-    self.user = 'rapp'
     self.valid_words_found = [u'yes']
 
-  def execute(self):
 
+  def execute(self):
     start_time = timeit.default_timer()
     response = self.rappCloud.speech_detection_sphinx4(\
         self.language,\
@@ -55,11 +54,12 @@ class RappInterfaceTest:
         self.words,\
         self.sentences,\
         self.grammar,\
-        self.file_uri,\
-        self.user)
+        self.file_uri)
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
+
 
   def validate(self, response):
     error = response['error']

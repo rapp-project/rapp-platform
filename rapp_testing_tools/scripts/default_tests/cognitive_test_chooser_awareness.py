@@ -31,14 +31,13 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.username = "rapp"
     self.testType = "AwarenessCts"
 
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.cognitive_test_chooser(self.username, self.testType)
+    response = self.rappCloud.cognitive_test_chooser(self.testType)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

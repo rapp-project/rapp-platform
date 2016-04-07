@@ -43,7 +43,6 @@ class RappInterfaceTest:
     self.words = [u'ναι', u'οχι']
     self.sentences = self.words
     self.grammar = []
-    self.user = 'rapp'
     self.valid_words_found = [u'οχι']
 
 
@@ -55,11 +54,12 @@ class RappInterfaceTest:
         self.words,\
         self.sentences,\
         self.grammar,\
-        self.file_uri,\
-        self.user)
+        self.file_uri)
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
+
 
   def validate(self, response):
     error = response['error']

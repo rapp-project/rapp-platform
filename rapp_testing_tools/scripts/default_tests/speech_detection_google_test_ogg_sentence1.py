@@ -40,24 +40,14 @@ class RappInterfaceTest:
 
     self.language = 'en'
     self.audio_source = 'nao_ogg'
-    self.user = 'rapp'
     self.valid_words_found = ['I', 'want', 'to', 'go', 'out']
-    # self.valid_sentences = [
-        # ['check', '-'],
-        # ['check','my','mail'],
-        # ['Tech', '-'],
-        # ['take','-'],
-        # ['10','-'],
-        # ['check', 'minus']
-    # ]
+
 
   def execute(self):
     start_time = timeit.default_timer()
     response = self.rappCloud.speech_detection_google(\
-        self.file_uri,\
-        self.audio_source,\
-        self.user,\
-        self.language)
+        self.file_uri, self.audio_source, self.language)
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

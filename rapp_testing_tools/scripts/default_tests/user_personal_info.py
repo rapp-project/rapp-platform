@@ -31,7 +31,6 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.user = "rapp"
     self.valid_results = {
         'user_info': {
             'username': 'rapp',
@@ -50,7 +49,7 @@ class RappInterfaceTest:
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.user_personal_info(self.user)
+    response = self.rappCloud.user_personal_info()
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time

@@ -36,7 +36,6 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
 
     self.svcReq = {
-        'user': 'rapp',
         'map_name': '523_m_obstacle_2',
         'robot_type': 'NAO',
         'algorithm': 'dijkstra',
@@ -59,11 +58,9 @@ class RappInterfaceTest:
   def execute(self):
     start_time = timeit.default_timer()
     response = self.rappCloud.path_planning_plan_path_2d( \
-            self.svcReq['user'], self.svcReq['map_name'], \
+            self.svcReq['map_name'], \
             self.svcReq['robot_type'], self.svcReq['algorithm'],
             self.svcReq['start'], self.svcReq['goal'])
-
-    print response
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
@@ -74,4 +71,5 @@ class RappInterfaceTest:
     error = response['error']
     if error != "":
       return [error, self.elapsed_time]
-    return [True, self.elapsed_time]
+    else:
+      return [True, self.elapsed_time]

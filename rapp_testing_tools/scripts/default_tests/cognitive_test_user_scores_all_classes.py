@@ -31,7 +31,6 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.rappCloud = RappCloud()
-    self.username = "rapp"
     self.upToTime = 10000000000000
     self.testType = ''
 
@@ -39,15 +38,15 @@ class RappInterfaceTest:
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.cognitive_get_scores(self.username, \
-            self.upToTime, self.testType)
+    response = self.rappCloud.cognitive_get_scores(self.upToTime, \
+        self.testType)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response['error']    
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
