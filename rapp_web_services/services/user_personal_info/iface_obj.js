@@ -30,7 +30,6 @@ var clientRes = function( ){
 
 var clientReq = function( ){
   var obj = {
-    user: ''
   };
   return obj;
 };

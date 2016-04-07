@@ -19,38 +19,29 @@
  */
 
 
-var clientRes = function( records, error ){
-  records = records || {};
-  error = error || '';
+var clientRes = function( ){
   var obj = {
-    records: records,
-    error: error
+    records: {},
+    error: ''
   };
   return obj;
 };
 
 
-var clientReq = function( user, testInstance, score ){
-  user = user || '';
-  testInstance = testInstance || '';
-  score = score || 0;
+var clientReq = function( ){
   var obj = {
-    user: user,
-    test_instance: testInstance,
-    score: score
+    test_instance: '',
+    score: 0
   };
   return obj;
 };
 
 
-var rosReq = function( user, testInstance, score){
-  user = user || '';
-  testInstance = testInstance || '';
-  score = parseInt(score) || 0;
+var rosReq = function( ){
   var obj = {
-    username: user,
-    test: testInstance,
-    score: score
+    username: '',
+    test: '',
+    score: 0
   };
   return obj;
 };

@@ -36,8 +36,9 @@ var util = require('util');
 var PKG_DIR = ENV.PATHS.PKG_DIR;
 var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var svcUtils = require(path.join(INCLUDE_DIR, 'common',
-    'svc_utils.js'));
+var svcUtils = require(path.join(INCLUDE_DIR, 'common', 'svc_utils.js'));
+
+var auth = require(path.join(INCLUDE_DIR, 'common', 'auth.js'));
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 
@@ -94,115 +95,118 @@ var randStrGen = new RandStringGen( stringLength );
  */
 function svcImpl( kwargs )
 {
+  var request = this;
+
   /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-      kwargs = kwargs || {};
-      var req = new interfaces.client_req();
-      var response = new interfaces.client_res();
-      var error = '';
+      auth.authRequest(request, svcParams.name, authSuccess, authFail);
 
-      /* Sniff argument values from request body and create client_req object */
-      try{
-        svcUtils.parseReq(kwargs, req);
-      }
-      catch(e){
-        error = "Service call arguments error";
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      /* -------------------------------------------------------------------- */
-
-      if( ! req.file.length ){
-        error = 'No audio file received';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      if( ! req.audio_source ){
-        error = 'Emptry \"audio_source\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      if( ! req.user ){
-        error = 'Emptry \"user\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-
-      /***
-       *  For security reasons, if file_uri is not defined under the
-       *  server_cache_dir do not operate. HOP server stores the files under the
-       *  server's cache directory.
-       */
-      if( req.file[0].indexOf(SERVER_CACHE_DIR) === -1 )
-      {
-        var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-          " Abortion for security reasons.";
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      /* ----------------------------------------------------------------------- */
-
-      // Assign a unique identification key for this service call.
-      var unqCallId = randStrGen.createUnique();
-
-      var cpFilePath = '';
-
-      try{
-        cpFilePath = svcUtils.cpInFile(req.file[0], ENV.PATHS.SERVICES_CACHE_DIR,
-          unqCallId);
-      }
-      catch(e){
-        console.log(e);
-        Fs.rmFile(req.file[0]);
-        randStrGen.removeCached(unqCallId);
-
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      /*-------------------------------------------------------------------------*/
-
-
-      var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.noise_audio_file = cpFilePath;
-      rosSvcReq.audio_file_type = req.audio_source;
-      rosSvcReq.user = req.user;
-
-
-      function callback(data){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
-        //console.log(data);
-        // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data );
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
-      }
-
-      function onerror(e){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
-        // craft error response
+      function authSuccess(user){
+        kwargs = kwargs || {};
+        var req = new interfaces.client_req();
         var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
+        var error = '';
+
+        /***
+         * Get argument values from request body and
+         * create client_req object
+         */
+        try{
+          svcUtils.parseReq(kwargs, req);
+        }
+        catch(e){
+          error = "Service call arguments error";
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        /* ------------------------------------------ */
+
+        if( ! req.file.length ){
+          error = 'No audio file received';
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+
+        /***
+         *  For security reasons, if file_uri is not defined under the
+         *  server_cache_dir do not operate. HOP server stores
+         *  files under the server's cache directory.
+         */
+        if( req.file[0].indexOf(SERVER_CACHE_DIR) === -1 )
+        {
+          var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
+            " Abortion for security reasons.";
+          response.error = svcUtils.ERROR_MSG_DEFAULT;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        /* ----------------------------------------------------------------- */
+
+        // Assign a unique identification key for this service call.
+        var unqCallId = randStrGen.createUnique();
+
+        var cpFilePath = '';
+
+        try{
+          cpFilePath = svcUtils.cpInFile(req.file[0],
+            ENV.PATHS.SERVICES_CACHE_DIR, unqCallId);
+        }
+        catch(e){
+          console.log(e);
+          Fs.rmFile(req.file[0]);
+          randStrGen.removeCached(unqCallId);
+
+          response.error = svcUtils.ERROR_MSG_DEFAULT;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        /*-------------------------------------------------------------------*/
+
+
+        var rosSvcReq = new interfaces.ros_req();
+        rosSvcReq.noise_audio_file = cpFilePath;
+        rosSvcReq.audio_file_type = req.audio_source;
+        rosSvcReq.user = user;
+
+
+        function callback(data){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          // Remove cached file. Release resources.
+          Fs.rmFile(cpFilePath);
+          //console.log(data);
+          // Craft client response using ros service ws response.
+          var response = parseRosbridgeMsg( data );
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
+        }
+
+        function onerror(e){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          // Remove cached file. Release resources.
+          Fs.rmFile(cpFilePath);
+          // craft error response
+          var response = new interfaces.client_res();
+          response.error = svcUtils.ERROR_MSG_DEFAULT;
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
+        }
+
+        ros.callService(rosSrvName, rosSvcReq,
+          {success: callback, fail: onerror});
+
       }
 
-      ros.callService(rosSrvName, rosSvcReq,
-        {success: callback, fail: onerror});
+      function authFail(error){
+        var response = auth.responseAuthFailed();
+        sendResponse(response);
+      }
 
       /***
        *  Timeout this request. Return to client.

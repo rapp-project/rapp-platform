@@ -30,8 +30,7 @@ var client_res = function( ){
 var client_req = function( ){
   var obj = {
     file: [],
-    audio_source: '',
-    user: ''
+    audio_source: ''
   };
   return obj;
 };

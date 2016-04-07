@@ -39,7 +39,10 @@ var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 var svcUtils = require(path.join(INCLUDE_DIR, 'common',
     'svc_utils.js'));
 
+var auth = require(path.join(INCLUDE_DIR, 'common', 'auth.js'));
+
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
+
 var zip = require( path.join(INCLUDE_DIR, 'common', 'zip.js') );
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
@@ -94,140 +97,153 @@ var randStrGen = new RandStringGen( stringLength );
  */
 function svcImpl ( kwargs )
 {
+  var request = this;
+
   /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-      kwargs = kwargs || {};
-      var req = new interfaces.client_req();
-      var response = new interfaces.client_res();
-      var error = '';
+      auth.authRequest(request, svcParams.name, authSuccess, authFail);
 
-      /* Sniff argument values from request body and create client_req object */
-      try{
-        svcUtils.parseReq(kwargs, req);
-      }
-      catch(e){
-        error = "Service call arguments error";
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      /* -------------------------------------------------------------------- */
-      if( ! req.email ){
-        error = 'Empty \"email\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      if( ! req.recipients ){
-        error = 'Empty \"recipients\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      if( ! req.server ){
-        error = 'Empty \"server\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
+      function authSuccess(user){
+        kwargs = kwargs || {};
+        var req = new interfaces.client_req();
+        var response = new interfaces.client_res();
+        var error = '';
 
-      var _files = [];
-      // Assign a unique identification key for this service request.
-      var unqCallId = randStrGen.createUnique();
-
-      var startT = new Date().getTime();
-      var execTime = 0;
-
-      var cpFilePath = '';
-
-      if ( req.file.length ){
         /***
-         *  For security reasons, if file_uri is not defined under the
-         *  server_cache_dir do not operate.
-         *  HOP server stores the files under SERVER_CACHE_DIR directory.
+         * Get argument values from request body and
+         * create client_req object
          */
-        if( req.file[0].indexOf(SERVER_CACHE_DIR) === -1 )
-        {
-          var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
-            " Abortion for security reasons.";
-          response.error = svcUtils.ERROR_MSG_DEFAULT;
-          return hop.HTTPResponseJson(response);
-        }
-        /* ----------------------------------------------------------------- */
-
-
         try{
-          cpFilePath = svcUtils.cpInFile(req.file[0], ENV.PATHS.SERVICES_CACHE_DIR,
-            unqCallId);
+          svcUtils.parseReq(kwargs, req);
         }
         catch(e){
-          console.log(e);
-          Fs.rmFile(req.file[0]);
-          randStrGen.removeCached(unqCallId);
+          error = "Service call arguments error";
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        /* ------------------------------------------ */
 
+        if( ! req.email ){
+          error = 'Empty \"email\" argument';
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        if( ! req.recipients ){
+          error = 'Empty \"recipients\" argument';
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        if( ! req.server ){
+          error = 'Empty \"server\" argument';
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+
+        var _files = [];
+        // Assign a unique identification key for this service request.
+        var unqCallId = randStrGen.createUnique();
+
+        var cpFilePath = '';
+
+        if ( req.file.length ){
+          /***
+           *  For security reasons, if file_uri is not defined under the
+           *  server_cache_dir do not operate.
+           *  HOP server stores the files under SERVER_CACHE_DIR directory.
+           */
+          if( req.file[0].indexOf(SERVER_CACHE_DIR) === -1 )
+          {
+            var errorMsg = "Service invocation error. Invalid {file_uri} field!" +
+              " Abortion for security reasons.";
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
+            return hop.HTTPResponseJson(response);
+          }
+          /* ----------------------------------------------------------------- */
+
+
+          try{
+            cpFilePath = svcUtils.cpInFile(req.file[0], ENV.PATHS.SERVICES_CACHE_DIR,
+              unqCallId);
+          }
+          catch(e){
+            console.log(e);
+            Fs.rmFile(req.file[0]);
+            randStrGen.removeCached(unqCallId);
+
+            response.error = svcUtils.ERROR_MSG_DEFAULT;
+            return hop.HTTPResponseJson(response);
+          }
+
+          if( zip.isZipFile(cpFilePath) ){
+            _files = zip.unzip(cpFilePath).filepaths;
+          }
+          else{
+            _files.push(cpFilePath);
+          }
+        }
+
+        var rosSvcReq = new interfaces.ros_req();
+        rosSvcReq.userEmail = req.email;
+        rosSvcReq.password = req.passwd;
+        rosSvcReq.server = req.server;
+        rosSvcReq.port = req.port;
+        rosSvcReq.recipients = req.recipients;
+        rosSvcReq.body = req.body;
+        rosSvcReq.subject = req.subject;
+        rosSvcReq.files = _files;
+
+
+        /***
+         * Declare the service response callback here!!
+         * This callback function will be passed into the rosbridge service
+         * controller and will be called when a response from rosbridge
+         * websocket server arrives.
+         */
+        function callback(data){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          // Remove cached file. Release resources.
+          Fs.rmFile(cpFilePath);
+          //console.log(data);
+          // Craft client response using ros service ws response.
+          var response = parseRosbridgeMsg( data );
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
+        }
+
+        /***
+         * Declare the onerror callback.
+         * The onerror callack function will be called by the service
+         * controller as soon as an error occures, on service request.
+         */
+        function onerror(e){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          // Remove cached file. Release resources.
+          Fs.rmFile(cpFilePath);
+          // craft error response
+          var response = new interfaces.client_res();
           response.error = svcUtils.ERROR_MSG_DEFAULT;
-          return hop.HTTPResponseJson(response);
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
         }
 
-        if( zip.isZipFile(cpFilePath) ){
-          _files = zip.unzip(cpFilePath).filepaths;
-        }
-        else{
-          _files.push(cpFilePath);
-        }
+        ros.callService(rosSrvName, rosSvcReq,
+          {success: callback, fail: onerror});
+
       }
 
-      var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.userEmail = req.email;
-      rosSvcReq.password = req.passwd;
-      rosSvcReq.server = req.server;
-      rosSvcReq.port = req.port;
-      rosSvcReq.recipients = req.recipients;
-      rosSvcReq.body = req.body;
-      rosSvcReq.subject = req.subject;
-      rosSvcReq.files = _files;
-
-
-      /***
-       * Declare the service response callback here!!
-       * This callback function will be passed into the rosbridge service
-       * controller and will be called when a response from rosbridge
-       * websocket server arrives.
-       */
-      function callback(data){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
-        //console.log(data);
-        // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data );
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
+      function authFail(error){
+        var response = auth.responseAuthFailed();
+        sendResponse(response);
       }
-
-      /***
-       * Declare the onerror callback.
-       * The onerror callack function will be called by the service
-       * controller as soon as an error occures, on service request.
-       */
-      function onerror(e){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        // Remove cached file. Release resources.
-        Fs.rmFile(cpFilePath);
-        // craft error response
-        var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
-      }
-
-      ros.callService(rosSrvName, rosSvcReq,
-        {success: callback, fail: onerror});
 
       /***
        *  Timeout this request. Return to client.

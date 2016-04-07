@@ -33,7 +33,6 @@ var client_req = function( ){
   var obj = {
     file: [],
     audio_source: '',
-    user: '',
     language: ''
   };
   return obj;

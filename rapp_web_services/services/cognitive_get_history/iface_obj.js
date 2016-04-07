@@ -19,42 +19,31 @@
  */
 
 
-var clientRes = function( records, error ){
-  records = records || {};
-  error = error || '';
+var clientRes = function( ){
   var obj = {
-    records: records,
-    error: error
+    records: {},
+    error: ''
   };
   return obj;
 };
 
 
-var clientReq = function( user, timeFrom, timeTo, testType ){
-  user = user || '';
-  timeFrom = timeFrom || 0;
-  timeTo = timeTo || 0;
-  testType = testType || '';
+var clientReq = function( ){
   var obj = {
-    user: user,
-    from_time: timeFrom,
-    to_time: timeTo,
-    test_type: testType
+    from_time: 0,
+    to_time: 0,
+    test_type: ''
   };
   return obj;
 };
 
 
-var rosReq = function( user, timeFrom, timeTo, testType){
-  user = user || '';
-  timeFrom = timeFrom || 0;
-  timeTo = timeTo || 0;
-  testType = testType || '';
+var rosReq = function( ){
   var obj = {
-    username: user,
-    fromTime: timeFrom,
-    toTime: timeTo,
-    testType: testType
+    username: '',
+    fromTime: 0,
+    toTime: 0,
+    testType: ''
   };
   return obj;
 };

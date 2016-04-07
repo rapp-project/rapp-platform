@@ -39,12 +39,9 @@ var clientRes = function( lang, questions, possAns, corrAns,
 };
 
 
-var clientReq = function( user, testType ){
-  user = user || '';
-  testType = testType || '';
+var clientReq = function( ){
   var obj = {
-    user: user,
-    test_type: testType
+    test_type: ''
   };
   return obj;
 };

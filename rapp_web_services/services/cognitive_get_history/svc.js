@@ -59,11 +59,9 @@ var util = require('util');
 var PKG_DIR = ENV.PATHS.PKG_DIR;
 var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var svcUtils = require(path.join(INCLUDE_DIR, 'common',
-    'svc_utils.js'));
+var svcUtils = require(path.join(INCLUDE_DIR, 'common', 'svc_utils.js'));
 
-var auth = require(path.join(INCLUDE_DIR, 'common',
-    'auth.js'));
+var auth = require(path.join(INCLUDE_DIR, 'common', 'auth.js'));
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
@@ -121,17 +119,16 @@ function svcImpl( kwargs )
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
-      auth.authRequest(request, svcParams.name,
-        authSuccess, authSuccess//authFail);
+      auth.authRequest(request, svcParams.name, authSuccess, authFail);
 
-      function authSuccess(){
+      function authSuccess(user){
         kwargs = kwargs || {};
         var req = new interfaces.client_req();
         var response = new interfaces.client_res();
         var error = '';
 
         /***
-         * Sniff argument values from request body and
+         * Get argument values from request body and
          * create client_req object
          */
         try{
@@ -145,23 +142,15 @@ function svcImpl( kwargs )
         }
         /* ------------------------------------------ */
 
-        /* ------ Pare arguments ------ */
-        if( ! req.user ){
-          error = 'Empty \"user\" field';
-          response.error = error;
-          sendResponse( hop.HTTPResponseJson(response) );
-          return;
-        }
-
         // Assign a unique identification key for this service request.
         var unqCallId = randStrGen.createUnique();
 
 
-        var rosSvcReq = new interfaces.ros_req();
-        rosSvcReq.username = req.user;
-        rosSvcReq.fromTime = req.from_time;
-        rosSvcReq.toTime= req.to_time;
-        rosSvcReq.testType= req.test_type;
+        var rosMsg = new interfaces.ros_req();
+        rosMsg.username = user;
+        rosMsg.fromTime = req.from_time;
+        rosMsg.toTime= req.to_time;
+        rosMsg.testType= req.test_type;
 
 
         function callback(data){
@@ -185,13 +174,12 @@ function svcImpl( kwargs )
         }
 
 
-        ros.callService(rosSrvName, rosSvcReq,
+        ros.callService(rosSrvName, rosMsg,
           {success: callback, fail: onerror});
       }
 
-      function authFail(){
+      function authFail(error){
         var response = auth.responseAuthFailed();
-        console.log(response);
         sendResponse(response);
       }
 

@@ -59,8 +59,9 @@ var util = require('util');
 var PKG_DIR = ENV.PATHS.PKG_DIR;
 var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var svcUtils = require(path.join(INCLUDE_DIR, 'common',
-    'svc_utils.js'));
+var svcUtils = require(path.join(INCLUDE_DIR, 'common', 'svc_utils.js'));
+
+var auth = require(path.join(INCLUDE_DIR, 'common', 'auth.js'));
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
@@ -113,11 +114,16 @@ var randStrGen = new RandStringGen( stringLength );
  */
 function svcImpl( kwargs )
 {
+  var request = this;
+
   /***
    * Asynchronous http response.
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      auth.authRequest(request, svcParams.name, authSuccess, authFail);
+
+      function authSuccess(user){
       kwargs = kwargs || {};
       var req = new interfaces.client_req();
       var response = new interfaces.client_res();
@@ -136,12 +142,6 @@ function svcImpl( kwargs )
       /* -------------------------------------------------------------------- */
       var unqCallId = randStrGen.createUnique();
 
-      if( ! req.user ){
-        error = 'Empty \"user\" field';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
       if( ! req.map_name ){
         error = 'Empty \"map_name\" field';
         response.error = error;
@@ -169,7 +169,7 @@ function svcImpl( kwargs )
 
 
       var rosMsg = new interfaces.ros_req();
-      rosMsg.user_name = req.user_name;
+      rosMsg.user_name = user;
       rosMsg.map_name = req.map_name;
       rosMsg.robot_type = req.robot_type;
       rosMsg.algorithm = req.algorithm;
@@ -199,6 +199,13 @@ function svcImpl( kwargs )
 
       ros.callService(rosSrvName, rosMsg,
         {success: callback, fail: onerror});
+
+      }
+
+      function authFail(error){
+        var response = auth.responseAuthFailed();
+        sendResponse(response);
+      }
 
       /***
        *  Timeout this request. Return to client.

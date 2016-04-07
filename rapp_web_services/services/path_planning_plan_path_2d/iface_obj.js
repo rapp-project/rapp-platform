@@ -31,7 +31,6 @@ var clientRes = function( ){
 
 var clientReq = function( ){
   var obj = {
-    user: '',
     map_name: '',
     robot_type: '',
     algorithm: '',

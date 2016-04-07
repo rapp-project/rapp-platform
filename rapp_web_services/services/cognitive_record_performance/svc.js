@@ -42,6 +42,8 @@ var svcUtils = require(path.join(INCLUDE_DIR, 'common',
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
+var auth = require(path.join(INCLUDE_DIR, 'common', 'auth.js'));
+
 var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
     'Rosbridge.js') );
 
@@ -89,96 +91,86 @@ var randStrGen = new RandStringGen( stringLength );
  *
  */
 //service record_cognitive_test_performance( {user: '', test_instance: '',
-  //score: 0} )
+//score: 0} )
 function svcImpl( kwargs )
 {
+  var request = this;
+
   /***
    * Asynchronous http response
    */
   return hop.HTTPResponseAsync(
     function( sendResponse ) {
+      auth.authRequest(request, svcParams.name, authSuccess, authFail);
 
-      kwargs = kwargs || {};
-      var req = new interfaces.client_req();
-      var response = new interfaces.client_res();
-      var error = '';
-
-      /* Sniff argument values from request body and create client_req object */
-      try{
-        svcUtils.parseReq(kwargs, req);
-      }
-      catch(e){
-        error = "Service call arguments error";
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      /* -------------------------------------------------------------------- */
-
-      if( ! req.user ){
-        error = 'Empty \"user\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      if( ! req.test_instance ){
-        error = 'Empty \"test_instance\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      if( ! req.score ){
-        error = 'Empty \"score\" argument';
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      req.score = parseInt(req.score);
-
-      // Assign a unique identification key for this service request.
-      var unqCallId = randStrGen.createUnique();
-
-      var startT = new Date().getTime();
-      var execTime = 0;
-
-
-      var rosSvcReq = new interfaces.ros_req();
-      rosSvcReq.username = req.user;
-      rosSvcReq.test = req.test_instance;
-      rosSvcReq.score = req.score;
-
-      /***
-       * Implement the service response callback here!!
-       * This callback function will be passed into the rosbridge service
-       * controller and will be called when a response from rosbridge
-       * websocket server arrives.
-       */
-      function callback(data){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data );
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
-      }
-
-      /***
-       * Implement the onerror callback.
-       * The onerror callack function will be called by the service
-       * controller as soon as an error occures, on service request.
-       */
-      function onerror(e){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
+      function authSuccess(user){
+        kwargs = kwargs || {};
+        var req = new interfaces.client_req();
         var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
+        var error = '';
+
+        /***
+         * Get argument values from request body and
+         * create client_req object
+         */
+        try{
+          svcUtils.parseReq(kwargs, req);
+        }
+        catch(e){
+          error = "Service call arguments error";
+          response.error = error;
+          sendResponse( hop.HTTPResponseJson(response) );
+          return;
+        }
+        /* ------------------------------------------ */
+
+        req.score = parseInt(req.score);
+
+        // Assign a unique identification key for this service request.
+        var unqCallId = randStrGen.createUnique();
+
+        var rosMsg = new interfaces.ros_req();
+        rosMsg.username = user;
+        rosMsg.test = req.test_instance;
+        rosMsg.score = req.score;
+
+        /***
+         * This callback function will be passed into the rosbridge service
+         * controller and will be called when a response from rosbridge
+         * websocket server arrives.
+         */
+        function callback(data){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          // Craft client response using ros service ws response.
+          var response = parseRosbridgeMsg( data );
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
+        }
+
+        /***
+         * The onerror callack function will be called by the service
+         * controller as soon as an error occures, on service request.
+         */
+        function onerror(e){
+          // Remove this call id from random string generator cache.
+          randStrGen.removeCached( unqCallId );
+          var response = new interfaces.client_res();
+          response.error = svcUtils.ERROR_MSG_DEFAULT;
+          // Asynchronous response to client.
+          sendResponse( hop.HTTPResponseJson(response) );
+        }
+
+
+        ros.callService(rosSrvName, rosMsg,
+          {success: callback, fail: onerror});
+
       }
 
-
-      ros.callService(rosSrvName, rosSvcReq,
-        {success: callback, fail: onerror});
+      function authFail(error){
+        var response = auth.responseAuthFailed();
+        sendResponse(response);
+      }
 
       /***
        *  Timeout this request. Return to client.
