@@ -36,15 +36,14 @@ class RappInterfaceTest:
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
     self.file_uri = join(pkgDir, 'test_data',
-        'speech_detection_samples', 'recording_monday.ogg')
+        'speech_detection_samples', 'recording_tuesday.ogg')
 
     self.language = 'en'
     self.audio_source = 'nao_ogg'
-    self.words = [u'monday', u'tuesday', u'wednesday']
+    self.words = [u'tuesday', u'monday']
     self.sentences = self.words
     self.grammar = []
-    self.user = 'rapp'
-    self.valid_words_found = [u'monday']
+    self.valid_words_found = [u'tuesday']
 
 
   def execute(self):
@@ -55,11 +54,12 @@ class RappInterfaceTest:
         self.words,\
         self.sentences,\
         self.grammar,\
-        self.file_uri,\
-        self.user)
+        self.file_uri)
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
+
 
   def validate(self, response):
     error = response['error']

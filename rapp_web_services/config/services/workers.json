@@ -22,7 +22,7 @@
     ]
   },
   "user_personal_info": {
-    "launch": true,
+    "launch": false,
     "path": "workers/user_personal_info/worker.js",
     "services": [
       "user_personal_info"
