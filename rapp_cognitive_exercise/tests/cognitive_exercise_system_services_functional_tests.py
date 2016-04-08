@@ -68,7 +68,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req = testSelectorSrvRequest()
         req.username="rapp"        
         req.testType="ArithmeticCts"
-        overwriteTestXmlFile="ArithmeticCts_BasicArithmeticCts_diff1.xml"
+        req.overwriteTestXmlFile="ArithmeticCts_BasicArithmeticCts_diff1.xml"
         response = test_service(req)     
         self.assertEqual(response.success, True) 
         self.assertEqual(len(response.questions)>=1, True) 
@@ -175,7 +175,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.username="temp_to_delete"
         req.password="temp_to_delete"
         req.language="el"
-        req.store_token="temp_to_delete"              
+        req.creator_username="rapp"              
         response = test_service(req)     
         self.assertTrue(response.success) 
         

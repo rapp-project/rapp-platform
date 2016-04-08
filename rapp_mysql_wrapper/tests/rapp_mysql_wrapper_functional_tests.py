@@ -146,8 +146,7 @@ class TestDbWrapper(unittest.TestCase):
     rospy.wait_for_service(ros_service)    
     test_service = rospy.ServiceProxy(ros_service, checkActiveApplicationTokenSrv)
     req = checkActiveApplicationTokenSrvRequest()
-    req.username="rapp"
-    req.device_token="rapp_device_token"        
+    req.application_token="rapp_token"        
     response = test_service(req)     
     self.assertTrue(response.success) 
     self.assertTrue(response.application_token_exists) 
@@ -162,9 +161,10 @@ class TestDbWrapper(unittest.TestCase):
     req.username="temp_to_delete"
     req.password="temp_to_delete"
     req.language="el"
-    req.store_token="temp_to_delete"              
+    req.creator_username="rapp"              
     response = test_service(req)     
-    self.assertTrue(response.success) 
+    #self.assertTrue(response.success) 
+    self.assertEqual(response.error,"")
     
     ros_service = rospy.get_param("rapp_mysql_wrapper_remove_platform_user_service_topic")
     if(not ros_service):
