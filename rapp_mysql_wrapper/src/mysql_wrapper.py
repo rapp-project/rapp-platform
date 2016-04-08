@@ -59,7 +59,7 @@ from rapp_platform_ros_communications.srv import (
   validateUserRoleSrvRequest,
   validateExistingPlatformDeviceTokenSrv,
   validateExistingPlatformDeviceTokenSrvResponse,
-  validateExistingPlatformDeviceTokenSrvRequest
+  validateExistingPlatformDeviceTokenSrvRequest,
   removePlatformUserSrv,
   removePlatformUserSrvRequest,
   removePlatformUserSrvResponse
@@ -218,7 +218,7 @@ class MySQLdbWrapper:
       db_username,db_password=self.getLogin()
       con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
       cur = con.cursor()
-      cur.execute("select language from platform_user where username=%s",(req.username))
+      cur.execute("select name from language where id=(select language_id from platform_user where username=%s)",(req.username))
       result_set = cur.fetchall()
       if(result_set and len(result_set[0])>0):
         res.user_language=result_set[0][0]

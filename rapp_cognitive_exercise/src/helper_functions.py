@@ -94,7 +94,7 @@ class CognitiveExerciseHelperFunctions:
     getUserLanguageSrvReq.username=username   
     getUserLanguageSrvResponse = mysql_service(getUserLanguageSrvReq)
     if(getUserLanguageSrvResponse.success!=True): 
-      raise AppError(getUserLanguageSrv.trace[0], getUserLanguageSrv.trace)    
+      raise AppError(getUserLanguageSrvResponse.trace[0], getUserLanguageSrvResponse.trace)    
     return getUserLanguageSrvResponse.user_language
 
   @staticmethod

@@ -124,7 +124,7 @@ class TestDbWrapper(unittest.TestCase):
     req.username="rapp"        
     response = test_service(req)     
     self.assertTrue(response.success) 
-    self.assertEqual(response.password,"rapp")
+    self.assertEqual(response.password,"$2b$12$0RzTZr6bjbqRDTzT4SYBV.I44fG6RHUjMtqxeP2c6Qaansh03GhTC")
     
   def testgetUsernameAssociatedWithApplicationToken(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_get_username_associated_with_application_token_service_topic")
