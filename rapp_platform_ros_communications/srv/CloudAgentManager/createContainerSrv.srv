@@ -1,5 +1,0 @@
-string tarUri
----
-bool success
-string error
-string[] trace

@@ -72,8 +72,6 @@ add_service_files(
   /OntologyWrapper/registerImageObjectToOntologySrv.srv
   /OntologyWrapper/retractUserOntologyAliasSrv.srv
 
-  /CloudAgentManager/createContainerSrv.srv
-
   /FaceDetection/FaceDetectionRosSrv.srv
 
   /NewsExplorer/NewsExplorerSrv.srv

@@ -1,5 +1,0 @@
-<launch>
-  <node name="rapp_cloud_agent_manager_node" pkg="rapp_cloud_agent_manager" type="rapp_cloud_agent_manager_main.py" output="screen"/>
-  <rosparam file="$(find rapp_cloud_agent_manager)/cfg/rapp_cloud_agent_manager_params.yaml" 
-    command="load" />
-</launch>
