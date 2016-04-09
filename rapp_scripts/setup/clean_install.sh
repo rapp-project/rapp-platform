@@ -124,4 +124,12 @@ source ~/.bashrc
   }
 sudo ldconfig
 source ~/.bashrc
+#--------------------------- Authentication Setup ----------------------------#
+./13_authentication_setup.sh || \
+  {
+    echo -e "[Error]: RAPP Platform installation failed on authentication setup";
+    exit 1;
+  }
+sudo ldconfig
+source ~/.bashrc
 
