@@ -36,7 +36,7 @@ from rapp_platform_ros_communications.srv import (
 ## @class TestCaffeWrapper 
 # Inherits the unittest.TestCase class in order to offer functional tests functionality 
 class TestCaffeWrapper(unittest.TestCase):
-  ## Tests the rapp_mysql_wrapper_user_write_data service when an invalid column is provided 
+
   def test_image_classification_valid(self):
     ros_service = rospy.get_param(\
             "rapp_caffe_wrapper_image_classification")
@@ -79,9 +79,9 @@ class TestCaffeWrapper(unittest.TestCase):
     req.registerToOntology=True
     req.username="rapp"
     response = test_service(req)     
-    self.assertEqual(response.success, True) 
-    self.assertEqual(response.objectClass, "refrigerator, icebox") 
     self.assertEqual(response.error, "")
+    self.assertEqual(response.success, True) 
+    self.assertEqual(response.objectClass, "refrigerator, icebox")    
     self.assertTrue("Refrigerator" in response.ontologyNameOfImage) 
     
 ## The main function. Initializes the Rapp caffe wrapper functional tests
