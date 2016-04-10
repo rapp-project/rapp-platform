@@ -22,7 +22,6 @@
 var client_res = function( ){
   var obj = {
     words: [],
-    alternatives: [],
     error: ''
   };
   return obj;
