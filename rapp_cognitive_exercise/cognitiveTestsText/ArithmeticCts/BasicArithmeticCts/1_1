@@ -5,19 +5,19 @@ difficulty:1
 language:el
 
 question:Πόσο κάνει; εφτά και δύο;
-answers:τρία,εννιά,πέντε,εφτά
+answers:τρία,εννιά,πέντε,δέκα
 correctAnswer:εννιά
 
 question:Πόσο κάνει; τέσσερα και τέσσερα;
-answers:οκτώ,εννιά,πέντε,εφτά
+answers:οκτώ,εννιά,πέντε,δέκα
 correctAnswer:οκτώ
 
 question:Πόσο κάνει; έξι και τρία;
-answers:οκτώ,εννιά,τέσσερα,εφτά
+answers:οκτώ,εννιά,τέσσερα,δέκα
 correctAnswer:εννιά
 
 question:Πόσο κάνει; δύο και πέντε;
-answers:δύο,εννιά,πέντε,εφτά
+answers:δύο,οκτώ,πέντε,εφτά
 correctAnswer:εφτά
 
 language:en
