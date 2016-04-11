@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Αγοράζουμε μία μπλούζα που κάνει είκοσι δύο ευρώ και ενενήντα λεπτά και ενα παντελόνι που κάνει δεκαέξι ευρώ και σαράντα λεπτά και δίνουμε ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα μας δώσει ο πωλητής;</body>
+        <body>Αγοράζουμε μία μπλούζα που κάνει είκοσι—δύο ευρώ και ενενήντα λεπτά; και ενα παντελόνι που κάνει δεκα—έξι ευρώ και σαράντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα μας δώσει ο πωλητής;</body>
         <answer>
           <body>έντεκα ευρώ και εβδομήντα λεπτά</body>
         </answer>
@@ -16,12 +16,12 @@
           <body>δέκα ευρώ και εβδομήντα λεπτά</body>
         </answer>
         <answer>
-          <body>έντεκα ευρώ και ενενήντα λεπτά</body>
+          <body>έντεκα ευρώ και εξίντα λεπτά</body>
         </answer>
         <correctAnswer>δέκα ευρώ και εβδομήντα λεπτά</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Αγοράζουμε ένα λούτρινο αρκουδάκι που κάνει δώδεκα ευρώ και τριάντα λεπτά και μία κούκλα που κάνει είκοσι οκτώ ευρώ και πενήντα λεπτά και δίνουμε ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+        <body>Αγοράζουμε ένα λούτρινο αρκουδάκι που κάνει δώδεκα ευρώ και τριάντα λεπτά; και μία κούκλα που κάνει είκοσι—οκτώ ευρώ και πενήντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
         <answer>
           <body>δέκα ευρώ και είκοσι λεπτά</body>
         </answer>
@@ -39,7 +39,7 @@
     </el>
     <en>
       <Question name="Q1">
-        <body>We buy a blouse which costs two euros and ninety cents and a pair of trousers which costs sixteen euros and fourty cents and we pay with a fifty euro bill. How much change do we get back?</body>
+        <body>We buy a blouse which costs two euros and ninety cents; and a pair of trousers which costs sixteen euros and fourty cents; and we pay with a fifty euro bill. How much change do we get back?</body>
         <answer>
           <body>eleven euros and seventy cents</body>
         </answer>
@@ -55,7 +55,7 @@
         <correctAnswer>ten euros and seventy cents</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>We buy a teddy bear which costs twelve euro and thirty cents and a doll which costs twenty eight euro and fifty cents and we pay with a fifty euro bill. How much change do we get back?</body>
+        <body>We buy a teddy bear which costs twelve euro and thirty cents; and a doll which costs twenty eight euro and fifty cents; and we pay with a fifty euro bill. How much change do we get back?</body>
         <answer>
           <body>ten euros and twenty cents</body>
         </answer>
@@ -72,5 +72,5 @@
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_kpdCJilp</name>
+  <name>ArithmeticCts_QnqNJuDB</name>
 </cognitiveTest>

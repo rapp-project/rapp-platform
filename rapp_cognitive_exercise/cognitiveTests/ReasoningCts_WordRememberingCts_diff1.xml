@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;</body>
+        <body>Θα σου πω μερικές λέξεις; και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;</body>
         <answer>
           <body>ναι</body>
         </answer>
@@ -15,7 +15,7 @@
         <correctAnswer>ναι</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>μπάλα σημαία δέντρο. Τις συγκράτησες;</body>
+        <body>μολύβι εφημερίδα τραπέζι. Τις συγκράτησες;</body>
         <answer>
           <body>ναι</body>
         </answer>
@@ -27,14 +27,14 @@
       <Question name="Q3">
         <body>Θα μου επαναλάβεις τώρα τις λέξεις σε παρακαλώ;</body>
         <answer>
-          <body>μπάλα σημαία δέντρο</body>
+          <body>μολύβι εφημερίδα τραπέζι</body>
         </answer>
-        <correctAnswer>μπάλα σημαία δέντρο</correctAnswer>
+        <correctAnswer>μολύβι εφημερίδα τραπέζι</correctAnswer>
       </Question>
     </el>
     <en>
       <Question name="Q1">
-        <body>I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?</body>
+        <body>I am going to say a few words; and then I am going to ask you to repeat them in the same order. Are you ready?</body>
         <answer>
           <body>yes</body>
         </answer>
@@ -44,7 +44,7 @@
         <correctAnswer>yes</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>ball flag tree. Did you grasp them?</body>
+        <body>pencil newspaper table. Can you repeat them?</body>
         <answer>
           <body>yes</body>
         </answer>
@@ -56,11 +56,11 @@
       <Question name="Q3">
         <body>Will you please repeat the words?</body>
         <answer>
-          <body>ball flag tree</body>
+          <body>pencil newspaper table</body>
         </answer>
-        <correctAnswer>ball flag tree</correctAnswer>
+        <correctAnswer>pencil newspaper table</correctAnswer>
       </Question>
     </en>
   </Languages>
-  <name>ReasoningCts_vUXiHMJy</name>
+  <name>ReasoningCts_wEUxTIOq</name>
 </cognitiveTest>

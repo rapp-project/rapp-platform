@@ -5,72 +5,72 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Αγοράζουμε ένα κιλό ντομάτες που κάνουν ένα ευρώ και σαράντα λεπτά και δίνουμε ένα χαρτονόμισμα των πέντε ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης;</body>
+        <body>Αγοράζουμε ένα κιλό ντομάτες που κάνουν ένα ευρώ και είκοσι λεπτά; και δίνουμε; ένα χαρτονόμισμα των πέντε ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης;</body>
         <answer>
-          <body>τέσσερα ευρώ και πενήντα λεπτά</body>
+          <body>τέσσερα ευρώ και εβδομήντα λεπτά</body>
         </answer>
         <answer>
-          <body>τρία ευρώ και εξήντα λεπτά</body>
+          <body>τρία ευρώ και ογδόντα λεπτά</body>
         </answer>
         <answer>
-          <body>δύο ευρώ και εξήντα λεπτά</body>
+          <body>δύο ευρώ και ογδόντα λεπτά</body>
         </answer>
         <answer>
-          <body>εξήντα λεπτά</body>
+          <body>τρία ευρώ και εξίντα λεπτά</body>
         </answer>
-        <correctAnswer>τρία ευρώ και εξήντα λεπτά</correctAnswer>
+        <correctAnswer>τρία ευρώ και ογδόντα λεπτά</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Αγοράζουμε ένα κουτί γλυκά που κάνει οκτώ ευρώ και εξήντα λεπτά και δίνουμε ένα χαρτονόμισμα των δέκα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+        <body>Αγοράζουμε ένα κουτί γλυκά που κάνει οκτώ ευρώ και ενενήντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των δέκα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
         <answer>
-          <body>ένα ευρώ και πέντε λεπτά</body>
+          <body>ένα ευρώ και είκοσι λεπτά</body>
         </answer>
         <answer>
-          <body>δύο ευρώ και ενενήντα λεπτά</body>
+          <body>δύο ευρώ και δέκα λεπτά</body>
+        </answer>
+        <answer>
+          <body>ένα ευρώ και δέκα λεπτά</body>
         </answer>
         <answer>
           <body>ένα ευρώ και σαράντα λεπτά</body>
         </answer>
-        <answer>
-          <body>σαράντα λεπτά</body>
-        </answer>
-        <correctAnswer>ένα ευρώ και σαράντα λεπτά</correctAnswer>
+        <correctAnswer>ένα ευρώ και δέκα λεπτά</correctAnswer>
       </Question>
     </el>
     <en>
       <Question name="Q1">
-        <body>We buy one kilo of tomatoes which costs one euro and forty cents and we pay with a five euro bill. How much change do we get back?</body>
+        <body>We buy one kilo of tomatoes which costs one euro and twenty cents; and we pay with a five euro bill. How much change do we get back?</body>
         <answer>
-          <body>four euros and fifty cents</body>
+          <body>four euros and seventy cents</body>
         </answer>
         <answer>
-          <body>three euros and sixty cents</body>
+          <body>three euros and eighty cents</body>
         </answer>
         <answer>
-          <body>two euros and sixty cents</body>
+          <body>two euros and eighty cents</body>
         </answer>
         <answer>
-          <body>sixty cents</body>
+          <body>eighty cents</body>
         </answer>
-        <correctAnswer>three euros and sixty cents</correctAnswer>
+        <correctAnswer>three euros and eighty cents</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>We buy a box of sweets which costs eight euro and sixty cents and we pay with a ten euro bill. How much change do we get back?</body>
+        <body>We buy a box of sweets which costs eight euro and ninety cents; and we pay with a ten euro bill. How much change do we get back?</body>
         <answer>
-          <body>one euro and five cents</body>
+          <body>one euro and fifteen cents</body>
         </answer>
         <answer>
-          <body>two euros and ninety cents</body>
+          <body>two euros and ten cents</body>
         </answer>
         <answer>
-          <body>one euro and forty cents</body>
+          <body>one euro and ten cents</body>
         </answer>
         <answer>
           <body>forty cents</body>
         </answer>
-        <correctAnswer>one euro and forty cents</correctAnswer>
+        <correctAnswer>one euro and ten cents</correctAnswer>
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_ZxKuHwbZ</name>
+  <name>ArithmeticCts_QifCuFiG</name>
 </cognitiveTest>

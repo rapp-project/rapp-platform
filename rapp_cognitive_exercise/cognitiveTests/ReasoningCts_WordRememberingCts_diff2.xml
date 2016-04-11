@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;</body>
+        <body>Θα σου πω μερικές λέξεις; και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;</body>
         <answer>
           <body>ναι</body>
         </answer>
@@ -15,7 +15,7 @@
         <correctAnswer>ναι</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>καρέκλα ελέφαντας πιάτο φρούτα νερό. Τις συγκράτησες;</body>
+        <body>κήπος σκύλος μπάλα παιδί λουλούδια. Τις συγκράτησες;</body>
         <answer>
           <body>ναι</body>
         </answer>
@@ -27,14 +27,14 @@
       <Question name="Q3">
         <body>Θα μου επαναλάβεις τώρα τις λέξεις σε παρακαλώ;</body>
         <answer>
-          <body>καρέκλα ελέφαντας πιάτο φρούτα νερό</body>
+          <body>κήπος σκύλος μπάλα παιδί λουλούδια</body>
         </answer>
-        <correctAnswer>καρέκλα ελέφαντας πιάτο φρούτα νερό</correctAnswer>
+        <correctAnswer>κήπος σκύλος μπάλα παιδί λουλούδια</correctAnswer>
       </Question>
     </el>
     <en>
       <Question name="Q1">
-        <body>I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?</body>
+        <body>I am going to say a few words; and then I am going to ask you to repeat them in the same order. Are you ready?</body>
         <answer>
           <body>yes</body>
         </answer>
@@ -44,7 +44,7 @@
         <correctAnswer>yes</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>chair elephant plate fruit water. Did you grasp them?</body>
+        <body>garden dog ball kid flowers. Did you grasp them?</body>
         <answer>
           <body>yes</body>
         </answer>
@@ -56,11 +56,11 @@
       <Question name="Q3">
         <body>Will you please repeat the words?</body>
         <answer>
-          <body>chair elephant plate fruit water</body>
+          <body>garden dog ball kid flowers</body>
         </answer>
-        <correctAnswer>chair elephant plate fruit water</correctAnswer>
+        <correctAnswer>garden dog ball kid flowers</correctAnswer>
       </Question>
     </en>
   </Languages>
-  <name>ReasoningCts_pQmhNKHv</name>
+  <name>ReasoningCts_OaaPxeMq</name>
 </cognitiveTest>

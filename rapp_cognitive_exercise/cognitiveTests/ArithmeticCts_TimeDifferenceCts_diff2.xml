@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις έξι και δεκαπέντε. Οι διαφημίσεις δεν λένε να τελειώσουν και έχει πάει έξι και τριάντα τρία χωρίς ακόμη να έχει αρχίσει. Πόση ώρα καθυστέρησε;</body>
+        <body>Το απόγευμα έχει το αγαπημένο σας σήριαλ που ξεκινάει στις; έξι και δεκα—πέντε. Οι διαφημίσεις δεν λένε να τελειώσουν; και έχει πάει; έξι και τριάντα έξι; χωρίς ακόμη να έχει αρχίσει. Πόση ώρα καθυστέρησε;</body>
         <answer>
           <body>είκοσι οκτώ λεπτά</body>
         </answer>
@@ -18,15 +18,15 @@
         <answer>
           <body>είκοσι ένα λεπτά</body>
         </answer>
-        <correctAnswer>δεκαοκτώ λεπτά</correctAnswer>
+        <correctAnswer>είκοσι ένα λεπτά</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Έχετε ραντεβού με την παρέα σας το απόγευμα στις πέντε και δέκα αλλά καθυστερείτε είκοσι τρία λεπτά ακριβώς. Τι ώρα φτάνετε;</body>
+        <body>Έχετε ραντεβού με την παρέα σας το απόγευμα στις; πέντε και δέκα; αλλά καθυστερείτε; τριάντα—τρία λεπτά ακριβώς. Τι ώρα φτάνετε;</body>
         <answer>
           <body>πέντε και τριάντα τρία</body>
         </answer>
         <answer>
-          <body>πέντε και είκοσι τρία</body>
+          <body>πέντε και σαράντα τρία</body>
         </answer>
         <answer>
           <body>πέντε και είκοσι πέντε</body>
@@ -34,12 +34,12 @@
         <answer>
           <body>πέντε και τριάντα</body>
         </answer>
-        <correctAnswer>πέντε και τριάντα τρία</correctAnswer>
+        <correctAnswer>πέντε και σαράντα τρία</correctAnswer>
       </Question>
     </el>
     <en>
       <Question name="Q1">
-        <body>Your favorite tv show stast at fifteen minutes past six in the evening. The commercials seem endless, it is already thirty three minutes past six and the show has not started yet. How much time is it late?</body>
+        <body>Your favorite tv show starts at; fifteen minutes past six in the evening. The commercials seem endless. It is already thirty—six minutes past six; and the show has not started yet. How much time is it late?</body>
         <answer>
           <body>twenty eight minutes</body>
         </answer>
@@ -52,25 +52,25 @@
         <answer>
           <body>twenty one minutes</body>
         </answer>
-        <correctAnswer>eighteen minutes</correctAnswer>
+        <correctAnswer>twenty one minutes</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>You are to meet your friends at ten minutes past five in the evening but you are twenty three minutes late. At what time do you meet your friends?</body>
+        <body>You are to meet your friends at ten minutes past five in the evening but you are thirty three minutes late. At what time do you meet your friends?</body>
         <answer>
           <body>thirty three minutes past five</body>
         </answer>
         <answer>
-          <body>twenty three minutes past five</body>
+          <body>fourty three minutes past five</body>
         </answer>
         <answer>
-          <body>twenty five minutes past five</body>
+          <body> twenty five minutes past five</body>
         </answer>
         <answer>
           <body>thirty minutes past five</body>
         </answer>
-        <correctAnswer>thirty three minutes past five</correctAnswer>
+        <correctAnswer>fourty three minutes past five</correctAnswer>
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_ExJpRNHP</name>
+  <name>ArithmeticCts_uGmuwKPo</name>
 </cognitiveTest>

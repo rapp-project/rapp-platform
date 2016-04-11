@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Πόσο κάνει οκτώ και εφτά;</body>
+        <body>Πόσο κάνει; οκτώ και εννιά;</body>
         <answer>
           <body>δεκατέσσερα</body>
         </answer>
@@ -13,99 +13,99 @@
           <body>δεκαπέντε</body>
         </answer>
         <answer>
-          <body>οκτώ</body>
+          <body>δεκαοκτώ</body>
         </answer>
         <answer>
-          <body>έντεκα</body>
+          <body>δεκαεφτά</body>
         </answer>
-        <correctAnswer>δεκαπέντε</correctAnswer>
+        <correctAnswer>δεκαεφτά</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Πόσο κάνει εννιά και πέντε;</body>
+        <body>Πόσο κάνει; εννιά και έντεκα;</body>
+        <answer>
+          <body>είκοσι τρία</body>
+        </answer>
+        <answer>
+          <body>δεκαεννιά</body>
+        </answer>
         <answer>
           <body>δεκατέσσερα</body>
         </answer>
         <answer>
-          <body>δώδεκα</body>
+          <body>είκοσι</body>
         </answer>
-        <answer>
-          <body>δεκαπέντε</body>
-        </answer>
-        <answer>
-          <body>δεκατρία</body>
-        </answer>
-        <correctAnswer>δεκατέσσερα</correctAnswer>
+        <correctAnswer>είκοσι</correctAnswer>
       </Question>
       <Question name="Q3">
-        <body>Πόσο κάνει έντεκα και πέντε;</body>
+        <body>Πόσο κάνει; έντεκα και τρία;</body>
         <answer>
-          <body>έντεκα</body>
+          <body>δεκατέσσερα</body>
         </answer>
         <answer>
           <body>δεκαέξι</body>
         </answer>
         <answer>
-          <body>δεκαεφτά</body>
+          <body>δεκαοκτώ</body>
         </answer>
         <answer>
-          <body>πέντε</body>
+          <body>δεκαπέντε</body>
         </answer>
-        <correctAnswer>δεκαέξι</correctAnswer>
+        <correctAnswer>δεκατέσσερα</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>Πόσο κάνει δώδεκα και εννιά;</body>
-        <answer>
-          <body>δεκαεννιά</body>
-        </answer>
+        <body>Πόσο κάνει; δώδεκα και τρία;</body>
         <answer>
           <body>δεκατρία</body>
         </answer>
         <answer>
-          <body>είκοσι δύο</body>
+          <body>δεκαπέντε</body>
+        </answer>
+        <answer>
+          <body>δεκαέξι</body>
         </answer>
         <answer>
           <body>είκοσι ένα</body>
         </answer>
-        <correctAnswer>είκοσι ένα</correctAnswer>
+        <correctAnswer>δεκαπέντε</correctAnswer>
       </Question>
     </el>
     <en>
       <Question name="Q1">
-        <body>How much is eight plus seven?</body>
+        <body>How much is; eight plus nine?</body>
         <answer>
           <body>fourteen</body>
         </answer>
         <answer>
-          <body>fifteen</body>
+          <body>sixteen</body>
         </answer>
         <answer>
           <body>eight</body>
         </answer>
         <answer>
-          <body>eleven</body>
+          <body>seventeen</body>
         </answer>
-        <correctAnswer>fifteen</correctAnswer>
+        <correctAnswer>seventeen</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>How much is nine plus five?</body>
+        <body>How much is; nine plus eleven?</body>
         <answer>
-          <body>fourteen</body>
+          <body>twenty three</body>
         </answer>
         <answer>
-          <body>twelve</body>
+          <body>nineteen</body>
         </answer>
-        <answer>
-          <body>fifteen</body>
-        </answer>
-        <answer>
-          <body>δεκατρία</body>
-        </answer>
-        <correctAnswer>fourteen</correctAnswer>
-      </Question>
-      <Question name="Q3">
-        <body>How much is eleven plus five?</body>
         <answer>
           <body>eleven</body>
+        </answer>
+        <answer>
+          <body>twenty</body>
+        </answer>
+        <correctAnswer>twenty</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>How much is; eleven plus three?</body>
+        <answer>
+          <body>fourteen</body>
         </answer>
         <answer>
           <body>sixteen</body>
@@ -114,27 +114,27 @@
           <body>seventeen</body>
         </answer>
         <answer>
-          <body>five</body>
+          <body>fifteen</body>
         </answer>
-        <correctAnswer>sixteen</correctAnswer>
+        <correctAnswer>fourteen</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>How much is twelve plus nine?</body>
+        <body>How much is; twelve plus three?</body>
         <answer>
           <body>nineteen</body>
         </answer>
         <answer>
-          <body>thirteen</body>
+          <body>fifteen</body>
         </answer>
         <answer>
-          <body>twenty two</body>
+          <body>sixteen</body>
         </answer>
         <answer>
           <body>twenty one</body>
         </answer>
-        <correctAnswer>twenty one</correctAnswer>
+        <correctAnswer>fifteen</correctAnswer>
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_OrUIzvEY</name>
+  <name>ArithmeticCts_bneXbLGX</name>
 </cognitiveTest>

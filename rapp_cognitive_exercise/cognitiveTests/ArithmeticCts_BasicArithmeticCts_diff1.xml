@@ -5,12 +5,12 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Πόσο κάνει τρία και τέσσερα;</body>
+        <body>Πόσο κάνει; τρία και τέσσερα;</body>
         <answer>
           <body>τρία</body>
         </answer>
         <answer>
-          <body>εννιά</body>
+          <body>οκτώ</body>
         </answer>
         <answer>
           <body>τέσσερα</body>
@@ -21,28 +21,28 @@
         <correctAnswer>εφτά</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Πόσο κάνει ένα και τέσσερα;</body>
+        <body>Πόσο κάνει; ένα και τέσσερα;</body>
         <answer>
           <body>τέσσερα</body>
         </answer>
         <answer>
-          <body>εννιά</body>
+          <body>τρία</body>
         </answer>
         <answer>
           <body>πέντε</body>
         </answer>
         <answer>
-          <body>εφτά</body>
+          <body>έξι</body>
         </answer>
         <correctAnswer>πέντε</correctAnswer>
       </Question>
       <Question name="Q3">
-        <body>Πόσο κάνει έξι και ένα;</body>
+        <body>Πόσο κάνει; έξι και ένα;</body>
         <answer>
-          <body>ένα</body>
+          <body>τέσσερα</body>
         </answer>
         <answer>
-          <body>εννιά</body>
+          <body>οκτώ</body>
         </answer>
         <answer>
           <body>πέντε</body>
@@ -53,7 +53,7 @@
         <correctAnswer>εφτά</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>Πόσο κάνει ένα και πέντε;</body>
+        <body>Πόσο κάνει; ένα και πέντε;</body>
         <answer>
           <body>δύο</body>
         </answer>
@@ -64,14 +64,14 @@
           <body>πέντε</body>
         </answer>
         <answer>
-          <body>εφτά</body>
+          <body>οκτώ</body>
         </answer>
         <correctAnswer>έξι</correctAnswer>
       </Question>
     </el>
     <en>
       <Question name="Q1">
-        <body>How much is three plus four?</body>
+        <body>How much is; three plus four?</body>
         <answer>
           <body>three</body>
         </answer>
@@ -87,7 +87,7 @@
         <correctAnswer>seven</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>How much is one plus four?</body>
+        <body>How much is; one plus four?</body>
         <answer>
           <body>four</body>
         </answer>
@@ -103,7 +103,7 @@
         <correctAnswer>five</correctAnswer>
       </Question>
       <Question name="Q3">
-        <body>How much is six plus one?</body>
+        <body>How much is; six plus one?</body>
         <answer>
           <body>one</body>
         </answer>
@@ -119,7 +119,7 @@
         <correctAnswer>seven</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>How much is one plus five?</body>
+        <body>How much is; one plus five?</body>
         <answer>
           <body>two</body>
         </answer>
@@ -136,5 +136,5 @@
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_tDjYwuhx</name>
+  <name>ArithmeticCts_qdaDeDZn</name>
 </cognitiveTest>
