@@ -1,6 +1,6 @@
 testType:ReasoningCts
 testSubType:WordRememberingCts
-difficulty:1
+difficulty:2
 
 language:el
 
@@ -8,13 +8,13 @@ question:Θα σου πω μερικές λέξεις; και μετά θα σο
 answers:ναι,όχι
 correctAnswer:ναι
 
-question:μπάλα σημαία δέντρο. Τις συγκράτησες;
+question:κήπος σκύλος μπάλα παιδί λουλούδια. Τις συγκράτησες;
 answers:ναι,όχι
 correctAnswer:ναι
 
 question:Θα μου επαναλάβεις τώρα τις λέξεις σε παρακαλώ;
-answers:μπάλα σημαία δέντρο
-correctAnswer:μπάλα σημαία δέντρο
+answers:κήπος σκύλος μπάλα παιδί λουλούδια
+correctAnswer:κήπος σκύλος μπάλα παιδί λουλούδια
 
 language:en
 
@@ -22,10 +22,10 @@ question:I am going to say a few words; and then I am going to ask you to repeat
 answers:yes,no
 correctAnswer:yes
 
-question:ball flag tree. Can you repeat them?
+question:garden dog ball kid flowers. Did you grasp them?
 answers:yes,no
 correctAnswer:yes
 
 question:Will you please repeat the words?
-answers:ball flag tree
-correctAnswer:ball flag tree
+answers:garden dog ball kid flowers
+correctAnswer:garden dog ball kid flowers
