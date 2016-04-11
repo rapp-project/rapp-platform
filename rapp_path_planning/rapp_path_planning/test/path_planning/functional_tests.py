@@ -338,14 +338,14 @@ class PathPlanFunc(unittest.TestCase):
 if __name__ == '__main__':
     import rosunit
     home = expanduser("~")
-    if os.path.isdir(home+"/rapp_platform_files/maps/rapp/functional_test"):
-        shutil.rmtree(home+"/rapp_platform_files/maps/rapp/functional_test")
+    if os.path.isdir(home+"/rapp_platform_files/maps/functional_test"):
+        shutil.rmtree(home+"/rapp_platform_files/maps/functional_test")
     rospack = rospkg.RosPack()
     map_server_path = rospack.get_path("rapp_map_server")
 
-    shutil.copytree(map_server_path+"/maps/", home+"/rapp_platform_files/maps/rapp/functional_test/")
+    shutil.copytree(map_server_path+"/maps/", home+"/rapp_platform_files/maps/functional_test/")
     rosunit.unitrun(PKG, 'PathPlanFunc', PathPlanFunc)
-    shutil.rmtree(home+"/rapp_platform_files/maps/rapp/functional_test")
+    shutil.rmtree(home+"/rapp_platform_files/maps/functional_test")
 
 
 

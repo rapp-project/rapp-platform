@@ -136,7 +136,7 @@ class MapServer
     std::string user = req.user_name;
     std::string map = req.map_name;
     std::string homedir_str = homedir;
-    std::string map_path = homedir_str+"/rapp_platform_files/maps/rapp/"+user;
+    std::string map_path = homedir_str+"/rapp_platform_files/maps/"+user;
 
     boost::filesystem::create_directories(map_path);
     std::string yaml_path = map_path+"/"+map+".yaml";

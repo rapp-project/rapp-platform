@@ -259,7 +259,7 @@ bool PathPlanning::pathPlanningCallback(
 {
   std::string homedir_str = homedir;
 
-  std::string map_path = homedir_str+"/rapp_platform_files/maps/rapp/"+req.user_name+"/"+req.map_name+".yaml";
+  std::string map_path = homedir_str+"/rapp_platform_files/maps/"+req.user_name+"/"+req.map_name+".yaml";
   std::string costmap_file_path = ros::package::getPath("rapp_path_planning")+"/cfg/costmap/"+req.robot_type+".yaml";
   std::string algorithm_file_path = ros::package::getPath("rapp_path_planning")+"/cfg/planner/"+req.algorithm+".yaml";
   navfn::MakeNavPlanResponse response;

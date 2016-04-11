@@ -54,8 +54,17 @@ class RappInterfaceTest:
         }
      }
 
+    self.request = {
+        'png_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.png'),
+        'yaml_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.yaml'),
+        'map_name': '523_m_obstacle_2'
+    }
+
 
   def execute(self):
+    response = self.rappCloud.path_planning_upload_map(self.request['png_file'], \
+            self.request['yaml_file'], self.request['map_name'])
+
     start_time = timeit.default_timer()
     response = self.rappCloud.path_planning_plan_path_2d( \
             self.svcReq['map_name'], \
