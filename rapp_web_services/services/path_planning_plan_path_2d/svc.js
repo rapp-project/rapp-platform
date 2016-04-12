@@ -149,19 +149,19 @@ function svcImpl( kwargs )
         return;
       }
       if( ! req.robot_type ){
-        error = 'Empty \"user\" field';
+        error = 'Empty \"robot_type\" field';
         response.error = error;
         sendResponse( hop.HTTPResponseJson(response) );
         return;
       }
       if( ! req.start ){
-        error = 'Empty \"user\" field';
+        error = 'Did not provide a start pose';
         response.error = error;
         sendResponse( hop.HTTPResponseJson(response) );
         return;
       }
       if( ! req.goal ){
-        error = 'Empty \"user\" field';
+        error = 'Did not provide a goal pose';
         response.error = error;
         sendResponse( hop.HTTPResponseJson(response) );
         return;
