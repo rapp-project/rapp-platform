@@ -21,7 +21,7 @@
 
 var clientRes = function( ){
   var obj = {
-    records: {},
+    performance_entry: '',
     error: ''
   };
   return obj;
