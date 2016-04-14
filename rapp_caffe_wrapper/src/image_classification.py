@@ -26,6 +26,8 @@ from os.path import expanduser
 from app_error_exception import AppError
 import os
 import sys
+ 
+import caffe
 
 from rapp_platform_ros_communications.srv import (
   imageClassificationSrv,
@@ -44,15 +46,36 @@ from rapp_platform_ros_communications.msg import (
 
 
 class ImageClassification:
-    
+   
+  def __init__(self):
+    self.caffe_root = expanduser("~")+'/rapp_platform/caffe/'
+    if not os.path.isfile(self.caffe_root + 'models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel'):
+      print("Downloading pre-trained CaffeNet model...")
+      os.system(self.caffe_root+"scripts/download_model_binary.py ../models/bvlc_reference_caffenet")
+    #!../scripts/download_model_binary.py ../models/bvlc_reference_caffenet    
+    caffe.set_mode_cpu()
+    self.net = caffe.Net(self.caffe_root + 'models/bvlc_reference_caffenet/deploy.prototxt',
+                    self.caffe_root + 'models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel',
+                    caffe.TEST)
+    # input preprocessing: 'data' is the name of the input blob == net.inputs[0]
+    self.transformer = caffe.io.Transformer({'data': self.net.blobs['data'].data.shape})
+    self.transformer.set_transpose('data', (2,0,1))
+    self.transformer.set_mean('data', np.load(self.caffe_root + 'python/caffe/imagenet/ilsvrc_2012_mean.npy').mean(1).mean(1)) # mean pixel
+    self.transformer.set_raw_scale('data', 255)  # the reference model operates on images in [0,255] range instead of [0,1]
+    self.transformer.set_channel_swap('data', (2,1,0))  # the reference model has channels in BGR order instead of RGB
+    # set net to batch size of 50
+    self.net.blobs['data'].reshape(1,3,227,227)    
+    # load labels
+    imagenet_labels_filename = self.caffe_root + 'data/ilsvrc12/synset_words.txt'
+    self.labels = np.loadtxt(imagenet_labels_filename, str, delimiter='\t')
+
   def classifyImage(self,req):
     try:
       res = imageClassificationSrvResponse()      
       start_time = time.time()
-      print("--- %s seconds elapsed---" % (time.time() - start_time)) 
       caffeObjectClass=self.getImageClass(req)
       res.objectClass=caffeObjectClass
-       
+      print("--- %s seconds elapsed---" % (time.time() - start_time)) 
       
       if(req.registerToOntology):    
         ontologyClass=self.getOntologyClass(caffeObjectClass)    
@@ -102,39 +125,14 @@ class ImageClassification:
     return registerImageToOntologyResponse.object_entry
     
   def getImageClass(self,req):
-    caffe_root = expanduser("~")+'/rapp_platform/caffe/'
-    sys.path.insert(0, caffe_root + 'python')    
-    os.environ['GLOG_minloglevel'] = '2'
-    import caffe   
-     
-    if not os.path.isfile(caffe_root + 'models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel'):
-      print("Downloading pre-trained CaffeNet model...")
-      os.system(caffe_root+"scripts/download_model_binary.py ../models/bvlc_reference_caffenet")
-    #!../scripts/download_model_binary.py ../models/bvlc_reference_caffenet    
-    caffe.set_mode_cpu()
-    net = caffe.Net(caffe_root + 'models/bvlc_reference_caffenet/deploy.prototxt',
-                    caffe_root + 'models/bvlc_reference_caffenet/bvlc_reference_caffenet.caffemodel',
-                    caffe.TEST)
-    # input preprocessing: 'data' is the name of the input blob == net.inputs[0]
-    transformer = caffe.io.Transformer({'data': net.blobs['data'].data.shape})
-    transformer.set_transpose('data', (2,0,1))
-    transformer.set_mean('data', np.load(caffe_root + 'python/caffe/imagenet/ilsvrc_2012_mean.npy').mean(1).mean(1)) # mean pixel
-    transformer.set_raw_scale('data', 255)  # the reference model operates on images in [0,255] range instead of [0,1]
-    transformer.set_channel_swap('data', (2,1,0))  # the reference model has channels in BGR order instead of RGB
-    # set net to batch size of 50
-    net.blobs['data'].reshape(50,3,227,227)    
-    net.blobs['data'].data[...] = transformer.preprocess('data', caffe.io.load_image(req.objectFileUrl))    
-    out = net.forward()
+    self.net.blobs['data'].data[...] = self.transformer.preprocess('data', caffe.io.load_image(req.objectFileUrl))    
+    out = self.net.forward()
     #print("Predicted class is #{}.".format(out['prob'][0].argmax()))
-    # load labels
-    imagenet_labels_filename = caffe_root + 'data/ilsvrc12/synset_words.txt'
-    labels = np.loadtxt(imagenet_labels_filename, str, delimiter='\t')
     # sort top k predictions from softmax output
-    top_k = net.blobs['prob'].data[0].flatten().argsort()[-1:-6:-1]
+    top_k = self.net.blobs['prob'].data[0].flatten().argsort()[-1:-6:-1]
     #print labels[top_k]
     #print "fist choice was :" + labels[top_k][0]
-    objectClass=labels[top_k][0]
-    print objectClass
+    objectClass=self.labels[top_k][0]
     return objectClass
 
 

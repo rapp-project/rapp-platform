@@ -84,4 +84,10 @@ mkdir ~/rapp_platform_files/image_processing
 cp -r ~/rapp_platform_files/rapp-resources/caffe/example_images ~/rapp_platform_files/image_processing/
 cp ~/rapp_platform_files/rapp-resources/caffe/synset_words.txt ~/rapp_platform/caffe/data/ilsvrc12/synset_words.txt
 
+# Append to user's .bashrc file.
+append="PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform/caffe/python"
+grep -q "${append}" ~/.bashrc || echo -e          \
+  "\n# Caffe Python modules\n${append}" \
+  >> ~/.bashrc
+
 echo -e "\e[1m\e[103m\e[31m [RAPP] Caffe installation Finished \e[0m"
