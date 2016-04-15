@@ -21,21 +21,21 @@
 import os
 import timeit
 import rospkg
-from os.path import join
+from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import FaceDetection
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    self.file_uri = join(pkgDir, 'test_data',
+    imagepath = path.join(pkgDir, 'test_data',
         'face_samples', 'klpanagi_medium_straight.jpg')
+    self.svc = FaceDetection(image=imagepath)
 
     self.valid_faces = [{
         'up_left_point': {'y': 545.0, 'x': 720.0},
@@ -45,17 +45,18 @@ class RappInterfaceTest:
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.rappCloud.face_detection(self.file_uri)
+    response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
-    faces = response['faces']
+    faces = response.faces
     if self.valid_faces == faces:
       return [True, self.elapsed_time]
     else:

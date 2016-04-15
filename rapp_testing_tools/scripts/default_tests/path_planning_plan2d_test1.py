@@ -21,63 +21,79 @@
 import os
 import timeit
 import rospkg
-from os.path import join
+from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import (
+    PathPlanningPlan2D,
+    PathPlanningUploadMap
+    )
+
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
+    testDatapath = path.join(pkgDir, 'test_data', 'path_planning')
 
-    self.svcReq = {
-        'map_name': '523_m_obstacle_2',
-        'robot_type': 'NAO',
-        'algorithm': 'dijkstra',
-        'start': {
-            'header':{'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''}, \
-            'pose': {
-                'position': {'x': 10, 'y': 10, 'z': 20}, \
-                'orientation': {'x': 0, 'y': 0, 'z': 0, 'w': 0}
-            }
-        },
-        'goal': {
-            'header':{'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''}, \
-            'pose': {'position': {'x': 120, 'y': 10, 'z': 20}, \
-                'orientation': {'x': 0, 'y': 0, 'z': 20, 'w': 0}
+    poseStart = {
+        'header':{
+            'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
+            },
+        'pose': {
+            'position': {'x': 10, 'y': 10, 'z': 20},
+            'orientation': {'x': 0, 'y': 0, 'z': 0, 'w': 0}
             }
         }
-     }
 
-    self.request = {
-        'png_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.png'),
-        'yaml_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.yaml'),
-        'map_name': '523_m_obstacle_2'
-    }
+    poseGoal = {
+        'header':{
+            'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
+            },
+        'pose': {
+            'position': {'x': 120, 'y': 10, 'z': 20},
+            'orientation': {'x': 0, 'y': 0, 'z': 20, 'w': 0}
+            }
+        }
+
+
+    yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
+    pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
+
+    self.ppUploadMap = PathPlanningUploadMap(
+        map_name='523_m_obstacle_2',
+        yaml_file=yamlFile,
+        png_file=pngFile
+        )
+
+    self.ppPlan = PathPlanningPlan2D(
+        map_name='523_m_obstacle_2',
+        robot_type='NAO',
+        algorithm='dijkstra',
+        pose_start=poseStart,
+        pose_goal=poseGoal
+        )
 
 
   def execute(self):
-    response = self.rappCloud.path_planning_upload_map(self.request['png_file'], \
-            self.request['yaml_file'], self.request['map_name'])
-
     start_time = timeit.default_timer()
-    response = self.rappCloud.path_planning_plan_path_2d( \
-            self.svcReq['map_name'], \
-            self.svcReq['robot_type'], self.svcReq['algorithm'],
-            self.svcReq['start'], self.svcReq['goal'])
+    resp = self.ppUploadMap.call()
+    # If error occured while uploading map return error
+    if resp.error != '':
+       return self.validate(resp)
+
+    resp = self.ppPlan.call()
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
-    return self.validate(response)
+    return self.validate(resp)
 
 
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
     else:

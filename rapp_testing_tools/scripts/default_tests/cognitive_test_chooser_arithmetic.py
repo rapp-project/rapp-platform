@@ -25,36 +25,35 @@ import timeit
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import CognitiveTestSelect
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-    self.testType = "ArithmeticCts"
+    self.svc = CognitiveTestSelect(test_type='ArithmeticCts')
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    # Call the Python RappCloud service
-    response = self.rappCloud.cognitive_test_chooser(self.testType)
+    # Call the RappCloud service
+    response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
     # Get the returned data
-    test_instance = response['test_instance']
-    test_type = response['test_type']
-    test_sub_type = response['test_subtype']
-    questions = response['questions']
-    possib_ans = response['possib_ans']
-    correct_ans = response['correct_ans']
+    test_instance = response.test_instance
+    test_type = response.test_type
+    test_sub_type = response.test_subtype
+    questions = response.questions
+    possib_ans = response.possib_ans
+    correct_ans = response.correct_ans
     # Check if the returned data are equal to the expected
     if test_instance and test_type and test_sub_type and questions \
             and possib_ans and correct_ans:

@@ -25,21 +25,18 @@ import timeit
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import CognitiveGetScores
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-    self.upToTime = 10000000000000
-    self.testType = 'ArithmeticCts'
+    self.svc = CognitiveGetScores(test_type='ArithmeticCts', time_to=10000000)
 
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.cognitive_get_scores(self.upToTime, \
-        self.testType)
+    response = self.svc.call()
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
@@ -47,12 +44,12 @@ class RappInterfaceTest:
 
 
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
-    test_scores = response['scores']
-    test_categories = response['test_classes']
+    test_scores = response.scores
+    test_categories = response.test_classes
 
     if (len(test_scores) == 1) and (len(test_categories) == 1):
         return [True, self.elapsed_time]

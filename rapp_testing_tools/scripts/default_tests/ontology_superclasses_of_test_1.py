@@ -27,35 +27,35 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import OntologySuperclassesof
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-    self.ontology_class = "Oven"
+    self.svc = OntologySuperclassesof(query='Oven')
     # Set the valid results
     self.valid_results = [ 'http://knowrob.org/kb/knowrob.owl#Box-Container',\
       'http://knowrob.org/kb/knowrob.owl#FurniturePiece', \
       'http://knowrob.org/kb/knowrob.owl#HeatingDevice', \
       'http://knowrob.org/kb/knowrob.owl#HouseholdAppliance']
 
-  def execute(self):
 
+  def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.ontology_superclasses_of(self.ontology_class)
+    response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
     # Get the returned data
-    return_data = response['results']
+    return_data = response.results
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]

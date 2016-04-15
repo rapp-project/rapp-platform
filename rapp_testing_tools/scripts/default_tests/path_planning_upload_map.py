@@ -21,47 +21,49 @@
 import os
 import timeit
 import rospkg
-from os.path import join
+from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import PathPlanningUploadMap
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-
-    self.request = {
-        'png_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.png'),
-        'yaml_file': join(pkgDir, 'test_data', 'path_planning', '523_m_obstacle_2.yaml'),
-        'map_name': '523_m_obstacle_2'
-    }
+    testDatapath = path.join(pkgDir, 'test_data', 'path_planning')
 
     self.validRes = {
         'success': True,
         'error': ''
     }
 
+    yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
+    pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
+
+    self.svc = PathPlanningUploadMap(
+        map_name='523_m_obstacle_2',
+        yaml_file=yamlFile,
+        png_file=pngFile
+        )
+
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.rappCloud.path_planning_upload_map(self.request['png_file'], \
-            self.request['yaml_file'], self.request['map_name'])
-
+    response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
-    if self.validRes == response:
+    if self.validRes == response.serialize():
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(response), self.elapsed_time]

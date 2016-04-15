@@ -27,35 +27,37 @@ import argparse
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import OntologyIsSubsuperclass
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-    self.parent_class_ = "Oven"
-    self.child_class_ = "MicrowaveOven"
-    self.recursive_ = False
     # Set the valid results
     self.valid_results = True;
+
+    self.svc = OntologyIsSubsuperclass(
+        parent_class='Oven',
+        child_class='MicrowaveOven',
+        recursive=True)
+
 
   def execute(self):
     start_time = timeit.default_timer()
 
     # Call the Python RappCloud service
-    response = self.rappCloud.ontology_is_subsuperclass_of(self.parent_class_, \
-      self.child_class_, self.recursive_)
+    response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
     # Get the returned data
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
-    return_data = response['result']
+    return_data = response.result
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]

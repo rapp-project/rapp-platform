@@ -26,29 +26,28 @@ from os import path
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import SetNoiseProfile
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    self.file_uri = path.join(pkgDir, 'test_data', 'denoise_source.wav')
-    self.audio_source = "nao_wav_1_ch"
+    self.svc = SetNoiseProfile()
+    self.svc.audio_source = 'nao_wav_1_ch'
+    self.svc.audiofile = path.join(pkgDir, 'test_data', 'denoise_source.wav')
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.rappCloud.set_noise_profile(self.file_uri, \
-        self.audio_source)
+    response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response['error']
+    error = response.error
 
     if error != "":
       return [error, self.elapsed_time]

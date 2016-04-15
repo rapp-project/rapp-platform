@@ -18,39 +18,41 @@
 # Authors: Konstantinos Panayiotou, Manos Tsardoulias
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
+
 import os
 import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import CognitiveRecordPerformance
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-    self.language = 'el'
-    self.text = u'Καλησπέρα. Είμαι ο ναο.'
-    self.destFilePath = '/tmp/ttsClient.wav'
+    self.svc = CognitiveRecordPerformance(
+        test_instance="ArithmeticCts_obzxzwa",
+        score=50)
+
     # Set the valid results
+    self.valid_result_partial = "CognitiveTestPerformed"
 
   def execute(self):
     start_time = timeit.default_timer()
-    # Call the Python RappCloud service
-    response = self.rappCloud.text_to_speech(self.text, self.language,
-                                             self.destFilePath)
+    # Call the Cloud service
+    resp = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
-    return self.validate(response)
+    return self.validate(resp)
 
   def validate(self, response):
-    if response['error']:
-        return [response['error'], self.elapsed_time]
+    error = response.error
+    if error != "":
+      return [error, self.elapsed_time]
 
     # Check if the returned data are equal to the expected
-    if os.path.getsize(self.destFilePath) > 0:
+    if self.valid_result_partial in response.performance_entry:
         return [True, self.elapsed_time]
     else:
-        return ["Unexpected result : " + 'Invalid size of audio data', self.elapsed_time]
+        return ["Unexpected result : " + str(response), self.elapsed_time]
 
