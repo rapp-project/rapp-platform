@@ -55,8 +55,8 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
-    if  response == self.validResponse:
+    if  response.serialize() == self.validResponse:
       return [True, self.elapsed_time]
     else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
+      return ["Unexpected result : " + str(response.serialize()), self.elapsed_time]
 
