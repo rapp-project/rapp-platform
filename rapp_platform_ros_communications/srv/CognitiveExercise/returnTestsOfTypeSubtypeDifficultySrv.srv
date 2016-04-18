@@ -1,0 +1,8 @@
+string testType
+string testSubType
+string difficulty
+---
+bool success
+string error
+string[] trace
+CognitiveExercisesMsg[] cognitiveExercises

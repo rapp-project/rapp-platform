@@ -23,6 +23,7 @@ add_message_files(
   NewsStoryMsg.msg
   WeatherForecastMsg.msg
   ArrayCognitiveExercisePerformanceRecordsMsg.msg
+  CognitiveExercisesMsg.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -34,6 +35,7 @@ add_service_files(
   /CognitiveExercise/cognitiveTestCreatorSrv.srv
   /CognitiveExercise/userScoresForAllCategoriesSrv.srv
   /CognitiveExercise/userScoreHistoryForAllCategoriesSrv.srv
+  /CognitiveExercise/returnTestsOfTypeSubtypeDifficultySrv.srv
 
   /HumanDetection/HumanDetectionRosSrv.srv
 
