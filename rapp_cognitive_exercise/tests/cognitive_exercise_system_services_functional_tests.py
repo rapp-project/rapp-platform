@@ -87,7 +87,24 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.testType="ArithmeticCts"
         response = test_service(req)     
         self.assertEqual(response.success, True) 
-        self.assertEqual(len(response.questions)>=1, True)         
+        self.assertEqual(len(response.questions)>=1, True)     
+        
+    def test_chooser_subtype(self):
+        ros_service = rospy.get_param(\
+                "rapp_cognitive_exercise_chooser_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, testSelectorSrv)
+
+        req = testSelectorSrvRequest()
+        req.username="rapp"        
+        req.testType="ArithmeticCts"
+        req.testSubType="BasicArithmeticCts"
+        response = test_service(req)     
+        self.assertEqual(response.success, True) 
+        self.assertEqual(len(response.questions)>=1, True) 
+        self.assertEqual(response.testSubType, "BasicArithmeticCts")
         
     ## Tests the cognitive exercise test chooser service when test type is not provided  
     def test_chooser_no_type(self):

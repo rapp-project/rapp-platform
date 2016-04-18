@@ -81,11 +81,11 @@ class TestSelector:
         #Get test types from ontology
         testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
         #Determine the test type of the to be selected test
-        testType=self.determineTestType(req.testType,testTypesList,userOntologyAlias,res.trace)        
+        testType=self.determineTestType(req.testType,req.testSubType,testTypesList,userOntologyAlias,res.trace)        
         #Get user performance records and determine difficulty of the to be selected test for given test type
         chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.getUserPerformanceRecordsAndDetermineTestDifficultyForTestType(testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,difficultyModifier1to2,difficultyModifier2to3,historyBasedOnNumOfTestsAndNotTime,pastTests,res.trace)
         #Get all tests of a give type from the ontology
-        testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,userLanguage,chosenDif,res.trace)            
+        testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,req.testSubType,userLanguage,chosenDif,res.trace)            
         #Determine the least recently used (LRU) test and retrieve the .xml test file
         testName,testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp)      
         #res.test=testName
@@ -117,7 +117,10 @@ class TestSelector:
   # @return trace [string] The trace argument of the service as defined in the testSelectorSrv
   # @return testType [string] The test type (category)
   # @exception Exception AppError
-  def determineTestType(self,testType,testTypesList,userOntologyAlias,trace):
+  def determineTestType(self,testType,testSubType,testTypesList,userOntologyAlias,trace):
+    if(testType=="" and not testSubType==""):
+      error="Error, testSubType provided but testType not provided"
+      raise AppError(error,error)
     if(testType==""):
         testType=self.determineTestTypeIfNotProvided(testTypesList,userOntologyAlias,trace)
     else:
@@ -213,6 +216,7 @@ class TestSelector:
     
   ## @brief Gets the cognitive tests of the given type and difficulty available in the ontology  
   # @param testType [string] The test type (category)
+  # @param testSubType [string] The test sub type
   # @param userLanguage [string] The user's language
   # @param chosenDif [string] The difficulty setting
   # @param res.trace [string] The trace argument of the service as defined in the testSelectorSrv
@@ -220,7 +224,7 @@ class TestSelector:
   # @return testsOfTypeOrdered [dict] The cognitive tests of the given type and difficulty setting
   # @return res.trace [string] The trace argument of the service as defined in the testSelectorSrv
   # @exception Exception AppError
-  def getCognitiveTestsOfType(self,testType,userLanguage,chosenDif,trace):
+  def getCognitiveTestsOfType(self,testType,testSubType,userLanguage,chosenDif,trace):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
     cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
     cognitiveTestsOfTypeSrvReq.test_type=testType
@@ -229,7 +233,7 @@ class TestSelector:
     cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
     if(cognitiveTestsOfTypeResponse.success!=True):
       raise AppError(cognitiveTestsOfTypeResponse.error, cognitiveTestsOfTypeResponse.trace)
-    testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,trace)    
+    testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,testSubType,trace)    
     return testsOfTypeOrdered
       
   ## @brief Gets the least recently used test of the given test type and difficulty and obtains the path to the test xml file
@@ -307,28 +311,35 @@ class TestSelector:
       
   ## @brief Filters a dictionary containing cognitive tests by keeping only those of the given difficulty  
   # @param testsOfType [dict] The dictionary containing the cognitive tests
-  # @param chosenDif [string] The dgiven difficulty
+  # @param chosenDif [string] The given difficulty
+  # @param testSubType [string] The test sub type
   # @param res.trace [string] The trace argument of the service as defined in the testSelectorSrv
   #   
   # @return res.trace [string] The trace argument of the service as defined in the testSelectorSrv
   # @exception Exception AppError
-  def filterTestsbyDifficulty(self,testsOfType,chosenDif,trace):
+  def filterTestsbyDifficulty(self,testsOfType,chosenDif,testSubType,trace):
     success=False
+    testSubTypePrefix="http://knowrob.org/kb/knowrob.owl#"
     d=dict()
     intDif=int(chosenDif)
     if(intDif==0):
-      error="Error, no tests of type contained in the ontology... cannot proceed"
+      error="Error, no tests of type contained in the ontology for any difficulty, probably wrong testSubType provided or testSubType belongs to different testType."
       raise AppError(error,error)
       return d
     else:
       for i in range(len(testsOfType.tests)):
         if(testsOfType.difficulty[i]==chosenDif):
-          tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i]]
-          d[testsOfType.tests[i]]=[tlist]
+          if(not testSubType==""):
+            if(testSubTypePrefix+testSubType==testsOfType.subtype[i]):
+              tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i]]
+              d[testsOfType.tests[i]]=[tlist]
+          else:
+            tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i]]
+            d[testsOfType.tests[i]]=[tlist]
       if(not len(d)>0):
         trace.append("downscaling difficulty by 1 as no test exists for diff = " +chosenDif);
         chosenDif=str(int(chosenDif)-1)
-        success,d=self.filterTestsbyDifficulty(testsOfType,chosenDif,trace)
+        success,d=self.filterTestsbyDifficulty(testsOfType,chosenDif,testSubType,trace)
       else:
         success=True
       return d
