@@ -1,6 +1,6 @@
 {
   "hazard_detection": {
-    "launch": true,
+    "launch": false,
     "path": "workers/hazard_detection/worker.js",
     "services": [
       "hazard_detection_light_check",
@@ -15,7 +15,7 @@
     ]
   },
   "available_services": {
-    "launch": true,
+    "launch": false,
     "path": "workers/available_services/worker.js",
     "services": [
       "available_services"
@@ -29,42 +29,42 @@
     ]
   },
   "qr_detection": {
-    "launch": true,
+    "launch": false,
     "path": "workers/qr_detection/worker.js",
     "services": [
       "qr_detection"
     ]
   },
   "cognitive_get_history": {
-    "launch": true,
+    "launch": false,
     "path": "workers/cognitive_get_history/worker.js",
     "services": [
       "cognitive_get_history"
     ]
   },
   "cognitive_get_scores": {
-    "launch": true,
+    "launch": false,
     "path": "workers/cognitive_get_scores/worker.js",
     "services": [
       "cognitive_get_scores"
     ]
   },
   "cognitive_test_chooser": {
-    "launch": true,
+    "launch": false,
     "path": "workers/cognitive_test_chooser/worker.js",
     "services": [
       "cognitive_test_chooser"
     ]
   },
   "cognitive_record_performance": {
-    "launch": true,
+    "launch": false,
     "path": "workers/cognitive_record_performance/worker.js",
     "services": [
       "cognitive_record_performance"
     ]
   },
   "email_support": {
-    "launch": true,
+    "launch": false,
     "path": "workers/email_support/worker.js",
     "services": [
       "email_send",
@@ -72,7 +72,7 @@
     ]
   },
   "ontology": {
-    "launch": true,
+    "launch": false,
     "path": "workers/ontology/worker.js",
     "services": [
       "ontology_subclasses_of",
@@ -81,49 +81,49 @@
     ]
   },
   "text_to_speech": {
-    "launch": true,
+    "launch": false,
     "path": "workers/text_to_speech/worker.js",
     "services": [
       "text_to_speech"
     ]
   },
   "set_noise_profile": {
-    "launch": true,
+    "launch": false,
     "path": "workers/set_noise_profile/worker.js",
     "services": [
       "set_noise_profile"
     ]
   },
   "speech_detection_google": {
-    "launch": true,
+    "launch": false,
     "path": "workers/speech_detection_google/worker.js",
     "services": [
       "speech_detection_google"
     ]
   },
   "speech_detection_sphinx4": {
-    "launch": true,
+    "launch": false,
     "path": "workers/speech_detection_sphinx4/worker.js",
     "services": [
       "speech_detection_sphinx4"
     ]
   },
   "news_explore": {
-    "launch": true,
+    "launch": false,
     "path": "workers/news_explore/worker.js",
     "services": [
       "news_explore"
     ]
   },
   "geolocation": {
-    "launch": true,
+    "launch": false,
     "path": "workers/geolocation/worker.js",
     "services": [
       "geolocation"
     ]
   },
   "weather_report": {
-    "launch": true,
+    "launch": false,
     "path": "workers/weather_report/worker.js",
     "services": [
       "weather_report_forecast",
@@ -131,21 +131,21 @@
     ]
   },
   "object_recognition": {
-    "launch": true,
+    "launch": false,
     "path": "workers/object_recognition/worker.js",
     "services": [
       "object_recognition"
     ]
   },
   "human_detection": {
-    "launch": true,
+    "launch": false,
     "path": "workers/human_detection/worker.js",
     "services": [
       "human_detection"
     ]
   },
   "path_planning": {
-    "launch": true,
+    "launch": false,
     "path": "workers/path_planning/worker.js",
     "services": [
       "path_planning_upload_map",
@@ -153,7 +153,7 @@
     ]
   },
   "authentication": {
-    "launch": true,
+    "launch": false,
     "path": "workers/authentication/worker.js",
     "services": [
       "auth_service_access",

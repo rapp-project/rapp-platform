@@ -35,7 +35,7 @@
 var path = require('path');
 var util = require('util');
 
-var webService = require('./webService.js');
+var webService = require(path.join(__dirname, '../webService/webService.js'));
 
 var callParent = function( msg ){
   postMessage(msg);
