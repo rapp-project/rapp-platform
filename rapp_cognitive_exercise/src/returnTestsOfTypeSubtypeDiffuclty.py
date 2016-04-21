@@ -64,7 +64,9 @@ class ReturnTests:
     try:      
       res = returnTestsOfTypeSubtypeDifficultySrvResponse()
       
-      testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
+      l=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()
+      print l
+      testTypesList=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()
       res.error="kati" 
       res.success=True
     except IndexError, e:

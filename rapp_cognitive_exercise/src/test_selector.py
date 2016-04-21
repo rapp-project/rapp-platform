@@ -225,14 +225,15 @@ class TestSelector:
   # @return res.trace [string] The trace argument of the service as defined in the testSelectorSrv
   # @exception Exception AppError
   def getCognitiveTestsOfType(self,testType,testSubType,userLanguage,chosenDif,trace):
-    serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
-    cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
-    cognitiveTestsOfTypeSrvReq.test_type=testType
-    cognitiveTestsOfTypeSrvReq.test_language=userLanguage
-    knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)
-    cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
-    if(cognitiveTestsOfTypeResponse.success!=True):
-      raise AppError(cognitiveTestsOfTypeResponse.error, cognitiveTestsOfTypeResponse.trace)
+    #serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
+    #cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
+    #cognitiveTestsOfTypeSrvReq.test_type=testType
+    #cognitiveTestsOfTypeSrvReq.test_language=userLanguage
+    #knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)
+    #cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
+    #if(cognitiveTestsOfTypeResponse.success!=True):
+      #raise AppError(cognitiveTestsOfTypeResponse.error, cognitiveTestsOfTypeResponse.trace)
+    cognitiveTestsOfTypeResponse=CognitiveExerciseHelperFunctions.getCognitiveTestsOfType(testType,userLanguage)
     testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,testSubType,trace)    
     return testsOfTypeOrdered
       

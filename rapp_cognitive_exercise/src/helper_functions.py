@@ -20,7 +20,10 @@ from rapp_platform_ros_communications.srv import (
   userScoreHistoryForAllCategoriesSrvResponse,
   getUserLanguageSrv,
   getUserLanguageSrvRequest,
-  getUserLanguageSrvResponse
+  getUserLanguageSrvResponse,
+  cognitiveTestsOfTypeSrv,
+  cognitiveTestsOfTypeSrvRequest,
+  cognitiveTestsOfTypeSrvResponse
   )
 
 from rapp_platform_ros_communications.msg import (  
@@ -79,6 +82,45 @@ class CognitiveExerciseHelperFunctions:
       tmpList=s.split('#')
       testTypesList.append(tmpList[1])
     return testTypesList
+
+  @staticmethod
+  ## @brief Queries the ontology and returns the cognitive test languages available
+  #
+  # @return languagesList [list] The list of the available cognitive test languages they were read from the ontology
+  # @exception Exception AppError
+  def getTestLanguagesFromOntology():
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_subclasses_of_topic')
+    knowrob_service = rospy.ServiceProxy(serv_topic, ontologySubSuperClassesOfSrv)
+    testTypesReq = ontologySubSuperClassesOfSrvRequest()
+    testTypesReq.ontology_class="HumanLanguage"
+    testTypesResponse = knowrob_service(testTypesReq)
+    if(testTypesResponse.success!=True):     
+      testTypesResponse.trace.append("cannot load test categories from ontology")
+      raise AppError(testTypesResponse.error+"cannot load test categories from ontology",testTypesResponse.trace)      
+    testTypesList=[]
+    for s in testTypesResponse.results:
+      tmpList=s.split('#')
+      testTypesList.append(tmpList[1])
+    return testTypesList
+
+  @staticmethod
+  ## @brief Gets the cognitive tests of the given type and difficulty available in the ontology  
+  # @param testType [string] The test type (category)
+  # @param userLanguage [string] The user's language
+  #  
+  # @return cognitiveTestsOfTypeResponse [cognitiveTestsOfTypeResponse] The cognitive tests of type service response
+  # @exception Exception AppError
+  def getCognitiveTestsOfType(testType,userLanguage):
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
+    cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
+    cognitiveTestsOfTypeSrvReq.test_type=testType
+    cognitiveTestsOfTypeSrvReq.test_language=userLanguage
+    knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)
+    cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
+    if(cognitiveTestsOfTypeResponse.success!=True):
+      raise AppError(cognitiveTestsOfTypeResponse.error, cognitiveTestsOfTypeResponse.trace)
+    #testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,testSubType,trace)    
+    return cognitiveTestsOfTypeResponse
 
   @staticmethod
   ## @brief Queries the MySQL database through the MySQL wrapper and returns the user's language

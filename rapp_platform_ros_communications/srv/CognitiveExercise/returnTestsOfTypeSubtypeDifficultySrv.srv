@@ -1,6 +1,7 @@
 string testType
 string testSubType
 string difficulty
+string language
 ---
 bool success
 string error
