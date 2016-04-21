@@ -1,0 +1,9 @@
+string container_identifier
+string service_name
+string service_type
+int16 container_port
+int16 host_port
+---
+bool success
+string error
+string[] trace

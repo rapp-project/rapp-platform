@@ -62,7 +62,13 @@ from rapp_platform_ros_communications.srv import (
   validateExistingPlatformDeviceTokenSrvRequest,
   removePlatformUserSrv,
   removePlatformUserSrvRequest,
-  removePlatformUserSrvResponse
+  removePlatformUserSrvResponse,
+  createNewCloudAgentServiceSrv,
+  createNewCloudAgentServiceSrvRequest,
+  createNewCloudAgentServiceSrvResponse,
+  createNewCloudAgentSrv,
+  createNewCloudAgentSrvRequest,
+  createNewCloudAgentSrvResponse  
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -152,6 +158,17 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_validate_user_role_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, validateUserRoleSrv, self.validateUserRoleDataHandler)
+    
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_create_new_cloud_agent_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_create_new_cloud_agent_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, createNewCloudAgentSrv, self.createNewCloudAgentDataHandler)
+
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_create_new_cloud_agent_service_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_create_new_cloud_agent_service_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, createNewCloudAgentServiceSrv, self.createNewCloudAgentServiceDataHandler)    
+    
     
   def getUserOntologyAlias(self,req):
     try:
@@ -562,6 +579,64 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  def createNewCloudAgent(self,req):
+    try:
+      res = createNewCloudAgentSrvResponse()        
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()    
+      cur.execute("LOCK TABLES cloud_agent WRITE, platform_user READ")       
+      cur.execute("insert into cloud_agent (platform_user_id,tarball_path,container_identifier,image_identifier,container_type) VALUES ((select id from platform_user where username=%s), %s,%s,%s,%s)",(req.username,req.tarball_path,req.container_identifier,req.image_identifier,req.container_type)) 
+      cur.execute("UNLOCK TABLES")
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res   
+
+  def createNewCloudAgentService(self,req):
+    try:
+      res = createNewCloudAgentServiceSrvResponse()   
+      print "right"     
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()    
+      cur.execute("LOCK TABLES cloud_agent READ, cloud_agent_services WRITE")     
+      cur.execute("insert into cloud_agent_services (cloud_agent_id,service_name,service_type,container_port,host_port) VALUES ((select id from cloud_agent where container_identifier=%s), %s,%s,%s,%s)",(req.container_identifier,req.service_name,req.service_type,req.container_port,req.host_port)) 
+      cur.execute("UNLOCK TABLES")
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res 
+
+
   ## @brief Gets the columns of the table
   # @return Columns [list] the columns of the table
   def getTableColumnNames(self,tblName):
@@ -703,9 +778,25 @@ class MySQLdbWrapper:
     return res
 
   ## @brief The removePlatformUserSrv service callback
-  # @param req [rapp_platform_ros_communications::removePlatformUserSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::removePlatformUserSrvRequest::Response&] The ROS service response
+  # @param req [rapp_platform_ros_communications::removePlatformUserSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::removePlatformUserSrvResponse::Response&] The ROS service response
   def removePlatformUserDataHandler(self,req):
     res = removePlatformUserSrvResponse()
     res=self.removePlatformUser(req)
+    return res
+
+  ## @brief The createNewCloudAgentSrv service callback
+  # @param req [rapp_platform_ros_communications::createNewCloudAgentSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::createNewCloudAgentSrvResponse::Response&] The ROS service response
+  def createNewCloudAgentDataHandler(self,req):
+    res = createNewCloudAgentSrvResponse()
+    res=self.createNewCloudAgent(req)
+    return res
+
+  ## @brief The createNewCloudAgentServiceSrv service callback
+  # @param req [rapp_platform_ros_communications::createNewCloudAgentServiceSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::createNewCloudAgentServiceSrvResponse::Response&] The ROS service response
+  def createNewCloudAgentServiceDataHandler(self,req):
+    res = createNewCloudAgentServiceSrvResponse()
+    res=self.createNewCloudAgentService(req)
     return res

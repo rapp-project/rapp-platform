@@ -1,0 +1,9 @@
+string username
+string tarball_path
+string container_identifier
+string image_identifier
+string container_type
+---
+bool success
+string error
+string[] trace

@@ -55,6 +55,8 @@ add_service_files(
   /DbWrapper/validateUserRoleSrv.srv
   /DbWrapper/validateExistingPlatformDeviceTokenSrv.srv
   /DbWrapper/removePlatformUserSrv.srv
+  /DbWrapper/createNewCloudAgentServiceSrv.srv
+  /DbWrapper/createNewCloudAgentSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
