@@ -57,6 +57,7 @@ add_service_files(
   /DbWrapper/removePlatformUserSrv.srv
   /DbWrapper/createNewCloudAgentServiceSrv.srv
   /DbWrapper/createNewCloudAgentSrv.srv
+  /DbWrapper/getCloudAgentServiceTypeAndHostPortSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv

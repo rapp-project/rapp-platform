@@ -68,7 +68,10 @@ from rapp_platform_ros_communications.srv import (
   createNewCloudAgentServiceSrvResponse,
   createNewCloudAgentSrv,
   createNewCloudAgentSrvRequest,
-  createNewCloudAgentSrvResponse  
+  createNewCloudAgentSrvResponse,
+  getCloudAgentServiceTypeAndHostPortSrv,
+  getCloudAgentServiceTypeAndHostPortSrvRequest,
+  getCloudAgentServiceTypeAndHostPortSrvResponse  
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -168,6 +171,11 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_create_new_cloud_agent_service_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, createNewCloudAgentServiceSrv, self.createNewCloudAgentServiceDataHandler)    
+
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_cloud_agent_service_type_and_host_port_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_get_cloud_agent_service_type_and_host_port_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, getCloudAgentServiceTypeAndHostPortSrv, self.getCloudAgentServiceTypeAndHostPortDataHandler) 
     
     
   def getUserOntologyAlias(self,req):
@@ -636,6 +644,36 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  def getCloudAgentServiceTypeAndHostPort(self,req):
+    try:
+      res = getCloudAgentServiceTypeAndHostPortSrvResponse()
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()
+      cur.execute("select service_type,host_port from cloud_agent_services where cloud_agent_id=(select id from cloud_agent where container_identifier=%s) and service_name=%s",(req.container_identifier,req.service_name))
+      result_set = cur.fetchall()
+      if(result_set and len(result_set[0])>0):
+        res.success=True
+        res.service_type=result_set[0][0]
+        res.host_port=result_set[0][1]
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res
 
   ## @brief Gets the columns of the table
   # @return Columns [list] the columns of the table
@@ -799,4 +837,12 @@ class MySQLdbWrapper:
   def createNewCloudAgentServiceDataHandler(self,req):
     res = createNewCloudAgentServiceSrvResponse()
     res=self.createNewCloudAgentService(req)
+    return res
+
+  ## @brief The getCloudAgentServiceTypeAndHostPortSrv service callback
+  # @param req [rapp_platform_ros_communications::getCloudAgentServiceTypeAndHostPortSrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::getCloudAgentServiceTypeAndHostPortSrvResponse::Response&] The ROS service response
+  def getCloudAgentServiceTypeAndHostPortDataHandler(self,req):
+    res = getCloudAgentServiceTypeAndHostPortSrvResponse()
+    res=self.getCloudAgentServiceTypeAndHostPort(req)
     return res
