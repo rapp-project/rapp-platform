@@ -85,7 +85,7 @@ cp -r ~/rapp_platform_files/rapp-resources/caffe/example_images ~/rapp_platform_
 cp ~/rapp_platform_files/rapp-resources/caffe/synset_words.txt ~/rapp_platform/caffe/data/ilsvrc12/synset_words.txt
 
 # Append to user's .bashrc file.
-append="PYTHONPATH=$PYTHONPATH:~/rapp_platform/rapp-platform/caffe/python"
+append="PYTHONPATH=$PYTHONPATH:~/rapp_platform/caffe/python"
 grep -q "${append}" ~/.bashrc || echo -e          \
   "\n# Caffe Python modules\n${append}" \
   >> ~/.bashrc
