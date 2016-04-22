@@ -23,6 +23,8 @@ import sys
 import time
 import hashlib
 import threading
+import os.path
+import rospkg
 
 from speech_recognition_sphinx4 import *
 
@@ -207,7 +209,15 @@ class SpeechRecognitionSphinx4HandlerNode():
 
 if __name__ == "__main__":
   rospy.init_node('SpeechRecognitionSphinx4')
-  SpeechRecognitionSphinx4HandlerNode = SpeechRecognitionSphinx4HandlerNode()
-  RappUtilities.rapp_print("Sphinx4 Handler node initialized", 'DEBUG')
-  rospy.spin()
+  
+  rospack = rospkg.RosPack()
+  sphinx_class = rospack.get_path('rapp_speech_detection_sphinx4') + \
+          "/src/Sphinx4.class"
+  
+  if not os.path.isfile(sphinx_class):
+    rospy.logerr("speech_recognition_sphinx4_handler_node: Sphinx.class file is missing. You can execute 'buildJava.sh'")
+  else:
+    SpeechRecognitionSphinx4HandlerNode = SpeechRecognitionSphinx4HandlerNode()
+    RappUtilities.rapp_print("Sphinx4 Handler node initialized", 'DEBUG')
+    rospy.spin()
 
