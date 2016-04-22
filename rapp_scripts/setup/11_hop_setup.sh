@@ -23,7 +23,7 @@
 
 RappPlatformPath="${HOME}/rapp_platform"
 BiglooIndex="bigloo4.3a"
-BiglooUrl="ftp://ftp-sop.inria.fr/indes/rapp/hop/bigloo.tar.gz"
+BiglooUrl="http://rapp-project.eu/bigloo4.3a.tar.gz"
 HopRepoUrl="https://github.com/manuel-serrano/hop.git"
 HopCommitIndex="58c2d43e43d1358b6d65506f8167a0cdfcd3ca51"
 
