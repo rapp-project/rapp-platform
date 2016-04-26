@@ -3,12 +3,16 @@ RAPP Platform Web Services
 
 ## Synopsis
 
-Developed algorithms located under RAPP Improvement Center (RIC), can be utilized by robots via the RAPP Platform Web Services, exposed by RIC and furthermore the RAPP Platform. We consider RAPP Platform Web Services an imperative component of the RAPP Improvement Center (RIC) as they define the client-server interface layer.
+RAPP Improvement Center (RIC) nodes, can be utilized by robots via the RAPP Platform Web Services. The service layer has been developed using HOP. That consists of a web server implementation, an http/https server, and the web services developed in Hop.js framework. Web services run within server-side workers (web workers). A worker can include more than one web service. We consider server-side workers to be forked processes, thus allowing concurrent execution.
 
+As HOP-Web-Services act as the interface layer between the Robot Platform and the Cloud Platform (along with the RAPP API), the development of those depends on both Client (User/Developer) and RIC requirements.
 
-HOP Web Services run under HOP Web Broker, as a part of RIC. Communication between remote clients and the HOP Server, and furthermore HOP Web Services, is achieved via **HTTP Post requests**. HOP Web Server is exposed to the web via a public IPv4 Address. Furthermore the HOP Web Services run on a specific system port and so those are accessible from remote clients via the HOP Web Server running IPv4 Address followed by a port (**xxx.xxx.xxx.xxx:8080**).
+Web service responses are asynchronous http responses. This way we allow robot platforms to request for cloud services while performing other tasks.
 
-As HOP Web Services act as the interface layer between the Robot Platform and the Cloud Platform (along with the RAPP API), the development of those depends on both Client (User/Developer) and RIC requirements.
+Robot platforms can access RAPP Platform services using **HTTP POST** requests, as most of the services require an arbitrary amount of data to be sent to the Cloud for processing, like image and audio data files. HOP Web Server has been configured to accept *application/x-www-urlencoded* and *multipart/form-data form submissions.
+
+The RAPP API, used from the client-side platform, integrates calls to the HOP Server and furthermore to the HOP Web Services. A HOP Web Service delegates service calls to the RAPP Services through the [Rosbridge](https://github.com/RobotWebTools/rosbridge_suite) transport layer.
+Rosbridge Server provides a WebSocket transport layer to ROS and so it allows web clients to talk ROS using the rosbridge protocol. We use the Rosbridge Websocket Server in order to interfere with AI modules developed under ROS. That WebSocket server is not exposed to the public network and it is only accessible locally.
 
 The  communication  workflow,  from  the  client-side  platform  to  RAPP  Services  can  be  severed  into  the  following independent interface layers:
 
@@ -17,24 +21,13 @@ The  communication  workflow,  from  the  client-side  platform  to  RAPP  Servi
 - HOP Web Services -> Rosbridge WebSocket Server.
 - Rosbridge WebSocket Server -> RAPP Services (ROS Services).
 
-The RAPP API, used from the client-side platform, integrates calls to the HOP Server and furthermore to the HOP Web Services. A HOP Web Service delegates service calls to the RAPP Services through the [Rosbridge](https://github.com/RobotWebTools/rosbridge_suite) interface layer.
 
-Rosbridge Server provides a WebSocket transport layer to ROS and so it allows web clients to talk ROS using the rosbridge protocol. We use the Rosbridge Websocket Server in order to interfere with AI modules developed under ROS. That WebSocket server is not exposed to the public network and it is only accessible locally.
-
-Furthermore, user authentication on Hop Web Services requests, is handled by Hop Web Server.
-Currently we use **HTTP-Basic-Authentication** technique for enforcing access controls to the RAPP Platform web resources.
-
-Currently, HOP Web Broker is configured to act as a remote HTTP-Server.
-
-As we integrate HOP to be the RAPP Platform Web front-end, we reference the RAPP Platform
-Web Services as **HOP Web Services**.
-
-**Note**: Possible extension to secure communication (HTTPS) is currently under consideration.
+Currently, HOP-Server is configured to act as an HTTP/HTTPS Web Server (**Does not accept proxy connections**).
 
 
-## Initiate HOP Web Services
+## Start HOP Web Server
 
-On a fresh clone you will first need to install devDependencies:
+On a fresh clone you will first need to install required dependencies:
 
 ```shell
 $ npm install
@@ -52,17 +45,16 @@ Or execute the **run.sh** script directly:
 $ ./run.sh
 ```
 
-Any js file, stored under the services/ directory with a .service.js extension, is considered to be
-a HOP Web Service js executable file. HOP Server is responsible for registering those services, on run-time, as workers.
-
 
 **Note**: Do not change HOP Server configuration parameters, unless you know what you are doing!!
 
+
 ## Directories
 
-- services/ : Front-end HOP web services running on RAPP Platform.
-- module/   : Common developed modules used for developing and testing HOP services.
-- config/   : This directory containes configuration files. Those files are loaded by the HOP Server on run-time.
+- services/ :  Web Services implementations (Source files).
+- workers/ : Web Workers implementations (Source files).
+- src/ : Common source directory (Except web-service and web-worker implementations).
+- config/   : This directory containes several configuration files for the HOP Server, web-workers and the web-services to use.
 
 
 
@@ -96,19 +88,11 @@ $ grunt jsdoc:commons
 Gererate documentation for ALL:
 
 ```shell
-$ make doc
-```
-
-Or
-
-```shell
 $ grunt jsdoc
 ```
 
-Makefile tasks integrates grunt tasks on generating source-code documentation.
 
-
-Generated doc files are located under the **doc/** directory, or under:
+Generated doc files are stored under the **doc/** directory, or under:
 
 ```shell
 $ ${HOME}/rapp_platform_files/
