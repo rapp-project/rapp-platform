@@ -8,32 +8,56 @@ These services are used in order to communicate with the RAPP Platform ecosystem
 
 | Platform Services             | Description   								|
 | :---------------------------:	| :---------------------------------------------------------------------------:	|
+|                               |                                                                               |
+|   *Computer Vision*           |                                                                               |
+|                               |                                                                               |
 | face_detection                |  Detect faces on an image frame                        			|
 | qr_detection                  |  Detect and recognize Qr-Codes on an image frame                        	|
-| text_to_speech                |  Text-to-speech translation on given input plain text                         |
+| hazard_detection_door_check	|  Detect open-doors (hazard) on an image frame					|
+| hazard_detection_light_check	|  Detect lights-on (hazard) on an image frame					|
+| human_detection		|  Detect human existance on on an image frame 					|
+|                               |                                                                               |
+|   *Speech Recognition*        |                                                                               |
+|                               |                                                                               |
 | set_noise_profile             |  Set user's noise profile. Used to apply denoising on speech-recognition 	|
 | speech_detection_sphix4       |  Performs speech-detection using the Platform integrated Sphinx4 engine    	|
 | speech_detection_google       |  Performs speech-detection using the Platform integrated Google engine     	|
-| available_services            |  Returns a list of the Platform available services (up-to-date)            	|
+|                               |                                                                               |
+|   *Ontology Queries*          |                                                                               |
+|                               |                                                                               |
 | ontology_subclasses_of        |  Perform Ontology, subclasses-of, query                                    	|
 | ontology_superclasses_of      |  Perform Ontology, superclasses-of, query                                  	|
 | ontology_is_supsuperclass_of  |  Perform Ontology, is-subsuperclass-of, query                              	|
+|                               |                                                                               |
+|   *Cognitive Exercises*       |                                                                               |
+|                               |                                                                               |
 | cognitive_test_chooser        |  Returns a Cognitive Exercise literal that describes the test              	|
 | cognitive_record_performance  |  Record user's performance on a Cognitive Exercise                     	|
 | cognitive_get_history	        |  Returns user's history on Cognitive Exercise(s)				|
 | cognitive_get_score		|  Returns user's performance scores on Cognitive Exercise(s)			|
+|                               |                                                                               |
+|   *Email Support*             |                                                                               |
+|                               |                                                                               |
 | email_fetch			|  Fetch received user's emails							|
 | email_send			|  Send an email, using user's account					        |
-| geolocation			|  Get information about client's location				        |
+|                               |                                                                               |
+|   *Weather Report*            |                                                                               |
+|                               |                                                                               |
 | weather_report_forecast	|  Get detailed information about future weather conditions			|
 | weather_report_current	|  Get detailed information about current weather conditions			|
-| news_explore			|  Search for news articles							|
-| hazard_detection_door_check	|  Detect open-doors (hazard) on an image frame					|
-| hazard_detection_light_check	|  Detect lights-on (hazard) on an image frame					|
-| human_detection		|  Detect human existance on on an image frame 					|
+|                               |                                                                               |
+| *Authentication-Registration* |                                                                               |
+|                               |                                                                               |
 | login_user			|  Login existing user								|
 | register_user_from_platform	|  Add new platform user using platform credentials				|
 | register_user_from_store	|  Add new platform user using rapp_store credentials				|
+|                               |                                                                               |
+|           *Other*             |                                                                               |
+|                               |                                                                               |
+| text_to_speech                |  Text-to-speech translation on given input plain text                         |
+| available_services            |  Returns a list of the Platform available services (up-to-date)            	|
+| geolocation			|  Get information about client's location				        |
+| news_explore			|  Search for news articles							|
 
 
 ## Service specifications - Request arguments and response objects
@@ -284,6 +308,35 @@ Each point (x, y) is presented in Cartesian Coordinate System as:
 ```js
 point2D: {x: <val, y: <val>}
 ```
+
+#### Object-Recognition
+
+##### Service-Url
+
+```
+/hop/object_recognition
+```
+
+##### Service request arguments
+
+```js
+{file: ''}
+```
+
+- **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
+
+
+##### Service response
+
+application/json response.
+
+```js
+{object_class: '', error: ''}
+````
+
+- **object_class** (String): Recognized object class.
+- **error** (String): Error message, if one occures. (String)
+
 
 -----------------------------------------------------------
 ### Speech Recognition
