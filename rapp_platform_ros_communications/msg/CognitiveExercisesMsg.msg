@@ -2,8 +2,8 @@
 string testName
 string testType
 string testSubType
-int32 difficulty
-int64 id
+string difficulty
+string id
 string[] languages
 
 

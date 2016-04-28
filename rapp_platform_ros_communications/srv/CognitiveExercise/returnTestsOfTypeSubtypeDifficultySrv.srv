@@ -7,3 +7,4 @@ bool success
 string error
 string[] trace
 CognitiveExercisesMsg[] cognitiveExercises
+int16 totalNumberOfTestsReturned

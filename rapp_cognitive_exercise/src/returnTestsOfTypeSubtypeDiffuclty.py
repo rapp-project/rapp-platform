@@ -63,16 +63,45 @@ class ReturnTests:
   def returnTestsFunction(self,req):
     try:      
       res = returnTestsOfTypeSubtypeDifficultySrvResponse()
+      supportedLanguages=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()     
       
-      l=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()
-      print l
-      testTypesList=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()
-      res.error="kati" 
+      keepEntries = dict()
+      testCount=0
+      for currentLanguage in supportedLanguages:
+        cognitiveTestsOfTypeResponse=CognitiveExerciseHelperFunctions.getCognitiveTestsOfType(req.testType,currentLanguage)
+        tests=CognitiveExerciseHelperFunctions.filterTestsbyDifficultyAndSubtype(cognitiveTestsOfTypeResponse,req.difficulty,req.testSubType)
+        if(req.language=="" or currentLanguage==req.language):
+          for k, v in tests.items():
+            if(not k in keepEntries):
+              currentCognitiveTest =  CognitiveExercisesMsg()
+              currentCognitiveTest.testName=k.split('#')[1]
+              currentCognitiveTest.testType=req.testType
+              currentCognitiveTest.testSubType=(v[0][2]).split('#')[1]
+              currentCognitiveTest.testSubType=(v[0][2]).split('#')[1]
+              currentCognitiveTest.difficulty=(v[0][1])
+              #currentCognitiveTest.difficulty=(v[0][1])
+              currentCognitiveTest.languages.append(currentLanguage)
+              
+              res.cognitiveExercises.append(currentCognitiveTest)
+              keepEntries[k]=testCount
+              testCount=testCount+1
+            else:
+              res.cognitiveExercises[keepEntries[k]].languages.append(currentLanguage)
+              
+            
+          
+          #  cognitiveTest = CognitiveExercisesMsg()
+          print tests       
+        
+      #print l
+      #testTypesList=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()
+      #print testTypesList
+      res.totalNumberOfTestsReturned=testCount
       res.success=True
-    except IndexError, e:
-      res.trace.append("IndexError: " +str(e))
-      res.error="IndexError: "+str(e)
-      res.success=False
+    #except IndexError, e:
+      #res.trace.append("IndexError: " +str(e))
+      #res.error="IndexError: "+str(e)
+      #res.success=False
     except IOError, e:
       res.success=False
       res.trace.append("IOError: "+str(e))

@@ -121,6 +121,34 @@ class CognitiveExerciseHelperFunctions:
       raise AppError(cognitiveTestsOfTypeResponse.error, cognitiveTestsOfTypeResponse.trace)
     #testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,testSubType,trace)    
     return cognitiveTestsOfTypeResponse
+    
+  @staticmethod
+  def filterTestsbyDifficultyAndSubtype(testsOfType,chosenDif,testSubType):
+    testSubTypePrefix="http://knowrob.org/kb/knowrob.owl#"
+    d=dict()
+    #intDif=int(chosenDif)
+    markForDeletion=[]
+    print testsOfType
+    for i in range(len(testsOfType.tests)):
+      #difficultyMatch=True
+      #subTypeMatch=True
+      if((chosenDif=="" or chosenDif==testsOfType.difficulty[i]) and (testSubType=="" or testSubTypePrefix+testSubType==testsOfType.subtype[i])):
+        #difficultyMatch=False
+      #if(not testSubType=="" and not testSubTypePrefix+testSubType==testsOfType.subtype[i]):
+        #subTypeMatch=False
+      #if(difficultyMatch and subTypeMatch):    
+        tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i]]
+        d[testsOfType.tests[i]]=[tlist]
+        #markForDeletion.append(i)
+    #print len(testsOfType.tests)
+    
+    #for i in markForDeletion:
+      #print i
+      #del testsOfType.tests[i]
+      #del testsOfType.file_paths[i]
+      #del testsOfType.difficulty[i]
+      #del testsOfType.subtype[i]
+    return d
 
   @staticmethod
   ## @brief Queries the MySQL database through the MySQL wrapper and returns the user's language
