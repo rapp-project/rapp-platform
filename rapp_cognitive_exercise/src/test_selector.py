@@ -75,8 +75,9 @@ class TestSelector:
       #Get user language
       userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.username)
       res.language=userLanguage
-      if(not req.overwriteTestXmlFile==""):
-        self.retrieveDataFromTestXml("/cognitiveTests/"+req.overwriteTestXmlFile,userLanguage,res)         
+      
+      if(not req.testDifficulty=="" or not req.testIndex==""): 
+        self.selectTestManuallyByGivenParameters(req.testType,req.testSubType,req.testIndex,req.testDifficulty,userLanguage,res)       
       else:
         #Get test types from ontology
         testTypesList=CognitiveExerciseHelperFunctions.getTestTypesFromOntology()
@@ -85,7 +86,7 @@ class TestSelector:
         #Get user performance records and determine difficulty of the to be selected test for given test type
         chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp=self.getUserPerformanceRecordsAndDetermineTestDifficultyForTestType(testType,userOntologyAlias,currentTimestamp,lookBackTimeStamp,difficultyModifier1to2,difficultyModifier2to3,historyBasedOnNumOfTestsAndNotTime,pastTests,res.trace)
         #Get all tests of a give type from the ontology
-        testsOfTypeOrdered=self.getCognitiveTestsOfType(testType,req.testSubType,userLanguage,chosenDif,res.trace)            
+        testsOfTypeOrdered=self.getCognitiveTestsAndFilterByParameters(testType,req.testSubType,userLanguage,chosenDif,res.trace)            
         #Determine the least recently used (LRU) test and retrieve the .xml test file
         testName,testFilePath=self.getLRUtestOfTypeAndXmlPath(testsOfTypeOrdered,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp)      
         #res.test=testName
@@ -107,6 +108,24 @@ class TestSelector:
     except AppError as e:
       AppError.passErrorToRosSrv(e,res) 
     return res
+
+
+  def selectTestManuallyByGivenParameters(self,testType,testSubtype,testIndex,testDifficulty,userLanguage, res):
+    if(not testType=="" and not testDifficulty=="" and not testIndex=="" and not testSubtype==""):
+      testIndex=str(int(testIndex)-1)
+      tests=CognitiveExerciseHelperFunctions.getCognitiveTestsOfType(testType,userLanguage) 
+      tests=CognitiveExerciseHelperFunctions.filterTestsbyDifficultyAndSubtype(tests,testDifficulty,testSubtype)
+      filepath=""
+      for k, v in tests.items():
+        if(testIndex==(v[0][3])):
+          filepath=(v[0][0])      
+      if(filepath==""):
+        error="No such test exists, or not available in user's language"
+        raise AppError(error,error) 
+      self.retrieveDataFromTestXml(filepath,userLanguage,res)  
+    else:
+      error="Error, manual test detection detected as testIndex or testDifficulty was defined. One or more of testType, testSubtype, testIndex, testDifficulty were not defined, cannot proceed"
+      raise AppError(error,error) 
 
   ## @brief Validates the provided test type
   # @param testType [string] The test type (category)
@@ -214,7 +233,7 @@ class TestSelector:
     trace.append("Chosen Diff :"+chosenDif)
     return chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp
     
-  ## @brief Gets the cognitive tests of the given type and difficulty available in the ontology  
+  ## @brief Gets the cognitive tests of the given parameters as available in the ontology  
   # @param testType [string] The test type (category)
   # @param testSubType [string] The test sub type
   # @param userLanguage [string] The user's language
@@ -224,17 +243,9 @@ class TestSelector:
   # @return testsOfTypeOrdered [dict] The cognitive tests of the given type and difficulty setting
   # @return res.trace [string] The trace argument of the service as defined in the testSelectorSrv
   # @exception Exception AppError
-  def getCognitiveTestsOfType(self,testType,testSubType,userLanguage,chosenDif,trace):
-    #serv_topic = rospy.get_param('rapp_knowrob_wrapper_cognitive_tests_of_type')
-    #cognitiveTestsOfTypeSrvReq=cognitiveTestsOfTypeSrvRequest()
-    #cognitiveTestsOfTypeSrvReq.test_type=testType
-    #cognitiveTestsOfTypeSrvReq.test_language=userLanguage
-    #knowrob_service = rospy.ServiceProxy(serv_topic, cognitiveTestsOfTypeSrv)
-    #cognitiveTestsOfTypeResponse = knowrob_service(cognitiveTestsOfTypeSrvReq)
-    #if(cognitiveTestsOfTypeResponse.success!=True):
-      #raise AppError(cognitiveTestsOfTypeResponse.error, cognitiveTestsOfTypeResponse.trace)
+  def getCognitiveTestsAndFilterByParameters(self,testType,testSubType,userLanguage,chosenDif,trace):
     cognitiveTestsOfTypeResponse=CognitiveExerciseHelperFunctions.getCognitiveTestsOfType(testType,userLanguage)
-    testsOfTypeOrdered=self.filterTestsbyDifficulty(cognitiveTestsOfTypeResponse,chosenDif,testSubType,trace)    
+    testsOfTypeOrdered=self.filterTestsbyDifficultyAndSubtype(cognitiveTestsOfTypeResponse,chosenDif,testSubType,trace)    
     return testsOfTypeOrdered
       
   ## @brief Gets the least recently used test of the given test type and difficulty and obtains the path to the test xml file
@@ -318,7 +329,7 @@ class TestSelector:
   #   
   # @return res.trace [string] The trace argument of the service as defined in the testSelectorSrv
   # @exception Exception AppError
-  def filterTestsbyDifficulty(self,testsOfType,chosenDif,testSubType,trace):
+  def filterTestsbyDifficultyAndSubtype(self,testsOfType,chosenDif,testSubType,trace):
     success=False
     testSubTypePrefix="http://knowrob.org/kb/knowrob.owl#"
     d=dict()
@@ -340,7 +351,7 @@ class TestSelector:
       if(not len(d)>0):
         trace.append("downscaling difficulty by 1 as no test exists for diff = " +chosenDif);
         chosenDif=str(int(chosenDif)-1)
-        success,d=self.filterTestsbyDifficulty(testsOfType,chosenDif,testSubType,trace)
+        success,d=self.filterTestsbyDifficultyAndSubtype(testsOfType,chosenDif,testSubType,trace)
       else:
         success=True
       return d

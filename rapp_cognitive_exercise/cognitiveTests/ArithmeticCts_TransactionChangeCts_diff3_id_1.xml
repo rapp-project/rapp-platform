@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <testSubType>TransactionChangeCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Αγοράζουμε μία μπλούζα που κάνει είκοσι—δύο ευρώ και ογδόντα λεπτά; και ενα παντελόνι που κάνει δεκα—τέσσερα ευρώ και τριάντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα μας δώσει ο πωλητής;</body>
+        <answer>
+          <body>δώδεκα ευρώ και εξήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>δεκατρία ευρώ και ενενήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>έντεκα ευρώ και εβδομήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>δώδεκα ευρώ και ενενήντα λεπτά</body>
+        </answer>
+        <correctAnswer>δώδεκα ευρώ και ενενήντα λεπτά</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Αγοράζουμε ένα λούτρινο αρκουδάκι που κάνει δεκα—πέντε ευρώ και εξήντα λεπτά; και μία κούκλα που κάνει δεκαοκτώ ευρώ και πενήντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των πενήντα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+        <answer>
+          <body>δεκαπέντε ευρώ και δεκαπέντε λεπτά</body>
+        </answer>
+        <answer>
+          <body>δώδεκα ευρώ και ενενήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>δεκαπέντε ευρώ και ενενήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>δεκατέσσερα ευρώ ογδόντα λεπτά</body>
+        </answer>
+        <correctAnswer>δεκαπέντε ευρώ και ενενήντα λεπτά</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>We buy a blouse which costs two euros and eighty cents; and a pair of trousers which costs fourteen euros and thirty cents; and we pay with a fifty euro bill. How much change do we get back?</body>
+        <answer>
+          <body>twelve euros and sixty cents</body>
+        </answer>
+        <answer>
+          <body>thirteen euros and ninety cents</body>
+        </answer>
+        <answer>
+          <body>eleven euros and seventy cents</body>
+        </answer>
+        <answer>
+          <body>twelve euros and ninety cents</body>
+        </answer>
+        <correctAnswer>twelve euros and ninety cents</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>We buy a teddy bear which costs fifteen euro and sixty cents; and a doll which costs eighteen euro and fifty cents; and we pay with a fifty euro bill. How much change do we get back?</body>
+        <answer>
+          <body>fifteen euros and fifteen cents</body>
+        </answer>
+        <answer>
+          <body>twelve euros and ninety cents</body>
+        </answer>
+        <answer>
+          <body>fifteen euros and ninety cents</body>
+        </answer>
+        <answer>
+          <body>fourteen euros and eighy cents</body>
+        </answer>
+        <correctAnswer>fifteen euros and ninety cents</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>ArithmeticCts_OrUIzvEY</name>
+</cognitiveTest>

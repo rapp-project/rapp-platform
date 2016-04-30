@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Πόσο κάνει εβδομήντα ένα και είκοσι τρία;</body>
+        <body>Πόσο κάνει; εβδομήντα—ένα; και είκοσι—τρία;</body>
         <answer>
           <body>εκατόν τέσσερα</body>
         </answer>
@@ -21,7 +21,7 @@
         <correctAnswer>ενενήντα τέσσερα</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Πόσο κάνει έντεκα και τριάντα πέντε;</body>
+        <body>Πόσο κάνει; έντεκα; και τριάντα—πέντε;</body>
         <answer>
           <body>σαράντα έξι</body>
         </answer>
@@ -37,7 +37,7 @@
         <correctAnswer>σαράντα έξι</correctAnswer>
       </Question>
       <Question name="Q3">
-        <body>Πόσο κάνει σαράντα πέντε και εβδομήντα τρία;</body>
+        <body>Πόσο κάνει; σαράντα—πέντε; και εβδομήντα—τρία;</body>
         <answer>
           <body>εκατόν οκτώ</body>
         </answer>
@@ -53,7 +53,7 @@
         <correctAnswer>εκατόν δέκα οκτώ</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>Πόσο κάνει σαράντα εννιά και δεκατρία;</body>
+        <body>Πόσο κάνει; σαράντα—εννιά; και δεκα—τρία;</body>
         <answer>
           <body>εβδομήντα δύο</body>
         </answer>
@@ -71,7 +71,7 @@
     </el>
     <en>
       <Question name="Q1">
-        <body>How much is seventy one plus twenty three?</body>
+        <body>How much is; seventy—one; plus twenty—three?</body>
         <answer>
           <body>one hundred four</body>
         </answer>
@@ -87,7 +87,7 @@
         <correctAnswer>ninety four</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>How much is eleven plus thirty five?</body>
+        <body>How much is; eleven; plus thirty—five?</body>
         <answer>
           <body>forty six</body>
         </answer>
@@ -103,7 +103,7 @@
         <correctAnswer>forty six</correctAnswer>
       </Question>
       <Question name="Q3">
-        <body>How much is forty five plus seventy three?</body>
+        <body>How much is; forty—five; plus seventy—three?</body>
         <answer>
           <body>one hundred eight</body>
         </answer>
@@ -119,7 +119,7 @@
         <correctAnswer>one hundred eighteen</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>How much is forty nine plus thirteen?</body>
+        <body>How much is; forty—nine; plus thirteen?</body>
         <answer>
           <body>seventy two</body>
         </answer>
@@ -136,5 +136,5 @@
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_rMsqkRjP</name>
+  <name>ArithmeticCts_qdaDeDZn</name>
 </cognitiveTest>

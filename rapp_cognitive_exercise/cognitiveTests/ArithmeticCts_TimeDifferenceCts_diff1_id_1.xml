@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <testSubType>TimeDifferenceCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Έχουμε ραντεβού στο γιατρό στις; εφτά και δεκα—πέντε το απόγευμα. Φτάνουμε στις εφτά; και τελικά ο γιατρός μας δέχεται μετά από; είκοσι—πέντε λεπτά. Τι ώρα μας δέχτηκε τελικά ο γιατρός;</body>
+        <answer>
+          <body>εφτά και είκοσι πέντε</body>
+        </answer>
+        <answer>
+          <body>εφτά και τριάντα πέντε</body>
+        </answer>
+        <answer>
+          <body>οκτώ και τριάντα</body>
+        </answer>
+        <answer>
+          <body>εφτά</body>
+        </answer>
+        <correctAnswer>εφτά και είκοσι πέντε</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Το βράδυ έχουμε να πάμε σε ένα πάρτυ που ξεκινάει στις; οκτώ; αλλά μας βρίσκει κίνηση και τελικά φτάνουμε στις; οκτώ και πενήντα. Πόση ώρα έχουμε καθυστερήσει;</body>
+        <answer>
+          <body>πενήντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>σαράντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>τριάντα λεπτά</body>
+        </answer>
+        <answer>
+          <body>ογδόντα λεπτά</body>
+        </answer>
+        <correctAnswer>πενήντα λεπτά</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>You have an appointment with the doctor at; fifteen minutes past seven in the evening. You reach his office by; seven; and the doctor takes you in after; twenty five minutes. At what time did the doctor take you in?</body>
+        <answer>
+          <body>twenty five past seven</body>
+        </answer>
+        <answer>
+          <body>thirty past seven</body>
+        </answer>
+        <answer>
+          <body>thirty five past seven</body>
+        </answer>
+        <answer>
+          <body>seven</body>
+        </answer>
+        <correctAnswer>twenty five past seven</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>You are going to a party tonight that starts at; eight; but you get stuck in the traffic and so you get to the party at; ten minutes before nine. How much time are you late?</body>
+        <answer>
+          <body>fifty minutes</body>
+        </answer>
+        <answer>
+          <body>forty minutes</body>
+        </answer>
+        <answer>
+          <body>thirty minutes</body>
+        </answer>
+        <answer>
+          <body>eighty minutes</body>
+        </answer>
+        <correctAnswer>fifty minutes</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>ArithmeticCts_obzxzwaP</name>
+</cognitiveTest>

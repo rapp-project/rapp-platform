@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <testSubType>TimeDifferenceCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Πρέπει να πάρετε την αντιβίωση σας στις; οκτώ το πρωί; και μετά ανά; εξάωρο ακριβώς. Το μεσημέρι το ξεχνάτε και παίρνετε το χάπι σας με καθυστέρηση; μιας ώρας. Τι ώρα θα το πάρετε το απόγευμα τηρώντας αυστηρά το εξάωρο;</body>
+        <answer>
+          <body>εννιά</body>
+        </answer>
+        <answer>
+          <body>δέκα</body>
+        </answer>
+        <answer>
+          <body>οκτώ</body>
+        </answer>
+        <answer>
+          <body>έντεκα</body>
+        </answer>
+        <correctAnswer>εννιά</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Το βράδυ κανονίσατε να πάτε σινεμά με φίλους; στην παράσταση των; οκτώ και σαράντα πέντε; αλλά πρώτα πρέπει να περάσετε από το καθαριστήριο για να αφήσετε κάποια ρούχα. Στις οκτώ και είκοσι—πέντε; φτάνετε στο καθαριστήριο αλλά έχει ουρά; και τελικά περιμένετε; είκοσι—πέντε λεπτά. Προλαβαίνετε την έναρξη της ταινίας;</body>
+        <answer>
+          <body>ναι</body>
+        </answer>
+        <answer>
+          <body>όχι</body>
+        </answer>
+        <correctAnswer>όχι</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>You are to take your antibiotics pill at; eight in the morning and; every six hours afterwards. You get the next dose in the evening; one hour late. At what time will you now take the next dose at night; while keeping the six hour difference; between doses?</body>
+        <answer>
+          <body>nine</body>
+        </answer>
+        <answer>
+          <body>ten</body>
+        </answer>
+        <answer>
+          <body>right</body>
+        </answer>
+        <answer>
+          <body>eleven</body>
+        </answer>
+        <correctAnswer>nine</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>You are going to the movies tonight with your friends. The movie starts a quarter to nine; but before going to the cinema; you need to pick up some dry cleaning. At twenty—five past eight; you reach the dry cleaner but; you spend twenty—five minutes there. Will you get to the cinema; before the movie starts?</body>
+        <answer>
+          <body>yes</body>
+        </answer>
+        <answer>
+          <body>no</body>
+        </answer>
+        <correctAnswer>no</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>ArithmeticCts_ExJpRNHP</name>
+</cognitiveTest>

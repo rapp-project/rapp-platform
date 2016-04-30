@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <testSubType>BasicArithmeticCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Πόσο κάνει; δεκατρία και δεκαοκτώ;</body>
+        <answer>
+          <body>τριάντα</body>
+        </answer>
+        <answer>
+          <body>τριάντα ένα</body>
+        </answer>
+        <answer>
+          <body>τριάντα δύο</body>
+        </answer>
+        <answer>
+          <body>δεκατρία</body>
+        </answer>
+        <correctAnswer>τριάντα ένα</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Πόσο κάνει; είκοσι ένα και τριάντα πέντε;</body>
+        <answer>
+          <body>πενήντα οκτώ</body>
+        </answer>
+        <answer>
+          <body>τριάντα πέντε</body>
+        </answer>
+        <answer>
+          <body>πενήντα έξι</body>
+        </answer>
+        <answer>
+          <body>πενήντα εφτά</body>
+        </answer>
+        <correctAnswer>πενήντα έξι</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>Πόσο κάνει; σαράντα πέντε και πενήντα τρία;</body>
+        <answer>
+          <body>εκατόν οκτώ</body>
+        </answer>
+        <answer>
+          <body>ενενήντα οκτώ</body>
+        </answer>
+        <answer>
+          <body>ενενήντα εννιά</body>
+        </answer>
+        <answer>
+          <body>ογδόντα οκτώ</body>
+        </answer>
+        <correctAnswer>ενενήντα οκτώ</correctAnswer>
+      </Question>
+      <Question name="Q4">
+        <body>Πόσο κάνει; ογδόντα δύο και είκοσι τρία;</body>
+        <answer>
+          <body>ενενήντα πέντε</body>
+        </answer>
+        <answer>
+          <body>εκατόν πέντε</body>
+        </answer>
+        <answer>
+          <body>εκατόν δέκα τέσσερα</body>
+        </answer>
+        <answer>
+          <body>εκατόν δέκα πέντε</body>
+        </answer>
+        <correctAnswer>εκατόν πέντε</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>How much is; thirteen plus eighteen?</body>
+        <answer>
+          <body>thirty</body>
+        </answer>
+        <answer>
+          <body>thirty one</body>
+        </answer>
+        <answer>
+          <body>thirty two</body>
+        </answer>
+        <answer>
+          <body>thirteen</body>
+        </answer>
+        <correctAnswer>thirty one</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>How much is; twenty one plus thirty five?</body>
+        <answer>
+          <body>fifty eight</body>
+        </answer>
+        <answer>
+          <body>thirty five</body>
+        </answer>
+        <answer>
+          <body>fifty six</body>
+        </answer>
+        <answer>
+          <body>fifty seven</body>
+        </answer>
+        <correctAnswer>fifty six</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>How much is; forty five plus fifty three?</body>
+        <answer>
+          <body>one hundred eight</body>
+        </answer>
+        <answer>
+          <body>ninety eight</body>
+        </answer>
+        <answer>
+          <body>ninety nine</body>
+        </answer>
+        <answer>
+          <body>eighty eight</body>
+        </answer>
+        <correctAnswer>ninety eight</correctAnswer>
+      </Question>
+      <Question name="Q4">
+        <body>How much is; eighty two plus twenty three?</body>
+        <answer>
+          <body>ninety five</body>
+        </answer>
+        <answer>
+          <body>one hundred five</body>
+        </answer>
+        <answer>
+          <body>one hundred fourteen</body>
+        </answer>
+        <answer>
+          <body>one hundred fifteen</body>
+        </answer>
+        <correctAnswer>one hundred five</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>ArithmeticCts_rlvFJyrl</name>
+</cognitiveTest>

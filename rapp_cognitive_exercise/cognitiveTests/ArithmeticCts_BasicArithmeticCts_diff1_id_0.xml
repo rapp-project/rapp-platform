@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>ArithmeticCts</testType>
+  <testSubType>BasicArithmeticCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Πόσο κάνει; τρία και τέσσερα;</body>
+        <answer>
+          <body>τρία</body>
+        </answer>
+        <answer>
+          <body>εννιά</body>
+        </answer>
+        <answer>
+          <body>τέσσερα</body>
+        </answer>
+        <answer>
+          <body>εφτά</body>
+        </answer>
+        <correctAnswer>εφτά</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Πόσο κάνει; ένα και τέσσερα;</body>
+        <answer>
+          <body>τέσσερα</body>
+        </answer>
+        <answer>
+          <body>εννιά</body>
+        </answer>
+        <answer>
+          <body>πέντε</body>
+        </answer>
+        <answer>
+          <body>εφτά</body>
+        </answer>
+        <correctAnswer>πέντε</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>Πόσο κάνει; έξι και ένα;</body>
+        <answer>
+          <body>ένα</body>
+        </answer>
+        <answer>
+          <body>εννιά</body>
+        </answer>
+        <answer>
+          <body>πέντε</body>
+        </answer>
+        <answer>
+          <body>εφτά</body>
+        </answer>
+        <correctAnswer>εφτά</correctAnswer>
+      </Question>
+      <Question name="Q4">
+        <body>Πόσο κάνει; ένα και πέντε;</body>
+        <answer>
+          <body>δύο</body>
+        </answer>
+        <answer>
+          <body>έξι</body>
+        </answer>
+        <answer>
+          <body>πέντε</body>
+        </answer>
+        <answer>
+          <body>εφτά</body>
+        </answer>
+        <correctAnswer>έξι</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>How much is; three plus four?</body>
+        <answer>
+          <body>three</body>
+        </answer>
+        <answer>
+          <body>nine</body>
+        </answer>
+        <answer>
+          <body>four</body>
+        </answer>
+        <answer>
+          <body>seven</body>
+        </answer>
+        <correctAnswer>seven</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>How much is; one plus four?</body>
+        <answer>
+          <body>four</body>
+        </answer>
+        <answer>
+          <body>nine</body>
+        </answer>
+        <answer>
+          <body>five</body>
+        </answer>
+        <answer>
+          <body>seven</body>
+        </answer>
+        <correctAnswer>five</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>How much is; six plus one?</body>
+        <answer>
+          <body>one</body>
+        </answer>
+        <answer>
+          <body>nine</body>
+        </answer>
+        <answer>
+          <body>five</body>
+        </answer>
+        <answer>
+          <body>seven</body>
+        </answer>
+        <correctAnswer>seven</correctAnswer>
+      </Question>
+      <Question name="Q4">
+        <body>How much is; one plus five?</body>
+        <answer>
+          <body>two</body>
+        </answer>
+        <answer>
+          <body>six</body>
+        </answer>
+        <answer>
+          <body>five</body>
+        </answer>
+        <answer>
+          <body>seven</body>
+        </answer>
+        <correctAnswer>six</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>ArithmeticCts_bneXbLGX</name>
+</cognitiveTest>

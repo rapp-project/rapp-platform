@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Έχουμε ραντεβού στο γιατρό στις εφτά και είκοσι πέντε το απόγευμα. Φτάνουμε στις εφτά και τελικά ο γιατρός μας δέχεται μετά από τριάντα πέντε λεπτά. Τι ώρα μας δέχτηκε τελικά ο γιατρός;</body>
+        <body>Έχουμε ραντεβού στο γιατρό στις; εφτά και είκοσι—πέντε το απόγευμα. Φτάνουμε στις εφτά; και τελικά ο γιατρός μας δέχεται μετά από; τριάντα πέντε λεπτά. Τι ώρα μας δέχτηκε τελικά ο γιατρός;</body>
         <answer>
           <body>εφτά και δεκαπέντε</body>
         </answer>
@@ -21,7 +21,7 @@
         <correctAnswer>εφτά και τριάντα πέντε</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Το βράδυ έχουμε να πάμε σε ένα πάρτυ που ξεκινάει στις οκτώ αλλά μας βρίσκει κίνηση και τελικά φτάνουμε στις οκτώ και σαράντα. Πόση ώρα έχουμε καθυστερήσει;</body>
+        <body>Το βράδυ έχουμε να πάμε σε ένα πάρτυ που ξεκινάει στις οκτώ; αλλά μας βρίσκει κίνηση και τελικά φτάνουμε στις; οκτώ και σαράντα. Πόση ώρα έχουμε καθυστερήσει;</body>
         <answer>
           <body>πενήντα λεπτά</body>
         </answer>
@@ -39,7 +39,7 @@
     </el>
     <en>
       <Question name="Q1">
-        <body>You have an appointment with the doctor at twenty five minutes past seven in the evening. You reach his office by seven and the doctor takes you in after twenty minutes. At what time did the doctor take you in?</body>
+        <body>You have an appointment with the doctor at; twenty five minutes past seven in the evening. You reach his office by seven; and the doctor takes you in after twenty minutes. At what time did the doctor take you in?</body>
         <answer>
           <body>fifteen minutes past seven</body>
         </answer>
@@ -55,7 +55,7 @@
         <correctAnswer>thirty five minutes past seven</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>You are going to a party tonight that starts at eight but you get stuck in the traffic and so you get to the party at twenty minutes before nine. How much time are you late?</body>
+        <body>You are going to a party tonight that starts at eight; but you get stuck in the traffic and so you get to the party at; twenty minutes before nine. How much time are you late?</body>
         <answer>
           <body>fifty minutes</body>
         </answer>
@@ -72,5 +72,5 @@
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_TaVWzXre</name>
+  <name>ArithmeticCts_EuRQCNBL</name>
 </cognitiveTest>

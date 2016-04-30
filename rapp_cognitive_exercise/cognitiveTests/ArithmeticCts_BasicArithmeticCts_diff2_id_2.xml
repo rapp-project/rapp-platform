@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Πόσο κάνει οκτώ και εφτά;</body>
+        <body>Πόσο κάνει; οκτώ και εφτά;</body>
         <answer>
           <body>δεκατέσσερα</body>
         </answer>
@@ -21,7 +21,7 @@
         <correctAnswer>δεκαπέντε</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Πόσο κάνει εννιά και πέντε;</body>
+        <body>Πόσο κάνει; εννιά και πέντε;</body>
         <answer>
           <body>δεκατέσσερα</body>
         </answer>
@@ -37,7 +37,7 @@
         <correctAnswer>δεκατέσσερα</correctAnswer>
       </Question>
       <Question name="Q3">
-        <body>Πόσο κάνει έντεκα και πέντε;</body>
+        <body>Πόσο κάνει; έντεκα και πέντε;</body>
         <answer>
           <body>έντεκα</body>
         </answer>
@@ -53,7 +53,7 @@
         <correctAnswer>δεκαέξι</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>Πόσο κάνει δώδεκα και εννιά;</body>
+        <body>Πόσο κάνει; δώδεκα και εννιά;</body>
         <answer>
           <body>δεκαεννιά</body>
         </answer>
@@ -71,7 +71,7 @@
     </el>
     <en>
       <Question name="Q1">
-        <body>How much is eight plus seven?</body>
+        <body>How much is; eight plus seven?</body>
         <answer>
           <body>fourteen</body>
         </answer>
@@ -87,7 +87,7 @@
         <correctAnswer>fifteen</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>How much is nine plus five?</body>
+        <body>How much is; nine plus five?</body>
         <answer>
           <body>fourteen</body>
         </answer>
@@ -103,7 +103,7 @@
         <correctAnswer>fourteen</correctAnswer>
       </Question>
       <Question name="Q3">
-        <body>How much is eleven plus five?</body>
+        <body>How much is; eleven plus five?</body>
         <answer>
           <body>eleven</body>
         </answer>
@@ -119,7 +119,7 @@
         <correctAnswer>sixteen</correctAnswer>
       </Question>
       <Question name="Q4">
-        <body>How much is twelve plus nine?</body>
+        <body>How much is; twelve plus nine?</body>
         <answer>
           <body>nineteen</body>
         </answer>
@@ -136,5 +136,5 @@
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_OrUIzvEY</name>
+  <name>ArithmeticCts_VeMDiXVm</name>
 </cognitiveTest>

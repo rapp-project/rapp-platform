@@ -271,7 +271,7 @@ rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Respon
 rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response KnowrobWrapper::create_cognitve_tests(rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request req) {
     rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response res;
     try {
-        if (req.test_type == std::string("") || req.test_difficulty < 1 || req.test_path == std::string("") || req.test_subtype == std::string("")) {
+        if (req.test_type == std::string("") || req.test_difficulty < 1 || req.test_path == std::string("") || req.test_subtype == std::string("") || req.test_id <0) {
             throw std::string("Error, one or more arguments not provided or out of range. Test variation and test difficulty are positive integers >0");
         }
 
@@ -282,7 +282,8 @@ rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response Knowr
             throw std::string("Test file does not exist in provided file path");
         }
         std::string difficulty = intToString(req.test_difficulty);
-        std::string query = std::string("createCognitiveTest(knowrob:'") + req.test_type + std::string("',B,'") + difficulty + std::string("','") + req.test_path + std::string("',knowrob:'") + req.test_subtype + std::string("')");
+        std::string test_id = intToString(req.test_id);
+        std::string query = std::string("createCognitiveTest(knowrob:'") + req.test_type + std::string("',B,'") + difficulty + std::string("','") + req.test_path + std::string("',knowrob:'") + req.test_subtype + std::string("','") + test_id + std::string("')");
         json_prolog::PrologQueryProxy results = pl.query(query.c_str());
         char status = results.getStatus();
         if (status == 0) {
@@ -334,7 +335,7 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
         if (req.test_language == std::string("")) {
             throw std::string("Error, language empty");
         }
-        std::string query = std::string("cognitiveTestsOfType(knowrob:'") + req.test_type + std::string("',B,Path,Dif,Sub,knowrob:'") + req.test_language + std::string("')");
+        std::string query = std::string("cognitiveTestsOfType(knowrob:'") + req.test_type + std::string("',B,Path,Dif,Sub,knowrob:'") + req.test_language + std::string("',Id)");
         json_prolog::PrologQueryProxy results = pl.query(query.c_str());
         char status = results.getStatus();
         if (status == 0) {
@@ -346,6 +347,7 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
         std::vector<std::string> query_ret_difficulty;
         std::vector<std::string> query_ret_file_paths;
         std::vector<std::string> query_ret_subtypes;
+        std::vector<std::string> query_ret_ids;
         for (json_prolog::PrologQueryProxy::iterator it = results.begin();
                 it != results.end(); it++) {
             json_prolog::PrologBindings bdg = *it;
@@ -357,12 +359,15 @@ rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response KnowrobWrapp
             query_ret_difficulty.push_back(temp_query_difficulty);
             std::string temp_query_subtypes = bdg["Sub"];
             query_ret_subtypes.push_back(temp_query_subtypes);
+            std::string temp_query_ids = bdg["Id"];
+            query_ret_ids.push_back(temp_query_ids);
         }
         for (unsigned int i = 0; i < query_ret_tests.size(); i++) {
             res.tests.push_back(query_ret_tests[i]);
             res.difficulty.push_back(query_ret_difficulty[i]);
             res.file_paths.push_back(query_ret_file_paths[i]);
             res.subtype.push_back(query_ret_subtypes[i]);
+            res.test_id.push_back(query_ret_ids[i]);
         }
         return res;
     } catch (std::string error) {

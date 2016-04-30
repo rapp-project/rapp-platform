@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<cognitiveTest>
+  <testType>AwarenessCts</testType>
+  <testSubType>TimeDayYearCts</testSubType>
+  <Languages>
+    <el>
+      <Question name="Q1">
+        <body>Τι μέρα είναι σήμερα;</body>
+        <answer>
+          <body>The RApp is responsible for finding the correct answer</body>
+        </answer>
+        <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>Τι μήνα έχουμε;</body>
+        <answer>
+          <body>The RApp is responsible for finding the correct answer</body>
+        </answer>
+        <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>Ποιά χρονιά έχουμε φέτος;</body>
+        <answer>
+          <body>The RApp is responsible for finding the correct answer</body>
+        </answer>
+        <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+      </Question>
+    </el>
+    <en>
+      <Question name="Q1">
+        <body>What day of the week is today?</body>
+        <answer>
+          <body>The RApp is responsible for finding the correct answer</body>
+        </answer>
+        <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+      </Question>
+      <Question name="Q2">
+        <body>What year is it?</body>
+        <answer>
+          <body>The RApp is responsible for finding the correct answer</body>
+        </answer>
+        <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+      </Question>
+      <Question name="Q3">
+        <body>What month is it?</body>
+        <answer>
+          <body>The RApp is responsible for finding the correct answer</body>
+        </answer>
+        <correctAnswer>The RApp is responsible for finding the correct answer</correctAnswer>
+      </Question>
+    </en>
+  </Languages>
+  <name>AwarenessCts_vUXiHMJy</name>
+</cognitiveTest>

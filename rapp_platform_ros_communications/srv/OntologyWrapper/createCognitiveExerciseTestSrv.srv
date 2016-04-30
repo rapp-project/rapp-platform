@@ -3,6 +3,7 @@ Header header
 # General string for simple queries
 string test_type
 int32 test_difficulty
+int32 test_id
 string test_path
 string test_subtype
 string[] supported_languages

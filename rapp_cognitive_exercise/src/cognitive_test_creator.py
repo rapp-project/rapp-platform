@@ -24,7 +24,7 @@ import rospkg
 import rospy
 import os
 import sys
-
+from app_error_exception import AppError
 
 from rapp_platform_ros_communications.srv import (
   cognitiveTestCreatorSrv,
@@ -35,7 +35,10 @@ from rapp_platform_ros_communications.srv import (
   createCognitiveExerciseTestSrvRequest,
   cognitiveTestsOfTypeSrv,
   cognitiveTestsOfTypeSrvRequest,
-  cognitiveTestsOfTypeSrvResponse
+  cognitiveTestsOfTypeSrvResponse,
+  returnTestsOfTypeSubtypeDifficultySrv,
+  returnTestsOfTypeSubtypeDifficultySrvResponse,
+  returnTestsOfTypeSubtypeDifficultySrvRequest
   )
 
 from rapp_platform_ros_communications.msg import (
@@ -55,7 +58,6 @@ class CognitiveTestCreator:
   def testCreator(self,req):
     res=cognitiveTestCreatorSrvResponse()
     fname=req.inputFile
-    
     d=dict()
     questions=dict()
     answers=dict()
@@ -129,7 +131,7 @@ class CognitiveTestCreator:
         correctAnswers.clear()
       xmlFileName=""
       if(flag):
-        xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]
+        #xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]
         root = ET.Element("cognitiveTest")
         ET.SubElement(root, "testType").text = d["testType"][0] 
         ET.SubElement(root, "testSubType").text = d["testSubType"][0]
@@ -158,6 +160,8 @@ class CognitiveTestCreator:
         rospack = rospkg.RosPack()
 
         localPackagePath=rospack.get_path('rapp_cognitive_exercise')
+        test_id=self.determineCognitiveTestId(d["testType"][0], d["testSubType"][0], d["difficulty"][0])
+        xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_id_"+str(test_id)
         inNodeName="/cognitiveTests/"+xmlFileName+".xml"
         localPackagePath=localPackagePath+inNodeName
         tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
@@ -169,6 +173,10 @@ class CognitiveTestCreator:
         createTestReq.test_subtype=d["testSubType"][0]
         createTestReq.test_path=inNodeName
         createTestReq.supported_languages=supportedLanguages
+        
+        createTestReq.test_id=supportedLanguages=test_id
+
+        
         knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)
         createCognitiveTestResponse = knowrob_service(createTestReq)
         if(createCognitiveTestResponse.success!=True):
@@ -202,8 +210,23 @@ class CognitiveTestCreator:
       #print "IO Error, cannot open test file or write xml file"
       res.error="IO Error, cannot open test file or write xml file"
       res.success=False
+    except AppError as e:
+      AppError.passErrorToRosSrv(e,res) 
 
     return res
+
+  def determineCognitiveTestId(self, testType, testSubType, difficulty):
+    serv_topic = rospy.get_param('rapp_cognitive_exercise_return_tests_of_type_subtype_difficulty_topic')
+    returnTestsOfTypeSubtypeDifficultySrvReq=returnTestsOfTypeSubtypeDifficultySrvRequest()
+    returnTestsOfTypeSubtypeDifficultySrvReq.testType=testType
+    returnTestsOfTypeSubtypeDifficultySrvReq.testSubType=testSubType
+    returnTestsOfTypeSubtypeDifficultySrvReq.difficulty=difficulty
+    knowrob_service = rospy.ServiceProxy(serv_topic, returnTestsOfTypeSubtypeDifficultySrv)
+    returnTestsOfTypeSubtypeDifficultySrvRes = knowrob_service(returnTestsOfTypeSubtypeDifficultySrvReq)  
+    return returnTestsOfTypeSubtypeDifficultySrvRes.totalNumberOfTestsReturned
+
+
+
 
   ## @brief Checks if string can be converted to an integer
   # @param s [string] The input string

@@ -28,7 +28,7 @@
     </el>
     <en>
       <Question name="Q1">
-        <body>What day of the week is it?</body>
+        <body>What day of the week is today?</body>
         <answer>
           <body>The RApp is responsible for finding the correct answer</body>
         </answer>
@@ -50,5 +50,5 @@
       </Question>
     </en>
   </Languages>
-  <name>AwarenessCts_kRmyDqqu</name>
+  <name>AwarenessCts_qdaDeDZn</name>
 </cognitiveTest>

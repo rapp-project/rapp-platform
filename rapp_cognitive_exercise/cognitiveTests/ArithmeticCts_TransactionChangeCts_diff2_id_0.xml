@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Αγοράζουμε ένα κιλό ντομάτες που κάνουν ένα ευρώ και σαράντα λεπτά και δίνουμε ένα χαρτονόμισμα των πέντε ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης;</body>
+        <body>Αγοράζουμε ένα κιλό ντομάτες που κάνουν ένα ευρώ και σαράντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των πέντε ευρώ. Πόσα ρέστα θα μας δώσει ο μανάβης;</body>
         <answer>
           <body>τέσσερα ευρώ και πενήντα λεπτά</body>
         </answer>
@@ -21,7 +21,7 @@
         <correctAnswer>τρία ευρώ και εξήντα λεπτά</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>Αγοράζουμε ένα κουτί γλυκά που κάνει οκτώ ευρώ και εξήντα λεπτά και δίνουμε ένα χαρτονόμισμα των δέκα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
+        <body>Αγοράζουμε ένα κουτί γλυκά που κάνει οκτώ ευρώ και εξήντα λεπτά; και δίνουμε; ένα χαρτονόμισμα των δέκα ευρώ. Πόσα ρέστα θα πάρουμε πίσω;</body>
         <answer>
           <body>ένα ευρώ και πέντε λεπτά</body>
         </answer>
@@ -39,7 +39,7 @@
     </el>
     <en>
       <Question name="Q1">
-        <body>We buy one kilo of tomatoes which costs one euro and forty cents and we pay with a five euro bill. How much change do we get back?</body>
+        <body>We buy one kilo of tomatoes which costs one euro and forty cents; and we pay with a five euro bill. How much change do we get back?</body>
         <answer>
           <body>four euros and fifty cents</body>
         </answer>
@@ -55,7 +55,7 @@
         <correctAnswer>three euros and sixty cents</correctAnswer>
       </Question>
       <Question name="Q2">
-        <body>We buy a box of sweets which costs eight euro and sixty cents and we pay with a ten euro bill. How much change do we get back?</body>
+        <body>We buy a box of sweets which costs eight euro and sixty cents; and we pay with a ten euro bill. How much change do we get back?</body>
         <answer>
           <body>one euro and five cents</body>
         </answer>
@@ -72,5 +72,5 @@
       </Question>
     </en>
   </Languages>
-  <name>ArithmeticCts_ZxKuHwbZ</name>
+  <name>ArithmeticCts_hSmyiLiV</name>
 </cognitiveTest>

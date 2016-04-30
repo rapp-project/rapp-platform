@@ -5,7 +5,7 @@
   <Languages>
     <el>
       <Question name="Q1">
-        <body>Θα σου πω μερικές λέξεις και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;</body>
+        <body>Θα σου πω μερικές λέξεις; και μετά θα σου ζητήσω να τις επαναλάβεις. Είσαι έτοιμος να ξεκινήσω;</body>
         <answer>
           <body>ναι</body>
         </answer>
@@ -34,7 +34,7 @@
     </el>
     <en>
       <Question name="Q1">
-        <body>I am going to say a few words and then I am going to ask you to repeat them in the same order. Are you ready?</body>
+        <body>I am going to say a few words; and then I am going to ask you to repeat them in the same order. Are you ready?</body>
         <answer>
           <body>yes</body>
         </answer>
@@ -62,5 +62,5 @@
       </Question>
     </en>
   </Languages>
-  <name>ReasoningCts_qdaDeDZn</name>
+  <name>ReasoningCts_kpdCJilp</name>
 </cognitiveTest>

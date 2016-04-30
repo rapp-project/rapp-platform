@@ -9,6 +9,7 @@ string[] tests
 string[] file_paths
 string[] difficulty
 string[] subtype
+string[] test_id
 string[] trace
 bool success 
 string error

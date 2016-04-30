@@ -128,7 +128,7 @@ class CognitiveExerciseHelperFunctions:
     d=dict()
     #intDif=int(chosenDif)
     markForDeletion=[]
-    print testsOfType
+    #print testsOfType
     for i in range(len(testsOfType.tests)):
       #difficultyMatch=True
       #subTypeMatch=True
@@ -137,7 +137,7 @@ class CognitiveExerciseHelperFunctions:
       #if(not testSubType=="" and not testSubTypePrefix+testSubType==testsOfType.subtype[i]):
         #subTypeMatch=False
       #if(difficultyMatch and subTypeMatch):    
-        tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i]]
+        tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i], testsOfType.test_id[i]]
         d[testsOfType.tests[i]]=[tlist]
         #markForDeletion.append(i)
     #print len(testsOfType.tests)

@@ -49,7 +49,10 @@ from rapp_platform_ros_communications.srv import (
   retractUserOntologyAliasSrvResponse,
   getUserOntologyAliasSrv,
   getUserOntologyAliasSrvRequest,
-  getUserOntologyAliasSrvResponse
+  getUserOntologyAliasSrvResponse,
+  returnTestsOfTypeSubtypeDifficultySrv,
+  returnTestsOfTypeSubtypeDifficultySrvResponse,
+  returnTestsOfTypeSubtypeDifficultySrvRequest
   )
 
 ## @class CognitiveExerciseFunc 
@@ -68,11 +71,13 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req = testSelectorSrvRequest()
         req.username="rapp"        
         req.testType="ArithmeticCts"
-        req.overwriteTestXmlFile="ArithmeticCts_BasicArithmeticCts_diff1.xml"
+        req.testSubType="BasicArithmeticCts"
+        req.testDifficulty="1"
+        req.testIndex="1" 
         response = test_service(req)     
         self.assertEqual(response.success, True) 
         self.assertEqual(len(response.questions)>=1, True) 
-        self.assertEqual(response.test,"ArithmeticCts_tDjYwuhx")
+        self.assertEqual(response.test,"ArithmeticCts_bneXbLGX")
 
     def test_chooser_basic(self):
         ros_service = rospy.get_param(\
@@ -132,7 +137,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
 
         req = recordUserCognitiveTestPerformanceSrvRequest()
         req.username="rapp"       
-        req.test="ArithmeticCts_stXqnGrc"
+        req.test="ArithmeticCts_bneXbLGX"
         req.score=10
         response = test_service(req)     
         self.assertEqual(response.success, True)  
@@ -165,7 +170,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, True)          
         self.assertEqual("ArithmeticCts" and "ReasoningCts" and "AwarenessCts" in response.testCategories, True)
-        self.assertEqual(len(response.testScores)>=3, True)
+        self.assertEqual(len(response.testScores)>=0, True)
 
     def test_user_score_history_for_all_categories_valid_input_basic(self):
         ros_service = rospy.get_param(\
@@ -181,7 +186,52 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.fromTime=0
         response = test_service(req)     
         self.assertEqual(response.success, True)          
-        self.assertEqual(len(response.recordsPerTestType)>1,True)
+        self.assertEqual(len(response.recordsPerTestType)>0,True)
+
+    def test_return_tests_of_type_subtype_difficulty_combinations(self):
+        ros_service = rospy.get_param(\
+                "rapp_cognitive_exercise_return_tests_of_type_subtype_difficulty_topic")
+        rospy.wait_for_service(ros_service)
+        
+        test_service = rospy.ServiceProxy(\
+                ros_service, returnTestsOfTypeSubtypeDifficultySrv)
+        req = returnTestsOfTypeSubtypeDifficultySrvRequest()
+        
+        req.testType="ArithmeticCts"
+        req.testSubType="BasicArithmeticCts"
+        req.difficulty="1"
+        req.language="el"
+        response = test_service(req)     
+        self.assertEqual(response.success, True)  
+        self.assertTrue(response.totalNumberOfTestsReturned>1)    
+        self.assertEqual(len(response.cognitiveExercises),response.totalNumberOfTestsReturned)   
+
+        req.testType="ArithmeticCts"
+        req.testSubType="BasicArithmeticCts"
+        req.difficulty="1"
+        req.language=""
+        response = test_service(req)     
+        self.assertEqual(response.success, True)  
+        self.assertTrue(response.totalNumberOfTestsReturned>1)    
+        self.assertEqual(len(response.cognitiveExercises),response.totalNumberOfTestsReturned) 
+
+        req.testType="ArithmeticCts"
+        req.testSubType="BasicArithmeticCts"
+        req.difficulty=""
+        req.language=""
+        response = test_service(req)     
+        self.assertEqual(response.success, True)  
+        self.assertTrue(response.totalNumberOfTestsReturned>1)    
+        self.assertEqual(len(response.cognitiveExercises),response.totalNumberOfTestsReturned) 
+        
+        req.testType="ArithmeticCts"
+        req.testSubType=""
+        req.difficulty=""
+        req.language=""
+        response = test_service(req)     
+        self.assertEqual(response.success, True)  
+        self.assertTrue(response.totalNumberOfTestsReturned>1)    
+        self.assertEqual(len(response.cognitiveExercises),response.totalNumberOfTestsReturned) 
         
     def test_create_new_platform_user_and_request_cognitive_test_then_cleanup(self):
         #create user

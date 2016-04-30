@@ -63,13 +63,17 @@ class ReturnTests:
   def returnTestsFunction(self,req):
     try:      
       res = returnTestsOfTypeSubtypeDifficultySrvResponse()
+      if(req.testType==""):
+        error="Error, empty testType field"
+        raise AppError(error, error)
       supportedLanguages=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()     
       
       keepEntries = dict()
       testCount=0
+      
       for currentLanguage in supportedLanguages:
-        cognitiveTestsOfTypeResponse=CognitiveExerciseHelperFunctions.getCognitiveTestsOfType(req.testType,currentLanguage)
-        tests=CognitiveExerciseHelperFunctions.filterTestsbyDifficultyAndSubtype(cognitiveTestsOfTypeResponse,req.difficulty,req.testSubType)
+        cognitiveTestsOfTypeResponse=CognitiveExerciseHelperFunctions.getCognitiveTestsOfType(req.testType,currentLanguage)        
+        tests=CognitiveExerciseHelperFunctions.filterTestsbyDifficultyAndSubtype(cognitiveTestsOfTypeResponse,req.difficulty,req.testSubType)       
         if(req.language=="" or currentLanguage==req.language):
           for k, v in tests.items():
             if(not k in keepEntries):
@@ -79,9 +83,8 @@ class ReturnTests:
               currentCognitiveTest.testSubType=(v[0][2]).split('#')[1]
               currentCognitiveTest.testSubType=(v[0][2]).split('#')[1]
               currentCognitiveTest.difficulty=(v[0][1])
-              #currentCognitiveTest.difficulty=(v[0][1])
-              currentCognitiveTest.languages.append(currentLanguage)
-              
+              currentCognitiveTest.test_id=(v[0][3])
+              currentCognitiveTest.languages.append(currentLanguage)              
               res.cognitiveExercises.append(currentCognitiveTest)
               keepEntries[k]=testCount
               testCount=testCount+1
@@ -91,7 +94,7 @@ class ReturnTests:
             
           
           #  cognitiveTest = CognitiveExercisesMsg()
-          print tests       
+     
         
       #print l
       #testTypesList=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()
@@ -111,5 +114,6 @@ class ReturnTests:
       res.trace.append('"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e))
       res.error='"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e)
     except AppError as e:
-      AppError.passErrorToRosSrv(e,res) 
+      AppError.passErrorToRosSrv(e,res)
+      res.totalNumberOfTestsReturned=0
     return res
