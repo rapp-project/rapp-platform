@@ -6,58 +6,63 @@ RAPP Platform Web Services
 **RAPP Platform Web Services** are developed under the  [HOP Web Server](https://github.com/manuel-serrano/hop).
 These services are used in order to communicate with the RAPP Platform ecosystem and access RIC(RAPP Improvement Center) AI modules.
 
-| Platform Services             | Description   								|
-| :---------------------------:	| :---------------------------------------------------------------------------:	|
-|                               |                                                                               |
-|   *Computer Vision*           |                                                                               |
-|                               |                                                                               |
-| face_detection                |  Detect faces on an image frame                        			|
-| qr_detection                  |  Detect and recognize Qr-Codes on an image frame                        	|
-| hazard_detection_door_check	|  Detect open-doors (hazard) on an image frame					|
-| hazard_detection_light_check	|  Detect lights-on (hazard) on an image frame					|
-| human_detection		|  Detect human existance on on an image frame 					|
-|                               |                                                                               |
-|   *Speech Recognition*        |                                                                               |
-|                               |                                                                               |
-| set_noise_profile             |  Set user's noise profile. Used to apply denoising on speech-recognition 	|
-| speech_detection_sphix4       |  Performs speech-detection using the Platform integrated Sphinx4 engine    	|
-| speech_detection_google       |  Performs speech-detection using the Platform integrated Google engine     	|
-|                               |                                                                               |
-|   *Ontology Queries*          |                                                                               |
-|                               |                                                                               |
-| ontology_subclasses_of        |  Perform Ontology, subclasses-of, query                                    	|
-| ontology_superclasses_of      |  Perform Ontology, superclasses-of, query                                  	|
-| ontology_is_supsuperclass_of  |  Perform Ontology, is-subsuperclass-of, query                              	|
-|                               |                                                                               |
-|   *Cognitive Exercises*       |                                                                               |
-|                               |                                                                               |
-| cognitive_test_chooser        |  Returns a Cognitive Exercise literal that describes the test              	|
-| cognitive_record_performance  |  Record user's performance on a Cognitive Exercise                     	|
-| cognitive_get_history	        |  Returns user's history on Cognitive Exercise(s)				|
-| cognitive_get_score		|  Returns user's performance scores on Cognitive Exercise(s)			|
-|                               |                                                                               |
-|   *Email Support*             |                                                                               |
-|                               |                                                                               |
-| email_fetch			|  Fetch received user's emails							|
-| email_send			|  Send an email, using user's account					        |
-|                               |                                                                               |
-|   *Weather Report*            |                                                                               |
-|                               |                                                                               |
-| weather_report_forecast	|  Get detailed information about future weather conditions			|
-| weather_report_current	|  Get detailed information about current weather conditions			|
-|                               |                                                                               |
-| *Authentication-Registration* |                                                                               |
-|                               |                                                                               |
-| login_user			|  Login existing user								|
-| register_user_from_platform	|  Add new platform user using platform credentials				|
-| register_user_from_store	|  Add new platform user using rapp_store credentials				|
-|                               |                                                                               |
-|           *Other*             |                                                                               |
-|                               |                                                                               |
-| text_to_speech                |  Text-to-speech translation on given input plain text                         |
-| available_services            |  Returns a list of the Platform available services (up-to-date)            	|
-| geolocation			|  Get information about client's location				        |
-| news_explore			|  Search for news articles							|
+| Platform Services                                               | Description   								  |
+| :-------------------------------------------------------------: | :---------------------------------------------------------------------------: |
+|                                                                 |                                                                               |
+|   *Computer Vision*                                             |                                                                               |
+|                                                                 |                                                                               |
+| [Face-Detection](#face-detection)                               |  Detect faces on an image frame                        			  |
+| [Qr-Detection](#qr-detection)                                   |  Detect and recognize Qr-Codes on an image frame                        	  |
+| [Hazard-Detection-Door-Check](#hazard-detection-door-check)	  |  Detect open-doors (hazard) on an image frame				  |
+| [Hazard-Detection-Light-Check](#hazard-detection-light-check)	  |  Detect lights-on (hazard) on an image frame				  |
+| [Human-Detection](#humandetection)		                  |  Detect human existance on on an image frame 				  |
+|                                                                 |                                                                               |
+|   *Speech Recognition*                                          |                                                                               |
+|                                                                 |                                                                               |
+| [Set-Noise-Profile](#set-noise-profile)                         |  Set user's noise profile. Used to apply denoising on speech-recognition 	  |
+| [Speech-Detection-Sphinx4](#speech-detection-sphinx4)           |  Performs speech-detection using the Platform integrated Sphinx4 engine    	  |
+| [Speech-Detection-Google](#speech-detection-google)             |  Performs speech-detection using the Platform integrated Google engine     	  |
+|                                                                 |                                                                               |
+|   *Ontology Queries*                                            |                                                                               |
+|                                                                 |                                                                               |
+| [Ontology-SubclassesOf](#ontology-subclasses-of)                |  Perform Ontology, subclasses-of, query                                    	  |
+| [Ontology-SuperClassesOf](#ontology-superclasses-of)            |  Perform Ontology, superclasses-of, query                                  	  |
+| [Ontology-Is-SubSuperClass](#ontology-is-subsuperclass-of)      |  Perform Ontology, is-subsuperclass-of, query                              	  |
+|                                                                 |                                                                               |
+|   *Cognitive Exercises*                                         |                                                                               |
+|                                                                 |                                                                               |
+| [Cognitive-Test-Selector](#cognitive-test-selector)             |  Returns a Cognitive Exercise literal that describes the test              	  |
+| [Cognitive-Record-Performance](#cognitive-record-performance)   |  Record user's performance on a Cognitive Exercise                     	  |
+| [Cognitive-Get-History](#cognitive-get-history)	          |  Returns user's history on Cognitive Exercise(s)				  |
+| [Cognitive-Get-Scores](#cognitive-get-scores)		          |  Returns user's performance scores on Cognitive Exercise(s)			  |
+|                                                                 |                                                                               |
+|   *Email Support*                                               |                                                                               |
+|                                                                 |                                                                               |
+| [Email-Fetch](#email-fetch)			                  |  Fetch user's emails							  |
+| [Email-Send](#email-send)			                  |  Send an email, using user's account					  |
+|                                                                 |                                                                               |
+|   *Weather Report*                                              |                                                                               |
+|                                                                 |                                                                               |
+| [Weather-Report-Forecast](#weather-report-forecast)	          |  Get detailed information about future weather conditions			  |
+| [Weather-Repost-Current](#weather-report-current)	          |  Get detailed information about current weather conditions			  |
+|                                                                 |                                                                               |
+| *Path Planning*                                                 |                                                                               |
+|                                                                 |                                                                               |
+| [Path-Planning-Upload-Map](#path-planning-upload-map)           |  Upload a map to store on the Platform                                        |
+| [Path-Planning-Plan-Path-2D](#path-planning-plan-path-2d)       |  2D Path Planning service                                                     |
+|                                                                 |                                                                               |
+| *Authentication-Registration*                                   |                                                                               |
+|                                                                 |                                                                               |
+| login_user			                                  |  Login existing user							  |
+| register_user_from_platform	                                  |  Add new platform user using platform credentials				  |
+| register_user_from_store	                                  |  Add new platform user using rapp_store credentials				  |
+|                                                                 |                                                                               |
+|           *Other*                                               |                                                                               |
+|                                                                 |                                                                               |
+| [Text-To-Speech](#text-to-speech)                               |  Text-to-speech translation on given input plain text                         |
+| [Available-Services](#available-services)                       |  Returns a list of the Platform available services (up-to-date)            	  |
+| [Geolocaiton](#geolocation)			                  |  Get information about client's location				          |
+| [News-Explore](#news-explore)			                  |  Search for news articles							  |
 
 
 ## Service specifications - Request arguments and response objects
@@ -541,42 +546,6 @@ application/json response.
 
 
 
------------------------------------------
-### Text-To-Speech (tts) related services
------------------------------------------
-
-#### Text-To-Speech
-
-##### Service-Url
-
-```
-/hop/text_to_speech
-```
-
-##### Service request arguments
-
-```js
-{text: '', language: ''}
-```
-
-- **text** (String): Input text to translate to audio data.
-- **language** (String): Language to be used for the TTS module. Valid values are currently **el** and **en**
-
-
-##### Service response
-
-application/json response.
-
-```javascript
-{ payload: <audio_data>, basename: <audio_file_basename>, encoding: <payload_encoding>, error: <error_message> }
-```
-
-- **payload** (String/base64): The audio data payload. Payload encoding is defined by the 'encoding' json field. Decode the payload audio data (client-side) using the codec value from the 'encoding' field.
-- **encoding** (String): Codec used to encode the audio data payload. Currently encoding of binary data is done using base64 codec. Ignore this field. May be used in future implementations.
-- **basename** (String): A static basename for the audio data file, returned by the platform service. Ignore this field. May be usefull in future implementations.
-- **error** (String): Error message, if one occures.
-
-
 ----------------------------------
 ### Cognitive Exercises
 ----------------------------------
@@ -592,11 +561,25 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{test_type: ''}
+{ test_type: '', test_subtype: '', test_diff: '', test_index: '' }
 ```
 
-- **test_type** (String): Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts']
+- **test_type** (String): Cognitive Exercise test type. Can be one of
+  * 'ArithmeticCts'
+  * 'AwarenessCts'
+  * 'ReasoningCts'
+  * ''
+- **test_subtype** (String): Use this to force select from this subtype. Defaults to empty string "".
+- **test_diff** (String): Use this to force select from this difficulty. Defaults to empty string "".
+- **test_index** (String): Use this to force select from this id. Defaults to empty string "".
 
+i.e
+
+```js
+{ test_type: 'Arithmetic', test_subtype: 'BasicArithmetic', test_diff: '1', test_index: '1' }
+```
+
+For more information on available exercises have a look [here](https://github.com/rapp-project/rapp-platform/tree/devel/rapp_cognitive_exercise)
 
 ##### Service response
 
@@ -681,7 +664,7 @@ application/json response.
 ##### Service-Url
 
 ```
-/hop/cognitive_get_history
+/hop/cognitive_get_scores
 ```
 
 ##### Service request arguments
@@ -870,9 +853,116 @@ where forecast entries are forecastEntry objects:
 
 
 
+-------------------------------
+### Path Planning
+-------------------------------
+
+#### Path-Planning-Plan-Path-2D
+
+##### Service-Url
+
+```
+/hop/path_planning_plan_path_2d
+```
+
+##### Service request arguments
+
+```js
+{ map_name: '', robot_type: '', algorithm: '', start: {}, goal: {} } 
+```
+
+- **map_name** (String): The map name to use.
+- **robot_type** (String): The robot type. It is required to determine it's parameters (footprint etc.)
+- **algorithm** {String}: The path planning algorithm to apply.
+- **start** {Object}: Start pose of the robot. (ROS-GeometryMsgs/PoseStamped)
+- **goal**: Goal pose of the robot. (ROS-GeometryMsgs/PoseStamped)
+
+
+More information on argument values under the [rapp_path_planning package](https://github.com/rapp-project/rapp-platform/tree/devel/rapp_path_planning/rapp_path_planning)
+
+##### Service response
+
+```js
+{ plan_found: 0, path: [], error: '' }
+```
+
+- **plan_found** (String): Plan Status. Can be one of
+  * 0 : path cannot be planned.
+  * 1 : path found.
+  * 2 : wrong map name.
+  * 3 : wrong robot type.
+  * 4 : wrong algorithm.
+- **path**: if plan_found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal.
+- **error** (String): Error message, if one occures.
+
+
+
+#### Path-Planning-Upload-Map
+
+##### Service-Url
+
+```
+/hop/path_planning_upload_map
+```
+
+##### Service request arguments
+
+```js
+{ png_file: '', yaml_file: '', map_name: '' }
+```
+
+- **png_file**: The map image png file.
+- **png_file**: The map description yaml file.
+- **map_name**: The map name.
+
+
+##### Service response
+
+```js
+{ error: '' }
+```
+
+- **error** (String): Error message, if one occures.
+
+
+
 ---------------------------------
 ### Other
 ---------------------------------
+
+
+#### Text-To-Speech
+
+##### Service-Url
+
+```
+/hop/text_to_speech
+```
+
+##### Service request arguments
+
+```js
+{text: '', language: ''}
+```
+
+- **text** (String): Input text to translate to audio data.
+- **language** (String): Language to be used for the TTS module. Valid values are currently **el** and **en**
+
+
+##### Service response
+
+application/json response.
+
+```javascript
+{ payload: <audio_data>, basename: <audio_file_basename>, encoding: <payload_encoding>, error: <error_message> }
+```
+
+- **payload** (String/base64): The audio data payload. Payload encoding is defined by the 'encoding' json field. Decode the payload audio data (client-side) using the codec value from the 'encoding' field.
+- **encoding** (String): Codec used to encode the audio data payload. Currently encoding of binary data is done using base64 codec. Ignore this field. May be used in future implementations.
+- **basename** (String): A static basename for the audio data file, returned by the platform service. Ignore this field. May be usefull in future implementations.
+- **error** (String): Error message, if one occures.
+
+
 
 #### Available-Services
 
