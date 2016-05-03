@@ -102,8 +102,6 @@ function readFileSync( _fileUrl, _encoding )
     var dataBuffer = fs.readFileSync( fileAbsPath );
     file.size['bytes'] = dataBuffer.length;
     file.size['kilobytes'] = file.size['bytes'] / 1024;
-    console.log("\033[0;33mReading requested file:" +
-      "[%s] , filesize: [%s]\033[0;0m", fileAbsPath, file.size['bytes']);
     encoding = _encoding || "none";
     switch ( encoding )
     {
@@ -131,13 +129,11 @@ function readFileSync( _fileUrl, _encoding )
         file.encoding = "raw";
         break;
       default:
-        console.log( '\033[0;31mGiven encoding is not supported\033[0;0m' );
     }
     return file;
   }
   else
   {
-    console.log("\033[01;31mCannot access the requested file. File does not exist.\033[0;0m");
     return 0;
   }
 }
@@ -157,7 +153,6 @@ function writeFileSync( _destUrl, _data )
 {
   var path =  resolvePath( _destUrl );
   if( fs.existsSync( path ) ){
-    console.log("\033[0;36mFile [%s] allready exists. Overwriting...\033[0;0m", path);
   }
   else{
     //console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
@@ -233,7 +228,7 @@ function createDirRecur( dirPath )
  *
  * @returns {boolean} - True if file existed and removed, false otherwise.
  */
-function rmFile( _file )
+function rmFileSync( _file )
 {
   var filePath =  resolvePath(_file);
   if( fs.existsSync(filePath) && isFile(filePath) )
@@ -247,6 +242,16 @@ function rmFile( _file )
     //console.log("\033[0;31mFile [%s] does not exist!\033[0;0m", path);
     return false;
   }
+}
+
+
+function rmFile(filepath){
+  var _filepath = resolvePath(filepath);
+  fs.exists(_filepath, function(exists){
+    if(exists){
+      fs.unlink(_filepath)
+    }
+  })
 }
 
 
@@ -300,9 +305,7 @@ function text2File ( _data, _filePath ){
     data.write( _data );
   }
   else{
-    console.log( "\033[01;31mInvalid Type of input parameter." +
-      "Only String and Buffer data are valid!\033[0;0m" );
-    return;
+    return false;
   }
 
   var fd = fs.openSync( _filePath, 'w' );
@@ -329,7 +332,6 @@ function appendLine( str, dest )
     return true;
   }
   catch(e){
-    console.log(e);
     return false;
   }
 }
@@ -384,15 +386,11 @@ function renameFile( file, dest )
       fs.renameSync(sourcePath, destPath);
     }
     catch(e){
-      console.log("Failed to rename file [%s] --> [%s] , ErrorCode: [%s]",
-        sourcePath, destPath, e);
       return false;
     }
     return true;
   }
   else {
-    console.error(colors.error + '** [Error]: Copy file [%s] --> [%s].' +
-      ' File does not exist!!!' + colors.clear, sourcePath, destPath);
     // If source file does not exist return false.
     return false;
   }
@@ -431,16 +429,11 @@ function copyFile(file, dest)
       fs.writeFileSync(destPath, fs.readFileSync(sourcePath));
     }
     catch(e){
-      console.error("Failed to copy file [%s] --> [%s].",
-        sourcePath, destPath);
-      console.log(e);
       return false;
     }
     return true;
   }
   else {
-    console.error(colors.error + '** [Error]: Copy file [%s] --> [%s].' +
-      ' File does not exist!!!' + colors.clear, sourcePath, destPath);
     // If source file does not exist return false.
     return false;
   }
@@ -467,7 +460,6 @@ function parentDir(_path)
   }
   catch(e)
   {
-    console.log(e);
     return false;
   }
   return _parentDir;
