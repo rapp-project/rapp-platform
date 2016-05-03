@@ -1,6 +1,6 @@
 {
   "hazard_detection": {
-    "launch": false,
+    "launch": true,
     "path": "workers/hazard_detection/worker.js",
     "services": [
       "hazard_detection_light_check",
@@ -15,56 +15,49 @@
     ]
   },
   "available_services": {
-    "launch": false,
+    "launch": true,
     "path": "workers/available_services/worker.js",
     "services": [
       "available_services"
     ]
   },
-  "user_personal_info": {
-    "launch": false,
-    "path": "workers/user_personal_info/worker.js",
-    "services": [
-      "user_personal_info"
-    ]
-  },
   "qr_detection": {
-    "launch": false,
+    "launch": true,
     "path": "workers/qr_detection/worker.js",
     "services": [
       "qr_detection"
     ]
   },
   "cognitive_get_history": {
-    "launch": false,
+    "launch": true,
     "path": "workers/cognitive_get_history/worker.js",
     "services": [
       "cognitive_get_history"
     ]
   },
   "cognitive_get_scores": {
-    "launch": false,
+    "launch": true,
     "path": "workers/cognitive_get_scores/worker.js",
     "services": [
       "cognitive_get_scores"
     ]
   },
   "cognitive_test_chooser": {
-    "launch": false,
+    "launch": true,
     "path": "workers/cognitive_test_chooser/worker.js",
     "services": [
       "cognitive_test_chooser"
     ]
   },
   "cognitive_record_performance": {
-    "launch": false,
+    "launch": true,
     "path": "workers/cognitive_record_performance/worker.js",
     "services": [
       "cognitive_record_performance"
     ]
   },
   "email_support": {
-    "launch": false,
+    "launch": true,
     "path": "workers/email_support/worker.js",
     "services": [
       "email_send",
@@ -72,7 +65,7 @@
     ]
   },
   "ontology": {
-    "launch": false,
+    "launch": true,
     "path": "workers/ontology/worker.js",
     "services": [
       "ontology_subclasses_of",
@@ -81,49 +74,49 @@
     ]
   },
   "text_to_speech": {
-    "launch": false,
+    "launch": true,
     "path": "workers/text_to_speech/worker.js",
     "services": [
       "text_to_speech"
     ]
   },
   "set_noise_profile": {
-    "launch": false,
+    "launch": true,
     "path": "workers/set_noise_profile/worker.js",
     "services": [
       "set_noise_profile"
     ]
   },
   "speech_detection_google": {
-    "launch": false,
+    "launch": true,
     "path": "workers/speech_detection_google/worker.js",
     "services": [
       "speech_detection_google"
     ]
   },
   "speech_detection_sphinx4": {
-    "launch": false,
+    "launch": true,
     "path": "workers/speech_detection_sphinx4/worker.js",
     "services": [
       "speech_detection_sphinx4"
     ]
   },
   "news_explore": {
-    "launch": false,
+    "launch": true,
     "path": "workers/news_explore/worker.js",
     "services": [
       "news_explore"
     ]
   },
   "geolocation": {
-    "launch": false,
+    "launch": true,
     "path": "workers/geolocation/worker.js",
     "services": [
       "geolocation"
     ]
   },
   "weather_report": {
-    "launch": false,
+    "launch": true,
     "path": "workers/weather_report/worker.js",
     "services": [
       "weather_report_forecast",
@@ -131,21 +124,21 @@
     ]
   },
   "object_recognition": {
-    "launch": false,
+    "launch": true,
     "path": "workers/object_recognition/worker.js",
     "services": [
       "object_recognition"
     ]
   },
   "human_detection": {
-    "launch": false,
+    "launch": true,
     "path": "workers/human_detection/worker.js",
     "services": [
       "human_detection"
     ]
   },
   "path_planning": {
-    "launch": false,
+    "launch": true,
     "path": "workers/path_planning/worker.js",
     "services": [
       "path_planning_upload_map",
@@ -153,10 +146,9 @@
     ]
   },
   "authentication": {
-    "launch": false,
+    "launch": true,
     "path": "workers/authentication/worker.js",
     "services": [
-      "auth_service_access",
       "register_user_from_store",
       "register_user_from_platform",
       "login_user"

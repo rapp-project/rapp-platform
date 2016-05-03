@@ -29,24 +29,16 @@
  */
 
 
-var hop = require('hop');
 var path = require('path');
-var util = require('util');
 
-var PKG_DIR = ENV.PATHS.PKG_DIR;
 var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
-
-var svcUtils = require(path.join(INCLUDE_DIR, 'common', 'svc_utils.js'));
-
-var auth = require(path.join(INCLUDE_DIR, 'common', 'auth.js'));
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
     'randStringGen.js') );
 
-var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
-    'Rosbridge.js') );
+var fs = require('fs');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
@@ -58,12 +50,6 @@ var audioOutPath = ENV.PATHS.SERVICES_CACHE_DIR;
 var basenamePrefix = svcParams.audio_file_basename || "tts_";
 /* ----------------------------------------------------------------------- */
 
-// Instantiate interface to rosbridge-websocket-server
-var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
-  reconnect: true, onconnection: function(){
-    // .
-  }
-});
 
 /*----------------< Random String Generator configurations >---------------*/
 var stringLength = 5;
@@ -95,90 +81,48 @@ var randStrGen = new RandStringGen( stringLength );
  *    when an error has been occured during service call.
  *
  */
-function svcImpl( kwargs )
+function svcImpl ( req, resp, ros )
 {
-  var request = this;
+  // Assign a unique identification key for this service request.
+  var unqCallId = randStrGen.createUnique();
+
+  // Rename file. Add uniqueId value
+  var filePath = path.join(audioOutPath,
+    basenamePrefix + unqCallId + '.' + audioOutFormat
+    );
+
+  var rosMsg = new interfaces.ros_req();
+  rosMsg.audio_output = filePath;
+  rosMsg.language = req.body.language;
+  rosMsg.text = req.body.text;
+
 
   /***
-   * Asynchronous http response
+   * ROS-Service response callback.
    */
-  return hop.HTTPResponseAsync(
-    function( sendResponse ) {
-      auth.authRequest(request, svcParams.name, authSuccess, authFail);
+  function callback(data){
+    // Remove this call id from random string generator cache.
+    randStrGen.removeCached( unqCallId );
+    // Parse rosbridge message and craft client response
+    var response = parseRosbridgeMsg( data, filePath );
+    resp.sendJson(response);
+  }
 
-      function authSuccess(user){
-        kwargs = kwargs || {};
-        var req = new interfaces.client_req();
-        var response = new interfaces.client_res();
-        var error = '';
+  /***
+   * ROS-Service onerror callback.
+   */
+  function onerror(e){
+    // Remove local file immediately.
+    Fs.rmFile(filePath);
+    // Remove this call id from random string generator cache.
+    randStrGen.removeCached( unqCallId );
+    resp.sendServerError();
+  }
 
-        /* Sniff argument values from request body and create client_req object */
-        try{
-          svcUtils.parseReq(kwargs, req);
-        }
-        catch(e){
-          error = "Service call arguments error";
-          response.error = error;
-          sendResponse( hop.HTTPResponseJson(response) );
-          return;
-        }
-        /* -------------------------------------------------------------------- */
+  // Call ROS-Service.
+  ros.callService(rosSrvName, rosMsg,
+    {success: callback, fail: onerror});
 
-        // Assign a unique identification key for this service request.
-        var unqCallId = randStrGen.createUnique();
-
-        // Rename file. Add uniqueId value
-        var filePath = path.join(audioOutPath,
-          basenamePrefix + unqCallId + '.' + audioOutFormat
-          );
-
-        var rosSvcReq = new interfaces.ros_req();
-        rosSvcReq.audio_output = filePath;
-        rosSvcReq.language = req.language;
-        rosSvcReq.text = req.text;
-
-
-        function callback(data){
-          // Remove this call id from random string generator cache.
-          randStrGen.removeCached( unqCallId );
-          // Craft client response using ros service ws response.
-          var response = parseRosbridgeMsg( data, filePath );
-          // Asynchronous response to client.
-          sendResponse( hop.HTTPResponseJson(response) );
-          // Remove audio file.
-          Fs.rmFile(filePath);
-        }
-
-        function onerror(e){
-          // Remove this call id from random string generator cache.
-          randStrGen.removeCached( unqCallId );
-          var response = new interfaces.client_res();
-          response.error = svcUtils.ERROR_MSG_DEFAULT;
-          // Asynchronous response to client.
-          sendResponse( hop.HTTPResponseJson(response) );
-        }
-
-        ros.callService(rosSrvName, rosSvcReq,
-          {success: callback, fail: onerror});
-
-      }
-
-      function authFail(error){
-        var response = auth.responseAuthFailed();
-        sendResponse(response);
-      }
-
-      /***
-       *  Timeout this request. Return to client.
-       */
-      setTimeout(function(){
-        var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        sendResponse( hop.HTTPResponseJson(response) );
-      }, svcParams.timeout);
-      /* ----------------------------------------------- */
-
-    }, this);
 }
 
 

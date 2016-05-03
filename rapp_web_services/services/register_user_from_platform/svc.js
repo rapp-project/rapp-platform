@@ -18,123 +18,56 @@
  *
  */
 
+/***
+ * @fileOverview
+ *
+ * [Register-User-From-Platform] RAPP Platform web service.
+ *
+ *  @author Konstantinos Panayiotou
+ *  @copyright Rapp Project EU 2015
+ */
 
-var hop = require('hop');
+
+
 var path = require('path');
-var util = require('util');
-
-var PKG_DIR = ENV.PATHS.PKG_DIR;
-var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
-
-var svcUtils = require(path.join(INCLUDE_DIR, 'common',
-    'svc_utils.js'));
-
-var auth = require(path.join(INCLUDE_DIR, 'common',
-    'auth.js'));
-
-var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
-    'randStringGen.js') );
-
-var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
-    'Rosbridge.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.register_user_from_platform;
-var rosSrvName = svcParams.ros_srv_name;
-/* ----------------------------------------------------------------------- */
-
-// Initiate communication with rosbridge-websocket-server
-var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
-  reconnect: true, onconnection: function(){
-    // .
-  }
-});
+var rosSrvName = ENV.SERVICES.register_user_from_platform;
 
 
-/*----------------< Random String Generator configurations >---------------*/
-var stringLength = 5;
-var randStrGen = new RandStringGen( stringLength );
-/* ----------------------------------------------------------------------- */
 
-
-function svcImpl( kwargs )
+function svcImpl ( req, resp, ros )
 {
-  var request = this;
+  var rosMsg = new interfaces.ros_req();
+
+  rosMsg.username = req.body.username;
+  rosMsg.password = req.body.password;
+  rosMsg.new_user_username = req.body.new_user_username;
+  rosMsg.new_user_password = req.body.new_user_password;
+  rosMsg.language = req.body.language;
+
 
   /***
-   * Asynchronous http response.
+   * ROS-Service response callback.
    */
-  return hop.HTTPResponseAsync(
-    function( sendResponse ) {
-      kwargs = kwargs || {};
-      var req = new interfaces.client_req();
-      var response = new interfaces.client_res();
-      var error = '';
+  function callback(data){
+    // Parse rosbridge message and craft client response
+    var response = parseRosbridgeMsg( data );
+    resp.sendJson(response);
+  }
 
+  /***
+   * ROS-Service onerror callback.
+   */
+  function onerror(e){
+    resp.sendServerError();
+  }
 
-      /***
-       * Sniff argument values from request body and
-       * create client_req object
-       */
-      try{
-        svcUtils.parseReq(kwargs, req);
-      }
-      catch(e){
-        error = "Service call arguments error";
-        response.error = error;
-        sendResponse( hop.HTTPResponseJson(response) );
-        return;
-      }
-      /* ------------------------------------------ */
+  // Call ROS-Service.
+  ros.callService(rosSrvName, rosMsg,
+    {success: callback, fail: onerror});
 
-      // Assign a unique identification key for this service request.
-      var unqCallId = randStrGen.createUnique();
-
-      var rosMsg = new interfaces.ros_req();
-      rosMsg.username = req.username;
-      rosMsg.password = req.password;
-      rosMsg.new_user_username = req.new_user_username;
-      rosMsg.new_user_password = req.new_user_password;
-      rosMsg.language = req.language;
-
-
-      function callback(data){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        //console.log(data);
-        // Craft client response using ros service ws response.
-        var response = parseRosbridgeMsg( data );
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
-      }
-
-      function onerror(e){
-        // Remove this call id from random string generator cache.
-        randStrGen.removeCached( unqCallId );
-        // craft error response
-        var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        // Asynchronous response to client.
-        sendResponse( hop.HTTPResponseJson(response) );
-      }
-
-
-      ros.callService(rosSrvName, rosMsg,
-        {success: callback, fail: onerror});
-
-      /***
-       *  Timeout this request. Return to client.
-       */
-      setTimeout(function(){
-        var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        sendResponse( hop.HTTPResponseJson(response) );
-      }, svcParams.timeout);
-      /* ----------------------------------------------- */
-
-    }, this );
 }
 
 

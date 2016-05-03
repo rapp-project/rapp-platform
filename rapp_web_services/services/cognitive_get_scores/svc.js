@@ -28,167 +28,56 @@
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
  *
- *  Basic Components (modules)
- *
- *      hop = require('hop').
- *        Import and use hopjs functionalities.
- *        For more information visit:
- *            https://github.com/manuel-serrano/hop
- *
- *      RosBridgeJS.js
- *        Use this module to achieve communication with ROS-framework.
- *        This module integrates a service controller to connect to
- *        the rosbridge-websocket-server.
- *        For more information on rosbridge-websocket-server visit:
- *            http://wiki.ros.org/rosbridge_suite
- *
- *        For more information on the RosBridgeJS module visit:
- *            https://github.com/klpanagi/RosBridgeJS
- *
- *      RandStrGenerator.js
- *        Random string generator class to generate cached unique
- *        identity keys. Used to generate a unique id for each client
- *        service request.
- *
  */
 
-var hop = require('hop');
 var path = require('path');
-var util = require('util');
-
-var PKG_DIR = ENV.PATHS.PKG_DIR;
-var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
-
-var svcUtils = require(path.join(INCLUDE_DIR, 'common',
-    'svc_utils.js'));
-
-var auth = require(path.join(INCLUDE_DIR, 'common', 'auth.js'));
-
-var RandStringGen = require ( path.join(INCLUDE_DIR, 'common',
-    'randStringGen.js') );
-
-var ROS = require( path.join(INCLUDE_DIR, 'rosbridge', 'src',
-    'Rosbridge.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/* ------------< Load parameters >-------------*/
+/* ----------------------------------------------------------------------- */
 var svcParams = ENV.SERVICES.cognitive_get_scores;
 var rosSrvName = svcParams.ros_srv_name;
 /* ----------------------------------------------------------------------- */
 
-// Initiate communication with rosbridge-websocket-server
-var ros = new ROS({hostname: ENV.ROSBRIDGE.HOSTNAME, port: ENV.ROSBRIDGE.PORT,
-  reconnect: true, onconnection: function(){
-    // .
-  }
-});
-
-
-/*----------------< Random String Generator configurations >---------------*/
-var stringLength = 5;
-var randStrGen = new RandStringGen( stringLength );
-/* ----------------------------------------------------------------------- */
-
 
 /**
- *  [Cognitive-get-scores] RAPP Platform front-end web service.
- *  Handles requests for cognitive-get-scores query.
+ *  [Cognitive-Get-Scores]
+ *  Handles requests to cognitive_get_scores RAPP Platform Service
  *
- *  @function cognitive_get_scores
+ *  Service Implementation.
  *
- *  @param {Object} args - Service input arguments (literal).
- *  @param {String} args.user - Username.
- *  @param {Number} args.up_to_time - Retrieve scores for up-to-time value.
- *  @param {String} args.test_type - Cognitive Exercise Type.
- *
- *
- *  @returns {Object} response - JSON HTTPResponse Object.
- *    Asynchronous HTTP Response.
- *  @returns {Array} response.test_classes - Cognitive Exercise test classes.
- *  @returnds {Array} response.scores - Performance scores on Cognitive
- *    Exercises.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
  *
  */
-function svcImpl( kwargs )
+function svcImpl ( req, resp, ros )
 {
-  var request = this;
+  var response = new interfaces.client_res();
+  var rosMsg = new interfaces.ros_req();
+
+  rosMsg.username = req.username;
+  rosMsg.upToTime = req.body.up_to_time;
+  rosMsg.testType = req.body.test_type;
+
 
   /***
-   * Asynchronous http response.
+   * ROS-Service response callback.
    */
-  return hop.HTTPResponseAsync(
-    function( sendResponse ) {
-      auth.authRequest(request, svcParams.name, authSuccess, authFail);
+  function callback(data){
+    // Parse rosbridge message and craft client response
+    var response = parseRosbridgeMsg( data );
+    resp.sendJson(response);
+  }
 
-      function authSuccess(user){
-        kwargs = kwargs || {};
-        var req = new interfaces.client_req();
-        var response = new interfaces.client_res();
-        var error = '';
+  /***
+   * ROS-Service onerror callback.
+   */
+  function onerror(e){
+    resp.sendServerError();
+  }
 
-        /* Sniff argument values from request body and create client_req object */
-        try{
-          svcUtils.parseReq(kwargs, req);
-        }
-        catch(e){
-          error = "Service call arguments error";
-          response.error = error;
-          sendResponse( hop.HTTPResponseJson(response) );
-          return;
-        }
-        /* -------------------------------------------------------------------- */
-
-        // Assign a unique identification key for this service request.
-        var unqCallId = randStrGen.createUnique();
+  ros.callService(rosSrvName, rosMsg,
+    {success: callback, fail: onerror});
 
 
-        var rosMsg = new interfaces.ros_req();
-        rosMsg.username = user;
-        rosMsg.upToTime = req.up_to_time;
-        rosMsg.testType = req.test_type;
-
-
-        function callback(data){
-          // Remove this call id from random string generator cache.
-          randStrGen.removeCached( unqCallId );
-          // Craft client response using ros service ws response.
-          var response = parseRosbridgeMsg( data );
-          sendResponse( hop.HTTPResponseJson(response) );
-        }
-
-        function onerror(e){
-          // Remove this call id from random string generator cache.
-          randStrGen.removeCached( unqCallId );
-          // craft error response
-          var response = new interfaces.client_res();
-          response.error = svcUtils.ERROR_MSG_DEFAULT;
-          sendResponse( hop.HTTPResponseJson(response) );
-        }
-
-        ros.callService(rosSrvName, rosMsg,
-          {success: callback, fail: onerror});
-
-      }
-
-      function authFail(error){
-        var response = auth.responseAuthFailed();
-        sendResponse(response);
-      }
-
-      /***
-       *  Timeout this request. Return to client.
-       */
-      setTimeout(function(){
-        var response = new interfaces.client_res();
-        response.error = svcUtils.ERROR_MSG_DEFAULT;
-        sendResponse( hop.HTTPResponseJson(response) );
-      }, svcParams.timeout);
-      /* ----------------------------------------------- */
-
-    }, this);
 }
 
 

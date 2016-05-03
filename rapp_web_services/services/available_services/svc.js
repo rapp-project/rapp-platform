@@ -28,15 +28,7 @@
  *  @copyright Rapp Project EU 2015
  */
 
-var hop = require('hop');
 var path = require('path');
-var util = require('util');
-
-var PKG_DIR = ENV.PATHS.PKG_DIR;
-var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
-
-var svcUtils = require(path.join(INCLUDE_DIR, 'common',
-    'svc_utils.js'));
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
@@ -44,12 +36,12 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 var svcParams = ENV.SERVICES.available_services;
 var rosSrvName = svcParams.ros_srv_name;
 
-var __availableServices = [];
-
 /* -- Set timer values for websocket communication to rosbridge -- */
 var scanTimer = svcParams.scan_time * 60 * 1000;  // Minutes
 var initScanWait = svcParams.initial_scan_wait;
 /* --------------------------------------------------------------- */
+
+var __availableServices = [];
 
 onmessage = function( msg ){
   __availableServices.length = 0;
@@ -98,11 +90,11 @@ setTimeout(
  *  when an error has been occured during service call.
  *
  */
-function svcImpl ( kwargs )
+function svcImpl ( req, resp, ros )
 {
   var response = new interfaces.client_res();
   response.services = __availableServices;
-  return hop.HTTPResponseJson(response);
+  resp.sendJson(response);
 }
 
 
