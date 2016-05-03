@@ -37,42 +37,6 @@ var util = require('util');
 
 var webService = require(path.join(__dirname, '../webService/webService.js'));
 
-var callParent = function( msg ){
-  postMessage(msg);
-};
-
-
-var onMessage = function( msg ){
-  msg = msg || {};
-  //TODO Create worker child thread interfaces.
-  //console.log("hello there")
-};
-
-
-var registerSvc = function( svcImpl, svcParams ){
-  // Register service to service handler.
-  var msg = {
-    request: "svc_registration",
-    svc_name: svcParams.name,
-    worker_name: WORKER.name,
-    svc_frame: undefined,
-    svc_path: ''
-  };
-
-  var svc = new hop.Service( svcImpl );
-  // Set path if not anonymous service
-  if( ! svcParams.anonymous ){
-    svc.name = (svcParams.namespace) ?
-      util.format("%s/%s", svcParams.namespace, svcParams.name) :
-      svcParams.url_name;
-  }
-  msg.svc_path = svc.path;
-  msg.svc_frame = svc;
-  postMessage(msg);
-
-  WORKER.services.push(svcParams.name);
-};
-
 
 /*!
  * @brief Sets worker's name in global scope object.
@@ -107,14 +71,21 @@ var launchSvcAll = function(){
           svcParams.name, 'svc.js'
         );
       }
+
       var svcImpl = require(srcPath);
+
       var options = {
-        name: svcParams.name,
-        urlName: svcParams.url_name,
+        name:       svcParams.name,
+        urlName:    svcParams.url_name,
         workerName: WORKER.name,
-        anonymous: svcParams.anonymous,
-        namespace: svcParams.namespace
+        anonymous:  svcParams.anonymous,
+        namespace:  svcParams.namespace,
+        timeout:    svcParams.timeout,
+        rosSrvName: svcParams.ros_srv_name || "",
+        ros_bridge: svcParams.ros_bridge || false,
+        auth:       svcParams.authentication || false
       };
+
       var svc = new webService(svcImpl, options);
       // Register this service to the service handler
       svc.register();
@@ -127,7 +98,5 @@ var launchSvcAll = function(){
 global.ENV = require( path.join(__dirname, '../..', 'env.js') );
 
 
-exports.callParent = callParent;
-exports.onMessage = onMessage;
 exports.setWorkerName = setWorkerName;
 exports.launchSvcAll = launchSvcAll;

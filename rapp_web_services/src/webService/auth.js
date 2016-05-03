@@ -1,96 +1,84 @@
-var hop = require('hop');
-
-
-function getToken( req ){
-  return req.header['accept-token'];
-}
-
-
-/**
- *  Call the application authentication service to authenticate
- *  client against requested service.
+/***
+ * Copyright 2016 RAPP
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Authors: Konstantinos Panayiotou
+ * Contact: klpanagi@gmail.com
+ *
  */
-var authRequest = function ( req, svcName, successClb, failClb ){
-  // Get token from request object
-  service auth_service_access();
-  var token = getToken(req);
-
-  if ( ! token ){
-    failClb();
-    return;
-  }
-
-  var options = {
-    // service call failure callback
-    fail: failClb
-  };
-
-  var authSvcFrame = auth_service_access({
-    token: token,
-    svc_name: svcName
-  });
-
-  authSvcFrame.post(function(response){
-    if ( response.error ){
-      failClb(response.error);
-    }
-    else{
-      successClb(response.username);
-    }
-  }, options);
-};
 
 
-var responseAuthFailed = function(){
-  var options = {
-    startLine: "HTTP/1.1 401 Unauthorized"
-  };
-  var response = hop.HTTPResponseString("Authentication Failure", options);
-  return response;
-};
+/***
+ * @fileOverview
+ *
+ * RAPP Authentication prototype implementation
+ *
+ *  @author Konstantinos Panayiotou
+ *  @copyright Rapp Project EU 2016
+ */
 
 
+
+/*!
+ * @brief Rapp Authentication prototype implementation.
+ */
 function RappAuth(ros) {
   this.rosSvcName = '/rapp/rapp_application_authentication/authenticate_token';
   this.ros = ros;
 
-  this.getToken = function(req) {
-    return req.header['accept-token'];
+  this.getToken = function(req_) {
+    return req_.header['accept-token'];
   };
 }
 
 
-// Call the authentication ROS node.
-RappAuth.prototype.call = function(req, onSuccess, onFailed) {
-  var _this = this;
-  var token = this.getToken(req);
+/*!
+ * @brief Call the authentication ROS node.
+ *
+ * @param req The request object.
+ * @param onSuccess {Function} The on-authentication-success callback.
+ * @param onFailed {Function} The on-authentication-failure callback.
+ */
+RappAuth.prototype.call= function(req_, resp_, onSuccess_, onFailed_) {
+  var that = this;
+  var token = this.getToken(req_);
 
   function callback(data){
     var success = data.success;
     var error = data.error;
     var username = data.username;
     if (error){
-      onFailed(error);
+      onFailed_(error);
     }
     else{
-      onSuccess(username);
+      onSuccess_(username);
     }
   }
 
   function onerror(e){
-    _this.onFailed(e);
+    onFailed_(e);
   }
 
+  // The authentication Service ROSMsg.
   var rosMsg = {
-    token: this.getToken(req)
+    token: this.getToken(req_)
   };
 
-  this.ros.callService(_this.rosSvcName, rosMsg, {
+  this.ros.callService(this.rosSvcName, rosMsg, {
     success: callback,
     fail: onerror});
 };
 
 
 module.exports.RappAuth = RappAuth;
-module.exports.authRequest = authRequest;
-module.exports.responseAuthFailed = responseAuthFailed;
