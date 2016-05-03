@@ -26,41 +26,37 @@ from os.path import join
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import EmailFetch
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
+    self.svc = EmailFetch(
+        email='rapp.platform@gmail.com',
+        password='',
+        server='imap.gmail.com',
+        port='',
+        date_from=0,
+        date_to=100000000,
+        email_status='',
+        num_emails=1
+    )
+
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
 
-    self.svcReq = {
-      'email': "rapp.platform@gmail.com",
-      'passwd': '',
-      'server': 'imap.gmail.com',
-      'port': '',
-      'from_date': 0,
-      'to_date': 1000000000,
-      'email_status': '',
-      'num_emails': 25
-    }
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.rappCloud.email_fetch(self.svcReq['email'], \
-        self.svcReq['passwd'], self.svcReq['server'], self.svcReq['port'], \
-        self.svcReq['from_date'], self.svcReq['to_date'], \
-        self.svcReq['email_status'], self.svcReq['num_emails'])
-
-    print response
+    response = self.svc.call()
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
     else:

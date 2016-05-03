@@ -25,26 +25,21 @@ import timeit
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import WeatherReportCurrent
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-
-    self.svcReq = {
-        'city': 'Athens',
-        'weather_reporter': '',
-        'metric': 0
-    }
+    self.svc = WeatherReportCurrent()
+    self.svc.city = 'Athens'
+    self.svc.weather_reporter = ''
+    self.svc.metric = 0
 
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.weather_report_current(self.svcReq['city'], \
-            weatherReporter=self.svcReq['weather_reporter'], \
-            metric=self.svcReq['metric'])
+    response = self.svc.call()
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
@@ -52,10 +47,8 @@ class RappInterfaceTest:
 
 
   def validate(self, response):
-    error = response['error']
-
-    if not response['error']:
+    if not response.error:
         return [True, self.elapsed_time]
     else:
-        return [error, self.elapsed_time]
+        return [response.error, self.elapsed_time]
 

@@ -26,48 +26,35 @@ from os.path import join
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 ## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import NewsExplore
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
 
-    self.svcReq = {
-        'news_engine': '',
-        'keywords': [],
-        'exclude_titles': [],
-        'region': '',
-        'topic': '',
-        'num_news': 5
-    }
+    self.svc = NewsExplore(news_engine='', keywords=[], exclude_titles=[],
+                           region='', topic='', num_news=5)
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.rappCloud.news_stories_fetch( \
-            newsEngine=self.svcReq['news_engine'], \
-            keywords=self.svcReq['keywords'], \
-            excludeTitles=self.svcReq['exclude_titles'], \
-            region=self.svcReq['region'], topic=self.svcReq['topic'], \
-            numNews=self.svcReq['num_news'])
-
+    response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
-    if len(response['news_stories']) == self.svcReq['num_news']:
+    if len(response.news_stories) == self.svc.num_news:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + \
                 ' Number of news stories requested -> ' + \
-                str(self.svcReq['num_news']) + ', received -> ' + \
-                str(len(response['news_stories'])), self.elapsed_time]
+                str(self.svc.num_news) + ', received -> ' + \
+                str(len(response.news_stories)), self.elapsed_time]

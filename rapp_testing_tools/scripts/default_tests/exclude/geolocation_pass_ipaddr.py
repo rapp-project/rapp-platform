@@ -24,14 +24,11 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import Geolocation
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-
     self.validResults = {
         'city': 'San Francisco',
         'zip': '94107',
@@ -44,17 +41,14 @@ class RappInterfaceTest:
         'error': ''
     }
 
-    self.svcReq = {
-        'ipaddr': '104.16.115.182',
-        'engine': ''
-    }
+    self.svc = Geolocation(ipaddr='104.16.115.182')
 
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.rappCloud.geolocation(self.svcReq['ipaddr'], \
-            self.svcReq['engine'])
+    response = self.svc.call()
+    print response
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
@@ -62,9 +56,8 @@ class RappInterfaceTest:
 
 
   def validate(self, response):
-    error = response['error']
 
-    if self.validResults == response:
+    if self.validResults == response.serialize():
         return [True, self.elapsed_time]
     else:
         return [error, self.elapsed_time]
