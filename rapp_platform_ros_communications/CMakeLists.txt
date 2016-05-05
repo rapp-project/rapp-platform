@@ -30,6 +30,7 @@ add_message_files(
 add_service_files(
   FILES
 
+  /ExampleServices/tutorialExampleServiceSrv.srv
   /CognitiveExercise/testSelectorSrv.srv
   /CognitiveExercise/recordUserCognitiveTestPerformanceSrv.srv
   /CognitiveExercise/cognitiveTestCreatorSrv.srv

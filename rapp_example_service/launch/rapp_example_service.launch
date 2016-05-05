@@ -1,0 +1,5 @@
+<launch>
+  <node name="rapp_example_service_node" pkg="rapp_example_service" type="rapp_example_service_main.py" output="screen" />
+  <rosparam file="$(find rapp_example_service)/cfg/rapp_example_service_params.yaml" 
+    command="load" />
+</launch>

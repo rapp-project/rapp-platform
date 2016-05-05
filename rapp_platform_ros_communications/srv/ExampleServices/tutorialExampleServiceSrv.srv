@@ -1,0 +1,11 @@
+# Contains info about time and reference
+Header header
+# General string for simple queries
+string username
+int32 a
+int32 b
+---
+# The results of the query
+string userOntologyAlias
+int32 additionResult
+int32 timestamp
