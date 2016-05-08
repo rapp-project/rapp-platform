@@ -71,11 +71,10 @@ var rosSrvName = ENV.SERVICES.speech_detection_sphinx4.ros_srv_name;
  */
 function svcImpl ( req, resp, ros )
 {
-
-  if( ! req.files.length ){
+  if( ! req.files.file ){
     var response = new interfaces.client_res();
     response.error = "No image file received";
-    resp.sendError(response);
+    resp.sendJson(response);
     return;
   }
 
@@ -100,7 +99,7 @@ function svcImpl ( req, resp, ros )
 
 
   var rosMsg = new interfaces.ros_req();
-  rosMsg.path = req.files[0];
+  rosMsg.path = req.files.file[0];
   rosMsg.audio_source = req.body.audio_source;
   rosMsg.user = req.username;
   rosMsg.language = req.body.language;

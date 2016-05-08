@@ -49,7 +49,6 @@ var rosSrvName = ENV.SERVICES.cognitive_get_history.ros_srv_name;
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
   var rosMsg = new interfaces.ros_req();
 
   rosMsg.username = req.username;

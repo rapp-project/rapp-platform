@@ -50,14 +50,14 @@ function svcImpl ( req, resp, ros )
   var response = new interfaces.client_res();
   var rosMsg = new interfaces.ros_req();
 
-  if( ! req.files.length ){
+  if( ! req.files.file ){
     var response = new interfaces.client_res();
     response.error = "No image file received";
-    resp.sendError(response);
+    resp.sendJson(response);
     return;
   }
 
-  rosMsg.noise_audio_file = req.files[0];
+  rosMsg.noise_audio_file = req.files.file[0];
   rosMsg.audio_file_type = req.body.audio_source;
   rosMsg.user = req.username;
 

@@ -73,12 +73,12 @@ function svcImpl ( req, resp, ros )
 {
   var response = new interfaces.client_res();
 
-  if( ! req.body.png_file ){
+  if( ! req.files.png_file[0] ){
     response.error = 'No map image file received';
     resp.sendJson(response);
     return;
   }
-  if( ! req.body.yaml_file ){
+  if( ! req.files.yaml_file[0] ){
     response.error = 'No map image file received';
     resp.sendJson(response);
     return;
@@ -101,11 +101,11 @@ function svcImpl ( req, resp, ros )
   }
 
   // coppy .png and .yaml files from the server_cache_dir
-  if ( ! Fs.renameFile(req.body.png_file, cpPNGFile) ){
+  if ( ! Fs.renameFile(req.files.png_file[0], cpPNGFile) ){
     response.error = "Failed to upload map png to RAPP Platform.";
     response.success = false;
   }
-  if ( ! Fs.renameFile(req.body.yaml_file, cpYAMLFile) ){
+  if ( ! Fs.renameFile(req.files.yaml_file[0], cpYAMLFile) ){
     response.error = "Failed to upload map yaml to RAPP Platform.";
     response.success = false;
   }
@@ -113,8 +113,8 @@ function svcImpl ( req, resp, ros )
     response.success = true;
   }
 
-  Fs.rmFile(req.body.png_file);
-  Fs.rmFile(req.body.yaml_file);
+  Fs.rmFile(req.files.png_file[0]);
+  Fs.rmFile(req.files.yaml_file[0]);
 
   resp.sendJson(response);
 }

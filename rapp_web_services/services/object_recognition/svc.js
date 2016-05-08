@@ -48,14 +48,14 @@ function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
 
-  if( ! req.files.length ){
+  if( ! req.files.file ){
     var response = new interfaces.client_res();
     response.error = "No image file received";
-    resp.sendError(response);
+    resp.sendJson(response);
     return;
   }
 
-  rosMsg.objectFileUrl = req.files[0];
+  rosMsg.objectFileUrl = req.files.file[0];
 
 
   /***

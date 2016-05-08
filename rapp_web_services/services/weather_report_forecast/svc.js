@@ -47,7 +47,6 @@ var rosSrvName = ENV.SERVICES.weather_report_forecast.ros_srv_name;
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
   var rosMsg = new interfaces.ros_req();
 
   rosMsg.city = req.body.city;

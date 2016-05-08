@@ -49,10 +49,6 @@ var rosSrvName = ENV.SERVICES.email_send.ros_srv_name;
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
-
-  /* ------------------------------------------ */
-
   //if( ! req.body.email ){
     //error = 'Empty \"email\" argument';
     //response.error = error;
@@ -75,14 +71,17 @@ function svcImpl ( req, resp, ros )
   var _files = [];
 
 
-  if( zip.isZipFile(req.files[0]) ){
-    _files = zip.unzip(req.files[0]).filepaths;
-  }
-  else{
-    _files.push(req.files[0]);
+  if(req.files.file){
+    if( zip.isZipFile(req.files.file[0]) ){
+      _files = zip.unzip(req.files.file[0]).filepaths;
+    }
+    else{
+      _files.push(req.files.file[0]);
+    }
   }
 
   var rosMsg = new interfaces.ros_req();
+
   rosMsg.userEmail = req.body.email;
   rosMsg.password = req.body.passwd;
   rosMsg.server = req.body.server;
