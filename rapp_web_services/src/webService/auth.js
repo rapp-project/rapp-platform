@@ -37,8 +37,8 @@ function RappAuth(ros) {
   this.rosSvcName = '/rapp/rapp_application_authentication/authenticate_token';
   this.ros = ros;
 
-  this.getToken = function(req_) {
-    return req_.header['accept-token'];
+  this.getToken = function(req) {
+    return req.header['accept-token'];
   };
 }
 
@@ -50,9 +50,8 @@ function RappAuth(ros) {
  * @param onSuccess {Function} The on-authentication-success callback.
  * @param onFailed {Function} The on-authentication-failure callback.
  */
-RappAuth.prototype.call= function(req_, resp_, onSuccess_, onFailed_) {
+RappAuth.prototype.call = function(req, resp, onSuccess_, onFailed_) {
   var that = this;
-  var token = this.getToken(req_);
 
   function callback(data){
     var success = data.success;
@@ -72,8 +71,9 @@ RappAuth.prototype.call= function(req_, resp_, onSuccess_, onFailed_) {
 
   // The authentication Service ROSMsg.
   var rosMsg = {
-    token: this.getToken(req_)
+    token: this.getToken(req)
   };
+
 
   this.ros.callService(this.rosSvcName, rosMsg, {
     success: callback,

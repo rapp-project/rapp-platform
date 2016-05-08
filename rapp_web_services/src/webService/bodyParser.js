@@ -37,13 +37,11 @@ function JsonParser() {
 
 
 /*!
- * @brief Call to parse input request object
+ * @brief Parse input request object
  *
- * @param req {Object} the HOP Request object.
- *
- * @returns {Object}
+ * @param req {Object} the Request object.
  */
-JsonParser.prototype.parse = function(req) {
+JsonParser.prototype.call = function(req) {
   var jsonField = req.body.json || '';
   var data = this.json(jsonField);
   for (var k in data){
