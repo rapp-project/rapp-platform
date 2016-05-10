@@ -47,11 +47,16 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser";
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
   var rosMsg = new interfaces.ros_req();
 
   rosMsg.username = req.username;
   rosMsg.testType = req.body.test_type;
+  rosMsg.testSubType = req.body.test_subtype;
+  rosMsg.testDifficulty = req.body.test_diff;
+  rosMsg.testIndex = req.body.test_index;
+
+  console.log(req.body);
+  console.log(rosMsg);
 
 
   /***

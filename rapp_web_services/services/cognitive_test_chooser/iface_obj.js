@@ -41,18 +41,28 @@ var clientRes = function( lang, questions, possAns, corrAns,
 
 var clientReq = function( ){
   var obj = {
-    test_type: ''
+    test_type: '',
+    test_subtype: '',
+    test_diff: '',
+    test_index: ''
   };
   return obj;
 };
 
 
-var rosReq = function( user, testType){
+var rosReq = function(user, testType, testSubType, testDifficulty, testIndex) {
   user = user || '';
   testType = testType || '';
+  testSubType = testSubType || '';
+  testDifficulty = testDifficulty || '';
+  testIndex = testIndex || '';
+
   var obj = {
     username: user,
-    testType: testType
+    testType: testType,
+    testSubType: testSubType,
+    testDifficulty: testDifficulty,
+    testIndex: testIndex
   };
   return obj;
 };
