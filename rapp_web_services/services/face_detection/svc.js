@@ -33,9 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.face_detection;
-var rosSrvName = svcParams.ros_srv_name;
+var rosSrvName = "/rapp/rapp_face_detection/detect_faces";
 
 
 

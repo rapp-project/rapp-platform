@@ -34,7 +34,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.path_planning_plan_path_2d.ros_srv_name;
+var rosSrvName = "/rapp/rapp_path_planning/planPath2d";
 
 
 function svcImpl ( req, resp, ros )

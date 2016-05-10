@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.register_user_from_platform;
+var rosSrvName = "/rapp/rapp_application_authentication/add_new_user_from_platform";
 
 
 

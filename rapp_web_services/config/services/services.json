@@ -6,8 +6,8 @@
     "url_name": "hazard_detection_door_check",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_hazard_detection/door_check"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "hazard_detection_light_check" : {
     "launch": true,
@@ -16,8 +16,8 @@
     "url_name": "hazard_detection_light_check",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_hazard_detection/light_check"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "face_detection": {
     "launch": true,
@@ -26,9 +26,8 @@
     "url_name": "face_detection",
     "namespace": "",
     "authentication": true,
-    "ros_bridge": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_face_detection/detect_faces"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "available_services": {
     "path": "available_services/svc.js",
@@ -37,8 +36,9 @@
     "name": "available_services",
     "url_name": "available_services",
     "namespace": "",
-    "scan_time": 2,
-    "initial_scan_wait": 10000
+    "authentication": true,
+    "ros_connection": false,
+    "timeout": 45000
   },
   "qr_detection": {
     "launch": true,
@@ -47,8 +47,8 @@
     "url_name": "qr_detection",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_qr_detection/detect_qrs"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "cognitive_get_history": {
     "launch": true,
@@ -57,8 +57,8 @@
     "url_name": "cognitive_get_history",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_history"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "cognitive_get_scores": {
     "launch": true,
@@ -67,8 +67,8 @@
     "url_name": "cognitive_get_scores",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_cognitive_exercise/user_all_categories_score"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "cognitive_test_chooser": {
     "launch": true,
@@ -77,8 +77,8 @@
     "url_name": "cognitive_test_chooser",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "cognitive_record_performance": {
     "launch": true,
@@ -87,8 +87,8 @@
     "url_name": "cognitive_record_performance",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "email_send": {
     "launch": true,
@@ -97,8 +97,8 @@
     "url_name": "email_send",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_email_send/send_email"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "email_fetch": {
     "launch": true,
@@ -107,8 +107,8 @@
     "url_name": "email_fetch",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_email_receive/receive_email"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "ontology_subclasses_of": {
     "launch": true,
@@ -117,8 +117,8 @@
     "url_name": "ontology_subclasses_of",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_knowrob_wrapper/subclasses_of"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "ontology_superclasses_of": {
     "launch": true,
@@ -127,8 +127,8 @@
     "url_name": "ontology_superclasses_of",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_knowrob_wrapper/superclasses_of"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "ontology_is_subsuperclass_of": {
     "launch": true,
@@ -137,8 +137,8 @@
     "url_name": "ontology_is_subsuperclass_of",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_knowrob_wrapper/is_subsuperclass_of"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "text_to_speech": {
     "launch": true,
@@ -147,10 +147,8 @@
     "url_name": "text_to_speech",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_text_to_speech_espeak/text_to_speech_topic",
-    "audio_file_format": "wav",
-    "audio_file_basename": "tts_"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "set_noise_profile": {
     "launch": true,
@@ -159,8 +157,8 @@
     "url_name": "set_noise_profile",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_audio_processing/set_noise_profile"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "speech_detection_google": {
     "launch": true,
@@ -169,8 +167,8 @@
     "url_name": "speech_detection_google",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_speech_detection_google/speech_to_text"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "speech_detection_sphinx4": {
     "launch": true,
@@ -179,8 +177,8 @@
     "url_name": "speech_detection_sphinx4",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "news_explore": {
     "launch": true,
@@ -189,8 +187,8 @@
     "url_name": "news_explore",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_news_explorer/fetch_news"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "geolocation": {
     "launch": true,
@@ -199,8 +197,8 @@
     "url_name": "geolocation",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_geolocator/locate"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "weather_report_forecast": {
     "launch": true,
@@ -209,8 +207,8 @@
     "url_name": "weather_report_forecast",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_weather_reporter/weather_forecast"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "weather_report_current": {
     "launch": true,
@@ -219,8 +217,8 @@
     "url_name": "weather_report_current",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_weather_reporter/current_weather"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "object_recognition": {
     "launch": true,
@@ -229,8 +227,8 @@
     "url_name": "object_recognition",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_caffe_wrapper/image_classification"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "human_detection": {
     "launch": true,
@@ -239,8 +237,8 @@
     "url_name": "human_detection",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_human_detection/detect_humans"
+    "ros_connection": true,
+    "timeout": 45000
   },
   "path_planning_upload_map": {
     "launch": true,
@@ -249,6 +247,7 @@
     "url_name": "path_planning_upload_map",
     "namespace": "",
     "authentication": true,
+    "ros_connection": false,
     "timeout": 45000
   },
   "path_planning_plan_path_2d": {
@@ -258,8 +257,8 @@
     "url_name": "path_planning_plan_path_2d",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_path_planning/planPath2d"
+    "ros_connection": false,
+    "timeout": 45000
   },
   "register_user_from_store": {
     "launch": true,
@@ -268,8 +267,8 @@
     "url_name": "register_user_from_store",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_application_authentication/add_new_user_from_store"
+    "ros_connection": false,
+    "timeout": 45000
   },
   "register_user_from_platform": {
     "launch": true,
@@ -278,8 +277,8 @@
     "url_name": "register_user_from_platform",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_application_authentication/add_new_user_from_platfrom"
+    "ros_connection": false,
+    "timeout": 45000
   },
   "login_user": {
     "launch": true,
@@ -288,8 +287,8 @@
     "url_name": "login_user",
     "namespace": "",
     "authentication": true,
-    "timeout": 45000,
-    "ros_srv_name": "/rapp/rapp_application_authentication/login"
+    "ros_connection": false,
+    "timeout": 45000
   }
 
 }

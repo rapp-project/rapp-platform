@@ -35,7 +35,7 @@ var zip = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'zip.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.email_send.ros_srv_name;
+var rosSrvName = "/rapp/rapp_email_send/send_email";
 
 
 

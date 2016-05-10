@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.hazard_detection_door_check.ros_srv_name;
+var rosSrvName = "/rapp/rapp_hazard_detection/door_check";
 
 
 /**

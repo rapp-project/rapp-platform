@@ -35,7 +35,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.cognitive_get_history.ros_srv_name;
+var rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_history";
 
 
 

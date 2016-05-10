@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.speech_detection_google.ros_srv_name;
+var rosSrvName = "/rapp/rapp_speech_detection_google/speech_to_text";
 
 
 

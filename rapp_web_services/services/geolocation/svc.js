@@ -34,7 +34,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.geolocation.ros_srv_name;
+var rosSrvName = "/rapp/rapp_geolocator/locate";
 
 
 

@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.ontology_is_subsuperclass_of.ros_srv_name;
+var rosSrvName = "/rapp/rapp_knowrob_wrapper/is_subsuperclass_of";
 
 
 

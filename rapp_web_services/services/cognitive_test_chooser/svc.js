@@ -34,7 +34,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.cognitive_test_chooser.ros_srv_name;
+var rosSrvName = "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser";
 
 
 /**

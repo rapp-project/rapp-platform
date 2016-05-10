@@ -34,7 +34,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.login_user;
+var rosSrvName = "/rapp/rapp_application_authentication/login";
 
 
 

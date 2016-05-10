@@ -42,13 +42,10 @@ var fs = require('fs');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-/* ------------< Load parameters >-------------*/
-var svcParams = ENV.SERVICES.text_to_speech;
-var rosSrvName = svcParams.ros_srv_name;
-var audioOutFormat = svcParams.audio_file_format || "wav";
+var rosSrvName = "/rapp/rapp_text_to_speech_espeak/text_to_speech_topic";
+var audioOutFormat = "wav";
 var audioOutPath = ENV.PATHS.SERVICES_CACHE_DIR;
-var basenamePrefix = svcParams.audio_file_basename || "tts_";
-/* ----------------------------------------------------------------------- */
+var basenamePrefix = "tts_";
 
 
 /*----------------< Random String Generator configurations >---------------*/

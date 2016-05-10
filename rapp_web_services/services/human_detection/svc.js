@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'ihuman_obj.js') );
 
-var rosSrvName = ENV.SERVICES.human_detection.ros_srv_name;
+var rosSrvName = "/rapp/rapp_human_detection/detect_humans";
 
 
 

@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.news_explore.ros_srv_name;
+var rosSrvName = "/rapp/rapp_news_explorer/fetch_news";
 
 
 

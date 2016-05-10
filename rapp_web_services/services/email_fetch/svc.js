@@ -35,7 +35,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.email_fetch.ros_srv_name;
+var rosSrvName = "/rapp/rapp_email_receive/receive_email";
 
 
 /**

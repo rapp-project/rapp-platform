@@ -32,7 +32,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.object_recognition.ros_srv_name;
+var rosSrvName = "/rapp/rapp_caffe_wrapper/image_classification";
 
 
 

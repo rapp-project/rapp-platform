@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = ENV.SERVICES.set_noise_profile.ros_srv_name;
+var rosSrvName = "/rapp/rapp_audio_processing/set_noise_profile";
 
 
 
