@@ -22,8 +22,8 @@
 
 
 RappPlatformPath="${HOME}/rapp_platform"
-BiglooIndex="bigloo4.3a"
-BiglooUrl="http://rapp-project.eu/bigloo4.3a.tar.gz"
+BiglooTarballName="bigloo4.3a"
+BiglooUrl="http://rapp-project.eu/${BiglooTarballName}.tar.gz"
 HopRepoUrl="https://github.com/manuel-serrano/hop.git"
 HopCommitIndex="58c2d43e43d1358b6d65506f8167a0cdfcd3ca51"
 
@@ -43,8 +43,8 @@ cd hop-bigloo
 wget ${BiglooUrl} &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Installing Bigloo \e[0m"
-tar -zxf "bigloo.tar.gz" &> /dev/null
-cd ${BiglooIndex}
+tar -zxf "${BiglooTarballName}.tar.gz" &> /dev/null
+cd "${BiglooTarballName}"
 ./configure &> /dev/null
 make &> /dev/null
 make test &> /dev/null
@@ -65,8 +65,3 @@ make doc &> /dev/null
 sudo make install &> /dev/null
 
 echo -e "\e[1m\e[103m\e[31m [RAPP] Finished HOP/Bigloo \e[0m"
-
-# Initialize HOP with users
-#mkdir -p $HOME/.config/hop
-#cd $curr/hop_init
-#cp  $HOME/.config/hop/
