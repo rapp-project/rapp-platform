@@ -1,0 +1,13 @@
+apps:
+  - name: web-server
+    script: "./run.sh"
+    args: "--port 9001"
+    instances: 1
+    exec_mode: "fork"
+    watch: false
+    autorestart: true
+    max_restarts: 10
+    restart_delay: 5000
+    max_memory_restart: "2G"
+
+

@@ -44,6 +44,37 @@ colors ()
   BWHITE='\e[1;37m'
 }; colors
 
+#######################
+## Defaults
+#######################
+
+PORT=9001
+## Secure Channel - HTTPS
+HTTPS_ENABLE=false
+HTTPS_PKEY="${HOME}/.cert/server.key"
+HTTPS_CERT="${HOME}/.cert/server.crt"
+
+##############################################
+
+while [[ $# > 1 ]]
+do
+  key="$1"
+
+  case $key in
+    -s|--https)
+      HTTPS_ENABLE=true
+      #shift # past argument
+      ;;
+    -p|--port)
+      PORT="$2"
+      shift # past argument
+      ;;
+    *)
+      # unknown option
+      ;;
+  esac
+  shift # past argument or value
+done
 
 ################################################################################
 ############################# Configure HOP Server #############################
@@ -58,13 +89,6 @@ JSFILE=init.js
 JSEXECPATH="${CURRENTDIR}/${JSFILE}"
 CFG_DIR=${CURRENTDIR}/config/hoprc
 
-## Secure Channel - HTTPS
-HTTPS_ENABLE=false
-HTTPS_PKEY="${HOME}/.cert/server.key"
-HTTPS_CERT="${HOME}/.cert/server.crt"
-
-## Hop Web Server run on this port
-PORT=9001
 
 ## Logging definitions
 # Timestamp to be added onto log file name
