@@ -198,6 +198,16 @@ function WebService (onRequest, options) {
 
       // Timeout this request. Return to client with Error 500.
       setTimeout(function(){
+        // Remove all received files
+        for(var k in _req.files){
+          for(var i in _req.files[k]){
+            fs.exists(_req.files[k][i], function(exists){
+              if(exists){
+                fs.unlink(_req.files[k][i]);
+              }
+            });
+          }
+        }
         _resp.sendServerError();
       }, that.timeout);
 
