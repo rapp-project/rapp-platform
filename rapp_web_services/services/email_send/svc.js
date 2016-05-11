@@ -32,6 +32,7 @@
 
 var path = require('path');
 var zip = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'zip.js') );
+var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
@@ -96,6 +97,7 @@ function svcImpl ( req, resp, ros )
    * ROS-Service response callback.
    */
   function callback(data){
+    Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
@@ -105,6 +107,7 @@ function svcImpl ( req, resp, ros )
    * ROS-Service onerror callback.
    */
   function onerror(e){
+    Fs.rmFile(req.files.file[0]);
     resp.sendServerError();
   }
 

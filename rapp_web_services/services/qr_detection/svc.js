@@ -29,6 +29,7 @@
  */
 
 var path = require('path');
+var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
@@ -46,7 +47,6 @@ var rosSrvName = "/rapp/rapp_qr_detection/detect_qrs";
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
   var rosMsg = new interfaces.ros_req();
 
   if( ! req.files.file ){
@@ -63,6 +63,7 @@ function svcImpl ( req, resp, ros )
    * ROS-Service response callback.
    */
   function callback(data){
+    Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
@@ -72,6 +73,7 @@ function svcImpl ( req, resp, ros )
    * ROS-Service onerror callback.
    */
   function onerror(e){
+    Fs.rmFile(req.files.file[0]);
     resp.sendServerError();
   }
 
