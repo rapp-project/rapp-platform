@@ -90,9 +90,9 @@ function svcImpl ( req, resp, ros )
   }
 
   var cpPNGFile = "~/rapp_platform_files/maps/" + req.username + "/" +
-    req.map_name + ".png";
+    req.body.map_name + ".png";
   var cpYAMLFile = "~/rapp_platform_files/maps/" + req.username + "/" +
-    req.map_name + ".yaml";
+    req.body.map_name + ".yaml";
 
 
   // create user directory if one does not exist.
