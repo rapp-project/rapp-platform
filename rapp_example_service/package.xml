@@ -46,6 +46,8 @@
   <run_depend>rapp_platform_ros_communications</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>rostest</run_depend>
+  <build_depend>rostest</build_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

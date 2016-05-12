@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   rapp_platform_ros_communications
   rospy
   std_msgs
+  rostest
 )
 
 ## System dependencies are found with CMake's conventions
@@ -100,10 +101,12 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES rapp_example_service
-#  CATKIN_DEPENDS rapp_platform_ros_communications rospy std_msgs
-#  DEPENDS system_lib
+  CATKIN_DEPENDS
+    rospy
+    std_msgs
+    rostest
+    rapp_platform_ros_communications
+  INCLUDE_DIRS
 )
 
 ###########
@@ -174,15 +177,10 @@ include_directories(
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
 
-#############
-## Testing ##
-#############
-
-## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_rapp_example_service.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
-
-## Add folders to be run by python nosetests
-# catkin_add_nosetests(test)
+###########
+## Build ##
+###########
+if (CATKIN_ENABLE_TESTING)
+  #catkin_add_nosetests(tests/cognitive_exercise_system_services_functional_tests.py)
+  add_rostest(tests/example_service_tests.launch)
+endif()
