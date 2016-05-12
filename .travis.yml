@@ -38,7 +38,7 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   # Run unit and functional tests
   - cd $RAPP_WS
   - if [[ "$TEST_SUITE" == "UNIT1" ]]; then catkin_make run_tests -j1 && catkin_test_results ; fi
-  - if [[ "$TEST_SUITE" == "UNIT2" ]]; then catkin_make test -j1 ; fi
+  - if [[ "$TEST_SUITE" == "UNIT2" ]]; then catkin_make tests -j1 && catkin_make test -j1; catkin_test_results --verbose ; fi
   # Run integration tests
   - if [[ "$TEST_SUITE" == "INTEGRATION" ]]; then echo "Initiating integration tests" && bash $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh & screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_web_services.sh && sleep 20 && echo "Executing normal integration tests" && rosrun rapp_testing_tools rapp_run_test.py ; fi
 after_success:
