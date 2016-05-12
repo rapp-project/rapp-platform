@@ -58,7 +58,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         prefix = 'http://knowrob.org/kb/knowrob.owl#'
         self.assertEqual(prefix + 'ArithmeticCts_tDjYwuhx' in response.tests, True)
-        self.assertEqual(prefix + 'ArithmeticCts_MewmmEsP' in response.tests, True)
+        self.assertEqual(prefix + 'ArithmeticCts_bneXbLGX' in response.tests, True)
         self.assertEqual(response.success, True)
 
 	## Test cognitive tests of non existent type
@@ -121,9 +121,7 @@ class OntologyFunc(unittest.TestCase):
         response = test_service(req)
         self.assertEqual(response.success, True)
         prefix = 'http://knowrob.org/kb/knowrob.owl#'
-        self.assertEqual(prefix + 'ArithmeticCts_MewmmEsP' in response.tests, True)
-        self.assertEqual(prefix + 'ArithmeticCts_stXqnGrc' in response.tests, True)
-        self.assertEqual(prefix + 'ArithmeticCts_TaVWzXre' in response.tests, True)
+        self.assertEqual(prefix + 'ArithmeticCts_bneXbLGX' in response.tests, True)
 
 	## Test user performance of nonexistent user and test type
     def test_user_performance_nonexistent_user_and_test(self):
@@ -206,7 +204,7 @@ class OntologyFunc(unittest.TestCase):
         req = createCognitiveExerciseTestSrvRequest()
         req.test_type="1ArithmeticCts"
         req.test_difficulty=1
-        req.test_path="/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1.xml"
+        req.test_path="/cognitiveTests/ArithmeticCts_BasicArithmeticCts_diff1_id_0.xml"
         req.test_subtype="BasicArithmeticCts"
         supportedLanguages=['en','el']
         req.supported_languages=supportedLanguages
