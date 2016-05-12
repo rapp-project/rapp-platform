@@ -24,25 +24,32 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import CognitiveRecordPerformance
+from RappCloud import (
+    CognitiveRecordPerformance,
+    CognitiveTestSelect)
+
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.svc = CognitiveRecordPerformance(
-        test_instance="ReasoningCts_GJNNLYhq",
-        score=50)
+    self.cogSel = CognitiveTestSelect(test_type='AwarenessCts')
+    self.cogRec = CognitiveRecordPerformance()
     # Set the valid results
     self.valid_result_partial = "CognitiveTestPerformed"
+
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
-    response = self.svc.call()
+    response = self.cogSel.call()
+    self.cogRec.test_instance = response.test_instance
+    self.cogRec.score = 50
+    response = self.cogRec.call()
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
+
 
   def validate(self, response):
     error = response.error
