@@ -22997,6 +22997,8 @@ Cf. PolarCoordinateSystem.</rdfs:comment>
   </owl:members>
 </owl:AllDisjointClasses>
 
+<knowrob:Person rdf:about="&knowrob;Person_DpphmPqg"/>
+
 <owl:AllDisjointClasses>
   <owl:members rdf:parseType="Collection">
     <rdf:Description rdf:about="&knowrob;Bowl-Serving"/>
