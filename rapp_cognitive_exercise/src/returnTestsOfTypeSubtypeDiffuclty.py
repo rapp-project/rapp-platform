@@ -40,22 +40,20 @@ from rapp_platform_ros_communications.srv import (
   returnTestsOfTypeSubtypeDifficultySrv,
   returnTestsOfTypeSubtypeDifficultySrvResponse,
   returnTestsOfTypeSubtypeDifficultySrvRequest
-
   )
 from rapp_platform_ros_communications.msg import (
   CognitiveExercisesMsg
   )
 
-## @class TestSelector
-# @brief Provides the necessary functions for selecting a cognitive exercise test
+## @class ReturnTests
+# @brief Provides the necessary functions for returning tests of given type
 #
-# It implements the cognitive exercise chooser service
+# It implements the cognitive exercise return tests of type service
 class ReturnTests:
 
-  ## @brief The callback function of the cognitive exercise chooser service, all other functions of the class are called from within this function
-  ## @brief The cognitive exercise chooser service callback
-  # @param req [rapp_platform_ros_communications::testSelectorSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
+  ## @brief The callback function of the return tests of type cognitive exercise service
+  # @param req [rapp_platform_ros_communications::returnTestsOfTypeSubtypeDifficultySrvRequest::Request&] The ROS service request
+  # @param res [rapp_platform_ros_communications::returnTestsOfTypeSubtypeDifficultySrvResponse::Response&] The ROS service response
   # @exception Exception IndexError
   # @exception Exception AIOError
   # @exception Exception KeyError
@@ -66,11 +64,9 @@ class ReturnTests:
       if(req.testType==""):
         error="Error, empty testType field"
         raise AppError(error, error)
-      supportedLanguages=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()     
-      
+      supportedLanguages=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()      
       keepEntries = dict()
-      testCount=0
-      
+      testCount=0      
       for currentLanguage in supportedLanguages:
         cognitiveTestsOfTypeResponse=CognitiveExerciseHelperFunctions.getCognitiveTestsOfType(req.testType,currentLanguage)        
         tests=CognitiveExerciseHelperFunctions.filterTestsbyDifficultyAndSubtype(cognitiveTestsOfTypeResponse,req.difficulty,req.testSubType)       
@@ -90,21 +86,12 @@ class ReturnTests:
               testCount=testCount+1
             else:
               res.cognitiveExercises[keepEntries[k]].languages.append(currentLanguage)
-              
-            
-          
-          #  cognitiveTest = CognitiveExercisesMsg()
-     
-        
-      #print l
-      #testTypesList=CognitiveExerciseHelperFunctions.getTestLanguagesFromOntology()
-      #print testTypesList
       res.totalNumberOfTestsReturned=testCount
       res.success=True
-    #except IndexError, e:
-      #res.trace.append("IndexError: " +str(e))
-      #res.error="IndexError: "+str(e)
-      #res.success=False
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.error="IndexError: "+str(e)
+      res.success=False
     except IOError, e:
       res.success=False
       res.trace.append("IOError: "+str(e))

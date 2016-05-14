@@ -48,7 +48,7 @@ class UserScoreHistoryForAllCategories:
     try:
       res = userScoreHistoryForAllCategoriesSrvResponse() 
       #Validate the provided time range     
-      fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime,res)     
+      fromTime,toTime=self.validateTimeRange(req.fromTime,req.toTime)     
       #Get user ontology alias   
       userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)    
       #Get test types from ontology     
@@ -118,7 +118,7 @@ class UserScoreHistoryForAllCategories:
   # @return fromTime [long] The time from which the performance records are evaluated
   # @return toTime [long] The time up to which the performance records are evaluated
   # @exception Exception AppError
-  def validateTimeRange(self,fromTime,toTime,res):
+  def validateTimeRange(self,fromTime,toTime):
     if (toTime is None or toTime==0):
       toTime=9999999999999999999999
     if (fromTime is None or fromTime==0):

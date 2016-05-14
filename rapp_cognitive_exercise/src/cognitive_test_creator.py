@@ -172,10 +172,8 @@ class CognitiveTestCreator:
         createTestReq.test_difficulty=int(d["difficulty"][0])
         createTestReq.test_subtype=d["testSubType"][0]
         createTestReq.test_path=inNodeName
-        createTestReq.supported_languages=supportedLanguages
-        
+        createTestReq.supported_languages=supportedLanguages        
         createTestReq.test_id=supportedLanguages=test_id
-
         
         knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)
         createCognitiveTestResponse = knowrob_service(createTestReq)
@@ -212,9 +210,14 @@ class CognitiveTestCreator:
       res.success=False
     except AppError as e:
       AppError.passErrorToRosSrv(e,res) 
-
     return res
 
+  ## @brief Determines the id of the to be created cognitive test
+  # @param testType [string] The test type
+  # @param testSubType [string] The test subtype
+  # @param difficulty [string] The test difficulty
+  #
+  # @return bool [bool] True if string can be converted to an integer, otherwise false
   def determineCognitiveTestId(self, testType, testSubType, difficulty):
     serv_topic = rospy.get_param('rapp_cognitive_exercise_return_tests_of_type_subtype_difficulty_topic')
     returnTestsOfTypeSubtypeDifficultySrvReq=returnTestsOfTypeSubtypeDifficultySrvRequest()
@@ -224,9 +227,6 @@ class CognitiveTestCreator:
     knowrob_service = rospy.ServiceProxy(serv_topic, returnTestsOfTypeSubtypeDifficultySrv)
     returnTestsOfTypeSubtypeDifficultySrvRes = knowrob_service(returnTestsOfTypeSubtypeDifficultySrvReq)  
     return returnTestsOfTypeSubtypeDifficultySrvRes.totalNumberOfTestsReturned
-
-
-
 
   ## @brief Checks if string can be converted to an integer
   # @param s [string] The input string

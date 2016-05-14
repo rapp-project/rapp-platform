@@ -45,7 +45,6 @@ class CognitiveExerciseHelperFunctions:
     userPerformanceReq.ontology_alias=userOntologyAlias
     knowrob_service = rospy.ServiceProxy(serv_topic, userPerformanceCognitveTestsSrv)
     return knowrob_service(userPerformanceReq)
- 
 
   @staticmethod
   ## @brief Gets the users ontology alias and if it doesnt exist it creates it  
@@ -123,31 +122,20 @@ class CognitiveExerciseHelperFunctions:
     return cognitiveTestsOfTypeResponse
     
   @staticmethod
+  ## @brief Filters the tests by Difficulty and test subtype
+  # @param testsOfType [dictionary] The dictionary containing all the tests
+  # @param chosenDif [string] The test difficulty
+  # @param testSubType [string] The test sub type
+  #  
+  # @return d [dictionary] The selected cognitive tests after filtering was applied
   def filterTestsbyDifficultyAndSubtype(testsOfType,chosenDif,testSubType):
     testSubTypePrefix="http://knowrob.org/kb/knowrob.owl#"
     d=dict()
-    #intDif=int(chosenDif)
     markForDeletion=[]
-    #print testsOfType
     for i in range(len(testsOfType.tests)):
-      #difficultyMatch=True
-      #subTypeMatch=True
       if((chosenDif=="" or chosenDif==testsOfType.difficulty[i]) and (testSubType=="" or testSubTypePrefix+testSubType==testsOfType.subtype[i])):
-        #difficultyMatch=False
-      #if(not testSubType=="" and not testSubTypePrefix+testSubType==testsOfType.subtype[i]):
-        #subTypeMatch=False
-      #if(difficultyMatch and subTypeMatch):    
         tlist=[testsOfType.file_paths[i],testsOfType.difficulty[i],testsOfType.subtype[i], testsOfType.test_id[i]]
         d[testsOfType.tests[i]]=[tlist]
-        #markForDeletion.append(i)
-    #print len(testsOfType.tests)
-    
-    #for i in markForDeletion:
-      #print i
-      #del testsOfType.tests[i]
-      #del testsOfType.file_paths[i]
-      #del testsOfType.difficulty[i]
-      #del testsOfType.subtype[i]
     return d
 
   @staticmethod

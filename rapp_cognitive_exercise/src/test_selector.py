@@ -74,8 +74,8 @@ class TestSelector:
       userOntologyAlias=CognitiveExerciseHelperFunctions.getUserOntologyAlias(req.username)      
       #Get user language
       userLanguage=CognitiveExerciseHelperFunctions.getUserLanguage(req.username)
-      res.language=userLanguage
-      
+      res.language=userLanguage      
+      #Manual test selection
       if(not req.testDifficulty=="" or not req.testIndex==""): 
         self.selectTestManuallyByGivenParameters(req.testType,req.testSubType,req.testIndex,req.testDifficulty,userLanguage,res)       
       else:
@@ -109,7 +109,16 @@ class TestSelector:
       AppError.passErrorToRosSrv(e,res) 
     return res
 
-
+  ## @brief Selects a cognitive test manually by the given parameters
+  # @param testType [string] The test type (category)
+  # @param testSubtype [string] The test subtype
+  # @param testIndex [int] The id (index) of the test
+  # @param testDifficulty [string] The difficulty of the test (1,2 or 3)
+  # @param userLanguage [string] The user's language
+  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response 
+  #
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response 
+  # @exception Exception AppError
   def selectTestManuallyByGivenParameters(self,testType,testSubtype,testIndex,testDifficulty,userLanguage, res):
     if(not testType=="" and not testDifficulty=="" and not testIndex=="" and not testSubtype==""):
       testIndex=str(int(testIndex)-1)
@@ -228,7 +237,7 @@ class TestSelector:
         chosenDif="1"
       elif(userScore<difficultyModifier2to3):
         chosenDif="2"
-      else:   #(userScore>0.75*3*100)
+      else:
         chosenDif="3"
     trace.append("Chosen Diff :"+chosenDif)
     return chosenDif,noUserPerformanceRecordsExist,userPerfOrganizedByTimestamp
