@@ -12,6 +12,11 @@ from rapp_platform_ros_communications.srv import (
 class ExampleService:
 
     def __init__(self): 
+        self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
+        if(not self.serv_topic):
+          rospy.logerror("rapp_knowrob_wrapper_create_ontology_alias param not found")
+        rospy.wait_for_service(self.serv_topic)
+      
         self.serv_topic = rospy.get_param("rapp_example_service_topic")
         if(not self.serv_topic):
           rospy.logerror("rapp_example_service_topic")
