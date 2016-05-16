@@ -105,7 +105,7 @@ Launches the **rapp_audio_processing** node and can be launched using
 roslaunch rapp_audio_processing audio_processing.launch
 ```
 
-#HOP services
+#Web services
 
 ##Set denoise profile RPS
 
