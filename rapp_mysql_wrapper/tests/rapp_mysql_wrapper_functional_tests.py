@@ -71,6 +71,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success) 
     self.assertEqual(response.ontology_alias,"Person_DpphmPqg")
     
+  ## Tests the registerUserOntologyAlias service
   def testRegisterUserOntologyAlias(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_register_user_ontology_alias_service_topic")
     if(not ros_service):
@@ -82,7 +83,8 @@ class TestDbWrapper(unittest.TestCase):
     req.ontology_alias="Person_DpphmPqg"        
     response = test_service(req)     
     self.assertTrue(response.success) 
-    
+ 
+  ## Tests the checkIfUserExists service   
   def testCheckIfUserExists(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_check_if_user_exists_service_topic")
     if(not ros_service):
@@ -101,7 +103,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success) 
     self.assertTrue(not response.user_exists) 
 
-    
+  ## Tests the getUserLanguage service   
   def testgetUserLanguage(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_get_user_language_service_topic")
     if(not ros_service):
@@ -114,6 +116,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success) 
     self.assertEqual(response.user_language,"el")
 
+  ## Tests the getUserPassword service
   def testgetUserPassword(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_get_user_password_service_topic")
     if(not ros_service):
@@ -126,6 +129,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success) 
     self.assertEqual(response.password,"$2b$12$0RzTZr6bjbqRDTzT4SYBV.I44fG6RHUjMtqxeP2c6Qaansh03GhTC")
     
+  ## Tests the getUsernameAssociatedWithApplicationToken service
   def testgetUsernameAssociatedWithApplicationToken(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_get_username_associated_with_application_token_service_topic")
     if(not ros_service):
@@ -138,7 +142,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success) 
     self.assertEqual(response.username,"rapp")    
  
-    
+  ## Tests the checkActiveApplicationToken service  
   def testcheckActiveApplicationToken(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_check_active_application_token_service_topic")
     if(not ros_service):
@@ -151,6 +155,7 @@ class TestDbWrapper(unittest.TestCase):
     self.assertTrue(response.success) 
     self.assertTrue(response.application_token_exists) 
     
+  ## Tests the createAndRemoveNewPlatformUser service  
   def testCreateAndRemoveNewPlatformUser(self):
     ros_service = rospy.get_param("rapp_mysql_wrapper_create_new_platform_user_service_topic")
     if(not ros_service):

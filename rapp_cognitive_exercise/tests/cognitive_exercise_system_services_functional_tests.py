@@ -59,8 +59,8 @@ from rapp_platform_ros_communications.srv import (
 # Inherits the unittest.TestCase class in order to offer functional tests functionality 
 class CognitiveExerciseFunc(unittest.TestCase):
 
-    ## Tests the cognitive exercise test chooser service when test type is provided
-    def test_chooser_overwrite(self):
+    ## Tests the cognitive exercise test chooser service when selection parameters are provided
+    def test_chooser_parameters_provided(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
         rospy.wait_for_service(ros_service)
@@ -79,6 +79,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         self.assertEqual(len(response.questions)>=1, True) 
         self.assertEqual(response.test,"ArithmeticCts_bneXbLGX")
 
+    ## Tests the cognitive exercise test chooser service with only testType parameter
     def test_chooser_basic(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
@@ -93,7 +94,8 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, True) 
         self.assertEqual(len(response.questions)>=1, True)     
-        
+    
+    ## Tests the cognitive exercise test chooser service with testType and testSubType parameters    
     def test_chooser_subtype(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_chooser_topic")
@@ -142,6 +144,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         response = test_service(req)     
         self.assertEqual(response.success, True)  
         
+    ## Tests the cognitive exercise test creation service when invalid path is used
     def test_cognitive_test_creat_of_invalid_path(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_test_creator_topic")
@@ -156,6 +159,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         self.assertEqual(response.success, False)  
         self.assertEqual(response.error, "IO Error, cannot open test file or write xml file")
         
+    ## Tests the cognitive exercise return user scores service for valid input
     def test_user_scores_for_all_categories_valid_input(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_user_all_categories_score_topic")
@@ -172,6 +176,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         self.assertEqual("ArithmeticCts" and "ReasoningCts" and "AwarenessCts" in response.testCategories, True)
         self.assertEqual(len(response.testScores)>=0, True)
 
+    ## Tests the cognitive exercise return user history service for valid input
     def test_user_score_history_for_all_categories_valid_input_basic(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_user_all_categories_history_topic")
@@ -188,6 +193,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         self.assertEqual(response.success, True)          
         self.assertEqual(len(response.recordsPerTestType)>0,True)
 
+    ## Tests the cognitive exercise return tests of type for various parameter selection combinations
     def test_return_tests_of_type_subtype_difficulty_combinations(self):
         ros_service = rospy.get_param(\
                 "rapp_cognitive_exercise_return_tests_of_type_subtype_difficulty_topic")
@@ -233,6 +239,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         self.assertTrue(response.totalNumberOfTestsReturned>1)    
         self.assertEqual(len(response.cognitiveExercises),response.totalNumberOfTestsReturned) 
         
+    ## Tests the creation of a new platform user and selection of a cognitive test and cleans up afterwards
     def test_create_new_platform_user_and_request_cognitive_test_then_cleanup(self):
         #create user
         ros_service = rospy.get_param("rapp_mysql_wrapper_create_new_platform_user_service_topic")

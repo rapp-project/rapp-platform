@@ -177,7 +177,13 @@ class MySQLdbWrapper:
       rospy.logerror("rapp_mysql_wrapper_get_cloud_agent_service_type_and_host_port_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, getCloudAgentServiceTypeAndHostPortSrv, self.getCloudAgentServiceTypeAndHostPortDataHandler) 
     
-    
+  ## @brief Implements the getUserOntologyAlias service main function
+  # @param req [rapp_platform_ros_communications::getUserOntologyAliasSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::getUserOntologyAliasSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError   
   def getUserOntologyAlias(self,req):
     try:
       res = getUserOntologyAliasSrvResponse()
@@ -208,6 +214,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the registerUserOntologyAlias service main function
+  # @param req [rapp_platform_ros_communications::registerUserOntologyAliasSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::registerUserOntologyAliasSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def registerUserOntologyAlias(self,req):
     try:
       res = registerUserOntologyAliasSrvResponse()
@@ -237,6 +250,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the getUserLanguage service main function
+  # @param req [rapp_platform_ros_communications::getUserLanguageSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::getUserLanguageSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def getUserLanguage(self,req):
     try:
       res = getUserLanguageSrvResponse()
@@ -266,6 +286,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the checkIfUserExists service main function
+  # @param req [rapp_platform_ros_communications::checkIfUserExistsSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::checkIfUserExistsSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def checkIfUserExists(self,req):
     try:
       res = checkIfUserExistsSrvResponse()
@@ -296,6 +323,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the getUserPassword service main function
+  # @param req [rapp_platform_ros_communications::getUserPasswordSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::getUserPasswordSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def getUserPassword(self,req):
     try:
       res = getUserPasswordSrvResponse()
@@ -326,6 +360,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the getUsernameAssociatedWithApplicationToken service main function
+  # @param req [rapp_platform_ros_communications::getUsernameAssociatedWithApplicationTokenSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::getUsernameAssociatedWithApplicationTokenSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def getUsernameAssociatedWithApplicationToken(self,req):
     try:
       res = getUsernameAssociatedWithApplicationTokenSrvResponse()
@@ -356,6 +397,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the createNewPlatformUser service main function
+  # @param req [rapp_platform_ros_communications::createNewPlatformUserSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::createNewPlatformUserSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def createNewPlatformUser(self,req):
     try:
       res = createNewPlatformUserSrvResponse()
@@ -384,6 +432,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the removePlatformUser service main function
+  # @param req [rapp_platform_ros_communications::removePlatformUserSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::removePlatformUserSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def removePlatformUser(self,req):
     try:
       res = removePlatformUserSrvResponse()
@@ -412,7 +467,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
-
+  ## @brief Implements the createNewApplicationToken service main function
+  # @param req [rapp_platform_ros_communications::createNewApplicationTokenSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::createNewApplicationTokenSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def createNewApplicationToken(self,req):
     try:
       res = createNewApplicationTokenSrvResponse()
@@ -441,6 +502,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the addStoreTokenToDevice service main function
+  # @param req [rapp_platform_ros_communications::addStoreTokenToDeviceSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::addStoreTokenToDeviceSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def addStoreTokenToDevice(self,req):
     try:
       res = addStoreTokenToDeviceSrvResponse()        
@@ -470,6 +538,13 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  ## @brief Implements the validateUserRole service main function
+  # @param req [rapp_platform_ros_communications::validateUserRoleSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::validateUserRoleSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def validateUserRole(self,req):
     try:
       res = validateUserRoleSrvResponse()        
@@ -496,6 +571,13 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  ## @brief Implements the checkActiveRobotSession service main function
+  # @param req [rapp_platform_ros_communications::checkActiveRobotSessionSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::checkActiveRobotSessionSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
   def checkActiveRobotSession(self,req):
     try:
       res = checkActiveRobotSessionSrvResponse()        
@@ -526,6 +608,13 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  ## @brief Implements the checkActiveRobotSession service main function
+  # @param req [rapp_platform_ros_communications::checkActiveRobotSessionSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::checkActiveRobotSessionSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError
   def checkActiveApplicationToken(self,req):
     try:
       res = checkActiveApplicationTokenSrvResponse()
@@ -556,6 +645,13 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+  ## @brief Implements the validateExistingPlatformDeviceToken service main function
+  # @param req [rapp_platform_ros_communications::validateExistingPlatformDeviceTokenSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::validateExistingPlatformDeviceTokenSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError
   def validateExistingPlatformDeviceToken(self,req):
     try:
       res = validateExistingPlatformDeviceTokenSrvResponse()        
@@ -587,6 +683,13 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  ## @brief Implements the createNewCloudAgent service main function
+  # @param req [rapp_platform_ros_communications::createNewCloudAgentSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::createNewCloudAgentSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError
   def createNewCloudAgent(self,req):
     try:
       res = createNewCloudAgentSrvResponse()        
@@ -615,6 +718,13 @@ class MySQLdbWrapper:
       con.close()
     return res   
 
+  ## @brief Implements the createNewCloudAgentService service main function
+  # @param req [rapp_platform_ros_communications::createNewCloudAgentServiceSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::createNewCloudAgentServiceSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError
   def createNewCloudAgentService(self,req):
     try:
       res = createNewCloudAgentServiceSrvResponse()   
@@ -644,6 +754,13 @@ class MySQLdbWrapper:
       con.close()
     return res 
 
+  ## @brief Implements the getCloudAgentServiceTypeAndHostPort service main function
+  # @param req [rapp_platform_ros_communications::getCloudAgentServiceTypeAndHostPortSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::getCloudAgentServiceTypeAndHostPortSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError
   def getCloudAgentServiceTypeAndHostPort(self,req):
     try:
       res = getCloudAgentServiceTypeAndHostPortSrvResponse()
@@ -676,6 +793,8 @@ class MySQLdbWrapper:
     return res
 
   ## @brief Gets the columns of the table
+  # @param tblName [string] the name of the table
+  #
   # @return Columns [list] the columns of the table
   def getTableColumnNames(self,tblName):
     db_username,db_password=self.getLogin()
@@ -692,7 +811,8 @@ class MySQLdbWrapper:
       print "Error %d: %s" % (e.args[0],e.args[1])
 
   ## @brief Loads login details from file
-  # @return [ void ] Login details loaded successfully
+  # @return db_username [string] the login username
+  # @return db_password [string] the login password
   def getLogin(self):
     fh = open("/etc/db_credentials", "r")
     db_username=fh.readline()

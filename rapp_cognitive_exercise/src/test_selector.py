@@ -56,10 +56,10 @@ from rapp_platform_ros_communications.msg import (
 # It implements the cognitive exercise chooser service
 class TestSelector:
 
-  ## @brief The callback function of the cognitive exercise chooser service, all other functions of the class are called from within this function
-  ## @brief The cognitive exercise chooser service callback
+  ## @brief The cognitive exercise test chooser function
+  #
   # @param req [rapp_platform_ros_communications::testSelectorSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
   # @exception Exception IndexError
   # @exception Exception AIOError
   # @exception Exception KeyError
