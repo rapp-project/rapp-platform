@@ -7,7 +7,7 @@ A QR consists of square black and white patterns, arranged in a grid in the plan
 
 # ROS Services
 
-##Face detection 
+##QR detection 
 Service URL: ```/rapp/rapp_qr_detection/detect_qrs```
 
 Service type:
@@ -41,20 +41,15 @@ roslaunch rapp_qr_detection qr_detection.launch
 
 ```
 Input = {
- “image”: “THE_ACTUAL_IMAGE_DATA”
+ “file”: “THE_ACTUAL_IMAGE_DATA”
 }
 ```
 ```
 Output = {
-  “qrs”: [
-    {
-      “qr_x” : “QR_X”,
-      “qr_y” : “QR_Y”,
-      “message” : “MESSAGE”
-    },
-    {
-      …
-    }
-  ]
+  “qr_centers”: [ {x: 100, y: 200} ],
+  "qr_messages": ["rapp project qr sample"],
+  "error": ""
 }
 ```
+
+The full documentation exists [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#qr-detection)

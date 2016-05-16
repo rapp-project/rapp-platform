@@ -46,18 +46,16 @@ roslaunch rapp_face_detection face_detection.launch
 
 ```
 Input = {
-  "image": “THE_ACTUAL_IMAGE_DATA”
-  "fast": True
+  "file": “THE_ACTUAL_IMAGE_DATA”
+  "fast": true
 }
 ```
 ```
 Output = {
   “faces”: [
     {
-      “top_left_x” : “T_P_X”,
-      “top_left_y” : “T_P_Y”,
-      “bottom_right_x” : “B_R_X”,
-      “bottom_right_y” : “B_R_Y”
+      “up_left_point” : {x: 10, y: 30},
+      “down_right_point” : {x: 100, y: 200}
     },
     {
       …
@@ -65,3 +63,5 @@ Output = {
   ]
 }
 ```
+
+The full documentation exists [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#face-detection)
