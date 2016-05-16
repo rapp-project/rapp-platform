@@ -8,9 +8,9 @@ As stated in [Wikipedia](https://en.wikipedia.org/wiki/Cloud_robotics):
 Cloud robotics is a field of robotics that attempts to invoke cloud technologies such as cloud computing, cloud storage, and other Internet technologies centred on the benefits of converged infrastructure and shared services for robotics.
 >
 
-RAPP Platform is divided in two main parts: the ROS nodes functionalities and the HOP services. The ROS nodes are back-end processes the provide generic functionalities, such as Image processing, Audio processing, Speech-to-text and Text-to-speech, Ontology & Database operations, as well as ML procedures.
+RAPP Platform is divided in two main parts: the ROS nodes functionalities and the Web Services. The ROS nodes are back-end processes that provide generic functionalities,such as Image processing, Audio processing, Speech-to-text and Text-to-speech, Ontology & Database operations, as well as ML procedures.
 
-The second part consists of the various HOP services, which are the front-end of the RAPP Platform. These expose specific RAPP Platform functionalities to the world, thus any robot can call specific algorithms, making easy the work of developers.
+The second part consists of the various Web Services, beingthe front-end of the RAPP Platform. These expose specific RAPP Platform functionalities to the world, thus any robot can call generic algorithms, making easy the work of developers towards constructing robotic applications.
 
 For more information / tutorials please visit [our wiki](https://github.com/rapp-project/rapp-platform/wiki).
 
