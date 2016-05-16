@@ -7,20 +7,20 @@ PathPlanner::PathPlanner(void)
 
 // set next planning sequence ID
 std::string PathPlanner::setSequenceNR(ros::NodeHandle &nh_, int pathPlanningThreads_){
-    int seq_nr_int=1;
-    std::string seq_nr_str;
-    if (nh_.hasParam("/rapp/rapp_path_planning/last_seq")){
-        nh_.getParam("/rapp/rapp_path_planning/last_seq", seq_nr_int);
-       
-         seq_nr_int++;
-       if (seq_nr_int > pathPlanningThreads_)
-        seq_nr_int = 1;
-    }
+  int seq_nr_int=1;
+  std::string seq_nr_str;
+  if (nh_.hasParam("/rapp/rapp_path_planning/last_seq")){
+    nh_.getParam("/rapp/rapp_path_planning/last_seq", seq_nr_int);
 
-    seq_nr_str = boost::lexical_cast<std::string>(seq_nr_int);
-    nh_.setParam("/rapp/rapp_path_planning/last_seq", seq_nr_int);
+    seq_nr_int++;
+    if (seq_nr_int > pathPlanningThreads_)
+      seq_nr_int = 1;
+  }
 
-    return seq_nr_str;
+  seq_nr_str = boost::lexical_cast<std::string>(seq_nr_int);
+  nh_.setParam("/rapp/rapp_path_planning/last_seq", seq_nr_int);
+
+  return seq_nr_str;
 }
 // configure sequence -> load .yaml files and load proper map
 bool PathPlanner::configureSequence(std::string seq_nr, std::string map_path, std::string robot_type, std::string algorithm, ros::NodeHandle &nh_){
@@ -28,19 +28,19 @@ bool PathPlanner::configureSequence(std::string seq_nr, std::string map_path, st
   nh_.setParam("/map_server"+seq_nr+"/setMap", map_path);
   ros::ServiceClient get_map_client = nh_.serviceClient<rapp_platform_ros_communications::MapServerGetMapRosSrv>("map_server"+seq_nr+"/get_map");
   ros::ServiceClient set_costmap_client = nh_.serviceClient<rapp_platform_ros_communications::Costmap2dRosSrv>("/global_planner"+seq_nr+"/costmap_map_update");
-  
+
   rapp_platform_ros_communications::MapServerGetMapRosSrv get_map_srv;
   rapp_platform_ros_communications::Costmap2dRosSrv set_costmap_srv;
-get_map_srv.request.map_path = map_path;
-uint32_t serv_port;
+  get_map_srv.request.map_path = map_path;
+  uint32_t serv_port;
   std::string serv_node_name, serv_name;
   ros::ServiceManager srv_manager; 
- bool serv_active = srv_manager.lookupService("map_server"+seq_nr+"/get_map",serv_node_name,serv_port);
+  bool serv_active = srv_manager.lookupService("map_server"+seq_nr+"/get_map",serv_node_name,serv_port);
 
   while (!serv_active){
-  ROS_WARN_STREAM("Waiting for:"<<" map_server"<<seq_nr<<"/get_map" << " service ");
-  serv_active = srv_manager.lookupService("map_server"+seq_nr+"/get_map",serv_node_name,serv_port);
-  ros::Duration(1).sleep();
+    ROS_DEBUG_STREAM("Waiting for:"<<" map_server"<<seq_nr<<"/get_map" << " service ");
+    serv_active = srv_manager.lookupService("map_server"+seq_nr+"/get_map",serv_node_name,serv_port);
+    ros::Duration(1).sleep();
   }
 
 
@@ -61,81 +61,82 @@ uint32_t serv_port;
     ROS_ERROR_STREAM("Costmap update error for SEQ: " << seq_nr << "\n path planner cannot get map from map server");
 
   }
- const char* execute_command = "/opt/ros/indigo/bin/rosparam";
- pid_t load_configs_costmap_pID = fork();
-                   if (load_configs_costmap_pID == 0)                
-                   {
-                      ROS_DEBUG_STREAM("starting load_configs_costmap_pID for sequence: "<< seq_nr);
-                      
-                      //robot_type = "NAO";
-                      std::string costmap_file = robot_type+".yaml";
-                      std::string load_configs_pkg_path = ros::package::getPath("rapp_path_planning");
-                      // set yaml file path
-                      std:: string execute_param_1_string = load_configs_pkg_path+"/cfg/costmap/"+costmap_file;
-                      const char* execute_param_1 = execute_param_1_string.c_str();
-                      ROS_DEBUG_STREAM("costmap file path:\n"<< execute_param_1_string);
+  const char* execute_command = "/opt/ros/indigo/bin/rosparam";
+  pid_t load_configs_costmap_pID = fork();
+  if (load_configs_costmap_pID == 0)                
+  {
+    ROS_DEBUG_STREAM("starting load_configs_costmap_pID for sequence: "<< seq_nr);
 
-                      // set params namespace
-                      std:: string execute_param_2_string = "/global_planner"+seq_nr+"/costmap/";
-                      const char* execute_param_2 = execute_param_2_string.c_str();
-                      nh_.setParam("/global_planner"+seq_nr+"/costmap/map_service", "/map_server"+seq_nr+"/getMap");
+    //robot_type = "NAO";
+    std::string costmap_file = robot_type+".yaml";
+    std::string load_configs_pkg_path = ros::package::getPath("rapp_path_planning");
+    // set yaml file path
+    std:: string execute_param_1_string = load_configs_pkg_path+"/cfg/costmap/"+costmap_file;
+    const char* execute_param_1 = execute_param_1_string.c_str();
+    ROS_DEBUG_STREAM("costmap file path:\n"<< execute_param_1_string);
 
-                      execl(execute_command,execute_command,"load", execute_param_1,execute_param_2 , (char *)0);
-                    }
-                    else if (load_configs_costmap_pID < 0)            
-                    {
-                        std::cout << "Failed to fork load_configs" << std::endl;
-                        return false;
-                        exit(1);
-                        
-                    }
-                    else{
-                            pid_t load_configs_planner_pID = fork();
-                         if (load_configs_planner_pID == 0)                
-                         {
-                             ROS_DEBUG_STREAM("starting load_configs_planner_pID for sequence: "<< seq_nr);
+    // set params namespace
+    std:: string execute_param_2_string = "/global_planner"+seq_nr+"/costmap/";
+    const char* execute_param_2 = execute_param_2_string.c_str();
+    nh_.setParam("/global_planner"+seq_nr+"/costmap/map_service", "/map_server"+seq_nr+"/getMap");
 
-                            //algorithm = "dijkstra";
-                            std::string algorithm_file = algorithm+".yaml";
-                            std::string load_configs_pkg_path = ros::package::getPath("rapp_path_planning");
-                            // set yaml file path
-                            std:: string execute_param_1_string =  load_configs_pkg_path+"/cfg/planner/"+algorithm_file;
-                            const char* execute_param_1 = execute_param_1_string.c_str();
-                            // set params namespace
-                            std:: string execute_param_2_string = "/global_planner"+seq_nr+"/planner/";
-                            const char* execute_param_2 = execute_param_2_string.c_str();
-                            execl(execute_command,execute_command,"load", execute_param_1,execute_param_2 , (char *)0);
-                          }
-                          else if (load_configs_planner_pID < 0)            
-                          {
-                              ROS_ERROR("Failed to fork load_configs");
-                              return false;
-                              exit(1);
-                              
-                          }
-                          else{
-                            
-                            std:: string costmap_param_name = "/global_planner"+seq_nr+"/costmap/map_topic";
+    execl(execute_command,execute_command,"load", execute_param_1,execute_param_2 , (char *)0);
+  }
+  else if (load_configs_costmap_pID < 0)            
+  {
+    std::cout << "Failed to fork load_configs" << std::endl;
+    return false;
+    exit(1);
 
-                            std:: string planner_param_name = "/global_planner"+seq_nr+"/planner/use_dijkstra";
-                            ros::Time time_start = ros::Time::now();
-                            ros::Time time_now;
+  }
+  else{
+    pid_t load_configs_planner_pID = fork();
+    if (load_configs_planner_pID == 0)                
+    {
+      ROS_DEBUG_STREAM("starting load_configs_planner_pID for sequence: "<< seq_nr);
 
-                            while (!nh_.hasParam(costmap_param_name) && !nh_.hasParam(planner_param_name)){
-                              ros::Duration(0.1).sleep();
-                              time_now = ros::Time::now();
-                              if (time_now > time_start + ros::Duration(5))
-                                return false;
-                            }
-                            return true;
-                          }
-  
-                        }
+      //algorithm = "dijkstra";
+      std::string algorithm_file = algorithm+".yaml";
+      std::string load_configs_pkg_path = ros::package::getPath("rapp_path_planning");
+      // set yaml file path
+      std:: string execute_param_1_string =  load_configs_pkg_path+"/cfg/planner/"+algorithm_file;
+      const char* execute_param_1 = execute_param_1_string.c_str();
+      // set params namespace
+      std:: string execute_param_2_string = "/global_planner"+seq_nr+"/planner/";
+      const char* execute_param_2 = execute_param_2_string.c_str();
+      execl(execute_command,execute_command,"load", execute_param_1,execute_param_2 , (char *)0);
+    }
+    else if (load_configs_planner_pID < 0)            
+    {
+      ROS_ERROR("Failed to fork load_configs");
+      return false;
+      exit(1);
+
+    }
+    else{
+
+      std:: string costmap_param_name = "/global_planner"+seq_nr+"/costmap/map_topic";
+
+      std:: string planner_param_name = "/global_planner"+seq_nr+"/planner/use_dijkstra";
+      ros::Time time_start = ros::Time::now();
+      ros::Time time_now;
+
+      while (!nh_.hasParam(costmap_param_name) && !nh_.hasParam(planner_param_name)){
+        ros::Duration(0.1).sleep();
+        time_now = ros::Time::now();
+        if (time_now > time_start + ros::Duration(5))
+          return false;
+      }
+      return true;
+    }
+
+  }
+  return false;
 }
 // send request to approprate global_planner and return MakeNavPlanResponse 
 navfn::MakeNavPlanResponse PathPlanner::startSequence(std::string seq_nr, geometry_msgs::PoseStamped request_start, geometry_msgs::PoseStamped request_goal, ros::NodeHandle &nh_){
   navfn::MakeNavPlanResponse planned_path; 
-uint32_t serv_port;
+  uint32_t serv_port;
   std::string serv_node_name, serv_name;
   serv_name = "/global_planner"+seq_nr+"/make_plan";
   ros::ServiceManager srv_manager; 
@@ -144,32 +145,32 @@ uint32_t serv_port;
   ros::Duration(1.5).sleep();
 
   while (!serv_active){
-  ROS_ERROR("Can't find service make_plan");
-  serv_active = srv_manager.lookupService(serv_name,serv_node_name,serv_port);
-  ros::Duration(1).sleep();
+    ROS_ERROR("Can't find service make_plan");
+    serv_active = srv_manager.lookupService(serv_name,serv_node_name,serv_port);
+    ros::Duration(1).sleep();
   }
-   ROS_DEBUG_STREAM("HOST name:\n" << serv_node_name << "service port:\n" << serv_port);
-   
+  ROS_DEBUG_STREAM("HOST name:\n" << serv_node_name << "service port:\n" << serv_port);
+
   ros::ServiceClient client = nh_.serviceClient<navfn::MakeNavPlan>("/global_planner"+seq_nr+"/make_plan");
   navfn::MakeNavPlan srv;
   srv.request.start = request_start;
   srv.request.goal = request_goal;
-  
+
   if (client.call(srv))
   {
-        navfn::MakeNavPlanResponse planned_path; 
-        planned_path = srv.response;
-        ROS_DEBUG("Path planning service ended");
-        return planned_path;
+    navfn::MakeNavPlanResponse planned_path; 
+    planned_path = srv.response;
+    ROS_DEBUG("Path planning service ended");
+    return planned_path;
 
   }
-  
+
   else
   {
     ROS_ERROR("Failed to call service make_plan");
     return planned_path;
   }
-                  
+
 }
 
 
@@ -222,7 +223,7 @@ uint32_t serv_port;
 // }
 // navfn::MakeNavPlanResponse PathPlanner::plannPath(std::string map_path, std::string  robot, std::string  algorithm, geometry_msgs::PoseStamped request_start, geometry_msgs::PoseStamped request_goal, ros::NodeHandle &nh_)
 // {
- 
+
 
 //   ros::package::V_string nodes;
 //   ros::master::getNodes(nodes);
@@ -261,7 +262,7 @@ uint32_t serv_port;
 //   if (new_nodes_string_id =="empty"){
 
 //     ROS_DEBUG("NO THREADS AVALIABLE FOR Path planner module!");
-   
+
 //   }else{
 //       // set node names
 //       ROS_DEBUG("setting nodes names");
@@ -278,7 +279,7 @@ uint32_t serv_port;
 //        if (map_server_pID == 0)              
 //        {
 //           ROS_DEBUG("starting map_server");
-          
+
 
 //           execute_command = "/opt/ros/indigo/bin/rosrun";
 //           execute_pkg_name = "map_server";
@@ -305,7 +306,7 @@ uint32_t serv_port;
 //            if (tf_broadcaster_pID == 0)               
 //            {
 //           ROS_DEBUG("starting tf_broadcaster_pID");
-              
+
 //               std::string tf_broadcaster_pkg_path = ros::package::getPath("tf");
 //               execute_command = "/opt/ros/indigo/bin/rosrun";
 //               execute_pkg_name = "tf";
@@ -324,7 +325,7 @@ uint32_t serv_port;
 //                    if (load_configs_costmap_pID == 0)                
 //                    {
 //                       ROS_DEBUG("starting load_configs_costmap_pID");
-                      
+
 //                       execute_command = "/opt/ros/indigo/bin/rosparam";
 
 //                       std::string costmap_file = "costmap_NAO.yaml";
@@ -352,7 +353,7 @@ uint32_t serv_port;
 //                             ROS_DEBUG("starting load_configs_planner_pID");
 
 //                             execute_command = "/opt/ros/indigo/bin/rosparam";
-                            
+
 //                             std::string algorithm_file = "dijkstra.yaml";
 //                             std::string load_configs_pkg_path = ros::package::getPath("rapp_path_planning");
 //                             // set yaml file path
@@ -367,7 +368,7 @@ uint32_t serv_port;
 //                           {
 //                               ROS_ERROR("Failed to fork load_configs");
 //                               exit(1);
-                              
+
 //                           }
 //                           else{
 //                                pid_t global_planner_pID = fork();
@@ -398,7 +399,7 @@ uint32_t serv_port;
 //                                   {
 //                                        ROS_ERROR("Failed to fork global_planner");
 //                                       exit(1);
-                                      
+
 //                                   }
 //                                   else{
 //                                       if(!nh_.getParam("/rapp_path_planning_plan_path_topic", pathPlanningTopic_))
@@ -419,7 +420,7 @@ uint32_t serv_port;
 //                                       ros::Duration(1).sleep();
 //                                       }
 //                                        ROS_DEBUG_STREAM("HOST name:\n" << serv_node_name << "service port:\n" << serv_port);
-                                       
+
 //                                       ros::ServiceClient client = nh_.serviceClient<navfn::MakeNavPlan>("/"+global_planner_pkg_name+"/make_plan");
 //                                       navfn::MakeNavPlan srv;
 //                                       srv.request.start = request_start;
@@ -454,7 +455,7 @@ uint32_t serv_port;
 //                                             {
 //                                                 ROS_ERROR("Failed to fork global_planner");
 //                                                 exit(1);
-                                                
+
 //                                             }
 //                                             else{
 //                                             return planned_path;
@@ -474,15 +475,15 @@ uint32_t serv_port;
 
 //                                         return planned_path;
 //                                       }
-                  
+
 //                                   }
-                    
+
 //                               }
 //                           }
 //                     }
-            
+
 //             }
-            
+
 //         }
 // }
 
