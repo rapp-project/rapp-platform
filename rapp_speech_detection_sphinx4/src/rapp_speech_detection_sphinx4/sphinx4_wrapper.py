@@ -313,7 +313,7 @@ class Sphinx4Wrapper():
       trans_response = self._audio_transform_srv( transform_req )
 
       if trans_response.error != 'success':
-          return [ 'Audio transformation error: ' + error ]
+          return [ 'Audio transformation error: ' + trans_response.error ]
           #raise RappError( 'Audio transformation error: ' + error )
 
       audio_to_be_erased.append(next_audio_file)
@@ -327,7 +327,7 @@ class Sphinx4Wrapper():
       trans_response = self._audio_transform_srv( transform_req )
 
       if trans_response.error != 'success':
-          return [ 'Audio transformation error: ' + error ]
+          return [ 'Audio transformation error: ' + trans_response.error ]
           #raise RappError( 'Audio transformation error: ' + error )
       audio_to_be_erased.append(next_audio_file)
       prev_audio_file = next_audio_file
