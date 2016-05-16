@@ -2,7 +2,7 @@ Documentation about the RAPP Audio Processing: [Wiki Page](https://github.com/ra
 
 #Methodology
 
-The audio processing node was created in order to perform necessary operations for the speech recognition modules to operate for all audio cases. Even though both the Google and Sphinx4 speech recognition modules were functional when the input was captured from a headset, the same did not happen with the audio captured from the NAO robot.
+The audio processing node was created in order to perform necessary operations for the speech recognition modules to operate for all audio cases. Even though both Google and Sphinx4 speech recognition modules are functional when the input is captured from a headset, the same does not apply with audio captured from the NAO robot.
 
 NAO is able to record a single audio file at a time (wav or ogg), either from all microphones (4 channels at 48kHz) or from any single microphone (1 channel, 16kHz). The RAPP Speech detection modules can operate either with ogg or with wav (1 and 4 channels) by employing the Audio processing node. Nevertheless, the one-channel audio is the most appropriate selection, since Sphinx-4 requires single channel wav files, with a 16kHz sample rate and 16 bit little-endian format. The NAO captured audio contains considerable background static noise, being probably the result of a cooling fan that also exists in the NAO head. The problem raised is that the high noise levels cause Sphinx-4, as well as Google API to fail by producing no output.
 
@@ -13,7 +13,7 @@ It is obvious that in order for the speech recognition modules to operate succes
 ##Set noise profile service
 This service was created in order to store each robot’s noise profile. The service expects three inputs: a string containing the audio file, the audio type and the user that owns the robot. The supported audio types are nao_ogg, nao_wav_1_ch and nao_wav_4_ch. 
 
-Initially, the user is authenticated against the MySQL database, in order to check if they have the necessary access rights to execute speech recognition and audio processing functionalities. Then, the audio file (ogg, wav 1 or 4 channels) is converted to wav, single channel with a sampling rate of 16kHz, employing the SoX library. Finally, the noise profile is acquired using the SoX noiseprof tool and the respective file is stored in the RAPP Platform under the user’s folder.
+Once the service is invoked, the audio file (ogg, wav 1 or 4 channels) is converted to wav, single channel with a sampling rate of 16kHz, employing the SoX library. Finally, the noise profile is acquired using the SoX noiseprof tool and the respective file is stored in the RAPP Platform under the user’s folder.
 
 Service URL: ```/rapp/rapp_audio_processing/set_noise_profile```
 
@@ -55,7 +55,7 @@ string error
 
 ##Energy denoise service
 
-The energy denoise ROS service performs a signal hard gating in the time domain, based on the RMS metric (Root Mean Squared). The hard signal gating is applied in the individual sample’s power when compared with the RMS value.
+The energy denoise ROS service performs hard gating in the time domain, of the signal based on the RMS metric. The hard signal gating is applied in the individual sample’s power when compared with the RMS value.
 
 Service URL: ```/rapp/rapp_audio_processing/energy_denoise```
 
