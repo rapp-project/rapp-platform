@@ -37,7 +37,7 @@ Launches the **face detection** node and can be launched using
 roslaunch rapp_face_detection face_detection.launch
 ```
 
-#HOP services
+#Web services
 
 ## URL
 ```localhost:9001/hop/face_detection ```
