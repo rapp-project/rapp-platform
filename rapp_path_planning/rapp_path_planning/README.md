@@ -155,6 +155,8 @@ Output = {
 }
 ```
 
+The full documentation exists [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#path-planning-plan-path-2d) and [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#path-planning-upload-map).
+
 
 #### Author
 

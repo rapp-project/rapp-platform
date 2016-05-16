@@ -120,9 +120,8 @@ The set_noise_profile RPS returns the success status. The encoding is in JSON fo
 
 ```
 Input = {
-  “noise_audio_file”: “THE_AUDIO_FILE”
-  “audio_file_type”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch”
-  “user”: “THE_USERNAME”
+  “file”: “THE_AUDIO_FILE”
+  “audio_source”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch”
 }
 ```
 ```
@@ -130,3 +129,5 @@ Output = {
   “error”: “Possible error”
 }
 ```
+
+The full documentation exists [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#set-noise-profile)

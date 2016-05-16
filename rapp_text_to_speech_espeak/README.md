@@ -33,7 +33,7 @@ Launches the **rapp_text_to_speech_espeak** node and can be launched using
 roslaunch rapp_text_to_speech_espeak text_to_speech_espeak.launch
 ```
 
-# HOP services
+# Web services
 
 ## URL
 ```localhost:9001/hop/text_to_speech ```
@@ -48,6 +48,11 @@ Input = {
 ```
 ```
 Output = {
-  THE_AUDIO_FILE
+  "payload": THE_AUDIO_DATA,
+  "basename": "test.wav",
+  "encoding": "base64",
+  "error": ""
 }
 ```
+
+The full documentation exists [here]://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#text-to-speech)
