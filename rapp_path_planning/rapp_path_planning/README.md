@@ -12,7 +12,7 @@ Documentation about the RAPP Path Planner: [link](https://github.com/rapp-projec
 
 
 Rapp_path_planning is used in the RAPP case to plan path from given pose to given goal. User can costomize the path planning module with following parameters:
-* pebuild map - avaliable maps are stored [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps),
+* prebuild map - avaliable maps are stored [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps),
 * planning algorithm - **for now, only [dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)  is avaliable**,
 * robot type - customizes costmap for planning module. **For now only [NAO](https://www.aldebaran.com/en/humanoid-robot/nao-robot) is supported**. 
 
@@ -30,13 +30,15 @@ map_path = "/home/rapp/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/r
 rospy.set_param(nodename+/setMap, map_path)
 ```
 
+A ROS service exists to store new maps in each user's workspace, called ```upload_map```. Then each application can invoke the ```planPath2D``` service, providing the map's name (among others) as input argument.
+
 **ROS Services**
 ------------
 
 #### *Path planning*
 
 
-Service URL: ```/rapp/rapp_path_planning/plan_path```
+Service URL: ```/rapp/rapp_path_planning/planPath2D```
 
 Service type:
 ```bash
@@ -68,6 +70,31 @@ string error_message
 geometry_msgs/PoseStamped[] path
 ``` 
 
+Service URL: ```/rapp/rapp_path_planning/upload_map```
+
+Service type:
+```bash
+# The end user's username, since the uploaded map is personal 
+string user_name
+# The map's name. Must be unique for this user
+string map_name
+# The map's resolution
+float32 resolution
+# ROS-specific: The map's origin
+float32[] origin
+# ROS-specific: Whether the occupied / unoccupied pixels must be negated
+int16 negate
+# Occupied threshold
+float32 occupied_thresh
+# Unoccupied threshold
+float32 free_thresh
+# File size for sanity checks
+uint32 file_size
+# The map data
+char[] data
+``` 
+More information on the Occupancy Grid Map representation can be found [here](http://docs.ros.org/jade/api/nav_msgs/html/msg/OccupancyGrid.html)
+
 **Launchers**
 -------------
 
@@ -77,6 +104,53 @@ geometry_msgs/PoseStamped[] path
 Launches the **path planning** node and can be launched using
 ```bash
 roslaunch rapp_path_planning path_planning.launch
+```
+
+
+#Web services
+
+## Path planning 2D
+
+### URL
+```localhost:9001/hop/path_planning_path_2d ```
+
+### Input / Output
+
+```
+Input = {
+  "map_name": “THE_PRESTORED_MAP_NAME”,
+  "robot_type": "Nao",
+  "algorithm": "dijkstra",
+  "start": {x: 0, y: 10},
+  "goal": {x: 10, y: 0}
+}
+```
+```
+Output = {
+  "plan_found": 0,
+  "path": [{x: 0, y: 10}, {x: ... ],
+  "error": ""
+}
+```
+
+## Upload map
+
+### URL
+```localhost:9001/hop/path_planning_upload_map ```
+
+### Input / Output
+
+```
+Input = {
+  "png_file": “map.png”,
+  "yaml_file": "map.yaml",
+  "map_name": "simple_map_1"
+}
+```
+```
+Output = {
+  "error": ""
+}
 ```
 
 
