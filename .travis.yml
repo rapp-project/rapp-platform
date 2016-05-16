@@ -29,7 +29,10 @@ install: true # Use this to install any prerequisites or dependencies necessary 
 script: # All commands must exit with code 0 on success. Anything else is considered failure.
   # First test the install scripts
   - echo "Performing clean installation of rapp-platform"
-  - cd rapp_scripts/setup
+  - if [[ `git ls-remote --heads --exit-code https://github.com/rapp-project/rapp-platform-scripts.git "$TRAVIS_BRANCH"` ]]; then SCRIPTS_BRANCH="$TRAVIS_BRANCH"; else SCRIPTS_BRANCH="devel"; fi
+  - echo "Cloning rapp-scripts, branch $SCRIPTS_BRANCH"
+  - git clone --recursive --branch="$SCRIPTS_BRANCH" https://github.com/rapp-project/rapp-platform-scripts.git
+  - cd rapp-platform-scripts/setup
   #- source /opt/ros/$ROS_DISTRO/setup.bash
   - bash clean_install.sh travis
   - source ~/.bashrc
@@ -40,8 +43,8 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - if [[ "$TEST_SUITE" == "UNIT1" ]]; then catkin_make run_tests -j1 && catkin_test_results ; fi
   - if [[ "$TEST_SUITE" == "UNIT2" ]]; then catkin_make tests -j1 && catkin_make test -j1; catkin_test_results --verbose ; fi
   # Run integration tests
-  - if [[ "$TEST_SUITE" == "INTEGRATION" ]]; then echo "Initiating integration tests" && bash $RAPP_PL/rapp_scripts/deploy/deploy_rapp_ros.sh & screen -d -m $RAPP_PL/rapp_scripts/deploy/deploy_web_services.sh && sleep 20 && echo "Executing normal integration tests" && rosrun rapp_testing_tools rapp_run_test.py ; fi
+  - if [[ "$TEST_SUITE" == "INTEGRATION" ]]; then echo "Initiating integration tests" && bash ~/rapp_platform/rapp-platform-scripts/deploy/deploy_rapp_ros.sh & screen -d -m ~/rapp_platform/rapp-platform-scripts/deploy/deploy_web_services.sh && sleep 20 && echo "Executing normal integration tests" && rosrun rapp_testing_tools rapp_run_test.py ; fi
 after_success:
   # Create documentation on conditions
-  - cd $RAPP_PL/rapp_scripts/documentation
+  - cd ~/rapp_platform/rapp-platform-scripts/documentation
   - bash travis_ci_documentation.sh
