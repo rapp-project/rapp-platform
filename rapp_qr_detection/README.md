@@ -32,7 +32,7 @@ Launches the **qr detection** node and can be launched using
 roslaunch rapp_qr_detection qr_detection.launch
 ```
 
-# HOP services
+# Web services
 
 ## URL
 ```localhost:9001/hop/qr_detection ```
