@@ -92,6 +92,8 @@ float32 free_thresh
 uint32 file_size
 # The map data
 char[] data
+---
+byte status
 ``` 
 More information on the Occupancy Grid Map representation can be found [here](http://docs.ros.org/jade/api/nav_msgs/html/msg/OccupancyGrid.html)
 
