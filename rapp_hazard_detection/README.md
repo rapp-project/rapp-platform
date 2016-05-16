@@ -6,7 +6,7 @@ In the RAPP case, the hazard detection functionality is implemented in the form 
 
 #ROS Services
 
-##Light checking
+##Human detection
 Service URL: ```/rapp/rapp_hazard_detection/light_check```
 
 Service type:
@@ -16,23 +16,10 @@ Header header
 # The image's filename to perform light checking
 string imageFilename
 ---
-# Light level in the center of the provided image
-int32 light_level
-string error
-``` 
-
-##Door checking
-Service URL: ```/rapp/rapp_hazard_detection/light_check```
-
-Service type:
-```bash
-# Contains info about time and reference
-Header header
-# The image's filename to perform door checking
-string imageFilename
----
-# Estimated door opening angle
-int32 door_angle
+# List of bounding box borders, where the humans were detected 
+geometry_msgs/PointStamped[] humans_up_left
+geometry_msgs/PointStamped[] humans_down_right
+# Possible error
 string error
 ``` 
 
@@ -40,17 +27,17 @@ string error
 
 ##Standard launcher
 
-Launches the **hazard_detection** node and can be launched using
+Launches the **human_detection** node and can be launched using
 ```
-roslaunch rapp_hazard_detection hazard_detection.launch
+roslaunch rapp_human_detection human_detection.launch
 ```
 
 #HOP services
 
-## Light checking
+## Human detection
 
 ### URL
-```localhost:9001/hop/light_check ```
+```localhost:9001/hop/detect_humans ```
 
 ### Input / Output
 
@@ -61,24 +48,7 @@ Input = {
 ```
 ```
 Output = {
-  "light_level": 50
+  "human": { "up_left_point": {x: 0, y: 0}, "down_right_point": {x: 0, y: 0} }
 }
 ```
 
-## Door checking
-
-### URL
-```localhost:9001/hop/door_check ```
-
-### Input / Output
-
-```
-Input = {
-  "image": "THE_ACTUAL_IMAGE_DATA"
-}
-```
-```
-Output = {
-  "door_angle": 50
-}
-```
