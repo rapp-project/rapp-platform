@@ -7,7 +7,7 @@ In the RAPP case, the human detection functionality is implemented in the form o
 #ROS Services
 
 ##Human detection
-Service URL: ```/rapp/rapp_hazard_detection/light_check```
+Service URL: ```/rapp/rapp_human_detection/detect_humans```
 
 Service type:
 ```bash
