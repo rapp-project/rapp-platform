@@ -22,6 +22,8 @@ string language
 string error
 ``` 
 
+It should be mentioned that there are cases where Espeak fails to produce the entirety of the given text as audio (for example if the input is a long sentence in Greek, it would probably create a shorter audio than the desired).
+
 # Launchers
 
 ## Standard launcher
