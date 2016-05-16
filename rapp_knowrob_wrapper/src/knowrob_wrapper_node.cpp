@@ -24,7 +24,6 @@ limitations under the License.
   * @brief The executable's main function. 
   * Creates a ROS multispinner to enable concurrent requests and declares a KnowrobWrapperCommunications object 
   */ 
-
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "knowrob_wrapper_node");

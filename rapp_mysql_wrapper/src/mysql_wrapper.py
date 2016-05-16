@@ -74,14 +74,6 @@ from rapp_platform_ros_communications.srv import (
   getCloudAgentServiceTypeAndHostPortSrvResponse  
   )
 
-from rapp_platform_ros_communications.msg import (
-  StringArrayMsg
-  )
-
-from std_msgs.msg import (
-  String
-  )
-
 ## @class MySQLdbWrapper
 # @brief The mysql wrapper ros node
 class MySQLdbWrapper:
@@ -837,7 +829,7 @@ class MySQLdbWrapper:
 
   ## @brief The getUserOntologyAlias service callback
   # @param req [rapp_platform_ros_communications::getUserOntologyAliasSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getUserOntologyAliasSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::getUserOntologyAliasSrvRequest::Response&] The ROS service response
   def getUserOntologyAliasDataHandler(self,req):
     res = getUserOntologyAliasSrvResponse()
     res=self.getUserOntologyAlias(req)
@@ -845,7 +837,7 @@ class MySQLdbWrapper:
 
   ## @brief The registerUserOntologyAliasSrv service callback
   # @param req [rapp_platform_ros_communications::registerUserOntologyAliasSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::registerUserOntologyAliasSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::registerUserOntologyAliasSrvRequest::Response&] The ROS service response
   def registerUserOntologyAliasDataHandler(self,req):
     res = registerUserOntologyAliasSrvResponse()
     res=self.registerUserOntologyAlias(req)
@@ -853,7 +845,7 @@ class MySQLdbWrapper:
 
   ## @brief The getUserLanguage service callback
   # @param req [rapp_platform_ros_communications::getUserLanguageSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getUserLanguageSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::getUserLanguageSrvRequest::Response&] The ROS service response
   def getUserLanguageDataHandler(self,req):
     res = getUserLanguageSrvResponse()
     res=self.getUserLanguage(req)
@@ -861,7 +853,7 @@ class MySQLdbWrapper:
 
   ## @brief The registerNewTokenSrv service callback
   # @param req [rapp_platform_ros_communications::registerNewTokenSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::registerNewTokenSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::registerNewTokenSrvRequest::Response&] The ROS service response
   def registerNewTokenDataHandler(self,req):
     res = registerNewTokenSrvResponse()
     res=self.registerNewToken(req)
@@ -869,7 +861,7 @@ class MySQLdbWrapper:
 
   ## @brief The checkIfUserExistsSrv service callback
   # @param req [rapp_platform_ros_communications::checkIfUserExistsSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::checkIfUserExistsSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::checkIfUserExistsSrvRequest::Response&] The ROS service response
   def checkIfUserExistsDataHandler(self,req):
     res = checkIfUserExistsSrvResponse()
     res=self.checkIfUserExists(req)
@@ -877,7 +869,7 @@ class MySQLdbWrapper:
 
   ## @brief The getUserPasswordSrv service callback
   # @param req [rapp_platform_ros_communications::getUserPasswordSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getUserPasswordSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::getUserPasswordSrvRequest::Response&] The ROS service response
   def getUserPasswordDataHandler(self,req):
     res = getUserPasswordSrvResponse()
     res=self.getUserPassword(req)
@@ -885,7 +877,7 @@ class MySQLdbWrapper:
 
   ## @brief The getUsernameAssociatedWithApplicationTokenSrv service callback
   # @param req [rapp_platform_ros_communications::getUsernameAssociatedWithApplicationTokenSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getUsernameAssociatedWithApplicationTokenSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::getUsernameAssociatedWithApplicationTokenSrvRequest::Response&] The ROS service response
   def getUsernameAssociatedWithApplicationTokenDataHandler(self,req):
     res = getUsernameAssociatedWithApplicationTokenSrvResponse()
     res=self.getUsernameAssociatedWithApplicationToken(req)
@@ -893,7 +885,7 @@ class MySQLdbWrapper:
 
   ## @brief The createNewPlatformUserSrv service callback
   # @param req [rapp_platform_ros_communications::createNewPlatformUserSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::createNewPlatformUserSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::createNewPlatformUserSrvRequest::Response&] The ROS service response
   def createNewPlatformUserDataHandler(self,req):
     res = createNewPlatformUserSrvResponse()
     res=self.createNewPlatformUser(req)
@@ -901,7 +893,7 @@ class MySQLdbWrapper:
 
   ## @brief The createNewApplicationTokenSrv service callback
   # @param req [rapp_platform_ros_communications::createNewApplicationTokenSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::createNewApplicationTokenSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::createNewApplicationTokenSrvRequest::Response&] The ROS service response
   def createNewApplicationTokenDataHandler(self,req):
     res = createNewApplicationTokenSrvResponse()
     res=self.createNewApplicationToken(req)
@@ -909,27 +901,39 @@ class MySQLdbWrapper:
 
   ## @brief The checkActiveApplicationTokenSrv service callback
   # @param req [rapp_platform_ros_communications::checkActiveApplicationTokenSrvResponse::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::checkActiveApplicationTokenSrvRequest::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::checkActiveApplicationTokenSrvRequest::Response&] The ROS service response
   def checkActiveApplicationTokenDataHandler(self,req):
     res = checkActiveApplicationTokenSrvResponse()
     res=self.checkActiveApplicationToken(req)
     return res
 
+  ## @brief The checkActiveRobotSessionSrv service callback
+  # @param req [rapp_platform_ros_communications::checkActiveRobotSessionSrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::checkActiveRobotSessionSrvResponse::Response&] The ROS service response
   def checkActiveRobotSessionDataHandler(self,req):
     res = checkActiveRobotSessionSrvResponse()
     res=self.checkActiveRobotSession(req)
     return res
 
+  ## @brief The addStoreTokenToDeviceSrv service callback
+  # @param req [rapp_platform_ros_communications::addStoreTokenToDeviceSrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::addStoreTokenToDeviceSrvResponse::Response&] The ROS service response
   def addStoreTokenToDeviceDataHandler(self,req):
     res = addStoreTokenToDeviceSrvResponse()
     res=self.addStoreTokenToDevice(req)
     return res
 
+  ## @brief The validateUserRoleSrv service callback
+  # @param req [rapp_platform_ros_communications::validateUserRoleSrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::validateUserRoleSrvResponse::Response&] The ROS service response
   def validateUserRoleDataHandler(self,req):
     res = validateUserRoleSrvResponse()
     res=self.validateUserRole(req)
     return res
 
+  ## @brief The validateExistingPlatformDeviceTokenSrv service callback
+  # @param req [rapp_platform_ros_communications::validateExistingPlatformDeviceTokenSrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::validateExistingPlatformDeviceTokenSrvResponse::Response&] The ROS service response
   def validateExistingPlatformDeviceTokenDataHandler(self,req):
     res = validateExistingPlatformDeviceTokenSrvResponse()
     res=self.validateExistingPlatformDeviceToken(req)
@@ -937,7 +941,7 @@ class MySQLdbWrapper:
 
   ## @brief The removePlatformUserSrv service callback
   # @param req [rapp_platform_ros_communications::removePlatformUserSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::removePlatformUserSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::removePlatformUserSrvResponse::Response&] The ROS service response
   def removePlatformUserDataHandler(self,req):
     res = removePlatformUserSrvResponse()
     res=self.removePlatformUser(req)
@@ -945,7 +949,7 @@ class MySQLdbWrapper:
 
   ## @brief The createNewCloudAgentSrv service callback
   # @param req [rapp_platform_ros_communications::createNewCloudAgentSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::createNewCloudAgentSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::createNewCloudAgentSrvResponse::Response&] The ROS service response
   def createNewCloudAgentDataHandler(self,req):
     res = createNewCloudAgentSrvResponse()
     res=self.createNewCloudAgent(req)
@@ -953,7 +957,7 @@ class MySQLdbWrapper:
 
   ## @brief The createNewCloudAgentServiceSrv service callback
   # @param req [rapp_platform_ros_communications::createNewCloudAgentServiceSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::createNewCloudAgentServiceSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::createNewCloudAgentServiceSrvResponse::Response&] The ROS service response
   def createNewCloudAgentServiceDataHandler(self,req):
     res = createNewCloudAgentServiceSrvResponse()
     res=self.createNewCloudAgentService(req)
@@ -961,7 +965,7 @@ class MySQLdbWrapper:
 
   ## @brief The getCloudAgentServiceTypeAndHostPortSrv service callback
   # @param req [rapp_platform_ros_communications::getCloudAgentServiceTypeAndHostPortSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::getCloudAgentServiceTypeAndHostPortSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::getCloudAgentServiceTypeAndHostPortSrvResponse::Response&] The ROS service response
   def getCloudAgentServiceTypeAndHostPortDataHandler(self,req):
     res = getCloudAgentServiceTypeAndHostPortSrvResponse()
     res=self.getCloudAgentServiceTypeAndHostPort(req)

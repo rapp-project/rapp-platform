@@ -119,7 +119,7 @@ class CognitiveExercise:
 
   ## @brief The cognitive exercise chooser service callback
   # @param req [rapp_platform_ros_communications::testSelectorSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::testSelectorSrvResponse::Response&] The ROS service response
   def chooserDataHandler(self,req):
     res = testSelectorSrvResponse()
     it = TestSelector()
@@ -128,7 +128,7 @@ class CognitiveExercise:
     
   ## @brief The record user cognitive test performance service callback
   # @param req [rapp_platform_ros_communications::recordUserCognitiveTestPerformanceSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::recordUserCognitiveTestPerformanceSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::recordUserCognitiveTestPerformanceSrvResponse::Response&] The ROS service response
   def recordUserCognitiveTestPerformanceDataHandler(self,req):
     res = recordUserCognitiveTestPerformanceSrvResponse()
     it = RecordUserCognitiveTestPerformance()
@@ -137,7 +137,7 @@ class CognitiveExercise:
     
   ## @brief The cognitive test creator service callback
   # @param req [rapp_platform_ros_communications::cognitiveTestCreatorSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::cognitiveTestCreatorSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::cognitiveTestCreatorSrvResponse::Response&] The ROS service response
   def cognitiveTestCreatorDataHandler(self,req):
     res = cognitiveTestCreatorSrvResponse()
     it = CognitiveTestCreator()
@@ -146,7 +146,7 @@ class CognitiveExercise:
 
   ## @brief The userScoresForAllCategories service callback
   # @param req [rapp_platform_ros_communications::userScoresForAllCategoriesSrvRequest::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::userScoresForAllCategoriesSrvResponse::Response&] The ROS service response
   def userScoresForAllCategoriesDataHandler(self,req):
     res = userScoresForAllCategoriesSrvResponse()
     it = UserScoresForAllCategories()
@@ -155,7 +155,7 @@ class CognitiveExercise:
 
   ## @brief The userScoreHistoryForAllCategories service callback
   # @param req [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrv::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrv::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrv::Response&] The ROS service response
   def userScoreHistoryForAllCategoriesDataHandler(self,req):
     res = userScoreHistoryForAllCategoriesSrvResponse()
     it = UserScoreHistoryForAllCategories()
@@ -164,7 +164,7 @@ class CognitiveExercise:
         
   ## @brief The returnTestsOfTypeSubtypeDifficultyDataHandler service callback
   # @param req [rapp_platform_ros_communications::returnTestsOfTypeSubtypeDifficultyDataHandler::Request&] The ROS service request
-  # @param res [rapp_platform_ros_communications::returnTestsOfTypeSubtypeDifficultyDataHandler::Response&] The ROS service response
+  # @return res [rapp_platform_ros_communications::returnTestsOfTypeSubtypeDifficultyDataHandler::Response&] The ROS service response
   def returnTestsOfTypeSubtypeDifficultyDataHandler(self,req):
     res = returnTestsOfTypeSubtypeDifficultySrvResponse()
     it = ReturnTests()

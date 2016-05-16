@@ -42,8 +42,8 @@ from std_msgs.msg import (
   String
   )
 
-## @class CognitiveExercise
-# @brief The Cognitive exercise ros node
+## @class RappCaffeWrapper
+# @brief The RappCaffeWrapper ros node
 class RappCaffeWrapper:
 
   ## @brief Default contructor
@@ -51,8 +51,16 @@ class RappCaffeWrapper:
   # Waits for services the node depends on and declares the callbacks of the node's services
   def __init__(self):    
 	  
-	# Dependencies
-
+	  # Dependencies
+    self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
+    if(not self.serv_topic):
+      rospy.logerror("rapp_knowrob_wrapper_create_ontology_alias param not found")
+    rospy.wait_for_service(self.serv_topic)
+    
+    self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_register_image_object_to_ontology')
+    if(not self.serv_topic):
+      rospy.logerror("rapp_knowrob_wrapper_register_image_object_to_ontology param not found")
+    rospy.wait_for_service(self.serv_topic)   
 
     #Declare Callbacks
     self.serv_topic = rospy.get_param("rapp_caffe_wrapper_image_classification")
@@ -70,21 +78,29 @@ class RappCaffeWrapper:
       rospy.logerror("rapp_caffe_wrapper_register_image_to_ontology")
     self.serv=rospy.Service(self.serv_topic, registerImageToOntologySrv, self.registerImageToOntologyDataHandler)  
 
-    
+  ## @brief The imageClassificationSrv service callback
+  # @param req [rapp_platform_ros_communications::imageClassificationSrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::imageClassificationSrvResponse::Response&] The ROS service response    
   def imageClassificationDataHandler(self,req):
     res = imageClassificationSrvResponse()
     it = ImageClassification()
     res=it.classifyImage(req)
     return res
- 
+
+  ## @brief The ontologyClassBridgeSrv service callback
+  # @param req [rapp_platform_ros_communications::ontologyClassBridgeSrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::ontologyClassBridgeSrvResponse::Response&] The ROS service response 
   def ontologyClassBridgeDataHandler(self,req):
     res = ontologyClassBridgeSrvResponse()
     it = OntologyClassBridge()
     res=it.getOntologyClassEquivalent(req)
     return res
 
+  ## @brief The registerImageToOntologySrv service callback
+  # @param req [rapp_platform_ros_communications::registerImageToOntologySrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::registerImageToOntologySrvResponse::Response&] The ROS service response
   def registerImageToOntologyDataHandler(self,req):
-    res =registerImageToOntologySrvResponse()
+    res = registerImageToOntologySrvResponse()
     it = ImageRegistrationToOntology()
     res=it.registerImage(req)
     return res

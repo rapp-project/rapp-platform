@@ -26,13 +26,15 @@ from rapp_platform_ros_communications.srv import (
   ontologyClassBridgeSrvResponse  
   )
 
-from rapp_platform_ros_communications.msg import (
-  StringArrayMsg
-  )
-  
-
+## @class OntologyClassBridge
+# @brief Contains the necessary functions for translating caffe classes to ontology classes
 class OntologyClassBridge:
-  
+
+  ## @brief Implements the getOntologyClassEquivalent service main function
+  # @param req [rapp_platform_ros_communications::ontologyClassBridgeSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::ontologyClassBridgeSrvResponse::Response&] The ROS service response
+  # @exception Exception KeyError  
   def getOntologyClassEquivalent(self,req):
     try:      
       res=ontologyClassBridgeSrvResponse()      
@@ -51,7 +53,11 @@ class OntologyClassBridge:
       res.trace.append('"KeyError, probably caffe class does not exist or no ontology equivalent exists for "%s"' % str(e))
       res.error='"KeyError, probably caffe class does not exist or no ontology equivalent exists for "%s"' % str(e)
     return res
-    
+
+  ## @brief Loads the caffeToOntologyClasses file into a dictionary
+  # @param mapFilePath [string] The path to the file containing the caffe to ontology classes equivalencies
+  #
+  # @return caffeToOntologyClassesDict [dictionary] The dictionary containing the caffe to ontology classes 
   def loadMappingIntoDictionary(self,mapFilePath):
     with open(mapFilePath) as f:
       lines = f.read().splitlines()
@@ -60,11 +66,4 @@ class OntologyClassBridge:
       currentList=s.split("\t")
       if(len(currentList)>=3):        
         caffeToOntologyClassesDict[currentList[1]]=currentList[2]        
-        #print currentList[2]
-        #print caffeToOntologyClassesDict[currentList[1]]
     return caffeToOntologyClassesDict
-        
-
-
-
-

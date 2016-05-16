@@ -136,8 +136,6 @@ KnowrobWrapperCommunications::KnowrobWrapperCommunications():knowrob_wrapper(nh_
   }
   register_image_object_to_ontology_service_ = nh_.advertiseService(register_image_object_to_ontology_topic_,
     &KnowrobWrapperCommunications::register_image_object_to_ontology_callback, this);
-    
-
 
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req;
   rapp_platform_ros_communications::ontologyLoadDumpSrv::Response res;

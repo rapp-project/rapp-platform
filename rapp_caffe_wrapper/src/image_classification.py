@@ -40,13 +40,12 @@ from rapp_platform_ros_communications.srv import (
   ontologyClassBridgeSrvRequest  
   )
 
-from rapp_platform_ros_communications.msg import (
-  StringArrayMsg
-  )
 
-
+## @class ImageClassification
+# @brief Contains the necessary functions for classifying an images and requesting registration to the ontology
 class ImageClassification:
    
+    ## Initializes Caffe
     def __init__(self):
         self.caffe_root = expanduser("~")+'/rapp_platform/caffe/'
 
@@ -76,6 +75,14 @@ class ImageClassification:
         imagenet_labels_filename = self.caffe_root + 'data/ilsvrc12/synset_words.txt'
         self.labels = np.loadtxt(imagenet_labels_filename, str, delimiter='\t')
 
+    ## @brief Implements the imageClassificationSrv service main function
+    # @param req [rapp_platform_ros_communications::imageClassificationSrvRequest::Request&] The ROS service request
+    #
+    # @return res [rapp_platform_ros_communications::imageClassificationSrvResponse::Response&] The ROS service response
+    # @exception Exception IndexError
+    # @exception Exception IOError
+    # @exception Exception AppError
+    # @exception Exception KeyError 
     def classifyImage(self, req):
         try:
             res = imageClassificationSrvResponse()      
@@ -109,6 +116,11 @@ class ImageClassification:
             AppError.passErrorToRosSrv(e,res) 
         return res
 
+    ## @brief Calls the caffe wrapper service that registers the image to the ontology
+    # @param caffeObjectClass [string] The caffe object class
+    #
+    # @return ontologyClassBridgeResponse.ontologyClass [string] The ontology class of the image
+    # @exception Exception AppError
     def getOntologyClass(self, caffeObjectClass):
         serv_topic = rospy.get_param(\
                 'rapp_caffe_wrapper_get_ontology_class_equivalent')
@@ -121,6 +133,14 @@ class ImageClassification:
                     ontologyClassBridgeResponse.trace) 
         return ontologyClassBridgeResponse.ontologyClass
 
+    ## @brief Calls the caffe wrapper service that registers the image to the ontology
+    # @param req [rapp_platform_ros_communications::ontologyClassBridgeSrvRequest::Request&] The ROS service request
+    # @param caffeObjectClass [string] The caffe object class
+    # @param ontologyClass [string] The ontology object class
+    # @param currentImagePath [string] The path of the image file
+    #
+    # @return registerImageToOntologyResponse.object_entry [string] The ontology entry of the image
+    # @exception Exception AppError
     def registerToOntology(self, req, caffeObjectClass, ontologyClass, \
             currentImagePath):
         serv_topic = rospy.get_param('rapp_caffe_wrapper_register_image_to_ontology')      
@@ -135,7 +155,11 @@ class ImageClassification:
             raise AppError(registerImageToOntologyResponse.error, \
                     registerImageToOntologyResponse.trace)     
         return registerImageToOntologyResponse.object_entry
-    
+
+    ## @brief Obtains the name of the class of the image from the caffe image classes file
+    # @param req [rapp_platform_ros_communications::ontologyClassBridgeSrvRequest::Request&] The ROS service request
+    #
+    # @return res [string] The class of the image
     def getImageClass(self,req):
         self.net.blobs['data'].data[...] = \
                 self.transformer.preprocess('data', \

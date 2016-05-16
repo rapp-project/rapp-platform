@@ -39,8 +39,18 @@ from rapp_platform_ros_communications.srv import (
   )
 
 
+## @class ImageRegistrationToOntology
+# @brief Contains the necessary functions for registering images to the ontology
 class ImageRegistrationToOntology:
   
+  ## @brief Implements the getCloudAgentServiceTypeAndHostPort service main function
+  # @param req [rapp_platform_ros_communications::registerImageToOntologySrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::registerImageToOntologySrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception AppError
+  # @exception Exception KeyError
   def registerImage(self,req):
     try:      
       res = registerImageToOntologySrvResponse()  
@@ -90,6 +100,12 @@ class ImageRegistrationToOntology:
       raise AppError(createOntologyAliasResponse.error, createOntologyAliasResponse.trace)      
     return createOntologyAliasResponse.ontology_alias
 
+  ## @brief Calls the knowrob_wrapper service that registers the image to the ontology  
+  # @param req [rapp_platform_ros_communications::registerImageToOntologySrvRequest::Request&] The ROS service request
+  # @param baseDestinationFolder [string] The path to the image
+  #
+  # @return registerImageObjectToOntologyResponse.object_entry [string] The ontology alias image entry
+  # @exception Exception AppError
   def registerImageToOntology(self,req,baseDestinationFolder):
     serv_topic = rospy.get_param('rapp_knowrob_wrapper_register_image_object_to_ontology')
     knowrob_service = rospy.ServiceProxy(serv_topic, registerImageObjectToOntologySrv)

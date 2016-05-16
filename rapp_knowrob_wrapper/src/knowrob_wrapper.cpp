@@ -845,6 +845,11 @@ rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response Kno
     }
 }
 
+/**
+ * @brief Implements the retract_user_ontology_alias ROS service
+ * @param req [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request&] The ROS service request
+ * @return res [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response&] The ROS service response
+ */
 rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response KnowrobWrapper::retract_user_ontology_alias(rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request req) {
     rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response res;
     try {

@@ -20,7 +20,7 @@
 import rospy
 from caffe_wrapper import RappCaffeWrapper
 
-## @brief The main function that initiates the rapp mysql wrapper ROS Node  
+## @brief The main function that initiates the rapp_caffe_wrapper ROS Node  
 if __name__ == "__main__":
   rospy.init_node('RappCaffeWrapper')
   RappCaffeWrapperNode = RappCaffeWrapper()
