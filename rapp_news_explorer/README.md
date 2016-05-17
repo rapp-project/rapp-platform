@@ -7,6 +7,9 @@ economy, headlines, etc.), desired keywords, language/region (can be specified
 employing
 [RAPP Geolocator](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Geolocator)),
 etc. The node returns a list of related articles.
+The availability of news_explorer services that rely on third party APIs such
+as Google News are restricted according to the APIs' rules and limitations.
+Thus, service call failures may exist.
 
 Currently supported News Engines:
 * Google News ([API](https://developers.google.com/news-search/v1/devguide))

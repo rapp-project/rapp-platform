@@ -29,9 +29,9 @@ string port
 # Values: ALL, UNSEEN(DEFAULT)
 string requestedEmailStatus
 
-# Emails since date
+# Emails since date (unix timestamp)
 uint64 fromDate
-# Emails until date
+# Emails until date (unix timestamp)
 uint64 toDate
 # Number of requested emails
 uint16 numberOfEmails

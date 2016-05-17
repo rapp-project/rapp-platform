@@ -5,6 +5,9 @@ IP address.
 It is mainly considered an intermediate node that provides information to other
 nodes such as
 [RAPP Weather Reporter](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Weather-Reporter).
+The availability of geolocator services that rely on third party APIs such as
+IP-API is restricted according to the APIs' rules and limitations.
+Thus, service call failures may exist.
 
 Currently supported geolocators:
 * [IP-API](http://ip-api.com/)

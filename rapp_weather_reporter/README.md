@@ -6,6 +6,9 @@ It provides two services; a) current weather conditions and b) weather
 forecast.
 The user has to provide his current city, which could be evaluated using
 [RAPP Geolocator](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Geolocator).
+The availability of weather services that rely on third party APIs such
+as YWeahter are restricted according to the APIs' rules and limitations.
+Thus, service call failures may exist.
 
 Currently supported weather reporters:
 * [YWeather](https://pypi.python.org/pypi/yweather/)
