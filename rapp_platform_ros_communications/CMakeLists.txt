@@ -38,6 +38,7 @@ add_service_files(
   /CognitiveExercise/returnTestsOfTypeSubtypeDifficultySrv.srv
 
   /HumanDetection/HumanDetectionRosSrv.srv
+  /FaceRecognition/FaceRecognitionRosSrv.srv
 
   /CaffeWrapper/imageClassificationSrv.srv
   /CaffeWrapper/ontologyClassBridgeSrv.srv
