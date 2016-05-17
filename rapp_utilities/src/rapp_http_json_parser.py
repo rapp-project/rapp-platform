@@ -29,6 +29,16 @@ class RappHttpJSONParser(object):
     def __init__(self):
         self._html_parser = RappHTMLParser()
 
+    ## @brief Creates key:value pairs from JSON responses
+    #
+    # Accepts a json_key:final_key dictionary and returns a dictionary with
+    # values final_key[i]:value[i] where json_key[i]:final_key[i] and
+    # json_key[i]:value[i]
+    #
+    # @param key_dict [dictionary] The keys dictionary
+    # @param json_data [dictionary] The JSON data dictionary
+    #
+    # @return result [dictionary] The final dictionary
     def find_values(self, key_dict, json_data):
         result = {}
 

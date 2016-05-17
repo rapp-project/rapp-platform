@@ -20,11 +20,15 @@ import os
 import inspect
 import rospy
 
+
+## @class RappUtilities
+# @brief Provides various utility functionalities
 class RappUtilities(object):
 
   def __init__(self):
     pass
 
+  ## @brief Prints ROS log messages with the specified verbosity.
   @staticmethod
   def rapp_print(var, verbosity='DEBUG'):
 
