@@ -21,7 +21,7 @@ Between the RAPP ASR and the Sphinx-4 wrapper lies the Sphinx-4 Handler node whi
 
 Regarding the Sphinx-4 configuration, the user is able to select the ASR language and if they desire ASR on a limited vocabulary or on a generalized one stored in the RAPP cloud. If a limited vocabulary is selected, the user can also define the language model (the sentences of the statistical language model or the grammar). The configuration task is performed by the Sphinx-4 Configuration module. There, the ASR language is retrieved and the corresponding language modules are employed (currently Greek, English and their combination). If the user has requested ASR on a limited vocabulary, the corresponding language module must feed the Limited vocabulary creator with the correct grapheme to phoneme transformations, in order to create the necessary configuration files. In the English case, this task is easy, since Sphinx-4 provides a generalized English vocabulary, which includes the words' G2P transformations. When Greek is requested, a simplified G2P method is implemented, which will be discussed next.  In the case where the user requests a generalized ASR, the predefined generalized dictionaries are used (currently only English support exists).
 
-The second major task that needs to be performed before the actual Sphinx-4 ASR is the audio preparation. This involves the employment of the **SoX** audio library utilizing the [Audio processing](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Audio-Processing) node. Then the audio file is provided to the Sphinx4 Java library and the resulting words are extracted and transmitted back to the RApp, as a response to the HOP service call.
+The second major task that needs to be performed before the actual Sphinx-4 ASR is the audio preparation. This involves the employment of the **SoX** audio library utilizing the [Audio processing](https://github.com/rapp-project/rapp-platform/wiki/RAPP-Audio-Processing) node. Then the audio file is provided to the Sphinx4 Java library and the resulting words are extracted and transmitted back to the RApp, as a response to the Web service call.
 
 Regarding the Greek support, first a description of some basic rules of the Greek language will be presented. The Greek language is equipped with 24 letters and 25 phonemes. Phonemes are structural sound components defining a word’s acoustic properties. Some pronunciation rules the Greek language has follow:
 - Double letters are two letters that contain two phonemes.
@@ -44,7 +44,7 @@ Let’s assume that some Greek words are available and we must configure the Sph
 - Substitute special sigma rules
 - Substitute all remaining letters with CMU phonemes
 
-For more information you can read the full description [here - 2bchanged](http://rapp-project.eu/wp-content/uploads/2015/03/RAPP_D2.1.1_V1.0_13032015.pdf)
+For more information you can read the full description [here](http://rapp-project.eu/wp-content/uploads/2014/01/RAPP_D2.1.2_V2.0_30112015.pdf)
 
 Then, the appropriate files are created (custom dictionary and language model) and the Sphinx4 library is configured. Then the audio pre-processing takes place, performing denoising similarly to the Google Speech Recognition module by deploying the ROS services of the Audio processing node.
 
@@ -79,13 +79,13 @@ string[] words
 string error
 ``` 
 
-# HOP services
+# Web services
 
 ## Speech recognition sphinx RPS
 
 The speech_recognition_sphinx RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS node, which utilizes the Sphinx4 library. The speech_recognition_sphinx RPS can be invoked using the following URI: 
 
-Service URL: ```localhost:9001/hop/speech_recognition_sphinx```
+Service URL: ```localhost:9001/hop/speech_recognition_sphinx4```
 
 ### Input/Output
 The speech_recognition_sphinx RPS has several input arguments, which are encoded in JSON format in an ASCII string representation.
@@ -98,9 +98,8 @@ Input = {
   “words”: “[WORD_1, WORD_2 …]”
   “grammar”: “[WORD_1, WORD_2 …]”
   “sentences”: “[WORD_1, WORD_2 …]”
-  “path”: “AUDIO_FILE_URI”
+  “file”: “AUDIO_FILE_URI”
   “audio_source”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch, headset”
-  “user”: “USERNAME”
 }
 ```
 ```
@@ -118,7 +117,7 @@ The request parameters are:
 - `words[]`: The limited vocabulary from which Sphinx4 will do the matching. Must provide individual words in the language declared in the language parameter. If left empty a generalized vocabulary will be assumed. This will be valid for English but the results are not good.
 - `grammar[]`: A form of language model. Contains either words or sentences that contain the words declared in the words parameter. If grammar is declared, Sphinx4 will either return results that exist as is in grammar or <nul> if no matching exists.
 - `sentences[]`: The second form of language model. Same functionality as grammar but Sphinx can return individual words contained in the sentences provided. This is essentially used to extract probabilities regarding the phonemes succession.
-- `path`: The audio file path.
+- `file`: The audio file path.
 - `audio_source`: Declares the source of the audio capture in order to perform correct denoising. The different types are:
  - headset: Clean sound, no denoising needed
  - nao_ogg: Captured ogg file from a single microphone from NAO. Supposed to have 1 channel.
