@@ -129,3 +129,5 @@ The returned parameters are:
 
 - `error`: Possible errors
 - `words[]`: The recognized words
+
+The full documentation exists [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#speech-detection-sphinx4)
