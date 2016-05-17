@@ -15,7 +15,8 @@ These services are used in order to communicate with the RAPP Platform ecosystem
 | [Qr-Detection](#qr-detection)                                   |  Detect and recognize Qr-Codes on an image frame                        	  |
 | [Hazard-Detection-Door-Check](#hazard-detection-door-check)	  |  Detect open-doors (hazard) on an image frame				  |
 | [Hazard-Detection-Light-Check](#hazard-detection-light-check)	  |  Detect lights-on (hazard) on an image frame				  |
-| [Human-Detection](#humandetection)		                  |  Detect human existance on on an image frame 				  |
+| [Human-Detection](#human-detection)		                  |  Detect human existance on on an image frame 				  |
+| [Object-Recognition-Caffe](#object-recognition-caffe)		  |  Recognize objects on an image frame using caffe framework			  |
 |                                                                 |                                                                               |
 |   *Speech Recognition*                                          |                                                                               |
 |                                                                 |                                                                               |
@@ -148,7 +149,7 @@ face: { up_left_point: {<point>}, down_right_point: {<point>} }
 ```
 
 - **up_left_point** (Object): The up-left point coordinates of the detected face.
-- **up_left_point** (Object): The down-right point coordinates of the detected face.
+- **down_right_point** (Object): The down-right point coordinates of the detected face.
 
 and **point** coordinates are presented in Cartesian Coordinate System as:
 
@@ -314,12 +315,12 @@ Each point (x, y) is presented in Cartesian Coordinate System as:
 point2D: {x: <val, y: <val>}
 ```
 
-#### Object-Recognition
+#### Object-Recognition-Caffe
 
 ##### Service-Url
 
 ```
-/hop/object_recognition
+/hop/object_recognition_caffe
 ```
 
 ##### Service request arguments
@@ -337,7 +338,7 @@ application/json response.
 
 ```js
 {object_class: '', error: ''}
-````
+```
 
 - **object_class** (String): Recognized object class.
 - **error** (String): Error message, if one occures. (String)
@@ -579,7 +580,7 @@ i.e
 { test_type: 'Arithmetic', test_subtype: 'BasicArithmetic', test_diff: '1', test_index: '1' }
 ```
 
-For more information on available exercises have a look [here](https://github.com/rapp-project/rapp-platform/tree/devel/rapp_cognitive_exercise)
+For more information on available exercises have a look [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_cognitive_exercise)
 
 ##### Service response
 
@@ -878,7 +879,7 @@ where forecast entries are forecastEntry objects:
 - **goal**: Goal pose of the robot. (ROS-GeometryMsgs/PoseStamped)
 
 
-More information on argument values under the [rapp_path_planning package](https://github.com/rapp-project/rapp-platform/tree/devel/rapp_path_planning/rapp_path_planning)
+More information on argument values under the [rapp_path_planning package](https://github.com/rapp-project/rapp-platform/tree/master/rapp_path_planning/rapp_path_planning)
 
 ##### Service response
 
@@ -966,8 +967,8 @@ application/json response.
 
 #### Available-Services
 
-```javascript
-available_services()
+```
+/hop/available_services
 ```
 
 ##### Service request arguments
@@ -976,7 +977,7 @@ None.
 
 ##### Service response
 
-```javascript
+```js
 { services: [], error: '' }
 ```
 
@@ -995,7 +996,7 @@ None.
 ##### Service request arguments
 
 ```js
-{ipaddr: '', engine: ''} 
+{ipaddr: '', engine: ''}
 ```
 
 - **ipaddr**: The machine's ipaddr
@@ -1005,7 +1006,7 @@ None.
 
 application/json response.
 
-```javascript
+```js
 { city: '', country: '', country_code: '', latitude: 0.0, longtitude: 0.0, region: '', timezone: '', zip: '', error: '' }
 ```
 
@@ -1013,7 +1014,7 @@ application/json response.
 - **country** (String): The country.
 - **contry_code** (String): The country code.
 - **latitude**: (Float): The latitude.
-- **longtitude** (Float): The longtitude.                          
+- **longtitude** (Float): The longtitude.
 - **timezone** (String): The timezone.
 - **zip** (String): The zip postal code.
 - **error** (String): Error message, if one occures.
@@ -1030,7 +1031,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{news_engine: '', keywords: [], exclude_titles: [], region: '', topic: '', num_news: 0} 
+{news_engine: '', keywords: [], exclude_titles: [], region: '', topic: '', num_news: 0}
 ```
 
 - **news_engine** (String): The news search engine to use.
@@ -1046,8 +1047,7 @@ application/json response.
 
 application/json response.
 
-```javascript
-```javascript
+```js
 { news_stories: [{<story_1>}, ...,  {<story_n>}], error: '' }
 ```
 

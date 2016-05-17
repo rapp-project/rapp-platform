@@ -127,7 +127,7 @@
     "launch": true,
     "path": "workers/object_recognition/worker.js",
     "services": [
-      "object_recognition"
+      "object_recognition_caffe"
     ]
   },
   "human_detection": {

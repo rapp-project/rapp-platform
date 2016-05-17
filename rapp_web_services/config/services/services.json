@@ -220,11 +220,11 @@
     "ros_connection": true,
     "timeout": 45000
   },
-  "object_recognition": {
+  "object_recognition_caffe": {
     "launch": true,
     "anonymous": false,
-    "name": "object_recognition",
-    "url_name": "object_recognition",
+    "name": "object_recognition_caffe",
+    "url_name": "object_recognition_caffe",
     "namespace": "",
     "authentication": true,
     "ros_connection": true,
