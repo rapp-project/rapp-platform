@@ -229,7 +229,7 @@ class EmailReceiver(object):
           '%d-%b-%Y' )
       fromDate = ' SINCE "' + dateString + '"'
     if req.toDate != 0:
-      dateString = datetime.datetime.fromtimestamp(req.fromDate).strftime( \
+      dateString = datetime.datetime.fromtimestamp(req.toDate).strftime( \
           '%d-%b-%Y' )
       toDate = ' BEFORE "' + dateString + '"'
 
