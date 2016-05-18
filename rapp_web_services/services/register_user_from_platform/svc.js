@@ -41,8 +41,8 @@ function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
 
-  rosMsg.username = req.body.username;
-  rosMsg.password = req.body.password;
+  rosMsg.creator_username = req.body.creator_username;
+  rosMsg.creator_password = req.body.creator_password;
   rosMsg.new_user_username = req.body.new_user_username;
   rosMsg.new_user_password = req.body.new_user_password;
   rosMsg.language = req.body.language;

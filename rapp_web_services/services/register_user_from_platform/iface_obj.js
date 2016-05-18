@@ -30,8 +30,8 @@ var clientRes = function(){
 
 var clientReq = function(){
   var obj = {
-    username: '',
-    password: '',
+    creator_username: '',
+    creator_password: '',
     new_user_username: '',
     new_user_password: '',
     language: ''
@@ -43,8 +43,8 @@ var clientReq = function(){
 // UserTokenAuthenticationSrv.srv
 var rosReq = function(){
   var obj = {
-    username: '',
-    password: '',
+    creator_username: '',
+    creator_password: '',
     new_user_username: '',
     new_user_password: '',
     language: ''
