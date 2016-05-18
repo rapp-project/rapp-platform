@@ -36,8 +36,6 @@ class RappInterfaceTest:
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
     audioFile = path.join(pkgDir, 'test_data', 'microphone_nai.wav')
-    print audioFile
-
 
     self.msg = SpeechRecognitionSphinx(
         language='el',
