@@ -26,8 +26,9 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import SpeechDetectionSphinx4
+from RappCloud import Service
+from RappCloud.CloudMsgs import SpeechRecognitionSphinx
+
 
 class RappInterfaceTest:
 
@@ -37,14 +38,15 @@ class RappInterfaceTest:
     audioFile = path.join(pkgDir, 'test_data',
         'speech_detection_samples', 'recording_triti.ogg')
 
-    self.svc = SpeechDetectionSphinx4(
+    self.msg = SpeechRecognitionSphinx(
         language='el',
         audio_source='nao_ogg',
         words=[u'δευτερα', u'τριτη'],
         sentences=[u'δευτερα', u'τριτη'],
         grammar=[],
-        audiofile=audioFile
-        )
+        audiofile=audioFile)
+
+    self.svc = Service(self.msg)
 
     self.valid_words_found = [u'τριτη']
 

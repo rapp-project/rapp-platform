@@ -26,8 +26,9 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import OntologyIsSubsuperclass
+from RappCloud import Service
+from RappCloud.CloudMsgs import OntologyIsSubsuperclass
+
 
 class RappInterfaceTest:
 
@@ -35,10 +36,11 @@ class RappInterfaceTest:
     # Set the valid results
     self.valid_results = True;
 
-    self.svc = OntologyIsSubsuperclass(
+    self.msg = OntologyIsSubsuperclass(
         parent_class='Oven',
         child_class='MicrowaveOven',
         recursive=True)
+    self.svc = Service(msg=self.msg)
 
 
   def execute(self):

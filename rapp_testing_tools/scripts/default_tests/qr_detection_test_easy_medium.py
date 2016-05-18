@@ -26,8 +26,9 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import QrDetection
+from RappCloud import Service
+from RappCloud.CloudMsgs import QrDetection
+
 
 class RappInterfaceTest:
 
@@ -35,7 +36,9 @@ class RappInterfaceTest:
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
     imagepath = path.join(pkgDir, 'test_data','qr_samples', 'easyMediumQr.jpg')
-    self.svc = QrDetection(image=imagepath)
+
+    self.msg = QrDetection(imageFilepath=imagepath)
+    self.svc = Service(msg=self.msg)
 
     self.valid_results = {
         'qr_centers': [{'y': 498, 'x': 632}],

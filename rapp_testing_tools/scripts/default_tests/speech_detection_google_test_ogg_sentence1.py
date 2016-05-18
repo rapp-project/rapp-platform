@@ -26,8 +26,9 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import SpeechDetectionGoogle
+from RappCloud import Service
+from RappCloud.CloudMsgs import SpeechRecognitionGoogle
+
 
 class RappInterfaceTest:
 
@@ -37,10 +38,12 @@ class RappInterfaceTest:
     audioFile = path.join(pkgDir, 'test_data',
         'speech_detection_samples', 'recording_sentence1.ogg')
 
-    self.svc = SpeechDetectionGoogle(
+    self.msg= SpeechRecognitionGoogle(
         language='en',
         audio_source='nao_ogg',
         audiofile=audioFile)
+
+    self.svc = Service(self.msg)
 
     self.valid_words_found = ['I', 'want', 'to', 'go', 'out']
 

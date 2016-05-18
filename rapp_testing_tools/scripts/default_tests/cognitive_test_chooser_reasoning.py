@@ -24,13 +24,15 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import CognitiveTestSelect
+from RappCloud import Service
+from RappCloud.CloudMsgs import CognitiveExerciseSelect
+
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.svc = CognitiveTestSelect(test_type='ReasoningCts')
+    self.cogSelMsg = CognitiveExerciseSelect(test_type='ReasoningCts')
+    self.svc = Service(self.cogSelMsg)
 
 
   def execute(self):

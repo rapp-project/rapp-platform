@@ -26,8 +26,9 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import SpeechDetectionSphinx4
+from RappCloud import Service
+from RappCloud.CloudMsgs import SpeechRecognitionSphinx
+
 
 class RappInterfaceTest:
 
@@ -36,14 +37,15 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     audioFile = path.join(pkgDir, 'test_data', 'deutera.wav')
 
-    self.svc = SpeechDetectionSphinx4(
+    self.msg = SpeechRecognitionSphinx(
         language='el',
         audio_source='headset',
         words=[u'Δευτέρα'],
         sentences=[u'Δευτέρα'],
         grammar=[u'Δευτέρα'],
-        audiofile=audioFile
-        )
+        audiofile=audioFile)
+
+    self.svc = Service(self.msg)
 
     self.valid_words_found = [u'Δευτέρα']
 
@@ -51,6 +53,7 @@ class RappInterfaceTest:
   def execute(self):
     start_time = timeit.default_timer()
     response = self.svc.call()
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

@@ -26,14 +26,15 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import OntologySubclassesof
+from RappCloud import Service
+from RappCloud.CloudMsgs import OntologySubclasses
 
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.svc = OntologySubclassesof(query='Oven')
+    self.msg= OntologySubclasses(query='Oven')
+    self.svc = Service(msg=self.msg)
     # Set the valid results
     self.valid_results = [
         'http://knowrob.org/kb/knowrob.owl#MicrowaveOven', \

@@ -26,8 +26,9 @@ from os import path
 
 __path__ = os.path.dirname(path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import SpeechDetectionSphinx4
+from RappCloud import Service
+from RappCloud.CloudMsgs import SpeechRecognitionSphinx
+
 
 class RappInterfaceTest:
 
@@ -35,15 +36,18 @@ class RappInterfaceTest:
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
     audioFile = path.join(pkgDir, 'test_data', 'microphone_nai.wav')
+    print audioFile
 
-    self.svc = SpeechDetectionSphinx4(
+
+    self.msg = SpeechRecognitionSphinx(
         language='el',
         audio_source='headset',
         words=[u'ναι', u'όχι'],
         sentences=[u'ναι', u'όχι'],
         grammar=[],
-        audiofile=audioFile
-        )
+        audiofile=audioFile)
+
+    self.svc = Service(self.msg)
 
     self.valid_words_found = [u'ναι']
 

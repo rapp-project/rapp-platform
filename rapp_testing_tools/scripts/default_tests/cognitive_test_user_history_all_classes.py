@@ -24,19 +24,20 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import CognitiveGetHistory
+from RappCloud import Service
+from RappCloud.CloudMsgs import CognitiveGetHistory
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.svc = CognitiveGetHistory(test_type='', time_from=0, time_to=10000000)
+    self.msg = CognitiveGetHistory(test_type='', time_from=0, time_to=10000000)
+    self.svc = Service(self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    # Call the RappCloud service
     response = self.svc.call()
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

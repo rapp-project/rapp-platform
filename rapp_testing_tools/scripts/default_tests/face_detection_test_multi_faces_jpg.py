@@ -25,8 +25,9 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import FaceDetection
+from RappCloud import Service
+from RappCloud.CloudMsgs import FaceDetection
+
 
 class RappInterfaceTest:
 
@@ -35,7 +36,9 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     imagepath = path.join(pkgDir, 'test_data',
         'face_samples', 'multi_faces_frames', 'multi_faces.jpg')
-    self.svc = FaceDetection(image=imagepath)
+
+    self.msg = FaceDetection(imageFilepath=imagepath, fast=False)
+    self.svc = Service(persistent=True, msg=self.msg)
 
     self.valid_minNumFaces = 2
 

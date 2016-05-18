@@ -25,8 +25,9 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import PathPlanningUploadMap
+from RappCloud import Service
+from RappCloud.CloudMsgs import PathPlanningUploadMap
+
 
 class RappInterfaceTest:
 
@@ -35,19 +36,15 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     testDatapath = path.join(pkgDir, 'test_data', 'path_planning')
 
-    self.validRes = {
-        'success': True,
-        'error': ''
-    }
-
     yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
     pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
 
-    self.svc = PathPlanningUploadMap(
+    self.msg = PathPlanningUploadMap(
         map_name='523_m_obstacle_2',
         yaml_file=yamlFile,
         png_file=pngFile
         )
+    self.svc = Service(msg=self.msg)
 
 
   def execute(self):
@@ -62,9 +59,6 @@ class RappInterfaceTest:
     error = response.error
     if error != "":
       return [error, self.elapsed_time]
-
-    if self.validRes == response.serialize():
-      return [True, self.elapsed_time]
     else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
+      return [True, self.elapsed_time]
 

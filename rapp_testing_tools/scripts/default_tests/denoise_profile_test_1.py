@@ -25,17 +25,18 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import SetNoiseProfile
+from RappCloud import Service
+from RappCloud.CloudMsgs import SetNoiseProfile
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    self.svc = SetNoiseProfile()
-    self.svc.audio_source = 'nao_wav_1_ch'
-    self.svc.audiofile = path.join(pkgDir, 'test_data', 'denoise_source.wav')
+    self.msg = SetNoiseProfile()
+    self.msg.req.audio_source = 'nao_wav_1_ch'
+    self.msg.req.audiofile = path.join(pkgDir, 'test_data', 'denoise_source.wav')
+    self.svc = Service(self.msg)
 
 
   def execute(self):

@@ -25,8 +25,8 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import (
+from RappCloud import Service
+from RappCloud.CloudMsgs import (
     PathPlanningPlan2D,
     PathPlanningUploadMap
     )
@@ -63,13 +63,13 @@ class RappInterfaceTest:
     yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
     pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
 
-    self.ppUploadMap = PathPlanningUploadMap(
+    self.ppUploadMapMsg = PathPlanningUploadMap(
         map_name='523_m_obstacle_2',
         yaml_file=yamlFile,
         png_file=pngFile
         )
 
-    self.ppPlan = PathPlanningPlan2D(
+    self.ppPlanMsg = PathPlanningPlan2D(
         map_name='523_m_obstacle_2',
         robot_type='NAO',
         algorithm='dijkstra',
@@ -77,15 +77,17 @@ class RappInterfaceTest:
         pose_goal=poseGoal
         )
 
+    self.svc = Service()
+
 
   def execute(self):
     start_time = timeit.default_timer()
-    resp = self.ppUploadMap.call()
+    resp = self.svc.call(self.ppUploadMapMsg)
     # If error occured while uploading map return error
     if resp.error != '':
        return self.validate(resp)
 
-    resp = self.ppPlan.call()
+    resp = self.svc.call(self.ppPlanMsg)
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time

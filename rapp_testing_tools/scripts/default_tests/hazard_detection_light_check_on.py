@@ -25,8 +25,9 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import HazardDetectionLightCheck
+from RappCloud import Service
+from RappCloud.CloudMsgs import HazardDetectionLight
+
 
 class RappInterfaceTest:
 
@@ -35,9 +36,8 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     imagepath = path.join(pkgDir, 'test_data',
         'hazard_detection_samples', 'lamp_on.jpg')
-    self.svc = HazardDetectionLightCheck(image=imagepath)
-
-    self.light_level = -1
+    self.msg = HazardDetectionLight(imageFilepath=imagepath)
+    self.svc = Service(self.msg)
 
 
   def execute(self):
@@ -53,8 +53,8 @@ class RappInterfaceTest:
     if error != "":
       return [error, self.elapsed_time]
 
-    self.light_level = response.light_level
-    if self.light_level > 50:
+    light_level = response.light_level
+    if light_level > 50:
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(response), self.elapsed_time]
