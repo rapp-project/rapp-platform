@@ -25,37 +25,41 @@ from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import Service
+from RappCloud.CloudMsgs import HumanDetection
+
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    self.file_uri = join(pkgDir, 'test_data',
+    self.image = join(pkgDir, 'test_data',
         'human_detection_samples', 'NAO_picture_3.png')
 
     self.valid_humans = [{
         'up_left_point': {'y': 30.0, 'x': 48.0},
         'down_right_point': {'y': 399.0, 'x': 232.0}
     }]
+    self.msg = HumanDetection(imageFilepath=self.image)
+    self.svc = Service(self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.rappCloud.human_detection(self.file_uri)
+    response = self.svc.call()
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
-    error = response['error']
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
 
-    humans = response['humans']
+    humans = response.humans
     if self.valid_humans == humans:
       return [True, self.elapsed_time]
     else:

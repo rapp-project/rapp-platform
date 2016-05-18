@@ -24,7 +24,9 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Geolocation
+from RappCloud import Service
+from RappCloud.CloudMsgs import Geolocation
+
 
 class RappInterfaceTest:
 
@@ -41,14 +43,14 @@ class RappInterfaceTest:
         'error': ''
     }
 
-    self.svc = Geolocation(ipaddr='104.16.115.182')
+    self.msg = Geolocation(ipaddr='104.16.115.182')
+    self.svc = Service(self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
     # Call the Python RappCloud service
     response = self.svc.call()
-    print response
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
@@ -56,6 +58,8 @@ class RappInterfaceTest:
 
 
   def validate(self, response):
+    error = response.error
+    print response.serialize()
 
     if self.validResults == response.serialize():
         return [True, self.elapsed_time]

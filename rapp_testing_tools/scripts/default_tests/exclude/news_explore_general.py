@@ -25,8 +25,9 @@ from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import NewsExplore
+from RappCloud import Service
+from RappCloud.CloudMsgs import NewsExplore
+
 
 class RappInterfaceTest:
 
@@ -34,13 +35,21 @@ class RappInterfaceTest:
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
 
-    self.svc = NewsExplore(news_engine='', keywords=[], exclude_titles=[],
-                           region='', topic='', num_news=5)
+    self.msg = NewsExplore(
+        news_engine='',
+        keywords=[],
+        exclude_titles=[],
+        region='',
+        topic='',
+        num_news=5)
+
+    self.svc = Service(self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
     response = self.svc.call()
+
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

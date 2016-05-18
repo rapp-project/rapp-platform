@@ -25,13 +25,14 @@ from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import EmailFetch
+from RappCloud import Service
+from RappCloud.CloudMsgs import EmailFetch
+
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.svc = EmailFetch(
+    self.msg = EmailFetch(
         email='rapp.platform@gmail.com',
         password='',
         server='imap.gmail.com',
@@ -39,11 +40,9 @@ class RappInterfaceTest:
         date_from=0,
         date_to=100000000,
         email_status='',
-        num_emails=1
-    )
+        num_emails=1)
 
-    rospack = rospkg.RosPack()
-    pkgDir = rospack.get_path('rapp_testing_tools')
+    self.svc = Service(self.msg)
 
 
   def execute(self):

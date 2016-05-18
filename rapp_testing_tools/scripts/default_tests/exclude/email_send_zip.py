@@ -25,8 +25,8 @@ from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import EmailSend
+from RappCloud import Service
+from RappCloud.CloudMsgs import EmailSend
 
 class RappInterfaceTest:
 
@@ -35,7 +35,8 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     zipFile = join(pkgDir, 'test_data', 'zip_files', \
             'image_audio_sample.zip')
-    self.svc = EmailSend(
+
+    self.msg = EmailSend(
         email='rapp.platform@gmail.com',
         password='',
         server='smtp.gmail.com',
@@ -44,6 +45,8 @@ class RappInterfaceTest:
         body='Rapp Send Email Test',
         subject='Rapp Send Email Test',
         attach_file=zipFile)
+
+    self.svc = Service(self.msg)
 
 
   def execute(self):
