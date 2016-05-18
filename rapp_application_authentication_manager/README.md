@@ -112,5 +112,69 @@ Launches the **rapp application authentication** node and can be invoked using:
 roslaunch rapp_application_authentication_manager application_authentication.launch
 ```
 
-# HOP Services
+# Web Services
 
+## Login User
+
+Service URL: `localhost:9001/hop/login_user`
+
+### Input/Output
+
+```
+Input = {
+    username: '',
+    password: '',
+    device_token: ''
+}
+```
+```
+Output = {
+    token: '',
+    error: ''
+}
+```
+
+
+## Register user from Platform
+
+Service URL: `localhost:9001/hop/register_user_from_platform`
+
+### Input/Output
+
+```
+Input = {
+    creator_username: '',
+    creator_password: '',
+    new_user_username: '',
+    new_user_password: '',
+    language: ''
+}
+```
+```
+Output = {
+    suggested_username: '',
+    error: ''
+}
+```
+
+
+## Register user from Store
+
+Service URL: `localhost:9001/hop/register_user_from_store`
+
+### Input/Output
+
+```
+Input = {
+    username: '',
+    password: '',
+    device_token: '',
+    language: ''
+}
+```
+```
+Output = {
+    suggested_username: '',
+    error: ''
+}
+```
