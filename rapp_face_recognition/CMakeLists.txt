@@ -58,18 +58,18 @@ add_dependencies(face_recognition_ros_node
   ${catkin_EXPORTED_TARGETS}
 )
 
-## Tests
-#if (CATKIN_ENABLE_TESTING)
-#  # unit tests
-#  catkin_add_gtest(face_recognition_unit_test
-#    tests/face_recognition/unit_tests.cpp
-#    )
-#  target_link_libraries(face_recognition_unit_test
-#    ${catkin_LIBRARIES}
-#    face_recognizer_lib
-#    gtest_main
-#    )
-#
-#  # functional tests
-#  add_rostest(tests/face_recognition/functional_tests.launch)
-#endif()
+# Tests
+if (CATKIN_ENABLE_TESTING)
+  # unit tests
+  catkin_add_gtest(face_recognition_unit_test
+    tests/face_recognition/unit_tests.cpp
+    )
+  target_link_libraries(face_recognition_unit_test
+    ${catkin_LIBRARIES}
+    face_recognizer_lib
+    gtest_main
+    )
+
+  # functional tests
+  add_rostest(tests/face_recognition/functional_tests.launch)
+endif()

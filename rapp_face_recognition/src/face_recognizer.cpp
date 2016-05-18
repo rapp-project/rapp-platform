@@ -77,7 +77,7 @@ std::string FaceRecognizer::learnFace(std::string fn_csv) // method needs at lea
 	// These vectors hold the images and corresponding labels:
 	std::vector<cv::Mat> images;
 	std::vector<int> labels;
-
+	
 	// Read in the data (fails if no valid input filename is given, but you'll get an error message):
 	try {
 		FaceRecognizer::read_csv(fn_csv, images, labels); 
@@ -87,23 +87,21 @@ std::string FaceRecognizer::learnFace(std::string fn_csv) // method needs at lea
 		// nothing more we can do
 		exit(1);
 	}
-
-	int im_width = images[0].cols;
-	int im_height = images[0].rows;
-	//std::cout << "Face image size: " << im_width << ", " << im_height << "\n";
-	if (images.size() > 1){
+		
+	if (images.size() > 1 && images[0].cols>0){
+		int im_width = images[0].cols;
+		int im_height = images[0].rows;
 		// Create a FaceRecognizer and train it on the given images:
 		cv::Ptr<cv::FaceRecognizer> model = cv::createFisherFaceRecognizer(); // the Fisherfaces method needs at least two classes to learn a model
 		model->train(images, labels);
 
-
 		// save the model to eigenfaces_recog.yaml
 		model->save("eigenfaces_recog.yml");
-
+	
 		return "eigenfaces_recog.yml";
 	}
 	else{
-		std::string error_message = "Face recognizer needs at least two classes to learn a model";
+		std::string error_message = "Face recognizer needs at least two classes to learn a model; Check path to the image";
 		CV_Error(CV_StsBadArg, error_message);
 		return "";
 	}
@@ -126,14 +124,22 @@ std::vector< int > FaceRecognizer::recognizeFace(cv::Mat & img_, std::vector< cv
 	//
 	cv::Ptr<cv::FaceRecognizer> model = cv::createEigenFaceRecognizer();
 	
-	model->load(model_name_);// "eigenfaces_recog.yml");
+	std::vector< int > prediction_vec;
+	predictedConfidenceVec.clear(); // clears the vector
 
+	try{
+		model->load(model_name_);// "eigenfaces_recog.yml");
+	}
+	catch(...)
+	{
+		std::cerr<<"File don't exists\n";
+		return prediction_vec;
+	}
 	// Convert the current frame to grayscale:
 	cv::Mat gray;
 	cvtColor(img_, gray, CV_BGR2GRAY);
 
-	std::vector< int > prediction_vec;
-	predictedConfidenceVec.clear(); // clears the vector
+	
 
 
 	for (int i = 0; i < faces_.size(); i++) {
@@ -161,6 +167,9 @@ std::vector< int > FaceRecognizer::recognizeFace(cv::Mat & img_, std::vector< cv
 		try{
 			// Draw a green rectangle around the detected face on the given image:
 			cv::rectangle(img_, face_i, CV_RGB(0, 255, 0), 1);
+			if (predicted_confidence>1250){ //distance is to large, so probably face in unknown
+				predicted_label = -1;
+			}
 			// Create the text we will annotate the box with:
 			std::string box_text = cv::format("Prediction = %d", predicted_label);
 			//std::string box_text = cv::format("Prediction = %d, confidence = %f", predicted_label, predicted_confidence);

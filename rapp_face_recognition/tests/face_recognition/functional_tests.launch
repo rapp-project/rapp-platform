@@ -1,0 +1,7 @@
+<launch> 
+   <node type="face_recognition_ros_node" pkg="rapp_face_recognition" name="rapp_face_recognition"/> 
+   <test time-limit="100" test-name="face_recognition_functional" pkg="rapp_face_recognition" type="functional_tests.py"/> 
+  <rosparam file="$(find rapp_face_recognition)/cfg/face_recognition_params.yaml" 
+    command="load" />
+ </launch> 
+ 
