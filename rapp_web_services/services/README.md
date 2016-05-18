@@ -54,9 +54,9 @@ These services are used in order to communicate with the RAPP Platform ecosystem
 |                                                                 |                                                                               |
 | *Authentication-Registration*                                   |                                                                               |
 |                                                                 |                                                                               |
-| login_user			                                  |  Login existing user							  |
-| register_user_from_platform	                                  |  Add new platform user using platform credentials				  |
-| register_user_from_store	                                  |  Add new platform user using rapp_store credentials				  |
+| [Login-User](#login-user)			                  |  Login existing user							  |
+| [Register-User-From-Platform](#register-user-from-platform)	  |  Add new platform user using RAPP-Platform credentials			  |
+| [Register-User-From-Store](#register-user-from-store)	          |  Add new platform user using RAPP-Store credentials				  |
 |                                                                 |                                                                               |
 |           *Other*                                               |                                                                               |
 |                                                                 |                                                                               |
@@ -125,7 +125,7 @@ Content-Disposition: form-data; name="file"; filename="Lenna.jpg"
 ##### Service request arguments
 
 ```js
-{file: '', fast: false}
+{ file: '', fast: false }
 ```
 
 - **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
@@ -154,7 +154,7 @@ face: { up_left_point: {<point>}, down_right_point: {<point>} }
 and **point** coordinates are presented in Cartesian Coordinate System as:
 
 ```js
-point: {x: <value_int>, y: <value_int>}
+point: { x: <value_int>, y: <value_int> }
 ```
 
 Response Sample:
@@ -181,7 +181,7 @@ Response Sample:
 ##### Service request arguments
 
 ```js
-{file: ''}
+{ file: '' }
 ```
 
 - **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
@@ -197,7 +197,7 @@ application/json response.
 where **point_n** coordinates are presented in Cartesian Coordinate System as:
 
 ```js
-point: {x: <value_int>, y: <value_int>}
+point: { x: <value_int>, y: <value_int> }
 ```
 
 - **qr_centers** (Array): Vector of points (x,y) of found QR in the image frame.
@@ -225,7 +225,7 @@ Response Sample:
 ##### Service request arguments
 
 ```js
-{file: ''}
+{ file: '' }
 ```
 
 - **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
@@ -236,7 +236,7 @@ Response Sample:
 application/json response.
 
 ```js
-{door_angle: 0, error: ""}
+{ door_angle: 0, error: "" }
 ```
 
 
@@ -255,7 +255,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{file: ''}
+{ file: '' }
 ```
 
 - **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
@@ -266,7 +266,7 @@ application/json response.
 application/json response.
 
 ```js
-{light_level: 0, error: ""}
+{ light_level: 0, error: "" }
 ```
 
 
@@ -285,7 +285,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{file: ''}
+{ file: '' }
 ```
 
 - **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
@@ -296,7 +296,7 @@ application/json response.
 application/json response.
 
 ```js
-{humans: [{<human_1>}, ..., {<human_n>}], error: ""}
+{ humans: [{<human_1>}, ..., {<human_n>}], error: "" }
 ```
 
 - **humans** (Array): Array of detected humans.
@@ -312,7 +312,7 @@ human: { up_left_point: {x: 0, y: 0}, down_right_point: {x: 0, y: 0} }
 Each point (x, y) is presented in Cartesian Coordinate System as:
 
 ```js
-point2D: {x: <val, y: <val>}
+point2D: { x: <val, y: <val> }
 ```
 
 #### Object-Recognition-Caffe
@@ -326,7 +326,7 @@ point2D: {x: <val, y: <val>}
 ##### Service request arguments
 
 ```js
-{file: ''}
+{ file: '' }
 ```
 
 - **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
@@ -337,7 +337,7 @@ point2D: {x: <val, y: <val>}
 application/json response.
 
 ```js
-{object_class: '', error: ''}
+{ object_class: '', error: '' }
 ```
 
 - **object_class** (String): Recognized object class.
@@ -359,7 +359,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{file: '', audio_source: ''} 
+{ file: '', audio_source: '' }
 ```
 
 - **file**: Path to the uploaded file (**audio file**), stored by hop-server. This is the form-data name to attach the file to.
@@ -459,7 +459,7 @@ The following Platform services give access to the Platform integrated Ontology 
 ##### Service request arguments
 
 ```js
-{query: ''}
+{ query: '' }
 ```
 - **query** (String): The query to the ontology database.
 
@@ -497,7 +497,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{query: ''}
+{ query: '' }
 ```
 
 - **query** (String): The query to the ontology database.
@@ -707,7 +707,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{ email: '', passwd: '', server: '', port: '', email_status: '', from_date: 0, to_date: 0, num_emails: 0 } 
+{ email: '', passwd: '', server: '', port: '', email_status: '', from_date: 0, to_date: 0, num_emails: 0 }
 ```
 
 - **email** (String): The user's email username
@@ -730,10 +730,10 @@ application/json response.
 where emailEntry is an object of structure:
 
 ```js
-{sender: '', receivers: [], body: '', date: '', body: '', attachments: []}
+{ sender: '', receivers: [], body: '', date: '', body: '', attachments: [] }
 ```
 
-- **emails** (Array): An array of emailEntry objects. 
+- **emails** (Array): An array of emailEntry objects.
 - **error** (String): Error message, if one occures.
 
 
@@ -748,7 +748,7 @@ where emailEntry is an object of structure:
 ##### Service request arguments
 
 ```js
-{ email: '', passwd: '', server: '', port: '', recipients: [], body: '', subject: '', file: '' } 
+{ email: '', passwd: '', server: '', port: '', recipients: [], body: '', subject: '', file: '' }
 ```
 
 - **email** (String): The user's email username
@@ -800,9 +800,11 @@ application/json response.
 application/json response.
 
 ```javascript
-{ 
-  weather_current: {date: '', temperature: '', weather_description: '', humidity: '',
-                 		visibility: '', pressure: '', wind_speed: '', wind_temperature: '', wind_direction: ''},
+{
+  weather_current: {
+    date: '', temperature: '', weather_description: '', humidity: '', visibility: '',
+    pressure: '', wind_speed: '', wind_temperature: '', wind_direction: ''
+  },
   error: ''
 }
 ```
@@ -829,7 +831,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{ city: '', weather_reporter: '', metric: 0 } 
+{ city: '', weather_reporter: '', metric: 0 }
 ```
 
 - **city** (String): The desirec city
@@ -850,7 +852,7 @@ application/json response.
 
 where forecast entries are forecastEntry objects:
 
-{high_temp: '', low_temp: '', description: '', date: ''}
+{ high_temp: '', low_temp: '', description: '', date: '' }
 
 
 
@@ -869,7 +871,7 @@ where forecast entries are forecastEntry objects:
 ##### Service request arguments
 
 ```js
-{ map_name: '', robot_type: '', algorithm: '', start: {}, goal: {} } 
+{ map_name: '', robot_type: '', algorithm: '', start: {}, goal: {} }
 ```
 
 - **map_name** (String): The map name to use.
@@ -926,6 +928,108 @@ More information on argument values under the [rapp_path_planning package](https
 - **error** (String): Error message, if one occures.
 
 
+---------------------------------
+### Authentication - Registration
+---------------------------------
+
+
+#### Login-User
+
+##### Service-Url
+
+```
+/hop/login_user
+```
+
+##### Service request arguments
+
+```js
+{ username: '', password: '', device_token }
+```
+
+- **username** (String): Account username.
+- **password** (String): Account password.
+- **device_token** (String): The device (token) from which a user tries to login.
+
+
+##### Service response
+
+application/json response.
+
+```javascript
+{ token: '', error: '' }
+```
+
+- **token** (String): Token used for accessing RAPP-Platform resources.
+- **error** (String): Error message, if one occures.
+
+
+#### Register-User-From-Platform
+
+##### Service-Url
+
+```
+/hop/register_user_from_platform
+```
+
+##### Service request arguments
+
+```js
+{ creator_username: '', creator_password: '', new_user_username: '', new_user_password: '', language: '' }
+```
+
+- **creator_username** (String): Creator's (robot-admin) RAPP-Platform account username.
+- **creator_password** (String): Creator's (robot-admin) RAPP-Platform account password.
+- **new_user_username** (String): New user's account username.
+- **new_user_password** (String): New user's account password.
+- **language** (String): New user's language.
+
+
+##### Service response
+
+application/json response.
+
+```javascript
+{ suggested_username: '', error: '' }
+```
+
+- **suggested_username** (String): Suggested username if the provided one already exists.
+- **error** (String): Error message, if one occures.
+
+
+#### Register-User-From-Store
+
+##### Service-Url
+
+```
+/hop/register_user_from_store
+```
+
+##### Service request arguments
+
+```js
+{ username: '', password: '', device_token: '', language: '' }
+```
+
+- **username** (String): New user's username.
+- **password** (String): New user's password.
+- **device_token** (String): Creator device token from RAPP Store.
+- **language** (String): New user's account language.
+
+
+##### Service response
+
+application/json response.
+
+```javascript
+{ suggested_username: '', error: '' }
+```
+
+- **suggested_username** (String): Suggested username if the provided one already exists.
+- **error** (String): Error message, if one occures.
+
+
+
 
 ---------------------------------
 ### Other
@@ -943,7 +1047,7 @@ More information on argument values under the [rapp_path_planning package](https
 ##### Service request arguments
 
 ```js
-{text: '', language: ''}
+{ text: '', language: '' }
 ```
 
 - **text** (String): Input text to translate to audio data.
@@ -996,7 +1100,7 @@ None.
 ##### Service request arguments
 
 ```js
-{ipaddr: '', engine: ''}
+{ ipaddr: '', engine: '' }
 ```
 
 - **ipaddr**: The machine's ipaddr
@@ -1012,7 +1116,7 @@ application/json response.
 
 - **city**: (String): The city.
 - **country** (String): The country.
-- **contry_code** (String): The country code.
+- **country_code** (String): The country code.
 - **latitude**: (Float): The latitude.
 - **longtitude** (Float): The longtitude.
 - **timezone** (String): The timezone.
@@ -1031,7 +1135,7 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{news_engine: '', keywords: [], exclude_titles: [], region: '', topic: '', num_news: 0}
+{ news_engine: '', keywords: [], exclude_titles: [], region: '', topic: '', num_news: 0 }
 ```
 
 - **news_engine** (String): The news search engine to use.
