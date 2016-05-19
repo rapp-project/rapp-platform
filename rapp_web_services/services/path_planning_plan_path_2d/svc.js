@@ -77,7 +77,17 @@ function svcImpl ( req, resp, ros )
  * Craft response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
  *  @returns {Object} response - Response Object.
+ *  @returns {Array} response.path - if plan_found is true, this is an array
+ *    of waypoints from start to goal, where the first one equals start and
+ *    the last one equals goal.
+ *  @returns {Number} response.plan_found - Plan status:
+ *    - 0 : path cannot be planned.
+ *    - 1 : path found.
+ *    - 2 : wrong map name.
+ *    - 3 : wrong robot type.
+ *    - 4 : wrong algorithm.
  *
  */
 function parseRosbridgeMsg(rosbridge_msg)
@@ -85,11 +95,14 @@ function parseRosbridgeMsg(rosbridge_msg)
   error = rosbridge_msg.error_message;
 
   var response = new interfaces.client_res();
+
   if( error ){
     response.error = error;
     return response;
   }
 
+  response.path = rosbridge_msg.path;
+  response.plan_found = rosbridge_msg.plan_found;
   return response;
 }
 
