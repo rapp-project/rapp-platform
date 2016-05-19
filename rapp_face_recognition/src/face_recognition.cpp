@@ -43,10 +43,12 @@ bool FaceRecognition::faceRecognitionCallback(
   rapp_platform_ros_communications::FaceRecognitionRosSrv::Request& req,
   rapp_platform_ros_communications::FaceRecognitionRosSrv::Response& res)
 {
+	std::string folder_path = "/rapp_platform_files/";
+	std::string folder = folder_path + req.user + std::string("/");
 	std::string model_name = req.model_name;
 
 	if (req.learn == true){
-		model_name = face_recognizer_.learnFace(req.fn_csv); // run learnFace
+		model_name = face_recognizer_.learnFace(req.fn_csv, folder, model_name); // run learnFace
 		
 		//responses
 		res.model_name = model_name;

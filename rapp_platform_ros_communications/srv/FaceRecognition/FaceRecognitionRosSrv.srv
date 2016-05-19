@@ -13,6 +13,8 @@ string model_name
 # Container for detected face positions
 geometry_msgs/PointStamped[] faces_up_left
 geometry_msgs/PointStamped[] faces_down_right
+# User name
+string user
 ---
 
 string model_name

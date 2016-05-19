@@ -24,6 +24,7 @@ limitations under the License.
 
 #include <face_recognition/face_recognizer.h>
 
+
 /**
  * @class FaceRecognition
  * @brief Class FaceRecognition uptakes the task of handling the ROS service callbacks

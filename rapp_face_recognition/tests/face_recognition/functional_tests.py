@@ -66,7 +66,7 @@ class FaceRecogFunc(unittest.TestCase):
         face_id = response.recognizedIDs[len(response.recognizedIDs)-1]
         self.assertEqual( face_id, 11 )
 
-    ## Tests face recognition with an image. Should return faceID equal to 11
+    ## Tests learn face model and face recognition with an image. Should return faceID equal to 11
     def test_faceLearn_realistic(self):
         rospack = rospkg.RosPack()
         face_service = rospy.get_param("rapp_face_recognition_recognize_faces_topic")
@@ -78,9 +78,10 @@ class FaceRecogFunc(unittest.TestCase):
         req.learn = True
         req.fn_csv = rospack.get_path('rapp_testing_tools') + \
                 '/test_data/face_samples/face_recognition_model/faces-1.csv'
-        req.recognize = False
-        req.model_name = rospack.get_path('rapp_testing_tools') + \
-                '../../../build/rapp-platform/rapp_face_recognition/eigenfaces_recog.yml'
+        req.model_name = 'eigenfaces_recog_new.yml'
+        req.user = 'Jan'
+        req.recognize = True
+        ## Faces
         faces_up_left = PointStamped()
         # data for the given image (face_recog_1.png) # 263,119;369,225; 
         faces_up_left.point.x = 263;
@@ -94,12 +95,13 @@ class FaceRecogFunc(unittest.TestCase):
         list_faces_down_right.append(faces_down_right)
         req.faces_up_left = list_faces_up_left
         req.faces_down_right = list_faces_down_right
+
         
         response = fr_service(req)
         face_id = -1
         if (len(response.recognizedIDs) > 0):
             face_id = response.recognizedIDs[len(response.recognizedIDs)-1]
-        self.assertEqual( 11,11)#face_id, 11 )
+        self.assertEqual( face_id, 11 )
    
 
 ## The main function. Initializes the functional tests

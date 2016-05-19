@@ -143,11 +143,15 @@ TEST_F(FaceRecognitionTest, learn_face_model_test)
   cv::cvtColor(img, gray, CV_BGR2GRAY);
   haar_cascade.detectMultiScale(gray, faces);
   // Learn faces
-  std::string model_name = face_recognizer_->learnFace(path + std::string("/test_data/face_samples/face_recognition_model/faces-s.csv")); // run learnFace
+  struct passwd *pw = getpwuid(getuid());
+  const char *homedir = pw->pw_dir; // return path to the home directory
+  std::string path_model = "/rapp_platform_files/";
+  std::string user = "Jan";
+  std::string model_name = face_recognizer_->learnFace(path + std::string("/test_data/face_samples/face_recognition_model/faces-s.csv"), path_model+user+std::string("/"), std::string("face_model.yml")); // run learnFace
   // Recognize faces
   std::vector< double > predictedConfidenceVec;
   std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, model_name, predictedConfidenceVec);
-  EXPECT_EQ(model_name,"eigenfaces_recog.yml");
+  EXPECT_EQ(model_name, homedir + path_model + user + std::string("/") + std::string("face_model.yml") );
 }
 /**
  * @brief The main function. Initialized the unit tests

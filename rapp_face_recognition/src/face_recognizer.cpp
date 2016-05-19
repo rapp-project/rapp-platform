@@ -13,9 +13,11 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+written by Jan Figat
 ******************************************************************************/
 
 #include <face_recognition/face_recognizer.h>
+
 
 /** 
  * @brief Default constructor
@@ -71,12 +73,13 @@ void FaceRecognizer::read_csv(const std::string& filename, std::vector<cv::Mat>&
      * @param   fn_csv [std::string] Path to the CSV file with the face database
      * @return  [std::string] The model's URL
      */
-std::string FaceRecognizer::learnFace(std::string fn_csv) // method needs at least two classes to learn a model
+std::string FaceRecognizer::learnFace(std::string fn_csv, std::string folder, std::string model_name) // method needs at least two classes to learn a model
 	// faces should be visible on the dark homogeneous background
 {
 	// These vectors hold the images and corresponding labels:
 	std::vector<cv::Mat> images;
 	std::vector<int> labels;
+	
 	
 	// Read in the data (fails if no valid input filename is given, but you'll get an error message):
 	try {
@@ -87,6 +90,18 @@ std::string FaceRecognizer::learnFace(std::string fn_csv) // method needs at lea
 		// nothing more we can do
 		exit(1);
 	}
+
+	// Find home directory
+	struct passwd *pw = getpwuid(getuid());
+	const char *homedir = pw->pw_dir; // return path to the home directory
+	// Set folder path
+	std::string folder_path = homedir + folder;
+	// Create user folder, if the directory does not already exists -- for Linux
+	struct stat st = {0};
+	if (stat(folder_path.c_str(), &st) == -1) {
+		mkdir(folder_path.c_str(), 0700);
+	}
+	
 		
 	if (images.size() > 1 && images[0].cols>0){
 		int im_width = images[0].cols;
@@ -95,13 +110,14 @@ std::string FaceRecognizer::learnFace(std::string fn_csv) // method needs at lea
 		cv::Ptr<cv::FaceRecognizer> model = cv::createFisherFaceRecognizer(); // the Fisherfaces method needs at least two classes to learn a model
 		model->train(images, labels);
 
+
 		// save the model to eigenfaces_recog.yaml
-		model->save("eigenfaces_recog.yml");
+		model->save(folder_path+model_name);
 	
-		return "eigenfaces_recog.yml";
+		return (folder_path+model_name);
 	}
 	else{
-		std::string error_message = "Face recognizer needs at least two classes to learn a model; Check path to the image";
+		std::string error_message = "Face recognizer needs at least two classes to learn a model; Check path to images";
 		CV_Error(CV_StsBadArg, error_message);
 		return "";
 	}
