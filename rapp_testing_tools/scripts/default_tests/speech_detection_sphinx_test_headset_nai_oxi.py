@@ -26,7 +26,7 @@ from os import path
 
 __path__ = os.path.dirname(path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import SpeechRecognitionSphinx
 
 
@@ -45,7 +45,7 @@ class RappInterfaceTest:
         grammar=[],
         audiofile=audioFile)
 
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
     self.valid_words_found = [u'ναι']
 

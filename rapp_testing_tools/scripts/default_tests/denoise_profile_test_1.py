@@ -25,7 +25,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import SetNoiseProfile
 
 class RappInterfaceTest:
@@ -36,7 +36,7 @@ class RappInterfaceTest:
     self.msg = SetNoiseProfile()
     self.msg.req.audio_source = 'nao_wav_1_ch'
     self.msg.req.audiofile = path.join(pkgDir, 'test_data', 'denoise_source.wav')
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
 
   def execute(self):

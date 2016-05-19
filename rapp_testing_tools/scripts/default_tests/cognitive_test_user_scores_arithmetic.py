@@ -24,7 +24,7 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import CognitiveGetScores
 
 
@@ -32,7 +32,7 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.msg = CognitiveGetScores(test_type='ArithmeticCts', time_to=10000000)
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
 
   def execute(self):

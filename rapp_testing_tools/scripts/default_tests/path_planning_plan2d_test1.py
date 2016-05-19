@@ -25,7 +25,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import (
     PathPlanningPlan2D,
     PathPlanningUploadMap
@@ -42,22 +42,22 @@ class RappInterfaceTest:
     poseStart = {
         'header':{
             'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
-            },
+        },
         'pose': {
-            'position': {'x': 10, 'y': 10, 'z': 20},
+            'position': {'x': 100, 'y': 100, 'z': 0},
             'orientation': {'x': 0, 'y': 0, 'z': 0, 'w': 0}
-            }
         }
+    }
 
     poseGoal = {
         'header':{
             'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
-            },
+        },
         'pose': {
-            'position': {'x': 120, 'y': 10, 'z': 20},
+            'position': {'x': 30, 'y': 10, 'z': 0},
             'orientation': {'x': 0, 'y': 0, 'z': 20, 'w': 0}
-            }
         }
+    }
 
 
     yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
@@ -77,7 +77,7 @@ class RappInterfaceTest:
         pose_goal=poseGoal
         )
 
-    self.svc = Service()
+    self.svc = RappPlatformService()
 
 
   def execute(self):
@@ -88,6 +88,7 @@ class RappInterfaceTest:
        return self.validate(resp)
 
     resp = self.svc.call(self.ppPlanMsg)
+    print resp.serialize()
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time

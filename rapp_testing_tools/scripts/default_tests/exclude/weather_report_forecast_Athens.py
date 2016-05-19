@@ -24,7 +24,7 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import WeatherReportForecast
 
 class RappInterfaceTest:
@@ -35,13 +35,12 @@ class RappInterfaceTest:
     self.msg.req.weather_reporter = ''
     self.msg.req.metric = 0
 
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
     response = self.svc.call()
-
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

@@ -24,7 +24,7 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import CognitiveExerciseSelect
 
 
@@ -32,12 +32,11 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.cogSelMsg = CognitiveExerciseSelect(test_type='ReasoningCts')
-    self.svc = Service(self.cogSelMsg)
+    self.svc = RappPlatformService(self.cogSelMsg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    # Call the Python RappCloud service
     response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time

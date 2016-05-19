@@ -26,7 +26,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import SpeechRecognitionGoogle
 
 
@@ -43,7 +43,7 @@ class RappInterfaceTest:
         audio_source='nao_ogg',
         audiofile=audioFile)
 
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
     self.valid_words_found = ['check', 'my', 'mail']
 

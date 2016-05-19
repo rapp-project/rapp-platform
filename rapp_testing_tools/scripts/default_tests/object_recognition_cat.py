@@ -26,7 +26,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import ObjectRecognitionCaffe
 
 class RappInterfaceTest:
@@ -36,7 +36,7 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     imagepath = path.join(pkgDir, 'test_data', 'cat.jpg')
     self.msg = ObjectRecognitionCaffe(imageFilepath=imagepath)
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
     self.validResponse = {
         'object_class': 'boa constrictor, Constrictor constrictor',
         'error': ''

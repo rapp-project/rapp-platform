@@ -26,7 +26,7 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import OntologyIsSubsuperclass
 
 
@@ -39,7 +39,7 @@ class RappInterfaceTest:
         parent_class='SpatialThing',
         child_class='Oven',
         recursive=True)
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
 
 

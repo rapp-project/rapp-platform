@@ -26,36 +26,37 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-## ------ Access the RappCloud python module ------- ##
-from RappCloud import RappCloud
+from RappCloud import RappPlatformService
+## from RappCloud.CloudMsgs import FaceDetection
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.rappCloud = RappCloud()
-
-    # Configure the call parameters
-    self.file_uri = __path__  + '/../test_data/YOUR_DATA_HERE_IF_NEEDED'
-    # Set the valid results
-    self.valid_results = 0
+    ## Initialize a new RappPlatformService
+    self.svc = RappPlatformService(self.msg)
+    ## Create a CloudMsg
+    # self.msg = FaceDetection()
+    ## Set CloudMsg properties
+    # self.file_uri = __path__ + '/../test_data/YOUR_DATA_HERE_IF_NEEDED'
+    ## Set the valid results
+    # self.valid_results = {}
 
   def execute(self):
-
     start_time = timeit.default_timer()
-    # Call the Python RappCloud service
-    response = self.rappCloud.qr_detection(self.file_uri)
+    ## Call the Python RappCloud service
+    self.svc.call(self.msg)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
+
   def validate(self, response):
-    error = response['error']
+    ## Check if an error occured.
+    error = response.error
     if error != "":
       return [error, self.elapsed_time]
-
-    return_data = response['qr_centers']
-    # Check if the returned data are equal to the expected
-    if self.valid_results == return_data:
+    ## Validate response
+    if self.valid_results == response.serialize():
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(return_data), self.elapsed_time]

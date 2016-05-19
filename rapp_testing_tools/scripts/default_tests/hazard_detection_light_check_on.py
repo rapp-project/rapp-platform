@@ -25,7 +25,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import HazardDetectionLight
 
 
@@ -37,12 +37,13 @@ class RappInterfaceTest:
     imagepath = path.join(pkgDir, 'test_data',
         'hazard_detection_samples', 'lamp_on.jpg')
     self.msg = HazardDetectionLight(imageFilepath=imagepath)
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
     response = self.svc.call()
+    print response.serialize()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

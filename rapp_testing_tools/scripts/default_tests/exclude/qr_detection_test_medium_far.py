@@ -26,7 +26,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import QrDetection
 
 
@@ -38,7 +38,7 @@ class RappInterfaceTest:
     imagepath = path.join(pkgDir, 'test_data','qr_samples', 'mediumFarQr.jpg')
 
     self.msg = QrDetection(imageFilepath=imagepath)
-    self.svc = Service(msg=self.msg)
+    self.svc = RappPlatformService(msg=self.msg)
 
     self.valid_results = {
         'qr_centers': [{'y': 585, 'x': 690}],

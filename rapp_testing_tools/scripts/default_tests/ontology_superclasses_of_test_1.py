@@ -26,7 +26,7 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import OntologySuperclasses
 
 
@@ -34,8 +34,7 @@ class RappInterfaceTest:
 
   def __init__(self):
     self.msg = OntologySuperclasses(query='Oven')
-    self.svc = Service(msg=self.msg)
-    # Set the valid results
+    self.svc = RappPlatformService(msg=self.msg)
     self.valid_results = [ 'http://knowrob.org/kb/knowrob.owl#Box-Container',\
       'http://knowrob.org/kb/knowrob.owl#FurniturePiece', \
       'http://knowrob.org/kb/knowrob.owl#HeatingDevice', \
@@ -44,7 +43,6 @@ class RappInterfaceTest:
 
   def execute(self):
     start_time = timeit.default_timer()
-    # Call the Python RappCloud service
     response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time

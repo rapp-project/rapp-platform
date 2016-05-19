@@ -24,7 +24,7 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import CognitiveGetHistory
 
 
@@ -35,7 +35,7 @@ class RappInterfaceTest:
         test_type='ArithmeticCts',
         time_from=0,
         time_to=10000000)
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
 
   def execute(self):

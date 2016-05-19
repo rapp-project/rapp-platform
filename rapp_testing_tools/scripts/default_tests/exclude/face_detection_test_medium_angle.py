@@ -25,7 +25,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import FaceDetection
 
 
@@ -38,7 +38,7 @@ class RappInterfaceTest:
         'face_samples', 'etsardou_medium_angle.jpg')
 
     self.msg = FaceDetection(imageFilepath=imagepath, fast=False)
-    self.svc = Service(persistent=True, msg=self.msg)
+    self.svc = RappPlatformService(persistent=True, msg=self.msg)
 
     self.valid_faces = [{
         'up_left_point': {'y': 266.0, 'x': 746.0},

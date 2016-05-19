@@ -25,7 +25,7 @@ from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import NewsExplore
 
 
@@ -43,13 +43,12 @@ class RappInterfaceTest:
         topic='',
         num_news=5)
 
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
     response = self.svc.call()
-
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)

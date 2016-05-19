@@ -25,7 +25,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import PathPlanningUploadMap
 
 
@@ -44,7 +44,7 @@ class RappInterfaceTest:
         yaml_file=yamlFile,
         png_file=pngFile
         )
-    self.svc = Service(msg=self.msg)
+    self.svc = RappPlatformService(msg=self.msg)
 
 
   def execute(self):

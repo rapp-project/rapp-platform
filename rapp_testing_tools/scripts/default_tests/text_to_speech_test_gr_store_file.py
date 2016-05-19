@@ -23,7 +23,7 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import TextToSpeech
 
 
@@ -32,7 +32,7 @@ class RappInterfaceTest:
   def __init__(self):
     self.destFilePath = '/tmp/ttsClient.wav'
     self.msg = TextToSpeech(language='el', text='Καλησπέρα. Είμαι ο ναο')
-    self.svc = Service(self.msg)
+    self.svc = RappPlatformService(self.msg)
     # Set the valid results
 
   def execute(self):

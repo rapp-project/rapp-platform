@@ -26,7 +26,7 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import Service
+from RappCloud import RappPlatformService
 from RappCloud.CloudMsgs import OntologyIsSubsuperclass
 
 
@@ -40,13 +40,11 @@ class RappInterfaceTest:
         parent_class='Oven',
         child_class='MicrowaveOven',
         recursive=True)
-    self.svc = Service(msg=self.msg)
+    self.svc = RappPlatformService(msg=self.msg)
 
 
   def execute(self):
     start_time = timeit.default_timer()
-
-    # Call the Python RappCloud service
     response = self.svc.call()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
