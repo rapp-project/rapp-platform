@@ -31,8 +31,8 @@ catkin_package(
 )
 
 include_directories( include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} )
-#add_library(image_loader src/image_loader.cpp)
-#target_link_libraries(image_loader SDL SDL_image ${Boost_LIBRARIES})
+add_library(image_loader src/image_loader.cpp)
+target_link_libraries(image_loader SDL SDL_image ${Boost_LIBRARIES})
 
 add_executable(rapp_map_server src/main.cpp)
 target_link_libraries(rapp_map_server
@@ -79,7 +79,7 @@ add_dependencies(rapp_map_server
 #endif()
 
 ## Install executables and/or libraries
-install(TARGETS rapp_map_server #image_loader #rapp_map_server-map_saver
+install(TARGETS rapp_map_server image_loader #rapp_map_server-map_saver
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

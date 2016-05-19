@@ -78,7 +78,8 @@ class PathPlanning
     std::string pathPlanningTopic_;
     std::string uploadMapTopic_;
     int pathPlanningThreads_;
-    
+    double pose_dist_;
+    std::vector<geometry_msgs::PoseStamped> new_path;
     PathPlanner path_planner_; 
 };
 

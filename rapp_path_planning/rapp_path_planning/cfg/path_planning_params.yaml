@@ -1,4 +1,5 @@
 rapp_path_planning_plan_path_topic: /rapp/rapp_path_planning/planPath2d
 rapp_path_planning_upload_map_topic: /rapp/rapp_path_planning/upload_map
+rapp_path_planning_pose_distance: 0.15
 
 rapp_path_planning_threads: 5
