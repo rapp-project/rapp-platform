@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <stdlib.h>   // Declaration for exit()
 #include <boost/filesystem.hpp> // find_file
+#include <cmath>
 
 bool input_poses_correct(geometry_msgs::PoseStamped &start, geometry_msgs::PoseStamped &goal){
 
@@ -254,6 +255,50 @@ bool PathPlanning::uploadMapCallback(rapp_platform_ros_communications::MapServer
   }
 
 }
+
+std::vector<geometry_msgs::PoseStamped> setPoseDist(double pose_dist, std::vector<geometry_msgs::PoseStamped> input_path){
+    geometry_msgs::PoseStamped last_pose;
+    geometry_msgs::PoseStamped next_pose;
+    std::vector<geometry_msgs::PoseStamped> new_path;
+
+    double dist_now = 0;
+    last_pose.pose.position.x = input_path[0].pose.position.x;
+    last_pose.pose.position.y = input_path[0].pose.position.y;
+    new_path.push_back(input_path[0]);
+    //std::cout <<"input_path = "<<input_path.size()<<std::endl;
+
+    for(int i=0; i < (int) floor(input_path.size()/5) ; i+=1){
+
+      next_pose.pose.position.x = input_path[i*5].pose.position.x;
+      next_pose.pose.position.y = input_path[i*5].pose.position.y;
+
+
+      dist_now = sqrt((last_pose.pose.position.x - next_pose.pose.position.x)*(last_pose.pose.position.x - next_pose.pose.position.x)+(last_pose.pose.position.y - next_pose.pose.position.y)*(last_pose.pose.position.y - next_pose.pose.position.y));
+      //std::cout <<"dist_now = "<<dist_now<<std::endl;
+      if (dist_now >= pose_dist){
+        next_pose.pose.position.z = input_path[i*5].pose.position.z;
+        next_pose.pose.orientation.x = input_path[i*5].pose.orientation.x;
+        next_pose.pose.orientation.y = input_path[i*5].pose.orientation.y;
+        next_pose.pose.orientation.z = input_path[i*5].pose.orientation.z;
+        next_pose.pose.orientation.w = input_path[i*5].pose.orientation.w;
+        next_pose.header.seq = input_path[i*5].header.seq;
+        next_pose.header.stamp = input_path[i*5].header.stamp;
+       // next_pose.pose.header = input_path[i*5].pose.header;
+        next_pose.header.frame_id = input_path[i*5].header.frame_id;
+        new_path.push_back(next_pose);
+        last_pose.pose.position.x = next_pose.pose.position.x;
+        last_pose.pose.position.y = next_pose.pose.position.y;
+
+      }
+    }
+
+    int nr_iter = (int) floor(input_path.size()/5);
+    if  (nr_iter < input_path.size())
+      new_path.push_back(input_path[input_path.size()-1]);
+    //std::cout <<"next_pose = "<<new_path.size()<<std::endl;
+
+    return new_path;
+}
 bool PathPlanning::pathPlanningCallback(
   rapp_platform_ros_communications::PathPlanningRosSrv::Request& req,
   rapp_platform_ros_communications::PathPlanningRosSrv::Response& res)
@@ -278,7 +323,12 @@ bool PathPlanning::pathPlanningCallback(
           res.plan_found =  response.plan_found;
 
           res.error_message = response.error_message;
-          res.path  = response.path;
+
+          nh_.param<double>("rapp_path_planning_pose_distance", pose_dist_, 0.15);
+
+          new_path = setPoseDist(pose_dist_, response.path);
+
+          res.path  = new_path;
           nh_.setParam("/rapp/rapp_path_planning/seq_"+seq_nr_str+"/busy", false);
         }else{
           res.plan_found = 2;
