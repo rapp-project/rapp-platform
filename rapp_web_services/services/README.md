@@ -730,7 +730,7 @@ application/json response.
 where emailEntry is an object of structure:
 
 ```js
-{ sender: '', receivers: [], body: '', date: '', body: '', attachments: [] }
+{ sender: '', receivers: [], body: '', date: '', attachments: [] }
 ```
 
 - **emails** (Array): An array of emailEntry objects.
