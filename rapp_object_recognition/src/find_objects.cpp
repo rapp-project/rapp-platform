@@ -81,8 +81,9 @@ void FindObjects::learnObject(const std::string & user, const std::string & fnam
 	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/" + name + ".yml";
 	ROS_INFO("Model file: %s", fs_path.c_str());
 	FileStorage fs(fs_path, FileStorage::WRITE);
-	write( fs , "keypoints", model_keypoints );
+	write( fs, "keypoints", model_keypoints );
 	write( fs, "descriptors", model_descriptors);
+	write( fs, "fname", fname);
 	fs.release();
 
 	ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
@@ -99,16 +100,21 @@ void FindObjects::clearModels(const std::string & user) {
 void FindObjects::loadModel(const std::string & user, const std::string & name) {
 	std::vector<cv::KeyPoint> model_keypoints;
 	cv::Mat model_descriptors;
+	std::string fname;
 	
 	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/" + name + ".yml";
 	FileStorage fs(fs_path, FileStorage::READ);
 	cv::FileNode kptFileNode = fs["keypoints"];
   cv::read( kptFileNode, model_keypoints );
 	fs["descriptors"] >> model_descriptors;
+	fs["fname"] >> fname;
 	fs.release();
 	
 	ROS_INFO("Loaded model: %s", name.c_str());
 	
+	cv::Mat img = cv::imread(fname, -1);
+	
+	models_imgs.push_back(img);
 	models_names.push_back(name);
 	models_descriptors.push_back(model_descriptors);
 	models_keypoints.push_back(model_keypoints);
@@ -215,6 +221,8 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 	ROS_INFO("Finding objects with the use of %d models", (int)models_names.size());
   
+  
+  
 	// Tmp variables.
 	std::vector<KeyPoint> scene_keypoints;
 	cv::Mat scene_descriptors;
@@ -284,7 +292,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		  obj.push_back( models_keypoints [m] [ good_matches[i].queryIdx ].pt );
 		  scene.push_back( scene_keypoints [ good_matches[i].trainIdx ].pt );
 		}//: for
-
+		
 		// Find homography between corresponding points.
 		Mat H = findHomography( obj, scene, CV_RANSAC );
 
@@ -311,7 +319,6 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			angles[i] = atan2(tmp.y,tmp.x);
 		}//: if
 
-
 		// Find smallest element.
 		int imin = -1;
 		double amin = 1000;
@@ -337,8 +344,8 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 		} else {
 			// Hypothesis not valid.
-			ROS_INFO ("Model (%d): keypoints= %d corrs= %d score= %f REJECTED", m, (int)models_keypoints[m].size(), (int)good_matches.size(), score);
-		}//: else
+			ROS_INFO ("Model (%d: %s): keypoints= %d corrs= %d score= %f REJECTED", m, models_names[m].c_str(), (int)models_keypoints[m].size(), (int)good_matches.size(), score);
+		}//: else 
 	}//: for
 	
 	/*	Mat img_object = scene_img.clone();

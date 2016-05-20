@@ -70,8 +70,12 @@ int main(int argc, char **argv)
   {
     threads = 1;
   }
-  ros::MultiThreadedSpinner spinner(threads);
-  spinner.spin();
+  //ros::MultiThreadedSpinner spinner(threads);
+  //spinner.spin();
+  
+  ROS_INFO("Ready to recognize!");
+  
+  ros::spin();
 
   return 0;
 }
