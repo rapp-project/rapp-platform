@@ -56,6 +56,34 @@ class FaceRecognitionTest : public ::testing::Test
 };
 
 /**
+ * @brief Tests learn face model
+ */
+TEST_F(FaceRecognitionTest, learn_face_model_test)
+{
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  std::string s = path + std::string("/test_data/face_samples/multi_faces_frames/two_faces.jpg");
+  // Load the image
+  cv::Mat img = face_recognizer_->loadImage(s);
+  // Detect faces
+  std::vector< cv::Rect_<int> > faces;
+  cv::CascadeClassifier haar_cascade;
+  cv::Mat gray;
+  haar_cascade.load(path + "/test_data/face_samples/face_recognition_model/haarcascade_frontalface_alt2_new.xml");
+  cv::cvtColor(img, gray, CV_BGR2GRAY);
+  haar_cascade.detectMultiScale(gray, faces);
+  // Learn faces
+  struct passwd *pw = getpwuid(getuid());
+  const char *homedir = pw->pw_dir; // return path to the home directory
+  std::string path_model = "/rapp_platform_files/";
+  std::string user = "Jan";
+  const std::string folder = path_model + user + std::string("/");
+  std::string model_name = face_recognizer_->learnFace(path + std::string("/test_data/face_samples/face_recognition_model/faces-s.csv"), folder, std::string("face_model.yml")); // run learnFace
+  // Recognize faces
+  std::vector< double > predictedConfidenceVec;
+  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, folder, model_name, predictedConfidenceVec);
+  EXPECT_EQ(model_name, std::string("face_model.yml") );
+}
+/**
  * @brief Tests face recognition with the given image.
  */ 
 TEST_F(FaceRecognitionTest, face_recognition_test)
@@ -72,9 +100,15 @@ TEST_F(FaceRecognitionTest, face_recognition_test)
   haar_cascade.load(path + "/test_data/face_samples/face_recognition_model/haarcascade_frontalface_alt2_new.xml");
   cv::cvtColor(img, gray, CV_BGR2GRAY);
   haar_cascade.detectMultiScale(gray, faces);
-  const std::string model_name = path + std::string("/test_data/face_samples/face_recognition_model/eigenfaces_recog2.yml");
+  // Set folder path
+  struct passwd *pw = getpwuid(getuid());
+  const char *homedir = pw->pw_dir; // return path to the home directory
+  std::string path_model = "/rapp_platform_files/";
+  std::string user = "Jan";
+  const std::string folder = path_model + user + std::string("/"); //path + std::string("/test_data/face_samples/face_recognition_model/");
+  const std::string model_name = "face_model.yml";
   std::vector< double > predictedConfidenceVec;
-  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, model_name, predictedConfidenceVec);
+  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, folder, model_name, predictedConfidenceVec);
   //std::cout<<img.size() << faces.size() << "; " << faceIDs.size() <<std::endl;
   EXPECT_EQ(11,faceIDs[0]);
 }
@@ -95,10 +129,14 @@ TEST_F(FaceRecognitionTest, unknown_face_recognition_test)
   haar_cascade.load(path + "/test_data/face_samples/face_recognition_model/haarcascade_frontalface_alt2_new.xml");
   cv::cvtColor(img, gray, CV_BGR2GRAY);
   haar_cascade.detectMultiScale(gray, faces);
-  const std::string model_name = path + std::string("/test_data/face_samples/face_recognition_model/eigenfaces_recog2.yml");
+  // Set folder path
+  std::string path_model = "/rapp_platform_files/";
+  std::string user = "Jan";
+  const std::string folder = path_model + user + std::string("/");//const std::string folder = path + std::string("/test_data/face_samples/face_recognition_model/");
+  const std::string model_name = "face_model.yml";
   std::vector< double > predictedConfidenceVec;
   // Run face recognition
-  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, model_name, predictedConfidenceVec);
+  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, folder, model_name, predictedConfidenceVec);
   if(predictedConfidenceVec[0]>1250)faceIDs[0]=-1;
   EXPECT_EQ(-1,faceIDs[0]);
 }
@@ -120,39 +158,16 @@ TEST_F(FaceRecognitionTest, file_not_exists_test)
   cv::cvtColor(img, gray, CV_BGR2GRAY);
   haar_cascade.detectMultiScale(gray, faces);
   // Recognize faces
-  const std::string model_name = path + std::string("/test_data/face_samples/face_recognition_model/not_existent_file.yml");
+  std::string path_model = "/rapp_platform_files/";
+  std::string user = "Jan";
+  const std::string folder = path_model + user + std::string("/");//path + std::string("/test_data/face_samples/face_recognition_model/");
+  const std::string model_name = "not_existent_file.yml";
   std::vector< double > predictedConfidenceVec;
-  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, model_name, predictedConfidenceVec);
+  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, folder, model_name, predictedConfidenceVec);
   EXPECT_EQ(0,faceIDs.size());
 }
 
-/**
- * @brief Tests learn face model
- */
-TEST_F(FaceRecognitionTest, learn_face_model_test)
-{
-  std::string path = ros::package::getPath("rapp_testing_tools");
-  std::string s = path + std::string("/test_data/face_samples/multi_faces_frames/two_faces.jpg");
-  // Load the image
-  cv::Mat img = face_recognizer_->loadImage(s);
-  // Detect faces
-  std::vector< cv::Rect_<int> > faces;
-  cv::CascadeClassifier haar_cascade;
-  cv::Mat gray;
-  haar_cascade.load(path + "/test_data/face_samples/face_recognition_model/haarcascade_frontalface_alt2_new.xml");
-  cv::cvtColor(img, gray, CV_BGR2GRAY);
-  haar_cascade.detectMultiScale(gray, faces);
-  // Learn faces
-  struct passwd *pw = getpwuid(getuid());
-  const char *homedir = pw->pw_dir; // return path to the home directory
-  std::string path_model = "/rapp_platform_files/";
-  std::string user = "Jan";
-  std::string model_name = face_recognizer_->learnFace(path + std::string("/test_data/face_samples/face_recognition_model/faces-s.csv"), path_model+user+std::string("/"), std::string("face_model.yml")); // run learnFace
-  // Recognize faces
-  std::vector< double > predictedConfidenceVec;
-  std::vector< int > faceIDs = face_recognizer_->recognizeFace(img, faces, model_name, predictedConfidenceVec);
-  EXPECT_EQ(model_name, homedir + path_model + user + std::string("/") + std::string("face_model.yml") );
-}
+
 /**
  * @brief The main function. Initialized the unit tests
  */

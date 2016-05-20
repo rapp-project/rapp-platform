@@ -73,7 +73,7 @@ void FaceRecognizer::read_csv(const std::string& filename, std::vector<cv::Mat>&
      * @param   fn_csv [std::string] Path to the CSV file with the face database
      * @return  [std::string] The model's URL
      */
-std::string FaceRecognizer::learnFace(std::string fn_csv, std::string folder, std::string model_name) // method needs at least two classes to learn a model
+std::string FaceRecognizer::learnFace(std::string fn_csv, const std::string folder_, const std::string model_name) // method needs at least two classes to learn a model
 	// faces should be visible on the dark homogeneous background
 {
 	// These vectors hold the images and corresponding labels:
@@ -95,13 +95,12 @@ std::string FaceRecognizer::learnFace(std::string fn_csv, std::string folder, st
 	struct passwd *pw = getpwuid(getuid());
 	const char *homedir = pw->pw_dir; // return path to the home directory
 	// Set folder path
-	std::string folder_path = homedir + folder;
-	// Create user folder, if the directory does not already exists -- for Linux
+	std::string folder_path = homedir + folder_;
+	// Creating user folder, if the directory does not already exists -- for Linux
 	struct stat st = {0};
 	if (stat(folder_path.c_str(), &st) == -1) {
 		mkdir(folder_path.c_str(), 0700);
 	}
-	
 		
 	if (images.size() > 1 && images[0].cols>0){
 		int im_width = images[0].cols;
@@ -110,11 +109,10 @@ std::string FaceRecognizer::learnFace(std::string fn_csv, std::string folder, st
 		cv::Ptr<cv::FaceRecognizer> model = cv::createFisherFaceRecognizer(); // the Fisherfaces method needs at least two classes to learn a model
 		model->train(images, labels);
 
-
 		// save the model to eigenfaces_recog.yaml
-		model->save(folder_path+model_name);
+		model->save(folder_path+model_name);//"eigenfaces_recog.yml");
 	
-		return (folder_path+model_name);
+		return (model_name);//folder_path+model_name);
 	}
 	else{
 		std::string error_message = "Face recognizer needs at least two classes to learn a model; Check path to images";
@@ -133,7 +131,7 @@ std::string FaceRecognizer::learnFace(std::string fn_csv, std::string folder, st
      * @param   face_size_ [cv::Size] Size of face (default size is cv::Size(92,112))
      * @return  [std::vector< int >] The vector of recognized face ID
      */
-std::vector< int > FaceRecognizer::recognizeFace(cv::Mat & img_, std::vector< cv::Rect_<int> > faces_, const std::string model_name_, std::vector< double > & predictedConfidenceVec, cv::Size face_size_)
+std::vector< int > FaceRecognizer::recognizeFace(cv::Mat & img_, std::vector< cv::Rect_<int> > faces_,const std::string folder_, const std::string model_name_, std::vector< double > & predictedConfidenceVec, cv::Size face_size_)
 {
 	const bool visualizes = false;// visualisation of face recognition
 	/// Create a new Eigenfaces Recognizer && load the model
@@ -143,8 +141,15 @@ std::vector< int > FaceRecognizer::recognizeFace(cv::Mat & img_, std::vector< cv
 	std::vector< int > prediction_vec;
 	predictedConfidenceVec.clear(); // clears the vector
 
+	// Find home directory
+	struct passwd *pw = getpwuid(getuid());
+	const char *homedir = pw->pw_dir; // return path to the home directory
+	// Set folder path
+	std::string folder_path = homedir + folder_;
+
 	try{
-		model->load(model_name_);// "eigenfaces_recog.yml");
+		// Load model
+		model->load(folder_path + model_name_);
 	}
 	catch(...)
 	{
@@ -154,9 +159,6 @@ std::vector< int > FaceRecognizer::recognizeFace(cv::Mat & img_, std::vector< cv
 	// Convert the current frame to grayscale:
 	cv::Mat gray;
 	cvtColor(img_, gray, CV_BGR2GRAY);
-
-	
-
 
 	for (int i = 0; i < faces_.size(); i++) {
 		// Process face by face.

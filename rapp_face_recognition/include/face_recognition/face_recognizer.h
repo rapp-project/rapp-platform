@@ -31,7 +31,7 @@ written by Jan Figat
 #include <sstream>
 
 #include <sys/types.h>
-#include <sys/stat.h>
+#include <sys/stat.h> //for checking if the directory exists
 #include <unistd.h>
 #include <pwd.h>
 
@@ -58,7 +58,7 @@ class FaceRecognizer
      * @param   face_size_ [cv::Size] Size of face (default size is cv::Size(92,112))
      * @return  [std::vector< int >] The vector of recognized face ID
      */
-    std::vector< int > recognizeFace(cv::Mat & img_, std::vector< cv::Rect_<int> > faces_, const std::string model_name_, std::vector< double > & predictedConfidenceVec, cv::Size face_size_ = cv::Size(92,112));
+    std::vector< int > recognizeFace(cv::Mat & img_, std::vector< cv::Rect_<int> > faces_, const std::string folder_, const std::string model_name_, std::vector< double > & predictedConfidenceVec, cv::Size face_size_ = cv::Size(92,112));
     
      /**
      * @brief   Detects humans from a cv::Mat
@@ -75,7 +75,7 @@ class FaceRecognizer
      * @param   fn_csv [std::string] Path to the CSV file with the face database
      * @return  [std::string] The model's URL
      */
-    std::string learnFace(std::string fn_csv, std::string folder, std::string model_name); //Path to the CSV file with the face database
+    std::string learnFace(std::string fn_csv, const std::string folder_, const std::string model_name); //Path to the CSV file with the face database
 
     /**
      * @brief   Loads an image from a file URL

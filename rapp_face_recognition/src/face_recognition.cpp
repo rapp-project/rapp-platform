@@ -43,6 +43,7 @@ bool FaceRecognition::faceRecognitionCallback(
   rapp_platform_ros_communications::FaceRecognitionRosSrv::Request& req,
   rapp_platform_ros_communications::FaceRecognitionRosSrv::Response& res)
 {
+
 	std::string folder_path = "/rapp_platform_files/";
 	std::string folder = folder_path + req.user + std::string("/");
 	std::string model_name = req.model_name;
@@ -79,7 +80,7 @@ bool FaceRecognition::faceRecognitionCallback(
 
 		}//: for
 
-		recognizedIDs = face_recognizer_.recognizeFace(img, faces, model_name, predictedConfidenceVec); // run recognizeFace
+		recognizedIDs = face_recognizer_.recognizeFace(img, faces, folder, model_name, predictedConfidenceVec); // run recognizeFace
 
 	}//: if
 	//responses
