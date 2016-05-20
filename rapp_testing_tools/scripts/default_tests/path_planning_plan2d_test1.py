@@ -88,7 +88,6 @@ class RappInterfaceTest:
        return self.validate(resp)
 
     resp = self.svc.call(self.ppPlanMsg)
-    print resp.serialize()
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time

@@ -43,7 +43,6 @@ class RappInterfaceTest:
   def execute(self):
     start_time = timeit.default_timer()
     response = self.svc.call()
-    print response.serialize()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
