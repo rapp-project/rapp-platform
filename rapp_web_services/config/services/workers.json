@@ -1,7 +1,7 @@
 {
   "hazard_detection": {
     "launch": true,
-    "path": "workers/hazard_detection/worker.js",
+    "path": "workers/hazard_detection.js",
     "services": [
       "hazard_detection_light_check",
       "hazard_detection_door_check"
@@ -9,56 +9,31 @@
   },
   "face_detection": {
     "launch": true,
-    "path": "workers/face_detection/worker.js",
+    "path": "workers/face_detection.js",
     "services": [
       "face_detection"
     ]
   },
-  "available_services": {
-    "launch": true,
-    "path": "workers/available_services/worker.js",
-    "services": [
-      "available_services"
-    ]
-  },
   "qr_detection": {
     "launch": true,
-    "path": "workers/qr_detection/worker.js",
+    "path": "workers/qr_detection.js",
     "services": [
       "qr_detection"
     ]
   },
-  "cognitive_get_history": {
+  "cognitive": {
     "launch": true,
-    "path": "workers/cognitive_get_history/worker.js",
+    "path": "workers/cognitive.js",
     "services": [
-      "cognitive_get_history"
-    ]
-  },
-  "cognitive_get_scores": {
-    "launch": true,
-    "path": "workers/cognitive_get_scores/worker.js",
-    "services": [
-      "cognitive_get_scores"
-    ]
-  },
-  "cognitive_test_chooser": {
-    "launch": true,
-    "path": "workers/cognitive_test_chooser/worker.js",
-    "services": [
+      "cognitive_get_history",
+      "cognitive_get_scores",
+      "cognitive_record_performance",
       "cognitive_test_chooser"
-    ]
-  },
-  "cognitive_record_performance": {
-    "launch": true,
-    "path": "workers/cognitive_record_performance/worker.js",
-    "services": [
-      "cognitive_record_performance"
     ]
   },
   "email_support": {
     "launch": true,
-    "path": "workers/email_support/worker.js",
+    "path": "workers/email_support.js",
     "services": [
       "email_send",
       "email_fetch"
@@ -66,7 +41,7 @@
   },
   "ontology": {
     "launch": true,
-    "path": "workers/ontology/worker.js",
+    "path": "workers/ontology.js",
     "services": [
       "ontology_subclasses_of",
       "ontology_superclasses_of",
@@ -75,49 +50,35 @@
   },
   "text_to_speech": {
     "launch": true,
-    "path": "workers/text_to_speech/worker.js",
+    "path": "workers/text_to_speech.js",
     "services": [
       "text_to_speech"
     ]
   },
-  "set_noise_profile": {
+  "audio_processing": {
     "launch": true,
-    "path": "workers/set_noise_profile/worker.js",
+    "path": "workers/audio_processing.js",
     "services": [
       "set_noise_profile"
     ]
   },
   "speech_detection_google": {
     "launch": true,
-    "path": "workers/speech_detection_google/worker.js",
+    "path": "workers/speech_detection_google.js",
     "services": [
       "speech_detection_google"
     ]
   },
-  "speech_detection_sphinx4": {
+  "speech_detection_sphinx": {
     "launch": true,
-    "path": "workers/speech_detection_sphinx4/worker.js",
+    "path": "workers/speech_detection_sphinx.js",
     "services": [
       "speech_detection_sphinx4"
     ]
   },
-  "news_explore": {
-    "launch": true,
-    "path": "workers/news_explore/worker.js",
-    "services": [
-      "news_explore"
-    ]
-  },
-  "geolocation": {
-    "launch": true,
-    "path": "workers/geolocation/worker.js",
-    "services": [
-      "geolocation"
-    ]
-  },
   "weather_report": {
     "launch": true,
-    "path": "workers/weather_report/worker.js",
+    "path": "workers/weather_report.js",
     "services": [
       "weather_report_forecast",
       "weather_report_current"
@@ -125,21 +86,21 @@
   },
   "object_recognition": {
     "launch": true,
-    "path": "workers/object_recognition/worker.js",
+    "path": "workers/object_recognition.js",
     "services": [
       "object_recognition_caffe"
     ]
   },
   "human_detection": {
     "launch": true,
-    "path": "workers/human_detection/worker.js",
+    "path": "workers/human_detection.js",
     "services": [
       "human_detection"
     ]
   },
   "path_planning": {
     "launch": true,
-    "path": "workers/path_planning/worker.js",
+    "path": "workers/path_planning.js",
     "services": [
       "path_planning_upload_map",
       "path_planning_plan_path_2d"
@@ -147,11 +108,20 @@
   },
   "authentication": {
     "launch": true,
-    "path": "workers/authentication/worker.js",
+    "path": "workers/authentication.js",
     "services": [
       "register_user_from_store",
       "register_user_from_platform",
       "login_user"
+    ]
+  },
+  "main-1": {
+    "launch": true,
+    "path": "workers/main1.js",
+    "services": [
+      "news_explore",
+      "geolocation",
+      "available_services"
     ]
   }
 }

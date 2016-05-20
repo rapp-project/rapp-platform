@@ -45,7 +45,7 @@ var workers = require('./config/services/workers.json');
 
 var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
 var logger = new (require( path.join(INCLUDE_DIR, 'common', 'logger.js') ))(
-  {console: true, file: false, ns: 'Service Handler'});
+  {console: true, file: false, ns: ''});
 if( createCacheDir(SERVICES_CACHE_DIR) ){
   logger.info('...Services caching in ' + SERVICES_CACHE_DIR);
 }else{
@@ -95,7 +95,7 @@ process.stdin.resume();
 process.on('SIGTERM',
   function(){
     console.log('Exiting with code: ');
-    WorkerHandler.terminate();
+    srvHandler.terminate();
   }
 );
 
