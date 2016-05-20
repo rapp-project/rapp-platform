@@ -47,9 +47,7 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_perfo
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.username = req.username;
   rosMsg.test = req.body.test_instance;
   rosMsg.score = parseInt(req.body.score);
@@ -73,7 +71,6 @@ function svcImpl ( req, resp, ros )
   // Call ROS-Service.
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -83,8 +80,7 @@ function svcImpl ( req, resp, ros )
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
- *  @returns {Object} response - JSON HTTPResponse Object.
- *    Asynchronous HTTP Response.
+ *  @returns {Object} response - Response Object.
  *  @returns {String} response.performance_score - Ontology performance entry.
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.

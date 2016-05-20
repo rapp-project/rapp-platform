@@ -48,22 +48,20 @@ var rosSrvName = "/rapp/rapp_email_receive/receive_email";
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
+  if( ! req.body.email ){
+    var response = new interfaces.client_res();
+    response.error = 'Empty \"email\" argument';
+    sendResponse( hop.HTTPResponseJson(response) );
+    return;
+  }
+  if( ! req.body.server ){
+    var response = new interfaces.client_res();
+    response.error = 'Empty \"server\" argument';
+    sendResponse( hop.HTTPResponseJson(response) );
+    return;
+  }
+
   var rosMsg = new interfaces.ros_req();
-
-  //if( ! req.body.email ){
-  //error = 'Empty \"email\" argument';
-  //response.error = error;
-  //sendResponse( hop.HTTPResponseJson(response) );
-  //return;
-  //}
-  //if( ! req.body.server ){
-  //error = 'Empty \"server\" argument';
-  //response.error = error;
-  //sendResponse( hop.HTTPResponseJson(response) );
-  //return;
-  //}
-
   rosMsg.email = req.body.email;
   rosMsg.password = req.body.passwd;
   rosMsg.server = req.body.server;
@@ -72,7 +70,6 @@ function svcImpl ( req, resp, ros )
   rosMsg.fromDate = req.body.from_date;
   rosMsg.toDate = req.body.to_date;
   rosMsg.numberOfEmails = req.body.num_emails;
-
 
   /***
    * ROS-Service response callback.
@@ -93,7 +90,6 @@ function svcImpl ( req, resp, ros )
   // Call ROS-Service.
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -103,9 +99,8 @@ function svcImpl ( req, resp, ros )
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response Object.
- *  @returns {Array} response.faces - An array of face-objects.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {Array} response.emails - Array of email entries.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {

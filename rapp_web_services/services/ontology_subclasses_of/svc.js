@@ -57,30 +57,23 @@ var rosSrvName = "/rapp/rapp_knowrob_wrapper/subclasses_of";
 function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.ontology_class = req.body.query;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -103,15 +96,12 @@ function parseRosbridgeMsg(rosbridge_msg)
   var success = rosbridge_msg.success;
   var error = rosbridge_msg.error;
 
-  var logMsg = 'Returning to client.';
-
   var response = new interfaces.client_res();
 
   if( error ){
     response.error = error;
     return response;
   }
-
 
   for (var ii = 0; ii < results.length; ii++)
   {

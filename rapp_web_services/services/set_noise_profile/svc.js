@@ -44,12 +44,9 @@ var rosSrvName = "/rapp/rapp_audio_processing/set_noise_profile";
  *
  *  Service Implementation.
  *
- *
  */
 function svcImpl ( req, resp, ros )
 {
-  var rosMsg = new interfaces.ros_req();
-
   if( ! req.files.file ){
     var response = new interfaces.client_res();
     response.error = "No image file received";
@@ -57,14 +54,12 @@ function svcImpl ( req, resp, ros )
     return;
   }
 
+  var rosMsg = new interfaces.ros_req();
   rosMsg.noise_audio_file = req.files.file[0];
   rosMsg.audio_file_type = req.body.audio_source;
   rosMsg.user = req.username;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
@@ -72,18 +67,15 @@ function svcImpl ( req, resp, ros )
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     Fs.rmFile(req.files.file[0]);
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -94,14 +86,11 @@ function svcImpl ( req, resp, ros )
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response object.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var error = rosbridge_msg.error;
-
-  var logMsg = 'Returning to client.';
 
   var response = new interfaces.client_res();
 

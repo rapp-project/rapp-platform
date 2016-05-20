@@ -44,13 +44,9 @@ var rosSrvName = "/rapp/rapp_geolocator/locate";
  *
  *  Service Implementation.
  *
- *
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
-  var rosMsg = new interfaces.ros_req();
-
   if( ! req.body.ipaddr ){
     // Retrieve client ip from request.
     // If the connection was established through a Proxy Server then the
@@ -58,6 +54,7 @@ function svcImpl ( req, resp, ros )
     req.body.ipaddr = req.socket.hostname;
   }
 
+  var rosMsg = new interfaces.ros_req();
   rosMsg.ip = req.body.ipaddr;
   rosMsg.geolocator = req.body.engine;
 
@@ -76,10 +73,11 @@ function svcImpl ( req, resp, ros )
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /***
+   * Call ROS-Service.
+   */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -90,6 +88,15 @@ function svcImpl ( req, resp, ros )
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *  @returns {Object} response - Response Object.
+ *  @returns {String} response.error - Error message.
+ *  @returns {String} response.city
+ *  @returns {String} response.country
+ *  @returns {String} response.country_code
+ *  @returns {String} response.latitude
+ *  @returns {String} response.longtitude
+ *  @returns {String} response.region
+ *  @returns {String} response.timezone
+ *  @returns {String} response.zip
  *
  */
 function parseRosbridgeMsg(rosbridge_msg)

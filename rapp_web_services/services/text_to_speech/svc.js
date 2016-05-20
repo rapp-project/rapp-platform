@@ -59,23 +59,7 @@ var randStrGen = new RandStringGen( stringLength );
  *  [Text-To-Speech], RAPP Platform Front-End Web Service.
  *  Handles client requests for RAPP Platform Text-To-Speech Services.
  *
- *  @function text_to_speech
- *
- *  @param {Object} args - Service input arguments (literal).
- *  @param {String} args.text - Text to perform TTS on.
- *  @param {String} args.language - Language to be used for TTS translation.
- *
- *  @returns {Object} response - JSON HTTPResponse object.
- *    Asynchronous HTTP Response.
- *  @returns {String} response.payload - Data payload field for the audio/speech
- *    data. Data are character-encoded to base64.
- *  @returns {String} response.basename - An optional basename to be used by the clients
- *  @returns {String} response.encoding - This field declares the character
- *    encoding that was used to encode the audio/speech data of the payload
- *    field. Currently only base64 is supported. This field exists for
- *    future extension purposes.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  Service Implementation
  *
  */
 function svcImpl ( req, resp, ros )
@@ -85,18 +69,14 @@ function svcImpl ( req, resp, ros )
 
   // Rename file. Add uniqueId value
   var filePath = path.join(audioOutPath,
-    basenamePrefix + unqCallId + '.' + audioOutFormat
-    );
+    basenamePrefix + unqCallId + '.' + audioOutFormat);
 
   var rosMsg = new interfaces.ros_req();
   rosMsg.audio_output = filePath;
   rosMsg.language = req.body.language;
   rosMsg.text = req.body.text;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     // Remove this call id from random string generator cache.
     randStrGen.removeCached( unqCallId );
@@ -105,9 +85,7 @@ function svcImpl ( req, resp, ros )
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     // Remove local file immediately.
     Fs.rmFile(filePath);
@@ -116,10 +94,9 @@ function svcImpl ( req, resp, ros )
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -130,14 +107,10 @@ function svcImpl ( req, resp, ros )
 function parseRosbridgeMsg(rosbridge_msg, audioFilePath)
 {
   var error = rosbridge_msg.error;
-  var logMsg = 'Returning to client';
-
   var response = new interfaces.client_res();
 
   if ( error )
   {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
     response.error = error;
     return response;
   }

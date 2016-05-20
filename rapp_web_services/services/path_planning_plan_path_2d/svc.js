@@ -40,7 +40,6 @@ var rosSrvName = "/rapp/rapp_path_planning/planPath2d";
 function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.user_name = req.username;
   rosMsg.map_name = req.body.map_name;
   rosMsg.robot_type = req.body.robot_type;
@@ -48,27 +47,21 @@ function svcImpl ( req, resp, ros )
   rosMsg.start = req.body.start;
   rosMsg.goal = req.body.goal;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -79,6 +72,7 @@ function svcImpl ( req, resp, ros )
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response Object.
+ *  @returns {String} response.error - Error message.
  *  @returns {Array} response.path - if plan_found is true, this is an array
  *    of waypoints from start to goal, where the first one equals start and
  *    the last one equals goal.

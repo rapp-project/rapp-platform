@@ -47,13 +47,10 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_score";
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.username = req.username;
   rosMsg.upToTime = req.body.up_to_time;
   rosMsg.testType = req.body.test_type;
-
 
   /***
    * ROS-Service response callback.
@@ -73,17 +70,19 @@ function svcImpl ( req, resp, ros )
 
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
-
 }
-
 
 
 /***
  * Craft response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
  *  @returns {Object} response - Response Object.
+ *  @returns {Array} response.scores - Array of scores. Each array index
+ *    corresponds to the test class of the test_classes property.
+ *  @returns {Array} response.test_classes - An array of the test classes indexes.
+ *  @returns {String} response.error - Error message
  *
  */
 function parseRosbridgeMsg(rosbridge_msg)

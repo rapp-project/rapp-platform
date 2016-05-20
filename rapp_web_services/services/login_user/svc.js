@@ -41,35 +41,26 @@ var rosSrvName = "/rapp/rapp_application_authentication/login";
 function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.username = req.body.username;
   rosMsg.password = req.body.password;
   rosMsg.device_token = req.body.device_token;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
-
-
 
 
 /***
@@ -77,6 +68,7 @@ function svcImpl ( req, resp, ros )
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *  @returns {Object} response - Response Object.
+ *  @returns {String} response.error - Error message
  *
  */
 function parseRosbridgeMsg(rosbridge_msg)

@@ -44,18 +44,14 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_history";
  *  Handles requests to cognitive_get_history RAPP Platform Service
  *
  *  Service Implementation.
- *
- *
  */
 function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.username = req.username;
   rosMsg.fromTime = req.body.from_time;
   rosMsg.toTime= req.body.to_time;
   rosMsg.testType= req.body.test_type;
-
 
   /***
    * ROS-Service response callback.
@@ -76,17 +72,18 @@ function svcImpl ( req, resp, ros )
   // Call ROS-Service.
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
-
-
 
 
 /***
  * Craft response object.
  *
  *  @param {Object} rosbridge_msg - Return message from rosbridge
+ *
  *  @returns {Object} response - Response Object.
+ *  @returns {Objects} response.records - History records per test type.
+ *    { ReasoningCts: [], AwarenessCts: [], ArithmeticCts: [] }
+ *  @returns {String} response.error - Error message.
  *
  */
 function parseRosbridgeMsg(rosbridge_msg)

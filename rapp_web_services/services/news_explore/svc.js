@@ -36,20 +36,16 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 var rosSrvName = "/rapp/rapp_news_explorer/fetch_news";
 
 
-
-
 /**
  *  [News-Explore]
  *  Handles requests to news_explore RAPP Platform Service
  *
  *  Service Implementation.
  *
- *
  */
 function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.newsEngine = req.body.news_explore;
   rosMsg.keywords = req.body.keywords;
   rosMsg.excludeTitles = req.body.exclude_titles;
@@ -57,27 +53,21 @@ function svcImpl ( req, resp, ros )
   rosMsg.topic = req.body.topic;
   rosMsg.storyNum = req.body.num_news;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -87,16 +77,13 @@ function svcImpl ( req, resp, ros )
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response Object.
- *  @returns {Array} response.faces - An array of face-objects.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   //var success = rosbridge_msg.status;
   var error = rosbridge_msg.error;
   var newsStories = rosbridge_msg.stories;
-  var logMsg = 'Returning to client';
 
   var response = new interfaces.client_res();
 

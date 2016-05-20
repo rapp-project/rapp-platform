@@ -43,12 +43,9 @@ var rosSrvName = "/rapp/rapp_hazard_detection/door_check";
  *
  *  Service Implementation.
  *
- *
  */
 function svcImpl ( req, resp, ros )
 {
-  var rosMsg = new interfaces.ros_req();
-
   if( ! req.files.file ){
     var response = new interfaces.client_res();
     response.error = "No image file received";
@@ -56,6 +53,7 @@ function svcImpl ( req, resp, ros )
     return;
   }
 
+  var rosMsg = new interfaces.ros_req();
   rosMsg.imageFilename = req.files.file[0];
 
   /***
@@ -79,7 +77,6 @@ function svcImpl ( req, resp, ros )
   // Call ROS-Service.
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -90,15 +87,12 @@ function svcImpl ( req, resp, ros )
  *
  *  @returns {Object} response - Response Object.
  *  @returns {Array} response.faces - An array of face-objects.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var error = rosbridge_msg.error;
   var da = rosbridge_msg.door_angle;
-
-  var logMsg = 'Returning to client';
 
   var response = new interfaces.client_res();
 

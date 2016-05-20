@@ -59,33 +59,26 @@ var rosSrvName = "/rapp/rapp_knowrob_wrapper/is_subsuperclass_of";
 function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.parent_class = req.body.parent_class;
   rosMsg.child_class = req.body.child_class;
   rosMsg.recursive = req.body.recursive;
 
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
-
 
 
 /***
@@ -95,8 +88,7 @@ function svcImpl ( req, resp, ros )
  *
  *  @returns {Object} response - Response Object.
  *  @returns {Boolean} response.result - Query result
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  *
  */
 function parseRosbridgeMsg(rosbridge_msg)

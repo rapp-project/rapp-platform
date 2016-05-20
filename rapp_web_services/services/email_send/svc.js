@@ -71,18 +71,18 @@ function svcImpl ( req, resp, ros )
 
   var _files = [];
 
-
   if(req.files.file){
+    // If it is a zip file
     if( zip.isZipFile(req.files.file[0]) ){
       _files = zip.unzip(req.files.file[0]).filepaths;
     }
+    // If it is a single non-zip file
     else{
       _files.push(req.files.file[0]);
     }
   }
 
   var rosMsg = new interfaces.ros_req();
-
   rosMsg.userEmail = req.body.email;
   rosMsg.password = req.body.passwd;
   rosMsg.server = req.body.server;
@@ -91,7 +91,6 @@ function svcImpl ( req, resp, ros )
   rosMsg.body = req.body.body;
   rosMsg.subject = req.body.subject;
   rosMsg.files = _files;
-
 
   /***
    * ROS-Service response callback.
@@ -114,7 +113,6 @@ function svcImpl ( req, resp, ros )
   // Call ROS-Service.
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -124,9 +122,7 @@ function svcImpl ( req, resp, ros )
  *  @param {Object} rosbridge_msg - Return message from rosbridge
  *
  *  @returns {Object} response - Response Object.
- *  @returns {Array} response.faces - An array of face-objects.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message.
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {

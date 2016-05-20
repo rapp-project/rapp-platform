@@ -44,12 +44,9 @@ var rosSrvName = "/rapp/rapp_human_detection/detect_humans";
  *
  *  Service Implementation.
  *
- *
  */
 function svcImpl ( req, resp, ros )
 {
-  var rosMsg = new interfaces.ros_req();
-
   if( ! req.files.file ){
     var response = new interfaces.client_res();
     response.error = "No image file received";
@@ -57,6 +54,7 @@ function svcImpl ( req, resp, ros )
     return;
   }
 
+  var rosMsg = new interfaces.ros_req();
   rosMsg.imageFilename = req.files.file[0];
 
   /***
@@ -77,10 +75,11 @@ function svcImpl ( req, resp, ros )
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /***
+   * Call ROS-Service.
+   */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 

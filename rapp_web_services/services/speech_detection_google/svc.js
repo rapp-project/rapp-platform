@@ -37,13 +37,11 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 var rosSrvName = "/rapp/rapp_speech_detection_google/speech_to_text";
 
 
-
 /**
  *  [Speech-Detection-Google]
  *  Handles requests to speech_detection_google RAPP Platform Service
  *
  *  Service Implementation.
- *
  *
  */
 function svcImpl ( req, resp, ros )
@@ -62,10 +60,7 @@ function svcImpl ( req, resp, ros )
   rosMsg.user = req.username;
   rosMsg.language = req.body.language;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
@@ -73,18 +68,15 @@ function svcImpl ( req, resp, ros )
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     Fs.rmFile(req.files.file[0]);
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -99,16 +91,13 @@ function svcImpl ( req, resp, ros )
  *    higher confidence.
  *  @returns {Array} response.alternatives. Array of alternative sentences.
  *    <p> e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...] </p>
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var words = rosbridge_msg.words;
   var alternatives = rosbridge_msg.alternatives;
   var error = rosbridge_msg.error;
-
-  var logMsg = 'Returning to client.';
 
   var response = new interfaces.client_res();
 

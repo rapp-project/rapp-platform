@@ -43,12 +43,9 @@ var rosSrvName = "/rapp/rapp_qr_detection/detect_qrs";
  *
  *  Service Implementation.
  *
- *
  */
 function svcImpl ( req, resp, ros )
 {
-  var rosMsg = new interfaces.ros_req();
-
   if( ! req.files.file ){
     var response = new interfaces.client_res();
     response.error = "No image file received";
@@ -56,12 +53,10 @@ function svcImpl ( req, resp, ros )
     return;
   }
 
+  var rosMsg = new interfaces.ros_req();
   rosMsg.imageFilename = req.files.file[0];
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
@@ -69,18 +64,15 @@ function svcImpl ( req, resp, ros )
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     Fs.rmFile(req.files.file[0]);
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -93,16 +85,13 @@ function svcImpl ( req, resp, ros )
  *  @returns {Array} response.qr_centers - An array of qr-center objects.
  *  @returns {Array} response.qr_messages - The array of the qr-messages. One
  *    qr_message string message for each found QR code.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var qrCenters = rosbridge_msg.qr_centers;
   var qrMessages = rosbridge_msg.qr_messages;
   var error = rosbridge_msg.error;
-
-  var logMsg = 'Returning to client.';
 
   var response = new interfaces.client_res();
 

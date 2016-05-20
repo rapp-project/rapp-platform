@@ -40,35 +40,10 @@ var rosSrvName = "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text";
 
 /**
  *  [Speech-Detection-Sphinx4] RAPP Platform front-end web service.
- *  <p> Serves requests for Speech-Detection using sphinx4 ASR engine. </p>
+ *  Serves requests for Speech-Detection using sphinx4 ASR engine. </p>
  *
- *  @function speech_detecion_sphinx4
+ *  Service Implementation
  *
- *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} args.file_uri - System uri path of transfered (client) file, as
- *    declared in multipart/form-data post field. The file_uri is handled and
- *    forwared to this service, as input argument, by the HOP front-end server.
- *    Clients are responsible to declare this field in the multipart/form-data
- *    post field.
- *  @param {Array} args.words - Words to search for while performing ASR.
- *  @param {Array} args.sentences - Sentences to use as input to sphinx4 ASR.
- *    (For more information study on sphinx4)
- *  @param {Array} args.grammar - Grammar to use as input to sphinx4 ASR.
- *    (For more information, study on sphinx4)
- *  @param {String} args.audio_source - A value that represents information
- *    for the audio source. e.g "nao_wav_1_ch".
- *  @param {String} args.user. Username.
- *  @param {String} args.language. Language to use for ASR.
- *    <ul>
- *      <li> 'el' --> Greek </li>
- *      <li> 'en' --> English </li>
- *    </ul>
- *
- *  @returns {Object} response - JSON HTTPResponse Object.
- *    Asynchronous HTTP Response.
- *  @returns {Array} response.words. An array of the detected-words.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
  */
 function svcImpl ( req, resp, ros )
 {
@@ -98,7 +73,6 @@ function svcImpl ( req, resp, ros )
   //return;
   //}
 
-
   var rosMsg = new interfaces.ros_req();
   rosMsg.path = req.files.file[0];
   rosMsg.audio_source = req.body.audio_source;
@@ -108,10 +82,7 @@ function svcImpl ( req, resp, ros )
   rosMsg.sentences = req.body.sentences;
   rosMsg.grammar = req.body.grammar;
 
-
-  /***
-   * ROS-Service response callback.
-   */
+  /* ROS-Service response callback. */
   function callback(data){
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
@@ -119,18 +90,15 @@ function svcImpl ( req, resp, ros )
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  /* ROS-Service onerror callback. */
   function onerror(e){
     Fs.rmFile(req.files.file[0]);
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /* Call ROS-Service. */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -142,15 +110,12 @@ function svcImpl ( req, resp, ros )
  *
  *  @returns {Object} response - Response object.
  *  @returns {Array} response.words. An array of the detected-words.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var words = rosbridge_msg.words;
   var error = rosbridge_msg.error;
-
-  var logMsg = 'Returning to client.';
 
   var response = new interfaces.client_res();
 

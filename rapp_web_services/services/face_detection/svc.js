@@ -48,18 +48,16 @@ var rosSrvName = "/rapp/rapp_face_detection/detect_faces";
  */
 function svcImpl ( req, resp, ros )
 {
-  var rosMsg = new interfaces.ros_req();
-
   if( ! req.files.file ){
+    var response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
   }
 
-  // Add values to the rosmsg.
+  var rosMsg = new interfaces.ros_req();
   rosMsg.imageFilename = req.files.file[0];
   rosMsg.fast = req.body.fast;
-
 
   /***
    * ROS-Service response callback.
@@ -82,7 +80,6 @@ function svcImpl ( req, resp, ros )
   // Call ROS-Service.
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -93,8 +90,7 @@ function svcImpl ( req, resp, ros )
  *
  *  @returns {Object} response - Response Object.
  *  @returns {Array} response.faces - An array of face-objects.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message.
  */
 function parseRosbridgeMsg( rosbridge_msg )
 {
@@ -102,8 +98,6 @@ function parseRosbridgeMsg( rosbridge_msg )
   var faces_down_right = rosbridge_msg.faces_down_right;
   var error = rosbridge_msg.error;
   var numFaces = faces_up_left.length;
-
-  var logMsg = 'Returning to client';
 
   var response = new interfaces.client_res();
 

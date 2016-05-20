@@ -44,30 +44,7 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
 /**
  *  [Path-planning-upload-map] RAPP Platform web service.
- *  <p> Serves requests for path_planning_upload_map on given input: .png file, .yaml file, user name, map name.</p>
- *
- *  @function path_planning_upload_map
- *
- *  @param {Object} args - Service input arguments (object literal).
- *  @param {String} args.png_file - System uri path of transfered (client)
- *    file, as declared in multipart/form-data post field. The png_file is
- *    handled and forwared to this service, as input argument,
- *    by the HOP front-end server.
- *    Clients are responsible to declare this field in the multipart/form-data
- *    post field.
- *
- *  @param {String} args.yaml_file - System uri path of transfered (client)
- *    file, as declared in multipart/form-data post field. The yaml_file is
- *    handled and forwared to this service, as input argument,
- *    by the HOP front-end server.
- *    Clients are responsible to declare this field in the multipart/form-data
- *    post field.
- *
- *  @returns {Object} response - JSON HTTPResponse Object.
- *    Asynchronous HTTP Response.
- *  @returns {bool} response.success - Status of performed operations.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  Serves requests for path_planning_upload_map on given input: .png file, .yaml file, user name, map name.</p>
  */
 function svcImpl ( req, resp, ros )
 {

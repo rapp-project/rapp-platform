@@ -48,15 +48,14 @@ var rosSrvName = "/rapp/rapp_hazard_detection/light_check";
  */
 function svcImpl ( req, resp, ros )
 {
-  var response = new interfaces.client_res();
-  var rosMsg = new interfaces.ros_req();
-
   if( ! req.files.file ){
+    var response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
   }
 
+  var rosMsg = new interfaces.ros_req();
   rosMsg.imageFilename = req.files.file[0];
 
   /***
@@ -77,10 +76,11 @@ function svcImpl ( req, resp, ros )
     resp.sendServerError();
   }
 
-  // Call ROS-Service.
+  /***
+   * Call ROS-Service.
+   */
   ros.callService(rosSrvName, rosMsg,
     {success: callback, fail: onerror});
-
 }
 
 
@@ -91,15 +91,12 @@ function svcImpl ( req, resp, ros )
  *
  *  @returns {Object} response - Response Object.
  *  @returns {Array} response.faces - An array of face-objects.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ *  @returns {String} response.error - Error message
  */
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var error = rosbridge_msg.error;
   var ll = rosbridge_msg.light_level;
-
-  var logMsg = 'Returning to client';
 
   var response = new interfaces.client_res();
 
