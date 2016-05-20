@@ -6,31 +6,33 @@
 
 #include "rapp_object_recognition/find_objects.hpp"
 
+std::map<std::string, FindObjects> detectors;
+
 bool service_FindObjects(rapp_platform_ros_communications::FindObjectsSrv::Request  &req,
                          rapp_platform_ros_communications::FindObjectsSrv::Response &res)
 {
-  FindObjects::findObjects(req.fname, req.names, req.files, req.limit, res.found_names, res.found_centers, res.found_scores);
+  detectors[req.user].findObjects(req.user, req.fname, req.names, req.files, req.limit, res.found_names, res.found_centers, res.found_scores);
   return true;
 }
 
 bool service_LearnObject(rapp_platform_ros_communications::LearnObjectSrv::Request  &req,
                          rapp_platform_ros_communications::LearnObjectSrv::Response &res)
 {
-  FindObjects::learnObject(req.fname, req.name, req.user, res.result);
+  detectors[req.user].learnObject(req.user, req.fname, req.name, res.result);
   return true;
 }
 
 bool service_LoadModels(rapp_platform_ros_communications::LoadModelsSrv::Request  &req,
                          rapp_platform_ros_communications::LoadModelsSrv::Response &res)
 {
-  FindObjects::loadModels(req.user, req.names, res.result);
+  detectors[req.user].loadModels(req.user, req.names, res.result);
   return true;
 }
 
 bool service_ClearModels(rapp_platform_ros_communications::ClearModelsSrv::Request  &req,
                          rapp_platform_ros_communications::ClearModelsSrv::Response &res)
 {
-  FindObjects::clearModels();
+  detectors[req.user].clearModels(req.user);
   return true;
 }
 
@@ -58,7 +60,18 @@ int main(int argc, char **argv)
   ros::ServiceServer service4 = n.advertiseService(service_name, service_ClearModels);
   
   ROS_INFO("Ready to find objects.");
-  ros::spin();
+  
+  int threads = 1;
+  if(!n.getParam("/rapp_object_recognition_threads", threads))
+  {
+    ROS_ERROR("Hazard detection threads param not found");
+  }
+  else if(threads < 0)
+  {
+    threads = 1;
+  }
+  ros::MultiThreadedSpinner spinner(threads);
+  spinner.spin();
 
   return 0;
 }

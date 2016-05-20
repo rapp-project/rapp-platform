@@ -6,6 +6,8 @@ string[] names
 string[] files
 # Limit search to N best matches
 uint32 limit
+# User name
+string user
 ---
 # List of found objects - names
 string[] found_names

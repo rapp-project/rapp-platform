@@ -2,3 +2,4 @@ rapp_object_recognition_topic: /rapp/rapp_object_recognition/find_objects
 rapp_object_learn_topic: /rapp/rapp_object_recognition/learn_object
 rapp_object_load_topic: /rapp/rapp_object_recognition/load_models
 rapp_object_clear_topic: /rapp/rapp_object_recognition/clear_models
+rapp_object_recognition_threads: 5

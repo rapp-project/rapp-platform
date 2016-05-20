@@ -5,56 +5,7 @@
 
 #include <geometry_msgs/Point.h>
 
-#include <opencv2/opencv.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/features2d/features2d.hpp>
-//#include <opencv2/nonfree/features2d.hpp>
-
-namespace FindObjects {
-
-
-// ******************************** MODELS ********************************
-
-// Vector of images constituting the consecutive models.
-std::vector<cv::Mat> models_imgs;
-
-/// Vector of keypoints of consecutive models.
-std::vector<std::vector<cv::KeyPoint> > models_keypoints;
-
-/// Vector of descriptors of consecutive models.
-std::vector<cv::Mat> models_descriptors;
-
-/// Vector of names of consecutive models.
-std::vector<std::string> models_names;
-
-// ****************************** HYPOTHESES ******************************
-
-/// Vector containing names of recognized objects.
-std::vector<std::string> recognized_names;
-
-/// Vector containing centers of recognized objects (image coordinates).
-std::vector<cv::Point2f> recognized_centers;
-
-/// Vector containing quadruples of corners of recognized objects (image coordinates).
-std::vector<std::vector<cv::Point2f> > recognized_corners;
-
-/// Vector containint scores of recognized objects.
-std::vector<double> recognized_scores;
-
-
-// **************************** OTHER VARIABLES ****************************
-
-using namespace cv;
-
-/// Keypoint detector.
-cv::OrbFeatureDetector detector;
-
-/// Feature descriptor.
-cv::OrbDescriptorExtractor extractor;
-
-// Matcher.
-cv::BFMatcher matcher(NORM_HAMMING, true);
+#include "rapp_object_recognition/find_objects.hpp"
 
 
 std::string expand_user(std::string path) {
@@ -75,11 +26,8 @@ std::string expand_user(std::string path) {
   return path;
 }
 
-
-
-
 // ******************************* FUNCTIONS *******************************
-bool loadImage(const std::string filename_, cv::Mat & image_) {
+bool FindObjects::loadImage(const std::string filename_, cv::Mat & image_) {
 	try {
 		// TODO: fix the case of invalid file.
 	        image_ = imread( filename_ );
@@ -91,7 +39,7 @@ bool loadImage(const std::string filename_, cv::Mat & image_) {
 }
 
 
-bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_) {
+bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_) {
         cv::Mat gray_img;
 
 	try {
@@ -115,7 +63,7 @@ bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, c
 	}//: catch
 }
 
-void learnObject(const std::string & fname, const std::string & name, const std::string & user, int & result) {
+void FindObjects::learnObject(const std::string & user, const std::string & fname, const std::string & name, int & result) {
 	cv::Mat model_img;
 	
 	if (!loadImage(fname, model_img)) {
@@ -140,7 +88,7 @@ void learnObject(const std::string & fname, const std::string & name, const std:
 	ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
 }
 
-void clearModels() {
+void FindObjects::clearModels(const std::string & user) {
 	models_keypoints.clear();
 
 	models_descriptors.clear();
@@ -148,7 +96,7 @@ void clearModels() {
 	models_names.clear();
 }
 
-void loadModel(const std::string & user, const std::string & name) {
+void FindObjects::loadModel(const std::string & user, const std::string & name) {
 	std::vector<cv::KeyPoint> model_keypoints;
 	cv::Mat model_descriptors;
 	
@@ -166,7 +114,7 @@ void loadModel(const std::string & user, const std::string & name) {
 	models_keypoints.push_back(model_keypoints);
 }
 
-void loadModels(const std::string & user, const std::vector<std::string> & names, int & result) {
+void FindObjects::loadModels(const std::string & user, const std::vector<std::string> & names, int & result) {
 	for (size_t i = 0; i < names.size(); ++i) {
 		loadModel(user, names[i]);
 	}
@@ -174,7 +122,7 @@ void loadModels(const std::string & user, const std::vector<std::string> & names
 	result = 0;
 }
 
-void loadModels(std::vector<std::string> names_, std::vector<std::string> files_) {
+void FindObjects::loadModels(std::vector<std::string> names_, std::vector<std::string> files_) {
 
 	cv::Mat model_img;
 
@@ -207,7 +155,7 @@ void loadModels(std::vector<std::string> names_, std::vector<std::string> files_
 }
 
 
-void storeObjectHypothesis(std::string name_, cv::Point2f center_, std::vector<cv::Point2f> corners_, double score_, unsigned int limit_) {
+void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, std::vector<cv::Point2f> corners_, double score_, unsigned int limit_) {
 
 	// Special case: do not insert anything is smaller than one;)
 	if (limit_<1)
@@ -255,7 +203,7 @@ void storeObjectHypothesis(std::string name_, cv::Point2f center_, std::vector<c
 }
 
 
-int findObjects(const std::string & fname, const std::vector<std::string> & names, const std::vector<std::string> & files, unsigned int limit, 
+int FindObjects::findObjects(const std::string & user, const std::string & fname, const std::vector<std::string> & names, const std::vector<std::string> & files, unsigned int limit, 
                 std::vector<std::string> & found_names, std::vector<geometry_msgs::Point> & found_centers, std::vector<double> & found_scores){
 
   if (!names.empty()) {
@@ -424,5 +372,3 @@ int findObjects(const std::string & fname, const std::vector<std::string> & name
  
 	return 0;
 }
-
-};
