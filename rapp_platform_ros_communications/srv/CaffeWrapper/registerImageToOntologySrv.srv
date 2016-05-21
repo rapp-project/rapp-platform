@@ -1,10 +1,15 @@
+#the username of the user calling the service
 string username
+#the ontology class of the to be registered image
 string ontologyClass
+#the caffe class of the to be registered image
 string caffeClass
+#the path of the to be registered image
 string imagePath
 ---
 string object_entry
 bool success
+# possible error
 string error
+#tracen information
 string[] trace
-

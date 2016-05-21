@@ -1,10 +1,18 @@
+#the url of the image
 string objectFileUrl
+#the username of the user calling the service
 string username
+#true if the image will be registered to the ontology
 bool registerToOntology
 ---
-bool success
+#the value of the ontology entry if the image was registered
 string ontologyNameOfImage
+#the caffe object class of the image
 string objectClass
+bool success
+# possible error
 string error
+#tracen information
 string[] trace
+
 

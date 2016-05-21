@@ -1,8 +1,13 @@
+#the caffe object class of the iamge
 string caffeClass
 ---
-bool success
+#true if a corresponding object exists in the ontology
 bool existsInOntology
+#the ontology equivalent class of the caffe class
 string ontologyClass
+bool success
+# possible error
 string error
+#tracen information
 string[] trace
 
