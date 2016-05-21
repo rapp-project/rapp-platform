@@ -11,6 +11,7 @@ OpenAAL ontology, as well as others needed to implement the desired RApps.
 The services of the RAPP Knowrob wrapper are detailed below.
 
 #ROS Services
+Each service is analyzed below.
 
 ##Subclasses of
 This service was created in order to return the subclasses of a specific ontology class. Apart from the basic functionality, one can perform recursive search in the ontology and not just in the classes’ immediate lower level connections.
@@ -290,6 +291,64 @@ string[] timestamps
 string error
 # true if successful
 bool success
+``` 
+
+##Register image object to ontology
+This service will register an image, annotated by the rapp_caffe_wrapper to the ontology.
+
+Service URL: ```/rapp/rapp_knowrob_wrapper/register_image_object_to_ontology```
+
+Service type:
+```bash
+# Contains info about time and reference
+Header header
+string user_ontology_alias
+string object_ontology_class
+string caffe_class
+string image_path
+int32 timestamp
+---
+string object_entry
+string[] trace
+bool success 
+string error
+``` 
+
+##Retract user ontology alias
+This service will remove the ontology alias of a user from the ontology.
+
+Service URL: ```/rapp/rapp_knowrob_wrapper/retract_user_ontology_alias```
+
+Service type:
+```bash
+# Contains info about time and reference
+Header header
+string ontology_alias
+---
+string error
+string[] trace
+bool success 
+``` 
+
+##Clear user cognitive test performance records
+This service will remove all cognitive test performance records of a user from the ontology.
+
+Service URL: ```/rapp/rapp_knowrob_wrapper/clear_user_cognitive_tests_performance_records```
+
+Service type:
+```bash
+# Contains info about time and reference
+Header header
+string username
+string test_type
+---
+string[] tests
+string[] scores
+string[] difficulty
+string[] timestamps
+string[] trace
+bool success 
+string error
 ``` 
 
 #Launchers
