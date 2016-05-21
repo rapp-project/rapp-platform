@@ -1,14 +1,14 @@
 # Contains info about time and reference
 Header header
-# General string for simple queries
+#the username of the user whose records will be cleared
 string username
+#specify clearing the records of this test type onle
 string test_type
 ---
 # The results of the query
-string[] tests
-string[] scores
-string[] difficulty
-string[] timestamps
-string[] trace
-bool success 
+#possible error
 string error
+#trace information
+string[] trace
+#true if service call was successful
+bool success 

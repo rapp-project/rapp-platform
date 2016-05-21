@@ -1,8 +1,12 @@
 # Contains info about time and reference
 Header header
+#the user ontology alias to be retracted
 string ontology_alias
 ---
 # The results of the query
+#possible error
 string error
+#trace information
 string[] trace
+#true if service call was successful
 bool success 

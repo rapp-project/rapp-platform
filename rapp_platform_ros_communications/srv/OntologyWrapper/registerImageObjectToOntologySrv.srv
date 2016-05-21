@@ -1,14 +1,22 @@
 # Contains info about time and reference
 Header header
-# General string for simple queries
+#the user's ontology alias
 string user_ontology_alias
+#the ontology class of the to be registered object
 string object_ontology_class
+#the caffe class of the to be registered object
 string caffe_class
+#the path to the image representing the object
 string image_path
+#timestamp of the time of registration
 int32 timestamp
 ---
 # The results of the query
+#the name of the registered object entry
 string object_entry
-string[] trace
-bool success 
+#possible error
 string error
+#trace information
+string[] trace
+#true if service call was successful
+bool success 

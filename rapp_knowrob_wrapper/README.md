@@ -75,7 +75,6 @@ string child_class
 # True if the query is recursive
 bool recursive
 ---
-# true if successful
 # True if the semantic condition applies
 bool result
 # Possible error
@@ -302,16 +301,26 @@ Service type:
 ```bash
 # Contains info about time and reference
 Header header
+#the user's ontology alias
 string user_ontology_alias
+#the ontology class of the to be registered object
 string object_ontology_class
+#the caffe class of the to be registered object
 string caffe_class
+#the path to the image representing the object
 string image_path
+#timestamp of the time of registration
 int32 timestamp
 ---
+# The results of the query
+#the name of the registered object entry
 string object_entry
-string[] trace
-bool success 
+#possible error
 string error
+#trace information
+string[] trace
+#true if service call was successful
+bool success 
 ``` 
 
 ##Retract user ontology alias
@@ -323,10 +332,15 @@ Service type:
 ```bash
 # Contains info about time and reference
 Header header
+#the user ontology alias to be retracted
 string ontology_alias
 ---
+# The results of the query
+#possible error
 string error
+#trace information
 string[] trace
+#true if service call was successful
 bool success 
 ``` 
 
@@ -339,16 +353,18 @@ Service type:
 ```bash
 # Contains info about time and reference
 Header header
+#the username of the user whose records will be cleared
 string username
+#specify clearing the records of this test type onle
 string test_type
 ---
-string[] tests
-string[] scores
-string[] difficulty
-string[] timestamps
-string[] trace
-bool success 
+# The results of the query
+#possible error
 string error
+#trace information
+string[] trace
+#true if service call was successful
+bool success 
 ``` 
 
 #Launchers
@@ -362,136 +378,101 @@ roslaunch rapp_knowrob_wrapper knowrob_wrapper.launch
 
 #HOP services
 
-##Subclasses-of RPS
 
-The subclasses_of RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS ontology wrapper, which performs queries to the KnowRob ontology repository. The get subclass of RPS can be invoked using the following URL.
+## Ontology-SubClasses-Of
 
-Service URL: ```localhost:9001/hop/subclasses_of```
-
-###Input/Output
-The sublasses_of RPS has two input arguments, which are the ontology class for which the subclasses must be found and the recursive flag. These are encoded in JSON format in an ASCII string representation.
-
-The subclasses_of RPS returns the subclasses of the input class in a ontology URL form. The encoding is in JSON format.
+### Service-Url
 
 ```
-Input = {
-  “class”: “THE_ONTOLOGY_CLASS”
-  “recursive”: “True of False”
-}
-```
-```
-Output = {
-  “subclasses”: [ “SUBCL_URL_1”, “SUBCL_URL_2”,… , “SUBCL_URL_3” ]
-  “error”: “Possible error”
-}
-```
-###Example
-An example input for the subclasses_of RPS is
-```
-Input = {
-  “class”: “Oven”
-  “recursive”: “False”
-}
+/hop/ontology_subclasses_of
 ```
 
-For this specific input, the result obtained was
+### Service request arguments
 
+```js
+{ query: '' }
 ```
-Output = {
-  “subclasses”: 
-  [ 
-    “http://knowrob.org/kb/knowrob.owl#Oven”, 
-    “http://knowrob.org/kb/knowrob.owl#MicrowaveOven”,
-    “http://knowrob.org/kb/knowrob.owl#RegularOven”,
-    “http://knowrob.org/kb/knowrob.owl#ToasterOven”
-  ]
-  “error”: “”
+- **query** (String): The query to the ontology database.
+
+
+### Service response
+
+application/json response.
+
+```javascript
+{ results: [], error: '' }
+```
+
+- **results** (Array): Query results.
+- **error** (String): Error message, if one occures.
+
+
+```javascript
+ { results: [ 'http://knowrob.org/kb/knowrob.owl#Oven',
+   'http://knowrob.org/kb/knowrob.owl#MicrowaveOven',
+   'http://knowrob.org/kb/knowrob.owl#RegularOven',
+   'http://knowrob.org/kb/knowrob.owl#ToasterOven'],
+   error: ''
 }
 ```
 
-##Superclasses-of RPS
 
-The superclasses_of RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS ontology wrapper, which performs queries to the KnowRob ontology repository. The superclasses_of RPS can be invoked using the following URL.
+## Ontology-SuperClasses-Of
 
-Service URL: ```localhost:9001/hop/superclasses_of```
-
-###Input/Output
-The superclasses_of RPS has two input arguments, which are the ontology class for which the superclasses must be found and the recursive flag. These are encoded in JSON format in an ASCII string representation.
-
-The superclasses_of RPS returns the superclasses of the input class in an ontology URL form. The encoding is in JSON format.
+### Service-Url
 
 ```
-Input = {
-  “class”: “THE_ONTOLOGY_CLASS”
-  “recursive”: “True of False”
-}
-```
-```
-Output = {
-  “superclasses”: [ “SUPCL_URL_1”, “SUPCL_URL_2”,… , “SUPCL_URL_3” ]
-  “error”: “Possible error”
-}
-```
-###Example
-An example input for the superclasses_of RPS is
-```
-Input = {
-  “class”: “SpatialThing”
-  “recursive”: “False”
-}
+/hop/ontology_superclasses_of
 ```
 
-For this specific input, the result obtained was
+### Service request arguments
 
-```
-Output = {
-  “superclasses”: 
-  [ 
-    “http://www.w3.org/2002/07/owl#Thing” 
-  ]
-  “error”: “”
-}
+```js
+{ query: '' }
 ```
 
-##Is Sub-Superclass-of RPS
+- **query** (String): The query to the ontology database.
 
-The is_subsuperclass_of RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS ontology wrapper, which performs queries to the KnowRob ontology repository.
 
-Service URL: ```localhost:9001/hop/is_subsuperclass_of```
+### Service response
 
-###Input/Output
-The is_subsuperclass_of RPS has three arguments, which are the parent and child ontology class, as well as the recursive flag. This is encoded in JSON format in an ASCII string representation.
+application/json response.
 
-The is_subsuperclass_of RPS returns true if the semantic relation holds. The encoding is in JSON format.
-
-```
-Input = {
-  “parent_class”: “THE_PARENT_ONTOLOGY_CLASS”
-  “child_class”: “THE_CHILD_ONTOLOGY_CLASS”
-  “recursive”: “True of False”
-}
-```
-```
-Output = {
-  “result”: “True or False”
-  “error”: “Possible error”
-}
-```
-###Example
-An example input for the is_subsuperclass_of RPS is
-```
-Input = {
-  “parent_class”: “SpatialThing”
-  “child_class”: “Oven”
-  “recursive”: “True”
-}
+```javascript
+{ results: [], error: '' }
 ```
 
-For this specific input, the result obtained was
+- **results** (Array): Query results returned from ontology database.
+- **error** (String): Error message, if one occures.
+
+
+## Ontology-Is-SubSuperClass-Of
+
+### Service-Url
 
 ```
-Output = {
-  “result”: “True”
-  “error”: “”
-}
+/hop/ontology_is_subsuperclass_of
 ```
+
+### Service request arguments
+
+```js
+{ parent_class: '', child_class: '', recursive: false }
+```
+
+- **parent_class** (String): The parent class name.
+- **child_class** (String) The child class name.
+- **recursive** (Boolean): Defines if a recursive procedure will be used (true/false).
+
+
+### Service response
+
+application/json response.
+
+```javascript
+{ result: true, error: '' }
+```
+
+- **result** (Boolena): Success index on ontology-is-subsuperclass-of query.
+- **error** (String): Error message, if one occures.
+
