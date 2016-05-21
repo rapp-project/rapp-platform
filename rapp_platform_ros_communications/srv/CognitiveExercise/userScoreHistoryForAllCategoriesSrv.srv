@@ -1,11 +1,20 @@
+#the username of the user whose score history is requsted
 string username
+#the test types for which the history is requested
 string testType
+#timestamp after which score performance entries will be included in history
 int64 fromTime
+#timestamp up to which score performance entries will be included in history
 int64 toTime
 ---
+#message containing a;; user performance records for each test type (category)
 ArrayCognitiveExercisePerformanceRecordsMsg[] recordsPerTestType
+#the test categories
 string[] testCategories
+#true if service call was successful
 bool success
+# possible error
 string error
+#trace information
 string[] trace
 

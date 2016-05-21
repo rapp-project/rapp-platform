@@ -1,10 +1,19 @@
+#the type of the requested tests
 string testType
+#the subtype of the requested tests
 string testSubType
+#the difficulty of the requested tests
 string difficulty
+#the language of the requested tests
 string language
 ---
-bool success
-string error
-string[] trace
+#message containing the cognitive exercises
 CognitiveExercisesMsg[] cognitiveExercises
+#number of cognitive exercises returned
 int16 totalNumberOfTestsReturned
+#true if service call was successful
+bool success
+# possible error
+string error
+#tracen information
+string[] trace

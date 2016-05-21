@@ -7,35 +7,43 @@ The RAPP Cognitive exercise system aims to provide the Robot users a means of pe
 # ROS Services
 
 ## Test Selector
-This service was created in order to select the appropriate test for a user given its type. The service will load the user’s past performance from the ontology, determine the appropriate difficulty setting for the specific user and return the least recently used test of its type. In case no test type is provided then the least recently used test type category will be selected.
+This service was created in order to select the appropriate test for a user given its type. The service will load the user’s past performance from the ontology, determine the appropriate difficulty setting for the specific user and return the least recently used test of its type. In case no test type is provided then the least recently used test type category will be selected. By providing the testType, testSubType, testDifficulty and testIndex parameters, a test can be selected manually.
 
 Service URL: ```/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser```
 
 Service type:
 ```bash
-#Contains info about time and reference
-Header header
-#The username of the user
+#the username of the user for which a cognitive test is requested
 string username
-#The test type requested
-String testType
----
-#The test’s name
-string test
-#The test’s type
+#used to specify the selected test type
 string testType
-#The test’s sub type
+#used to specify the selected test sub type
 string testSubType
-#The test’s language
+#used to specify the selected test difficulty
+string testDifficulty
+#used to specify the selected test index (id)
+string testIndex
+---
+#the returned test name
+string test
+#the returned test type
+string testType
+#the returned test sub type
+string testSubType
+#the returned test language
 string language
-#The test’s questions
+#the questions of the returned test
 string[] questions
-#The list of answers for each test
-string[][] answers
-#The correct answers for each test
-string[] correct_answers
-#Possible error
+#the possible answers of the questions
+rapp_platform_ros_communications/StringArrayMsg[] answers
+#the correct answers
+string[] correctAnswers
+#true if service call was successful
+bool success
+# possible error
 string error
+#tracen information
+string[] trace
 ``` 
 
 ## Record User Performance
@@ -45,21 +53,21 @@ Service URL: ```/rapp/rapp_cognitive_exercise/record_user_cognitive_test_perform
 
 Service type:
 ```bash
-#Contains info about time and reference
-Header header
-#The username of the user
+#the username of the user who completed the test
 string username
-#The type of the test
-string testType
-#The test which was performed
+#the name of the completed test
 string test
-#The score the user achieved on the test
-String score
+#the score achieved
+int32 score
 ---
-#Container for the subclasses
-String user_cognitive_test_performance_entry
-#Possible error
+#the name of the registered cognitive test user performance entry
+string userCognitiveTestPerformanceEntry
+#true if service call was successful
+bool success
+# possible error
 string error
+#tracen information
+string[] trace
 ``` 
 
 ## Cognitive Test creator
@@ -69,16 +77,99 @@ Service URL: ```/rapp/rapp_cognitive_exercise/cognitive_test_creator```
 
 Service type:
 ```bash
-#Contains info about time and reference
-Header header
-#The text file containing the test information
+#the path to the cognitive test file
 string inputFile
 ---
-#True if test creation and registration to the ontology was successfull
+#true if service call was successful
 bool success
-#Possible error
+# possible error
 string error
+#tracen information
+string[] trace
 ``` 
+
+## Return tests of type subtype and diffuclty
+This service will return the cognitive tests existing in the ontology for the given testType, testSubType, difficulty and language. In case any arguments are not provided, it will be ignored, as such the query can be specific or general as needed.
+
+Service URL: ```/rapp/rapp_cognitive_exercise/return_tests_of_type_subtype_difficulty_topic```
+
+Service type:
+```bash
+#the type of the requested tests
+string testType
+#the subtype of the requested tests
+string testSubType
+#the difficulty of the requested tests
+string difficulty
+#the language of the requested tests
+string language
+---
+#message containing the cognitive exercises
+CognitiveExercisesMsg[] cognitiveExercises
+#number of cognitive exercises returned
+int16 totalNumberOfTestsReturned
+#true if service call was successful
+bool success
+# possible error
+string error
+#tracen information
+string[] trace
+``` 
+
+## Return user cognitive test history
+This service will return the history of cognitive test performance records of the user for all test categories.
+
+Service URL: ```/rapp/rapp_cognitive_exercise/user_all_categories_history```
+
+Service type:
+```bash
+#the username of the user whose score history is requsted
+string username
+#the test types for which the history is requested
+string testType
+#timestamp after which score performance entries will be included in history
+int64 fromTime
+#timestamp up to which score performance entries will be included in history
+int64 toTime
+---
+#message containing a;; user performance records for each test type (category)
+ArrayCognitiveExercisePerformanceRecordsMsg[] recordsPerTestType
+#the test categories
+string[] testCategories
+#true if service call was successful
+bool success
+# possible error
+string error
+#trace information
+string[] trace
+``` 
+
+## Return user cognitive test scores
+This service will return the cumulative cognitive test scores of the user for all test categories.
+
+Service URL: ```/rapp/rapp_cognitive_exercise/user_all_categories_score```
+
+Service type:
+```bash
+#the username of the user whose scores are requested
+string username
+#the type of the test for which the scores are requested
+string testType
+# timestamp up to which score performance entries will be requested
+int64 upToTime
+---
+#the test categories for which scores are returned
+string[] testCategories
+# the score of each test category
+float64[] testScores
+#true if service call was successful
+bool success
+# possible error
+string error
+#trace information
+string[] trace
+``` 
+
 
 # Launchers
 
@@ -91,97 +182,134 @@ roslaunch rapp_cognitive_exercise cognitive_exercise.launch
 
 # HOP services
 
-## Test Selector RPS
+## Cognitive-Test-Selector
 
-The test_selector RPS is of type 3 since it contains a HOP service front-end, contacting a RAPP ROS ontology wrapper, which performs queries to the KnowRob ontology repository. The get subclass of RPS can be invoked using the following URL.
 
-Service URL: ```localhost:9001/hop/test_selector```
+### Service URL
+ ```/hop/cognitive_test_chooser```
 
-### Input/Output
-The test_selector RPS has two arguments, which are the username of the user and the requested test type. This is encoded in JSON format in an ASCII string representation.
+### Service request arguments
+The test_selector RPS  arguments are the username of the user, the type and subtype of the requested test and the difficulty and index of the test for manual test selection. This is encoded in JSON format in an ASCII string representation.
 
-The test_selector RPS the questions, the possible answers and the correct answers of the selected test. The encoding is in JSON format.
-
+```js
+{ test_type: '', test_subtype: '', test_diff: '', test_index: '' }
 ```
-Input = {
-  “username”: “THE_USERNAME”
-  “testType”: “THE_TEST_TYPE”
-}
-```
-```
-Output = {
-  “test”: “The test’s name”
-  “testType”: “The test’s type”
-  “testSubType”: “The test’s sub type”
-  “language”: “The test’s language”
-  “questions”: “The questions of the test”
-  “answers”: “The possible answers for each question of the test”
-  “correct_answers”: “The correct answer for each question of the test”
-  “error”: “Possible error”
-}
 
-```
-### Example
+- **test_type** (String): Cognitive Exercise test type. Can be one of
+  * 'ArithmeticCts'
+  * 'AwarenessCts'
+  * 'ReasoningCts'
+  * ''
+- **test_subtype** (String): Use this to force select from this subtype. Defaults to empty string "".
+- **test_diff** (String): Use this to force select from this difficulty. Defaults to empty string "".
+- **test_index** (String): Use this to force select from this id. Defaults to empty string "".
+
+#### Example
 An example input for the test_selector RPS is
-```
-Input = {
-  “instance_name”: “Person_1”
-  “attribute_names”: “ArithmeticCts”
-}
+```js
+{ test_type: 'Arithmetic', test_subtype: 'BasicArithmetic', test_diff: '1', test_index: '1' }
 ```
 
-For this specific input, the result obtained was
-
-```
-Output = {
-  “test”: “ArithmeticCts_XXXXXXX”
-  “testType”: “ArithmetiCts”
-  “testSubType”: “BasicArithmetic”
-  “language”: “en”
-  “questions”: “[How much is 2 plus 2?, How much is 5 plus 5?]”
-  “answers”: “[2,3,4,5],[7,8,9,10]”
-  “correct_answers”: “[4,10]"
-}
+### Service response
+```javascript
+ { questions: [], possib_ans: [], correct_ans: [], test_instance: '', test_type: '', test_subtype: '', error: '' }
 ```
 
-## Record user cognitive test performance RPS
+- **questions** (Array): The exercise set of questions.
+- **possib_ans**(Array):  The set of answers for each question. vector<vector<string>>
+- **correct_ans**(Array): The set of correct answers for each question. vector<string>
+- **test_instance** (String): Returned test name. For example, 'ArithmeticCts_askw0Snwk'
+- **test_type** (String): Cognitive exercise class/type.
+- **test_subtype** (String): Cognitive exercise sub-type.
+- **error** (String): Error message, if one occures.
 
-The record_user_cognitive_test_performance RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS ontology wrapper, which performs queries to the KnowRob ontology repository. The record user cognitive test performance of RPS can be invoked using the following URL.
 
-Service URL: ```localhost:9001/hop/record_user_cognitive_test_performance```
+## Cognitive-Record-Performance
 
-### Input/Output
-The record_user_cognitive_test_performance RPS has four arguments, which are the username of the user the test which was taken, the test’s type and the score achieved. This is encoded in JSON format in an ASCII string representation.
 
-The record_user_cognitive_test_performance RPS outputs only a possible error message which is empty when the query was successful. The encoding is in JSON format.
-
+### Service URL
 ```
-Input = {
-  “username”: “THE_USERNAME”
-  “test”: “THE_TEST”
-  “testType”: “THE_TEST_TYPE”
-}
-```
-```
-Output = {
-  “error”: “Possible error”
-}
+/hop/cognitive_record_performance
 ```
 
-### Example
-An example input for the record_user_cognitive_test_performance RPS is
-```
-Input = {
-  “instance_name”: “Person_1”
-  “test”: “Test1”
-  “testType”: “ArithmeticCts”
-  “score”: “90”
-}
-```
-For this specific input, the result obtained was
+### Service request arguments
 
-```
-Output = {
-  “error”: 
+```js
+{ test_instance: '', score: 0 }
 ```
 
+- **test_instance** (String): Cognitive Exercise test instance. The full cognitive test entry name as returned by the **cognitive_test_chooser** web service.
+- **score** (Integer): User's performance score on given test entry.
+
+
+### Service response
+
+
+```javascript
+{ performance_entry: '', error: '' }
+```
+
+- **performace_entry** (String): User's cognitive test performance entry in ontology.
+- **error** (String): Error message, if one occures.
+
+
+## Cognitive-Get-History
+
+### Service Url
+
+```
+/hop/cognitive_get_history
+```
+
+### Service request arguments
+
+```js
+{ from_time: '', to_time: 0, test_type: '' }
+```
+
+- **test_type** (String): Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts'] or leave empty ("") for all.
+- **from_time** (Integer): Unix timestamp.
+- **to_time** (Integer):  Unix timestamp.
+
+
+### Service response
+
+application/json response.
+
+```javascript
+{ records: {}, error: '' }
+```
+
+- **records** (Object): Users history records on Cognitive Exerises
+- **error** (String): Error message, if one occures.
+
+
+## Cognitive-Get-Scores
+
+### Service Url
+
+```
+/hop/cognitive_get_scores
+```
+
+### Service request arguments
+
+```js
+{ up_to_time: 0, test_type: '' }
+```
+
+- **test_type** (String): Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts'] or leave empty ("") for all.
+- **up_to_time** (Integer):  Unix timestamp. Return scores that have been recorder up to this time value.
+
+
+### Service response
+
+application/json response.
+
+```javascript
+{ test_classes: [], scores: [], error: '' }
+```
+
+- **test_classes** (Array): An array of the test classes indexes.
+- **scores** (Array): Array of scores. Each array index corresponds to the test class of the **test_classes** property.
+- **error** (String): Error message, if one occures.

@@ -1,16 +1,31 @@
+#the username of the user for which a cognitive test is requested
 string username
+#used to specify the selected test type
 string testType
+#used to specify the selected test sub type
 string testSubType
+#used to specify the selected test difficulty
 string testDifficulty
+#used to specify the selected test index (id)
 string testIndex
 ---
-bool success
-string error
+#the returned test name
 string test
+#the returned test type
 string testType
+#the returned test sub type
 string testSubType
+#the returned test language
 string language
-string[] trace
+#the questions of the returned test
 string[] questions
+#the possible answers of the questions
 rapp_platform_ros_communications/StringArrayMsg[] answers
+#the correct answers
 string[] correctAnswers
+#true if service call was successful
+bool success
+# possible error
+string error
+#tracen information
+string[] trace

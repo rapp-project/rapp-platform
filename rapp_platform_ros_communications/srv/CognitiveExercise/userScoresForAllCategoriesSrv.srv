@@ -1,10 +1,18 @@
+#the username of the user whose scores are requested
 string username
+#the type of the test for which the scores are requested
 string testType
+# timestamp up to which score performance entries will be requested
 int64 upToTime
 ---
+#the test categories for which scores are returned
 string[] testCategories
+# the score of each test category
 float64[] testScores
+#true if service call was successful
 bool success
+# possible error
 string error
+#trace information
 string[] trace
 

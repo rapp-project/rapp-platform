@@ -1,6 +1,10 @@
+#the path to the cognitive test file
 string inputFile
 ---
+#true if service call was successful
 bool success
+# possible error
 string error
+#tracen information
 string[] trace
 

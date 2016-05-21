@@ -1,9 +1,17 @@
+#the username of the user who completed the test
 string username
+#the name of the completed test
 string test
+#the score achieved
 int32 score
 ---
-bool success
+#the name of the registered cognitive test user performance entry
 string userCognitiveTestPerformanceEntry
+#true if service call was successful
+bool success
+# possible error
 string error
+#tracen information
 string[] trace
+
 
