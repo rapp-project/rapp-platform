@@ -33,7 +33,7 @@ from RappCloud.CloudMsgs import OntologySubclasses
 class RappInterfaceTest:
 
   def __init__(self):
-    self.msg= OntologySubclasses(query='Oven')
+    self.msg= OntologySubclasses(ontology_class='Oven', recursive=False)
     self.svc = RappPlatformService(msg=self.msg)
     # Set the valid results
     self.valid_results = [

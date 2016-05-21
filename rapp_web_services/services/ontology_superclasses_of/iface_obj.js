@@ -30,7 +30,8 @@ var clientRes = function( ){
 
 var clientReq = function( ){
   var obj = {
-    query: ''
+    ontology_class: '',
+    recursive: ''
   };
   return obj;
 };

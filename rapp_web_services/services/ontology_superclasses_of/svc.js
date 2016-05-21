@@ -41,22 +41,14 @@ var rosSrvName = "/rapp/rapp_knowrob_wrapper/superclasses_of";
  *  [Ontology-superclasses-of] RAPP Platform front-end web service.
  *  Handles requests for ontology-superclasses-of query.
  *
- *  @function ontology_subclasses_of
- *
- *  @param {Object} args - Service input arguments (literal).
- *  @param {String} args.query - Recursive query.
- *
- *
- *  @returns {Object} response - Response Object.
- *  @returns {Array} response.results - Query results.
- *  @returns {String} response.error - Error message string to be filled
- *    when an error has been occured during service call.
+ * Service Implementation
  *
  */
 function svcImpl ( req, resp, ros )
 {
   var rosMsg = new interfaces.ros_req();
-  rosMsg.ontology_class = req.body.query;
+  rosMsg.ontology_class = req.body.ontology_class;
+  rosMsg.recursive = req.body.recursive;
 
   /* ROS-Service response callback. */
   function callback(data){

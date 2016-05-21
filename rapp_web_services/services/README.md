@@ -459,9 +459,10 @@ The following Platform services give access to the Platform integrated Ontology 
 ##### Service request arguments
 
 ```js
-{ query: '' }
+{ ontology_class: '', recursive: false }
 ```
-- **query** (String): The query to the ontology database.
+- **ontology_class** (String): The ontology class.
+- **recursive** (Boolean): Recursive search.
 
 
 ##### Service response
@@ -497,10 +498,11 @@ application/json response.
 ##### Service request arguments
 
 ```js
-{ query: '' }
+{ ontology_class: '', recursive: false }
 ```
 
-- **query** (String): The query to the ontology database.
+- **ontology_class** (String): The ontology class.
+- **recursive** (Boolean): Recursive search.
 
 
 ##### Service response
@@ -531,7 +533,7 @@ application/json response.
 
 - **parent_class** (String): The parent class name.
 - **child_class** (String) The child class name.
-- **recursive** (Boolean): Defines if a recursive procedure will be used (true/false).
+- **recursive** (Boolean): Recursive search.
 
 
 ##### Service response

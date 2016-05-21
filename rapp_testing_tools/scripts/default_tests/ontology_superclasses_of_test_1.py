@@ -33,7 +33,7 @@ from RappCloud.CloudMsgs import OntologySuperclasses
 class RappInterfaceTest:
 
   def __init__(self):
-    self.msg = OntologySuperclasses(query='Oven')
+    self.msg = OntologySuperclasses(ontology_class='Oven', recursive=False)
     self.svc = RappPlatformService(msg=self.msg)
     self.valid_results = [ 'http://knowrob.org/kb/knowrob.owl#Box-Container',\
       'http://knowrob.org/kb/knowrob.owl#FurniturePiece', \
