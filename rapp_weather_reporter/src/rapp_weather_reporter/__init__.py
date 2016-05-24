@@ -18,3 +18,4 @@ from rapp_weather_reporter.weather_reporter_node import WeatherReporterNode
 from rapp_weather_reporter.weather_reporter_factory import WeatherReporterFactory
 from rapp_weather_reporter.weather_reporter_base import WeatherReporterBase
 from rapp_weather_reporter.yweather_reporter import YWeatherReporter
+from rapp_weather_reporter.forecastio_reporter import ForecastIOReporter

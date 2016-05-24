@@ -122,7 +122,6 @@ class YWeatherReporter(WeatherReporterBase):
             fore = {}
             fore['high_temperature'] = forecast['high']
             fore['low_temperature'] = forecast['low']
-            fore['low_temperature'] = forecast['low']
             fore['description'] = forecast['text']
             fore['date'] = forecast['date']
             response.append(fore)

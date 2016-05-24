@@ -19,6 +19,7 @@
 # contact: aris.thallas@{iti.gr, gmail.com}
 
 from rapp_weather_reporter.yweather_reporter import YWeatherReporter
+from rapp_weather_reporter.forecastio_reporter import ForecastIOReporter
 
 from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
@@ -42,11 +43,14 @@ class WeatherReporterFactory(object):
 
         # Set yweather(Yahoo) as a default weather reporter
         if weather_reporter == '':
-            weather_reporter = 'yweather'
+            weather_reporter = 'forecastio'
 
         if weather_reporter == 'yweather':
             RappUtilities.rapp_print('Creating yweather weather reporter', 'DEBUG')
             return YWeatherReporter()
+        elif weather_reporter == 'forecastio':
+            RappUtilities.rapp_print('Creating forecast.io weather reporter', 'DEBUG')
+            return ForecastIOReporter()
         else:
             RappUtilities.rapp_print('Wrong weather reporter provided', 'ERROR')
             raise RappError('Wrong weather reporter provided')
