@@ -19,6 +19,7 @@
 # contact: aris.thallas@{iti.gr, gmail.com}
 
 from rapp_news_explorer.google_news_engine import GoogleNewsEngine
+from rapp_news_explorer.event_registry_engine import EventRegistryEngine
 
 from rapp_utilities import RappUtilities
 from rapp_exceptions import RappError
@@ -45,11 +46,15 @@ class EngineFactory(object):
             RappUtilities.rapp_print('No search engine provided. Falling ' +
                                      'back to default (Google News)',
                                      'DEBUG')
-            engine = 'google'
+            engine = 'event_registry'
 
         if engine == 'google':
             RappUtilities.rapp_print('Creating Google News engine', 'DEBUG')
             return GoogleNewsEngine()
+        elif engine == 'event_registry':
+            RappUtilities.rapp_print('Creating Envents Registry engine',
+                                     'DEBUG')
+            return EventRegistryEngine()
         else:
             RappUtilities.rapp_print('Wrong news engine provided', 'ERROR')
             raise RappError('Wrong news engine provided')
