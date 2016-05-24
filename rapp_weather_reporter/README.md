@@ -12,6 +12,15 @@ Thus, service call failures may exist.
 
 Currently supported weather reporters:
 * [YWeather](https://pypi.python.org/pypi/yweather/)
+* [ForecastIO](https://forecast.io) (default)
+
+In order for the ForecastIO weather reporter to be deployed an API key is
+required.
+After obtaining the key via registration, the key should be stored in the
+following location:
+```
+${HOME}/.config/rapp_platform/api_keys/forecast.io
+```
 
 # ROS Services
 
@@ -42,6 +51,7 @@ string wind_direction
 **Available weather_reporter values:**
 * '' (uses default weather reporter)
 * 'yweather'
+* 'forecastio'
 
 
 ## Weather Forecast
@@ -64,6 +74,7 @@ rapp_platform_ros_communications/WeatherForecastMsg[] forecast
 **Available weather_reporter values:**
 * '' (uses default weather reporter)
 * 'yweather'
+* 'forecastio'
 
 WeatherForecastMsg.msg
 
@@ -100,6 +111,7 @@ Input = {
 **Available weather_reporter values:**
 * '' (uses default weather reporter)
 * 'yweather'
+* 'forecastio'
 
 ```
 Output = {
@@ -132,6 +144,7 @@ Input = {
 **Available weather_reporter values:**
 * '' (uses default weather reporter)
 * 'yweather'
+* 'forecastio'
 
 ```
 Output = {
