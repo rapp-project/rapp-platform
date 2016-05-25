@@ -3,9 +3,7 @@ project(rapp_object_recognition)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  rospy
-  std_msgs
-  message_generation
+  rostest
   cv_bridge
   sensor_msgs
   geometry_msgs
@@ -13,31 +11,21 @@ find_package(catkin REQUIRED COMPONENTS
   rapp_platform_ros_communications
 )
 
-#add_service_files(
-#  FILES
-#  FindObjects.srv
-#  UploadImage.srv
-#  LightCheck.srv
-#)
-
-#add_message_files(
-#  FILES
-#)
-
-#generate_messages(
-#  DEPENDENCIES
-#  std_msgs
-#  sensor_msgs
-#  geometry_msgs
-#)
-
 catkin_package(
-  CATKIN_DEPENDS message_runtime
+  CATKIN_DEPENDS
+    roscpp
+    rostest
+    rapp_platform_ros_communications
+    cv_bridge
+  INCLUDE_DIRS
+    include
 )
 
 ###########
 ## Build ##
 ###########
+
+add_definitions(-std=c++11)
 
 include_directories(
   include
@@ -45,23 +33,43 @@ include_directories(
 )
 
 
-add_executable(find_objects_node src/find_objects_node.cpp src/find_objects.cpp)
-target_link_libraries(find_objects_node ${catkin_LIBRARIES})
-add_dependencies(find_objects_node ${PROJECT_NAME}_generate_messages_cpp)
+set(BASE_NAME find_objects)
 
-#add_executable(upload_image_node src/upload_image_node.cpp)
-#target_link_libraries(upload_image_node ${catkin_LIBRARIES})
-#add_dependencies(upload_image_node ${PROJECT_NAME}_generate_messages_cpp)
+## Library for unit testing
+add_library(${BASE_NAME}_lib
+  src/${BASE_NAME}.cpp
+)
 
-#add_executable(light_check_node src/light_check_node.cpp src/light_check.cpp)
-#target_link_libraries(light_check_node ${catkin_LIBRARIES})
-#add_dependencies(light_check_node ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(${BASE_NAME}_lib
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(${BASE_NAME}_lib
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
+
+## ROS node executable
+add_executable(${BASE_NAME}_node
+  src/${BASE_NAME}.cpp
+  src/${BASE_NAME}_node.cpp
+)
+
+target_link_libraries(${BASE_NAME}_node
+  ${BASE_NAME}_lib
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(${BASE_NAME}_node
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
 
 #############
 ## Install ##
 #############
 
-install(TARGETS find_objects_node # upload_image_node light_check_node
+install(TARGETS find_objects_lib find_objects_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -74,3 +82,17 @@ install(DIRECTORY launch/
 #############
 ## Testing ##
 #############
+if (CATKIN_ENABLE_TESTING)
+  # unit tests
+  catkin_add_gtest(${BASE_NAME}_unit_test
+    tests/${BASE_NAME}/unit_tests.cpp
+  )
+  target_link_libraries(${BASE_NAME}_unit_test
+    ${catkin_LIBRARIES}
+    ${BASE_NAME}_lib
+    gtest_main
+  )
+
+  # functional tests
+  #add_rostest(tests/${BASE_NAME}/functional_tests.launch)
+endif()

@@ -1,9 +1,5 @@
 # Path (id) of query image
 string fname
-# List of known objects - names
-string[] names
-# List of known objects - image files (models)
-string[] files
 # Limit search to N best matches
 uint32 limit
 # User name

@@ -11,7 +11,7 @@ std::map<std::string, FindObjects> detectors;
 bool service_FindObjects(rapp_platform_ros_communications::FindObjectsSrv::Request  &req,
                          rapp_platform_ros_communications::FindObjectsSrv::Response &res)
 {
-  detectors[req.user].findObjects(req.user, req.fname, req.names, req.files, req.limit, res.found_names, res.found_centers, res.found_scores);
+  detectors[req.user].findObjects(req.user, req.fname, req.limit, res.found_names, res.found_centers, res.found_scores);
   return true;
 }
 
@@ -64,18 +64,19 @@ int main(int argc, char **argv)
   int threads = 1;
   if(!n.getParam("/rapp_object_recognition_threads", threads))
   {
-    ROS_ERROR("Hazard detection threads param not found");
+    ROS_WARN("Hazard detection threads param not found");
   }
   else if(threads < 0)
   {
     threads = 1;
   }
-  //ros::MultiThreadedSpinner spinner(threads);
-  //spinner.spin();
   
   ROS_INFO("Ready to recognize!");
+  ros::MultiThreadedSpinner spinner(threads);
+  spinner.spin();
   
-  ros::spin();
+  
+  //ros::spin();
 
   return 0;
 }

@@ -10,21 +10,27 @@
 
 using namespace cv;
 
+/**
+ * 
+ */
 class FindObjects {
 public:
 	FindObjects() : matcher(NORM_HAMMING, true) {
 	}
 
-	int findObjects(const std::string & user, const std::string & fname, const std::vector<std::string> & names, const std::vector<std::string> & files, unsigned int limit, 
+	/**
+	 * 
+	 */
+	int findObjects(const std::string & user, const std::string & fname, unsigned int limit, 
 	                std::vector<std::string> & found_names, std::vector<geometry_msgs::Point> & found_centers, std::vector<double> & found_scores);
 	
-	void learnObject(const std::string & user, const std::string & fname, const std::string & name, int & result);
+	int learnObject(const std::string & user, const std::string & fname, const std::string & name);
 	
-	void clearModels(const std::string & user);
+	bool clearModels(const std::string & user);
 	
-	void loadModel(const std::string & user, const std::string & name);
+	bool loadModel(const std::string & user, const std::string & name);
 	
-	void loadModels(const std::string & user, const std::vector<std::string> & names, int & result);
+	std::map<std::string, bool> loadModels(const std::string & user, const std::vector<std::string> & names, int & result);
 
 protected:
 	bool loadImage(const std::string filename_, cv::Mat & image_);

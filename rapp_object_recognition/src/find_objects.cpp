@@ -29,9 +29,8 @@ std::string expand_user(std::string path) {
 // ******************************* FUNCTIONS *******************************
 bool FindObjects::loadImage(const std::string filename_, cv::Mat & image_) {
 	try {
-		// TODO: fix the case of invalid file.
-	        image_ = imread( filename_ );
-		return true;
+		image_ = imread( filename_ );
+		return !image_.empty();
 	} catch (...) {
 		ROS_WARN ("Could not load image from file %s", filename_.c_str());
 		return false;
@@ -63,12 +62,11 @@ bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & 
 	}//: catch
 }
 
-void FindObjects::learnObject(const std::string & user, const std::string & fname, const std::string & name, int & result) {
+int FindObjects::learnObject(const std::string & user, const std::string & fname, const std::string & name) {
 	cv::Mat model_img;
 	
 	if (!loadImage(fname, model_img)) {
-		result = -2;
-		return;
+		return -2;
 	}
 	
 	ROS_DEBUG("Size of loaded image (%d,%d)", model_img.size().width, model_img.size().height );
@@ -77,7 +75,7 @@ void FindObjects::learnObject(const std::string & user, const std::string & fnam
 	cv::Mat model_descriptors;
 	extractFeatures(model_img, model_keypoints, model_descriptors);
 
-	// Add to "database".
+	// store model on disk
 	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/" + name + ".yml";
 	ROS_INFO("Model file: %s", fs_path.c_str());
 	FileStorage fs(fs_path, FileStorage::WRITE);
@@ -87,23 +85,29 @@ void FindObjects::learnObject(const std::string & user, const std::string & fnam
 	fs.release();
 
 	ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
+	
+	return 0;
 }
 
-void FindObjects::clearModels(const std::string & user) {
+bool FindObjects::clearModels(const std::string & user) {
 	models_keypoints.clear();
 
 	models_descriptors.clear();
 
 	models_names.clear();
+	
+	return true;
 }
 
-void FindObjects::loadModel(const std::string & user, const std::string & name) {
+bool FindObjects::loadModel(const std::string & user, const std::string & name) {
 	std::vector<cv::KeyPoint> model_keypoints;
 	cv::Mat model_descriptors;
 	std::string fname;
 	
 	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/" + name + ".yml";
 	FileStorage fs(fs_path, FileStorage::READ);
+	if (!fs.isOpened()) return false;
+	
 	cv::FileNode kptFileNode = fs["keypoints"];
   cv::read( kptFileNode, model_keypoints );
 	fs["descriptors"] >> model_descriptors;
@@ -118,14 +122,18 @@ void FindObjects::loadModel(const std::string & user, const std::string & name) 
 	models_names.push_back(name);
 	models_descriptors.push_back(model_descriptors);
 	models_keypoints.push_back(model_keypoints);
+	
+	return true;
 }
 
-void FindObjects::loadModels(const std::string & user, const std::vector<std::string> & names, int & result) {
+std::map<std::string, bool> FindObjects::loadModels(const std::string & user, const std::vector<std::string> & names, int & result) {
+	std::map<std::string, bool> ret;
 	for (size_t i = 0; i < names.size(); ++i) {
-		loadModel(user, names[i]);
+		ret[names[i]] = loadModel(user, names[i]);
 	}
 	
 	result = 0;
+	return ret;
 }
 
 void FindObjects::loadModels(std::vector<std::string> names_, std::vector<std::string> files_) {
@@ -209,17 +217,16 @@ void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, 
 }
 
 
-int FindObjects::findObjects(const std::string & user, const std::string & fname, const std::vector<std::string> & names, const std::vector<std::string> & files, unsigned int limit, 
+int FindObjects::findObjects(const std::string & user, const std::string & fname, unsigned int limit, 
                 std::vector<std::string> & found_names, std::vector<geometry_msgs::Point> & found_centers, std::vector<double> & found_scores){
 
-  if (!names.empty()) {
-		// Re-load the model - extract features from model.
-		loadModels(names, files);
-		if (models_imgs.size() == 0)
-			return -1;
-	}
 
-	ROS_INFO("Finding objects with the use of %d models", (int)models_names.size());
+	if (models_names.empty()) {
+		ROS_WARN("No models loaded");
+		return -1;
+	} else {
+		ROS_INFO("Finding objects with the use of %d models", (int)models_names.size());
+	}
   
   
   
