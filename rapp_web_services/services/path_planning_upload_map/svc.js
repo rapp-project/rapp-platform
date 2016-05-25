@@ -50,12 +50,12 @@ function svcImpl ( req, resp, ros )
 {
   var response = new interfaces.client_res();
 
-  if( ! req.files.png_file[0] ){
+  if( ! req.files.png_file ){
     response.error = 'No map image file received';
     resp.sendJson(response);
     return;
   }
-  if( ! req.files.yaml_file[0] ){
+  if( ! req.files.yaml_file ){
     response.error = 'No map image file received';
     resp.sendJson(response);
     return;
