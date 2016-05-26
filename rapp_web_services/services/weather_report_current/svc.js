@@ -100,7 +100,7 @@ function parseRosbridgeMsg(rosbridge_msg)
   currentWeather.wind_temperature = rosbridge_msg.wind_temperature;
   currentWeather.wind_direction = rosbridge_msg.wind_direction;
 
-  response.weather_current = currentWeather;
+  response = currentWeather;
 
   return response;
 }
