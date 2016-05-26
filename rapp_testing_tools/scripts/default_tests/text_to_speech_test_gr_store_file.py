@@ -47,7 +47,7 @@ class RappInterfaceTest:
         return [response.error, self.elapsed_time]
 
     # Check if the returned data are equal to the expected
-    self.msg.store_audio(self.destFilePath)
+    response.store_audio(self.destFilePath)
     if os.path.getsize(self.destFilePath) > 0:
         return [True, self.elapsed_time]
     else:
