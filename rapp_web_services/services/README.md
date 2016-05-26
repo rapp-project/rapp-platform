@@ -803,11 +803,8 @@ application/json response.
 
 ```javascript
 {
-  weather_current: {
     date: '', temperature: '', weather_description: '', humidity: '', visibility: '',
-    pressure: '', wind_speed: '', wind_temperature: '', wind_direction: ''
-  },
-  error: ''
+    pressure: '', wind_speed: '', wind_temperature: '', wind_direction: '', error: ''
 }
 ```
 
