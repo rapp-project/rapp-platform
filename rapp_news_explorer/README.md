@@ -12,7 +12,15 @@ as Google News are restricted according to the APIs' rules and limitations.
 Thus, service call failures may exist.
 
 Currently supported News Engines:
-* Google News ([API](https://developers.google.com/news-search/v1/devguide))
+* Google News ([API](https://developers.google.com/news-search/v1/devguide)) (discontinued by Google)
+* [EventRegistry](http://eventregistry.org/) ([GitHub wiki](https://github.com/gregorleban/EventRegistry/wiki))
+
+EventRegistry does not require login, however it is subjected to [daily access restrictions.](https://github.com/gregorleban/EventRegistry/wiki/Daily-access-restrictions) If you have an EventRegistry account, you should provide the credentials in the file `${HOME}/.config/rapp_platform/api_keys/event_registry` in the format:
+
+```
+username
+password
+```
 
 # ROS Services
 
@@ -48,6 +56,7 @@ rapp_platform_ros_communications/NewsStoryMsg[] stories
 **Available newsEngine values:**
 * '' (uses default news engine)
 * 'google'
+* 'event_registry'
 
 NewsStoryMsg.msg
 ```
@@ -89,6 +98,7 @@ Input = {
 **Available news_engine values:**
 * '' (uses default news engine)
 * 'google'
+* 'event_registry'
 
 ```
 Output = {
