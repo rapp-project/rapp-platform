@@ -34,11 +34,19 @@ class EventRegistryEngine(NewsEngineBase):
     ## @brief Constructor
     def __init__(self):
         NewsEngineBase.__init__(self)
+        self._event_handler = EventRegistry()
+
         key_path = os.path.join(os.environ['HOME'],
                                 '.config/rapp_platform/api_keys/event_registry')
-        with open(key_path) as key_fd:
-            self._username = key_fd.readline().strip()
-            self._password = key_fd.readline().strip()
+        if os.path.isfile(key_path):
+            RappUtilities.rapp_print('Login', 'WARN')
+            with open(key_path) as key_fd:
+                self._username = key_fd.readline().strip()
+                self._password = key_fd.readline().strip()
+                self._event_handler.login(self._username, self._password)
+        else:
+            RappUtilities.rapp_print('SHIT', 'ERROR')
+
 
         # Some default parameter values
         self._max_requests = 20
@@ -72,15 +80,13 @@ class EventRegistryEngine(NewsEngineBase):
         max_stories = req.storyNum if req.storyNum < self._max_stories else \
             self._max_stories
 
-        er = EventRegistry()
-        er.login(self._username, self._password)
         q = QueryArticles()
 
         for keyword in req.keywords:
-            q.addConcept(er.getConceptUri(keyword))
+            q.addConcept(self._event_handler.getConceptUri(keyword))
         q.addRequestedResult(RequestArticlesInfo(count=max_stories))
 
-        stories = er.execQuery(q)
+        stories = self._event_handler.execQuery(q)
 
         final_stories = []
 
