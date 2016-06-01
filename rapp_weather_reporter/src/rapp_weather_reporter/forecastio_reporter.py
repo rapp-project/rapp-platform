@@ -46,12 +46,20 @@ class ForecastIOReporter(WeatherReporterBase):
     # @param city [string] The city name
     #
     # @return fio [object] The weather report object
-    def _get_fio_object(self, city):
+    def _get_fio_object(self, city, metric):
         geocode = geocoder.google(city)
 
-        fio = ForecastIO.ForecastIO(self._api_key,
-                                    latitude=geocode.latlng[0],
-                                    longitude=geocode.latlng[1])
+        if metric == 0:
+            fio = ForecastIO.ForecastIO(self._api_key,
+                                        units=ForecastIO.ForecastIO.UNITS_US,
+                                        latitude=geocode.latlng[0],
+                                        longitude=geocode.latlng[1])
+        else:
+            fio = ForecastIO.ForecastIO(self._api_key,
+                                        units=ForecastIO.ForecastIO.UNITS_SI,
+                                        latitude=geocode.latlng[0],
+                                        longitude=geocode.latlng[1])
+
         return fio
 
     ## @brief Fetch the current weather
@@ -62,7 +70,7 @@ class ForecastIOReporter(WeatherReporterBase):
     #
     # @return [dict] The server results
     def fetch_current_weather(self, req):
-        fio = self._get_fio_object(req.city)
+        fio = self._get_fio_object(req.city, req.metric)
         if fio.has_currently() is True:
             currently = FIOCurrently.FIOCurrently(fio)
             return self._handle_current_weather_report(currently)
@@ -77,7 +85,7 @@ class ForecastIOReporter(WeatherReporterBase):
     #
     # @return [dict] The server results
     def fetch_weather_forecast(self, req):
-        fio = self._get_fio_object(req.city)
+        fio = self._get_fio_object(req.city, req.metric)
         if fio.has_daily() is True:
             daily = FIODaily.FIODaily(fio)
             return self._handle_weather_forecast_report(daily)
