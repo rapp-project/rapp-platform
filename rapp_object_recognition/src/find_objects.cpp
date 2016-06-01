@@ -9,6 +9,8 @@
 
 #include "rapp_object_recognition/find_objects.hpp"
 
+//#define DEBUG_IMAGES
+
 namespace fs = boost::filesystem;
 
 std::string expand_user(std::string path) {
@@ -41,7 +43,7 @@ bool FindObjects::loadImage(const std::string & filename_, cv::Mat & image_) {
 }
 
 
-bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_) {
+bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_, cv::Mat mask_) {
         cv::Mat gray_img;
 
 	try {
@@ -52,7 +54,7 @@ bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & 
 			cvtColor(image_, gray_img, COLOR_BGR2GRAY);
 
 		// Detect the keypoints.
-		detector.detect( gray_img, keypoints_ );
+		detector.detect( gray_img, keypoints_, mask_ );
 
 		if (!silent_) ROS_INFO("Detected %d keypoints", (int)keypoints_.size());
 
@@ -151,7 +153,7 @@ void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, 
 
 	// Special case: insert first object hypothesis.
 	if (recognized_names.size() == 0) {
-		ROS_INFO("Adding first (0) object hypothesis");
+		if (!silent_) ROS_INFO("Adding first (0) object hypothesis");
 		recognized_names.push_back(name_);
 		recognized_centers.push_back(center_);
 		recognized_corners.push_back(corners_);
@@ -168,6 +170,11 @@ void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, 
 	bool added = false;
 	// Insert in proper order.
 	for (; names_it != recognized_names.end(); names_it++, centers_it++, corners_it++, scores_it++) {
+		// check, if new object center is close to already found one
+		if (norm(*centers_it - center_) < 20) {
+			if (!silent_) ROS_INFO("Ignoring object hypothesis, to close to existing one");
+			return;
+		}
 		if (*scores_it < score_){
 			// Insert here! (i.e. before) - stop the iterator at this place.
 			break;
@@ -237,7 +244,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 		// Find matches.
 		matcher.match( models_descriptors[m], scene_descriptors, matches );
-
+		
 		if (!silent_) ROS_INFO ("Matches found: %d", (int)matches.size());
 
 		// Filtering.
@@ -264,91 +271,125 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 		if (!silent_) ROS_INFO ("Good matches: %d", (int)good_matches.size());
 
+#ifdef DEBUG_IMAGES
+		Mat img_matches;
+		drawMatches(models_imgs[m], models_keypoints[m], scene_img, scene_keypoints, good_matches, img_matches);
+		imwrite(std::string("/tmp/matches_" + models_names[m] + ".png"), img_matches);
+#endif
+
 		// Localize the object
 		std::vector<Point2f> obj;
 		std::vector<Point2f> scene;
+		std::vector<int> match_idx;
+		std::vector<uchar> h_mask;
+		int ransac_thresh = 10;
 
 		// Get the keypoints from the good matches.
 		for( int i = 0; i < good_matches.size(); i++ ) {
-		  obj.push_back( models_keypoints [m] [ good_matches[i].queryIdx ].pt );
-		  scene.push_back( scene_keypoints [ good_matches[i].trainIdx ].pt );
-		}//: for
-		
-		// Find homography between corresponding points.
-		Mat H = findHomography( obj, scene, CV_RANSAC );
+			obj.push_back( models_keypoints [m] [ good_matches[i].queryIdx ].pt );
+			scene.push_back( scene_keypoints [ good_matches[i].trainIdx ].pt );
+			match_idx.push_back(i);
+		}//: for 
 
-		// Get the corners from the detected "object hypothesis".
-		std::vector<Point2f> obj_corners(4);
-		obj_corners[0] = cv::Point2f(0,0);
-		obj_corners[1] = cv::Point2f( models_imgs[m].cols, 0 );
-		obj_corners[2] = cv::Point2f( models_imgs[m].cols, models_imgs[m].rows );
-		obj_corners[3] = cv::Point2f( 0, models_imgs[m].rows );
-		std::vector<Point2f> hypobj_corners(4);
+		bool still_valid = true;
+		int rep = 0;
+		if (!silent_) ROS_INFO ("Model (%d: %s): keypoints= %d corrs= %d", m, models_names[m].c_str(), (int)models_keypoints[m].size(), (int)good_matches.size());
+		do { // while (still_valid)
+			
+			if (obj.size() < 5) break;
+			
+			std::vector<DMatch> used_matches;
+			
+			// Find homography between corresponding points.
+			Mat H = findHomography( obj, scene, CV_RANSAC, ransac_thresh, h_mask );
 
-		// Transform corners with found homography.
-		perspectiveTransform( obj_corners, hypobj_corners, H);
-		
-		// Verification: check resulting shape of object hypothesis.
-		// Compute "center of mass".
-		cv::Point2f center = (hypobj_corners[0] + hypobj_corners[1] + hypobj_corners[2] + hypobj_corners[3])*.25;
-		std::vector<double> angles(4);
-		cv::Point2f tmp;
+			// Remove inliers
+			int inliers = 0;
+			for (size_t i = h_mask.size(); i > 0; --i) {
+				if (h_mask[i-1] == 1) {
+					++inliers;
+					//inl.push_back(scene[i-1]);
+					obj.erase(obj.begin() + (i-1));
+					used_matches.push_back(good_matches[match_idx[i-1]]);
+					match_idx.erase(match_idx.begin() + (i-1));
+					scene.erase(scene.begin() + (i-1));
+				}
+			}
 
-		// Compute angles.
-		for (int i=0; i<4; i++) {
-			tmp = (hypobj_corners[i] - center);
-			angles[i] = atan2(tmp.y,tmp.x);
-		}//: if
+			// Get the corners from the detected "object hypothesis".
+			std::vector<Point2f> obj_corners(4);
+			obj_corners[0] = cv::Point2f(0,0);
+			obj_corners[1] = cv::Point2f( models_imgs[m].cols, 0 );
+			obj_corners[2] = cv::Point2f( models_imgs[m].cols, models_imgs[m].rows );
+			obj_corners[3] = cv::Point2f( 0, models_imgs[m].rows );
+			std::vector<Point2f> hypobj_corners(4);
 
-		// Find smallest element.
-		int imin = -1;
-		double amin = 1000;
-		for (int i=0; i<4; i++)
-			if (amin > angles[i]) {
-				amin = angles[i];
-				imin = i;
+			// Transform corners with found homography.
+			perspectiveTransform( obj_corners, hypobj_corners, H);
+			
+			// Verification: check resulting shape of object hypothesis.
+			// Compute "center of mass".
+			cv::Point2f center = (hypobj_corners[0] + hypobj_corners[1] + hypobj_corners[2] + hypobj_corners[3])*.25;
+			std::vector<double> angles(4);
+			cv::Point2f tmp;
+
+			// Compute angles.
+			for (int i=0; i<4; i++) {
+				tmp = (hypobj_corners[i] - center);
+				angles[i] = atan2(tmp.y,tmp.x);
 			}//: if
 
-		// Reorder table.
-		for (int i=0; i<imin; i++) {
-			angles.push_back (angles[0]);
-			angles.erase(angles.begin());
-		}//: for
+			// Find smallest element.
+			int imin = -1;
+			double amin = 1000;
+			for (int i=0; i<4; i++)
+				if (amin > angles[i]) {
+					amin = angles[i];
+					imin = i;
+				}//: if
 
-		double score = (double)good_matches.size()/models_keypoints [m].size();
-		// Check dependency between corners.
-		if ((angles[0] < angles[1]) && (angles[1] < angles[2]) && (angles[2] < angles[3])) {
-			// Order is ok.
-			if (!silent_) ROS_INFO ("Model (%d): keypoints= %d corrs= %d score= %f VALID", m, (int)models_keypoints[m].size(), (int)good_matches.size(), score);
-			// Store the model in a list in proper order.
-			storeObjectHypothesis(models_names[m], center, hypobj_corners, score, limit);
-
-		} else {
-			// Hypothesis not valid.
-			if (!silent_) ROS_INFO ("Model (%d: %s): keypoints= %d corrs= %d score= %f REJECTED", m, models_names[m].c_str(), (int)models_keypoints[m].size(), (int)good_matches.size(), score);
-		}//: else 
-	}//: for
-	
-	/*	Mat img_object = scene_img.clone();
-		if (recognized_names.size() == 0) {
-			CLOG(LWARNING)<< "None of the models was not properly recognized in the image";
-		} else {
-		
-			for (int h=0; h<recognized_names.size(); h++) {
-				// Draw the final object - as lines, with center and top left corner indicated.
-				line( img_object, recognized_corners[h][0], recognized_corners[h][1], Scalar(0, 255, 0), 4 );
-				line( img_object, recognized_corners[h][1], recognized_corners[h][2], Scalar(0, 255, 0), 4 );
-				line( img_object, recognized_corners[h][2], recognized_corners[h][3], Scalar(0, 255, 0), 4 );
-				line( img_object, recognized_corners[h][3], recognized_corners[h][0], Scalar(0, 255, 0), 4 );
-				circle( img_object, recognized_centers[h], 2, Scalar(0, 255, 0), 4);
-				circle( img_object, recognized_corners[h][0], 2, Scalar(255, 0, 0), 4);
-				CLOG(LNOTICE)<< "Hypothesis (): model: "<< recognized_names[h]<< " score: "<< recognized_scores[h];
+			// Reorder table.
+			for (int i=0; i<imin; i++) {
+				angles.push_back (angles[0]);
+				angles.erase(angles.begin());
 			}//: for
-		}//: else*/
+
+			double score = (double)inliers / good_matches.size();// /models_keypoints [m].size();
+			// Check dependency between corners.
+			if ((angles[0] < angles[1]) && (angles[1] < angles[2]) && (angles[2] < angles[3])) {
+				// Order is ok.
+				if (!silent_) ROS_INFO ("   - %3d | VAL | inliers %d, score %lf", rep, inliers, score);
+				// Store the model in a list in proper order.
+				storeObjectHypothesis(models_names[m], center, hypobj_corners, score, limit);
+				still_valid = true;
+			} else {
+				// Hypothesis not valid.
+				if (!silent_) ROS_INFO ("   - %3d | REJ | inliers %d, score %lf", rep, inliers, score);
+				still_valid = false;
+			}//: else 
+			
+#ifdef DEBUG_IMAGES
+			Mat img_object = scene_img.clone();
+			line( img_object, hypobj_corners[0], hypobj_corners[1], Scalar(0, 255, 0), 4 );
+			line( img_object, hypobj_corners[1], hypobj_corners[2], Scalar(0, 255, 0), 4 );
+			line( img_object, hypobj_corners[2], hypobj_corners[3], Scalar(0, 255, 0), 4 );
+			line( img_object, hypobj_corners[3], hypobj_corners[0], Scalar(0, 255, 0), 4 );
+			circle( img_object, center, 2, Scalar(0, 255, 0), 4);
+			circle( img_object, hypobj_corners[0], 2, Scalar(255, 0, 0), 4);
+			Mat img_matches;
+			drawMatches(models_imgs[m], models_keypoints[m], img_object, scene_keypoints, used_matches, img_matches);
+			imwrite(std::string("/tmp/matches_" + models_names[m] + "_" + std::to_string(rep) + ".png"), img_matches);
+#endif
+			
+			++rep;
+		} while (still_valid);
+	}//: for
 
 	// Copy recognized objects to output variables.
-
-	for(int i=0; i<recognized_names.size(); i++){ 
+	found_names.clear();
+	found_centers.clear();
+	found_scores.clear();
+	for(int i=0; i<recognized_names.size(); i++){
 		found_names.push_back(recognized_names[i]);
 		geometry_msgs::Point pt;
 		pt.x = recognized_centers[i].x;

@@ -51,7 +51,6 @@ add_dependencies(${BASE_NAME}_lib
 
 ## ROS node executable
 add_executable(${BASE_NAME}_node
-  src/${BASE_NAME}.cpp
   src/${BASE_NAME}_node.cpp
 )
 

@@ -23,7 +23,7 @@ public:
 	 * 
 	 * \param silent Suppress console output
 	 */
-	FindObjects(bool silent = true) : matcher(NORM_HAMMING, true), silent_(silent) {
+	FindObjects(bool silent = true) : detector(1500), matcher(NORM_HAMMING, true), silent_(silent) {
 	}
 
 	/**
@@ -99,10 +99,11 @@ protected:
 	 * \param [in] image_ Query image
 	 * \param [out] keypoints_ Found keypoints location
 	 * \param [out] descriptors_ Descriptors calculated for found keypoints
+	 * \param [in] mask Mask for keypoint detection
 	 * 
 	 * \return Operation status
 	 */
-	bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_);
+	bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_, cv::Mat mask_ = cv::Mat());
 
 	/**
 	 * Store given object hypothesis as recognized object.
