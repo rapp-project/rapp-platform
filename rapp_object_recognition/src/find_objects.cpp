@@ -30,7 +30,7 @@ std::string expand_user(std::string path) {
 }
 
 // ******************************* FUNCTIONS *******************************
-bool FindObjects::loadImage(const std::string filename_, cv::Mat & image_) {
+bool FindObjects::loadImage(const std::string & filename_, cv::Mat & image_) {
 	try {
 		image_ = imread( filename_ );
 		return !image_.empty();
@@ -142,39 +142,6 @@ std::map<std::string, bool> FindObjects::loadModels(const std::string & user, co
 	result = 0;
 	return ret;
 }
-
-void FindObjects::loadModels(std::vector<std::string> names_, std::vector<std::string> files_) {
-
-	cv::Mat model_img;
-
-	// Clear database.
-	models_imgs.clear();
-	models_keypoints.clear();
-	models_descriptors.clear();
-	models_names.clear();
-
-	// Load all models - read image, extract feature and add data to lists.
-	for (int i=0; i<names_.size(); i++) {
-		if ( loadImage(files_[i], model_img) ) {
-			if (!silent_) ROS_DEBUG("Size of loaded image (%d,%d)", model_img.size().width, model_img.size().height );
-
-			std::vector<cv::KeyPoint> model_keypoints;
-			cv::Mat model_descriptors;
-			extractFeatures(model_img, model_keypoints, model_descriptors);
-
-			// Add to "database".
-			models_imgs.push_back(model_img);
-			models_keypoints.push_back(model_keypoints);
-			models_descriptors.push_back(model_descriptors);
-			models_names.push_back(names_[i]);
-
-			if (!silent_) ROS_INFO("Successfull load of model %s from file %s", names_[i].c_str(), files_[i].c_str());
-		}//: if
-	}//: for
-		
-
-}
-
 
 void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, std::vector<cv::Point2f> corners_, double score_, unsigned int limit_) {
 

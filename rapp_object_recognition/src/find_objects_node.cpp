@@ -6,8 +6,17 @@
 
 #include "rapp_object_recognition/find_objects.hpp"
 
+/// Object detectors for registered users
 std::map<std::string, FindObjects> detectors;
 
+/**
+ * Serves the object detection ROS service callback
+ * 
+ * \param req [in]  The ROS service request
+ * \param res [out] The ROS service response
+ * 
+ * \return The success status of the call
+ */
 bool service_FindObjects(rapp_platform_ros_communications::FindObjectsSrv::Request  &req,
                          rapp_platform_ros_communications::FindObjectsSrv::Response &res)
 {
@@ -15,6 +24,14 @@ bool service_FindObjects(rapp_platform_ros_communications::FindObjectsSrv::Reque
   return true;
 }
 
+/**
+ * Serves the object learning ROS service callback
+ * 
+ * \param req [in]  The ROS service request
+ * \param res [out] The ROS service response
+ * 
+ * \return The success status of the call
+ */
 bool service_LearnObject(rapp_platform_ros_communications::LearnObjectSrv::Request  &req,
                          rapp_platform_ros_communications::LearnObjectSrv::Response &res)
 {
@@ -22,6 +39,14 @@ bool service_LearnObject(rapp_platform_ros_communications::LearnObjectSrv::Reque
   return true;
 }
 
+/**
+ * Serves the models loading ROS service callback
+ * 
+ * \param req [in]  The ROS service request
+ * \param res [out] The ROS service response
+ * 
+ * \return The success status of the call
+ */
 bool service_LoadModels(rapp_platform_ros_communications::LoadModelsSrv::Request  &req,
                          rapp_platform_ros_communications::LoadModelsSrv::Response &res)
 {
@@ -29,6 +54,14 @@ bool service_LoadModels(rapp_platform_ros_communications::LoadModelsSrv::Request
   return true;
 }
 
+/**
+ * Serves the models clearing ROS service callback
+ * 
+ * \param req [in]  The ROS service request
+ * \param res [out] The ROS service response
+ * 
+ * \return The success status of the call
+ */
 bool service_ClearModels(rapp_platform_ros_communications::ClearModelsSrv::Request  &req,
                          rapp_platform_ros_communications::ClearModelsSrv::Response &res)
 {
@@ -36,6 +69,10 @@ bool service_ClearModels(rapp_platform_ros_communications::ClearModelsSrv::Reque
   return true;
 }
 
+/**
+ * The executable's main function.
+ * Creates a ROS multispinner to enable concurrent requests and creates services
+ */
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "find_objects_node");
@@ -75,8 +112,5 @@ int main(int argc, char **argv)
   ros::MultiThreadedSpinner spinner(threads);
   spinner.spin();
   
-  
-  //ros::spin();
-
   return 0;
 }

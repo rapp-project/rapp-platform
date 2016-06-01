@@ -21,21 +21,21 @@ limitations under the License.
 #include <ros/package.h>
 
 /**
- * @class ObjectDetectionTest
- * @brief Handles the object detection unit testing using gtests
+ * \class ObjectDetectionTest
+ * \brief Handles the object detection unit testing using gtests
  */
 class ObjectDetectionTest : public ::testing::Test
 {
   protected:
     
     /**
-     * @brief Default constructor
+     * \brief Default constructor
      */
     ObjectDetectionTest()
     {
     }
     /**
-     * @brief Sets up the class variables for each unit test call
+     * \brief Sets up the class variables for each unit test call
      */
     virtual void SetUp()
     {
@@ -43,7 +43,7 @@ class ObjectDetectionTest : public ::testing::Test
     }
 
     /**
-     * @brief This function is called after the termination of each test. Destroys the dynamically alloced variables
+     * \brief This function is called after the termination of each test. Destroys the dynamically alloced variables
      */
     virtual void TearDown()
     {
@@ -55,24 +55,7 @@ class ObjectDetectionTest : public ::testing::Test
 };
 
 /**
- * @brief Tests object detection with no models loaded
- */ 
-TEST_F(ObjectDetectionTest, test_clear)
-{
-  std::string path = ros::package::getPath("rapp_testing_tools");
-  bool cl = find_objects_->clearModels("test");
-  EXPECT_TRUE(cl);
-  
-  std::string file_path = path + std::string("/test_data/object_recognition_samples/book_1/cat.jpg");
-  std::vector<std::string> f_names;
-  std::vector<double> f_scores;
-  std::vector<geometry_msgs::Point> f_centers;
-  int fd = find_objects_->findObjects("test", file_path, 1, f_names, f_centers, f_scores);
-  EXPECT_EQ(fd, -1);
-}
-
-/**
- * @brief Tests object detection model learning
+ * \brief Tests object detection model learning and loading.
  */ 
 TEST_F(ObjectDetectionTest, test_learn)
 {
@@ -100,9 +83,27 @@ TEST_F(ObjectDetectionTest, test_learn)
   EXPECT_FALSE(ld["catfoo"]);
 }
 
+/**
+ * \brief Tests object detection with no models loaded. 
+ * 
+ * Should return status=-1
+ */ 
+TEST_F(ObjectDetectionTest, test_clear)
+{
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  bool cl = find_objects_->clearModels("test");
+  EXPECT_TRUE(cl);
+  
+  std::string file_path = path + std::string("/test_data/object_recognition_samples/book_1/cat.jpg");
+  std::vector<std::string> f_names;
+  std::vector<double> f_scores;
+  std::vector<geometry_msgs::Point> f_centers;
+  int fd = find_objects_->findObjects("test", file_path, 1, f_names, f_centers, f_scores);
+  EXPECT_EQ(fd, -1);
+}
 
 /**
- * @brief The main function. Initialized the unit tests
+ * \brief The main function. Initializes the unit tests
  */
 int main(int argc, char **argv)
 {
