@@ -5,25 +5,28 @@
 
 #include <geometry_msgs/Point.h>
 
+#include <boost/filesystem.hpp>
+
 #include "rapp_object_recognition/find_objects.hpp"
 
+namespace fs = boost::filesystem;
 
 std::string expand_user(std::string path) {
-  if (not path.empty() and path[0] == '~') {
-    assert(path.size() == 1 or path[1] == '/');  // or other error handling
-    char const* home = getenv("HOME");
-    if (home or (home = getenv("USERPROFILE"))) {
-      path.replace(0, 1, home);
-    }
-    else {
-      char const *hdrive = getenv("HOMEDRIVE"),
-        *hpath = getenv("HOMEPATH");
-      assert(hdrive);  // or other error handling
-      assert(hpath);
-      path.replace(0, 1, std::string(hdrive) + hpath);
-    }
-  }
-  return path;
+	if (not path.empty() and path[0] == '~') {
+		assert(path.size() == 1 or path[1] == '/');  // or other error handling
+		char const* home = getenv("HOME");
+		if (home or (home = getenv("USERPROFILE"))) {
+			path.replace(0, 1, home);
+		}
+		else {
+			char const *hdrive = getenv("HOMEDRIVE");
+			char const *hpath = getenv("HOMEPATH");
+			assert(hdrive);  // or other error handling
+			assert(hpath);
+			path.replace(0, 1, std::string(hdrive) + hpath);
+		}
+	}
+	return path;
 }
 
 // ******************************* FUNCTIONS *******************************
@@ -32,7 +35,7 @@ bool FindObjects::loadImage(const std::string filename_, cv::Mat & image_) {
 		image_ = imread( filename_ );
 		return !image_.empty();
 	} catch (...) {
-		ROS_WARN ("Could not load image from file %s", filename_.c_str());
+		if (!silent_) ROS_WARN ("Could not load image from file %s", filename_.c_str());
 		return false;
 	}
 }
@@ -51,13 +54,13 @@ bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & 
 		// Detect the keypoints.
 		detector.detect( gray_img, keypoints_ );
 
-		ROS_INFO("Detected %d keypoints", (int)keypoints_.size());
+		if (!silent_) ROS_INFO("Detected %d keypoints", (int)keypoints_.size());
 
 		// Extract descriptors (feature vectors).
 		extractor.compute( gray_img, keypoints_, descriptors_ );
 		return true;
 	} catch (...) {
-		ROS_WARN ("Could not extract features from image");
+		if (!silent_) ROS_WARN ("Could not extract features from image");
 		return false;
 	}//: catch
 }
@@ -69,22 +72,26 @@ int FindObjects::learnObject(const std::string & user, const std::string & fname
 		return -2;
 	}
 	
-	ROS_DEBUG("Size of loaded image (%d,%d)", model_img.size().width, model_img.size().height );
+	if (!silent_) ROS_DEBUG("Size of loaded image (%d,%d)", model_img.size().width, model_img.size().height );
 
 	std::vector<cv::KeyPoint> model_keypoints;
 	cv::Mat model_descriptors;
 	extractFeatures(model_img, model_keypoints, model_descriptors);
 
 	// store model on disk
-	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/" + name + ".yml";
-	ROS_INFO("Model file: %s", fs_path.c_str());
+	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/";
+	if (!fs::exists(fs_path)) {
+		fs::create_directories(fs_path);
+	}
+	fs_path += name + ".yml";
+	if (!silent_) ROS_INFO("Model file: %s", fs_path.c_str());
 	FileStorage fs(fs_path, FileStorage::WRITE);
 	write( fs, "keypoints", model_keypoints );
 	write( fs, "descriptors", model_descriptors);
 	write( fs, "fname", fname);
 	fs.release();
 
-	ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
+	if (!silent_) ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
 	
 	return 0;
 }
@@ -109,12 +116,12 @@ bool FindObjects::loadModel(const std::string & user, const std::string & name) 
 	if (!fs.isOpened()) return false;
 	
 	cv::FileNode kptFileNode = fs["keypoints"];
-  cv::read( kptFileNode, model_keypoints );
+	cv::read( kptFileNode, model_keypoints );
 	fs["descriptors"] >> model_descriptors;
 	fs["fname"] >> fname;
 	fs.release();
 	
-	ROS_INFO("Loaded model: %s", name.c_str());
+	if (!silent_) ROS_INFO("Loaded model: %s", name.c_str());
 	
 	cv::Mat img = cv::imread(fname, -1);
 	
@@ -149,7 +156,7 @@ void FindObjects::loadModels(std::vector<std::string> names_, std::vector<std::s
 	// Load all models - read image, extract feature and add data to lists.
 	for (int i=0; i<names_.size(); i++) {
 		if ( loadImage(files_[i], model_img) ) {
-			ROS_DEBUG("Size of loaded image (%d,%d)", model_img.size().width, model_img.size().height );
+			if (!silent_) ROS_DEBUG("Size of loaded image (%d,%d)", model_img.size().width, model_img.size().height );
 
 			std::vector<cv::KeyPoint> model_keypoints;
 			cv::Mat model_descriptors;
@@ -161,7 +168,7 @@ void FindObjects::loadModels(std::vector<std::string> names_, std::vector<std::s
 			models_descriptors.push_back(model_descriptors);
 			models_names.push_back(names_[i]);
 
-			ROS_INFO("Successfull load of model %s from file %s", names_[i].c_str(), files_[i].c_str());
+			if (!silent_) ROS_INFO("Successfull load of model %s from file %s", names_[i].c_str(), files_[i].c_str());
 		}//: if
 	}//: for
 		
@@ -199,7 +206,7 @@ void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, 
 			break;
 		}//: if
 	}//: for
-	ROS_INFO("Adding next object hypothesis");
+	if (!silent_) ROS_INFO("Adding next object hypothesis");
 	recognized_names.insert(names_it, name_);
 	recognized_centers.insert(centers_it, center_);
 	recognized_corners.insert(corners_it, corners_);
@@ -208,7 +215,7 @@ void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, 
 
 	// Limit the size of vectors.
 	if (recognized_names.size() > limit_){
-		ROS_INFO("Removing last object hypothesis");
+		if (!silent_) ROS_INFO("Removing last object hypothesis");
 		recognized_names.pop_back();
 		recognized_centers.pop_back();
 		recognized_corners.pop_back();
@@ -222,10 +229,10 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 
 	if (models_names.empty()) {
-		ROS_WARN("No models loaded");
+		if (!silent_) ROS_WARN("No models loaded");
 		return -1;
 	} else {
-		ROS_INFO("Finding objects with the use of %d models", (int)models_names.size());
+		if (!silent_) ROS_INFO("Finding objects with the use of %d models", (int)models_names.size());
 	}
   
   
@@ -248,23 +255,23 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 	// Extract features from scene.
 	extractFeatures(scene_img, scene_keypoints, scene_descriptors);
-	ROS_INFO ("Scene features: %d", (int)scene_keypoints.size());
+	if (!silent_) ROS_INFO ("Scene features: %d", (int)scene_keypoints.size());
 
 	// Iterate - try to detect each model one by one.
 	for (unsigned int m=0; m < models_names.size(); m++) {
-		ROS_DEBUG ("Trying to recognize model (%d): %s", m, models_names[m].c_str());
+		if (!silent_) ROS_DEBUG ("Trying to recognize model (%d): %s", m, models_names[m].c_str());
 
 		if ((models_keypoints[m]).size() == 0) {
-			ROS_WARN ("Model %s not valid as it does not contain texture.", models_names[m].c_str());
+			if (!silent_) ROS_WARN ("Model %s not valid as it does not contain texture.", models_names[m].c_str());
 			continue;
 		}//: if
 
-		ROS_INFO ("Model features: %d", (int)models_keypoints[m].size());
+		if (!silent_) ROS_INFO ("Model features: %d", (int)models_keypoints[m].size());
 
 		// Find matches.
 		matcher.match( models_descriptors[m], scene_descriptors, matches );
 
-		ROS_INFO ("Matches found: %d", (int)matches.size());
+		if (!silent_) ROS_INFO ("Matches found: %d", (int)matches.size());
 
 		// Filtering.
 		double max_dist = 0;
@@ -277,8 +284,8 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			if( dist > max_dist ) max_dist = dist;
 		}//: for
 
-		ROS_INFO ("Max dist : %f", max_dist);
-		ROS_INFO ("Min dist : %f", min_dist);
+		if (!silent_) ROS_INFO ("Max dist : %f", max_dist);
+		if (!silent_) ROS_INFO ("Min dist : %f", min_dist);
 
 		//-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
 		std::vector< DMatch > good_matches;
@@ -288,7 +295,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 				good_matches.push_back( matches[i]);
 		}//: for
 
-		ROS_INFO ("Good matches: %d", (int)good_matches.size());
+		if (!silent_) ROS_INFO ("Good matches: %d", (int)good_matches.size());
 
 		// Localize the object
 		std::vector<Point2f> obj;
@@ -345,13 +352,13 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		// Check dependency between corners.
 		if ((angles[0] < angles[1]) && (angles[1] < angles[2]) && (angles[2] < angles[3])) {
 			// Order is ok.
-			ROS_INFO ("Model (%d): keypoints= %d corrs= %d score= %f VALID", m, (int)models_keypoints[m].size(), (int)good_matches.size(), score);
+			if (!silent_) ROS_INFO ("Model (%d): keypoints= %d corrs= %d score= %f VALID", m, (int)models_keypoints[m].size(), (int)good_matches.size(), score);
 			// Store the model in a list in proper order.
 			storeObjectHypothesis(models_names[m], center, hypobj_corners, score, limit);
 
 		} else {
 			// Hypothesis not valid.
-			ROS_INFO ("Model (%d: %s): keypoints= %d corrs= %d score= %f REJECTED", m, models_names[m].c_str(), (int)models_keypoints[m].size(), (int)good_matches.size(), score);
+			if (!silent_) ROS_INFO ("Model (%d: %s): keypoints= %d corrs= %d score= %f REJECTED", m, models_names[m].c_str(), (int)models_keypoints[m].size(), (int)good_matches.size(), score);
 		}//: else 
 	}//: for
 	

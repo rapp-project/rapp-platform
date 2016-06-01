@@ -18,7 +18,7 @@ bool service_FindObjects(rapp_platform_ros_communications::FindObjectsSrv::Reque
 bool service_LearnObject(rapp_platform_ros_communications::LearnObjectSrv::Request  &req,
                          rapp_platform_ros_communications::LearnObjectSrv::Response &res)
 {
-  detectors[req.user].learnObject(req.user, req.fname, req.name, res.result);
+  res.result = detectors[req.user].learnObject(req.user, req.fname, req.name);
   return true;
 }
 

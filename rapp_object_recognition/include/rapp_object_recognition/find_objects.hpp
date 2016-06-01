@@ -15,7 +15,7 @@ using namespace cv;
  */
 class FindObjects {
 public:
-	FindObjects() : matcher(NORM_HAMMING, true) {
+	FindObjects(bool silent = true) : matcher(NORM_HAMMING, true), silent_(silent) {
 	}
 
 	/**
@@ -81,4 +81,7 @@ private:
 
 	// Matcher.
 	cv::BFMatcher matcher;
+	
+	// silent output flag
+	bool silent_;
 };
