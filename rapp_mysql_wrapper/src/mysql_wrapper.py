@@ -260,6 +260,9 @@ class MySQLdbWrapper:
       if(result_set and len(result_set[0])>0):
         res.user_language=result_set[0][0]
         res.success=True
+      else:
+        res.success=False
+        res.error="User language is NULL"
       con.close()
     except mdb.Error, e:
       res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
