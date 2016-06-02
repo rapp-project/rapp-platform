@@ -32,6 +32,16 @@ std::string expand_user(std::string path) {
 }
 
 // ******************************* FUNCTIONS *******************************
+
+FindObjects::FindObjects(bool silent) { 
+	detector = cv::FeatureDetector::create("ORB");
+	extractor = cv::DescriptorExtractor::create("ORB");
+	grid_detector = new cv::GridAdaptedFeatureDetector(detector, 4000, 4, 6);
+	matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
+	silent_ = silent;
+}
+
+
 bool FindObjects::loadImage(const std::string & filename_, cv::Mat & image_) {
 	try {
 		image_ = imread( filename_ );
@@ -43,7 +53,7 @@ bool FindObjects::loadImage(const std::string & filename_, cv::Mat & image_) {
 }
 
 
-bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_, cv::Mat mask_) {
+bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_, bool grid, cv::Mat mask_) {
         cv::Mat gray_img;
 
 	try {
@@ -54,12 +64,17 @@ bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & 
 			cvtColor(image_, gray_img, COLOR_BGR2GRAY);
 
 		// Detect the keypoints.
-		detector.detect( gray_img, keypoints_, mask_ );
+		detector->detect( gray_img, keypoints_, mask_ );
+		if (grid) {
+			std::vector<KeyPoint> tmp;
+			grid_detector->detect( gray_img, tmp, mask_ );
+			keypoints_.insert(keypoints_.end(), tmp.begin(), tmp.end());
+		}
 
 		if (!silent_) ROS_INFO("Detected %d keypoints", (int)keypoints_.size());
 
 		// Extract descriptors (feature vectors).
-		extractor.compute( gray_img, keypoints_, descriptors_ );
+		extractor->compute( gray_img, keypoints_, descriptors_ );
 		return true;
 	} catch (...) {
 		if (!silent_) ROS_WARN ("Could not extract features from image");
@@ -85,12 +100,17 @@ int FindObjects::learnObject(const std::string & user, const std::string & fname
 	if (!fs::exists(fs_path)) {
 		fs::create_directories(fs_path);
 	}
+	
+	boost::filesystem::path p(fname);
+	std::string local_name = p.filename().string();
+	cv::imwrite(fs_path + local_name, model_img);
+	
 	fs_path += name + ".yml";
 	if (!silent_) ROS_INFO("Model file: %s", fs_path.c_str());
 	FileStorage fs(fs_path, FileStorage::WRITE);
 	write( fs, "keypoints", model_keypoints );
 	write( fs, "descriptors", model_descriptors);
-	write( fs, "fname", fname);
+	write( fs, "fname", local_name);
 	fs.release();
 
 	if (!silent_) ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
@@ -113,8 +133,8 @@ bool FindObjects::loadModel(const std::string & user, const std::string & name) 
 	cv::Mat model_descriptors;
 	std::string fname;
 	
-	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/" + name + ".yml";
-	FileStorage fs(fs_path, FileStorage::READ);
+	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/";
+	FileStorage fs(fs_path + name + ".yml", FileStorage::READ);
 	if (!fs.isOpened()) return false;
 	
 	cv::FileNode kptFileNode = fs["keypoints"];
@@ -125,7 +145,7 @@ bool FindObjects::loadModel(const std::string & user, const std::string & name) 
 	
 	if (!silent_) ROS_INFO("Loaded model: %s", name.c_str());
 	
-	cv::Mat img = cv::imread(fname, -1);
+	cv::Mat img = cv::imread(fs_path + fname, -1);
 	
 	models_imgs.push_back(img);
 	models_names.push_back(name);
@@ -209,11 +229,14 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		if (!silent_) ROS_INFO("Finding objects with the use of %d models", (int)models_names.size());
 	}
   
-  
-  
+#ifdef DEBUG_IMAGES
+	std::string debug_path = fs::temp_directory_path().string() + "/" + fs::unique_path(user + "-%%%%-%%%%-%%%%-%%%%").string() + "/";
+	fs::create_directories(debug_path);
+#endif
+
 	// Tmp variables.
-	std::vector<KeyPoint> scene_keypoints;
-	cv::Mat scene_descriptors;
+	std::vector<KeyPoint> scene_keypoints, grid_scene_keypoints;
+	cv::Mat scene_descriptors, grid_scene_descriptors;
 	std::vector< DMatch > matches;
 
 	// Clear vectors!
@@ -228,7 +251,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		return -2;
 
 	// Extract features from scene.
-	extractFeatures(scene_img, scene_keypoints, scene_descriptors);
+	extractFeatures(scene_img, scene_keypoints, scene_descriptors, true);
 	if (!silent_) ROS_INFO ("Scene features: %d", (int)scene_keypoints.size());
 
 	// Iterate - try to detect each model one by one.
@@ -243,7 +266,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		if (!silent_) ROS_INFO ("Model features: %d", (int)models_keypoints[m].size());
 
 		// Find matches.
-		matcher.match( models_descriptors[m], scene_descriptors, matches );
+		matcher->match( models_descriptors[m], scene_descriptors, matches );
 		
 		if (!silent_) ROS_INFO ("Matches found: %d", (int)matches.size());
 
@@ -274,7 +297,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 #ifdef DEBUG_IMAGES
 		Mat img_matches;
 		drawMatches(models_imgs[m], models_keypoints[m], scene_img, scene_keypoints, good_matches, img_matches);
-		imwrite(std::string("/tmp/matches_" + models_names[m] + ".png"), img_matches);
+		imwrite(debug_path + "matches_" + models_names[m] + ".png", img_matches);
 #endif
 
 		// Localize the object
@@ -378,7 +401,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			circle( img_object, hypobj_corners[0], 2, Scalar(255, 0, 0), 4);
 			Mat img_matches;
 			drawMatches(models_imgs[m], models_keypoints[m], img_object, scene_keypoints, used_matches, img_matches);
-			imwrite(std::string("/tmp/matches_" + models_names[m] + "_" + std::to_string(rep) + ".png"), img_matches);
+			imwrite(debug_path + "matches_" + models_names[m] + "_" + std::to_string(rep) + ".png", img_matches);
 #endif
 			
 			++rep;

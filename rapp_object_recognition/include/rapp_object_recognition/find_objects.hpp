@@ -23,8 +23,7 @@ public:
 	 * 
 	 * \param silent Suppress console output
 	 */
-	FindObjects(bool silent = true) : detector(1500), matcher(NORM_HAMMING, true), silent_(silent) {
-	}
+	FindObjects(bool silent = true);
 
 	/**
 	 * Find objects using curretly selected subset of models.
@@ -99,11 +98,12 @@ protected:
 	 * \param [in] image_ Query image
 	 * \param [out] keypoints_ Found keypoints location
 	 * \param [out] descriptors_ Descriptors calculated for found keypoints
+	 * \param [in] grid Use grid detector adaptor
 	 * \param [in] mask Mask for keypoint detection
 	 * 
 	 * \return Operation status
 	 */
-	bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_, cv::Mat mask_ = cv::Mat());
+	bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_, bool grid = false, cv::Mat mask_ = cv::Mat());
 
 	/**
 	 * Store given object hypothesis as recognized object.
@@ -149,13 +149,16 @@ private:
 	// **************************** OTHER VARIABLES ****************************
 	
 	/// Keypoint detector.
-	cv::OrbFeatureDetector detector;
+	cv::Ptr<cv::OrbFeatureDetector> detector;
 
 	/// Feature descriptor.
-	cv::OrbDescriptorExtractor extractor;
+	cv::Ptr<cv::OrbDescriptorExtractor> extractor;
+
+	/// Grid keypoint detector adapter
+	cv::Ptr<cv::GridAdaptedFeatureDetector> grid_detector;
 
 	/// Feature matcher.
-	cv::BFMatcher matcher;
+	cv::Ptr<cv::DescriptorMatcher> matcher;
 	
 	/// Silent output flag
 	bool silent_;
