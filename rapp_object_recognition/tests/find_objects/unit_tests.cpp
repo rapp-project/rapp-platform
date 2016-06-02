@@ -196,11 +196,45 @@ TEST_F(ObjectDetectionTest, test_detect_multiple)
 }
 
 /**
+ * \brief Tests object detection with pictures from NAO camera.
+ */ 
+TEST_F(ObjectDetectionTest, test_detect_nao)
+{
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  
+  // clear models cache
+  bool cl = find_objects_->clearModels("test");
+  EXPECT_TRUE(cl);
+  
+  // learn new objects
+  std::vector<std::string> models = {"dilmah", "lipton", "mieta"};
+  for (auto const & m: models) {
+    int ln = find_objects_->learnObject("test", path + "/test_data/object_recognition_samples/nao_teas/" + m + ".png", m);
+    EXPECT_EQ(ln, 0);
+  }
+  
+  int ld_res;
+  auto ld = find_objects_->loadModels("test", models, ld_res);
+  EXPECT_EQ(ld.size(), 3);
+  
+  
+  std::vector<std::string> f_names;
+  std::vector<double> f_scores;
+  std::vector<geometry_msgs::Point> f_centers;
+  
+  std::vector<std::string> scenes = {"0", "1", "2", "3", "4", "5", "6", "7"};
+  for (auto const & scene: scenes) {
+    std::string file_path_scene = path + std::string("/test_data/object_recognition_samples/nao_teas/" + scene + ".png");
+    int fd = find_objects_->findObjects("test", file_path_scene, 10, f_names, f_centers, f_scores);
+  }
+}
+
+/**
  * \brief The main function. Initializes the unit tests
  */
 int main(int argc, char **argv)
 {
-  //testing::GTEST_FLAG(filter) = "*multiple*";//":-:*Counter*";
+  //testing::GTEST_FLAG(filter) = "*nao*";//":-:*Counter*";
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
