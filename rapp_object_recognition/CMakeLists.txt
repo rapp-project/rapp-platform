@@ -93,5 +93,5 @@ if (CATKIN_ENABLE_TESTING)
   )
 
   # functional tests
-  #add_rostest(tests/${BASE_NAME}/functional_tests.launch)
+  add_rostest(tests/${BASE_NAME}/functional_tests.launch)
 endif()

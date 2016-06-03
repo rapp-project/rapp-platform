@@ -20,7 +20,7 @@ std::map<std::string, FindObjects> detectors;
 bool service_FindObjects(rapp_platform_ros_communications::FindObjectsSrv::Request  &req,
                          rapp_platform_ros_communications::FindObjectsSrv::Response &res)
 {
-  detectors[req.user].findObjects(req.user, req.fname, req.limit, res.found_names, res.found_centers, res.found_scores);
+  res.result = detectors[req.user].findObjects(req.user, req.fname, req.limit, res.found_names, res.found_centers, res.found_scores);
   return true;
 }
 

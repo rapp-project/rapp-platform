@@ -1,0 +1,5 @@
+<launch>
+  <node type="find_objects_node" pkg="rapp_object_recognition" name="rapp_object_recogniion"/> 
+  <test time-limit="100" test-name="object_recognition_functional" pkg="rapp_object_recognition" type="functional_tests.py"/> 
+  <rosparam file="$(find rapp_object_recognition)/cfg/object_recognition_params.yaml" command="load" />
+</launch>
