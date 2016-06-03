@@ -26,26 +26,18 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import OntologyIsSubsuperclass
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     # Set the valid results
     self.valid_results = True;
-
-    self.msg = OntologyIsSubsuperclass(
-        parent_class='Oven',
-        child_class='MicrowaveOven',
-        recursive=True)
-    self.svc = RappPlatformService(msg=self.msg)
-
+    self.ch = RappPlatformAPI()
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.ontologyIsSubsuperclass('Oven', 'MicrowaveOven', True)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
@@ -53,11 +45,11 @@ class RappInterfaceTest:
 
   def validate(self, response):
     # Get the returned data
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    return_data = response.result
+    return_data = response['result']
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]

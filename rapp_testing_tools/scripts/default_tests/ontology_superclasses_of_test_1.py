@@ -26,15 +26,12 @@ import argparse
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import OntologySuperclasses
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.msg = OntologySuperclasses(ontology_class='Oven', recursive=False)
-    self.svc = RappPlatformService(msg=self.msg)
+    self.ch = RappPlatformAPI()
     self.valid_results = [ 'http://knowrob.org/kb/knowrob.owl#Box-Container',\
       'http://knowrob.org/kb/knowrob.owl#FurniturePiece', \
       'http://knowrob.org/kb/knowrob.owl#HeatingDevice', \
@@ -43,19 +40,19 @@ class RappInterfaceTest:
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.ontologySuperclasses('Oven')
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
     # Get the returned data
-    return_data = response.results
+    return_data = response['results']
     # Check if the returned data are equal to the expected
     if self.valid_results == return_data:
       return [True, self.elapsed_time]
