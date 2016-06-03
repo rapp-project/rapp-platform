@@ -26,44 +26,34 @@ from os import path
 
 __path__ = os.path.dirname(path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import SpeechRecognitionSphinx
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    audioFile = path.join(pkgDir, 'test_data', 'microphone_nai.wav')
-
-    self.msg = SpeechRecognitionSphinx(
-        language='el',
-        audio_source='headset',
-        words=[u'ναι', u'όχι'],
-        sentences=[u'ναι', u'όχι'],
-        grammar=[],
-        audiofile=audioFile)
-
-    self.svc = RappPlatformService(self.msg)
+    self.audioFile = path.join(pkgDir, 'test_data', 'microphone_nai.wav')
+    self.ch = RappPlatformAPI()
 
     self.valid_words_found = [u'ναι']
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.speechRecognitionSphinx(self.audioFile, 'headset', 'el', \
+            [u'ναι', u'όχι'])
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    if self.valid_words_found == response.words:
+    if self.valid_words_found == response['words']:
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(response.words), self.elapsed_time]
