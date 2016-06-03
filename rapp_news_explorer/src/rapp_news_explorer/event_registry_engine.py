@@ -39,13 +39,13 @@ class EventRegistryEngine(NewsEngineBase):
         key_path = os.path.join(os.environ['HOME'],
                                 '.config/rapp_platform/api_keys/event_registry')
         if os.path.isfile(key_path):
-            RappUtilities.rapp_print('Login', 'WARN')
+            RappUtilities.rapp_print('Event Registry Login', 'DEBUG')
             with open(key_path) as key_fd:
                 self._username = key_fd.readline().strip()
                 self._password = key_fd.readline().strip()
                 self._event_handler.login(self._username, self._password)
         else:
-            RappUtilities.rapp_print('SHIT', 'ERROR')
+            RappUtilities.rapp_print('Using event registry without login', 'DEBUG')
 
 
         # Some default parameter values
