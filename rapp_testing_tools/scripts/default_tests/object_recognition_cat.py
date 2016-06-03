@@ -26,17 +26,15 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import ObjectRecognitionCaffe
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    imagepath = path.join(pkgDir, 'test_data', 'cat.jpg')
-    self.msg = ObjectRecognitionCaffe(imageFilepath=imagepath)
-    self.svc = RappPlatformService(self.msg)
+    self.imagepath = path.join(pkgDir, 'test_data', 'cat.jpg')
+    self.ch = RappPlatformAPI()
     self.validResponse = {
         'object_class': 'boa constrictor, Constrictor constrictor',
         'error': ''
@@ -45,18 +43,18 @@ class RappInterfaceTest:
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.objectRecognitionCaffe(self.imagepath)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    if  response.serialize() == self.validResponse:
+    if  response == self.validResponse:
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(response.serialize()), self.elapsed_time]
