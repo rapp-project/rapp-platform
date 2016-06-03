@@ -7,12 +7,12 @@ find_package(catkin REQUIRED
             tf
             nav_msgs
   	    rapp_platform_ros_communications
+	    map_server
         )
 
 find_package(Boost REQUIRED COMPONENTS system)
 
 find_package(PkgConfig)
-find_package(map_server)
 pkg_check_modules(NEW_YAMLCPP yaml-cpp>=0.5)
 if(NEW_YAMLCPP_FOUND)
 add_definitions(-DHAVE_NEW_YAMLCPP)
