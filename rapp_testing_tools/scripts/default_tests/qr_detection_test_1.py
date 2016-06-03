@@ -26,19 +26,16 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import QrDetection
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    imagepath = path.join(pkgDir, 'test_data','qr_code_rapp.jpg')
+    self.imagepath = path.join(pkgDir, 'test_data','qr_code_rapp.jpg')
 
-    self.msg = QrDetection(imageFilepath=imagepath)
-    self.svc = RappPlatformService(msg=self.msg)
+    self.ch = RappPlatformAPI()
 
     self.valid_results = {
         'qr_centers': [{'y': 165, 'x': 165}],
@@ -49,17 +46,17 @@ class RappInterfaceTest:
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.qrDetection(self.imagepath)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    if self.valid_results == response.serialize():
+    if self.valid_results == response:
       return [True, self.elapsed_time]
     else:
       return ["Unexpected result : " + str(return_data), self.elapsed_time]
