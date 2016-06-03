@@ -25,38 +25,34 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import FaceDetection
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    imagepath = path.join(pkgDir, 'test_data',
+    self.imagepath = path.join(pkgDir, 'test_data',
         'face_samples', 'multi_faces_frames', 'multi_faces.jpg')
 
-    self.msg = FaceDetection(imageFilepath=imagepath, fast=False)
-    self.svc = RappPlatformService(persistent=True, msg=self.msg)
+    self.ch = RappPlatformAPI()
 
     self.valid_minNumFaces = 2
 
-
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.faceDetection(self.imagepath)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    numFaces = len(response.faces)
+    numFaces = len(response['faces'])
     if self.valid_minNumFaces <= numFaces:
       return [True, self.elapsed_time]
     else:
