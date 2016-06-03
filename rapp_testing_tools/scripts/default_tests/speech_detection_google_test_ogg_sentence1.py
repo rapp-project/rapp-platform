@@ -26,43 +26,35 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import SpeechRecognitionGoogle
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    audioFile = path.join(pkgDir, 'test_data',
+    self.audioFile = path.join(pkgDir, 'test_data',
         'speech_detection_samples', 'recording_sentence1.ogg')
 
-    self.msg= SpeechRecognitionGoogle(
-        language='en',
-        audio_source='nao_ogg',
-        audiofile=audioFile)
-
-    self.svc = RappPlatformService(self.msg)
+    self.ch = RappPlatformAPI()
 
     self.valid_words_found = ['I', 'want', 'to', 'go', 'out']
 
-
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.speechRecognitionGoogle(self.audioFile, 'nao_ogg', 'en')
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    words_found = response.words
-    alt_words_found = response.alternatives
+    words_found = response['words']
+    alt_words_found = response['alternatives']
     if self.valid_words_found == words_found or self.valid_words_found in alt_words_found:
         return [True, self.elapsed_time]
     else:
