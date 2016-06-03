@@ -24,27 +24,24 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import CognitiveGetHistory
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.msg = CognitiveGetHistory(test_type='', time_from=0, time_to=100000000)
-    self.svc = RappPlatformService(self.msg)
-
+    # self.msg = CognitiveGetHistory(test_type='', time_from=0, time_to=100000000)
+    self.ch = RappPlatformAPI()
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.cognitiveGetHistory('', 0, 100000000)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
-
   def validate(self, response):
-    error = response.error
-    records = response.records
+    error = response['error']
+    records = response['records']
     if error != "":
       return [error, self.elapsed_time]
 

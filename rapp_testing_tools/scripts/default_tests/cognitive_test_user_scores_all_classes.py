@@ -24,33 +24,30 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import CognitiveGetScores
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.msg = CognitiveGetScores(test_type='', time_to=10000000)
-    self.svc = RappPlatformService(self.msg)
-
+    # self.msg = CognitiveGetScores(test_type='', time_to=10000000)
+    self.ch = RappPlatformAPI()
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.cognitiveGetScores()
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
     # Get the returned data
-    test_scores = response.scores
-    test_categories = response.test_classes
+    test_scores = response['scores']
+    test_categories = response['test_classes']
 
     # Check if the returned data are equal to the expected
     if (len(test_scores) == 3) and (len(test_categories) == 3):

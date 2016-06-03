@@ -24,40 +24,32 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import (
-    CognitiveRecordPerformance,
-    CognitiveExerciseSelect)
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
-    self.cogSelMsg = CognitiveExerciseSelect(test_type='AwarenessCts')
-    self.cogRecMsg = CognitiveRecordPerformance()
-    self.svc = RappPlatformService()
+    # self.cogSelMsg = CognitiveExerciseSelect(test_type='AwarenessCts')
+    # self.cogRecMsg = CognitiveRecordPerformance()
+    self.ch = RappPlatformAPI()
     # Set the valid results
     self.valid_result_partial = "CognitiveTestPerformed"
 
-
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call(self.cogSelMsg)
-    self.cogRecMsg.req.test_instance = response.test_instance
-    self.cogRecMsg.req.score = 50
-    response = self.svc.call(self.cogRecMsg)
+    response = self.ch.cognitiveExerciseSelect('AwarenessCts')
+    resp = self.ch.cognitiveRecordPerformance(response['test_instance'], 50)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
-    return self.validate(response)
+    return self.validate(response, resp)
 
-
-  def validate(self, response):
-    error = response.error
+  def validate(self, response, resp):
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
     # Check if the returned data are equal to the expected
-    if self.valid_result_partial in response.performance_entry:
+    if self.valid_result_partial in resp['performance_entry']:
         return [True, self.elapsed_time]
     else:
         return ["Unexpected result : " + str(response), self.elapsed_time]
