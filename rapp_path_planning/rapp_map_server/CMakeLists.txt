@@ -36,9 +36,9 @@ target_link_libraries(image_loader SDL SDL_image ${Boost_LIBRARIES})
 
 add_executable(rapp_map_server src/main.cpp)
 target_link_libraries(rapp_map_server
-    ${map_server_LIBRARIES}
     yaml-cpp
     ${catkin_LIBRARIES}
+    image_loader
 )
 add_dependencies(rapp_map_server
   rapp_platform_ros_communications_gencpp
