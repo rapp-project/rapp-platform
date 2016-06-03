@@ -234,7 +234,7 @@ TEST_F(ObjectDetectionTest, test_detect_nao)
  */
 int main(int argc, char **argv)
 {
-  //testing::GTEST_FLAG(filter) = "*nao*";//":-:*Counter*";
+  //testing::GTEST_FLAG(filter) = "*multiple*";//":-:*Counter*";
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }

@@ -8,6 +8,9 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/features2d/features2d.hpp>
 
+#include "rapp_object_recognition/object_model.hpp"
+#include "rapp_object_recognition/object_hypothesis.hpp"
+
 using namespace cv;
 
 /**
@@ -114,7 +117,7 @@ protected:
 	 * 
 	 * \return True if hypothesis is valid, false otherwise. 
 	 */
-	bool verifyHypothesis(const std::string & name, const cv::Point2f & center, const std::vector<cv::Point2f> & corners);
+	bool verifyHypothesis(const ObjectHypothesis & hyp);
 
 	/**
 	 * Store given object hypothesis as recognized object.
@@ -125,37 +128,29 @@ protected:
 	 * \param [in] score_ Recognition score
 	 * \param [in] limit_ Remove the worst hypotheses if limit reached
 	 */
-	void storeObjectHypothesis(std::string name_, cv::Point2f center_, std::vector<cv::Point2f> corners_, double score_, unsigned int limit_);
+	void storeObjectHypothesis(const ObjectHypothesis & hyp, unsigned int limit_);
 
 private:
-
-	// ******************************** MODELS ********************************
 	
-	/// Vector of images constituting the consecutive models.
-	std::vector<cv::Mat> models_imgs;
-
-	/// Vector of keypoints of consecutive models.
-	std::vector<std::vector<cv::KeyPoint> > models_keypoints;
-
-	/// Vector of descriptors of consecutive models.
-	std::vector<cv::Mat> models_descriptors;
-
-	/// Vector of names of consecutive models.
-	std::vector<std::string> models_names;
+	/// Loaded models
+	std::vector< std::unique_ptr<ObjectModel> > models;
 
 	// ****************************** HYPOTHESES ******************************
 
-	/// Vector containing names of recognized objects.
-	std::vector<std::string> recognized_names;
-
-	/// Vector containing centers of recognized objects (image coordinates).
-	std::vector<cv::Point2f> recognized_centers;
-
-	/// Vector containing quadruples of corners of recognized objects (image coordinates).
-	std::vector<std::vector<cv::Point2f> > recognized_corners;
-
-	/// Vector containint scores of recognized objects.
-	std::vector<double> recognized_scores;
+	//~ /// Vector containing names of recognized objects.
+	//~ std::vector<std::string> recognized_names;
+//~ 
+	//~ /// Vector containing centers of recognized objects (image coordinates).
+	//~ std::vector<cv::Point2f> recognized_centers;
+//~ 
+	//~ /// Vector containing quadruples of corners of recognized objects (image coordinates).
+	//~ std::vector<std::vector<cv::Point2f> > recognized_corners;
+//~ 
+	//~ /// Vector containint scores of recognized objects.
+	//~ std::vector<double> recognized_scores;
+	
+	/// Recognized object hypotheses
+	std::vector< ObjectHypothesis > hypotheses;
 	
 	// **************************** OTHER VARIABLES ****************************
 	
