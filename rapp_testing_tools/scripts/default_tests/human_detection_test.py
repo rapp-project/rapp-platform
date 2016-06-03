@@ -25,9 +25,7 @@ from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import HumanDetection
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
@@ -41,13 +39,12 @@ class RappInterfaceTest:
         'up_left_point': {'y': 30.0, 'x': 48.0},
         'down_right_point': {'y': 399.0, 'x': 232.0}
     }]
-    self.msg = HumanDetection(imageFilepath=self.image)
-    self.svc = RappPlatformService(self.msg)
+    self.ch = RappPlatformAPI()
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.humanDetection(self.image)
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
@@ -55,11 +52,11 @@ class RappInterfaceTest:
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    humans = response.humans
+    humans = response['humans']
     if self.valid_humans == humans:
       return [True, self.elapsed_time]
     else:
