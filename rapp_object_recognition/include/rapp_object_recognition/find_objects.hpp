@@ -106,6 +106,17 @@ protected:
 	bool extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & keypoints_, cv::Mat & descriptors_, bool grid = false, cv::Mat mask_ = cv::Mat());
 
 	/**
+	 * Verify given object hypothesis using different criterias
+	 * 
+	 * \param [in] name Object name
+	 * \param [in] center Object center
+	 * \param [in] corners Objects bounding-box corners
+	 * 
+	 * \return True if hypothesis is valid, false otherwise. 
+	 */
+	bool verifyHypothesis(const std::string & name, const cv::Point2f & center, const std::vector<cv::Point2f> & corners);
+
+	/**
 	 * Store given object hypothesis as recognized object.
 	 * 
 	 * \param [in] name_ Object name

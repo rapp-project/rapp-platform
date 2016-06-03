@@ -217,6 +217,38 @@ void FindObjects::storeObjectHypothesis(std::string name_, cv::Point2f center_, 
 	}//: if
 }
 
+bool FindObjects::verifyHypothesis(const std::string & name, const cv::Point2f & center, const std::vector<cv::Point2f> & corners) {
+	std::vector<double> angles(4);
+	cv::Point2f tmp;
+
+	// Compute angles.
+	for (int i=0; i<4; i++) {
+		tmp = (corners[i] - center);
+		angles[i] = atan2(tmp.y,tmp.x);
+	}//: if
+
+	// Find smallest element.
+	int imin = -1;
+	double amin = 1000;
+	for (int i=0; i<4; i++)
+		if (amin > angles[i]) {
+			amin = angles[i];
+			imin = i;
+		}//: if
+
+	// Reorder table.
+	for (int i=0; i<imin; i++) {
+		angles.push_back (angles[0]);
+		angles.erase(angles.begin());
+	}//: for
+	
+	if ((angles[0] >= angles[1]) || (angles[1] >= angles[2]) || (angles[2] >= angles[3])) return false;
+	
+	if (cv::contourArea(corners) < 5000) return false;
+	
+	return true;
+}
+
 
 int FindObjects::findObjects(const std::string & user, const std::string & fname, unsigned int limit, 
                 std::vector<std::string> & found_names, std::vector<geometry_msgs::Point> & found_centers, std::vector<double> & found_scores){
@@ -288,7 +320,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		std::vector< DMatch > good_matches;
 
 		for( int i = 0; i < matches.size(); i++ ) {
-			if( matches[i].distance <= 10*min_dist+0.1 )
+			if( matches[i].distance <= 5*min_dist+0.1 )
 				good_matches.push_back( matches[i]);
 		}//: for
 
@@ -326,16 +358,16 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			// Find homography between corresponding points.
 			Mat H = findHomography( obj, scene, CV_RANSAC, ransac_thresh, h_mask );
 
-			// Remove inliers
+			// Extract inliers
 			int inliers = 0;
 			for (size_t i = h_mask.size(); i > 0; --i) {
 				if (h_mask[i-1] == 1) {
 					++inliers;
 					//inl.push_back(scene[i-1]);
-					obj.erase(obj.begin() + (i-1));
+					//obj.erase(obj.begin() + (i-1));
 					used_matches.push_back(good_matches[match_idx[i-1]]);
-					match_idx.erase(match_idx.begin() + (i-1));
-					scene.erase(scene.begin() + (i-1));
+					//match_idx.erase(match_idx.begin() + (i-1));
+					//scene.erase(scene.begin() + (i-1));
 				}
 			}
 
@@ -353,42 +385,28 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			// Verification: check resulting shape of object hypothesis.
 			// Compute "center of mass".
 			cv::Point2f center = (hypobj_corners[0] + hypobj_corners[1] + hypobj_corners[2] + hypobj_corners[3])*.25;
-			std::vector<double> angles(4);
-			cv::Point2f tmp;
-
-			// Compute angles.
-			for (int i=0; i<4; i++) {
-				tmp = (hypobj_corners[i] - center);
-				angles[i] = atan2(tmp.y,tmp.x);
-			}//: if
-
-			// Find smallest element.
-			int imin = -1;
-			double amin = 1000;
-			for (int i=0; i<4; i++)
-				if (amin > angles[i]) {
-					amin = angles[i];
-					imin = i;
-				}//: if
-
-			// Reorder table.
-			for (int i=0; i<imin; i++) {
-				angles.push_back (angles[0]);
-				angles.erase(angles.begin());
-			}//: for
 
 			double score = (double)inliers / good_matches.size();// /models_keypoints [m].size();
 			// Check dependency between corners.
-			if ((angles[0] < angles[1]) && (angles[1] < angles[2]) && (angles[2] < angles[3])) {
+			if (verifyHypothesis(models_names[m], center, hypobj_corners)) {
 				// Order is ok.
 				if (!silent_) ROS_INFO ("   - %3d | VAL | inliers %d, score %lf", rep, inliers, score);
 				// Store the model in a list in proper order.
 				storeObjectHypothesis(models_names[m], center, hypobj_corners, score, limit);
 				still_valid = true;
+				// remove used matches only if match was successfull
+				for (size_t i = h_mask.size(); i > 0; --i) {
+					if (h_mask[i-1] == 1) {
+						obj.erase(obj.begin() + (i-1));
+						match_idx.erase(match_idx.begin() + (i-1));
+						scene.erase(scene.begin() + (i-1));
+					}
+				}
 			} else {
 				// Hypothesis not valid.
 				if (!silent_) ROS_INFO ("   - %3d | REJ | inliers %d, score %lf", rep, inliers, score);
 				still_valid = false;
+				ransac_thresh *= 1.3;
 			}//: else 
 			
 #ifdef DEBUG_IMAGES
@@ -405,7 +423,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 #endif
 			
 			++rep;
-		} while (still_valid);
+		} while (still_valid || rep < 3);
 	}//: for
 
 	// Copy recognized objects to output variables.
