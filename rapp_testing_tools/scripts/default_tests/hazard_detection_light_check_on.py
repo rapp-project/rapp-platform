@@ -25,35 +25,32 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import HazardDetectionLight
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
-    imagepath = path.join(pkgDir, 'test_data',
+    self.imagepath = path.join(pkgDir, 'test_data',
         'hazard_detection_samples', 'lamp_on.jpg')
-    self.msg = HazardDetectionLight(imageFilepath=imagepath)
-    self.svc = RappPlatformService(self.msg)
+    self.ch = RappPlatformAPI()
 
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.hazardDetectionLights(self.imagepath)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
 
-    light_level = response.light_level
+    light_level = response['light_level']
     if light_level > 50:
       return [True, self.elapsed_time]
     else:
