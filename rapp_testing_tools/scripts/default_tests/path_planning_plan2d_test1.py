@@ -40,7 +40,7 @@ class RappInterfaceTest:
             'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
         },
         'pose': {
-            'position': {'x': 100, 'y': 100, 'z': 0},
+            'position': {'x': 1, 'y': 1, 'z': 0},
             'orientation': {'x': 0, 'y': 0, 'z': 0, 'w': 0}
         }
     }
@@ -50,7 +50,7 @@ class RappInterfaceTest:
             'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
         },
         'pose': {
-            'position': {'x': 30, 'y': 10, 'z': 0},
+            'position': {'x': 5.3, 'y': 4, 'z': 0},
             'orientation': {'x': 0, 'y': 0, 'z': 20, 'w': 0}
         }
     }

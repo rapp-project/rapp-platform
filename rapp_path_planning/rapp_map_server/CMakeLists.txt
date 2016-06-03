@@ -7,12 +7,12 @@ find_package(catkin REQUIRED
             tf
             nav_msgs
   	    rapp_platform_ros_communications
+	    map_server
         )
 
 find_package(Boost REQUIRED COMPONENTS system)
 
 find_package(PkgConfig)
-find_package(map_server)
 pkg_check_modules(NEW_YAMLCPP yaml-cpp>=0.5)
 if(NEW_YAMLCPP_FOUND)
 add_definitions(-DHAVE_NEW_YAMLCPP)
@@ -36,9 +36,9 @@ target_link_libraries(image_loader SDL SDL_image ${Boost_LIBRARIES})
 
 add_executable(rapp_map_server src/main.cpp)
 target_link_libraries(rapp_map_server
-    ${map_server_LIBRARIES}
     yaml-cpp
     ${catkin_LIBRARIES}
+    image_loader
 )
 add_dependencies(rapp_map_server
   rapp_platform_ros_communications_gencpp
