@@ -7,7 +7,6 @@ find_package(catkin REQUIRED
             tf
             nav_msgs
   	    rapp_platform_ros_communications
-	    map_server
         )
 
 find_package(Boost REQUIRED COMPONENTS system)
@@ -85,10 +84,11 @@ install(TARGETS rapp_map_server image_loader #rapp_map_server-map_saver
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
 ## Install project namespaced headers
-#install(DIRECTORY include/${PROJECT_NAME}/
-#  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+install(DIRECTORY include/map_server/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 #  FILES_MATCHING PATTERN "*.h"
-#  PATTERN ".svn" EXCLUDE)
+#  PATTERN ".svn" EXCLUDE
+)
 
 ## Install excutable python script
 #install( 
