@@ -324,11 +324,15 @@ bool PathPlanning::pathPlanningCallback(
 
           res.error_message = response.error_message;
 
+	  new_path.clear();
+	  if (res.plan_found == 1){
           nh_.param<double>("rapp_path_planning_pose_distance", pose_dist_, 0.15);
 
           new_path = setPoseDist(pose_dist_, response.path);
+	  }
 
           res.path  = new_path;
+
           nh_.setParam("/rapp/rapp_path_planning/seq_"+seq_nr_str+"/busy", false);
         }else{
           res.plan_found = 2;
