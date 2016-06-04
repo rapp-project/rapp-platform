@@ -23,31 +23,27 @@ import timeit
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import TextToSpeech
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     self.destFilePath = '/tmp/ttsClient.wav'
-    self.msg = TextToSpeech(language='el', text='Καλησπέρα. Είμαι ο ναο')
-    self.svc = RappPlatformService(self.msg)
-    # Set the valid results
+    
+    self.ch = RappPlatformAPI()
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 'el', self.destFilePath)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
   def validate(self, response):
-    if response.error != '':
+    if response['error'] != '':
         return [response.error, self.elapsed_time]
 
     # Check if the returned data are equal to the expected
-    response.store_audio(self.destFilePath)
     if os.path.getsize(self.destFilePath) > 0:
         return [True, self.elapsed_time]
     else:
