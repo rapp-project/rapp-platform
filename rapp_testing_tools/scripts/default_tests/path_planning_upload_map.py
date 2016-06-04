@@ -25,9 +25,7 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import PathPlanningUploadMap
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
@@ -36,27 +34,23 @@ class RappInterfaceTest:
     pkgDir = rospack.get_path('rapp_testing_tools')
     testDatapath = path.join(pkgDir, 'test_data', 'path_planning')
 
-    yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
-    pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
+    self.yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
+    self.pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
+    self.map_name='523_m_obstacle_2'
 
-    self.msg = PathPlanningUploadMap(
-        map_name='523_m_obstacle_2',
-        yaml_file=yamlFile,
-        png_file=pngFile
-        )
-    self.svc = RappPlatformService(msg=self.msg)
-
+    self.ch = RappPlatformAPI()
 
   def execute(self):
     start_time = timeit.default_timer()
-    response = self.svc.call()
+    response = self.ch.pathPlanningUploadMap(self.map_name, self.pngFile, \
+            self.yamlFile)
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(response)
 
 
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
     else:

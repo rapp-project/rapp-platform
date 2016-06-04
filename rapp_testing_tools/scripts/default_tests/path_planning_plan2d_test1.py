@@ -25,21 +25,17 @@ from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import (
-    PathPlanningPlan2D,
-    PathPlanningUploadMap
-    )
-
+from RappCloud import RappPlatformAPI
 
 class RappInterfaceTest:
 
   def __init__(self):
     rospack = rospkg.RosPack()
     pkgDir = rospack.get_path('rapp_testing_tools')
+    
     testDatapath = path.join(pkgDir, 'test_data', 'path_planning')
 
-    poseStart = {
+    self.poseStart = {
         'header':{
             'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
         },
@@ -49,7 +45,7 @@ class RappInterfaceTest:
         }
     }
 
-    poseGoal = {
+    self.poseGoal = {
         'header':{
             'seq': 0, 'stamp':{'sec': 0, 'nsecs': 0}, 'frame_id': ''
         },
@@ -59,43 +55,28 @@ class RappInterfaceTest:
         }
     }
 
+    self.yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
+    self.pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
+    self.map_name='523_m_obstacle_2'
 
-    yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
-    pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
-
-    self.ppUploadMapMsg = PathPlanningUploadMap(
-        map_name='523_m_obstacle_2',
-        yaml_file=yamlFile,
-        png_file=pngFile
-        )
-
-    self.ppPlanMsg = PathPlanningPlan2D(
-        map_name='523_m_obstacle_2',
-        robot_type='NAO',
-        algorithm='dijkstra',
-        pose_start=poseStart,
-        pose_goal=poseGoal
-        )
-
-    self.svc = RappPlatformService()
-
+    self.ch = RappPlatformAPI()
 
   def execute(self):
     start_time = timeit.default_timer()
-    resp = self.svc.call(self.ppUploadMapMsg)
+    resp = self.ch.pathPlanningUploadMap(self.map_name, self.pngFile, self.yamlFile)
     # If error occured while uploading map return error
-    if resp.error != '':
+    if resp['error'] != '':
        return self.validate(resp)
 
-    resp = self.svc.call(self.ppPlanMsg)
+    resp = self.ch.pathPlanningPlan2D(self.map_name, 'NAO', self.poseStart,\
+            self.poseGoal)
 
     end_time = timeit.default_timer()
     self.elapsed_time = end_time - start_time
     return self.validate(resp)
 
-
   def validate(self, response):
-    error = response.error
+    error = response['error']
     if error != "":
       return [error, self.elapsed_time]
     else:
