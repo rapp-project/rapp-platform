@@ -290,8 +290,20 @@ class TestSelector:
         finalTest=testsOfTypeOrderedCopy[finalTestname]
         finalTestFilePath=finalTest[0][0]
       else:
-        finalTestname=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-1]
-        finalTestname=finalTestname[0][0]
+        popvalue=1
+        testFound=False
+        while(popvalue<len(userPerfOrganizedByTimestamp)):
+          finalTestname=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-popvalue]
+          if (finalTestname[0][0] in testsOfTypeOrdered):
+            testFound=True
+            finalTestname=finalTestname[0][0]
+            break
+          else:
+            popvalue=popvalue+1
+                            
+        if(testFound==False):
+          finalTestname=random.choice(testsOfTypeOrdered.keys())          
+
         finalTest=testsOfTypeOrdered[finalTestname]
         finalTestFilePath=finalTest[0][0]    
     tmpList=finalTestname.split('#') #Retrieve the name of the selected test
