@@ -18,36 +18,35 @@
 # Authors: Konstantinos Panayiotou, Manos Tsardoulias
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
-
 import os
+from os import path
 import timeit
+import unittest
+import rospkg
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 from RappCloud import RappPlatformAPI
 
-class RappInterfaceTest:
+class ObjectRecognitionTests(unittest.TestCase):
 
-  def __init__(self):
-    # self.msg = CognitiveGetHistory(test_type='', time_from=0, time_to=100000000)
-    self.ch = RappPlatformAPI()
+    def setUp(self):
+        self.ch = RappPlatformAPI()
+        
+        rospack = rospkg.RosPack()
+        self.pkgDir = rospack.get_path('rapp_testing_tools')
 
-  def execute(self):
-    start_time = timeit.default_timer()
-    response = self.ch.cognitiveGetHistory('', 0, 100000000)
-    end_time = timeit.default_timer()
-    self.elapsed_time = end_time - start_time
-    return self.validate(response)
+    def test_cat_test(self):
+        imagepath = path.join(self.pkgDir, 'test_data', 'cat.jpg')
+        
+        validResponse = {
+            'object_class': 'boa constrictor, Constrictor constrictor',
+            'error': ''
+            }
 
-  def validate(self, response):
-    error = response['error']
-    records = response['records']
-    if error != "":
-      return [error, self.elapsed_time]
+        response = self.ch.objectRecognitionCaffe(imagepath)
+        
+        self.assertEqual(response, validResponse)
 
-    # Check if the returned data are equal to the expected
-    if len(records) >= 3:
-        return [True, self.elapsed_time]
-    else:
-        return ["Unexpected result : " + str(response), self.elapsed_time]
-
+if __name__ == "__main__":
+    unittest.main()

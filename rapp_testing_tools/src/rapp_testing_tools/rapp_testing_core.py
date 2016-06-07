@@ -30,7 +30,7 @@ from threading import Thread, Lock
 import rospkg
 import rospy
 import yaml
-
+import subprocess
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -81,32 +81,6 @@ class bcolors:
     YELLOW = '\033[93m'
 ## ------------------------------------------ ##
 
-
-
-##
-#   @brief Execute input test module
-#
-#   @param module Imported test module to execute.
-#   @param id This test execution id
-##
-def execute(module, id):
-    tmp = module.RappInterfaceTest()
-    [error_code, time] = tmp.execute()
-
-    mutex.acquire(True)
-    results['num_tests'] += 1
-    print "\n\033[1;35m**  Test [%s] -- %s  **\033[0m" % (module.__name__, id)
-    print "Execution time: " + str(time) + "sec"
-    if error_code != True:
-        results['failed'].append(module.__name__)
-        print bcolors.FAIL + "[FAIL]:"
-        print error_code + bcolors.ENDC
-    else:
-        results['success'].append(module.__name__)
-        print bcolors.OKGREEN + "SUCCESS" + bcolors.ENDC
-    mutex.release()
-
-
 ##
 #   @brief Parse input arguments.
 ##
@@ -129,7 +103,6 @@ def parse_args():
 
     args =  parser.parse_args( ) # Parse console arguments
     return args
-
 
 ##
 #   @brief Parse and get all given tests path directories, plus the default
@@ -167,25 +140,6 @@ def load_tests_paths():
 def append_to_system_path(paths):
     for p in paths:
         sys.path.append(p)
-
-
-##
-#   @brief Print final results.
-##
-def print_results():
-    failed = 0
-    print "\n\n" + bcolors.BOLD + bcolors.UNDERLINE + bcolors.YELLOW + \
-        "******* Results ********\n" + bcolors.ENDC
-    print bcolors.OKGREEN + "[ Succeded ]: {%s / %s}" \
-        % (len(results['success']), results['num_tests'])
-    for passed in results['success']:
-        print "- " + passed
-    print "\n" + bcolors.FAIL + "[ Failed ]: {%s / %s}" \
-        % (len(results['failed']), results['num_tests'])
-    for failed in results['failed']:
-        failed += failed
-        print "- " + failed
-    return failed
 
 
 ##
@@ -252,30 +206,47 @@ def execute_tests_all(tests, numCalls, threaded):
     for test in tests:
         print "%s] %s x%s" % (count, test, numCalls)
         count += 1
+    print '\n'
     # print "\033[0;33m***************************\033[1;32m"
     time.sleep(1)
     ## ---------------------------------------------------------------- ##
 
+    testPaths = [join(join(__pkgDir__, 'scripts'), 'default_tests')]
+    failed = []
     # -- Loop throug test files to be executed -- #
     for test in tests:
-        module = importlib.import_module(test)
+        filename = testPaths[0] + '/' + test + '.py'
+        sys.stdout.write(bcolors.BOLD + bcolors.OKBLUE + \
+                "Running " + test + "... " + bcolors.ENDC)
+        sys.stdout.flush()
 
-        for i in range(0, numCalls):
-            if threaded:
-                _id = 'thread#' + str(i +1)
-                thread = Thread(target=execute, args=(module, _id, ))
-                thread.start()
-                threads.append(thread)
-            else:
-                _id = 'sequential#' + str(i + 1)
-                execute(module, _id)
+        # res = os.system(filename)
+        p = subprocess.Popen([filename], \
+                stdout=subprocess.PIPE,\
+                stderr=subprocess.PIPE)
+        p.wait()
+        output = p.stderr.read()
+        outlines = output.split('\n');
+        report_test_line = ''
+        for l in outlines:
+            if 'Ran ' in l:
+                report_test_line = l
+                break
+        print '\n\t' + report_test_line
+        if 'FAILED' in output:
+            failed.append(test)
+            sys.stdout.write(\
+                    '\t' + bcolors.BOLD + bcolors.FAIL + \
+                    "Failed" + bcolors.ENDC + '\n')
+            print output
+            sys.stdout.flush()
+        else:
+            sys.stdout.write(\
+                    '\t' + bcolors.BOLD + \
+                    bcolors.OKGREEN + "Success" + bcolors.ENDC + '\n')
+            sys.stdout.flush()
 
-    if threaded:
-        # Wait for all threads to complete
-        for t in threads:
-            t.join()
-
-
+    return failed
 
 ##
 #   @brief Main.
@@ -297,8 +268,10 @@ def main():
     # Load test files to execute based on user input arguments
     testFiles = get_test_files(args, testPaths)
     # Execute loaded tests. Use input number-of-calls and threaded arguments.
-    execute_tests_all(testFiles, numCalls, threaded)
-    # Print final results.
-    failed = print_results()
-    if failed != 0:
+    failed = execute_tests_all(testFiles, numCalls, threaded)
+    
+    if len(failed) != 0:
+      print "\nThe failed tests are:"
+      for t in failed:
+        print "\t" + bcolors.BOLD + bcolors.FAIL + t + bcolors.ENDC
       sys.exit(1)

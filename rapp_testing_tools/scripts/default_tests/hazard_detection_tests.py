@@ -19,33 +19,31 @@
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
 import os
+from os import path
 import timeit
+import unittest
+import rospkg
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 from RappCloud import RappPlatformAPI
 
-class RappInterfaceTest:
+class HazardDetectionTests(unittest.TestCase):
 
-  def __init__(self):
-    self.destFilePath = '/tmp/ttsClient.wav'
-    
-    self.ch = RappPlatformAPI()
+    def setUp(self): 
+        rospack = rospkg.RosPack()
+        self.pkgDir = rospack.get_path('rapp_testing_tools')
+        
+        self.ch = RappPlatformAPI()
 
-  def execute(self):
-    start_time = timeit.default_timer()
-    response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 'el', self.destFilePath)
-    end_time = timeit.default_timer()
-    self.elapsed_time = end_time - start_time
-    return self.validate(response)
+    def test_lightLeftOn(self):
+        imagepath = path.join(self.pkgDir, 'test_data',
+            'hazard_detection_samples', 'lamp_on.jpg')
 
-  def validate(self, response):
-    if response['error'] != '':
-        return [response.error, self.elapsed_time]
+        response = self.ch.hazardDetectionLights(imagepath)
+        
+        self.assertEqual(response['error'], u'')
+        self.assertEqual(response['light_level'] > 50, True)
 
-    # Check if the returned data are equal to the expected
-    if os.path.getsize(self.destFilePath) > 0:
-        return [True, self.elapsed_time]
-    else:
-        return ["Unexpected result : " + 'Invalid size of audio data', self.elapsed_time]
-
+if __name__ == "__main__":
+    unittest.main()

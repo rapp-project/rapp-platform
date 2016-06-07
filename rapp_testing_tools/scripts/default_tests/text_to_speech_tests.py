@@ -20,39 +20,25 @@
 
 import os
 import timeit
+import unittest
 import rospkg
-from os import path
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 from RappCloud import RappPlatformAPI
 
-class RappInterfaceTest:
+class TextToSpeechTests(unittest.TestCase):
 
-  def __init__(self):
-    rospack = rospkg.RosPack()
-    pkgDir = rospack.get_path('rapp_testing_tools')
-    self.imagepath = path.join(pkgDir, 'test_data',
-        'hazard_detection_samples', 'lamp_on.jpg')
-    self.ch = RappPlatformAPI()
+    def setUp(self):
+        self.ch = RappPlatformAPI()
 
+    def test_greek_test(self):
+        destFilePath = '/tmp/ttsClient.wav'
 
-  def execute(self):
-    start_time = timeit.default_timer()
-    response = self.ch.hazardDetectionLights(self.imagepath)
-    end_time = timeit.default_timer()
-    self.elapsed_time = end_time - start_time
-    return self.validate(response)
+        response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 'el', destFilePath)
+        
+        self.assertEqual(response['error'], u'')
+        self.assertEqual(os.path.getsize(destFilePath) > 0, True)
 
-
-  def validate(self, response):
-    error = response['error']
-    if error != "":
-      return [error, self.elapsed_time]
-
-    light_level = response['light_level']
-    if light_level > 50:
-      return [True, self.elapsed_time]
-    else:
-      return ["Unexpected result : " + str(response), self.elapsed_time]
-
+if __name__ == "__main__":
+    unittest.main()

@@ -21,6 +21,7 @@
 import rospkg
 import rospy
 import sys
+import traceback
 import xml.etree.ElementTree as ET
 import calendar
 import time
@@ -105,6 +106,13 @@ class TestSelector:
       res.success=False
       res.trace.append('"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e))
       res.error='"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e)
+      print "KeyError Exception. Tracing..."
+      self.traceError(res.error,res.trace)
+      #for frame in traceback.extract_tb(sys.exc_info()[2]):
+        #fname,lineno,fn,text = frame
+        #print "Error in %s on line %d" % (fname, lineno)
+        #res.error = res.error + "Error in %s on line %d" % (fname, lineno)
+        #res.trace.append("Error in %s on line %d" % (fname, lineno))
     except AppError as e:
       AppError.passErrorToRosSrv(e,res) 
     return res
@@ -282,8 +290,20 @@ class TestSelector:
         finalTest=testsOfTypeOrderedCopy[finalTestname]
         finalTestFilePath=finalTest[0][0]
       else:
-        finalTestname=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-1]
-        finalTestname=finalTestname[0][0]
+        popvalue=1
+        testFound=False
+        while(popvalue<len(userPerfOrganizedByTimestamp)):
+          finalTestname=userPerfOrganizedByTimestamp.values()[len(userPerfOrganizedByTimestamp)-popvalue]
+          if (finalTestname[0][0] in testsOfTypeOrdered):
+            testFound=True
+            finalTestname=finalTestname[0][0]
+            break
+          else:
+            popvalue=popvalue+1
+                            
+        if(testFound==False):
+          finalTestname=random.choice(testsOfTypeOrdered.keys())          
+
         finalTest=testsOfTypeOrdered[finalTestname]
         finalTestFilePath=finalTest[0][0]    
     tmpList=finalTestname.split('#') #Retrieve the name of the selected test
@@ -384,3 +404,10 @@ class TestSelector:
     pastTests = int(rospy.get_param('rapp_cognitive_test_selector_past_performance_number_of_past_tests'))    
     lookBackTimeStamp=pastMonths*30*24*3600
     return difficultyModifier1to2,difficultyModifier2to3,historyBasedOnNumOfTestsAndNotTime,pastMonths,pastTests,lookBackTimeStamp
+
+  def traceError(self,error,trace):
+    for frame in traceback.extract_tb(sys.exc_info()[2]):
+      fname,lineno,fn,text = frame
+      print "Error in %s on line %d" % (fname, lineno)
+      error = error + "Error in %s on line %d" % (fname, lineno)
+      trace.append("Error in %s on line %d" % (fname, lineno))
