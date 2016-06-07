@@ -18,38 +18,37 @@
 # Authors: Konstantinos Panayiotou, Manos Tsardoulias
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
-
 import os
+from os import path
 import timeit
+import unittest
+import rospkg
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 from RappCloud import RappPlatformAPI
 
-class RappInterfaceTest:
+class HumanDetectionTests(unittest.TestCase):
 
-  def __init__(self):
-    # self.msg = CognitiveGetScores(test_type='ArithmeticCts', time_to=10000000)
-    self.ch = RappPlatformAPI()
+    def setUp(self):
+        rospack = rospkg.RosPack()
+        self.pkgDir = rospack.get_path('rapp_testing_tools')
 
-  def execute(self):
-    start_time = timeit.default_timer()
-    response = self.ch.cognitiveGetScores('ArithmeticCts', 100000000)
+        self.ch = RappPlatformAPI()
 
-    end_time = timeit.default_timer()
-    self.elapsed_time = end_time - start_time
-    return self.validate(response)
+    def test_humanDetectionTest(self):
+        image = path.join(self.pkgDir, 'test_data',
+            'human_detection_samples', 'NAO_picture_3.png')
 
-  def validate(self, response):
-    error = response['error']
-    if error != "":
-      return [error, self.elapsed_time]
+        valid_humans = [{
+            'up_left_point': {'y': 30.0, 'x': 48.0},
+            'down_right_point': {'y': 399.0, 'x': 232.0}
+        }]
 
-    test_scores = response['scores']
-    test_categories = response['test_classes']
+        response = self.ch.humanDetection(image)
 
-    if (len(test_scores) == 1) and (len(test_categories) == 1):
-        return [True, self.elapsed_time]
-    else:
-        return ["Unexpected result : " + str(response), self.elapsed_time]
+        self.assertEqual(response['error'], u'')
+        self.assertEqual(response['humans'], valid_humans)
 
+if __name__ == "__main__":
+    unittest.main()

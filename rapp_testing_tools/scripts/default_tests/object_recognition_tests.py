@@ -19,33 +19,34 @@
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
 import os
+from os import path
 import timeit
+import unittest
+import rospkg
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 from RappCloud import RappPlatformAPI
 
-class RappInterfaceTest:
+class ObjectRecognitionTests(unittest.TestCase):
 
-  def __init__(self):
-    self.destFilePath = '/tmp/ttsClient.wav'
-    
-    self.ch = RappPlatformAPI()
+    def setUp(self):
+        self.ch = RappPlatformAPI()
+        
+        rospack = rospkg.RosPack()
+        self.pkgDir = rospack.get_path('rapp_testing_tools')
 
-  def execute(self):
-    start_time = timeit.default_timer()
-    response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 'el', self.destFilePath)
-    end_time = timeit.default_timer()
-    self.elapsed_time = end_time - start_time
-    return self.validate(response)
+    def test_cat_test(self):
+        imagepath = path.join(self.pkgDir, 'test_data', 'cat.jpg')
+        
+        validResponse = {
+            'object_class': 'boa constrictor, Constrictor constrictor',
+            'error': ''
+            }
 
-  def validate(self, response):
-    if response['error'] != '':
-        return [response.error, self.elapsed_time]
+        response = self.ch.objectRecognitionCaffe(imagepath)
+        
+        self.assertEqual(response, validResponse)
 
-    # Check if the returned data are equal to the expected
-    if os.path.getsize(self.destFilePath) > 0:
-        return [True, self.elapsed_time]
-    else:
-        return ["Unexpected result : " + 'Invalid size of audio data', self.elapsed_time]
-
+if __name__ == "__main__":
+    unittest.main()
