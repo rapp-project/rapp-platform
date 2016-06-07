@@ -34,7 +34,7 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - git clone --recursive --branch="$SCRIPTS_BRANCH" https://github.com/rapp-project/rapp-platform-scripts.git
   - cd rapp-platform-scripts/setup
   #- source /opt/ros/$ROS_DISTRO/setup.bash
-  - bash clean_install.sh travis
+  - if [[ "$TEST_SUITE" == "INTEGRATION" ]]; then bash clean_install.sh travis ; else bash clean_install_travis_unit.sh ; fi
   - source ~/.bashrc
   - sudo ldconfig
   - echo "RAPP Platform installed. Executing unit and functional tests"
