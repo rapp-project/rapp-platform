@@ -32,6 +32,16 @@ class CognitiveTestChooserTests(unittest.TestCase):
         self.ch = RappPlatformAPI()
 
     def test_selectArithmeticTest(self):
+        res = self.ch.cognitiveExerciseSelect('ArithmeticCts', 'TransactionChangeCts', '1', '1')
+        self.assertEqual(res['error'], u"")
+        self.assertNotEqual(res['test_instance'], u"")
+        self.assertNotEqual(res['test_type'], u"")
+        self.assertNotEqual(res['test_subtype'], u"")
+        self.assertNotEqual(res['questions'], u"")
+        self.assertNotEqual(res['possib_ans'], u"")
+        self.assertNotEqual(res['correct_ans'], u"")
+
+    def test_selectArithmeticTest_default_params(self):
         res = self.ch.cognitiveExerciseSelect('ArithmeticCts')
         self.assertEqual(res['error'], u"")
         self.assertNotEqual(res['test_instance'], u"")

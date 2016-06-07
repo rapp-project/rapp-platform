@@ -37,7 +37,7 @@ class TemplateTests(unittest.TestCase):
         self.pkgDir = rospack.get_path('rapp_testing_tools')
 
     def test_templateTest(self):
-        self.assertEqual(1, 1)
+        self.assertEqual(1, 2)
 
 if __name__ == "__main__":
     unittest.main()
