@@ -30,7 +30,7 @@ from threading import Thread, Lock
 import rospkg
 import rospy
 import yaml
-
+import subprocess
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
@@ -206,6 +206,7 @@ def execute_tests_all(tests, numCalls, threaded):
     for test in tests:
         print "%s] %s x%s" % (count, test, numCalls)
         count += 1
+    print '\n'
     # print "\033[0;33m***************************\033[1;32m"
     time.sleep(1)
     ## ---------------------------------------------------------------- ##
@@ -215,13 +216,35 @@ def execute_tests_all(tests, numCalls, threaded):
     # -- Loop throug test files to be executed -- #
     for test in tests:
         filename = testPaths[0] + '/' + test + '.py'
-        print "\n" + bcolors.BOLD + bcolors.OKBLUE + "Running " + test + bcolors.ENDC
-        res = os.system(filename)
-        if res != 0:
+        sys.stdout.write(bcolors.BOLD + bcolors.OKBLUE + \
+                "Running " + test + "... " + bcolors.ENDC)
+        sys.stdout.flush()
+
+        # res = os.system(filename)
+        p = subprocess.Popen([filename], \
+                stdout=subprocess.PIPE,\
+                stderr=subprocess.PIPE)
+        p.wait()
+        output = p.stderr.read()
+        outlines = output.split('\n');
+        report_test_line = ''
+        for l in outlines:
+            if 'Ran ' in l:
+                report_test_line = l
+                break
+        print '\n\t' + report_test_line
+        if 'FAILED' in output:
             failed.append(test)
-            print bcolors.BOLD + bcolors.FAIL + "Failed" + bcolors.ENDC
+            sys.stdout.write(\
+                    '\t' + bcolors.BOLD + bcolors.FAIL + \
+                    "Failed" + bcolors.ENDC + '\n')
+            print output
+            sys.stdout.flush()
         else:
-            print bcolors.BOLD + bcolors.OKGREEN + "Success" + bcolors.ENDC
+            sys.stdout.write(\
+                    '\t' + bcolors.BOLD + \
+                    bcolors.OKGREEN + "Success" + bcolors.ENDC + '\n')
+            sys.stdout.flush()
 
     return failed
 
@@ -248,7 +271,7 @@ def main():
     failed = execute_tests_all(testFiles, numCalls, threaded)
     
     if len(failed) != 0:
-      print "\n\nThe failed tests are:"
+      print "\nThe failed tests are:"
       for t in failed:
         print "\t" + bcolors.BOLD + bcolors.FAIL + t + bcolors.ENDC
       sys.exit(1)
