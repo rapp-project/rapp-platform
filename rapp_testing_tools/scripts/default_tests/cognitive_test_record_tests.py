@@ -22,6 +22,7 @@ import os
 import timeit
 import unittest
 
+
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 from RappCloud import RappPlatformAPI
@@ -57,6 +58,35 @@ class CognitiveTestRecordTests(unittest.TestCase):
 
         response = self.ch.cognitiveRecordPerformance(instance, 50)
         self.assertEqual('CognitiveTestPerformed' in response['performance_entry'], True)
+
+    def test_recordWrongType(self):
+        response = self.ch.cognitiveExerciseSelect('ArithmeticCts')
+        self.assertEqual(response['error'], u'')
+        self.assertNotEqual(response['test_instance'], u'')
+        instance = response['test_instance']
+
+        response = self.ch.cognitiveRecordPerformance(3, 50)
+        self.assertNotEqual(response['error'], u'')
+
+    def test_recordWrongScoreType(self):
+        response = self.ch.cognitiveExerciseSelect('ArithmeticCts')
+        self.assertEqual(response['error'], u'')
+        self.assertNotEqual(response['test_instance'], u'')
+        instance = response['test_instance']
+
+        response = self.ch.cognitiveRecordPerformance(instance, '200')
+        self.assertNotEqual(response['error'], u'')
+
+    def test_recordWrongScoreValues(self):
+        response = self.ch.cognitiveExerciseSelect('ArithmeticCts')
+        self.assertEqual(response['error'], u'')
+        self.assertNotEqual(response['test_instance'], u'')
+        instance = response['test_instance']
+
+        response = self.ch.cognitiveRecordPerformance(instance, 200)
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.cognitiveRecordPerformance(instance, -200)
+        self.assertNotEqual(response['error'], u'')
 
 if __name__ == "__main__":
     unittest.main()
