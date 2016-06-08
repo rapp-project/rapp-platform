@@ -61,5 +61,33 @@ class OntologyTests(unittest.TestCase):
         self.assertEqual(response['result'], True)
         self.assertEqual(response['error'], u'')
 
+    def test_subclassOf_erroneous(self):
+        response = self.ch.ontologySubclasses('')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologySubclasses([])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologySubclasses(3)
+        self.assertNotEqual(response['error'], u'')
+
+    def test_superclassOf_erroneous(self):
+        response = self.ch.ontologySuperclasses('')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologySuperclasses([])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologySuperclasses(3)
+        self.assertNotEqual(response['error'], u'')
+
+    def test_subsuperclassOf_erroneous(self):
+        response = self.ch.ontologyIsSubsuperclass('', '')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologyIsSubsuperclass([], 'Oven')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologyIsSubsuperclass(3, 'Oven')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologyIsSubsuperclass('Oven', [])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.ontologyIsSubsuperclass('Oven', 3)
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()

@@ -32,20 +32,45 @@ class SppechDetectionGoogleTests(unittest.TestCase):
 
     def setUp(self):
         self.ch = RappPlatformAPI()
-        
+
         rospack = rospkg.RosPack()
         self.pkgDir = rospack.get_path('rapp_testing_tools')
  
-    def test_templateTest(self):
+    def test_speechNormal(self):
         audioFile = path.join(self.pkgDir, 'test_data',
             'speech_detection_samples', 'recording_sentence1.ogg')
 
         valid_words_found = ['I', 'want', 'to', 'go', 'out']
 
         response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', 'en')
-        
+
         self.assertEqual(response['error'], u'')
         self.assertEqual(response['words'], valid_words_found)
+ 
+    def test_erroneous(self):
+        audioFile = path.join(self.pkgDir, 'test_data',
+            'speech_detection_samples', 'recording_sentence1.ogg')
+
+        response = self.ch.speechRecognitionGoogle('', 'nao_ogg', 'en')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(3, 'nao_ogg', 'en')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle([], 'nao_ogg', 'en')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(audioFile, '', 'en')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(audioFile, 3, 'en')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(audioFile, [], 'en')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', 'klklklkl')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', '')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', 3)
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', [])
+        self.assertNotEqual(response['error'], u'')
 
 if __name__ == "__main__":
     unittest.main()

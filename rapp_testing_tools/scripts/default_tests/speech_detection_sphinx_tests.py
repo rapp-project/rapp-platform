@@ -96,5 +96,31 @@ class SpeechDetectionSphinxTests(unittest.TestCase):
         self.assertEqual(response['error'], u'')
         self.assertEqual(response['words'], valid_words_found)
 
+    def test_speech_erroneous(self):
+        audioFile = path.join(self.pkgDir, 'test_data', 'microphone_nai.wav')
+
+        response = self.ch.speechRecognitionSphinx('', 'headset', 'el', [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx([], 'headset', 'el', [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(3, 'headset', 'el', [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, '', 'el', [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, [], 'el', [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, 3, 'el', [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, 'headset', '', [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, 'headset', [], [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, 'headset', 3, [u'ναι', u'οχι'])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, 'headset', 'el', 3)
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.speechRecognitionSphinx(audioFile, 'headset', 'el', '')
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()

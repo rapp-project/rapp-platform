@@ -69,5 +69,18 @@ class FaceDetectionTests(unittest.TestCase):
         self.assertEqual(response['error'], u'')
         self.assertEqual(len(response['faces']), 3)
 
+    def test_notExistentFile(self):
+        imagepath = path.join(self.pkgDir, 'face_samples', \
+                'multi_faces_frames', 'multi_faces.jpg')
+        response = self.ch.faceDetection(imagepath)
+       
+        self.assertNotEqual(response['error'], u'')
+
+    def test_erroneousFileType(self):
+        imagepath = 3
+        response = self.ch.faceDetection(imagepath)
+       
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()

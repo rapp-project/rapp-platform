@@ -40,5 +40,25 @@ class TextToSpeechTests(unittest.TestCase):
         self.assertEqual(response['error'], u'')
         self.assertEqual(os.path.getsize(destFilePath) > 0, True)
 
+    def test_tts_erroneous(self):
+        destFilePath = '/tmp/ttsClient.wav'
+        
+        response = self.ch.textToSpeech(3, 'el', destFilePath)
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.textToSpeech([], 'el', destFilePath)
+        self.assertNotEqual(response['error'], u'')
+        #response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', '', destFilePath)
+        #self.assertNotEqual(response['error'], u'')
+        response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 3, destFilePath)
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', [], destFilePath)
+        self.assertNotEqual(response['error'], u'')
+        #response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 'el', '')
+        #self.assertNotEqual(response['error'], u'')
+        response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 'el', [])
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.textToSpeech('Καλησπέρα. Είμαι ο ναο', 'el', 3)
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()

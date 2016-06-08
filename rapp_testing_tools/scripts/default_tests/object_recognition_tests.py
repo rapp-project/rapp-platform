@@ -48,5 +48,15 @@ class ObjectRecognitionTests(unittest.TestCase):
         
         self.assertEqual(response, validResponse)
 
+    def test_wrongPath(self):
+        imagepath = path.join(self.pkgDir, '', 'cat.jpg')
+        response = self.ch.objectRecognitionCaffe(imagepath)
+        self.assertNotEqual(response['error'], u'')
+
+    def test_wrongPathType(self):
+        imagepath = 3 
+        response = self.ch.objectRecognitionCaffe(imagepath)
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()
