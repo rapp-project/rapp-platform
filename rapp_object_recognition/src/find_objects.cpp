@@ -9,7 +9,7 @@
 
 #include "rapp_object_recognition/find_objects.hpp"
 
-//#define DEBUG_IMAGES
+#define DEBUG_IMAGES
 
 namespace fs = boost::filesystem;
 
@@ -208,6 +208,89 @@ bool FindObjects::verifyHypothesis(const ObjectHypothesis & hyp) {
 	return true;
 }
 
+void FindObjects::refineHypothesis(ObjectHypothesis & hyp, cv::Mat scene_img) {
+	cv::Mat mask = cv::Mat::zeros(scene_img.size(), CV_8UC1);
+	cv::Point verts[4];
+	verts[0] = cv::Point(hyp.corners[0].x, hyp.corners[0].y);
+	verts[1] = cv::Point(hyp.corners[1].x, hyp.corners[1].y);
+	verts[2] = cv::Point(hyp.corners[2].x, hyp.corners[2].y);
+	verts[3] = cv::Point(hyp.corners[3].x, hyp.corners[3].y);
+	cv::fillConvexPoly(mask, verts, 4, cv::Scalar(255, 255, 255));
+
+	// Tmp variables.
+	std::vector<KeyPoint> scene_keypoints;
+	cv::Mat scene_descriptors;
+	std::vector< DMatch > matches;
+	
+	// Extract features from scene.
+	extractFeatures(scene_img, scene_keypoints, scene_descriptors, false, mask);
+	
+	// Find matches.
+	matcher->match( hyp.model->descriptors, scene_descriptors, matches );
+	
+	// Filtering.
+	double max_dist = 0;
+	double min_dist = 100;
+
+	//-- Quick calculation of max and min distances between keypoints
+	for( int i = 0; i < matches.size(); i++ ) {
+		double dist = matches[i].distance;
+		if( dist < min_dist ) min_dist = dist;
+		if( dist > max_dist ) max_dist = dist;
+	}//: for
+
+	if (!silent_) ROS_INFO ("Max dist : %f", max_dist);
+	if (!silent_) ROS_INFO ("Min dist : %f", min_dist);
+
+	//-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
+	std::vector< DMatch > good_matches;
+
+	for( int i = 0; i < matches.size(); i++ ) {
+		if( matches[i].distance <= 5*min_dist+0.1 )
+			good_matches.push_back( matches[i]);
+	}//: for
+
+	// Localize the object
+	std::vector<Point2f> obj;
+	std::vector<Point2f> scene;
+	std::vector<int> match_idx;
+	std::vector<uchar> h_mask;
+	int ransac_thresh = 5;
+
+	// Get the keypoints from the good matches.
+	for( int i = 0; i < good_matches.size(); i++ ) {
+		obj.push_back( hyp.model->keypoints [ good_matches[i].queryIdx ].pt );
+		scene.push_back( scene_keypoints [ good_matches[i].trainIdx ].pt );
+		match_idx.push_back(i);
+	}//: for 
+	
+	Mat H = findHomography( obj, scene, CV_RANSAC, ransac_thresh , h_mask);
+	
+	// Extract inliers
+	int inliers = 0;
+	for (size_t i = h_mask.size(); i > 0; --i) {
+		if (h_mask[i-1] == 1) {
+			++inliers;
+			//used_matches.push_back(good_matches[match_idx[i-1]]);
+		}
+	}
+
+	// Get the corners from the detected "object hypothesis".
+	std::vector<Point2f> obj_corners(4);
+	obj_corners[0] = cv::Point2f(0,0);
+	obj_corners[1] = cv::Point2f( hyp.model->image.cols, 0 );
+	obj_corners[2] = cv::Point2f( hyp.model->image.cols, hyp.model->image.rows );
+	obj_corners[3] = cv::Point2f( 0, hyp.model->image.rows );
+
+	// Transform corners with found homography.
+	perspectiveTransform( obj_corners, hyp.corners, H);
+	
+	// Verification: check resulting shape of object hypothesis.
+	// Compute "center of mass".
+	hyp.center = (hyp.corners[0] + hyp.corners[1] + hyp.corners[2] + hyp.corners[3])*.25;
+
+	hyp.score = (double)inliers / good_matches.size();// /models_keypoints [m].size();
+}
 
 int FindObjects::findObjects(const std::string & user, const std::string & fname, unsigned int limit, 
                 std::vector<std::string> & found_names, std::vector<geometry_msgs::Point> & found_centers, std::vector<double> & found_scores){
@@ -375,6 +458,21 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			Mat img_matches;
 			drawMatches(models[m]->image, models[m]->keypoints, img_object, scene_keypoints, used_matches, img_matches);
 			imwrite(debug_path + "matches_" + models[m]->name + "_" + std::to_string(rep) + ".png", img_matches);
+#endif
+			if (hyp.valid) {
+				refineHypothesis(hyp, scene_img);
+			}
+			
+#ifdef DEBUG_IMAGES
+			img_object = scene_img.clone();
+			line( img_object, hyp.corners[0], hyp.corners[1], Scalar(0, 255, 0), 4 );
+			line( img_object, hyp.corners[1], hyp.corners[2], Scalar(0, 255, 0), 4 );
+			line( img_object, hyp.corners[2], hyp.corners[3], Scalar(0, 255, 0), 4 );
+			line( img_object, hyp.corners[3], hyp.corners[0], Scalar(0, 255, 0), 4 );
+			circle( img_object, hyp.center, 2, Scalar(0, 255, 0), 4);
+			circle( img_object, hyp.corners[0], 2, Scalar(255, 0, 0), 4);
+			drawMatches(models[m]->image, models[m]->keypoints, img_object, scene_keypoints, used_matches, img_matches);
+			imwrite(debug_path + "matches_" + models[m]->name + "_" + std::to_string(rep) + "_ref.png", img_matches);
 #endif
 			
 			++rep;

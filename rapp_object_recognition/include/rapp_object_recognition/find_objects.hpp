@@ -130,6 +130,14 @@ protected:
 	 */
 	void storeObjectHypothesis(const ObjectHypothesis & hyp, unsigned int limit_);
 
+	/**
+	 *  Refine found hypothesis.
+	 * 
+	 * \param [in,out] hyp Hypothesis to be refined
+	 * \param [in] scene_img Query image to refine against
+	 */
+	void refineHypothesis(ObjectHypothesis & hyp, cv::Mat scene_img);
+
 private:
 	
 	/// Loaded models
