@@ -66,6 +66,12 @@ function svcImpl ( req, resp, ros )
     return;
   }
 
+  if( (typeof req.body.map_name !== "string")){
+    response.error = 'map_name must be of type {string}';
+    resp.sendJson(response);
+    return;
+  }
+
   var cpPNGFile = "~/rapp_platform_files/maps/" + req.username + "/" +
     req.body.map_name + ".png";
   var cpYAMLFile = "~/rapp_platform_files/maps/" + req.username + "/" +
