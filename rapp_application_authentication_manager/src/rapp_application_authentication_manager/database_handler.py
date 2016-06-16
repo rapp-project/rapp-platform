@@ -70,7 +70,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.username_exists)
         self._username_exists_proxy = \
-            rospy.ServiceProxy(user_exists_topic, checkIfUserExistsSrv)
+            rospy.ServiceProxy(user_exists_topic, checkIfUserExistsSrv,
+                               persistent=True)
 
         get_passwd_topic = rospy.get_param(
             "rapp_mysql_wrapper_get_user_password_service_topic")
@@ -83,7 +84,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.get_user_password)
         self._get_user_passwd_proxy = \
-            rospy.ServiceProxy(get_passwd_topic, getUserPasswordSrv)
+            rospy.ServiceProxy(get_passwd_topic, getUserPasswordSrv,
+                               persistent=True)
 
         verify_appl_token_topic = rospy.get_param(
             "rapp_mysql_wrapper_check_active_" +
@@ -97,7 +99,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.verify_active_application_token)
         self._verify_appl_token_proxy = rospy.ServiceProxy(
-            verify_appl_token_topic, checkActiveApplicationTokenSrv)
+            verify_appl_token_topic, checkActiveApplicationTokenSrv,
+            persistent=True)
 
         get_token_user_topic = rospy.get_param(
             "rapp_mysql_wrapper_get_username_associated_" +
@@ -111,7 +114,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.get_token_user)
         self._get_token_user_proxy = rospy.ServiceProxy(
-            get_token_user_topic, getUsernameAssociatedWithApplicationTokenSrv)
+            get_token_user_topic, getUsernameAssociatedWithApplicationTokenSrv,
+            persistent=True)
 
         verify_robot_session_topic = rospy.get_param(
             "rapp_mysql_wrapper_check_active_" +
@@ -125,7 +129,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.verify_active_robot_session)
         self._verify_robot_session_proxy = rospy.ServiceProxy(
-            verify_robot_session_topic, checkActiveRobotSessionSrv)
+            verify_robot_session_topic, checkActiveRobotSessionSrv,
+            persistent=True)
 
         add_new_user_topic = rospy.get_param(
             "rapp_mysql_wrapper_create_new_platform_user_service_topic")
@@ -138,7 +143,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.add_new_user)
         self._add_new_user_proxy = \
-            rospy.ServiceProxy(add_new_user_topic, createNewPlatformUserSrv)
+            rospy.ServiceProxy(add_new_user_topic, createNewPlatformUserSrv,
+                               persistent=True)
 
         create_new_appl_token_topic = rospy.get_param(
             "rapp_mysql_wrapper_create_new_application_token_service_topic")
@@ -151,7 +157,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.write_new_application_token)
         self._create_new_app_token_proxy = rospy.ServiceProxy(
-            create_new_appl_token_topic, createNewApplicationTokenSrv)
+            create_new_appl_token_topic, createNewApplicationTokenSrv,
+            persistent=True)
 
         add_store_token_to_device_topic = rospy.get_param(
             "rapp_mysql_wrapper_add_store_token_to_device_topic")
@@ -164,7 +171,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.add_store_token_to_device)
         self._add_store_token_to_device_proxy = rospy.ServiceProxy(
-            add_store_token_to_device_topic, addStoreTokenToDeviceSrv)
+            add_store_token_to_device_topic, addStoreTokenToDeviceSrv,
+            persistent=True)
 
         validate_user_role_topic = rospy.get_param(
             "rapp_mysql_wrapper_validate_user_role_topic")
@@ -177,7 +185,8 @@ class DatabaseHandler(object):
         #
         # (see database_handler.validate_user_role)
         self._validate_user_role_proxy = rospy.ServiceProxy(
-            validate_user_role_topic, validateUserRoleSrv)
+            validate_user_role_topic, validateUserRoleSrv,
+            persistent=True)
 
         validate_existing_device_topic = rospy.get_param(
             "rapp_mysql_wrapper_validate_existing_platform_device_token_topic")
@@ -192,7 +201,7 @@ class DatabaseHandler(object):
         # (see database_handler.verify_platform_device_token)
         self._validate_existing_device_token_proxy = rospy.ServiceProxy(
             validate_existing_device_topic,
-            validateExistingPlatformDeviceTokenSrv)
+            validateExistingPlatformDeviceTokenSrv, persistent=True)
 
     ## @brief Verify that the device token exists in store database
     #
