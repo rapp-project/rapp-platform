@@ -48,7 +48,8 @@ class TextToSpeechEspeak:
     lang = req.language
     # Check for language
     if req.language == '':
-        lang = 'en'
+        res.error = 'Language not specified'
+        return res
 
     # Check for audio output
     if req.audio_output == '':
