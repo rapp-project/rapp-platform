@@ -67,6 +67,10 @@ class SpeechToTextGoogle:
 
     res = SpeechToTextSrvResponse()
 
+    if req.language == '':
+        res.error = 'No language specified'
+        return res
+
     # Getting the results in order to parse them
     try:
         transcripts = self.speech_to_text(\
