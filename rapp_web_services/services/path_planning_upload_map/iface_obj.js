@@ -19,7 +19,7 @@
  */
 
 
-var client_res = function( ){
+var client_res = function( ) {
   var obj = {
     success: false,
     error: ''
@@ -28,7 +28,7 @@ var client_res = function( ){
 };
 
 
-var client_req = function( ){
+var client_req = function( ) {
   var obj = {
     png_file: '',
     yaml_file: '',

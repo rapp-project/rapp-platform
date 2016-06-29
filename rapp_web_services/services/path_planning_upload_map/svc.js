@@ -36,9 +36,9 @@ var util = require('util');
 
 var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
+var Fs = require(path.join(INCLUDE_DIR, 'common', 'fileUtils.js'));
 
-var interfaces = require( path.join(__dirname, 'iface_obj.js') );
+var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
 
 
@@ -46,21 +46,20 @@ var interfaces = require( path.join(__dirname, 'iface_obj.js') );
  *  [Path-planning-upload-map] RAPP Platform web service.
  *  Serves requests for path_planning_upload_map on given input: .png file, .yaml file, user name, map name.</p>
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl (req, resp, ros) {
   var response = new interfaces.client_res();
 
-  if( ! req.files.png_file ){
+  if (! req.files.png_file) {
     response.error = 'No map image file received';
     resp.sendJson(response);
     return;
   }
-  if( ! req.files.yaml_file ){
+  if (! req.files.yaml_file) {
     response.error = 'No map image file received';
     resp.sendJson(response);
     return;
   }
-  if( ! req.body.map_name ){
+  if (! req.body.map_name) {
     response.error = 'Not a map_name argument provided.';
     resp.sendJson(response);
     return;
@@ -79,25 +78,22 @@ function svcImpl ( req, resp, ros )
 
 
   // create user directory if one does not exist.
-  if(!Fs.isDirectory("~/rapp_platform_files/maps/" + req.username)){
+  if (!Fs.isDirectory("~/rapp_platform_files/maps/" + req.username)) {
     Fs.createDirRecur("~/rapp_platform_files/maps/" + req.username);
   }
 
   // coppy .png and .yaml files from the server_cache_dir
-  if ( ! Fs.renameFile(req.files.png_file[0], cpPNGFile) ){
+  if (! Fs.renameFile(req.files.png_file[0], cpPNGFile)) {
     response.error = "Failed to upload map png to RAPP Platform.";
     response.success = false;
   }
-  if ( ! Fs.renameFile(req.files.yaml_file[0], cpYAMLFile) ){
+  if (! Fs.renameFile(req.files.yaml_file[0], cpYAMLFile)) {
     response.error = "Failed to upload map yaml to RAPP Platform.";
     response.success = false;
   }
-  else{
+  else {
     response.success = true;
   }
-
-  Fs.rmFile(req.files.png_file[0]);
-  Fs.rmFile(req.files.yaml_file[0]);
 
   resp.sendJson(response);
 }
