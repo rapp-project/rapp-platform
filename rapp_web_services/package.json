@@ -4,12 +4,13 @@
   },
   "devDependencies": {
     "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-jshint": "~1.0.0",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-contrib-nodeunit": "~0.4.1",
     "grunt-jsdoc": "~1.1.0",
     "ink-docstrap": "~0.5.2",
-    "grunt-shell": "~1.1.2"
+    "grunt-shell": "~1.1.2",
+    "jshint-stylish": "~2.2.0"
   },
   "dependencies": {
     "winston": "~2.1.1",
