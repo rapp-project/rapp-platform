@@ -32,32 +32,24 @@
  */
 
 
+var Bridge = require(__dirname + '/core/bridge.js');
+
 /*!
  *  @brief Global scope Rosbridge class.
  *
  *  Used in order to communicate with ROS-framework through rosbridge
  *  websocket server.
  *  For more information on Rosbridge-Websocket-Server visit:
- *  http://wiki.ros.org/rosbridge_suite
+ *  http://wiki.ros.org/rosbridgesuite
  *
  */
-function Rosbridge(options)
-{
-  options = ( options || {} );
-  if( options.reconnect != undefined ){
-    reconnect__ = options.reconnect;
-  }
+function Rosbridge(options) {
+  this.options = options || {};
+  this.reconnect = options.reconnect || false;
 
-  var bridge_ = require( __dirname + '/core/bridge.js' );
-  this.rosbridge_ = undefined;
-  var reconnect__ = true;
+  this.rosbridge = null;
 
-  this.connect__ = function(options){
-    this.rosbridge_ = undefined;
-    this.rosbridge_ = new bridge_(options);
-  };
-
-  this.connect__(options);
+  this.connect(options);
 }
 
 
@@ -70,7 +62,7 @@ function Rosbridge(options)
  *  @param callback Callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getParam = function( paramName, callback, opts ){
-  this.rosbridge_.getParam(paramName, callback);
+  this.rosbridge.getParam(paramName, callback);
 };
 
 
@@ -80,7 +72,7 @@ Rosbridge.prototype.getParam = function( paramName, callback, opts ){
  *  @param callback Callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getServices = function( callback, opts ){
-  this.rosbridge_.getServices(callback, opts);
+  this.rosbridge.getServices(callback, opts);
 };
 
 
@@ -90,7 +82,7 @@ Rosbridge.prototype.getServices = function( callback, opts ){
  *  @param callback Callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getNodes = function( callback, opts ){
-  this.rosbridge_.getNodes(callback, opts);
+  this.rosbridge.getNodes(callback, opts);
 };
 
 
@@ -100,7 +92,7 @@ Rosbridge.prototype.getNodes = function( callback, opts ){
  *  @param callback Callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getTopics = function( callback, opts ){
-  this.rosbridge_.getTopics(callback, opts);
+  this.rosbridge.getTopics(callback, opts);
 };
 
 
@@ -115,7 +107,7 @@ Rosbridge.prototype.getTopics = function( callback, opts ){
  *    }
  */
 Rosbridge.prototype.connect = function(options){
-  this.connect__(options);
+  this.rosbridge = new Bridge(options);
 };
 
 
@@ -123,7 +115,7 @@ Rosbridge.prototype.connect = function(options){
  *  @brief Return true if connection to rosbridge is established.
  */
 Rosbridge.prototype.isConnected = function(){
-  return this.rosbridge_.isActive();
+  return this.rosbridge.isActive();
 };
 
 
@@ -136,7 +128,7 @@ Rosbridge.prototype.isConnected = function(){
  *    request call.
  */
 Rosbridge.prototype.callService = function( srvName, args, options){
-  this.rosbridge_.callSrv(srvName, args, options);
+  this.rosbridge.callSrv(srvName, args, options);
 };
 
 
@@ -144,7 +136,7 @@ Rosbridge.prototype.callService = function( srvName, args, options){
  *  @brief Close/Terminate this connection to rosbridge websocket server.
  */
 Rosbridge.prototype.closeConnection = function(){
-  this.rosbridge_.disconnect();
+  this.rosbridge.disconnect();
 };
 
 

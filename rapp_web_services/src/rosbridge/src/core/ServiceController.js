@@ -32,37 +32,33 @@
  *
  */
 
-//
 var RandomStringGenerator = require( __dirname + '/../utils/randStrGen.js' );
 var Exceptions = require( __dirname + '/Exceptions.js' );
 
-var colors = {
-  error:    '\033[1;31m',
-  success:  '\033[1;32m',
-  clear:    '\033[0m'
-}
+var util = require('util');
 
-function ServiceController(args)
-{
+function ServiceController(args) {
   this.hostname_ = args.hostname;
   this.port_ = args.port;
   this.requests_ = {};
   this.unqIdLength_ = 10;
   this.randStrGen_ = new RandomStringGenerator(this.unqIdLength_);
   var __this = this;
+
+  // Event callback handlers
   this.events_ = {
     onopen: args.onopen || function(){},
     onclose: args.onclose || function(){},
     onerror: args.onerror || function(){}
-  }
+  };
 
 
+  // Add a new request.
   this.addRequest = function(msg, callback)
   {
     var reqId = this.randStrGen_.createUnique();
     msg.id = reqId;
-    if( this.requests_[ reqId.toString() ] === undefined && this.ws_ )
-    {
+    if (this.requests_[ reqId.toString() ] === undefined && this.ws_) {
       this.requests_[reqId.toString()] = callback;
       try{  this.ws_.send(JSON.stringify(msg)); }
       catch(e){
@@ -72,76 +68,85 @@ function ServiceController(args)
         return false;
       }
     }
-  }
+  };
 
-  this.clearRequest = function(reqId)
-  {
-    if( this.requests_[ reqId.toString() ] !== undefined )
-    {
+  this.clearRequest = function(reqId) {
+    if(this.requests_[ reqId.toString() ] !== undefined) {
       delete this.requests_[ reqId.toString() ]; //release this request.
     }
-  }
+  };
 
-  this.connect = function(hostname, port)
-  {
-    if( this.ws_ == undefined )
-    {
+  // Establish connection to the websocket server.
+  this.connect = function() {
+    if (this.ws_ === undefined) {
       this.ws_ = new WebSocket('ws://' + this.hostname_ + ':' + this.port_);
+
+      // Onopen event handler.
       this.ws_.onopen = function(){
-        console.log('Connection to rosbridge established');
+        var msg = util.format(
+          'Connection to rosbridge websocket server established: {%s:%s}',
+          __this.hostname_, __this.port_);
+        console.log(msg);
         __connected = true;
         __this.events_.onopen();
-      }
+      };
+
+      // Onclose event handler.
       this.ws_.onclose = function(){
-        console.log('Connection to rosbridge closed');
+        console.log('Connection to rosbridge websocket server closed');
         __this.ws_ = undefined;
         __this.events_.onclose();
-      }
+      };
+
+      // Onmessage event handler.
       this.ws_.onmessage = function(event){
         var response = JSON.parse(event.value);
-        if (__this.requests_[response.id] != undefined)
+        if (__this.requests_[response.id] !== undefined)
         {
           //console.log(response)
           __this.requests_[response.id](response);
           __this.clearRequest(response.id);
         }
-      }
+      };
+
+      // Onerror event handler.
       this.ws_.onerror = function(e){
-        var errorMsg = "Rosbridge Websocket interface is broken. " +
-          " [ws://" +  __this.hostname_ + ":" +
-          __this.port_.toString() + "]";
-        console.log(colors.error + '[Rosbridge]: ' + errorMsg +
-          colors.clear);
+        //var errorMsg = util.format("Connection error for [ws://%s:%s] : %s",
+          //__this.hostname_, __this.port_, e);
+        //console.log(errorMsg);
         //console.log(e)
         __this.events_.onerror();
         __this.ws_.close();
         __this.ws_ = undefined;
-      }
+      };
     }
-  }
+  };
+
   this.connect(this.hostname_, this.port_);
 
 
-  this.disconnect = function(){
+  this.disconnect = function() {
     this.ws_.close();
     this.ws_ = undefined;
-  }
+  };
 
-  this.registerService = function(msg, callback)
-  {
-    if (!callback)
-    {
+  this.registerService = function(msg, callback) {
+    if (!callback) {
       console.log("Invoke this method with a valid callback function.");
       return false;
     }
-    if( !this.ws_ ){
+    if (! this.ws_) {
       // Assign the callback to this request.
       this.events_.onerror();
       return false;
     }
-    if( this.addRequest(msg, callback) ) { return true }
-    else { return true }
-  }
+    if (this.addRequest(msg, callback)) {
+      return true;
+    }
+    else {
+      return true;
+    }
+  };
 
 }
 
