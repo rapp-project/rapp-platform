@@ -153,52 +153,58 @@ function WebService (onRequest, options) {
    *   new hop.Service(svcImpl)
    */
   this.svcImpl = function(kwargs){
-    // Instantioate a new Request object.
+    // Instantiate a new Request object.
     var _req = new Request(this, kwargs);
-    /***
-     * Asynchronous http response
-     */
+
+    // Asynchronous http response
     return hop.HTTPResponseAsync( function( sendResponse ) {
       // Instantioate a new Response object.
       var _resp = new Response(sendResponse);
+      try {
 
-      for (var i in that.reqParsers) {
-        that.reqParsers[i].call(_req);
-      }
+        for (var i in that.reqParsers) {
+          that.reqParsers[i].call(_req);
+        }
 
-      // Authenticate.
-      that.auth.call(_req, _resp,
-        // On authentication success.
-        function(username) {
-          //console.log(username);
-          _req.username = username;
-          // Call registered onRequest callback
-          that.onRequest(_req, _resp, that.ros);
-        },
-        // On authentication failure.
-        function(e) {
+        // ------------ Authenticate ---------------
+        that.auth.call(_req, _resp,
+          // On authentication success.
+          function(username)  {
+            //console.log(username);
+            _req.username = username;
+            // Call registered onRequest callback
+            that.onRequest(_req, _resp, that.ros);
+          },
+          // On authentication failure.
+          function(e)  {
+            // Remove all received files
+            for(var k in _req.files){
+              for(var i in _req.files[k]){
+                Fs.rmFile(_req.files[k][i]);
+              }
+            }
+            console.log(e);
+            // Response Authentication Failure
+            _resp.sendUnauthorized();
+          }
+          );
+        // -----------------------------------------
+
+        // Timeout this request. Return to client with Error 500.
+        setTimeout(function() {
           // Remove all received files
-          for(var k in _req.files){
-            for(var i in _req.files[k]){
+          for (var k in _req.files) {
+            for (var i in _req.files[k]) {
               Fs.rmFile(_req.files[k][i]);
             }
           }
-          console.log(e);
-          // Response Authentication Failure
-          _resp.sendUnauthorized();
-        }
-      );
-
-      // Timeout this request. Return to client with Error 500.
-      setTimeout(function(){
-        // Remove all received files
-        for (var k in _req.files) {
-          for (var i in _req.files[k]) {
-            Fs.rmFile(_req.files[k][i]);
-          }
-        }
+          _resp.sendServerError();
+        }, that.timeout);
+      }
+      catch (e) {
+        console.log(e);
         _resp.sendServerError();
-      }, that.timeout);
+      }
 
     }, this);
 

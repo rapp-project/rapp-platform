@@ -227,7 +227,9 @@ function rmFile(filepath) {
   fs.exists(_filepath, function(exists) {
     if (exists) {
       fs.unlink(_filepath, function(e) {
-        console.log(e);
+        if (e) {
+          console.log(e);
+        }
       });
     }
   });
