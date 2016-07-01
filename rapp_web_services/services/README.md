@@ -81,7 +81,7 @@ Otherwise, use *application/x-www-form-urlencoded*.
 All data, except files, have to be  be send under a field named **json**.
 In case of using *application/x-www-form-urlencoded* type this will look like:
 
-```
+```http
 POST /hop/ontology_subclasses_of HTTP/1.1
 Connection: keep-alive
 ...
@@ -92,7 +92,7 @@ json=%7B%22query%22%3A+%22Oven%22%7D
 
 and in case of multipart/form-data:
 
-```
+```http
 POST /hop/face_detection HTTP/1.1
 Connection: keep-alive
 ...
@@ -1174,7 +1174,7 @@ where *story* object is:
 
 Developed tests and testing tools are currently located under the [rapp_testing_tools](https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools) package:
 
-```shell
+```bash
 $ <path_to_rapp_platform_repo>/rapp_testing_tools/
 ```
 
