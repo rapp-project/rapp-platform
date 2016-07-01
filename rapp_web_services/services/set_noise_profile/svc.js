@@ -59,7 +59,7 @@ function svcImpl ( req, resp, ros )
   rosMsg.audio_file_type = req.body.audio_source;
   rosMsg.user = req.username;
 
-  /* ROS-Service response callback. */
+  // ROS-Service response callback.
   function callback(data){
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
@@ -67,15 +67,16 @@ function svcImpl ( req, resp, ros )
     resp.sendJson(response);
   }
 
-  /* ROS-Service onerror callback. */
+  // ROS-Service onerror callback.
   function onerror(e){
     Fs.rmFile(req.files.file[0]);
-    resp.sendServerError();
+    var response = new interfaces.client_res();
+    response.error = e;
+    resp.sendJson(response);
   }
 
-  /* Call ROS-Service. */
-  ros.callService(rosSrvName, rosMsg,
-    {success: callback, fail: onerror});
+  // Call ROS-Service.
+  ros.callService(rosSrvName, rosMsg, {success: callback, fail: onerror});
 }
 
 
