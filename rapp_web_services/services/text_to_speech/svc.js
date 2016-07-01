@@ -76,7 +76,7 @@ function svcImpl ( req, resp, ros )
   rosMsg.language = req.body.language;
   rosMsg.text = req.body.text;
 
-  /* ROS-Service response callback. */
+  // ROS-Service response callback.
   function callback(data){
     // Remove this call id from random string generator cache.
     randStrGen.removeCached( unqCallId );
@@ -85,18 +85,19 @@ function svcImpl ( req, resp, ros )
     resp.sendJson(response);
   }
 
-  /* ROS-Service onerror callback. */
+  // ROS-Service onerror callback.
   function onerror(e){
     // Remove local file immediately.
     Fs.rmFile(filePath);
     // Remove this call id from random string generator cache.
     randStrGen.removeCached( unqCallId );
-    resp.sendServerError();
+    var response = new interfaces.client_res();
+    response.error = e;
+    resp.sendJson(response);
   }
 
-  /* Call ROS-Service. */
-  ros.callService(rosSrvName, rosMsg,
-    {success: callback, fail: onerror});
+  // Call ROS-Service.
+  ros.callService(rosSrvName, rosMsg, {success: callback, fail: onerror});
 }
 
 

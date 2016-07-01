@@ -54,25 +54,22 @@ function svcImpl ( req, resp, ros )
   rosMsg.testDifficulty = req.body.test_diff;
   rosMsg.testIndex = req.body.test_index;
 
-  /***
-   * ROS-Service response callback.
-   */
+  // ROS-Service response callback.
   function callback(data){
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
-  /***
-   * ROS-Service onerror callback.
-   */
+  // ROS-Service onerror callback.
   function onerror(e){
-    resp.sendServerError();
+    var response = new interfaces.client_res();
+    response.error = e;
+    resp.sendJson(response);
   }
 
   // Call ROS-Service.
-  ros.callService(rosSrvName, rosMsg,
-    {success: callback, fail: onerror});
+  ros.callService(rosSrvName, rosMsg, {success: callback, fail: onerror});
 }
 
 
