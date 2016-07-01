@@ -52,8 +52,8 @@ class TextToSpeechFunc(unittest.TestCase):
         req.language = ''
         req.text = "This is a test"
         response = stt_service(req)
-        self.assertEqual(response.error, "")
-        self.assertEqual(os.path.isfile(os.path.expanduser("~/testing.wav")), True)
+        self.assertNotEqual(response.error, "")
+        self.assertNotEqual(os.path.isfile(os.path.expanduser("~/testing.wav")), True)
         os.system('rm ~/testing.wav')
 
     def test_greek(self):
