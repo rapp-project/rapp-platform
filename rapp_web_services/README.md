@@ -29,20 +29,27 @@ Currently, HOP-Server is configured to act as an HTTP/HTTPS Web Server (**Does n
 
 On a fresh clone you will first need to install required dependencies:
 
-```shell
+```bash
 $ npm install
 ```
 
 For initiating HOP Web Server (and HOP Web Services), a grunt task exists:
 
-```shell
+```bash
 $ grunt init-hop
 ```
 
 Or execute the **run.sh** script directly:
 
-```shell
+```bash
 $ ./run.sh
+```
+
+
+We also provide [pm2](https://github.com/Unitech/pm2) configuration file for the web server to launch. If you have pm2 installed on the machine hosting the RAPP Platform, simply execute:
+
+```bash
+pm2 start server.yaml
 ```
 
 
@@ -69,32 +76,32 @@ This package's source-code is documented using the [JSDoc](https://github.com/js
 
 Generate documentation for HOP Web Services ONLY!:
 
-```shell
+```bash
 $ grunt jsdoc:services
 ```
 
 Generate documentation for service-creation-templates ONLY!:
 
-```shell
+```bash
 $ grunt jsdoc:templates
 ```
 
 Generate documentation for commons ONLY!:
 
-```shell
+```bash
 $ grunt jsdoc:commons
 ```
 
 Gererate documentation for ALL:
 
-```shell
+```bash
 $ grunt jsdoc
 ```
 
 
 Generated doc files are stored under the **doc/** directory, or under:
 
-```shell
+```bash
 $ ${HOME}/rapp_platform_files/
 ```
 
