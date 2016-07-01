@@ -48,5 +48,13 @@ class QrDetectionTests(unittest.TestCase):
         response = self.ch.qrDetection(imagepath)
         self.assertEqual(response, valid_results)
 
+    def test_detect_qr_erroneous(self):
+        response = self.ch.qrDetection('')
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.qrDetection(3)
+        self.assertNotEqual(response['error'], u'')
+        response = self.ch.qrDetection([])
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()

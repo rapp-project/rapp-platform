@@ -41,5 +41,19 @@ class DenoiseProfileTests(unittest.TestCase):
                         )
         self.assertEqual(response['error'], u'')
 
+    def test_setNoiseProfile_noExistentFile(self):
+        response = self.ch.setNoiseProfile('vim.exe', 'nao_wav_1_ch')
+        self.assertNotEqual(response['error'], u'')
+
+    def test_setNoiseProfile_wrongFileInputType(self):
+        response = self.ch.setNoiseProfile(3, 'nao_wav_1_ch')
+        self.assertNotEqual(response['error'], u'')
+
+    def test_setNoiseProfile_wrongAudioTypeInputType(self):
+        response = self.ch.setNoiseProfile('', [])
+        self.assertNotEqual(response['error'], u'')
+
+
+
 if __name__ == "__main__":
     unittest.main()

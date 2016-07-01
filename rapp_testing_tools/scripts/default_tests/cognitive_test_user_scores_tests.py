@@ -55,5 +55,19 @@ class CognitiveTestScoresTests(unittest.TestCase):
         self.assertEqual(len(response['scores']) > 0, True)
         self.assertEqual(len(response['test_classes']) > 0, True)
 
+    def test_scoresWrongType(self):
+        response = self.ch.cognitiveGetScores(3, 100000000)
+        self.assertNotEqual(response['error'], u'')
+
+    def test_scoresWrongTypeList(self):
+        response = self.ch.cognitiveGetScores([], 100000000)
+        self.assertNotEqual(response['error'], u'')
+
+    def test_scoresWrongType_to(self):
+        response = self.ch.cognitiveGetScores('', '100000000')
+        self.assertNotEqual(response['error'], u'')
+
+
+
 if __name__ == "__main__":
     unittest.main()

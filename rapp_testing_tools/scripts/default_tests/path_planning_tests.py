@@ -68,8 +68,48 @@ class PathPlanningTests(unittest.TestCase):
 
         resp = self.ch.pathPlanningPlan2D(map_name, 'NAO', poseStart,\
             poseGoal)
-        self.assertEqual(resp['error'], u'')      
-        self.assertEqual(resp['plan_found'], 0)      
+        self.assertEqual(resp['error'], u'')
+        self.assertEqual(resp['plan_found'], 0)
+
+    def test_plan_2d_erroneous(self):
+        testDatapath = path.join(self.pkgDir, 'test_data', 'path_planning')
+
+        poseStart = {
+            'pose': {
+             'position': {'x': 1, 'y': 1, 'z': 0},
+             'orientation': {'x': 0, 'y': 0, 'z': 0, 'w': 0}
+            }
+        }
+
+        poseGoal = {
+            'pose': {
+                'position': {'x': 5.3, 'y': 4, 'z': 0},
+                'orientation': {'x': 0, 'y': 0, 'z': 20, 'w': 0}
+            }
+        }
+
+        yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
+        pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
+        map_name='523_m_obstacle_2'
+        resp = self.ch.pathPlanningUploadMap(map_name, pngFile, yamlFile)
+        self.assertEqual(resp['error'], u'')
+
+        resp = self.ch.pathPlanningPlan2D('', 'NAO', poseStart, poseGoal)
+        self.assertNotEqual(resp['error'], u'')      
+        resp = self.ch.pathPlanningPlan2D(4, 'NAO', poseStart, poseGoal)
+        self.assertNotEqual(resp['error'], u'')      
+        resp = self.ch.pathPlanningPlan2D(map_name, 3, poseStart, poseGoal)
+        self.assertNotEqual(resp['error'], u'')      
+        resp = self.ch.pathPlanningPlan2D(map_name, [], poseStart, poseGoal)
+        self.assertNotEqual(resp['error'], u'')      
+        resp = self.ch.pathPlanningPlan2D(map_name, 'NAO', 0, poseGoal)
+        self.assertNotEqual(resp['error'], u'')      
+        resp = self.ch.pathPlanningPlan2D(map_name, 'NAO', poseStart, 0)
+        self.assertNotEqual(resp['error'], u'')      
+        resp = self.ch.pathPlanningPlan2D(map_name, 'NAO', [], poseGoal)
+        self.assertNotEqual(resp['error'], u'')      
+        resp = self.ch.pathPlanningPlan2D(map_name, 'NAO', poseStart, [])
+        self.assertNotEqual(resp['error'], u'')      
 
     def test_upload_map(self):
         testDatapath = path.join(self.pkgDir, 'test_data', 'path_planning')
@@ -79,6 +119,29 @@ class PathPlanningTests(unittest.TestCase):
 
         resp = self.ch.pathPlanningUploadMap(map_name, pngFile, yamlFile)
         self.assertEqual(resp['error'], u'')
+
+    def test_upload_map_erroneous(self):
+        testDatapath = path.join(self.pkgDir, 'test_data', 'path_planning')
+        yamlFile = path.join(testDatapath, '523_m_obstacle_2.yaml')
+        pngFile = path.join(testDatapath, '523_m_obstacle_2.png')
+        map_name='523_m_obstacle_2'
+
+        resp = self.ch.pathPlanningUploadMap(map_name, '', yamlFile)
+        self.assertNotEqual(resp['error'], u'')
+        resp = self.ch.pathPlanningUploadMap(map_name, pngFile, '')
+        self.assertNotEqual(resp['error'], u'')
+        resp = self.ch.pathPlanningUploadMap(map_name, 3, yamlFile)
+        self.assertNotEqual(resp['error'], u'')
+        resp = self.ch.pathPlanningUploadMap(map_name, [], yamlFile)
+        self.assertNotEqual(resp['error'], u'')
+        resp = self.ch.pathPlanningUploadMap(map_name, pngFile, 3)
+        self.assertNotEqual(resp['error'], u'')
+        resp = self.ch.pathPlanningUploadMap(map_name, pngFile, [])
+        self.assertNotEqual(resp['error'], u'')
+        resp = self.ch.pathPlanningUploadMap(3, pngFile, yamlFile)
+        self.assertNotEqual(resp['error'], u'')
+        resp = self.ch.pathPlanningUploadMap([], pngFile, yamlFile)
+        self.assertNotEqual(resp['error'], u'')
 
 if __name__ == "__main__":
     unittest.main()

@@ -45,5 +45,19 @@ class HazardDetectionTests(unittest.TestCase):
         self.assertEqual(response['error'], u'')
         self.assertEqual(response['light_level'] > 50, True)
 
+    def test_erroneousPath(self):
+        imagepath = path.join(self.pkgDir, 'test_data', 'lamp_on.jpg')
+
+        response = self.ch.hazardDetectionLights(imagepath)
+        
+        self.assertNotEqual(response['error'], u'')
+
+    def test_wrongPathType(self):
+        imagepath = 3
+
+        response = self.ch.hazardDetectionLights(imagepath)
+        
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()

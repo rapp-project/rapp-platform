@@ -51,5 +51,21 @@ class CognitiveTestHistoryTests(unittest.TestCase):
         self.assertEqual(response['error'], u'')
         self.assertNotEqual(len(response['records']), 0)
 
+    def test_history_wrongType(self):
+        response = self.ch.cognitiveGetHistory('T', 0, 100000000)
+        self.assertNotEqual(response['error'], u'')
+ 
+    def test_history_wrongTypeType(self):
+        response = self.ch.cognitiveGetHistory(0, 0, 100000000)
+        self.assertNotEqual(response['error'], u'')
+    
+    def test_history_wrongFromType(self):
+        response = self.ch.cognitiveGetHistory('', '0', 100000000)
+        self.assertNotEqual(response['error'], u'')
+ 
+    def test_history_wrongToType(self):
+        response = self.ch.cognitiveGetHistory('T', 0, '100000000')
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()

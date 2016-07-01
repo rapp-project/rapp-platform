@@ -50,5 +50,18 @@ class HumanDetectionTests(unittest.TestCase):
         self.assertEqual(response['error'], u'')
         self.assertEqual(response['humans'], valid_humans)
 
+    def test_humanDetectionTest_wrongPath(self):
+        image = path.join(self.pkgDir, '',
+            'human_detection_samples', 'NAO_picture_3.png')
+        response = self.ch.humanDetection(image)
+
+        self.assertNotEqual(response['error'], u'')
+
+    def test_humanDetectionTest_wrongPathType(self):
+        image = 3
+        response = self.ch.humanDetection(image)
+
+        self.assertNotEqual(response['error'], u'')
+
 if __name__ == "__main__":
     unittest.main()
