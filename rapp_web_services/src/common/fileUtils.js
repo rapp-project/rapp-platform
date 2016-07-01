@@ -28,12 +28,6 @@
 var fs = require('fs');
 var path = require('path');
 
-var colors = {
-  error:    '\033[1;31m',
-  success:  '\033[1;32m',
-  clear:    '\033[0m'
-};
-
 
 /**
  * Resolve a "might-be" relative path to system's absolute path.
@@ -41,19 +35,16 @@ var colors = {
  * @param {String} _path Path to be resolved to absolute.
  * @returns {String} - absolute path.
  */
-function resolvePath( _path )
-{
+function resolvePath(_path) {
   var regexp = /~/g;
   var newPath = '';
-  if ( _path.match( regexp ) )
-  {
+  if (_path.match(regexp)) {
     var home = process.env.HOME;
     /*<Replaces "~" with "/home/user">*/
-    newPath = _path.replace( regexp, home );
+    newPath = _path.replace(regexp, home);
   }
-  else
-  {
-    newPath = path.resolve( _path );
+  else {
+    newPath = path.resolve(_path);
   }
   return newPath;
 }
@@ -82,8 +73,7 @@ function resolvePath( _path )
  *     <li> kilobytes </li>
  *   </ul>
  */
-function readFileSync( _fileUrl, _encoding )
-{
+function readFileSync(_fileUrl, _encoding) {
   var file = {
     data: undefined,
     encoding: undefined,
@@ -91,32 +81,26 @@ function readFileSync( _fileUrl, _encoding )
     absolutePath: undefined,
     size: {
       bytes: undefined,
-      kilobytes: undefined,
     }
   };
-  var fileAbsPath = resolvePath( _fileUrl );
-  if( fs.existsSync( fileAbsPath ) )
-  {
+  var fileAbsPath = resolvePath(_fileUrl);
+  if (fs.existsSync(fileAbsPath)) {
     file.absolutePath = fileAbsPath;
     file.basename = path.basename( fileAbsPath );
     var dataBuffer = fs.readFileSync( fileAbsPath );
-    file.size['bytes'] = dataBuffer.length;
-    file.size['kilobytes'] = file.size['bytes'] / 1024;
+    file.size.bytes = dataBuffer.length;
     encoding = _encoding || "none";
-    switch ( encoding )
-    {
+    switch (encoding) {
       case "buffer":
         file.data = dataBuffer;
         file.encoding = "raw";
         break;
       case "ascii":
-        var str = dataBuffer.toString( 'ascii' );
-        file.data = str;
+        file.data = dataBuffer.toString( 'ascii' );
         file.encoding = "ascii";
         break;
       case "string/utf8":
-        var str = dataBuffer.toString( 'utf8' );
-        file.data = str;
+        file.data = dataBuffer.toString( 'utf8' );
         file.encoding = "utf8";
         break;
       case "string/binary":
@@ -132,8 +116,7 @@ function readFileSync( _fileUrl, _encoding )
     }
     return file;
   }
-  else
-  {
+  else {
     return 0;
   }
 }
@@ -149,14 +132,9 @@ function readFileSync( _fileUrl, _encoding )
  *
  * @returns {boolean} - Success index on this operation.
  */
-function writeFileSync( _destUrl, _data )
+function writeFileSync(_destUrl, _data)
 {
-  var path =  resolvePath( _destUrl );
-  if( fs.existsSync( path ) ){
-  }
-  else{
-    //console.log("\033[0;36mWriting requested data @ [%s]\033[0;0m", path);
-  }
+  var path =  resolvePath(_destUrl);
 
   try{
     fs.writeFileSync( path, _data );
@@ -166,9 +144,7 @@ function writeFileSync( _destUrl, _data )
     return false;
   }
 
-  var filesize = fileSize( path );
-  //console.log("\033[0;36mFinished writing requested data" +
-    //"@ [%s] , filesize: [%s]\033[0;0m", path, filesize);
+  var filesize = fileSize(path);
   return true;
 }
 
@@ -180,10 +156,11 @@ function writeFileSync( _destUrl, _data )
  *
  * @returns {boolean} - Success index on this operation.
  */
-function createDir( dirPath )
-{
+function createDir(dirPath) {
   var dir = resolvePath(dirPath);
-  if ( fs.existsSync(dir) ) { return true; }
+  if (fs.existsSync(dir)) {
+    return true;
+  }
 
   try{
     fs.mkdirSync(dir);
@@ -203,12 +180,12 @@ function createDir( dirPath )
  *
  * @param {String} dirPath - Directory system path.
  */
-function createDirRecur( dirPath )
-{
+function createDirRecur(dirPath) {
   dirPath = resolvePath(dirPath);
-  if ( fs.existsSync(dirPath) ) { return true; }
-  if( createDir(dirPath) === false )
-  {
+  if (fs.existsSync(dirPath)) {
+    return true;
+  }
+  if (createDir(dirPath) === false) {
     // Create all the parents recursively
     createDirRecur(path.dirname(dirPath));
 
@@ -220,38 +197,42 @@ function createDirRecur( dirPath )
 
 
 /**
- * Node.js unlinkSync method wrapper.
+ * @brief Remove local file given by system path. Synchronous.
  *
- * @function rmFile
+ * @function rmFileSync
  *
- * @param {String} _file - File to removed, specified by path.
- *
- * @returns {boolean} - True if file existed and removed, false otherwise.
+ * @param {String} filepath - The file system path
  */
-function rmFileSync( _file )
-{
-  var filePath =  resolvePath(_file);
-  if( fs.existsSync(filePath) && isFile(filePath) )
-  {
-    fs.unlinkSync(filePath);
-    //console.log("Successfully deleted file: [%s]", path);
+function rmFileSync(filepath) {
+  var _filepath =  resolvePath(filepath);
+  if (fs.existsSync(_filepath) && isFile(_filepath)) {
+    fs.unlinkSync(_filepath);
     return true;
   }
-  else
-  {
-    //console.log("\033[0;31mFile [%s] does not exist!\033[0;0m", path);
+  else {
     return false;
   }
 }
 
 
-function rmFile(filepath){
+/**
+ * @brief Remove local file given by system path. Asynchronous.
+ *
+ * @function rmFile
+ *
+ * @param {String} filepath - The file system path
+ */
+function rmFile(filepath) {
   var _filepath = resolvePath(filepath);
-  fs.exists(_filepath, function(exists){
-    if(exists){
-      fs.unlink(_filepath)
+  fs.exists(_filepath, function(exists) {
+    if (exists) {
+      fs.unlink(_filepath, function(e) {
+        if (e) {
+          console.log(e);
+        }
+      });
     }
-  })
+  });
 }
 
 
@@ -265,20 +246,18 @@ function rmFile(filepath){
  *
  * @returns {Array} - Array that holds the contents of the directory.
  */
-function lsSync( _dir )
-{
+function lsSync(_dir) {
   var fileList = [];
-  var dir = resolvePath( _dir );
+  var dir = resolvePath(_dir);
   var files = fs.readdirSync(dir);
-  for(var i in files)
-  {
+
+  for(var i in files) {
     var fullPath = dir + '/' + files[i];
-    if (fs.statSync(fullPath).isDirectory())
-    {
+    if (fs.statSync(fullPath).isDirectory()) {
       continue;
     }
-    else{
-      fileList.push( files[i] );
+    else {
+      fileList.push(files[i]);
     }
   }
   return fileList;
@@ -295,22 +274,22 @@ function lsSync( _dir )
  * @param {String} _filePath - Destination file path.
  * @return Undefined.
  */
-function text2File ( _data, _filePath ){
+function text2File (_data, _filePath) {
   var data = null;
-  if ( Buffer.isBuffer( _data ) ){
+  if (Buffer.isBuffer(_data)) {
     data = _data;
   }
-  else if ( typeof _data == 'string' ){
+  else if (typeof _data == 'string') {
     data = new Buffer( _data.length );
     data.write( _data );
   }
-  else{
+  else {
     return false;
   }
 
-  var fd = fs.openSync( _filePath, 'w' );
-  var numBytes = fs.writeSync( fd, data, 0, data.length, null );
-  fs.close( fd );
+  var fd = fs.openSync(_filePath, 'w');
+  var numBytes = fs.writeSync(fd, data, 0, data.length, null);
+  fs.close(fd);
 }
 
 
@@ -324,14 +303,13 @@ function text2File ( _data, _filePath ){
  *
  * @returns {boolean} - Success index on appendLine operation
  */
-function appendLine( str, dest )
-{
+function appendLine(str, dest) {
   var destPath = resolvePath(dest);
-  try{
+  try {
     fs.appendFileSync(destPath, str + '\n');
     return true;
   }
-  catch(e){
+  catch(e) {
     return false;
   }
 }
@@ -346,11 +324,11 @@ function appendLine( str, dest )
  *
  * @return {number} - Size of the file in bytes.
  */
-function fileSize( _filePath ) {
-  var _path =  resolvePath( _filePath );
-  var stats = fs.statSync( _path );
+function fileSize(_filePath) {
+  var _path =  resolvePath(_filePath);
+  var stats = fs.statSync(_path);
   var filesize_bytes = stats.size;
- return filesize_bytes;
+  return filesize_bytes;
 }
 
 
@@ -365,27 +343,31 @@ function fileSize( _filePath ) {
  * @returns {boolean} - Success index of the rename-file operation.
  * True if file was succesfully renamed, false otherwise.
  */
-function renameFile( file, dest )
-{
+function renameFile(file, dest) {
   var sourcePath = resolvePath(file);
   var destPath = resolvePath(dest);
   var destDir = parentDir(destPath);
 
   // If source file and destination file match then do not proceed.
-  if (sourcePath == destPath) {return true;}
+  if (sourcePath == destPath) {
+    return true;
+  }
 
   // If parent directory of given destination file does not exist,
   // return false immediately.
-  if ( destDir === false || fs.existsSync(destDir) === false ||
-    (! isFile(sourcePath)) )
-    {return false;}
+  if (destDir === false || fs.existsSync(destDir) === false ||
+    (! isFile(sourcePath)) ) {
+      return false;
+  }
 
   // Check if source file exists and destination directory also exists.
-  if ( fs.existsSync(sourcePath) ){
-    try{
+  if (fs.existsSync(sourcePath)) {
+    try {
       fs.renameSync(sourcePath, destPath);
+      //copyFile(sourcePath, destPath);
+      //rmFile(sourcePath);
     }
-    catch(e){
+    catch(e) {
       return false;
     }
     return true;
@@ -408,27 +390,29 @@ function renameFile( file, dest )
  * @returns {boolean} - Success index of the copy-file operation.
  * True if file was succesfully copied, false otherwise.
  */
-function copyFile(file, dest)
-{
+function copyFile(file, dest) {
   var sourcePath = resolvePath(file);
   var destPath = resolvePath(dest);
   var destDir = parentDir(destPath);
 
   // If source file and destination file match then do not proceed.
-  if ( sourcePath == destPath ) {return true;}
+  if (sourcePath == destPath) {
+    return true;
+  }
 
   // If parent directory of given destination file does not exist,
   // return false immediately.
-  if ( destDir === false || fs.existsSync(destDir) === false )
-    { return false; }
+  if (destDir === false || fs.existsSync(destDir) === false) {
+    return false;
+  }
 
   // Check if source file exists and destination directory also exists.
-  if( fs.existsSync( sourcePath ) ){
-    try{
+  if (fs.existsSync(sourcePath)) {
+    try {
       //fs.createReadStream(sourcePath).pipe(fs.createWriteStream(destPath));
       fs.writeFileSync(destPath, fs.readFileSync(sourcePath));
     }
-    catch(e){
+    catch(e) {
       return false;
     }
     return true;
@@ -450,16 +434,13 @@ function copyFile(file, dest)
  * @return {String} - The parent directory. In case of error a zero 0 value
  * will be returned.
  */
-function parentDir(_path)
-{
+function parentDir(_path) {
   var absPath = resolvePath(_path);
   var _parentDir = '';
-  try
-  {
+  try {
     _parentDir = path.dirname(absPath);
   }
-  catch(e)
-  {
+  catch(e) {
     return false;
   }
   return _parentDir;
@@ -475,13 +456,15 @@ function parentDir(_path)
  *
  *  @returns {boolean} - True if is directory, false otherwise.
  */
-function isDirectory(_path)
-{
+function isDirectory(_path) {
   var dirPath = resolvePath(_path);
   var isDir = false;
-  if( fs.existsSync(_path) ) {isDir = fs.lstatSync(_path).isDirectory();}
+  if (fs.existsSync(_path)) {
+    isDir = fs.lstatSync(_path).isDirectory();
+  }
   return isDir;
 }
+
 
 /**
  * Check if a path is a file.
@@ -489,29 +472,30 @@ function isDirectory(_path)
  * @param {String} _path - System path.
  * @returns {boolean} - True if is directory, false otherwise.
  */
-function isFile(_path)
-{
+function isFile(_path) {
   var filePath = resolvePath(_path);
   var isFile = false;
-  if( fs.existsSync(_path) ) {isFile = fs.lstatSync(_path).isFile();}
+  if (fs.existsSync(_path)) {
+    isFile = fs.lstatSync(_path).isFile();
+  }
   return isFile;
 }
 
 
-function readTextFile( filepath, encoding ){
+function readTextFile(filepath, encoding) {
   // Encoding is set to utf8 by default
   encoding = encoding || 'utf8';
 
-  if( ! filepath ){
+  if ( ! filepath ) {
     throw new Error("Not a filepath provided");
   }
 
   filepath = resolvePath(filepath);
   var text = '';
-  try{
+  try {
     text = fs.readFileSync(filepath, encoding);
   }
-  catch(e){
+  catch(e) {
     throw new Error(e);
   }
 

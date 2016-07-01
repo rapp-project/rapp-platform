@@ -31,6 +31,21 @@ module.exports = function(grunt) {
         }
       }
     },
+    jshint: {
+      options: {
+        reporter: require('jshint-stylish')
+      },
+      services: {
+        src: ['./services/**/*.js']
+      },
+      workers: {
+        src: ['./workers/**/*.js']
+      },
+      modules: {
+        src: ['./src/**/*.js']
+      }
+
+    },
     shell: {
       // Options for all grunt-shell tasks.
       options: {
@@ -70,6 +85,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jsdoc');
   // Load shell grunt task
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Generate documentation for all task.
   grunt.registerTask('doc-gen',

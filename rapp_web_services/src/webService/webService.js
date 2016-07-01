@@ -3,12 +3,12 @@ var fs = require('fs');
 var util = require('util');
 var hopService = require('hop').Service;
 var hop = require('hop');
+var Fs = require(path.join(__dirname, '../common/fileUtils.js'));
 var auth = require('./auth.js');
 var ROS = require(path.join(__dirname, '../rosbridge/src/Rosbridge.js'));
 var ENV = require(path.join(__dirname, '../../env.js'));
 var bodyParser = require(path.join(__dirname, 'bodyParser.js'));
 var fileParser = require(path.join(__dirname, 'fileParser.js'));
-
 
 
 /*!
@@ -17,7 +17,7 @@ var fileParser = require(path.join(__dirname, 'fileParser.js'));
  */
 function Response (hopSendResponse) {
   this.send = hopSendResponse;
-  this.routes
+  this.routes = [];
 }
 
 
@@ -25,26 +25,26 @@ function Response (hopSendResponse) {
  * @brief Send an application/json response.
  * @param obj_ The json object to send.
  */
-Response.prototype.sendJson = function(obj){
+Response.prototype.sendJson = function(obj) {
   this.send(hop.HTTPResponseJson(obj));
-}
+};
 
 
 /*!
  * @brief Send an application/json error response.
  * @param obj_ The json object to send.
  */
-Response.prototype.sendError = function(obj){
+Response.prototype.sendError = function(obj) {
   this.send(hop.HTTPResponseJson(obj));
-}
+};
 
 
 
 /*!
  * @brief Send HTTP 500 Server Error..
  */
-Response.prototype.sendServerError = function(msg){
-  var msg = msg || "Server Error";
+Response.prototype.sendServerError = function(msg) {
+  msg = msg || "Server Error";
   var options = {
     startLine: "HTTP/1.1 500 Internal Server Error"
   };
@@ -56,20 +56,19 @@ Response.prototype.sendServerError = function(msg){
  * @brief Send 401 Unaihorized Client Error. Use for unauthorized access to
  * the server resources.
  */
-Response.prototype.sendUnauthorized = function(msg){
+Response.prototype.sendUnauthorized = function(msg) {
   msg = msg || "Authentication Failure";
   var options = {
     startLine: "HTTP/1.1 401 Unauthorized"
   };
   this.send(hop.HTTPResponseString(msg, options));
-}
-
+};
 
 
 /*!
  * @brief Request object to pass to the request callback.
  */
-function Request(hopReq, hopArgs){
+function Request(hopReq, hopArgs) {
   this._hopArgs = hopArgs;
   this.body = {};
   this.header = {};
@@ -113,7 +112,7 @@ function WebService (onRequest, options) {
   var that = this;
 
   // Hold a ros connection.
-  this.ros;
+  this.ros = null;
   // Hold the onRequest registered callback function
   this.onRequest = onRequest;
   this.options = options;
@@ -149,67 +148,63 @@ function WebService (onRequest, options) {
   }
   //----------------------------------------------
 
-
   /*!
    * @brief The HOP Service implementation. Ready to create with:
    *   new hop.Service(svcImpl)
    */
   this.svcImpl = function(kwargs){
-    // Instantioate a new Request object.
+    // Instantiate a new Request object.
     var _req = new Request(this, kwargs);
-    /***
-     * Asynchronous http response
-     */
+
+    // Asynchronous http response
     return hop.HTTPResponseAsync( function( sendResponse ) {
       // Instantioate a new Response object.
       var _resp = new Response(sendResponse);
+      try {
 
-      for (var i in that.reqParsers) {
-        that.reqParsers[i].call(_req);
-      }
+        for (var i in that.reqParsers) {
+          that.reqParsers[i].call(_req);
+        }
 
+        // ------------ Authenticate ---------------
+        that.auth.call(_req, _resp,
+          // On authentication success.
+          function(username)  {
+            //console.log(username);
+            _req.username = username;
+            // Call registered onRequest callback
+            that.onRequest(_req, _resp, that.ros);
+          },
+          // On authentication failure.
+          function(e)  {
+            // Remove all received files
+            for(var k in _req.files){
+              for(var i in _req.files[k]){
+                Fs.rmFile(_req.files[k][i]);
+              }
+            }
+            console.log(e);
+            // Response Authentication Failure
+            _resp.sendUnauthorized();
+          }
+          );
+        // -----------------------------------------
 
-      // Authenticate.
-      that.auth.call(_req, _resp,
-        // On authentication success.
-        function(username) {
-          //console.log(username);
-          _req.username = username;
-          // Call registered onRequest callback
-          that.onRequest(_req, _resp, that.ros);
-        },
-        // On authentication failure.
-        function(e) {
+        // Timeout this request. Return to client with Error 500.
+        setTimeout(function() {
           // Remove all received files
-          for(var k in _req.files){
-            for(var i in _req.files[k]){
-              fs.exists(_req.files[k][i], function(exists){
-                if(exists){
-                  fs.unlink(_req.files[k][i]);
-                }
-              });
+          for (var k in _req.files) {
+            for (var i in _req.files[k]) {
+              Fs.rmFile(_req.files[k][i]);
             }
           }
-          console.log(e);
-          // Response Authentication Failure
-          _resp.sendUnauthorized();
-        }
-      );
-
-      // Timeout this request. Return to client with Error 500.
-      setTimeout(function(){
-        // Remove all received files
-        for(var k in _req.files){
-          for(var i in _req.files[k]){
-            fs.exists(_req.files[k][i], function(exists){
-              if(exists){
-                fs.unlink(_req.files[k][i]);
-              }
-            });
-          }
-        }
+          _resp.sendServerError();
+        }, that.timeout);
+      }
+      catch (e) {
+        console.log(e);
         _resp.sendServerError();
-      }, that.timeout);
+      }
 
     }, this);
 
@@ -218,15 +213,13 @@ function WebService (onRequest, options) {
 }
 
 
-
 /*!
  * @brief Instantiate and register this HOP Web Service.
  */
-WebService.prototype.register = function ()
-{
+WebService.prototype.register = function () {
   this.svc = new hopService( this.svcImpl );
 
-  if( ! this.anonymous_ ){
+  if (! this.anonymous_) {
     // Set HOP Service name
     this.svc.name = (this.namespace) ?
       util.format("%s/%s", this.namespace, this.urlName) : this.urlName;
@@ -245,21 +238,20 @@ WebService.prototype.register = function ()
 };
 
 
-
 /*!
  * @brief Connect this service to ROS through the rosbridge protocol.
  *  Connection over websockets.
  */
-WebService.prototype.connectROS = function(){
+WebService.prototype.connectROS = function() {
   this.ros = new ROS({
     hostname: ENV.ROSBRIDGE.HOSTNAME,
     port: ENV.ROSBRIDGE.PORT,
     reconnect: true,
-    onconnection: function(){
+    onconnection: function() {
       // .
     }
   });
-}
+};
 
 
 
