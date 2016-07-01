@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hop_20framework_20and_20hop_20web_20services',['HOP framework and HOP Web Services',['../md_rapp-platform_8wiki_HOP-Services---General-Information.html',1,'']]]
+  ['create_2da_2dnew_2drapp_2duser',['Create-a-new-RAPP-user',['../md_rapp-platform_8wiki_Create-a-new-RAPP-user.html',1,'']]]
 ];

@@ -1,9 +1,13 @@
 \hypertarget{speech__to__text_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/examples/speech\-\_\-to\-\_\-text.cpp File Reference}
 \label{speech__to__text_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/examples/speech\-\_\-to\-\_\-text.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/examples/speech\-\_\-to\-\_\-text.\-cpp}}
 }
-{\ttfamily \#include \char`\"{}../includes/service/service\-\_\-controller/service\-\_\-controller.\-hpp\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}../includes/cloud/speech\-To\-Text/speech\-To\-Text.\-hpp\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}../includes/objects/audio/audio.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cloud/service\-\_\-controller/service\-\_\-controller.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cloud/speech/speech\-\_\-detection\-\_\-sphinx4/speech\-\_\-detection\-\_\-sphinx4.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}objects/audio/audio.\-hpp\char`\"{}}\\*
+{\ttfamily \#include $<$boost/program\-\_\-options.\-hpp$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$streambuf$>$}\\*
 Include dependency graph for speech\-\_\-to\-\_\-text.\-cpp\-:
 \nopagebreak
 \begin{figure}[H]
@@ -15,19 +19,47 @@ Include dependency graph for speech\-\_\-to\-\_\-text.\-cpp\-:
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \hyperlink{speech__to__text_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+std\-::string \hyperlink{speech__to__text_8cpp_a597be07572d7933e8427bed8e833a86f}{load\-\_\-jsgf} (const std\-::string filename)
+\item 
+int \hyperlink{speech__to__text_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+{\footnotesize template$<$class T $>$ }\\std\-::ostream \& \hyperlink{speech__to__text_8cpp_a4b8db62a17e01a839e499a4c59112df5}{operator$<$$<$} (std\-::ostream \&os, const std\-::vector$<$ T $>$ \&v)
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\hypertarget{speech__to__text_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{\index{speech\-\_\-to\-\_\-text.\-cpp@{speech\-\_\-to\-\_\-text.\-cpp}!main@{main}}
+\hypertarget{speech__to__text_8cpp_a597be07572d7933e8427bed8e833a86f}{\index{speech\-\_\-to\-\_\-text.\-cpp@{speech\-\_\-to\-\_\-text.\-cpp}!load\-\_\-jsgf@{load\-\_\-jsgf}}
+\index{load\-\_\-jsgf@{load\-\_\-jsgf}!speech_to_text.cpp@{speech\-\_\-to\-\_\-text.\-cpp}}
+\subsubsection[{load\-\_\-jsgf}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string load\-\_\-jsgf (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{filename}
+\end{DoxyParamCaption}
+)}}\label{speech__to__text_8cpp_a597be07572d7933e8427bed8e833a86f}
+
+
+Definition at line 20 of file speech\-\_\-to\-\_\-text.\-cpp.
+
+\hypertarget{speech__to__text_8cpp_a0ddf1224851353fc92bfbff6f499fa97}{\index{speech\-\_\-to\-\_\-text.\-cpp@{speech\-\_\-to\-\_\-text.\-cpp}!main@{main}}
 \index{main@{main}!speech_to_text.cpp@{speech\-\_\-to\-\_\-text.\-cpp}}
 \subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
 \begin{DoxyParamCaption}
-{}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
 \end{DoxyParamCaption}
-)}}\label{speech__to__text_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}
+)}}\label{speech__to__text_8cpp_a0ddf1224851353fc92bfbff6f499fa97}
+Query the C\-M\-U Sphinx4 engine for keywords and sentences using a W\-A\-V file argv\mbox{[}1\mbox{]}\-: audio file argv\mbox{[}2\mbox{]}\-: audio source type argv\mbox{[}3\mbox{]}\-: language argv\mbox{[}4\mbox{]}\-: user argv\mbox{[}5\mbox{]}\-: words to search for -\/ O\-P\-T\-I\-O\-N\-A\-L argv\mbox{[}6\mbox{]}\-: sentences to search for -\/ O\-P\-T\-I\-O\-N\-A\-L argv\mbox{[}7\mbox{]}\-: grammar file (J\-S\-G\-F text file) -\/ O\-P\-T\-I\-O\-N\-A\-L 
+
+Definition at line 44 of file speech\-\_\-to\-\_\-text.\-cpp.
+
+\hypertarget{speech__to__text_8cpp_a4b8db62a17e01a839e499a4c59112df5}{\index{speech\-\_\-to\-\_\-text.\-cpp@{speech\-\_\-to\-\_\-text.\-cpp}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!speech_to_text.cpp@{speech\-\_\-to\-\_\-text.\-cpp}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class T $>$ std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{os, }
+\item[{const std\-::vector$<$ T $>$ \&}]{v}
+\end{DoxyParamCaption}
+)}}\label{speech__to__text_8cpp_a4b8db62a17e01a839e499a4c59112df5}
 
 
-Definition at line 5 of file speech\-\_\-to\-\_\-text.\-cpp.
+Definition at line 13 of file speech\-\_\-to\-\_\-text.\-cpp.
 

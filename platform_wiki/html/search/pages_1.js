@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['create_2dand_2dauthenticate_2da_2dnew_2drapp_2duser',['Create-and-authenticate-a-new-RAPP-user',['../md_rapp-platform_8wiki_Create-and-authenticate-a-new-RAPP-user.html',1,'']]]
+  ['a_2dfull_2drapp_2dplatform_2dservice_2dcreation_2dexample',['A-full-RAPP-Platform-service-creation-example',['../md_rapp-platform_8wiki_A-full-RAPP-Platform-service-creation-example.html',1,'']]],
+  ['a_2dfull_2drapp_2dplatform_2dservice_2dcreation_2dexample_2dadvanced',['A-full-RAPP-Platform-service-creation-example-advanced',['../md_rapp-platform_8wiki_A-full-RAPP-Platform-service-creation-example-advanced.html',1,'']]]
 ];

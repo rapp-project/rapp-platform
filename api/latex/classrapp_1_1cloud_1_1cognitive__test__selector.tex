@@ -1,0 +1,133 @@
+\hypertarget{classrapp_1_1cloud_1_1cognitive__test__selector}{\section{rapp\-:\-:cloud\-:\-:cognitive\-\_\-test\-\_\-selector Class Reference}
+\label{classrapp_1_1cloud_1_1cognitive__test__selector}\index{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector@{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector}}
+}
+
+
+chose a congitive game to play  
+
+
+
+
+{\ttfamily \#include $<$cognitive\-\_\-exercises.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:cognitive\-\_\-test\-\_\-selector\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1cognitive__test__selector__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:cognitive\-\_\-test\-\_\-selector\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1cognitive__test__selector__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1cognitive__test__selector_ad1eac997139d1e300c4652f9add4adc6}{cognitive\-\_\-test\-\_\-selector} (const std\-::string user, const std\-::string test\-\_\-type, const std\-::string token, std\-::function$<$ void(std\-::vector$<$ std\-::string $>$, std\-::vector$<$ std\-::string $>$, std\-::vector$<$ std\-::string $>$, std\-::string, std\-::string, std\-::string)$>$ callback)
+\begin{DoxyCompactList}\small\item\em handler obtains a cognitive test from cloud.\-rapp \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1cognitive__test__selector_a0db4da25242262f6d520f9219624b005}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ std\-::string $>$, std\-::vector\\*
+$<$ std\-::string $>$, std\-::vector\\*
+$<$ std\-::string $>$, std\-::string, \\*
+std\-::string, std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1cognitive__test__selector_ac6700af12c9cb0ebcd7b88005d7b0257}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+chose a congitive game to play 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__test__selector_ad1eac997139d1e300c4652f9add4adc6}{\index{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector@{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector}!cognitive\-\_\-test\-\_\-selector@{cognitive\-\_\-test\-\_\-selector}}
+\index{cognitive\-\_\-test\-\_\-selector@{cognitive\-\_\-test\-\_\-selector}!rapp::cloud::cognitive_test_selector@{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector}}
+\subsubsection[{cognitive\-\_\-test\-\_\-selector}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector\-::cognitive\-\_\-test\-\_\-selector (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{user, }
+\item[{const std\-::string}]{test\-\_\-type, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::vector$<$ std\-::string $>$, std\-::vector$<$ std\-::string $>$, std\-::vector$<$ std\-::string $>$, std\-::string, std\-::string, std\-::string)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1cognitive__test__selector_ad1eac997139d1e300c4652f9add4adc6}
+
+
+handler obtains a cognitive test from cloud.\-rapp 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & set the user \\
+\hline
+{\em test\-\_\-type} & set the test type \\
+\hline
+{\em callback} & receives arrays of strings and strings \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__test__selector_a0db4da25242262f6d520f9219624b005}{\index{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector@{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::cognitive_test_selector@{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1cognitive__test__selector_a0db4da25242262f6d520f9219624b005}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 49 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__test__selector_ac6700af12c9cb0ebcd7b88005d7b0257}{\index{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector@{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::cognitive_test_selector@{rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<$std\-::string$>$, std\-::vector$<$std\-::string$>$, std\-::vector$<$std\-::string$>$, std\-::string, std\-::string, std\-::string)$>$ rapp\-::cloud\-::cognitive\-\_\-test\-\_\-selector\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1cognitive__test__selector_ac6700af12c9cb0ebcd7b88005d7b0257}
+
+
+Definition at line 106 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/cognitive\-\_\-exercises/\hyperlink{cognitive__exercises_8hpp}{cognitive\-\_\-exercises.\-hpp}\end{DoxyCompactItemize}

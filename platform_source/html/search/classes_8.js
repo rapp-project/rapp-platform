@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['mysqldbwrapper',['MySQLdbWrapper',['../classmysql__wrapper_1_1MySQLdbWrapper.html',1,'mysql_wrapper']]]
+  ['knowrobwrapper',['KnowrobWrapper',['../classKnowrobWrapper.html',1,'']]],
+  ['knowrobwrappercommunications',['KnowrobWrapperCommunications',['../classKnowrobWrapperCommunications.html',1,'']]]
 ];

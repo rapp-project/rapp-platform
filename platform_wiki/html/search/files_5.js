@@ -1,21 +1,6 @@
 var searchData=
 [
-  ['rapp_2darchitecture_2emd',['RAPP-Architecture.md',['../RAPP-Architecture_8md.html',1,'']]],
-  ['rapp_2daudio_2dprocessing_2emd',['RAPP-Audio-Processing.md',['../RAPP-Audio-Processing_8md.html',1,'']]],
-  ['rapp_2dcognitive_2dexercise_2emd',['RAPP-Cognitive-Exercise.md',['../RAPP-Cognitive-Exercise_8md.html',1,'']]],
-  ['rapp_2dface_2ddetection_2emd',['RAPP-Face-Detection.md',['../RAPP-Face-Detection_8md.html',1,'']]],
-  ['rapp_2dhop_2dservices_2emd',['RAPP-HOP-services.md',['../RAPP-HOP-services_8md.html',1,'']]],
-  ['rapp_2dknowrob_2dwrapper_2emd',['RAPP-Knowrob-wrapper.md',['../RAPP-Knowrob-wrapper_8md.html',1,'']]],
-  ['rapp_2dmultithreading_2dissues_2emd',['RAPP-Multithreading-issues.md',['../RAPP-Multithreading-issues_8md.html',1,'']]],
-  ['rapp_2dmysql_2dwrapper_2emd',['RAPP-MySQL-wrapper.md',['../RAPP-MySQL-wrapper_8md.html',1,'']]],
-  ['rapp_2dpath_2dplanner_2emd',['RAPP-Path-planner.md',['../RAPP-Path-planner_8md.html',1,'']]],
-  ['rapp_2dplatform_2d_28metapackage_29_2emd',['RAPP-Platform-(metapackage).md',['../RAPP-Platform-_07metapackage_08_8md.html',1,'']]],
-  ['rapp_2dplatform_2dlaunchers_2emd',['RAPP-Platform-Launchers.md',['../RAPP-Platform-Launchers_8md.html',1,'']]],
-  ['rapp_2dplatform_2dros_2dcommunications_2emd',['RAPP-Platform-ROS-Communications.md',['../RAPP-Platform-ROS-Communications_8md.html',1,'']]],
-  ['rapp_2dqr_2ddetection_2emd',['RAPP-QR-Detection.md',['../RAPP-QR-Detection_8md.html',1,'']]],
-  ['rapp_2dscripts_2emd',['RAPP-Scripts.md',['../RAPP-Scripts_8md.html',1,'']]],
-  ['rapp_2dspeech_2ddetection_2dusing_2dgoogle_2dapi_2emd',['RAPP-Speech-Detection-using-Google-API.md',['../RAPP-Speech-Detection-using-Google-API_8md.html',1,'']]],
-  ['rapp_2dspeech_2ddetection_2dusing_2dsphinx4_2emd',['RAPP-Speech-Detection-using-Sphinx4.md',['../RAPP-Speech-Detection-using-Sphinx4_8md.html',1,'']]],
-  ['rapp_2dtesting_2dtools_2emd',['RAPP-Testing-Tools.md',['../RAPP-Testing-Tools_8md.html',1,'']]],
-  ['rapp_2dtext_2dto_2dspeech_2dusing_2despeak_2d_26_2dmbrola_2emd',['RAPP-Text-to-speech-using-Espeak-&amp;-Mbrola.md',['../RAPP-Text-to-speech-using-Espeak-_6-Mbrola_8md.html',1,'']]]
+  ['i_2ddo_2dnot_2deven_2dwant_2dto_2dtry_2dthe_2deasier_2dway_2e_2ddo_2dyou_2dhave_2dsomething_2dup_2dand_2drunning_2dto_2dtest_3f_2emd',['I-do-not-even-want-to-try-the-easier-way.-Do-you-have-something-up-and-running-to-test?.md',['../I-do-not-even-want-to-try-the-easier-way_8-Do-you-have-something-up-and-running-to-test_04_8md.html',1,'']]],
+  ['i_2ddo_2dnot_2dwant_2dto_2dinstall_2drapp_2dplatform_2e_2dis_2dthere_2dan_2deasier_2dway_2dto_2duse_2dit_3f_2emd',['I-do-not-want-to-install-RAPP-Platform.-Is-there-an-easier-way-to-use-it?.md',['../I-do-not-want-to-install-RAPP-Platform_8-Is-there-an-easier-way-to-use-it_04_8md.html',1,'']]],
+  ['in_2drobot_2dapplication_2dfor_2dnao_2din_2dpython_3a_2dcreate_2da_2dcognitive_2dgame_2d_28hard_29_2emd',['In-robot-application-for-NAO-in-Python:-Create-a-cognitive-game-(hard).md',['../In-robot-application-for-NAO-in-Python_1-Create-a-cognitive-game-_07hard_08_8md.html',1,'']]]
 ];

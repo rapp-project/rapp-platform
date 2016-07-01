@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classrapp_1_1object_1_1face.html" title="rapp::object::face" alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node1" href="$classrapp_1_1object_1_1audio.html" title="class which wraps around raw bytes of an audiofile " alt="" coords="6,97,135,124"/>
+<area shape="rect" id="node2" href="$classrapp_1_1object_1_1microphone__wav.html" title="WAV Single channel 16Khz &gt; Headset audio source. " alt="" coords="185,5,381,32"/>
+<area shape="rect" id="node3" href="$classrapp_1_1object_1_1nao__quad__channel__wav.html" title="WAV Class specialisation for quad channel. " alt="" coords="205,57,360,98"/>
+<area shape="rect" id="node4" href="$classrapp_1_1object_1_1nao__single__channel__wav.html" title="WAV Class specialisation for a single channel. " alt="" coords="203,122,363,163"/>
+<area shape="rect" id="node5" href="$classrapp_1_1object_1_1ogg.html" title="OGG Class specialisation. " alt="" coords="223,188,342,215"/>
 </map>

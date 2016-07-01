@@ -13,10 +13,11 @@ var NAVTREE =
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
       [ "Class Index", "classes.html", null ],
+      [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", "functions_vars" ]
+        [ "Variables", "functions_vars.html", null ]
       ] ]
     ] ],
     [ "Files", null, [
@@ -28,9 +29,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "____init_____8py.html",
-"classrecord__cognitive__test__performance__arithmetic_1_1RappInterfaceTest.html#a992998a9b3015e509a17567b8d753cf1",
-"classtext__to__speech__test__gr__auto__store__file_1_1RappInterfaceTest.html",
-"qr__detection__test__medium__far_8py_source.html"
+"classqr__detection__test__hard__far_1_1RappInterfaceTest.html#ad15793fc354a8d5b766967e0554ef5f3",
+"functions_i.html",
+"weather__report__current__Athens_8py_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

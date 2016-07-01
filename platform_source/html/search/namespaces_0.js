@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['cognitive_5fexercise',['cognitive_exercise',['../namespacecognitive__exercise.html',1,'']]],
-  ['cognitive_5fexercise_5fmain',['cognitive_exercise_main',['../namespacecognitive__exercise__main.html',1,'']]]
+  ['app_5ferror_5fexception',['app_error_exception',['../namespaceapp__error__exception.html',1,'']]]
 ];

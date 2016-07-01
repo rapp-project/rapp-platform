@@ -1,0 +1,5 @@
+<map id="rapp::cloud::geolocation" name="rapp::cloud::geolocation">
+<area shape="rect" id="node2" href="$classrapp_1_1cloud_1_1asio__service__http.html" title="base class for asynchronous http websockets used for connecting to cloud services ..." alt="" coords="83,80,279,107"/>
+<area shape="rect" id="node3" href="$classrapp_1_1cloud_1_1asio__socket.html" title="Abstract Base ASIO Socket class Use for passing around to the service controller, various types of cl..." alt="" coords="5,5,168,32"/>
+<area shape="rect" id="node4" href="$classrapp_1_1cloud_1_1asio__handler.html" title="base class for asio handling, including helper methods and most protected members ..." alt="" coords="193,5,359,32"/>
+</map>

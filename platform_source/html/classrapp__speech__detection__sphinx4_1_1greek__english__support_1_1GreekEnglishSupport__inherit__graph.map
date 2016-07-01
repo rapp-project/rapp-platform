@@ -1,0 +1,5 @@
+<map id="rapp_speech_detection_sphinx4.greek_english_support.GreekEnglishSupport" name="rapp_speech_detection_sphinx4.greek_english_support.GreekEnglishSupport">
+<area shape="rect" id="node2" href="$classrapp__speech__detection__sphinx4_1_1english__support_1_1EnglishSupport.html" title="Allows the creation of configuration files for English Sphinx speech recognition. ..." alt="" coords="400,5,616,61"/>
+<area shape="rect" id="node3" href="$classrapp__speech__detection__sphinx4_1_1language__support_1_1LanguageSupport.html" title="Allows the creation of configuration files for Sphinx speech recognition. " alt="" coords="112,45,352,101"/>
+<area shape="rect" id="node5" href="$classrapp__speech__detection__sphinx4_1_1greek__support_1_1GreekSupport.html" title="Allows the creation of configuration files for Greek Sphinx speech recognition. " alt="" coords="409,85,607,141"/>
+</map>

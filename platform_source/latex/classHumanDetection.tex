@@ -1,0 +1,131 @@
+\hypertarget{classHumanDetection}{\section{Human\-Detection Class Reference}
+\label{classHumanDetection}\index{Human\-Detection@{Human\-Detection}}
+}
+
+
+Class \hyperlink{classHumanDetection}{Human\-Detection} uptakes the task of handling the R\-O\-S service callbacks.  
+
+
+
+
+{\ttfamily \#include $<$human\-\_\-detection.\-h$>$}
+
+
+
+Collaboration diagram for Human\-Detection\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classHumanDetection__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classHumanDetection_a81054415c4dbe7f9f13789f10075b322}{Human\-Detection} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+bool \hyperlink{classHumanDetection_a11abc6148670a8306b4a182bddef3140}{human\-Detection\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Human\-Detection\-Ros\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Human\-Detection\-Ros\-Srv\-::\-Response \&res)
+\begin{DoxyCompactList}\small\item\em Serves the human detection R\-O\-S service callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classHumanDetector}{Human\-Detector} \hyperlink{classHumanDetection_ab0116cb423835a68c3f5ba0d4c2d103d}{human\-\_\-detector\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classHumanDetection_a8b73e5d54ae1cc3e35e0d21b896838ab}{human\-Detection\-Service\-\_\-}
+\item 
+std\-::string \hyperlink{classHumanDetection_a27ba857925ed27d7056a19099ae8e1d0}{human\-Detection\-Topic\-\_\-}
+\item 
+ros\-::\-Node\-Handle \hyperlink{classHumanDetection_a77c7804baa9488f9caa0b11eb97a579f}{nh\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class \hyperlink{classHumanDetection}{Human\-Detection} uptakes the task of handling the R\-O\-S service callbacks. 
+
+Definition at line 31 of file human\-\_\-detection.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classHumanDetection_a81054415c4dbe7f9f13789f10075b322}{\index{Human\-Detection@{Human\-Detection}!Human\-Detection@{Human\-Detection}}
+\index{Human\-Detection@{Human\-Detection}!HumanDetection@{Human\-Detection}}
+\subsubsection[{Human\-Detection}]{\setlength{\rightskip}{0pt plus 5cm}Human\-Detection\-::\-Human\-Detection (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classHumanDetection_a81054415c4dbe7f9f13789f10075b322}
+
+
+Default constructor. 
+
+Default constructor. Performs initializations. 
+
+Definition at line 24 of file human\-\_\-detection.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classHumanDetection_a11abc6148670a8306b4a182bddef3140}{\index{Human\-Detection@{Human\-Detection}!human\-Detection\-Callback@{human\-Detection\-Callback}}
+\index{human\-Detection\-Callback@{human\-Detection\-Callback}!HumanDetection@{Human\-Detection}}
+\subsubsection[{human\-Detection\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Human\-Detection\-::human\-Detection\-Callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Human\-Detection\-Ros\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Human\-Detection\-Ros\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{classHumanDetection_a11abc6148670a8306b4a182bddef3140}
+
+
+Serves the human detection R\-O\-S service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Human\-Detection\-Ros\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Human\-Detection\-Ros\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ The success status of the call 
+\end{DoxyReturn}
+
+
+Definition at line 42 of file human\-\_\-detection.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classHumanDetection_ab0116cb423835a68c3f5ba0d4c2d103d}{\index{Human\-Detection@{Human\-Detection}!human\-\_\-detector\-\_\-@{human\-\_\-detector\-\_\-}}
+\index{human\-\_\-detector\-\_\-@{human\-\_\-detector\-\_\-}!HumanDetection@{Human\-Detection}}
+\subsubsection[{human\-\_\-detector\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Human\-Detector} Human\-Detection\-::human\-\_\-detector\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classHumanDetection_ab0116cb423835a68c3f5ba0d4c2d103d}
+
+
+Definition at line 62 of file human\-\_\-detection.\-h.
+
+\hypertarget{classHumanDetection_a8b73e5d54ae1cc3e35e0d21b896838ab}{\index{Human\-Detection@{Human\-Detection}!human\-Detection\-Service\-\_\-@{human\-Detection\-Service\-\_\-}}
+\index{human\-Detection\-Service\-\_\-@{human\-Detection\-Service\-\_\-}!HumanDetection@{Human\-Detection}}
+\subsubsection[{human\-Detection\-Service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Human\-Detection\-::human\-Detection\-Service\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classHumanDetection_a8b73e5d54ae1cc3e35e0d21b896838ab}
+Member variable holding the human detection R\-O\-S service topic 
+
+Definition at line 56 of file human\-\_\-detection.\-h.
+
+\hypertarget{classHumanDetection_a27ba857925ed27d7056a19099ae8e1d0}{\index{Human\-Detection@{Human\-Detection}!human\-Detection\-Topic\-\_\-@{human\-Detection\-Topic\-\_\-}}
+\index{human\-Detection\-Topic\-\_\-@{human\-Detection\-Topic\-\_\-}!HumanDetection@{Human\-Detection}}
+\subsubsection[{human\-Detection\-Topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Human\-Detection\-::human\-Detection\-Topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classHumanDetection_a27ba857925ed27d7056a19099ae8e1d0}
+Object of type \hyperlink{classHumanDetector}{Human\-Detector} 
+
+Definition at line 59 of file human\-\_\-detection.\-h.
+
+\hypertarget{classHumanDetection_a77c7804baa9488f9caa0b11eb97a579f}{\index{Human\-Detection@{Human\-Detection}!nh\-\_\-@{nh\-\_\-}}
+\index{nh\-\_\-@{nh\-\_\-}!HumanDetection@{Human\-Detection}}
+\subsubsection[{nh\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle Human\-Detection\-::nh\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classHumanDetection_a77c7804baa9488f9caa0b11eb97a579f}
+$<$ The R\-O\-S node handle The human detection service server 
+
+Definition at line 53 of file human\-\_\-detection.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-human\-\_\-detection/include/human\-\_\-detection/\hyperlink{human__detection_8h}{human\-\_\-detection.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-human\-\_\-detection/src/\hyperlink{human__detection_8cpp}{human\-\_\-detection.\-cpp}\end{DoxyCompactItemize}

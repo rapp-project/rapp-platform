@@ -106,64 +106,306 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-to-write-th
 <li>JavaScript</li>
 <li>C++</li>
 </ul>
-<p>Under the <a href="https://github.com/rapp-project/rapp-api">rapp-api repository</a> you can find more information regarding implemented and tested Rapp-Platform Service calls.</p>
+<p>Under the <a href="https://github.com/rapp-project/rapp-api">rapp-api repository</a> you can find more information regarding implemented and tested Rapp-Platform API calls.</p>
 <p>As the integration tests are written in Python and uses the <a href="https://github.com/rapp-project/rapp-api/tree/master/python">Python-Rapp-APi</a> it is a good practice to start on the python-rapp-api.</p>
-<h3>Python Rapp-API Overview</h3>
-<p>The Python Rapp-API package can be found under the rapp-api/python/ directory, or <a href="https://github.com/rapp-project/rapp-api/tree/master/python">here</a>.</p>
-<p>The package includes the following components:</p>
+<hr/>
+<h3>Python RAPP-Platform-API Overview - Usage</h3>
+<p>API users are able to select from 2 API implementations:</p>
 <ul>
-<li>RappCloud.py: For each developed HOP Web Service this class includes a method that is used to call the relevant HOP Web Service.</li>
-<li>CloudInterface: Service controller that handles HOP Web Service calls. It is actually an implementation of an HTTP.Post service controller.</li>
-<li>Configuration files: Configuration files which includes information on:<ul>
-<li>Platform authentication credentials, <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg">auth.cfg</a>. The default user for authentication is the <b>rapp</b> user. Platform-side authentication is handled by the HOP Server!!</li>
-<li>Platform address information, <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg">platform.cfg</a>. Here both the Platform ipv4-address and HOP Server listening port are declared.</li>
-<li>Platform HOP Web Services information, <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml">services.yaml</a>. Each developed HOP Web Service has its own entry into this file.</li>
+<li><b>High level API</b></li>
+<li><b>Advanced API</b></li>
 </ul>
-</li>
-</ul>
-<p>To extend the Python-Rapp-API with a new HOP Web Service call entry you have to:</p>
+<p>The first one allow API users to easily call RAPP PLatform Services through simple function calls. The second one is for advanced usage, delivered for expert developers. This is an object-oriented implementation. As we will later describe, the advanced API usage allow creation of Cloud Messages. Both Platform requests and responses are described by static objects.</p>
+<p><b>Note</b>: The High Level API actually wraps the Advanced API.</p>
+<h4>Advanced API usage</h4>
+<p><code>RappPlatformService</code> is the RAPP term for an established connection to the RAPP-Platform Services, over the www (World-Wide-Web). Each Platform Service has it's own unique Response and Request message.</p>
+<p>The <code>RappPlatformService</code> class is used to establish connections to the RAPP-Platform Web-Services, while <code>CloudMsg</code> objects include:</p>
 <ul>
-<li>Implement the specific RappCloud class member function.</li>
-<li>Append the relevant HOP Web Service name into the <b>services.yaml</b> file.</li>
+<li><code>Request</code> object. RAPP-Platform Service specific Request message</li>
+<li><code>Response</code> object. RAPP-Platform Service specific Response message</li>
 </ul>
-<h3>Implement a RappCloud class member function as a HOP Web Service API call.</h3>
-<p>Lets say we want to implement the face_detection API call. The face_detection HOP Web Service has one input parameter that is a file (image frame).</p>
-<p>We implement a member function, named face_detection with one input parameter, named <b>file_uri</b>. This parameter is the system path to an image file we want to perform face_detection on.</p>
-<p>```python class RappCloud: ... ...</p>
-<p>def face_detection(self, fileUri): pass ```</p>
-<p>As you can see the above code just declares the API method and does nothing.</p>
-<p>HTTP .post requests can have the following fields:</p>
+<p>```python from RappCloud import RappPlatformService</p>
+<p>svcClient = RappPlatformService(persistent=True, timeout=30000) ```</p>
+<p>By Default it connects to the localhost, assuming that the RAPP Platform has been setup on the local machine. The constructor of the <code>RappPlatformService</code> class allow to specify the RAPP Platform parameters to connect to.</p>
+<p>```python from RappCloud import RappPlatformService</p>
+<p>svcClient = RappPlatformService(address='RAPP_PLATFORM_IPv4_ADDRESS', port='RAPP_PLATFORM_PORT_NUMBER', protocol='http') ```</p>
+<p><code>RappPlatformService</code> object constructor allow to set:</p>
 <ul>
-<li>payload: The payload declares simple {parameter, value} pairs (param1: value).</li>
-<li>files: Used to transfer files over the Web, using multipart/form-data post requests.</li>
+<li>persistent (Boolean): Force peristent connections. <b>Defaults to True</b></li>
+<li>timeout (Integer): Client timeout value. This is the timeout value waiting for a response from the RAPP Platform. <b>Defaults to infinity</b></li>
+<li>address (String): The RAPP Platform IPv4 address to connect to. <b>Defaults to 'localhost'</b></li>
+<li>port (String): The RAPP Platform listening port. <b>Defaults to "9001"</b></li>
+<li>protocol (String): The configured application protocol for the RAPP Platform. Valid values are "**https**" and "**http**". <b>Defaults to "http"</b></li>
 </ul>
-<p>So lets declare two variables into our code to describe the aforementioned fields.</p>
-<p>```python def face_detection(self, fileUri): payload = {} files = {}</p>
+<p>The <code>persistent</code> and <code>timeout</code> properties of a <code>RappPlatformService</code> object are public members and can be set using the <b>dot</b> (.) notation:</p>
+<p>```py svcClient = RappPlatformService() svcClient.persistent = True svcClient.timeout = 30000 ```</p>
+<p><code>CloudMsg</code> objects are feed to the <code>RappPlatformService</code> object to specific RAPP-Platform Services. <code>CloudMsg</code> classes can be imported from the CloudMsgs submodule of the RappCloud module:</p>
+<p>```py from RappCloud.CloudMsgs import FaceDetection ```</p>
+<p>The above line of code is used as an example of importing the <code>FaceDetection</code> CloudMsg class.</p>
+<p>A complete description on available CloudMsg classes as long as their Request and Response message classes is available here</p>
+<p>CloudMsg objects hold a Request and a Response object:</p>
+<p>```py from RappCloud.CloudMsgs import FaceDetection faceDetectMsg = FaceDetection()</p>
+<p>reqObj = faceDetectMsg.req respObj = faceDetectMsg.resp ```</p>
+<p>Request and Response objects of a CloudMsg can be serialized to a dictionary:</p>
+<p>```py reqDict = faceDetectMsg.req.serialize() print reqDict </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{fast: False, imageFilePath: ''}</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>respDict = faceDetectMsg.resp.serialize() print respDict </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{faces: [], error: ''}</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
 <p>```</p>
-<p>The face_detection HOP Web Service has one input parameter, named file_uri. We have to declare the <b>file_uri</b> field and append data into that field. Though keep in mind that the <b>file_uri</b> field holds the name of the trasfered, to the Platform HOP Web Service, file. To ensure that HOP Service incoming requests will never have conflicts on file_names because if this happens files on Platform will overwrite each other, we append a random identity as the file's name postfix ( <b>image1.png &ndash;&gt; image1-akji12.png</b> ). The RappCloud class holds an instance of the <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/RandStrGen/RandStrGen.py">Random String Generator</a> class to perform these kind of operations. To append a unique postfix to the file's name call the **__appendRandStr** member:</p>
-<p>```python def face_detection(self, fileUri): fileName = self.__appendRandStr(fileUri) payload = {} files = { 'file_uri': (fileName, open(fileUri, 'rb')) }</p>
+<p>CloudMsg Request property values can be set through the <code>req</code> property of the CloudMsg object. or as keyword arguments to the constructor of a CloudMsg:</p>
+<p>```py from RappCloud.CloudMsgs import FaceDetection</p>
+<p>msg = FaceDetection(imageFilepath='/tmp/face-sample.png') print msg.req.serialize() </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{fast: False, imageFilepath: '/tmp/face-sample.png'}</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>msg.req.fast = True print msg.req.serialize() </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{fast: True, imageFilepath: '/tmp/face-sample.png'}</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
 <p>```</p>
-<p>Notice that we leave the payload to be an empty field!!!</p>
-<p>Finally we need call the CloudInterface service controller. RappCloud class holds an instance of the CloudInterface class.</p>
-<p>```python def face_detection(self, fileUri): fileName = self.__appendRandStr(fileUri) payload = {} files = { 'file_uri': (fileName, open(fileUri, 'rb')) }</p>
-<p>url = self.serviceUrl_['face_detection']</p>
-<p>returnData = CloudInterface.callService(url, payload, files, self.auth_) return returnData</p>
-<p>```</p>
-<p>Though one last step is required in order to make the above code execute correctly We need to add the Face-Detection HOP Web Service name into the <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml">services.yaml</a> file.</p>
-<p>```yaml</p>
-<p>services: list:</p>
-<ul>
-<li>face_detection</li>
-</ul>
+<p><code>RappPlatfomrService</code> objects have a <code>.call()</code> method for calling RAPP-Platform Services:</p>
+<p>```py class RappPlatformService: ...</p>
+<p>def call(self, msg=None): ... return self.resp</p>
 <p>... ```</p>
-<p>Make sure to check the Platform Authentication credentials (<a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg">auth.cfg</a>) and Platform Parameters (<a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg">platform.cfg</a>).</p>
-<p>By default, Platform Parameters point to the locally installed RAPP-Platform. Read the <b>platfrom.cfg</b> file on how to change these parameters, if for example you installed the RAPP-Platform on a remote machine. </p>
+<p>The <code>.call()</code> method returns the Response object.</p>
+<p>```py svcClient= RappPlatformService() msg = FaceDetection() msg.req.fast = True msg.req.imageFilepath = '/tmp/face-sample.png'</p>
+<p>response = svcClient.call(msg) print response.faces print response.error</p>
+<p>```</p>
+<p>CloudMsg objects are passed as argument to the <code>.call()</code> method of the <code>RappPlatformService</code> object:</p>
+<p>```py svcClient= RappPlatformService() msg = FaceDetection(imageFilepath='/tmp/face-sample.png') response = svcClient.call(msg) ```</p>
+<p><code>CloudMsg</code> objects can also be passed to the constructor of the <code>RappPlatformService</code> class:</p>
+<p>```py faceMsg = FaceDetection(imageFilepath='/tmp/face-sample.png') svcClient= RappPlatformService(msg=faceMsg, timeout=15000) response = svcClient.call() ```</p>
+<p><b>Note</b>: Calling several different RAPP-Platform Services is done by passing the service specific Cloud Message objects to the <code>.call()</code> of the <code>RappPlatformService</code> object.</p>
+<p>The following example creates a <code>FaceDetection</code> and a <code>QrDetection</code> CloudMsg to call both the Face-Detection and Qr-Detection RAPP-Platform Services.</p>
+<p>```py from RappCloud import RappPlatformService from RappCloud.CloudMsgs import ( FaceDetection, QrDetection)</p>
+<p>svcClient = RappPlatformService(timeout=1000) faceMsg = FaceDetection(fast=True, imageFilepath='/tmp/face-sample.png') qrMsg = QrDetection() qrMsg.req.imageFilepath = '/tmp/qr-sample.png'</p>
+<p>fdResp = svcClient.call(faceMsg) print "Found %s Faces" len(fdResp.faces)</p>
+<p>qrResp = svcClient.call(qrMsg) print "Found %s QRs: %s" %(len(qrResp.qr_centers), qrResp.qr_messages)</p>
+<p>```</p>
+<h4>High Level API usage</h4>
+<p>Like previously mentioned, API users can also use the High Level implementation of the RAPP Platform API. Benefits from using this implementation is lack of knowledge of how Cloud Messages and RappPlatformService are used. Calls to the RAPP Platform are done through simple function calls, under the RappPlatformAPI module.</p>
+<p>Below is an example of performing a query to the ontologyi, hosted on the RAPP Platform, using the High Level API implementation:</p>
+<p>```python from RappCloud import RappPlatformAPI ch = RappPlatformAPI()</p>
+<p>response = ch.ontologySubclasses("Oven")</p>
+<p>print response </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{'results': [u'<a href="http://knowrob.org/kb/knowrob.owl#MicrowaveOven',">http://knowrob.org/kb/knowrob.owl#MicrowaveOven',</a> u'<a href="http://knowrob.org/kb/knowrob.owl#RegularOven',">http://knowrob.org/kb/knowrob.owl#RegularOven',</a> u'<a href="http://knowrob.org/kb/knowrob.owl#ToasterOven'">http://knowrob.org/kb/knowrob.owl#ToasterOven'</a>], 'error': u''}</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>```</p>
+<p>The RappPlatformAPI usage and calls are fully documented <a href="https://github.com/rapp-project/rapp-api/tree/master/python/RappCloud">here</a>, also with examples of usage.</p>
+<hr/>
+<h3>Example - Implementing the FaceDetection API call.</h3>
+<p>Lets say we want to implement the <code>FaceDetection</code> Cloud Message.</p>
+<p>The face detection RAPP Platform Web Service has a Request and Response object</p>
+<p><b>Web-Service Request</b></p>
+<ul>
+<li><code>fast</code> (Boolean): If true, detection will take less time but it will be less accurate</li>
+<li><code>file</code> (File): Image file.</li>
+</ul>
+<p><b>Web-Service Response</b></p>
+<ul>
+<li><code>faces</code> (Array): An array of the detected faces coordinates (point2D), on the image frame.</li>
+<li><code>error</code> (String): Error message.</li>
+</ul>
+<p>Start by creating the python source file for the FaceDeteciton Cloud Message implementation. Head to the <a href="https://github.com/rapp-project/rapp-api/tree/master/python/RappCloud/CloudMsgs">RappCloud/CloudMsgs</a> directory of the RappCloud module and create a file named <b>FaceDetection.py</b></p>
+<p>Cloud Messages classes inherit from the <code>CloudMsg</code> class and <code>Request</code> and <code>Response</code> classes inherit from <code>CloudRequest</code> and <code>CloudResponse</code> classes respectively. So first import those classes and write the structure of the <code>FaceDetection</code> Cloud Message:</p>
+<p>```python from Cloud import ( CloudMsg, CloudRequest, CloudResponse)</p>
+<p>class FaceDetection(CloudMsg): </p>
+<pre class="fragment">class Request(CloudRequest):
+    def __init__(self, **kwargs):
+        pass
+
+
+class Response(CloudResponse):
+    def __init__(self, **kwargs):
+        pass
+
+
+def __init__(self, **kwargs):
+    pass
+</pre><p> ```</p>
+<p>Add the appropriate properties to the Request and Response classes. Property names can differ from the Web-Service request and response property names. Mapping from implemented property names to actual request payload will be studied later on:</p>
+<p>```python class Request(CloudRequest): </p>
+<pre class="fragment">def __init__(self, **kwargs):
+    ## File path to the image file
+    self.imageFilepath = ''
+    ## If true, detection will take less time but it will be less accurate
+    self.fast = False
+    ## Apply keyword arguments to the Request object.
+    super(FaceDetection.Request, self).__init__(**kwargs)
+</pre><p>class Response(CloudResponse): </p>
+<pre class="fragment">def __init__(self, **kwargs):
+    ## Error message
+    self.error = ''
+    ## Detected faces. Array of face objects.
+    self.faces = []
+    ## Apply keyword arguments to the Request object.
+    super(FaceDetection.Response, self).__init__(**kwargs)
+</pre><p> ```</p>
+<p><b>Notice calling <code>CloudResponse</code> and <code>CloudRequest</code> construcors.</b></p>
+<p>Remember that a <code>Request</code> class must implement two member methods, <code>make_payload()</code> and <code>make_files</code>. For the payload it's the <code>fast</code> property and imageFilepath is a file.</p>
+<p>```python from RappCloud.Objects import ( Payload, File)</p>
+<p>class Request(CloudRequest): </p>
+<pre class="fragment">def __init__(self, **kwargs):
+    ## File path to the image file
+    self.imageFilepath = ''
+    ## If true, detection will take less time but it will be less accurate
+    self.fast = False
+    ## Apply keyword arguments to the Request object.
+    super(FaceDetection.Request, self).__init__(**kwargs)
+
+def make_payload(self):
+    return Payload(fast=self.fast)
+
+def make_files(self):
+    return [File(filepath=self.path, postfield="file")]
+</pre><p> ```</p>
+<p>Next, you have to instantiate a <code>Request</code> and <code>Response</code> objects for the <code>FaceDetection</code> class to hold:</p>
+<p>```python class FaceDetection(CloudMsg): ...</p>
+<p>def <b>init</b>(self, **kwargs): </p>
+<h1>Create and hold the Request object for this CloudMsg</h1>
+<p>self.req = FaceDetection.Request() </p>
+<h1>Create and hold the Response object for this CloudMsg</h1>
+<p>self.resp = FaceDetection.Response() ```</p>
+<p>Each RAPP Platform Web Service has a unique service name resolving to a url name/path. The service name for the Face Detection RAPP Platform Web Service is:</p>
+<p>```shell face_detection ```</p>
+<p><code>CloudMsg</code> constructor takes as input the service name:</p>
+<p>```python class FaceDetection(CloudMsg): ...</p>
+<p>def <b>init</b>(self, **kwargs): </p>
+<h1>Create and hold the Request object for this CloudMsg</h1>
+<p>self.req = FaceDetection.Request() </p>
+<h1>Create and hold the Response object for this CloudMsg</h1>
+<p>self.resp = FaceDetection.Response() super(FaceDetection, self).__init__(svcname='face_detection', **kwargs) ```</p>
+<p><b>Note</b>: Dont forget to document the code using <b>doxygen</b></p>
+<p>Below is the complete FaceDetection.py file</p>
+<p>```python from RappCloud.Objects import ( File, Payload)</p>
+<p>from Cloud import ( CloudMsg, CloudRequest, CloudResponse)</p>
+<p>class FaceDetection(CloudMsg): """ Face Detection CloudMsg object"""</p>
+<p>class Request(CloudRequest): """ Face Detection Cloud Request object. FaceDetection.Request """ def <b>init</b>(self, **kwargs): """! Constructor </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">**kwargs</td><td>- Keyword arguments. Apply values to the request attributes.<ul>
+<li>imageFilepath</li>
+<li>fast"</li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>File path to the image to load. This is the image to perform</h2>
+<h1>face-detection on.</h1>
+<p>self.imageFilepath = '' </p>
+<h2>If true, detection will take less time but it will be less</h2>
+<h1>accurate</h1>
+<p>self.fast = False </p>
+<h1>Apply passed keyword arguments to the Request object.</h1>
+<p>super(FaceDetection.Request, self).__init__(**kwargs)</p>
+<pre class="fragment">    def make_payload(self):
+        """ Create and return the Payload of the Request. """
+        return Payload(fast=self.fast)
+
+    def make_files(self):
+        """ Create and return Array of File objects of the Request. """
+        return [File(self.imageFilepath, postfield='file')]
+
+    class Response(CloudResponse):
+        """ Face Detection Cloud Response object. FaceDetection.Response """
+        def __init__(self, **kwargs):
+            """!
+            Constructor
+
+            @param **kwargs - Keyword arguments. Apply values to the request attributes.
+            - @ref error
+            - @ref faces
+            """
+            ## Error message
+            self.error = ''
+            ## Detected faces. Array of face objects. TODO create face object.
+            self.faces = []
+            ## Apply passed keyword arguments to the Request object.
+            super(FaceDetection.Response, self).__init__(**kwargs)
+
+
+    def __init__(self, **kwargs):
+        """!
+        Constructor
+
+        @param **kwargs - Keyword arguments. Apply values to the request attributes.
+            - @ref Request.fast
+            - @ref Request.imageFilepath
+        """
+
+        # Create and hold the Request object for this CloudMsg
+        self.req = FaceDetection.Request()
+        # Create and hold the Response object for this CloudMsg
+        self.resp = FaceDetection.Response()
+        super(FaceDetection, self).__init__(svcname='face_detection', **kwargs)
+</pre><p> ```</p>
+<p>Finally append the following line of code in the <code>RappCloud/CloudMsgs/__init__.py</code> file:</p>
+<p>```python from FaceDetection import FaceDetection ```</p>
+<p>Now everything is in place to call the newly created Face detection RAPP Platform Service, using the python implementation of the rapp-platform-api. An example is presented below:</p>
+<p>```python from RappCloud.CloudMsgs import FaceDetection from RappCloud import RappPlatformService</p>
+<p>svcClient = RappPlatformService(persistent=True, timeout=30000) msg = FaceDetection(imageFilepath="PATH", fast=True)</p>
+<p>response svcClient.call(msg)</p>
+<p>if response.error: print "An error has occured: %s" response.error else: print response.faces ```</p>
+<p>If you want to also include it in the High Level API implementation, you will have to modify the <a href="https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/RappPlatformApi.py">RappPlatformApi.py</a> file.</p>
+<p>First import the <code>FaceDetection</code> Cloud Message, that was previously implemented:</p>
+<p>```py ...</p>
+<p>from CloudMsgs import FaceDetection ```</p>
+<p>Next, we must implemend the <code>faceDetection</code> method for the RappPlatformAPI class. Input arguments to the method are:</p>
+<ul>
+<li>imageFilepath: Path to the image file to perform face detection on.</li>
+<li>fast: Force fast detection. If true, detection takes less time but it will be less accurate</li>
+</ul>
+<p>The output is a python <code>dict</code> of the response fields:</p>
+<ul>
+<li>faces: Detected faces</li>
+<li>error: Error message, if one occures.</li>
+</ul>
+<p>The <code>faceDetection</code> method implementation must be as presented below</p>
+<p>```py ...</p>
+<p>class RappPlatformAPI(): """ RAPP Platform simple API implementation """ def <b>init</b>(self): self.svc_caller = RappPlatformService()</p>
+<p>...</p>
+<p>def faceDetection(self, imageFilepath, fast = False): """! Face detection API service call.  imageFilepath: string </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">imageFilepath</td><td>Path to the image file.  fast: bool </td></tr>
+    <tr><td class="paramname">fast</td><td>Perform fast detection. If true, detection will take less time but it will be less accurate. : dict </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>: Returns a dictionary of the service call response. {'faces': [], 'error': ''} """ msg = FaceDetection() try: msg.req.imageFilepath = imageFilepath response = self.svc_caller.call(msg) except Exception as e: response = FaceDetection.Response(error=str(e)) return { 'faces': response.faces, 'error': response.error } ```</dd></dl>
+<p><b>Note</b>: Make sure to launch both the back-end and the, listening for requests, HOP Web Server, of the RAPP Platform, before executing the above example. <a href="https://github.com/rapp-project/rapp-platform/wiki/How-do-I-launch-the-RAPP-Platform%3F">Here</a> you can find instructions on how to launch the RAPP Platform. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

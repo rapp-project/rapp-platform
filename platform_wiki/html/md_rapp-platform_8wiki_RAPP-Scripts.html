@@ -101,22 +101,6 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Scripts.ht
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The <code>rapp_scripts</code> folder contains scripts necessary for operations related to the RAPP Platform. The scripts are divided into four folders:</p>
-<h2>backup</h2>
-<p>The following scripts are offered:</p>
-<ul>
-<li><code>dumpRAPPMysqlDatabase.sh</code>: Dumps the RAPP MySQL database in a .sql file</li>
-<li><code>importRAPPMysqlDatabase.sh</code>: Imports the RAPP MySQL database from a .sql file</li>
-<li><code>dumpRAPPOntology.sh</code>: Dumps the RAPP ontology in an .owl file</li>
-<li><code>importRAPPOntology.sh</code>: Imports the RAPP ontology from an .owl file</li>
-</ul>
-<h2>continuous_integration</h2>
-<p>This folder contains the Travis script, used to support continuous integration of the RAPP Platform. The RAPP Platform Travis page is located <a href="https://travis-ci.org/rapp-project/rapp-platform">here</a>. For every push performed in rapp-platform Travis:</p>
-<ul>
-<li>Checks the clean_install script</li>
-<li>Builds the rapp-platform repository</li>
-<li>Runs the unit, functional and integration tests</li>
-<li>Creates the code documentation and uploads it <a href="http://rapp-project.github.io/rapp-platform/documentation.html">online</a></li>
-</ul>
 <h2>deploy</h2>
 <p>There are two files aimed for deployment:</p>
 <ul>
@@ -138,8 +122,8 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Scripts.ht
 <h2>setup</h2>
 <p>These scripts can be executed after a clean Ubuntu 14.04 installation, in order to install the appropriate packages and setup the environment.</p>
 <h4>Step 0 - Get the scripts</h4>
-<p>You can get the setup scripts either by downloading the rapp-platform repository in a <a href="https://github.com/rapp-project/rapp-platform/zipball/master">zip format</a>, or by cloning it in your PC using git:</p>
-<p><code>git clone <a href="https://github.com/rapp-project/rapp-platform.git">https://github.com/rapp-project/rapp-platform.git</a></code></p>
+<p>You can get the setup scripts either by downloading the rapp-platform-scripts repository in a <a href="https://github.com/rapp-project/rapp-platform-scripts/zipball/master">zip format</a>, or by cloning it in your PC using git:</p>
+<p><code>git clone <a href="https://github.com/rapp-project/rapp-platform-scripts.git">https://github.com/rapp-project/rapp-platform-scripts.git</a></code></p>
 <p>WARNING: At least 10 GB's of free space are recommended.</p>
 <h4>Install RAPP Platform</h4>
 <p>It is advised to execute the clean_install.sh script in a clean VM or clean system.</p>
@@ -170,14 +154,16 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Scripts.ht
 <li><code>9_create_rapp_mysql_db.sh</code>: Adds the RAPP MySQL empty database in mysql</li>
 <li><code>10_create_rapp_mysql_user.sh</code>: Creates a user to enable access the to database from the RAPP Platform code</li>
 <li><code>11_hop_setup.sh</code>: Installs HOP and Bigloo, the tools providing the RAPP Platform generic services.</li>
+<li><code>12_caffe_setup.sh</code>: Installs <a href="https://github.com/BVLC/caffe.git">Caffe.</a></li>
+<li><code>13_authentication_setup.sh</code>: Installs authentication related information.</li>
 </ul>
 <h5>NOTES:</h5>
 <p>The following notes concern the manual setup of rapp-platform (not the clean setup form our scripts):</p>
 <ul>
 <li>To compile <code>rapp_qr_detection</code> you must install the <code>libzbar</code> library</li>
 <li>To compile <code>rapp_knowrob_wrapper</code> you must execute the following scripts:<ul>
-<li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh">https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh</a></li>
-<li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh">https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh</a></li>
+<li><a href="https://github.com/rapp-project/rapp-platform-scripts/blob/master/setup/4_rosjava_setup.sh">https://github.com/rapp-project/rapp-platform-scripts/blob/master/setup/4_rosjava_setup.sh</a></li>
+<li><a href="https://github.com/rapp-project/rapp-platform-scripts/blob/master/setup/5_knowrob_setup.sh">https://github.com/rapp-project/rapp-platform-scripts/blob/master/setup/5_knowrob_setup.sh</a></li>
 <li><b>If you don't want interaction with the ontology, add an empty <code>CATKIN_IGNORE</code> file in the <code>rapp-platform/rapp_knowrob_wrapper/</code> folder</b></li>
 </ul>
 </li>
@@ -192,26 +178,21 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Scripts.ht
 <li><code>create_documentation.sh</code> : Creates all aforementioned documentations.</li>
 <li><code>update_rapp-project.github.io.sh</code> : Creates the documentation and pushes it in the <code>gh-pages</code> branch of rapp-platform, in order to update the online pages. NOTE: This is functional only when executed in the Travis environment, so do not try to run it!</li>
 </ul>
-<h2>devel</h2>
-<p>Use the <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/devel/create_rapp_user.sh">create_rapp_user.sh</a> to create and authenticate a new RAPP User.</p>
-<p>The script is located under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_scripts/devel">devel</a> directory of the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_scripts">rapp_scripts</a> package.</p>
-<p>```shell $ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_scripts/devel $ ./create_rapp_user.sh ```</p>
-<p>The script will prompt to input required info</p>
-<p>```shell $ ./create_rapp_user.sh</p>
-<p>Minimal required fields for mysql user creation:</p>
+<h2>utillities</h2>
+<p>The following scripts are offered:</p>
 <ul>
-<li>username :</li>
-<li>firstname : User's firstname</li>
-<li>lastname : User's lastname/surname</li>
-<li>language : User's first language</li>
+<li><code>dumpRAPPMysqlDatabase.sh</code>: Dumps the RAPP MySQL database in a .sql file</li>
+<li><code>importRAPPMysqlDatabase.sh</code>: Imports the RAPP MySQL database from a .sql file</li>
+<li><code>dumpRAPPOntology.sh</code>: Dumps the RAPP ontology in an .owl file</li>
+<li><code>importRAPPOntology.sh</code>: Imports the RAPP ontology from an .owl file</li>
+<li><code>create_rapp_user.sh</code>: Create and authenticate a new RAPP User. </li>
 </ul>
-<p>Username: rapp Firstname: rapp Lastname: rapp Language: el Password: ``` </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

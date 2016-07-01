@@ -1,0 +1,185 @@
+\hypertarget{classHumanDetector}{\section{Human\-Detector Class Reference}
+\label{classHumanDetector}\index{Human\-Detector@{Human\-Detector}}
+}
+
+
+Class that implements a human detection algorithm based on a Haar cascade classifier.  
+
+
+
+
+{\ttfamily \#include $<$human\-\_\-detector.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classHumanDetector_ae20de86b32803a99c4f81741b8cd6cbb}{Human\-Detector} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classHumanDetector_a9c559b1da68d3a89a8821132a589c528}{detect\-Human2\-D} (const cv\-::\-Mat \&input\-\_\-img)
+\begin{DoxyCompactList}\small\item\em Detects humans from a cv\-::\-Mat. \end{DoxyCompactList}\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classHumanDetector_a21d9e54a5fe1cc1bb955e68a1512f27f}{find\-Human2\-D} (std\-::string file\-\_\-name)
+\begin{DoxyCompactList}\small\item\em Finds humans in an image retrieved from a file U\-R\-L. \end{DoxyCompactList}\item 
+cv\-::\-Mat \hyperlink{classHumanDetector_ad3f7e211881e795c1e0e7521215a201d}{load\-Image} (std\-::string file\-\_\-name)
+\begin{DoxyCompactList}\small\item\em Loads an image from a file U\-R\-L. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classHumanDetector_aa97ccfacc14a589861fcacc5253e48dd}{detect\-Human2\-D} (const cv\-::\-Mat \&input\-\_\-img, const std\-::string \&haar\-\_\-path)
+\begin{DoxyCompactList}\small\item\em Detects humans from a cv\-::\-Mat. \end{DoxyCompactList}\item 
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classHumanDetector_ae9a1a3880f0e94a4000f0a3cdae681d2}{identify\-Unique\-Humans} (const std\-::vector$<$ cv\-::\-Rect $>$ pedestrian\-Vector, const std\-::vector$<$ cv\-::\-Rect $>$ upperbody\-Vector)
+\begin{DoxyCompactList}\small\item\em Identify unique humans from two sets of humans. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that implements a human detection algorithm based on a Haar cascade classifier. 
+
+Definition at line 35 of file human\-\_\-detector.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classHumanDetector_ae20de86b32803a99c4f81741b8cd6cbb}{\index{Human\-Detector@{Human\-Detector}!Human\-Detector@{Human\-Detector}}
+\index{Human\-Detector@{Human\-Detector}!HumanDetector@{Human\-Detector}}
+\subsubsection[{Human\-Detector}]{\setlength{\rightskip}{0pt plus 5cm}Human\-Detector\-::\-Human\-Detector (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classHumanDetector_ae20de86b32803a99c4f81741b8cd6cbb}
+
+
+Default constructor. 
+
+
+
+Definition at line 23 of file human\-\_\-detector.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classHumanDetector_a9c559b1da68d3a89a8821132a589c528}{\index{Human\-Detector@{Human\-Detector}!detect\-Human2\-D@{detect\-Human2\-D}}
+\index{detect\-Human2\-D@{detect\-Human2\-D}!HumanDetector@{Human\-Detector}}
+\subsubsection[{detect\-Human2\-D}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Human\-Detector\-::detect\-Human2\-D (
+\begin{DoxyParamCaption}
+\item[{const cv\-::\-Mat \&}]{input\-\_\-img}
+\end{DoxyParamCaption}
+)}}\label{classHumanDetector_a9c559b1da68d3a89a8821132a589c528}
+
+
+Detects humans from a cv\-::\-Mat. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\-\_\-img} & \mbox{[}const cv\-::\-Mat\&\mbox{]} The input image \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected humans. Each human is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 46 of file human\-\_\-detector.\-cpp.
+
+\hypertarget{classHumanDetector_aa97ccfacc14a589861fcacc5253e48dd}{\index{Human\-Detector@{Human\-Detector}!detect\-Human2\-D@{detect\-Human2\-D}}
+\index{detect\-Human2\-D@{detect\-Human2\-D}!HumanDetector@{Human\-Detector}}
+\subsubsection[{detect\-Human2\-D}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Human\-Detector\-::detect\-Human2\-D (
+\begin{DoxyParamCaption}
+\item[{const cv\-::\-Mat \&}]{input\-\_\-img, }
+\item[{const std\-::string \&}]{haar\-\_\-path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classHumanDetector_aa97ccfacc14a589861fcacc5253e48dd}
+
+
+Detects humans from a cv\-::\-Mat. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\-\_\-img} & \mbox{[}const cv\-::\-Mat\&\mbox{]} The input image \\
+\hline
+{\em haar\-\_\-path} & \mbox{[}const std\-::string\mbox{]} The Haar training model path \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected humans. Each human is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 80 of file human\-\_\-detector.\-cpp.
+
+\hypertarget{classHumanDetector_a21d9e54a5fe1cc1bb955e68a1512f27f}{\index{Human\-Detector@{Human\-Detector}!find\-Human2\-D@{find\-Human2\-D}}
+\index{find\-Human2\-D@{find\-Human2\-D}!HumanDetector@{Human\-Detector}}
+\subsubsection[{find\-Human2\-D}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Human\-Detector\-::find\-Human2\-D (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)}}\label{classHumanDetector_a21d9e54a5fe1cc1bb955e68a1512f27f}
+
+
+Finds humans in an image retrieved from a file U\-R\-L. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-\_\-name} & \mbox{[}std\-::string\mbox{]} The image file's U\-R\-L \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected humans. Each human is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 166 of file human\-\_\-detector.\-cpp.
+
+\hypertarget{classHumanDetector_ae9a1a3880f0e94a4000f0a3cdae681d2}{\index{Human\-Detector@{Human\-Detector}!identify\-Unique\-Humans@{identify\-Unique\-Humans}}
+\index{identify\-Unique\-Humans@{identify\-Unique\-Humans}!HumanDetector@{Human\-Detector}}
+\subsubsection[{identify\-Unique\-Humans}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Human\-Detector\-::identify\-Unique\-Humans (
+\begin{DoxyParamCaption}
+\item[{const std\-::vector$<$ cv\-::\-Rect $>$}]{pedestrian\-Vector, }
+\item[{const std\-::vector$<$ cv\-::\-Rect $>$}]{upperbody\-Vector}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classHumanDetector_ae9a1a3880f0e94a4000f0a3cdae681d2}
+
+
+Identify unique humans from two sets of humans. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pedestrian\-Vector} & \mbox{[}const std\-::vector$<$cv\-::\-Rect$>$\&\mbox{]} The first set of humans \\
+\hline
+{\em upperbody\-Vector} & \mbox{[}const std\-::vector$<$cv\-::\-Rect$>$\&\mbox{]} The second set of humans \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the unique humans. Each human is represented by a rectangle. 
+\end{DoxyReturn}
+
+
+Definition at line 139 of file human\-\_\-detector.\-cpp.
+
+\hypertarget{classHumanDetector_ad3f7e211881e795c1e0e7521215a201d}{\index{Human\-Detector@{Human\-Detector}!load\-Image@{load\-Image}}
+\index{load\-Image@{load\-Image}!HumanDetector@{Human\-Detector}}
+\subsubsection[{load\-Image}]{\setlength{\rightskip}{0pt plus 5cm}cv\-::\-Mat Human\-Detector\-::load\-Image (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{file\-\_\-name}
+\end{DoxyParamCaption}
+)}}\label{classHumanDetector_ad3f7e211881e795c1e0e7521215a201d}
+
+
+Loads an image from a file U\-R\-L. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file\-\_\-name} & \mbox{[}std\-::string\mbox{]} The image's file U\-R\-L \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}cv\-::\-Mat\mbox{]} The image in Open\-C\-V representation 
+\end{DoxyReturn}
+
+
+Definition at line 32 of file human\-\_\-detector.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-human\-\_\-detection/include/human\-\_\-detection/\hyperlink{human__detector_8h}{human\-\_\-detector.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-human\-\_\-detection/src/\hyperlink{human__detector_8cpp}{human\-\_\-detector.\-cpp}\end{DoxyCompactItemize}

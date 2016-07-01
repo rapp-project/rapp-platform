@@ -16,7 +16,13 @@ def \hyperlink{classcognitive__exercise_1_1CognitiveExercise_a9dd876bf454c882ff0
 def \hyperlink{classcognitive__exercise_1_1CognitiveExercise_ae1ad82c51b716e39d703ea97573248c3}{cognitive\-Test\-Creator\-Data\-Handler}
 \begin{DoxyCompactList}\small\item\em The cognitive test creator service callback. \end{DoxyCompactList}\item 
 def \hyperlink{classcognitive__exercise_1_1CognitiveExercise_a0a98592e9555de734115f584fac38928}{record\-User\-Cognitive\-Test\-Performance\-Data\-Handler}
-\begin{DoxyCompactList}\small\item\em The record user cognitive test performance service callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The record user cognitive test performance service callback. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise_1_1CognitiveExercise_adee3b34d3abb7e1235a8e77db6fc9b4c}{return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler}
+\begin{DoxyCompactList}\small\item\em The return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler service callback. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise_1_1CognitiveExercise_a8b5d8e068ebf59bb0c326e2c4f07505b}{user\-Score\-History\-For\-All\-Categories\-Data\-Handler}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{namespaceuserScoreHistoryForAllCategories}{user\-Score\-History\-For\-All\-Categories} service callback. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise_1_1CognitiveExercise_a6b2c53eeb47502d91fc93a1fbde7a07e}{user\-Scores\-For\-All\-Categories\-Data\-Handler}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{namespaceuserScoresForAllCategories}{user\-Scores\-For\-All\-Categories} service callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -29,7 +35,7 @@ def \hyperlink{classcognitive__exercise_1_1CognitiveExercise_a0a98592e9555de7341
 \subsection{Detailed Description}
 The Cognitive exercise ros node. 
 
-Definition at line 57 of file cognitive\-\_\-exercise.\-py.
+Definition at line 49 of file cognitive\-\_\-exercise.\-py.
 
 
 
@@ -47,7 +53,7 @@ Default contructor.
 
 Waits for services the node depends on and declares the callbacks of the node's services 
 
-Definition at line 62 of file cognitive\-\_\-exercise.\-py.
+Definition at line 54 of file cognitive\-\_\-exercise.\-py.
 
 
 
@@ -68,12 +74,13 @@ The cognitive exercise chooser service callback.
 \begin{DoxyParams}{Parameters}
 {\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::test\-Selector\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
 \hline
-{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::test\-Selector\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response \\
-\hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::test\-Selector\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
 
 
-Definition at line 114 of file cognitive\-\_\-exercise.\-py.
+Definition at line 123 of file cognitive\-\_\-exercise.\-py.
 
 \hypertarget{classcognitive__exercise_1_1CognitiveExercise_ae1ad82c51b716e39d703ea97573248c3}{\index{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}!cognitive\-Test\-Creator\-Data\-Handler@{cognitive\-Test\-Creator\-Data\-Handler}}
 \index{cognitive\-Test\-Creator\-Data\-Handler@{cognitive\-Test\-Creator\-Data\-Handler}!cognitive_exercise::CognitiveExercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}}
@@ -91,12 +98,13 @@ The cognitive test creator service callback.
 \begin{DoxyParams}{Parameters}
 {\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::cognitive\-Test\-Creator\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
 \hline
-{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::cognitive\-Test\-Creator\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response \\
-\hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::cognitive\-Test\-Creator\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
 
 
-Definition at line 131 of file cognitive\-\_\-exercise.\-py.
+Definition at line 141 of file cognitive\-\_\-exercise.\-py.
 
 \hypertarget{classcognitive__exercise_1_1CognitiveExercise_a0a98592e9555de734115f584fac38928}{\index{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}!record\-User\-Cognitive\-Test\-Performance\-Data\-Handler@{record\-User\-Cognitive\-Test\-Performance\-Data\-Handler}}
 \index{record\-User\-Cognitive\-Test\-Performance\-Data\-Handler@{record\-User\-Cognitive\-Test\-Performance\-Data\-Handler}!cognitive_exercise::CognitiveExercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}}
@@ -114,12 +122,85 @@ The record user cognitive test performance service callback.
 \begin{DoxyParams}{Parameters}
 {\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Cognitive\-Test\-Performance\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
 \hline
-{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Cognitive\-Test\-Performance\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response \\
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Cognitive\-Test\-Performance\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 132 of file cognitive\-\_\-exercise.\-py.
+
+\hypertarget{classcognitive__exercise_1_1CognitiveExercise_adee3b34d3abb7e1235a8e77db6fc9b4c}{\index{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}!return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler@{return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler}}
+\index{return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler@{return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler}!cognitive_exercise::CognitiveExercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}}
+\subsubsection[{return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise.\-Cognitive\-Exercise.\-return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise_1_1CognitiveExercise_adee3b34d3abb7e1235a8e77db6fc9b4c}
+
+
+The return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler\-::\-Request\&\mbox{]} The R\-O\-S service request \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Data\-Handler\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
 
 
-Definition at line 123 of file cognitive\-\_\-exercise.\-py.
+Definition at line 168 of file cognitive\-\_\-exercise.\-py.
+
+\hypertarget{classcognitive__exercise_1_1CognitiveExercise_a8b5d8e068ebf59bb0c326e2c4f07505b}{\index{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}!user\-Score\-History\-For\-All\-Categories\-Data\-Handler@{user\-Score\-History\-For\-All\-Categories\-Data\-Handler}}
+\index{user\-Score\-History\-For\-All\-Categories\-Data\-Handler@{user\-Score\-History\-For\-All\-Categories\-Data\-Handler}!cognitive_exercise::CognitiveExercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}}
+\subsubsection[{user\-Score\-History\-For\-All\-Categories\-Data\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise.\-Cognitive\-Exercise.\-user\-Score\-History\-For\-All\-Categories\-Data\-Handler (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise_1_1CognitiveExercise_a8b5d8e068ebf59bb0c326e2c4f07505b}
+
+
+The \hyperlink{namespaceuserScoreHistoryForAllCategories}{user\-Score\-History\-For\-All\-Categories} service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Score\-History\-For\-All\-Categories\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Score\-History\-For\-All\-Categories\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 159 of file cognitive\-\_\-exercise.\-py.
+
+\hypertarget{classcognitive__exercise_1_1CognitiveExercise_a6b2c53eeb47502d91fc93a1fbde7a07e}{\index{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}!user\-Scores\-For\-All\-Categories\-Data\-Handler@{user\-Scores\-For\-All\-Categories\-Data\-Handler}}
+\index{user\-Scores\-For\-All\-Categories\-Data\-Handler@{user\-Scores\-For\-All\-Categories\-Data\-Handler}!cognitive_exercise::CognitiveExercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}}
+\subsubsection[{user\-Scores\-For\-All\-Categories\-Data\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise.\-Cognitive\-Exercise.\-user\-Scores\-For\-All\-Categories\-Data\-Handler (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise_1_1CognitiveExercise_a6b2c53eeb47502d91fc93a1fbde7a07e}
+
+
+The \hyperlink{namespaceuserScoresForAllCategories}{user\-Scores\-For\-All\-Categories} service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Scores\-For\-All\-Categories\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Scores\-For\-All\-Categories\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 150 of file cognitive\-\_\-exercise.\-py.
 
 
 
@@ -129,14 +210,14 @@ Definition at line 123 of file cognitive\-\_\-exercise.\-py.
 \subsubsection[{serv}]{\setlength{\rightskip}{0pt plus 5cm}cognitive\-\_\-exercise.\-Cognitive\-Exercise.\-serv}}\label{classcognitive__exercise_1_1CognitiveExercise_a31a4e22c02bc1d7bda11b5e1fda5d065}
 
 
-Definition at line 99 of file cognitive\-\_\-exercise.\-py.
+Definition at line 91 of file cognitive\-\_\-exercise.\-py.
 
 \hypertarget{classcognitive__exercise_1_1CognitiveExercise_a01c12d3ff9258c812e34f89a516699ed}{\index{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}!serv\-\_\-topic@{serv\-\_\-topic}}
 \index{serv\-\_\-topic@{serv\-\_\-topic}!cognitive_exercise::CognitiveExercise@{cognitive\-\_\-exercise\-::\-Cognitive\-Exercise}}
 \subsubsection[{serv\-\_\-topic}]{\setlength{\rightskip}{0pt plus 5cm}cognitive\-\_\-exercise.\-Cognitive\-Exercise.\-serv\-\_\-topic}}\label{classcognitive__exercise_1_1CognitiveExercise_a01c12d3ff9258c812e34f89a516699ed}
 
 
-Definition at line 65 of file cognitive\-\_\-exercise.\-py.
+Definition at line 57 of file cognitive\-\_\-exercise.\-py.
 
 
 

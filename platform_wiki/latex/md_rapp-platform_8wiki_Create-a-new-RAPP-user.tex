@@ -1,0 +1,18 @@
+Use the \href{https://github.com/rapp-project/rapp-platform-scripts/blob/master/utilities/create_rapp_user.sh}{\tt create\-\_\-rapp\-\_\-user.\-sh} to create and authenticate a new R\-A\-P\-P User.
+
+It requires the R\-A\-P\-P Platform to be launched. ```shell . $\sim$/rapp\-\_\-platoform/rapp-\/platform-\/scripts/deploy/deploy\-\_\-rapp\-\_\-ros.sh ```
+
+Then execute\-: ```shell \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-scripts/devel \$ ./create\-\_\-rapp\-\_\-user.sh ```
+
+The script will prompt to input required info
+
+```shell \$ ./create\-\_\-rapp\-\_\-user.sh
+
+Minimal required fields for mysql user creation\-:
+\begin{DoxyItemize}
+\item username
+\item password
+\item language (can be ommited) ```
+\end{DoxyItemize}
+
+This will create the new user, log him in and return the session token. This should be saved in the proper robot folder as specified by the \href{https://github.com/rapp-project/rapp-api/tree/python/python#authenticationtokens}{\tt R\-A\-P\-P-\/\-A\-P\-I documentation} 

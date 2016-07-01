@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -97,7 +96,7 @@ $(document).ready(function(){initNavTree('classrapp__speech__detection__sphinx4_
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -134,6 +133,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:ab0aee24f2a30e54932d173dbfe4063aa"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#ab0aee24f2a30e54932d173dbfe4063aa">_calculateRequestHash</a></td></tr>
 <tr class="memdesc:ab0aee24f2a30e54932d173dbfe4063aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the service request sha1 hash for process handling purposes.  <a href="#ab0aee24f2a30e54932d173dbfe4063aa">More...</a><br/></td></tr>
 <tr class="separator:ab0aee24f2a30e54932d173dbfe4063aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c7361126cde2b0e291506310ac022f5"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#a0c7361126cde2b0e291506310ac022f5">_getPreconfigurationNames</a></td></tr>
+<tr class="memdesc:a0c7361126cde2b0e291506310ac022f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the requested preconfiguration names.  <a href="#a0c7361126cde2b0e291506310ac022f5">More...</a><br/></td></tr>
+<tr class="separator:a0c7361126cde2b0e291506310ac022f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -157,7 +159,7 @@ Private Attributes</h2></td></tr>
 <div class="textblock"><p>Maintains Sphinx instances to perform speech recognition. </p>
 <p>Maintains a number of child processes to perform speech recognition utilizing <a class="el" href="classSphinx4.html" title="Performs speech recognition employing Sphinx. ">Sphinx4</a> (<a class="el" href="classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4_1_1SpeechRecognitionSphinx4.html" title="Provides a complete Rapp Sphinx Entity. ">rapp_speech_detection_sphinx4.speech_recognition_sphinx4.SpeechRecognitionSphinx4</a>). Provides ros services and handles the requests according to the child processes' status. </p>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00043">43</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00047">47</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a82c15c573f92e81d51b4d07bdf8d801c"></a>
 <div class="memitem">
@@ -175,7 +177,7 @@ Private Attributes</h2></td></tr>
 
 <p>Initializes the subprocesses and the services (constructor) </p>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00046">46</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00050">50</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -222,7 +224,37 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>hexdigest [string] The hash digest containing only hexadecimal digits </dd></dl>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00135">135</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00198">198</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0c7361126cde2b0e291506310ac022f5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">def rapp_speech_detection_sphinx4.speech_recognition_sphinx4_handler_node.SpeechRecognitionSphinx4HandlerNode._getPreconfigurationNames </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Specifies the requested preconfiguration names. </p>
+<p>Reads and creates a matrix with the configuration name requested from rapp_speech_detection_sphinx4::cfg::sphinx4_wrapper_params.yaml</p>
+<dl class="section return"><dt>Returns</dt><dd>preconf [ list&lt;string&gt; ] The preconfiguration names for all subprocesses </dd></dl>
+
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00096">96</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -259,7 +291,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::SpeechDetectionSphinx4Wrapper::SpeechRecognitionSphinx4TotalSrvResponse] The service response </dd></dl>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00079">79</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00138">138</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -284,7 +316,7 @@ Private Attributes</h2></td></tr>
 
 <p>The subprocesses structure that contains information used for the subprocess handling. </p>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00054">54</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00060">60</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -308,7 +340,7 @@ Private Attributes</h2></td></tr>
 
 <p>Thread conditional variable used for the subprocess scheduling. </p>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00061">61</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00075">75</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -332,7 +364,7 @@ Private Attributes</h2></td></tr>
 
 <p>Ros service server for sphinx speech recognition. </p>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00071">71</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00085">85</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -356,7 +388,7 @@ Private Attributes</h2></td></tr>
 
 <p>Total service callback threads waiting to execute. </p>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00063">63</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00077">77</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -380,7 +412,7 @@ Private Attributes</h2></td></tr>
 
 <p>The number of child subprocesses. </p>
 
-<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00049">49</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
+<p>Definition at line <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html#l00053">53</a> of file <a class="el" href="speech__recognition__sphinx4__handler__node_8py_source.html">speech_recognition_sphinx4_handler_node.py</a>.</p>
 
 </div>
 </div>
@@ -393,7 +425,7 @@ Private Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapp__speech__detection__sphinx4.html">rapp_speech_detection_sphinx4</a></li><li class="navelem"><a class="el" href="namespacerapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node.html">speech_recognition_sphinx4_handler_node</a></li><li class="navelem"><a class="el" href="classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html">SpeechRecognitionSphinx4HandlerNode</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:31 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,4 +1,4 @@
-The setup scripts are located in {\ttfamily rapp\-\_\-scripts/setup}.
+The setup scripts are located in the \href{https://github.com/rapp-project/rapp-platform-scripts}{\tt rapp-\/platform-\/scripts} in the folder {\ttfamily /setup/}.
 
 These scripts can be executed after a clean Ubuntu 14.\-04 installation, in order to install the appropriate packages and setup the environment.
 
@@ -23,6 +23,8 @@ Performs\-:
 \item downloads builds and installs depending libraries for Sphinx4
 \item installs My\-S\-Q\-L
 \item installs H\-O\-P
+\item installs Caffe
+\item installs the authentication system
 \end{DoxyItemize}
 
 \paragraph*{What you must do manually}
@@ -48,19 +50,6 @@ If you want to add rapp-\/platform to an already existent system (Ubuntu 14.\-04
 \item {\ttfamily 9\-\_\-create\-\_\-rapp\-\_\-mysql\-\_\-db.\-sh}\-: Adds the R\-A\-P\-P My\-S\-Q\-L empty database in mysql
 \item {\ttfamily 10\-\_\-create\-\_\-rapp\-\_\-mysql\-\_\-user.\-sh}\-: Creates a user to enable access the to database from the R\-A\-P\-P Platform code
 \item {\ttfamily 11\-\_\-hop\-\_\-setup.\-sh}\-: Installs H\-O\-P and Bigloo, the tools providing the R\-A\-P\-P Platform generic services.
-\end{DoxyItemize}
-
-\subparagraph*{N\-O\-T\-E\-S\-:}
-
-The following notes concern the manual setup of rapp-\/platform (not the clean setup form our scripts)\-:
-
-
-\begin{DoxyItemize}
-\item To compile {\ttfamily rapp\-\_\-qr\-\_\-detection} you must install the {\ttfamily libzbar} library
-\item To compile {\ttfamily rapp\-\_\-knowrob\-\_\-wrapper} you must execute the following scripts\-:
-\begin{DoxyItemize}
-\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/blob/master/rapp\-\_\-scripts/setup/4\-\_\-rosjava\-\_\-setup.\-sh}
-\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/blob/master/rapp\-\_\-scripts/setup/5\-\_\-knowrob\-\_\-setup.\-sh}
-\item {\bfseries If you don't want interaction with the ontology, add an empty {\ttfamily C\-A\-T\-K\-I\-N\-\_\-\-I\-G\-N\-O\-R\-E} file in the {\ttfamily rapp-\/platform/rapp\-\_\-knowrob\-\_\-wrapper/} folder} 
-\end{DoxyItemize}
+\item {\ttfamily 12\-\_\-caffe\-\_\-setup.\-sh}\-: Installs Caffe along with the bvlc reference models.
+\item {\ttfamily 13\-\_\-authentication\-\_\-setup.\-sh}\-: Installs the authentication management system. 
 \end{DoxyItemize}

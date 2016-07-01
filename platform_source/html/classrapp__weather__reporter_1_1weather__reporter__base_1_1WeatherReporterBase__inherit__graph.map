@@ -1,0 +1,4 @@
+<map id="rapp_weather_reporter.weather_reporter_base.WeatherReporterBase" name="rapp_weather_reporter.weather_reporter_base.WeatherReporterBase">
+<area shape="rect" id="node3" href="$classrapp__weather__reporter_1_1forecastio__reporter_1_1ForecastIOReporter.html" title="ForecastIO weather reporter. " alt="" coords="403,5,615,46"/>
+<area shape="rect" id="node4" href="$classrapp__weather__reporter_1_1yweather__reporter_1_1YWeatherReporter.html" title="Yweather weather reporter. " alt="" coords="405,70,613,111"/>
+</map>

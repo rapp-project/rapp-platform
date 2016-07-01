@@ -1,23 +1,13 @@
 var searchData=
 [
-  ['qr_5fdetection_5ftest_5f1',['qr_detection_test_1',['../namespaceqr__detection__test__1.html',1,'']]],
-  ['qr_5fdetection_5ftest_5f1_2epy',['qr_detection_test_1.py',['../qr__detection__test__1_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5feasy_5ffar',['qr_detection_test_easy_far',['../namespaceqr__detection__test__easy__far.html',1,'']]],
-  ['qr_5fdetection_5ftest_5feasy_5ffar_2epy',['qr_detection_test_easy_far.py',['../qr__detection__test__easy__far_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5feasy_5fmedium',['qr_detection_test_easy_medium',['../namespaceqr__detection__test__easy__medium.html',1,'']]],
-  ['qr_5fdetection_5ftest_5feasy_5fmedium_2epy',['qr_detection_test_easy_medium.py',['../qr__detection__test__easy__medium_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5feasy_5fnear',['qr_detection_test_easy_near',['../namespaceqr__detection__test__easy__near.html',1,'']]],
-  ['qr_5fdetection_5ftest_5feasy_5fnear_2epy',['qr_detection_test_easy_near.py',['../qr__detection__test__easy__near_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fhard_5ffar',['qr_detection_test_hard_far',['../namespaceqr__detection__test__hard__far.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fhard_5ffar_2epy',['qr_detection_test_hard_far.py',['../qr__detection__test__hard__far_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fhard_5fmedium',['qr_detection_test_hard_medium',['../namespaceqr__detection__test__hard__medium.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fhard_5fmedium_2epy',['qr_detection_test_hard_medium.py',['../qr__detection__test__hard__medium_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fhard_5fnear',['qr_detection_test_hard_near',['../namespaceqr__detection__test__hard__near.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fhard_5fnear_2epy',['qr_detection_test_hard_near.py',['../qr__detection__test__hard__near_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fmedium_5ffar',['qr_detection_test_medium_far',['../namespaceqr__detection__test__medium__far.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fmedium_5ffar_2epy',['qr_detection_test_medium_far.py',['../qr__detection__test__medium__far_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fmedium_5fmedium',['qr_detection_test_medium_medium',['../namespaceqr__detection__test__medium__medium.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fmedium_5fmedium_2epy',['qr_detection_test_medium_medium.py',['../qr__detection__test__medium__medium_8py.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fmedium_5fnear',['qr_detection_test_medium_near',['../namespaceqr__detection__test__medium__near.html',1,'']]],
-  ['qr_5fdetection_5ftest_5fmedium_5fnear_2epy',['qr_detection_test_medium_near.py',['../qr__detection__test__medium__near_8py.html',1,'']]]
+  ['object_5frecognition_5ftests',['object_recognition_tests',['../namespaceobject__recognition__tests.html',1,'']]],
+  ['object_5frecognition_5ftests_2epy',['object_recognition_tests.py',['../object__recognition__tests_8py.html',1,'']]],
+  ['objectrecognitiontests',['ObjectRecognitionTests',['../classobject__recognition__tests_1_1ObjectRecognitionTests.html',1,'object_recognition_tests']]],
+  ['okblue',['OKBLUE',['../classrapp__testing__tools_1_1rapp__testing__core_1_1bcolors.html#a9c4c365e1b612bfa66f1f67920a97096',1,'rapp_testing_tools::rapp_testing_core::bcolors']]],
+  ['okgreen',['OKGREEN',['../classrapp__testing__tools_1_1rapp__testing__core_1_1bcolors.html#aaaff3ce6720a04ce7f73c66fce6eaff9',1,'rapp_testing_tools::rapp_testing_core::bcolors']]],
+  ['ontology_5fis_5fsubsuperclass_5fof_5fspatialthing',['ontology_is_subsuperclass_of_SpatialThing',['../namespaceontology__is__subsuperclass__of__SpatialThing.html',1,'']]],
+  ['ontology_5fis_5fsubsuperclass_5fof_5fspatialthing_2epy',['ontology_is_subsuperclass_of_SpatialThing.py',['../ontology__is__subsuperclass__of__SpatialThing_8py.html',1,'']]],
+  ['ontology_5ftests',['ontology_tests',['../namespaceontology__tests.html',1,'']]],
+  ['ontology_5ftests_2epy',['ontology_tests.py',['../ontology__tests_8py.html',1,'']]],
+  ['ontologytests',['OntologyTests',['../classontology__tests_1_1OntologyTests.html',1,'ontology_tests']]]
 ];

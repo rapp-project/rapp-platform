@@ -43,6 +43,10 @@ bool \hyperlink{classKnowrobWrapperCommunications_aa7d046afb167ae2fa0658876bafa4
 \begin{DoxyCompactList}\small\item\em Serves the load\-Ontology R\-O\-S service callback. \end{DoxyCompactList}\item 
 bool \hyperlink{classKnowrobWrapperCommunications_a4c2e5ed4bf27e9ae7d722b50d8f607e3}{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Performance\-Cognitive\-Tests\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Performance\-Cognitive\-Tests\-Srv\-::\-Response \&res)
 \begin{DoxyCompactList}\small\item\em Serves the record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance R\-O\-S service callback. \end{DoxyCompactList}\item 
+bool \hyperlink{classKnowrobWrapperCommunications_a9d73180cd20c89bbc9e71469a0c53388}{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Response \&res)
+\begin{DoxyCompactList}\small\item\em Serves the register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology R\-O\-S service callback. \end{DoxyCompactList}\item 
+bool \hyperlink{classKnowrobWrapperCommunications_aa149f2929cb7b5cda2c7615e07d4a5cc}{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Response \&res)
+\begin{DoxyCompactList}\small\item\em Serves the retract\-\_\-user\-\_\-ontology\-\_\-alias R\-O\-S service callback. \end{DoxyCompactList}\item 
 bool \hyperlink{classKnowrobWrapperCommunications_a4d0118b6016bd1df21abca155ae9b423}{subclasses\-Of\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response \&res)
 \begin{DoxyCompactList}\small\item\em Serves the subclasses\-Of R\-O\-S service callback. \end{DoxyCompactList}\item 
 bool \hyperlink{classKnowrobWrapperCommunications_aa2f78a0238538e4c047ee7d931969219}{superclasses\-Of\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response \&res)
@@ -93,6 +97,14 @@ ros\-::\-Node\-Handle \hyperlink{classKnowrobWrapperCommunications_afe35871d80ea
 ros\-::\-Service\-Server \hyperlink{classKnowrobWrapperCommunications_a17e239928cdfac593e27e015e70ad376}{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-service\-\_\-}
 \item 
 std\-::string \hyperlink{classKnowrobWrapperCommunications_a1e44e99eba8f3a2fb196a9d215cec89c}{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-topic\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classKnowrobWrapperCommunications_a80d24d312e258d4b546573d4eaeb6a16}{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-service\-\_\-}
+\item 
+std\-::string \hyperlink{classKnowrobWrapperCommunications_aeeadfeab13814b51e78182bb52358303}{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-topic\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classKnowrobWrapperCommunications_a281262d96049a59096a5a29fbaac77d2}{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-service\-\_\-}
+\item 
+std\-::string \hyperlink{classKnowrobWrapperCommunications_afde9fb500053dd1ac1605af6728f03f0}{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-topic\-\_\-}
 \item 
 ros\-::\-Service\-Server \hyperlink{classKnowrobWrapperCommunications_aa694eb182b48822ca845e34096b17ad4}{subclasses\-\_\-of\-\_\-service\-\_\-}
 \item 
@@ -162,7 +174,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 332 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 331 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a9c598f55161da568022fa1da1406f7e5}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!cognitive\-\_\-tests\-\_\-of\-\_\-type\-\_\-callback@{cognitive\-\_\-tests\-\_\-of\-\_\-type\-\_\-callback}}
 \index{cognitive\-\_\-tests\-\_\-of\-\_\-type\-\_\-callback@{cognitive\-\_\-tests\-\_\-of\-\_\-type\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -188,7 +200,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 304 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 303 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_af2addeace661115f731721be3a326d8d}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!create\-\_\-cognitve\-\_\-tests\-\_\-callback@{create\-\_\-cognitve\-\_\-tests\-\_\-callback}}
 \index{create\-\_\-cognitve\-\_\-tests\-\_\-callback@{create\-\_\-cognitve\-\_\-tests\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -214,7 +226,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 290 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 289 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a00791d76db809cb09c1f06fd38077c58}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!create\-\_\-ontology\-\_\-alias\-\_\-callback@{create\-\_\-ontology\-\_\-alias\-\_\-callback}}
 \index{create\-\_\-ontology\-\_\-alias\-\_\-callback@{create\-\_\-ontology\-\_\-alias\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -240,7 +252,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 248 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 247 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a1b1b3016fe4b7b5321fcbea3a268daa0}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!create\-Instance\-Callback@{create\-Instance\-Callback}}
 \index{create\-Instance\-Callback@{create\-Instance\-Callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -266,7 +278,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 206 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 205 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a3be6c8a48ac43fd971d037c7da44ac8c}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!dump\-Ontology\-Callback@{dump\-Ontology\-Callback}}
 \index{dump\-Ontology\-Callback@{dump\-Ontology\-Callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -292,7 +304,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 220 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 219 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a9323106f5ecb88147604eb12150d92a0}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!is\-Sub\-Superclass\-Of\-Callback@{is\-Sub\-Superclass\-Of\-Callback}}
 \index{is\-Sub\-Superclass\-Of\-Callback@{is\-Sub\-Superclass\-Of\-Callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -318,7 +330,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 192 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 191 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_aa7d046afb167ae2fa0658876bafa42ba}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!load\-Ontology\-Callback@{load\-Ontology\-Callback}}
 \index{load\-Ontology\-Callback@{load\-Ontology\-Callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -344,7 +356,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 234 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 233 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a4c2e5ed4bf27e9ae7d722b50d8f607e3}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-callback@{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-callback}}
 \index{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-callback@{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -370,7 +382,59 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 318 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 317 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+
+\hypertarget{classKnowrobWrapperCommunications_a9d73180cd20c89bbc9e71469a0c53388}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-callback@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-callback}}
+\index{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-callback@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
+\subsubsection[{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Knowrob\-Wrapper\-Communications\-::register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{classKnowrobWrapperCommunications_a9d73180cd20c89bbc9e71469a0c53388}
+
+
+Serves the register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology R\-O\-S service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-To\-Ontology\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-To\-Ontology\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ The success status of the call 
+\end{DoxyReturn}
+
+
+Definition at line 359 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+
+\hypertarget{classKnowrobWrapperCommunications_aa149f2929cb7b5cda2c7615e07d4a5cc}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-callback@{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-callback}}
+\index{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-callback@{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
+\subsubsection[{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Knowrob\-Wrapper\-Communications\-::retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{classKnowrobWrapperCommunications_aa149f2929cb7b5cda2c7615e07d4a5cc}
+
+
+Serves the retract\-\_\-user\-\_\-ontology\-\_\-alias R\-O\-S service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/ The success status of the call 
+\end{DoxyReturn}
+
+
+Definition at line 345 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a4d0118b6016bd1df21abca155ae9b423}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!subclasses\-Of\-Callback@{subclasses\-Of\-Callback}}
 \index{subclasses\-Of\-Callback@{subclasses\-Of\-Callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -396,7 +460,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 164 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 163 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_aa2f78a0238538e4c047ee7d931969219}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!superclasses\-Of\-Callback@{superclasses\-Of\-Callback}}
 \index{superclasses\-Of\-Callback@{superclasses\-Of\-Callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -422,7 +486,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 178 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 177 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_aa0de5d8940bd5b84b44306eb193d4adc}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!user\-\_\-instances\-\_\-of\-\_\-class\-\_\-callback@{user\-\_\-instances\-\_\-of\-\_\-class\-\_\-callback}}
 \index{user\-\_\-instances\-\_\-of\-\_\-class\-\_\-callback@{user\-\_\-instances\-\_\-of\-\_\-class\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -448,7 +512,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 262 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 261 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 \hypertarget{classKnowrobWrapperCommunications_a956d4705d0234c0ed13179aff5897b30}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!user\-\_\-performance\-\_\-cognitve\-\_\-tests\-\_\-callback@{user\-\_\-performance\-\_\-cognitve\-\_\-tests\-\_\-callback}}
 \index{user\-\_\-performance\-\_\-cognitve\-\_\-tests\-\_\-callback@{user\-\_\-performance\-\_\-cognitve\-\_\-tests\-\_\-callback}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
@@ -474,7 +538,7 @@ bool -\/ The success status of the call
 \end{DoxyReturn}
 
 
-Definition at line 276 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
+Definition at line 275 of file knowrob\-\_\-wrapper\-\_\-communications.\-cpp.
 
 
 
@@ -489,7 +553,7 @@ Definition at line 99 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
 \hypertarget{classKnowrobWrapperCommunications_ac555026ed985ed7cc020b1f0c33ae054}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records\-\_\-topic\-\_\-@{clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records\-\_\-topic\-\_\-}}
 \index{clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records\-\_\-topic\-\_\-@{clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records\-\_\-topic\-\_\-}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
 \subsubsection[{clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records\-\_\-topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Knowrob\-Wrapper\-Communications\-::clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records\-\_\-topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapperCommunications_ac555026ed985ed7cc020b1f0c33ae054}
-
+The retract\-\_\-user\-\_\-ontology\-\_\-alias service server 
 
 Definition at line 101 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
 
@@ -618,6 +682,34 @@ Definition at line 94 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
 The clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records service server 
 
 Definition at line 96 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
+
+\hypertarget{classKnowrobWrapperCommunications_a80d24d312e258d4b546573d4eaeb6a16}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-service\-\_\-@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-service\-\_\-}}
+\index{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-service\-\_\-@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-service\-\_\-}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
+\subsubsection[{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Knowrob\-Wrapper\-Communications\-::register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-service\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapperCommunications_a80d24d312e258d4b546573d4eaeb6a16}
+Member variable holding the register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology R\-O\-S service topic 
+
+Definition at line 109 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
+
+\hypertarget{classKnowrobWrapperCommunications_aeeadfeab13814b51e78182bb52358303}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-topic\-\_\-@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-topic\-\_\-}}
+\index{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-topic\-\_\-@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-topic\-\_\-}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
+\subsubsection[{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Knowrob\-Wrapper\-Communications\-::register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology\-\_\-topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapperCommunications_aeeadfeab13814b51e78182bb52358303}
+
+
+Definition at line 111 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
+
+\hypertarget{classKnowrobWrapperCommunications_a281262d96049a59096a5a29fbaac77d2}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-service\-\_\-@{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-service\-\_\-}}
+\index{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-service\-\_\-@{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-service\-\_\-}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
+\subsubsection[{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Knowrob\-Wrapper\-Communications\-::retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-service\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapperCommunications_a281262d96049a59096a5a29fbaac77d2}
+Member variable holding the retract\-\_\-user\-\_\-ontology\-\_\-alias R\-O\-S service topic 
+
+Definition at line 104 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
+
+\hypertarget{classKnowrobWrapperCommunications_afde9fb500053dd1ac1605af6728f03f0}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-topic\-\_\-@{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-topic\-\_\-}}
+\index{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-topic\-\_\-@{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-topic\-\_\-}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}
+\subsubsection[{retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Knowrob\-Wrapper\-Communications\-::retract\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapperCommunications_afde9fb500053dd1ac1605af6728f03f0}
+The register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology service server 
+
+Definition at line 106 of file knowrob\-\_\-wrapper\-\_\-communications.\-h.
 
 \hypertarget{classKnowrobWrapperCommunications_aa694eb182b48822ca845e34096b17ad4}{\index{Knowrob\-Wrapper\-Communications@{Knowrob\-Wrapper\-Communications}!subclasses\-\_\-of\-\_\-service\-\_\-@{subclasses\-\_\-of\-\_\-service\-\_\-}}
 \index{subclasses\-\_\-of\-\_\-service\-\_\-@{subclasses\-\_\-of\-\_\-service\-\_\-}!KnowrobWrapperCommunications@{Knowrob\-Wrapper\-Communications}}

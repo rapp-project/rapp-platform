@@ -1,0 +1,55 @@
+\hypertarget{namespacemap__server}{\section{map\-\_\-server Namespace Reference}
+\label{namespacemap__server}\index{map\-\_\-server@{map\-\_\-server}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespacemap__server_ad81c6e515c033e87a2e5137fcdae335c}{load\-Map\-From\-File} (nav\-\_\-msgs\-::\-Get\-Map\-::\-Response $\ast$resp, const char $\ast$fname, double res, bool negate, double occ\-\_\-th, double free\-\_\-th, double $\ast$origin, bool trinary=true)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespacemap__server_ad81c6e515c033e87a2e5137fcdae335c}{\index{map\-\_\-server@{map\-\_\-server}!load\-Map\-From\-File@{load\-Map\-From\-File}}
+\index{load\-Map\-From\-File@{load\-Map\-From\-File}!map_server@{map\-\_\-server}}
+\subsubsection[{load\-Map\-From\-File}]{\setlength{\rightskip}{0pt plus 5cm}void map\-\_\-server\-::load\-Map\-From\-File (
+\begin{DoxyParamCaption}
+\item[{nav\-\_\-msgs\-::\-Get\-Map\-::\-Response $\ast$}]{resp, }
+\item[{const char $\ast$}]{fname, }
+\item[{double}]{res, }
+\item[{bool}]{negate, }
+\item[{double}]{occ\-\_\-th, }
+\item[{double}]{free\-\_\-th, }
+\item[{double $\ast$}]{origin, }
+\item[{bool}]{trinary = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{namespacemap__server_ad81c6e515c033e87a2e5137fcdae335c}
+Read the image from file and fill out the resp object, for later use when our services are requested.
+
+
+\begin{DoxyParams}{Parameters}
+{\em resp} & The map wil be written into here \\
+\hline
+{\em fname} & The image file to read from \\
+\hline
+{\em res} & The resolution of the map (gets stored in resp) \\
+\hline
+{\em negate} & If true, then whiter pixels are occupied, and blacker pixels are free \\
+\hline
+{\em occ\-\_\-th} & Threshold above which pixels are occupied \\
+\hline
+{\em free\-\_\-th} & Threshold below which pixels are free \\
+\hline
+{\em origin} & Triple specifying 2-\/\-D pose of lower-\/left corner of image \\
+\hline
+{\em trinary} & If true, only outputs Occupied/\-Free/\-Unknown \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\-::runtime\-\_\-error} & If the image file can't be loaded \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 55 of file image\-\_\-loader.\-cpp.
+

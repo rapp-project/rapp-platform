@@ -1,0 +1,318 @@
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase}{\section{Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base Class Reference}
+\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase}\index{Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base@{Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base}}
+}
+
+
+Inheritance diagram for Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ae88d9e011ea1564c2f24984959bb75f7}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a38b601cc90b65004cfff9939ab8906dc}{basename}
+\begin{DoxyCompactList}\small\item\em Return the basename of input filepath. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a9f61ae2c557e155eb12983421f225c08}{handle\-\_\-exception}
+\begin{DoxyCompactList}\small\item\em Handles exceptions and return an error message that complies to the Exception caught. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a81715dbf8dc123500d5c9e8141f8ba0c}{is\-\_\-json}
+\begin{DoxyCompactList}\small\item\em Check if it is a json string. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ac01dccda26fb7460492c869a9af8eb5f}{post\-\_\-request}
+\begin{DoxyCompactList}\small\item\em General member method to perform a .post request to the. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a0ef5174b6c645896d5da8fb334fc851c}{run\-\_\-job}
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a10a417e6895d6266493e9d2369d14fb4}{session\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_aeced30397e0945171d1a443b681b8335}{\-\_\-\-\_\-mount\-\_\-adapters}
+\begin{DoxyCompactList}\small\item\em Mount http and https Transport \hyperlink{namespaceRappCloud_1_1ServiceController_1_1Adapters}{Adapters} to the session. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a55b15ec29942ac811e8a6d108682fc7f}{\-\_\-post\-\_\-persistent}
+\begin{DoxyCompactList}\small\item\em Post Request using active session -\/ persistent connection. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_aeed65d159bcedf2fe41074237fbad5f8}{\-\_\-post\-\_\-session\-\_\-once}
+\begin{DoxyCompactList}\small\item\em Post Request while initiating a new session. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a333e3808f2549547f5093c6b188e55aa}{\-\_\-\-\_\-auth}
+\item 
+\hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ab7303f094e915c6641c80d0ad1b29c38}{\-\_\-\-\_\-custom\-Headers}
+\item 
+\hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a29bcaa0b11a0b7796d7f541409648710}{\-\_\-service}
+\begin{DoxyCompactList}\small\item\em Cloud \hyperlink{namespaceRappCloud_1_1Service}{Service} instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}Service Controller base class implementation \end{DoxyVerb}
+ 
+
+Definition at line 44 of file Service\-Controller\-Base.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ae88d9e011ea1564c2f24984959bb75f7}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{service}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ae88d9e011ea1564c2f24984959bb75f7}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service} & \hyperlink{namespaceRappCloud_1_1Service}{Service}\-: \hyperlink{namespaceRappCloud_1_1Service}{Service} instance \\
+\hline
+{\em connection} & dictionary\-: Connection information. \\
+\hline
+{\em timeout} & int\-: Connection Timeout value. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 47 of file Service\-Controller\-Base.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_aeced30397e0945171d1a443b681b8335}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!\-\_\-\-\_\-mount\-\_\-adapters@{\-\_\-\-\_\-mount\-\_\-adapters}}
+\index{\-\_\-\-\_\-mount\-\_\-adapters@{\-\_\-\-\_\-mount\-\_\-adapters}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{\-\_\-\-\_\-mount\-\_\-adapters}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-\_\-\-\_\-mount\-\_\-adapters (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{session}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_aeced30397e0945171d1a443b681b8335}
+
+
+Mount http and https Transport \hyperlink{namespaceRappCloud_1_1ServiceController_1_1Adapters}{Adapters} to the session. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & Session -\/ The session to mount the adapters. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 172 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a55b15ec29942ac811e8a6d108682fc7f}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!\-\_\-post\-\_\-persistent@{\-\_\-post\-\_\-persistent}}
+\index{\-\_\-post\-\_\-persistent@{\-\_\-post\-\_\-persistent}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{\-\_\-post\-\_\-persistent}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-\_\-post\-\_\-persistent (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{url, }
+\item[{}]{data, }
+\item[{}]{files}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a55b15ec29942ac811e8a6d108682fc7f}
+
+
+Post Request using active session -\/ persistent connection. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & dictionary -\/ the data payload to send. \\
+\hline
+{\em files} & Array -\/ Array of serialized File objects to send. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 163 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_aeed65d159bcedf2fe41074237fbad5f8}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!\-\_\-post\-\_\-session\-\_\-once@{\-\_\-post\-\_\-session\-\_\-once}}
+\index{\-\_\-post\-\_\-session\-\_\-once@{\-\_\-post\-\_\-session\-\_\-once}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{\-\_\-post\-\_\-session\-\_\-once}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-\_\-post\-\_\-session\-\_\-once (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{url, }
+\item[{}]{data, }
+\item[{}]{files}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_aeed65d159bcedf2fe41074237fbad5f8}
+
+
+Post Request while initiating a new session. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & dictionary -\/ the data payload to send. \\
+\hline
+{\em files} & Array -\/ Array of serialized File objects to send. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 151 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a38b601cc90b65004cfff9939ab8906dc}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!basename@{basename}}
+\index{basename@{basename}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{basename}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-basename (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filepath}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a38b601cc90b65004cfff9939ab8906dc}
+
+
+Return the basename of input filepath. 
+
+
+
+Definition at line 87 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a9f61ae2c557e155eb12983421f225c08}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!handle\-\_\-exception@{handle\-\_\-exception}}
+\index{handle\-\_\-exception@{handle\-\_\-exception}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{handle\-\_\-exception}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-handle\-\_\-exception (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{exc}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a9f61ae2c557e155eb12983421f225c08}
+
+
+Handles exceptions and return an error message that complies to the Exception caught. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em exc} & Exception of any type \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 181 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a81715dbf8dc123500d5c9e8141f8ba0c}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!is\-\_\-json@{is\-\_\-json}}
+\index{is\-\_\-json@{is\-\_\-json}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{is\-\_\-json}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-is\-\_\-json (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{obj}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a81715dbf8dc123500d5c9e8141f8ba0c}
+
+
+Check if it is a json string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em obj} & string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/ True if is a json. False otherwise. 
+\end{DoxyReturn}
+
+
+Definition at line 70 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ac01dccda26fb7460492c869a9af8eb5f}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!post\-\_\-request@{post\-\_\-request}}
+\index{post\-\_\-request@{post\-\_\-request}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{post\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-post\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{session, }
+\item[{}]{url, }
+\item[{}]{payload = {\ttfamily \{\}}, }
+\item[{}]{files = {\ttfamily \mbox{[}\mbox{]}}}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ac01dccda26fb7460492c869a9af8eb5f}
+
+
+General member method to perform a .post request to the. 
+
+Platform service. If files are specified, then multipart/form-\/data form is used. Otherwhise, x-\/www-\/urlencoded form is used.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session} & The session oject to use for this request. \\
+\hline
+{\em urlpath} & The complete urlpath of the request. \\
+\hline
+{\em data} & The data to send. Literal. \\
+\hline
+{\em files} & Files to send.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+dictionary -\/ Platform \hyperlink{namespaceRappCloud_1_1Service}{Service} response. 
+\end{DoxyReturn}
+
+
+Definition at line 93 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a0ef5174b6c645896d5da8fb334fc851c}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!run\-\_\-job@{run\-\_\-job}}
+\index{run\-\_\-job@{run\-\_\-job}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{run\-\_\-job}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-run\-\_\-job (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a0ef5174b6c645896d5da8fb334fc851c}
+
+
+Definition at line 83 of file Service\-Controller\-Base.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a333e3808f2549547f5093c6b188e55aa}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!\-\_\-\-\_\-auth@{\-\_\-\-\_\-auth}}
+\index{\-\_\-\-\_\-auth@{\-\_\-\-\_\-auth}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{\-\_\-\-\_\-auth}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-\_\-\-\_\-auth\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a333e3808f2549547f5093c6b188e55aa}
+
+
+Definition at line 62 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ab7303f094e915c6641c80d0ad1b29c38}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!\-\_\-\-\_\-custom\-Headers@{\-\_\-\-\_\-custom\-Headers}}
+\index{\-\_\-\-\_\-custom\-Headers@{\-\_\-\-\_\-custom\-Headers}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{\-\_\-\-\_\-custom\-Headers}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-\_\-\-\_\-custom\-Headers\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_ab7303f094e915c6641c80d0ad1b29c38}
+
+
+Definition at line 64 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a29bcaa0b11a0b7796d7f541409648710}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!\-\_\-service@{\-\_\-service}}
+\index{\-\_\-service@{\-\_\-service}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-\_\-service\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a29bcaa0b11a0b7796d7f541409648710}
+
+
+Cloud \hyperlink{namespaceRappCloud_1_1Service}{Service} instance. 
+
+
+
+Definition at line 55 of file Service\-Controller\-Base.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a10a417e6895d6266493e9d2369d14fb4}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}!session\-\_\-@{session\-\_\-}}
+\index{session\-\_\-@{session\-\_\-}!RappCloud::ServiceController::ServiceControllerBase::ServiceControllerBase@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Base\-::\-Service\-Controller\-Base}}
+\subsubsection[{session\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Base.\-Service\-Controller\-Base.\-session\-\_\-}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerBase_1_1ServiceControllerBase_a10a417e6895d6266493e9d2369d14fb4}
+
+
+Definition at line 59 of file Service\-Controller\-Base.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/python/\-Rapp\-Cloud/\-Service\-Controller/\hyperlink{ServiceControllerBase_8py}{Service\-Controller\-Base.\-py}\end{DoxyCompactItemize}

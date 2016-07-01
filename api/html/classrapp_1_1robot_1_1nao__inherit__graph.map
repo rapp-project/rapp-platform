@@ -1,5 +1,0 @@
-<map id="rapp::robot::nao" name="rapp::robot::nao">
-<area shape="rect" id="node2" href="$classrapp_1_1robot_1_1proto.html" title="Abstract Base Class (ABC) Interface Prototype for all Robots. " alt="" coords="5,5,125,32"/>
-<area shape="rect" id="node3" href="$classrapp_1_1robot_1_1navigation.html" title="Abstract Base Class (ABC) Interface for Navigation. " alt="" coords="150,5,300,32"/>
-<area shape="rect" id="node4" href="$classrapp_1_1robot_1_1vision.html" title="Abstract Base Class (ABC) Interface for Vision. " alt="" coords="325,5,451,32"/>
-</map>

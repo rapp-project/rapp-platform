@@ -1,0 +1,106 @@
+The current tutorial describes a more complicated application, as it will employ both the robot-\/agnostic R\-A\-P\-P robot A\-P\-I and the R\-A\-P\-P Platform A\-P\-I, aiming to implement a simple detection of a Q\-R code, as well as a reaction from N\-A\-O. This application will be executed remotely in a P\-C.
+
+For this tutorial we will use the following tools\-:
+
+
+\begin{DoxyItemize}
+\item A real N\-A\-O robot
+\item the Nao\-Qi Python libraries
+\item the rapp-\/robots-\/api Github repository
+\item the rapp-\/api Github repository
+\item the rapp-\/platform up and running
+\end{DoxyItemize}
+
+Of course the standard prerequisites are a functional installation of Ubuntu 14.\-04, an editor and a terminal.
+
+\subsection*{Preparation steps}
+
+\paragraph*{Nao\-Q\-I Python libraries setup}
+
+Please check \href{https://github.com/rapp-project/rapp-platform/wiki/Create-a-remote-robotic-application-for-NAO-in-Python-(novice}{\tt here}\#naoqi-\/python-\/libraries-\/setup).
+
+\paragraph*{R\-A\-P\-P Robots Python A\-P\-I setup}
+
+Please check \href{https://github.com/rapp-project/rapp-platform/wiki/Create-a-remote-robotic-application-for-NAO-in-Python-(novice}{\tt here}\#rapp-\/robots-\/api-\/libraries-\/setup).
+
+\paragraph*{R\-A\-P\-P Platform A\-P\-I setup}
+
+It is assumed that till now you have created the {\ttfamily $\sim$/rapp\-\_\-nao} folder where the Nao\-Qi Python libraries and the R\-A\-P\-P Robots A\-P\-I Python libraries exist. The next step is to clone the R\-A\-P\-P Platform A\-P\-I\-:
+
+```bash cd $\sim$/rapp\-\_\-nao git clone \href{https://github.com/rapp-project/rapp-api.git}{\tt https\-://github.\-com/rapp-\/project/rapp-\/api.\-git} ```
+
+In order to utilize the R\-A\-P\-P Platform A\-P\-I the P\-Y\-T\-H\-O\-N\-P\-A\-T\-H environmental variable has to be updated\-:
+
+```bash echo 'export P\-Y\-T\-H\-O\-N\-P\-A\-T\-H=\$\-P\-Y\-T\-H\-O\-N\-P\-A\-T\-H\-:$\sim$/rapp\-\_\-nao/rapp-\/api/python' $>$$>$ $\sim$/.bashrc source $\sim$/.bashrc ```
+
+It should be stated that if you have already set-\/up the R\-A\-P\-P Platform in your P\-C, the R\-A\-P\-P Platform A\-P\-I has been already installed and the previous step is not necessary.
+
+\paragraph*{R\-A\-P\-P Platform setup}
+
+In order to set-\/up the R\-A\-P\-P Platform you can follow \href{https://github.com/rapp-project/rapp-platform/wiki/How-can-I-set-up-the-RAPP-Platform-in-my-PC%3F}{\tt this tutorial}. Have in mind that the R\-A\-P\-P Platform installation is quite time consuming.
+
+\subsection*{Writing the application}
+
+Let's create a Python file for our application and give it execution rights\-:
+
+```bash cd $\sim$/rapp\-\_\-nao mkdir rapps \&\& cd rapps touch qr\-\_\-app.\-py chmod +x qr\-\_\-app.\-py ```
+
+The robotic application follows\-:
+
+```python \#!/usr/bin/env python
+
+import time, threading from os.\-path import expanduser
+
+\section*{Import the R\-A\-P\-P Robot A\-P\-I}
+
+from rapp\-\_\-robot\-\_\-api import Rapp\-Robot \section*{Import the R\-A\-P\-P Platform A\-P\-I}
+
+from Rapp\-Cloud import Rapp\-Platform\-A\-P\-I
+
+\section*{Create an object in order to call the desired functions}
+
+rh = Rapp\-Robot() ch = Rapp\-Platform\-A\-P\-I()
+
+\section*{Enable the N\-A\-O motors for the head to move}
+
+rh.\-motion.\-enable\-Motors()
+
+def callback()\-: print \char`\"{}\-Callback called!\char`\"{} \section*{Capture an image from the N\-A\-O cameras}
+
+rh.\-vision.\-capture\-Photo(\char`\"{}/home/nao/qr.\-jpg\char`\"{}, \char`\"{}front\char`\"{}, \char`\"{}640x480\char`\"{}) \section*{Get the photo to the P\-C}
+
+rh.\-utilities.\-move\-File\-To\-P\-C(\char`\"{}/home/nao/qr.\-jpg\char`\"{}, expanduser(\char`\"{}$\sim$\char`\"{}) + \char`\"{}/\-Pictures/qr.\-jpg\char`\"{}) \section*{Check if Q\-Rs exist}
+
+image\-Filepath = expanduser(\char`\"{}$\sim$\char`\"{}) + \char`\"{}/\-Pictures/qr.\-jpg\char`\"{} res = ch.\-qr\-Detection(image\-Filepath) print \char`\"{}\-Call to platform finished\char`\"{}
+
+if len(res\mbox{[}'qr\-\_\-centers'\mbox{]}) == 0\-: \# No Q\-R codes were detected print \char`\"{}\-No Q\-R codes were detected\char`\"{} else\-: \# One or more Q\-R codes detected print \char`\"{}\-Q\-R code detected\char`\"{} qr\-\_\-center = res\mbox{[}'qr\-\_\-centers'\mbox{]}\mbox{[}0\mbox{]} qr\-\_\-message = res\mbox{[}'qr\-\_\-messages'\mbox{]}\mbox{[}0\mbox{]}
+
+\section*{Directions are computed bounded in \mbox{[}-\/1,1\mbox{]}}
+
+dir\-\_\-x = (qr\-\_\-center\mbox{[}'x'\mbox{]} -\/ (640.\-0/2.0)) / (640.\-0 / 2.\-0) dir\-\_\-y = (qr\-\_\-center\mbox{[}'y'\mbox{]} -\/ (480.\-0/2.0)) / (480.\-0 / 2.\-0) angle\-\_\-x = -\/dir\-\_\-x $\ast$ 30.\-0 / 180.\-0 $\ast$ 3.\-1415 angle\-\_\-y = dir\-\_\-y $\ast$ 23.\-7 / 180.\-0 $\ast$ 3.\-1415
+
+\section*{Get N\-A\-O head angles}
+
+ans = rh.\-humanoid\-\_\-motion.\-get\-Joint\-Angles(\mbox{[}\char`\"{}\-Head\-Yaw\char`\"{}, \char`\"{}\-Head\-Pitch\char`\"{}\mbox{]}) angles = ans\mbox{[}'angles'\mbox{]}
+
+\section*{Set N\-A\-O angles according to the Q\-R center}
+
+rh.\-humanoid\-\_\-motion.\-set\-Joint\-Angles(\mbox{[}\char`\"{}\-Head\-Yaw\char`\"{}, \char`\"{}\-Head\-Pitch\char`\"{}\mbox{]}, \textbackslash{} \mbox{[}angle\-\_\-x + angles\mbox{[}0\mbox{]}, angle\-\_\-y + angles\mbox{[}1\mbox{]}\mbox{]}, 0.\-1)
+
+if callback.\-qr\-\_\-found == False\-: rh.\-audio.\-speak(\char`\"{}\-I found a Q\-R with message\-: \char`\"{} + qr\-\_\-message) rh.\-audio.\-speak(\char`\"{}\-I will track it\char`\"{}) callback.\-qr\-\_\-found = True
+
+\section*{Capture an image from the N\-A\-O cameras}
+
+rh.\-vision.\-capture\-Photo(\char`\"{}/home/nao/qr.\-jpg\char`\"{}, \char`\"{}front\char`\"{}, \char`\"{}640x480\char`\"{}) \section*{Get the photo to the P\-C}
+
+rh.\-utilities.\-move\-File\-To\-P\-C(\char`\"{}/home/nao/qr.\-jpg\char`\"{}, expanduser(\char`\"{}$\sim$\char`\"{}) + \char`\"{}/\-Pictures/qr.\-jpg\char`\"{})
+
+threading.\-Timer(0, callback).start()
+
+callback.\-qr\-\_\-found = False callback() ```
+
+In order to execute the application the R\-A\-P\-P Platform must be up and running. This can be done by executing the two deployment scripts\-:
+
+``` bash $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-scripts/deploy/deploy\-\_\-rapp\-\_\-ros.sh ``` and ``` bash $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-scripts/deploy/deploy\-\_\-web\-\_\-services.sh ```
+
+Finally, you just have to execute {\ttfamily python $\sim$/rapp\-\_\-nao/rapps/qr\-\_\-app.py} to deploy the application. 

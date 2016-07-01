@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -95,7 +94,7 @@ $(document).ready(function(){initNavTree('rapp__detect__silence_8py_source.html'
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -157,7 +156,7 @@ $(document).ready(function(){initNavTree('rapp__detect__silence_8py_source.html'
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, len(sq_signal)):</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      sq_signal[i] *= sq_signal[i]</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mean_sq = mean(sq_signal)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    std_sq = std(sq_signal)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    std_sq = <a class="code" href="namespacestd.html">std</a>(sq_signal)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    rsd_sq = std_sq / mean_sq</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    has_silence = <span class="keyword">False</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> rsd_sq &gt; threshold:</div>
@@ -167,14 +166,15 @@ $(document).ready(function(){initNavTree('rapp__detect__silence_8py_source.html'
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> [rsd_sq, has_silence]</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="ttc" id="classrapp__audio__processing_1_1rapp__detect__silence_1_1DetectSilence_html"><div class="ttname"><a href="classrapp__audio__processing_1_1rapp__detect__silence_1_1DetectSilence.html">rapp_audio_processing.rapp_detect_silence.DetectSilence</a></div><div class="ttdoc">Performs silence detection on an audio file. </div><div class="ttdef"><b>Definition:</b> <a href="rapp__detect__silence_8py_source.html#l00029">rapp_detect_silence.py:29</a></div></div>
+<div class="ttc" id="namespacestd_html"><div class="ttname"><a href="namespacestd.html">std</a></div></div>
 <div class="ttc" id="classrapp__audio__processing_1_1rapp__detect__silence_1_1DetectSilence_html_a873f771baa016361139e37e7c49d4b48"><div class="ttname"><a href="classrapp__audio__processing_1_1rapp__detect__silence_1_1DetectSilence.html#a873f771baa016361139e37e7c49d4b48">rapp_audio_processing.rapp_detect_silence.DetectSilence.detectSilence</a></div><div class="ttdeci">def detectSilence</div><div class="ttdoc">Detects silence. </div><div class="ttdef"><b>Definition:</b> <a href="rapp__detect__silence_8py_source.html#l00041">rapp_detect_silence.py:41</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_8a71504257ab3bd0e56a921468ddd42b.html">rapp_audio_processing</a></li><li class="navelem"><a class="el" href="dir_0da8a6dffe4698f6c330175b5ac6fa90.html">src</a></li><li class="navelem"><a class="el" href="dir_5f740fad9dbc1282ccd09cb6025f0b00.html">rapp_audio_processing</a></li><li class="navelem"><a class="el" href="rapp__detect__silence_8py.html">rapp_detect_silence.py</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_ab0f9e50f1bcb689f33df8375989bafe.html">rapp_audio_processing</a></li><li class="navelem"><a class="el" href="dir_8bb35fb80629d34b4990cfb5ea684bb9.html">src</a></li><li class="navelem"><a class="el" href="dir_84a286ed91f5cb8cf67ffaeee86a9ce2.html">rapp_audio_processing</a></li><li class="navelem"><a class="el" href="rapp__detect__silence_8py.html">rapp_detect_silence.py</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:30 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

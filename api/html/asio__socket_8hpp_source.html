@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>RAPP Platform API: /home/travis/rapp_temp/rapp-api/cpp/includes/service/asio_socket/asio_socket.hpp Source File</title>
+<title>RAPP Platform API: /home/travis/rapp_temp/rapp-api/cpp/includes/cloud/asio_socket/asio_socket.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('asio__socket_8hpp_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -108,37 +108,45 @@ $(document).ready(function(){initNavTree('asio__socket_8hpp_source.html','');});
 <div class="contents">
 <a href="asio__socket_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef RAPP_ASIO_SOCKET_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define RAPP_ASIO_SOCKET_</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="service_2asio__socket_2Includes_8ihh.html">Includes.ihh</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>rapp {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span>services {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classrapp_1_1services_1_1asio__socket.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapp_1_1services_1_1asio__socket.html">asio_socket</a></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classrapp_1_1services_1_1asio__socket.html#a1241f0694fea6c2f13c361ddef13360b">Schedule</a> ( </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                             boost::asio::ip::tcp::resolver::query &amp; ,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                             boost::asio::ip::tcp::resolver &amp; ,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                             boost::asio::io_service &amp;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                          ) = 0;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;};</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classrapp_1_1services_1_1asio__socket_html"><div class="ttname"><a href="classrapp_1_1services_1_1asio__socket.html">rapp::services::asio_socket</a></div><div class="ttdoc">Abstract Base ASIO Socket class. </div><div class="ttdef"><b>Definition:</b> <a href="asio__socket_8hpp_source.html#l00019">asio_socket.hpp:19</a></div></div>
-<div class="ttc" id="classrapp_1_1services_1_1asio__socket_html_a1241f0694fea6c2f13c361ddef13360b"><div class="ttname"><a href="classrapp_1_1services_1_1asio__socket.html#a1241f0694fea6c2f13c361ddef13360b">rapp::services::asio_socket::Schedule</a></div><div class="ttdeci">virtual void Schedule(boost::asio::ip::tcp::resolver::query &amp;, boost::asio::ip::tcp::resolver &amp;, boost::asio::io_service &amp;)=0</div></div>
-<div class="ttc" id="service_2asio__socket_2Includes_8ihh_html"><div class="ttname"><a href="service_2asio__socket_2Includes_8ihh.html">Includes.ihh</a></div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;<a class="code" href="cloud_2asio__socket_2includes_8ihh.html">includes.ihh</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">namespace </span>rapp {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span>cloud {</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespacerapp_1_1cloud.html#afb654734a7584ea0243e431aaebd4728">    8</a></span>&#160;constexpr <span class="keywordtype">char</span> <a class="code" href="namespacerapp_1_1cloud.html#afb654734a7584ea0243e431aaebd4728">address</a>[] = <span class="stringliteral">&quot;localhost&quot;</span>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespacerapp_1_1cloud.html#ae0e4cb6fd54bbf45234fc3c21f752b7a">   10</a></span>&#160;constexpr <span class="keywordtype">char</span> <a class="code" href="namespacerapp_1_1cloud.html#ae0e4cb6fd54bbf45234fc3c21f752b7a">port</a>[] = <span class="stringliteral">&quot;9001&quot;</span>;    </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="classrapp_1_1cloud_1_1asio__socket.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="classrapp_1_1cloud_1_1asio__socket.html">asio_socket</a></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classrapp_1_1cloud_1_1asio__socket.html#a3782c40466dc0ce70d645d65bcae6c01">schedule</a>(</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                             boost::asio::ip::tcp::resolver::query &amp; ,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                             boost::asio::ip::tcp::resolver &amp; ,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                             boost::asio::io_service &amp;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                         ) = 0;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">    virtual void schedule(</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">                             boost::asio::ip::tcp::resolver::query &amp; ,</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">                             boost::asio::ip::tcp::resolver &amp; ,</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">                             boost::asio::io_service &amp;,</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">                             const boost::system::error_code &amp;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">                         ) = 0;</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classrapp_1_1cloud_1_1asio__socket_html_a3782c40466dc0ce70d645d65bcae6c01"><div class="ttname"><a href="classrapp_1_1cloud_1_1asio__socket.html#a3782c40466dc0ce70d645d65bcae6c01">rapp::cloud::asio_socket::schedule</a></div><div class="ttdeci">virtual void schedule(boost::asio::ip::tcp::resolver::query &amp;, boost::asio::ip::tcp::resolver &amp;, boost::asio::io_service &amp;)=0</div></div>
+<div class="ttc" id="namespacerapp_1_1cloud_html_ae0e4cb6fd54bbf45234fc3c21f752b7a"><div class="ttname"><a href="namespacerapp_1_1cloud.html#ae0e4cb6fd54bbf45234fc3c21f752b7a">rapp::cloud::port</a></div><div class="ttdeci">constexpr char port[]</div><div class="ttdoc">api.rapp.cloud - HOP server port </div><div class="ttdef"><b>Definition:</b> <a href="asio__socket_8hpp_source.html#l00010">asio_socket.hpp:10</a></div></div>
+<div class="ttc" id="cloud_2asio__socket_2includes_8ihh_html"><div class="ttname"><a href="cloud_2asio__socket_2includes_8ihh.html">includes.ihh</a></div></div>
+<div class="ttc" id="namespacerapp_1_1cloud_html_afb654734a7584ea0243e431aaebd4728"><div class="ttname"><a href="namespacerapp_1_1cloud.html#afb654734a7584ea0243e431aaebd4728">rapp::cloud::address</a></div><div class="ttdeci">constexpr char address[]</div><div class="ttdoc">api.rapp.cloud - </div><div class="ttdef"><b>Definition:</b> <a href="asio__socket_8hpp_source.html#l00008">asio_socket.hpp:8</a></div></div>
+<div class="ttc" id="classrapp_1_1cloud_1_1asio__socket_html"><div class="ttname"><a href="classrapp_1_1cloud_1_1asio__socket.html">rapp::cloud::asio_socket</a></div><div class="ttdoc">Abstract Base ASIO Socket class Use for passing around to the service controller, various types of cl...</div><div class="ttdef"><b>Definition:</b> <a href="asio__socket_8hpp_source.html#l00022">asio_socket.hpp:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="dir_d2363402036ba4b651bf42200db1c9ac.html">includes</a></li><li class="navelem"><a class="el" href="dir_c96e21c3ba3fc1ea996c2393f5e5b423.html">service</a></li><li class="navelem"><a class="el" href="dir_ec80d1d3945ca80b9a8e7d6e93993eb1.html">asio_socket</a></li><li class="navelem"><a class="el" href="asio__socket_8hpp.html">asio_socket.hpp</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:02:11 for RAPP Platform API by
+    <li class="navelem"><a class="el" href="dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="dir_d2363402036ba4b651bf42200db1c9ac.html">includes</a></li><li class="navelem"><a class="el" href="dir_7feab8a8b51eae0f7e17324b9d4c3614.html">cloud</a></li><li class="navelem"><a class="el" href="dir_9a0c506571eb17115b47f75443a90aa6.html">asio_socket</a></li><li class="navelem"><a class="el" href="asio__socket_8hpp.html">asio_socket.hpp</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:48 for RAPP Platform API by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

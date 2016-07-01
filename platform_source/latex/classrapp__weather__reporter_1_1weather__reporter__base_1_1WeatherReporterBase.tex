@@ -1,0 +1,175 @@
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase}{\section{rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base Class Reference}
+\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase}\index{rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base}}
+}
+
+
+Base class for weather reporters.  
+
+
+
+
+Inheritance diagram for rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=260pt]{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_aa0e1faaa2dcde236c7120c5c67dba93f}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adc2e313c45d4ec74f2d006cc6dce9ea4}{fetch\-\_\-current\-\_\-weather}
+\begin{DoxyCompactList}\small\item\em Abstract method to fetch weather report. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_aee6843b385bb5aa321ab7b4fd852bcdf}{fetch\-\_\-weather\-\_\-forecast}
+\begin{DoxyCompactList}\small\item\em Abstract method to fetch weather forecast. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_ac18124b549d9ff6e54551b96013e953d}{rapp\-\_\-http\-\_\-json\-\_\-parser}
+\begin{DoxyCompactList}\small\item\em Strips html tags from strings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adbd388f1ab76eab66fb4d98339c50a34}{\-\_\-accepted\-\_\-status}
+\begin{DoxyCompactList}\small\item\em The value of valid response status code. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_a1421dd02127a1b5a337d7e95260b2d65}{\-\_\-http\-\_\-request}
+\begin{DoxyCompactList}\small\item\em Perform http requests to servers. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adba60d6002ff377cf99a86bade077a07}{\-\_\-url}
+\begin{DoxyCompactList}\small\item\em The base weather reporter url. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_a6256451c2bd46583f7af4b37733d2ffe}{\-\_\-\-\_\-metaclass\-\_\-\-\_\-} = abc.\-A\-B\-C\-Meta
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for weather reporters. 
+
+Definition at line 32 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_aa0e1faaa2dcde236c7120c5c67dba93f}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_aa0e1faaa2dcde236c7120c5c67dba93f}
+
+
+Constructor. 
+
+
+
+Definition at line 37 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adc2e313c45d4ec74f2d006cc6dce9ea4}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!fetch\-\_\-current\-\_\-weather@{fetch\-\_\-current\-\_\-weather}}
+\index{fetch\-\_\-current\-\_\-weather@{fetch\-\_\-current\-\_\-weather}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{fetch\-\_\-current\-\_\-weather}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-fetch\-\_\-current\-\_\-weather (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adc2e313c45d4ec74f2d006cc6dce9ea4}
+
+
+Abstract method to fetch weather report. 
+
+
+
+Definition at line 52 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_aee6843b385bb5aa321ab7b4fd852bcdf}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!fetch\-\_\-weather\-\_\-forecast@{fetch\-\_\-weather\-\_\-forecast}}
+\index{fetch\-\_\-weather\-\_\-forecast@{fetch\-\_\-weather\-\_\-forecast}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{fetch\-\_\-weather\-\_\-forecast}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-fetch\-\_\-weather\-\_\-forecast (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_aee6843b385bb5aa321ab7b4fd852bcdf}
+
+
+Abstract method to fetch weather forecast. 
+
+
+
+Definition at line 58 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_a6256451c2bd46583f7af4b37733d2ffe}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!\-\_\-\-\_\-metaclass\-\_\-\-\_\-@{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-metaclass\-\_\-\-\_\-@{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-\_\-\-\_\-metaclass\-\_\-\-\_\- = abc.\-A\-B\-C\-Meta\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_a6256451c2bd46583f7af4b37733d2ffe}
+
+
+Definition at line 34 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adbd388f1ab76eab66fb4d98339c50a34}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}}
+\index{\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{\-\_\-accepted\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-\_\-accepted\-\_\-status\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adbd388f1ab76eab66fb4d98339c50a34}
+
+
+The value of valid response status code. 
+
+
+
+Definition at line 42 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_a1421dd02127a1b5a337d7e95260b2d65}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!\-\_\-http\-\_\-request@{\-\_\-http\-\_\-request}}
+\index{\-\_\-http\-\_\-request@{\-\_\-http\-\_\-request}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{\-\_\-http\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-\_\-http\-\_\-request\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_a1421dd02127a1b5a337d7e95260b2d65}
+
+
+Perform http requests to servers. 
+
+
+
+Definition at line 45 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adba60d6002ff377cf99a86bade077a07}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!\-\_\-url@{\-\_\-url}}
+\index{\-\_\-url@{\-\_\-url}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{\-\_\-url}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-\_\-url\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_adba60d6002ff377cf99a86bade077a07}
+
+
+The base weather reporter url. 
+
+
+
+Definition at line 39 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+\hypertarget{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_ac18124b549d9ff6e54551b96013e953d}{\index{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}!rapp\-\_\-http\-\_\-json\-\_\-parser@{rapp\-\_\-http\-\_\-json\-\_\-parser}}
+\index{rapp\-\_\-http\-\_\-json\-\_\-parser@{rapp\-\_\-http\-\_\-json\-\_\-parser}!rapp_weather_reporter::weather_reporter_base::WeatherReporterBase@{rapp\-\_\-weather\-\_\-reporter\-::weather\-\_\-reporter\-\_\-base\-::\-Weather\-Reporter\-Base}}
+\subsubsection[{rapp\-\_\-http\-\_\-json\-\_\-parser}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-weather\-\_\-reporter.\-weather\-\_\-reporter\-\_\-base.\-Weather\-Reporter\-Base.\-rapp\-\_\-http\-\_\-json\-\_\-parser}}\label{classrapp__weather__reporter_1_1weather__reporter__base_1_1WeatherReporterBase_ac18124b549d9ff6e54551b96013e953d}
+
+
+Strips html tags from strings. 
+
+
+
+Definition at line 48 of file weather\-\_\-reporter\-\_\-base.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-weather\-\_\-reporter/src/rapp\-\_\-weather\-\_\-reporter/\hyperlink{weather__reporter__base_8py}{weather\-\_\-reporter\-\_\-base.\-py}\end{DoxyCompactItemize}

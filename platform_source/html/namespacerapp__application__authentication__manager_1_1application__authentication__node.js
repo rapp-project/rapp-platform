@@ -1,0 +1,4 @@
+var namespacerapp__application__authentication__manager_1_1application__authentication__node =
+[
+    [ "ApplicationAuthenticationManager", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager" ]
+];

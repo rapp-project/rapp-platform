@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -97,7 +96,7 @@ $(document).ready(function(){initNavTree('classFaceDetector.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -114,10 +113,10 @@ $(document).ready(function(){initNavTree('classFaceDetector.html','');});
 
 <p>This is the complete list of members for <a class="el" href="classFaceDetector.html">FaceDetector</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classFaceDetector.html#abfbe382ac183aff81abe56585cb58f2f">detectFaces</a>(const cv::Mat &amp;input_img)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classFaceDetector.html#a154988581f876e3a15f59c57c4420df8">detectFaces</a>(const cv::Mat &amp;input_img, bool fast=false)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classFaceDetector.html#a442209589a939c663ed1ab07dd6c3a90">detectFaces</a>(const cv::Mat &amp;input_img, const std::string &amp;haar_path)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classFaceDetector.html#af08a8c38a26b029e02e05d8d9498332c">FaceDetector</a>(void)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classFaceDetector.html#a2b337f0b4fb0d0865334c928ac8629ef">findFaces</a>(std::string file_name)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classFaceDetector.html#a590b5ba361a049b2b93d63ebb7518647">findFaces</a>(std::string file_name, bool fast=false)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classFaceDetector.html#a31426b2557e0548c5ca5c0542e51f394">identifyUniqueFaces</a>(const std::vector&lt; cv::Rect &gt; firstFaceVector, const std::vector&lt; cv::Rect &gt; secondFaceVector)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
   <tr><td class="entry"><a class="el" href="classFaceDetector.html#ad8223498ebc15a177485f86274583d81">loadImage</a>(std::string file_name)</td><td class="entry"><a class="el" href="classFaceDetector.html">FaceDetector</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
@@ -125,7 +124,7 @@ $(document).ready(function(){initNavTree('classFaceDetector.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:30 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

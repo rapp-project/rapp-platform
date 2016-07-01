@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('ontology__example_8cpp_source.html',''
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -106,52 +106,50 @@ $(document).ready(function(){initNavTree('ontology__example_8cpp_source.html',''
 <div class="title">ontology_example.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="ontology__example_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;../includes/service/service_controller/service_controller.hpp&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;../includes/cloud/ontologySubClassesOf/ontologySubClassesOf.hpp&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../includes/cloud/ontologySuperClassesOf/ontologySuperClassesOf.hpp&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;../includes/cloud/ontologyIsSubSuperClassOf/ontologyIsSubSuperClassOf.hpp&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="ontology__example_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">    7</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="ontology__example_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a> ( <span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[] )</div>
+<a href="ontology__example_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="service__controller_8hpp.html">cloud/service_controller/service_controller.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="ontology_8hpp.html">cloud/ontology/ontology.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="ontology__example_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">    7</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="ontology__example_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[])</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="comment">// Service Controller </span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <a class="code" href="classrapp_1_1services_1_1service__controller.html">rapp::services::service_controller</a> ctrl;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="comment">// Subclass Ontologies</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">auto</span> cb1 = []( std::vector&lt;std::string&gt; classes )</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;               { </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keyword">const</span> <span class="keyword">auto</span> &amp; str : classes )</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                        std::cout &lt;&lt; str &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;               };</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                    </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">auto</span> subclassHandle = std::make_shared&lt;rapp::cloud::ontologySubClassesOf&gt;( <span class="stringliteral">&quot;Oven&quot;</span>, cb1 );</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;   </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="comment">// Superclass Ontologies</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">auto</span> cb2 = []( std::vector&lt;std::string&gt; classes )</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                 {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                    <span class="keywordflow">for</span> ( <span class="keyword">const</span> <span class="keyword">auto</span> &amp; str : classes )</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                        std::cout &lt;&lt; str &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                 };</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">auto</span> superclassHandle = std::make_shared&lt;rapp::cloud::ontologySuperClassesOf&gt;( <span class="stringliteral">&quot;Oven&quot;</span>, cb2 );</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment">// SubSuperClass Of</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">auto</span> cb3 = []( <span class="keywordtype">bool</span> result )</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                 {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;is Subclass Superclass of &quot;</span> &lt;&lt; result &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                 };</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">auto</span> subsuperclassHandle = std::make_shared&lt;rapp::cloud::ontologyIsSubSuperClassOf&gt;( <span class="stringliteral">&quot;Oven&quot;</span>, <span class="stringliteral">&quot;SpatialThing&quot;</span>, <span class="keyword">false</span>, cb3 );</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">if</span> (argc &gt; 1)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;query sub/super classes of: &quot;</span> &lt;&lt; argv[1] &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        std::string query = argv[1];</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        std::string token = <span class="stringliteral">&quot;my_token&quot;</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="comment">// Service Controller </span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="classrapp_1_1cloud_1_1service__controller.html">rapp::cloud::service_controller</a> ctrl;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="comment">// Subclass Ontologies callback</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keyword">auto</span> sb_cb = [](std::vector&lt;std::string&gt; classes)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                     { </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp; str : classes)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                            std::cout &lt;&lt; str &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                     };</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="comment">// the caller object</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keyword">auto</span> sub_call = std::make_shared&lt;rapp::cloud::ontology_subclasses_of&gt;(query, <span class="keyword">false</span>, sb_cb, token);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="comment">// Superclass Ontologies</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">auto</span> sp_cb = [](std::vector&lt;std::string&gt; classes)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                     {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp; str : classes)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                            std::cout &lt;&lt; str &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                     };</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">// the caller</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">auto</span> super_call = std::make_shared&lt;rapp::cloud::ontology_superclasses_of&gt;(query, <span class="keyword">false</span>, sp_cb, token);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// Request from service controller to run this job</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    ctrl.<a class="code" href="classrapp_1_1services_1_1service__controller.html#a9a3617c5d622c8571a0306a6cc451fdb">runJob</a> ( subclassHandle );</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ctrl.<a class="code" href="classrapp_1_1services_1_1service__controller.html#a9a3617c5d622c8571a0306a6cc451fdb">runJob</a> ( superclassHandle );</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ctrl.<a class="code" href="classrapp_1_1services_1_1service__controller.html#a9a3617c5d622c8571a0306a6cc451fdb">runJob</a> ( subsuperclassHandle );</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="ttc" id="classrapp_1_1services_1_1service__controller_html"><div class="ttname"><a href="classrapp_1_1services_1_1service__controller.html">rapp::services::service_controller</a></div><div class="ttdoc">Main class that controllers RAPP Services. </div><div class="ttdef"><b>Definition:</b> <a href="service__controller_8hpp_source.html#l00026">service_controller.hpp:26</a></div></div>
-<div class="ttc" id="classrapp_1_1services_1_1service__controller_html_a9a3617c5d622c8571a0306a6cc451fdb"><div class="ttname"><a href="classrapp_1_1services_1_1service__controller.html#a9a3617c5d622c8571a0306a6cc451fdb">rapp::services::service_controller::runJob</a></div><div class="ttdeci">void runJob(const std::shared_ptr&lt; asio_socket &gt; job)</div><div class="ttdoc">Run one service job. </div><div class="ttdef"><b>Definition:</b> <a href="service__controller_8hpp_source.html#l00046">service_controller.hpp:46</a></div></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment">// Request from service controller to run this job</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        ctrl.<a class="code" href="classrapp_1_1cloud_1_1service__controller.html#aaec041d0f4df40abda2e17f88b895ca2">run_job</a>(sub_call);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        ctrl.<a class="code" href="classrapp_1_1cloud_1_1service__controller.html#aaec041d0f4df40abda2e17f88b895ca2">run_job</a>(super_call);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="ttc" id="service__controller_8hpp_html"><div class="ttname"><a href="service__controller_8hpp.html">service_controller.hpp</a></div></div>
+<div class="ttc" id="classrapp_1_1cloud_1_1service__controller_html"><div class="ttname"><a href="classrapp_1_1cloud_1_1service__controller.html">rapp::cloud::service_controller</a></div><div class="ttdoc">Main class that controllers RAPP Services. </div><div class="ttdef"><b>Definition:</b> <a href="service__controller_8hpp_source.html#l00020">service_controller.hpp:20</a></div></div>
+<div class="ttc" id="ontology_8hpp_html"><div class="ttname"><a href="ontology_8hpp.html">ontology.hpp</a></div></div>
+<div class="ttc" id="classrapp_1_1cloud_1_1service__controller_html_aaec041d0f4df40abda2e17f88b895ca2"><div class="ttname"><a href="classrapp_1_1cloud_1_1service__controller.html#aaec041d0f4df40abda2e17f88b895ca2">rapp::cloud::service_controller::run_job</a></div><div class="ttdeci">void run_job(const std::shared_ptr&lt; asio_socket &gt; job)</div><div class="ttdoc">Run one service job. </div><div class="ttdef"><b>Definition:</b> <a href="service__controller_8cpp_source.html#l00009">service_controller.cpp:9</a></div></div>
 <div class="ttc" id="ontology__example_8cpp_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="ontology__example_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="ontology__example_8cpp_source.html#l00007">ontology_example.cpp:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -159,7 +157,7 @@ $(document).ready(function(){initNavTree('ontology__example_8cpp_source.html',''
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="dir_a06190f9ebbf14b881cd537a7e083730.html">examples</a></li><li class="navelem"><a class="el" href="ontology__example_8cpp.html">ontology_example.cpp</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:02:11 for RAPP Platform API by
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:48 for RAPP Platform API by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

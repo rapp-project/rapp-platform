@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['ontologyissubsuperclassof',['ontologyIsSubSuperClassOf',['../classrapp_1_1cloud_1_1ontologyIsSubSuperClassOf.html',1,'rapp::cloud']]],
-  ['ontologysubclassesof',['ontologySubClassesOf',['../classrapp_1_1cloud_1_1ontologySubClassesOf.html',1,'rapp::cloud']]],
-  ['ontologysubclassof',['ontologySubclassOf',['../classontologySubclassOf.html',1,'']]],
-  ['ontologysubsuperclassof',['ontologySubSuperclassOf',['../classontologySubSuperclassOf.html',1,'']]],
-  ['ontologysuperclassesof',['ontologySuperClassesOf',['../classrapp_1_1cloud_1_1ontologySuperClassesOf.html',1,'rapp::cloud']]],
-  ['ontologysuperclassesof',['ontologySuperclassesOf',['../classontologySuperclassesOf.html',1,'']]]
+  ['geolocation',['Geolocation',['../classRappCloud_1_1CloudMsgs_1_1Geolocation_1_1Geolocation.html',1,'RappCloud::CloudMsgs::Geolocation']]],
+  ['geolocation',['geolocation',['../classrapp_1_1cloud_1_1geolocation.html',1,'rapp::cloud']]]
 ];

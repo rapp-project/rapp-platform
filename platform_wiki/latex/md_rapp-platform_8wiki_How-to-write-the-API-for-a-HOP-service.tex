@@ -7,91 +7,426 @@ Currently, we support and maintain R\-A\-P\-P-\/\-A\-P\-I(s) for the following p
 \item C++
 \end{DoxyItemize}
 
-Under the \href{https://github.com/rapp-project/rapp-api}{\tt rapp-\/api repository} you can find more information regarding implemented and tested Rapp-\/\-Platform Service calls.
+Under the \href{https://github.com/rapp-project/rapp-api}{\tt rapp-\/api repository} you can find more information regarding implemented and tested Rapp-\/\-Platform A\-P\-I calls.
 
 As the integration tests are written in Python and uses the \href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt Python-\/\-Rapp-\/\-A\-Pi} it is a good practice to start on the python-\/rapp-\/api.
 
-\subsubsection*{Python Rapp-\/\-A\-P\-I Overview}
-
-The Python Rapp-\/\-A\-P\-I package can be found under the rapp-\/api/python/ directory, or \href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt here}.
-
-The package includes the following components\-:
 
 
-\begin{DoxyItemize}
-\item Rapp\-Cloud.\-py\-: For each developed H\-O\-P Web Service this class includes a method that is used to call the relevant H\-O\-P Web Service.
-\item Cloud\-Interface\-: Service controller that handles H\-O\-P Web Service calls. It is actually an implementation of an H\-T\-T\-P.\-Post service controller.
-\item Configuration files\-: Configuration files which includes information on\-:
-\begin{DoxyItemize}
-\item Platform authentication credentials, \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg}{\tt auth.\-cfg}. The default user for authentication is the {\bfseries rapp} user. Platform-\/side authentication is handled by the H\-O\-P Server!!
-\item Platform address information, \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg}{\tt platform.\-cfg}. Here both the Platform ipv4-\/address and H\-O\-P Server listening port are declared.
-\item Platform H\-O\-P Web Services information, \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml}{\tt services.\-yaml}. Each developed H\-O\-P Web Service has its own entry into this file.
-\end{DoxyItemize}
-\end{DoxyItemize}
 
-To extend the Python-\/\-Rapp-\/\-A\-P\-I with a new H\-O\-P Web Service call entry you have to\-:
+
+\subsubsection*{Python R\-A\-P\-P-\/\-Platform-\/\-A\-P\-I Overview -\/ Usage}
+
+A\-P\-I users are able to select from 2 A\-P\-I implementations\-:
 
 
 \begin{DoxyItemize}
-\item Implement the specific Rapp\-Cloud class member function.
-\item Append the relevant H\-O\-P Web Service name into the {\bfseries services.\-yaml} file.
+\item {\bfseries High level A\-P\-I}
+\item {\bfseries Advanced A\-P\-I}
 \end{DoxyItemize}
 
-\subsubsection*{Implement a Rapp\-Cloud class member function as a H\-O\-P Web Service A\-P\-I call.}
+The first one allow A\-P\-I users to easily call R\-A\-P\-P P\-Latform Services through simple function calls. The second one is for advanced usage, delivered for expert developers. This is an object-\/oriented implementation. As we will later describe, the advanced A\-P\-I usage allow creation of Cloud Messages. Both Platform requests and responses are described by static objects.
 
-Lets say we want to implement the face\-\_\-detection A\-P\-I call. The face\-\_\-detection H\-O\-P Web Service has one input parameter that is a file (image frame).
+{\bfseries Note}\-: The High Level A\-P\-I actually wraps the Advanced A\-P\-I.
 
-We implement a member function, named face\-\_\-detection with one input parameter, named {\bfseries file\-\_\-uri}. This parameter is the system path to an image file we want to perform face\-\_\-detection on.
+\paragraph*{Advanced A\-P\-I usage}
 
-```python class Rapp\-Cloud\-: ... ...
+{\ttfamily Rapp\-Platform\-Service} is the R\-A\-P\-P term for an established connection to the R\-A\-P\-P-\/\-Platform Services, over the www (World-\/\-Wide-\/\-Web). Each Platform Service has it's own unique Response and Request message.
 
-def face\-\_\-detection(self, file\-Uri)\-: pass ```
+The {\ttfamily Rapp\-Platform\-Service} class is used to establish connections to the R\-A\-P\-P-\/\-Platform Web-\/\-Services, while {\ttfamily Cloud\-Msg} objects include\-:
+\begin{DoxyItemize}
+\item {\ttfamily Request} object. R\-A\-P\-P-\/\-Platform Service specific Request message
+\item {\ttfamily Response} object. R\-A\-P\-P-\/\-Platform Service specific Response message
+\end{DoxyItemize}
 
-As you can see the above code just declares the A\-P\-I method and does nothing.
+```python from Rapp\-Cloud import Rapp\-Platform\-Service
 
-H\-T\-T\-P .post requests can have the following fields\-:
+svc\-Client = Rapp\-Platform\-Service(persistent=True, timeout=30000) ```
+
+By Default it connects to the localhost, assuming that the R\-A\-P\-P Platform has been setup on the local machine. The constructor of the {\ttfamily Rapp\-Platform\-Service} class allow to specify the R\-A\-P\-P Platform parameters to connect to.
+
+```python from Rapp\-Cloud import Rapp\-Platform\-Service
+
+svc\-Client = Rapp\-Platform\-Service(address='R\-A\-P\-P\-\_\-\-P\-L\-A\-T\-F\-O\-R\-M\-\_\-\-I\-Pv4\-\_\-\-A\-D\-D\-R\-E\-S\-S', port='R\-A\-P\-P\-\_\-\-P\-L\-A\-T\-F\-O\-R\-M\-\_\-\-P\-O\-R\-T\-\_\-\-N\-U\-M\-B\-E\-R', protocol='http') ```
+
+{\ttfamily Rapp\-Platform\-Service} object constructor allow to set\-:
 
 
 \begin{DoxyItemize}
-\item payload\-: The payload declares simple \{parameter, value\} pairs (param1\-: value).
-\item files\-: Used to transfer files over the Web, using multipart/form-\/data post requests.
+\item persistent (Boolean)\-: Force peristent connections. {\bfseries Defaults to True}
+\item timeout (Integer)\-: Client timeout value. This is the timeout value waiting for a response from the R\-A\-P\-P Platform. {\bfseries Defaults to infinity}
+\item address (String)\-: The R\-A\-P\-P Platform I\-Pv4 address to connect to. {\bfseries Defaults to 'localhost'}
+\item port (String)\-: The R\-A\-P\-P Platform listening port. {\bfseries Defaults to \char`\"{}9001\char`\"{}}
+\item protocol (String)\-: The configured application protocol for the R\-A\-P\-P Platform. Valid values are \char`\"{}$\ast$$\ast$https$\ast$$\ast$\char`\"{} and \char`\"{}$\ast$$\ast$http$\ast$$\ast$\char`\"{}. {\bfseries Defaults to \char`\"{}http\char`\"{}}
 \end{DoxyItemize}
 
-So lets declare two variables into our code to describe the aforementioned fields.
+The {\ttfamily persistent} and {\ttfamily timeout} properties of a {\ttfamily Rapp\-Platform\-Service} object are public members and can be set using the {\bfseries dot} (.) notation\-:
 
-```python def face\-\_\-detection(self, file\-Uri)\-: payload = \{\} files = \{\}
+```py svc\-Client = Rapp\-Platform\-Service() svc\-Client.\-persistent = True svc\-Client.\-timeout = 30000 ```
 
+{\ttfamily Cloud\-Msg} objects are feed to the {\ttfamily Rapp\-Platform\-Service} object to specific R\-A\-P\-P-\/\-Platform Services. {\ttfamily Cloud\-Msg} classes can be imported from the Cloud\-Msgs submodule of the Rapp\-Cloud module\-:
+
+```py from Rapp\-Cloud.\-Cloud\-Msgs import Face\-Detection ```
+
+The above line of code is used as an example of importing the {\ttfamily Face\-Detection} Cloud\-Msg class.
+
+A complete description on available Cloud\-Msg classes as long as their Request and Response message classes is available here
+
+Cloud\-Msg objects hold a Request and a Response object\-:
+
+```py from Rapp\-Cloud.\-Cloud\-Msgs import Face\-Detection face\-Detect\-Msg = Face\-Detection()
+
+req\-Obj = face\-Detect\-Msg.\-req resp\-Obj = face\-Detect\-Msg.\-resp ```
+
+Request and Response objects of a Cloud\-Msg can be serialized to a dictionary\-:
+
+```py req\-Dict = face\-Detect\-Msg.\-req.\-serialize() print req\-Dict \begin{quotation}
+\begin{quotation}
+\{fast\-: False, image\-File\-Path\-: ''\}
+
+\end{quotation}
+
+
+\end{quotation}
+
+
+resp\-Dict = face\-Detect\-Msg.\-resp.\-serialize() print resp\-Dict \begin{quotation}
+\begin{quotation}
+\{faces\-: \mbox{[}\mbox{]}, error\-: ''\}
+
+\end{quotation}
+
+
+\end{quotation}
 ```
 
-The face\-\_\-detection H\-O\-P Web Service has one input parameter, named file\-\_\-uri. We have to declare the {\bfseries file\-\_\-uri} field and append data into that field. Though keep in mind that the {\bfseries file\-\_\-uri} field holds the name of the trasfered, to the Platform H\-O\-P Web Service, file. To ensure that H\-O\-P Service incoming requests will never have conflicts on file\-\_\-names because if this happens files on Platform will overwrite each other, we append a random identity as the file's name postfix ( {\bfseries image1.\-png --$>$ image1-\/akji12.\-png} ). The Rapp\-Cloud class holds an instance of the \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/RandStrGen/RandStrGen.py}{\tt Random String Generator} class to perform these kind of operations. To append a unique postfix to the file's name call the $\ast$$\ast$\-\_\-\-\_\-append\-Rand\-Str$\ast$$\ast$ member\-:
+Cloud\-Msg Request property values can be set through the {\ttfamily req} property of the Cloud\-Msg object. or as keyword arguments to the constructor of a Cloud\-Msg\-:
 
-```python def face\-\_\-detection(self, file\-Uri)\-: file\-Name = self.\-\_\-\-\_\-append\-Rand\-Str(file\-Uri) payload = \{\} files = \{ 'file\-\_\-uri'\-: (file\-Name, open(file\-Uri, 'rb')) \}
+```py from Rapp\-Cloud.\-Cloud\-Msgs import Face\-Detection
 
+msg = Face\-Detection(image\-Filepath='/tmp/face-\/sample.png') print msg.\-req.\-serialize() \begin{quotation}
+\begin{quotation}
+\{fast\-: False, image\-Filepath\-: '/tmp/face-\/sample.png'\}
+
+\end{quotation}
+
+
+\end{quotation}
+
+
+msg.\-req.\-fast = True print msg.\-req.\-serialize() \begin{quotation}
+\begin{quotation}
+\{fast\-: True, image\-Filepath\-: '/tmp/face-\/sample.png'\}
+
+\end{quotation}
+
+
+\end{quotation}
 ```
 
-Notice that we leave the payload to be an empty field!!!
+{\ttfamily Rapp\-Platfomr\-Service} objects have a {\ttfamily .call()} method for calling R\-A\-P\-P-\/\-Platform Services\-:
 
-Finally we need call the Cloud\-Interface service controller. Rapp\-Cloud class holds an instance of the Cloud\-Interface class.
+```py class Rapp\-Platform\-Service\-: ...
 
-```python def face\-\_\-detection(self, file\-Uri)\-: file\-Name = self.\-\_\-\-\_\-append\-Rand\-Str(file\-Uri) payload = \{\} files = \{ 'file\-\_\-uri'\-: (file\-Name, open(file\-Uri, 'rb')) \}
-
-url = self.\-service\-Url\-\_\-\mbox{[}'face\-\_\-detection'\mbox{]}
-
-return\-Data = Cloud\-Interface.\-call\-Service(url, payload, files, self.\-auth\-\_\-) return return\-Data
-
-```
-
-Though one last step is required in order to make the above code execute correctly We need to add the Face-\/\-Detection H\-O\-P Web Service name into the \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/services.yaml}{\tt services.\-yaml} file.
-
-```yaml
-
-services\-: list\-:
-\begin{DoxyItemize}
-\item face\-\_\-detection
-\end{DoxyItemize}
+def call(self, msg=None)\-: ... return self.\-resp
 
 ... ```
 
-Make sure to check the Platform Authentication credentials (\href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/auth.cfg}{\tt auth.\-cfg}) and Platform Parameters (\href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/config/platform.cfg}{\tt platform.\-cfg}).
+The {\ttfamily .call()} method returns the Response object.
 
-By default, Platform Parameters point to the locally installed R\-A\-P\-P-\/\-Platform. Read the {\bfseries platfrom.\-cfg} file on how to change these parameters, if for example you installed the R\-A\-P\-P-\/\-Platform on a remote machine. 
+```py svc\-Client= Rapp\-Platform\-Service() msg = Face\-Detection() msg.\-req.\-fast = True msg.\-req.\-image\-Filepath = '/tmp/face-\/sample.png'
+
+response = svc\-Client.\-call(msg) print response.\-faces print response.\-error
+
+```
+
+Cloud\-Msg objects are passed as argument to the {\ttfamily .call()} method of the {\ttfamily Rapp\-Platform\-Service} object\-:
+
+```py svc\-Client= Rapp\-Platform\-Service() msg = Face\-Detection(image\-Filepath='/tmp/face-\/sample.png') response = svc\-Client.\-call(msg) ```
+
+{\ttfamily Cloud\-Msg} objects can also be passed to the constructor of the {\ttfamily Rapp\-Platform\-Service} class\-:
+
+```py face\-Msg = Face\-Detection(image\-Filepath='/tmp/face-\/sample.png') svc\-Client= Rapp\-Platform\-Service(msg=face\-Msg, timeout=15000) response = svc\-Client.\-call() ```
+
+{\bfseries Note}\-: Calling several different R\-A\-P\-P-\/\-Platform Services is done by passing the service specific Cloud Message objects to the {\ttfamily .call()} of the {\ttfamily Rapp\-Platform\-Service} object.
+
+The following example creates a {\ttfamily Face\-Detection} and a {\ttfamily Qr\-Detection} Cloud\-Msg to call both the Face-\/\-Detection and Qr-\/\-Detection R\-A\-P\-P-\/\-Platform Services.
+
+```py from Rapp\-Cloud import Rapp\-Platform\-Service from Rapp\-Cloud.\-Cloud\-Msgs import ( Face\-Detection, Qr\-Detection)
+
+svc\-Client = Rapp\-Platform\-Service(timeout=1000) face\-Msg = Face\-Detection(fast=True, image\-Filepath='/tmp/face-\/sample.png') qr\-Msg = Qr\-Detection() qr\-Msg.\-req.\-image\-Filepath = '/tmp/qr-\/sample.png'
+
+fd\-Resp = svc\-Client.\-call(face\-Msg) print \char`\"{}\-Found \%s Faces\char`\"{} len(fd\-Resp.\-faces)
+
+qr\-Resp = svc\-Client.\-call(qr\-Msg) print \char`\"{}\-Found \%s Q\-Rs\-: \%s\char`\"{} \%(len(qr\-Resp.\-qr\-\_\-centers), qr\-Resp.\-qr\-\_\-messages)
+
+```
+
+\paragraph*{High Level A\-P\-I usage}
+
+Like previously mentioned, A\-P\-I users can also use the High Level implementation of the R\-A\-P\-P Platform A\-P\-I. Benefits from using this implementation is lack of knowledge of how Cloud Messages and Rapp\-Platform\-Service are used. Calls to the R\-A\-P\-P Platform are done through simple function calls, under the Rapp\-Platform\-A\-P\-I module.
+
+Below is an example of performing a query to the ontologyi, hosted on the R\-A\-P\-P Platform, using the High Level A\-P\-I implementation\-:
+
+```python from Rapp\-Cloud import Rapp\-Platform\-A\-P\-I ch = Rapp\-Platform\-A\-P\-I()
+
+response = ch.\-ontology\-Subclasses(\char`\"{}\-Oven\char`\"{})
+
+print response \begin{quotation}
+\begin{quotation}
+\{'results'\-: \mbox{[}u'\href{http://knowrob.org/kb/knowrob.owl#MicrowaveOven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Microwave\-Oven',} u'\href{http://knowrob.org/kb/knowrob.owl#RegularOven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Regular\-Oven',} u'\href{http://knowrob.org/kb/knowrob.owl#ToasterOven'}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Toaster\-Oven'}\mbox{]}, 'error'\-: u''\}
+
+\end{quotation}
+
+
+\end{quotation}
+```
+
+The Rapp\-Platform\-A\-P\-I usage and calls are fully documented \href{https://github.com/rapp-project/rapp-api/tree/master/python/RappCloud}{\tt here}, also with examples of usage.
+
+
+
+
+
+\subsubsection*{Example -\/ Implementing the Face\-Detection A\-P\-I call.}
+
+Lets say we want to implement the {\ttfamily Face\-Detection} Cloud Message.
+
+The face detection R\-A\-P\-P Platform Web Service has a Request and Response object
+
+{\bfseries Web-\/\-Service Request}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily fast} (Boolean)\-: If true, detection will take less time but it will be less accurate
+\item {\ttfamily file} (File)\-: Image file.
+\end{DoxyItemize}
+
+{\bfseries Web-\/\-Service Response}
+
+
+\begin{DoxyItemize}
+\item {\ttfamily faces} (Array)\-: An array of the detected faces coordinates (point2\-D), on the image frame.
+\item {\ttfamily error} (String)\-: Error message.
+\end{DoxyItemize}
+
+Start by creating the python source file for the Face\-Deteciton Cloud Message implementation. Head to the \href{https://github.com/rapp-project/rapp-api/tree/master/python/RappCloud/CloudMsgs}{\tt Rapp\-Cloud/\-Cloud\-Msgs} directory of the Rapp\-Cloud module and create a file named {\bfseries Face\-Detection.\-py}
+
+Cloud Messages classes inherit from the {\ttfamily Cloud\-Msg} class and {\ttfamily Request} and {\ttfamily Response} classes inherit from {\ttfamily Cloud\-Request} and {\ttfamily Cloud\-Response} classes respectively. So first import those classes and write the structure of the {\ttfamily Face\-Detection} Cloud Message\-:
+
+```python from Cloud import ( Cloud\-Msg, Cloud\-Request, Cloud\-Response)
+
+class Face\-Detection(\-Cloud\-Msg)\-: \begin{DoxyVerb}class Request(CloudRequest):
+    def __init__(self, **kwargs):
+        pass
+
+
+class Response(CloudResponse):
+    def __init__(self, **kwargs):
+        pass
+
+
+def __init__(self, **kwargs):
+    pass
+\end{DoxyVerb}
+ ```
+
+Add the appropriate properties to the Request and Response classes. Property names can differ from the Web-\/\-Service request and response property names. Mapping from implemented property names to actual request payload will be studied later on\-:
+
+```python class Request(\-Cloud\-Request)\-: \begin{DoxyVerb}def __init__(self, **kwargs):
+    ## File path to the image file
+    self.imageFilepath = ''
+    ## If true, detection will take less time but it will be less accurate
+    self.fast = False
+    ## Apply keyword arguments to the Request object.
+    super(FaceDetection.Request, self).__init__(**kwargs)
+\end{DoxyVerb}
+
+
+class Response(\-Cloud\-Response)\-: \begin{DoxyVerb}def __init__(self, **kwargs):
+    ## Error message
+    self.error = ''
+    ## Detected faces. Array of face objects.
+    self.faces = []
+    ## Apply keyword arguments to the Request object.
+    super(FaceDetection.Response, self).__init__(**kwargs)
+\end{DoxyVerb}
+ ```
+
+{\bfseries Notice calling {\ttfamily Cloud\-Response} and {\ttfamily Cloud\-Request} construcors.}
+
+Remember that a {\ttfamily Request} class must implement two member methods, {\ttfamily make\-\_\-payload()} and {\ttfamily make\-\_\-files}. For the payload it's the {\ttfamily fast} property and image\-Filepath is a file.
+
+```python from Rapp\-Cloud.\-Objects import ( Payload, File)
+
+class Request(\-Cloud\-Request)\-: \begin{DoxyVerb}def __init__(self, **kwargs):
+    ## File path to the image file
+    self.imageFilepath = ''
+    ## If true, detection will take less time but it will be less accurate
+    self.fast = False
+    ## Apply keyword arguments to the Request object.
+    super(FaceDetection.Request, self).__init__(**kwargs)
+
+def make_payload(self):
+    return Payload(fast=self.fast)
+
+def make_files(self):
+    return [File(filepath=self.path, postfield="file")]
+\end{DoxyVerb}
+ ```
+
+Next, you have to instantiate a {\ttfamily Request} and {\ttfamily Response} objects for the {\ttfamily Face\-Detection} class to hold\-:
+
+```python class Face\-Detection(\-Cloud\-Msg)\-: ...
+
+def {\bfseries init}(self, $\ast$$\ast$kwargs)\-: \section*{Create and hold the Request object for this Cloud\-Msg}
+
+self.\-req = Face\-Detection.\-Request() \section*{Create and hold the Response object for this Cloud\-Msg}
+
+self.\-resp = Face\-Detection.\-Response() ```
+
+Each R\-A\-P\-P Platform Web Service has a unique service name resolving to a url name/path. The service name for the Face Detection R\-A\-P\-P Platform Web Service is\-:
+
+```shell face\-\_\-detection ```
+
+{\ttfamily Cloud\-Msg} constructor takes as input the service name\-:
+
+```python class Face\-Detection(\-Cloud\-Msg)\-: ...
+
+def {\bfseries init}(self, $\ast$$\ast$kwargs)\-: \section*{Create and hold the Request object for this Cloud\-Msg}
+
+self.\-req = Face\-Detection.\-Request() \section*{Create and hold the Response object for this Cloud\-Msg}
+
+self.\-resp = Face\-Detection.\-Response() super(\-Face\-Detection, self).\-\_\-\-\_\-init\-\_\-\-\_\-(svcname='face\-\_\-detection', $\ast$$\ast$kwargs) ```
+
+{\bfseries Note}\-: Dont forget to document the code using {\bfseries doxygen}
+
+Below is the complete Face\-Detection.\-py file
+
+```python from Rapp\-Cloud.\-Objects import ( File, Payload)
+
+from Cloud import ( Cloud\-Msg, Cloud\-Request, Cloud\-Response)
+
+class Face\-Detection(\-Cloud\-Msg)\-: \char`\"{}\char`\"{}\char`\"{} Face Detection Cloud\-Msg object\char`\"{}\char`\"{}\char`\"{}
+
+class Request(\-Cloud\-Request)\-: \char`\"{}\char`\"{}\char`\"{} Face Detection Cloud Request object. Face\-Detection.\-Request \char`\"{}\char`\"{}\char`\"{} def {\bfseries init}(self, $\ast$$\ast$kwargs)\-: \char`\"{}\char`\"{}"! Constructor 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$$\ast$kwargs} & -\/ Keyword arguments. Apply values to the request attributes.
+\begin{DoxyItemize}
+\item image\-Filepath
+\item fast"
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\subsection*{File path to the image to load. This is the image to perform}
+
+\section*{face-\/detection on.}
+
+self.\-image\-Filepath = '' \subsection*{If true, detection will take less time but it will be less}
+
+\section*{accurate}
+
+self.\-fast = False \section*{Apply passed keyword arguments to the Request object.}
+
+super(Face\-Detection.\-Request, self).\-\_\-\-\_\-init\-\_\-\-\_\-($\ast$$\ast$kwargs)
+
+\begin{DoxyVerb}    def make_payload(self):
+        """ Create and return the Payload of the Request. """
+        return Payload(fast=self.fast)
+
+    def make_files(self):
+        """ Create and return Array of File objects of the Request. """
+        return [File(self.imageFilepath, postfield='file')]
+
+    class Response(CloudResponse):
+        """ Face Detection Cloud Response object. FaceDetection.Response """
+        def __init__(self, **kwargs):
+            """!
+            Constructor
+
+            @param **kwargs - Keyword arguments. Apply values to the request attributes.
+            - @ref error
+            - @ref faces
+            """
+            ## Error message
+            self.error = ''
+            ## Detected faces. Array of face objects. TODO create face object.
+            self.faces = []
+            ## Apply passed keyword arguments to the Request object.
+            super(FaceDetection.Response, self).__init__(**kwargs)
+
+
+    def __init__(self, **kwargs):
+        """!
+        Constructor
+
+        @param **kwargs - Keyword arguments. Apply values to the request attributes.
+            - @ref Request.fast
+            - @ref Request.imageFilepath
+        """
+
+        # Create and hold the Request object for this CloudMsg
+        self.req = FaceDetection.Request()
+        # Create and hold the Response object for this CloudMsg
+        self.resp = FaceDetection.Response()
+        super(FaceDetection, self).__init__(svcname='face_detection', **kwargs)
+\end{DoxyVerb}
+ ```
+
+Finally append the following line of code in the {\ttfamily Rapp\-Cloud/\-Cloud\-Msgs/\-\_\-\-\_\-init\-\_\-\-\_\-.\-py} file\-:
+
+```python from Face\-Detection import Face\-Detection ```
+
+Now everything is in place to call the newly created Face detection R\-A\-P\-P Platform Service, using the python implementation of the rapp-\/platform-\/api. An example is presented below\-:
+
+```python from Rapp\-Cloud.\-Cloud\-Msgs import Face\-Detection from Rapp\-Cloud import Rapp\-Platform\-Service
+
+svc\-Client = Rapp\-Platform\-Service(persistent=True, timeout=30000) msg = Face\-Detection(image\-Filepath=\char`\"{}\-P\-A\-T\-H\char`\"{}, fast=True)
+
+response svc\-Client.\-call(msg)
+
+if response.\-error\-: print \char`\"{}\-An error has occured\-: \%s\char`\"{} response.\-error else\-: print response.\-faces ```
+
+If you want to also include it in the High Level A\-P\-I implementation, you will have to modify the \href{https://github.com/rapp-project/rapp-api/blob/master/python/RappCloud/RappPlatformApi.py}{\tt Rapp\-Platform\-Api.\-py} file.
+
+First import the {\ttfamily Face\-Detection} Cloud Message, that was previously implemented\-:
+
+```py ...
+
+from Cloud\-Msgs import Face\-Detection ```
+
+Next, we must implemend the {\ttfamily face\-Detection} method for the Rapp\-Platform\-A\-P\-I class. Input arguments to the method are\-:
+
+
+\begin{DoxyItemize}
+\item image\-Filepath\-: Path to the image file to perform face detection on.
+\item fast\-: Force fast detection. If true, detection takes less time but it will be less accurate
+\end{DoxyItemize}
+
+The output is a python {\ttfamily dict} of the response fields\-:
+
+
+\begin{DoxyItemize}
+\item faces\-: Detected faces
+\item error\-: Error message, if one occures.
+\end{DoxyItemize}
+
+The {\ttfamily face\-Detection} method implementation must be as presented below
+
+```py ...
+
+class Rapp\-Platform\-A\-P\-I()\-: \char`\"{}\char`\"{}\char`\"{} R\-A\-P\-P Platform simple A\-P\-I implementation \char`\"{}\char`\"{}\char`\"{} def {\bfseries init}(self)\-: self.\-svc\-\_\-caller = Rapp\-Platform\-Service()
+
+...
+
+def face\-Detection(self, image\-Filepath, fast = False)\-: \char`\"{}\char`\"{}"! Face detection A\-P\-I service call.  image\-Filepath\-: string 
+\begin{DoxyParams}{Parameters}
+{\em image\-Filepath} & Path to the image file.  fast\-: bool \\
+\hline
+{\em fast} & Perform fast detection. If true, detection will take less time but it will be less accurate. \-: dict \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-: Returns a dictionary of the service call response. \{'faces'\-: \mbox{[}\mbox{]}, 'error'\-: ''\} \char`\"{}\char`\"{}" msg = Face\-Detection() try\-: msg.\-req.\-image\-Filepath = image\-Filepath response = self.\-svc\-\_\-caller.\-call(msg) except Exception as e\-: response = Face\-Detection.\-Response(error=str(e)) return \{ 'faces'\-: response.\-faces, 'error'\-: response.\-error \} ```
+\end{DoxyReturn}
+{\bfseries Note}\-: Make sure to launch both the back-\/end and the, listening for requests, H\-O\-P Web Server, of the R\-A\-P\-P Platform, before executing the above example. \href{https://github.com/rapp-project/rapp-platform/wiki/How-do-I-launch-the-RAPP-Platform%3F}{\tt Here} you can find instructions on how to launch the R\-A\-P\-P Platform. 

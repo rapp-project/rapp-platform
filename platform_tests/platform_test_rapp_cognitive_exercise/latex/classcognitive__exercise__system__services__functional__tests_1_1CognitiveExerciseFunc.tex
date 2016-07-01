@@ -30,17 +30,31 @@ Collaboration diagram for cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\
 \begin{DoxyCompactItemize}
 \item 
 def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a287a720d8fbe9a1a2f375cae695353ab}{test\-\_\-chooser\-\_\-basic}
-\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise test chooser service when test type is provided. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise test chooser service with only test\-Type parameter. \end{DoxyCompactList}\item 
 def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a40cbd2c6dee3d8c707e470663c09c86f}{test\-\_\-chooser\-\_\-no\-\_\-type}
 \begin{DoxyCompactList}\small\item\em Tests the cognitive exercise test chooser service when test type is not provided. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_abe2326ad7ef70b211dc9400048633dd2}{test\-\_\-chooser\-\_\-parameters\-\_\-provided}
+\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise test chooser service when selection parameters are provided. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ad40641b35afc54e350857da01da242e0}{test\-\_\-chooser\-\_\-subtype}
+\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise test chooser service with test\-Type and test\-Sub\-Type parameters. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ab6db4f7fac5b335a4d36be8a85a9448e}{test\-\_\-cognitive\-\_\-test\-\_\-creat\-\_\-of\-\_\-invalid\-\_\-path}
+\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise test creation service when invalid path is used. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a71da9457f5b15cabb087834485f254fd}{test\-\_\-create\-\_\-new\-\_\-platform\-\_\-user\-\_\-and\-\_\-request\-\_\-cognitive\-\_\-test\-\_\-then\-\_\-cleanup}
+\begin{DoxyCompactList}\small\item\em Tests the creation of a new platform user and selection of a cognitive test and cleans up afterwards. \end{DoxyCompactList}\item 
 def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a3acf48c7deadcfd227fd3378b03e81d5}{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-basic}
-\begin{DoxyCompactList}\small\item\em Tests the record user cognitive exercise test performance service. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Tests the record user cognitive exercise test performance service. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a716529fe497bf92c44ecef813aba3b26}{test\-\_\-return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-combinations}
+\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise return tests of type for various parameter selection combinations. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ae9ca557321fe89707bcd4128e8cfaaab}{test\-\_\-user\-\_\-score\-\_\-history\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input\-\_\-basic}
+\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise return user history service for valid input. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a3a454d844952d18721f648d2713c18c4}{test\-\_\-user\-\_\-scores\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input}
+\begin{DoxyCompactList}\small\item\em Tests the cognitive exercise return user scores service for valid input. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
 Inherits the unittest.\-Test\-Case class in order to offer functional tests functionality. 
 
-Definition at line 36 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 60 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 
 
@@ -54,11 +68,11 @@ Definition at line 36 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\
 )}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a287a720d8fbe9a1a2f375cae695353ab}
 
 
-Tests the cognitive exercise test chooser service when test type is provided. 
+Tests the cognitive exercise test chooser service with only test\-Type parameter. 
 
 
 
-Definition at line 39 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 83 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a40cbd2c6dee3d8c707e470663c09c86f}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-chooser\-\_\-no\-\_\-type@{test\-\_\-chooser\-\_\-no\-\_\-type}}
 \index{test\-\_\-chooser\-\_\-no\-\_\-type@{test\-\_\-chooser\-\_\-no\-\_\-type}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
@@ -73,7 +87,67 @@ Tests the cognitive exercise test chooser service when test type is not provided
 
 
 
-Definition at line 54 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 117 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_abe2326ad7ef70b211dc9400048633dd2}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-chooser\-\_\-parameters\-\_\-provided@{test\-\_\-chooser\-\_\-parameters\-\_\-provided}}
+\index{test\-\_\-chooser\-\_\-parameters\-\_\-provided@{test\-\_\-chooser\-\_\-parameters\-\_\-provided}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
+\subsubsection[{test\-\_\-chooser\-\_\-parameters\-\_\-provided}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-Cognitive\-Exercise\-Func.\-test\-\_\-chooser\-\_\-parameters\-\_\-provided (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_abe2326ad7ef70b211dc9400048633dd2}
+
+
+Tests the cognitive exercise test chooser service when selection parameters are provided. 
+
+
+
+Definition at line 63 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ad40641b35afc54e350857da01da242e0}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-chooser\-\_\-subtype@{test\-\_\-chooser\-\_\-subtype}}
+\index{test\-\_\-chooser\-\_\-subtype@{test\-\_\-chooser\-\_\-subtype}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
+\subsubsection[{test\-\_\-chooser\-\_\-subtype}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-Cognitive\-Exercise\-Func.\-test\-\_\-chooser\-\_\-subtype (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ad40641b35afc54e350857da01da242e0}
+
+
+Tests the cognitive exercise test chooser service with test\-Type and test\-Sub\-Type parameters. 
+
+
+
+Definition at line 99 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ab6db4f7fac5b335a4d36be8a85a9448e}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-cognitive\-\_\-test\-\_\-creat\-\_\-of\-\_\-invalid\-\_\-path@{test\-\_\-cognitive\-\_\-test\-\_\-creat\-\_\-of\-\_\-invalid\-\_\-path}}
+\index{test\-\_\-cognitive\-\_\-test\-\_\-creat\-\_\-of\-\_\-invalid\-\_\-path@{test\-\_\-cognitive\-\_\-test\-\_\-creat\-\_\-of\-\_\-invalid\-\_\-path}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
+\subsubsection[{test\-\_\-cognitive\-\_\-test\-\_\-creat\-\_\-of\-\_\-invalid\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-Cognitive\-Exercise\-Func.\-test\-\_\-cognitive\-\_\-test\-\_\-creat\-\_\-of\-\_\-invalid\-\_\-path (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ab6db4f7fac5b335a4d36be8a85a9448e}
+
+
+Tests the cognitive exercise test creation service when invalid path is used. 
+
+
+
+Definition at line 148 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a71da9457f5b15cabb087834485f254fd}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-create\-\_\-new\-\_\-platform\-\_\-user\-\_\-and\-\_\-request\-\_\-cognitive\-\_\-test\-\_\-then\-\_\-cleanup@{test\-\_\-create\-\_\-new\-\_\-platform\-\_\-user\-\_\-and\-\_\-request\-\_\-cognitive\-\_\-test\-\_\-then\-\_\-cleanup}}
+\index{test\-\_\-create\-\_\-new\-\_\-platform\-\_\-user\-\_\-and\-\_\-request\-\_\-cognitive\-\_\-test\-\_\-then\-\_\-cleanup@{test\-\_\-create\-\_\-new\-\_\-platform\-\_\-user\-\_\-and\-\_\-request\-\_\-cognitive\-\_\-test\-\_\-then\-\_\-cleanup}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
+\subsubsection[{test\-\_\-create\-\_\-new\-\_\-platform\-\_\-user\-\_\-and\-\_\-request\-\_\-cognitive\-\_\-test\-\_\-then\-\_\-cleanup}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-Cognitive\-Exercise\-Func.\-test\-\_\-create\-\_\-new\-\_\-platform\-\_\-user\-\_\-and\-\_\-request\-\_\-cognitive\-\_\-test\-\_\-then\-\_\-cleanup (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a71da9457f5b15cabb087834485f254fd}
+
+
+Tests the creation of a new platform user and selection of a cognitive test and cleans up afterwards. 
+
+
+
+Definition at line 243 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a3acf48c7deadcfd227fd3378b03e81d5}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-record\-\_\-user\-\_\-performance\-\_\-basic@{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-basic}}
 \index{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-basic@{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-basic}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
@@ -88,7 +162,52 @@ Tests the record user cognitive exercise test performance service.
 
 
 
-Definition at line 69 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 132 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a716529fe497bf92c44ecef813aba3b26}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-combinations@{test\-\_\-return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-combinations}}
+\index{test\-\_\-return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-combinations@{test\-\_\-return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-combinations}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
+\subsubsection[{test\-\_\-return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-combinations}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-Cognitive\-Exercise\-Func.\-test\-\_\-return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-combinations (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a716529fe497bf92c44ecef813aba3b26}
+
+
+Tests the cognitive exercise return tests of type for various parameter selection combinations. 
+
+
+
+Definition at line 197 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ae9ca557321fe89707bcd4128e8cfaaab}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-user\-\_\-score\-\_\-history\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input\-\_\-basic@{test\-\_\-user\-\_\-score\-\_\-history\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input\-\_\-basic}}
+\index{test\-\_\-user\-\_\-score\-\_\-history\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input\-\_\-basic@{test\-\_\-user\-\_\-score\-\_\-history\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input\-\_\-basic}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
+\subsubsection[{test\-\_\-user\-\_\-score\-\_\-history\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input\-\_\-basic}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-Cognitive\-Exercise\-Func.\-test\-\_\-user\-\_\-score\-\_\-history\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input\-\_\-basic (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_ae9ca557321fe89707bcd4128e8cfaaab}
+
+
+Tests the cognitive exercise return user history service for valid input. 
+
+
+
+Definition at line 180 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a3a454d844952d18721f648d2713c18c4}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}!test\-\_\-user\-\_\-scores\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input@{test\-\_\-user\-\_\-scores\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input}}
+\index{test\-\_\-user\-\_\-scores\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input@{test\-\_\-user\-\_\-scores\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input}!cognitive_exercise_system_services_functional_tests::CognitiveExerciseFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests\-::\-Cognitive\-Exercise\-Func}}
+\subsubsection[{test\-\_\-user\-\_\-scores\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-Cognitive\-Exercise\-Func.\-test\-\_\-user\-\_\-scores\-\_\-for\-\_\-all\-\_\-categories\-\_\-valid\-\_\-input (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__services__functional__tests_1_1CognitiveExerciseFunc_a3a454d844952d18721f648d2713c18c4}
+
+
+Tests the cognitive exercise return user scores service for valid input. 
+
+
+
+Definition at line 163 of file cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 
 

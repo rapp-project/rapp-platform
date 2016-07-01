@@ -6,36 +6,29 @@
 Contains the parameters required for the Sphinx configuration.  
 
 
-
-
-Inheritance diagram for rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params\-:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=258pt]{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams__inherit__graph}
-\end{center}
-\end{figure}
-
-
-Collaboration diagram for rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params\-:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=258pt]{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams__coll__graph}
-\end{center}
-\end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a1a4d416054657547de8dddfa9dc2f079}{\-\_\-\-\_\-init\-\_\-\-\_\-}
 \begin{DoxyCompactList}\small\item\em Initializes an empty configuration (constructor) \end{DoxyCompactList}\item 
-def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a1d4174514a206ef23357977ee5a5390e}{equals}
-\begin{DoxyCompactList}\small\item\em Checks if a \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams}{Sphinx\-Configuration\-Params} instance equals self. \end{DoxyCompactList}\end{DoxyCompactItemize}
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a8709d996b4c60cf9fcf1fb4223ad6bef}{equals\-Request}
+\begin{DoxyCompactList}\small\item\em Checks if a \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams}{Sphinx\-Configuration\-Params} instance equals self. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a0e50052e40575005b7002030689e8d47}{get\-Hash}
+\begin{DoxyCompactList}\small\item\em Calculates the configuration's sha1 hash. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a214b52656d5823111d4be524470c4f58}{make\-Equal\-To\-Instance}
+\begin{DoxyCompactList}\small\item\em Change attributes to those specified by the Class instance. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a72079f0f14a0dad90b4a2bbe8c98cc5c}{make\-Equal\-To\-Request}
+\begin{DoxyCompactList}\small\item\em Change attributes to those specified by the request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a7d88fa3ae291b7db2025770ebd8475db}{\-\_\-read\-Configuration\-Yaml}
+\begin{DoxyCompactList}\small\item\em Read the configuration from configuration yaml. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_ae0cefc8da3538d2e709978c26a1563b5}{\-\_\-global\-Params}
+\begin{DoxyCompactList}\small\item\em Contains global Sphinx parameters. \end{DoxyCompactList}\item 
 \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a38df1b7d3f1b19f3fb335ccf1a7e181d}{\-\_\-grammar}
 \begin{DoxyCompactList}\small\item\em Sphinx grammar attribute. \end{DoxyCompactList}\item 
 \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a56cc14a8b1f9f7369f5fcd41b892830f}{\-\_\-language}
@@ -49,7 +42,7 @@ def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__
 \subsection{Detailed Description}
 Contains the parameters required for the Sphinx configuration. 
 
-Definition at line 25 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+Definition at line 30 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 
 
 
@@ -58,7 +51,8 @@ Definition at line 25 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 \index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
 \subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-\_\-\-\_\-init\-\_\-\-\_\- (
 \begin{DoxyParamCaption}
-\item[{}]{self}
+\item[{}]{self, }
+\item[{}]{configuration = {\ttfamily None}}
 \end{DoxyParamCaption}
 )}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a1a4d416054657547de8dddfa9dc2f079}
 
@@ -67,19 +61,40 @@ Initializes an empty configuration (constructor)
 
 
 
-Definition at line 28 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+Definition at line 33 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a1d4174514a206ef23357977ee5a5390e}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!equals@{equals}}
-\index{equals@{equals}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
-\subsubsection[{equals}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-equals (
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a7d88fa3ae291b7db2025770ebd8475db}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!\-\_\-read\-Configuration\-Yaml@{\-\_\-read\-Configuration\-Yaml}}
+\index{\-\_\-read\-Configuration\-Yaml@{\-\_\-read\-Configuration\-Yaml}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
+\subsubsection[{\-\_\-read\-Configuration\-Yaml}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-\_\-read\-Configuration\-Yaml (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{conf\-Name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a7d88fa3ae291b7db2025770ebd8475db}
+
+
+Read the configuration from configuration yaml. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf\-Name} & \mbox{[}string\mbox{]} The name of the requested configuration \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 73 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a8709d996b4c60cf9fcf1fb4223ad6bef}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!equals\-Request@{equals\-Request}}
+\index{equals\-Request@{equals\-Request}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
+\subsubsection[{equals\-Request}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-equals\-Request (
 \begin{DoxyParamCaption}
 \item[{}]{self, }
 \item[{}]{params}
 \end{DoxyParamCaption}
-)}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a1d4174514a206ef23357977ee5a5390e}
+)}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a8709d996b4c60cf9fcf1fb4223ad6bef}
 
 
 Checks if a \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams}{Sphinx\-Configuration\-Params} instance equals self. 
@@ -93,11 +108,84 @@ Checks if a \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configu
 \end{DoxyParams}
 
 
-Definition at line 45 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+Definition at line 134 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a0e50052e40575005b7002030689e8d47}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!get\-Hash@{get\-Hash}}
+\index{get\-Hash@{get\-Hash}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
+\subsubsection[{get\-Hash}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-get\-Hash (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a0e50052e40575005b7002030689e8d47}
+
+
+Calculates the configuration's sha1 hash. 
+
+Hash is used to identify common request configurations for proper subprocess selection. (Requests with common requests do not require reconfiguration reducing computation time)
+
+\begin{DoxyReturn}{Returns}
+hexdigest \mbox{[}string\mbox{]} The hash digest containing only hexadecimal digits 
+\end{DoxyReturn}
+
+
+Definition at line 152 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a214b52656d5823111d4be524470c4f58}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!make\-Equal\-To\-Instance@{make\-Equal\-To\-Instance}}
+\index{make\-Equal\-To\-Instance@{make\-Equal\-To\-Instance}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
+\subsubsection[{make\-Equal\-To\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-make\-Equal\-To\-Instance (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{instance}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a214b52656d5823111d4be524470c4f58}
+
+
+Change attributes to those specified by the Class instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & \mbox{[}\hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams}{Sphinx\-Configuration\-Params}\mbox{]} The class instance \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 64 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a72079f0f14a0dad90b4a2bbe8c98cc5c}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!make\-Equal\-To\-Request@{make\-Equal\-To\-Request}}
+\index{make\-Equal\-To\-Request@{make\-Equal\-To\-Request}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
+\subsubsection[{make\-Equal\-To\-Request}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-make\-Equal\-To\-Request (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{params}
+\end{DoxyParamCaption}
+)}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a72079f0f14a0dad90b4a2bbe8c98cc5c}
+
+
+Change attributes to those specified by the request. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Speech\-Detection\-Sphinx4\-Wrapper\-::\-Speech\-Recognition\-Sphinx4\-Total\-Srv\-Request\mbox{]} The service request \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 55 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 
 
 
 \subsection{Member Data Documentation}
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_ae0cefc8da3538d2e709978c26a1563b5}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!\-\_\-global\-Params@{\-\_\-global\-Params}}
+\index{\-\_\-global\-Params@{\-\_\-global\-Params}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
+\subsubsection[{\-\_\-global\-Params}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-\_\-global\-Params\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_ae0cefc8da3538d2e709978c26a1563b5}
+
+
+Contains global Sphinx parameters. 
+
+(see \hyperlink{classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams}{global\-\_\-parameters.\-Global\-Params}) 
+
+Definition at line 38 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a38df1b7d3f1b19f3fb335ccf1a7e181d}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!\-\_\-grammar@{\-\_\-grammar}}
 \index{\-\_\-grammar@{\-\_\-grammar}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
 \subsubsection[{\-\_\-grammar}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-configuration\-\_\-params.\-Sphinx\-Configuration\-Params.\-\_\-grammar\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a38df1b7d3f1b19f3fb335ccf1a7e181d}
@@ -107,7 +195,7 @@ Sphinx grammar attribute.
 
 
 
-Definition at line 36 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+Definition at line 45 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a56cc14a8b1f9f7369f5fcd41b892830f}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!\-\_\-language@{\-\_\-language}}
 \index{\-\_\-language@{\-\_\-language}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
@@ -118,7 +206,7 @@ The language of the request.
 
 
 
-Definition at line 32 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+Definition at line 41 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_aae72d0d46abac2ff13fe9d6d94e34fdf}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!\-\_\-sentences@{\-\_\-sentences}}
 \index{\-\_\-sentences@{\-\_\-sentences}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
@@ -129,7 +217,7 @@ Sphinx sentence attribute.
 
 
 
-Definition at line 38 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+Definition at line 47 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams_a668f07761930a1858db80c5711f3c84d}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}!\-\_\-words@{\-\_\-words}}
 \index{\-\_\-words@{\-\_\-words}!rapp_speech_detection_sphinx4::sphinx4_configuration_params::SphinxConfigurationParams@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-configuration\-\_\-params\-::\-Sphinx\-Configuration\-Params}}
@@ -140,7 +228,7 @@ The words to be identified.
 
 
 
-Definition at line 34 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
+Definition at line 43 of file sphinx4\-\_\-configuration\-\_\-params.\-py.
 
 
 

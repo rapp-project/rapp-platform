@@ -1,0 +1,522 @@
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler}{\section{rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler Class Reference}
+\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler}\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler}}
+}
+
+
+Handles database functions for authentication manager.  
+
+
+
+
+Inheritance diagram for rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a4ba653248d13cce805d8e8e842364faa}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em R\-O\-S Service initializations. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a105686cfb2ba3285147db320e683db96}{add\-\_\-new\-\_\-user}
+\begin{DoxyCompactList}\small\item\em Write new user to the platform database. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a02c96e176e86700c498ac2879aaf9c73}{add\-\_\-store\-\_\-token\-\_\-to\-\_\-device}
+\begin{DoxyCompactList}\small\item\em Write store token the device table. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a30c5df0f241e485119cf4de3a55cf2b2}{get\-\_\-token\-\_\-user}
+\begin{DoxyCompactList}\small\item\em Retrieve username associated with application\-\_\-token from platform database. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ac6c7b7a9f4dc7e6527964e7eb42be1ab}{get\-\_\-user\-\_\-password}
+\begin{DoxyCompactList}\small\item\em Retrieve user's password from platform database. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_aebac3ab30cb9d77af2066b76c6893e0d}{username\-\_\-exists}
+\begin{DoxyCompactList}\small\item\em Verify that username exists in platform database. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_aee102581c03f4b70bce6ad761de4eab4}{validate\-\_\-user\-\_\-role}
+\begin{DoxyCompactList}\small\item\em Check if user has an admin/root role. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a14b72d315837bfd8d913c2f0d23cbba9}{verify\-\_\-active\-\_\-application\-\_\-token}
+\begin{DoxyCompactList}\small\item\em Check if the application\-\_\-token is active/valid. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a813e2701ff2670ceb49e647c46cf8b54}{verify\-\_\-active\-\_\-robot\-\_\-session}
+\begin{DoxyCompactList}\small\item\em Check if there is an active session (token) for the specified user and store\-\_\-token (device\-\_\-token) \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a01bbfd0ed934a2987d3f6db6008b9e01}{verify\-\_\-platform\-\_\-device\-\_\-token}
+\begin{DoxyCompactList}\small\item\em Verify that the device token exists in platform database. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_af8d8ee721f892fdce17ab67d8217cfea}{verify\-\_\-store\-\_\-device\-\_\-token}
+\begin{DoxyCompactList}\small\item\em Verify that the device token exists in store database. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ac508819d954ef10696106e9875d8bdb3}{write\-\_\-new\-\_\-application\-\_\-token}
+\begin{DoxyCompactList}\small\item\em Write new token to the platform database. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_abff83e481ec569527cc83941c4e7ad46}{\-\_\-add\-\_\-new\-\_\-user\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to add new user to the database. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a69b9c29be7e8360459e29eac7f54c4dd}{\-\_\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to add new device token from store to the database. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_abe0a85fff839029dd6be19ce3eda291b}{\-\_\-create\-\_\-new\-\_\-app\-\_\-token\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to add new application token to the database. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a1d6f0076f803ce6ace5305c98f9feaaa}{\-\_\-get\-\_\-token\-\_\-user\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to query database for the user associated with a token. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_afcee5506c1801addb0702d0c7b209d21}{\-\_\-get\-\_\-user\-\_\-passwd\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to query database for user password. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a4cfb9a393dc0fbe21f0985e02c36d60c}{\-\_\-username\-\_\-exists\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to query database for user existance. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a686fd3a9b7d9426454dfd1471dd6db6c}{\-\_\-validate\-\_\-existing\-\_\-device\-\_\-token\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to query the database for a device token. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a2c43b89eb219c26dac8f04bb2fc1701b}{\-\_\-validate\-\_\-user\-\_\-role\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to query the database for the user's role. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ae21e898efe1a1b6bcc6ce73b008459e1}{\-\_\-verify\-\_\-appl\-\_\-token\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to query database for application token validity. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a9e58d8759993da8626073ecc804638df}{\-\_\-verify\-\_\-robot\-\_\-session\-\_\-proxy}
+\begin{DoxyCompactList}\small\item\em Service proxy to query database for active user session. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Handles database functions for authentication manager. 
+
+Definition at line 58 of file database\-\_\-handler.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a4ba653248d13cce805d8e8e842364faa}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a4ba653248d13cce805d8e8e842364faa}
+
+
+R\-O\-S Service initializations. 
+
+
+
+Definition at line 61 of file database\-\_\-handler.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a105686cfb2ba3285147db320e683db96}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!add\-\_\-new\-\_\-user@{add\-\_\-new\-\_\-user}}
+\index{add\-\_\-new\-\_\-user@{add\-\_\-new\-\_\-user}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{add\-\_\-new\-\_\-user}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-add\-\_\-new\-\_\-user (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username, }
+\item[{}]{password, }
+\item[{}]{creator, }
+\item[{}]{language}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a105686cfb2ba3285147db320e683db96}
+
+
+Write new user to the platform database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username \\
+\hline
+{\em password} & \mbox{[}string\mbox{]} The user's password \\
+\hline
+{\em store\-\_\-token} & \mbox{[}string\mbox{]} The user's store token \\
+\hline
+{\em language} & \mbox{[}string\mbox{]} The user's language\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status \mbox{[}bool\mbox{]} True if token exists, false otherwise
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Failed to create the new user \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 316 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a02c96e176e86700c498ac2879aaf9c73}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!add\-\_\-store\-\_\-token\-\_\-to\-\_\-device@{add\-\_\-store\-\_\-token\-\_\-to\-\_\-device}}
+\index{add\-\_\-store\-\_\-token\-\_\-to\-\_\-device@{add\-\_\-store\-\_\-token\-\_\-to\-\_\-device}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{add\-\_\-store\-\_\-token\-\_\-to\-\_\-device}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{store\-\_\-token}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a02c96e176e86700c498ac2879aaf9c73}
+
+
+Write store token the device table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em store\-\_\-token} & \mbox{[}string\mbox{]} The device\-\_\-token of the application token\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Failed to write token \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 358 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a30c5df0f241e485119cf4de3a55cf2b2}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!get\-\_\-token\-\_\-user@{get\-\_\-token\-\_\-user}}
+\index{get\-\_\-token\-\_\-user@{get\-\_\-token\-\_\-user}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{get\-\_\-token\-\_\-user}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-get\-\_\-token\-\_\-user (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{app\-\_\-token}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a30c5df0f241e485119cf4de3a55cf2b2}
+
+
+Retrieve username associated with application\-\_\-token from platform database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & \mbox{[}string\mbox{]} The user's application token\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+username \mbox{[}string\mbox{]} The username 
+\end{DoxyReturn}
+
+
+Definition at line 281 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ac6c7b7a9f4dc7e6527964e7eb42be1ab}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!get\-\_\-user\-\_\-password@{get\-\_\-user\-\_\-password}}
+\index{get\-\_\-user\-\_\-password@{get\-\_\-user\-\_\-password}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{get\-\_\-user\-\_\-password}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-get\-\_\-user\-\_\-password (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ac6c7b7a9f4dc7e6527964e7eb42be1ab}
+
+
+Retrieve user's password from platform database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+password \mbox{[}string\mbox{]} Password associated with username
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Username does not exist \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 250 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_aebac3ab30cb9d77af2066b76c6893e0d}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!username\-\_\-exists@{username\-\_\-exists}}
+\index{username\-\_\-exists@{username\-\_\-exists}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{username\-\_\-exists}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-username\-\_\-exists (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_aebac3ab30cb9d77af2066b76c6893e0d}
+
+
+Verify that username exists in platform database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status \mbox{[}bool\mbox{]} True if username exists, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 233 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_aee102581c03f4b70bce6ad761de4eab4}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!validate\-\_\-user\-\_\-role@{validate\-\_\-user\-\_\-role}}
+\index{validate\-\_\-user\-\_\-role@{validate\-\_\-user\-\_\-role}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{validate\-\_\-user\-\_\-role}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-validate\-\_\-user\-\_\-role (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_aee102581c03f4b70bce6ad761de4eab4}
+
+
+Check if user has an admin/root role. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The user's username\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Invalid user role \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 376 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a14b72d315837bfd8d913c2f0d23cbba9}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!verify\-\_\-active\-\_\-application\-\_\-token@{verify\-\_\-active\-\_\-application\-\_\-token}}
+\index{verify\-\_\-active\-\_\-application\-\_\-token@{verify\-\_\-active\-\_\-application\-\_\-token}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{verify\-\_\-active\-\_\-application\-\_\-token}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-verify\-\_\-active\-\_\-application\-\_\-token (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{application\-\_\-token}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a14b72d315837bfd8d913c2f0d23cbba9}
+
+
+Check if the application\-\_\-token is active/valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & \mbox{[}string\mbox{]} The user's application token\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status \mbox{[}bool\mbox{]} True if it is valid, flase otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 265 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a813e2701ff2670ceb49e647c46cf8b54}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!verify\-\_\-active\-\_\-robot\-\_\-session@{verify\-\_\-active\-\_\-robot\-\_\-session}}
+\index{verify\-\_\-active\-\_\-robot\-\_\-session@{verify\-\_\-active\-\_\-robot\-\_\-session}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{verify\-\_\-active\-\_\-robot\-\_\-session}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-verify\-\_\-active\-\_\-robot\-\_\-session (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username, }
+\item[{}]{store\-\_\-token}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a813e2701ff2670ceb49e647c46cf8b54}
+
+
+Check if there is an active session (token) for the specified user and store\-\_\-token (device\-\_\-token) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username \\
+\hline
+{\em store\-\_\-token} & \mbox{[}string\mbox{]} The device\-\_\-token associated with the appl\-\_\-token\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status \mbox{[}bool\mbox{]} True if token exists, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 295 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a01bbfd0ed934a2987d3f6db6008b9e01}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!verify\-\_\-platform\-\_\-device\-\_\-token@{verify\-\_\-platform\-\_\-device\-\_\-token}}
+\index{verify\-\_\-platform\-\_\-device\-\_\-token@{verify\-\_\-platform\-\_\-device\-\_\-token}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{verify\-\_\-platform\-\_\-device\-\_\-token}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-verify\-\_\-platform\-\_\-device\-\_\-token (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{device\-\_\-token}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a01bbfd0ed934a2987d3f6db6008b9e01}
+
+
+Verify that the device token exists in platform database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\-\_\-token} & \mbox{[}string\mbox{]} The token\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status \mbox{[}bool\mbox{]} True if token exists, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 221 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_af8d8ee721f892fdce17ab67d8217cfea}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!verify\-\_\-store\-\_\-device\-\_\-token@{verify\-\_\-store\-\_\-device\-\_\-token}}
+\index{verify\-\_\-store\-\_\-device\-\_\-token@{verify\-\_\-store\-\_\-device\-\_\-token}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{verify\-\_\-store\-\_\-device\-\_\-token}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-verify\-\_\-store\-\_\-device\-\_\-token (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{device\-\_\-token}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_af8d8ee721f892fdce17ab67d8217cfea}
+
+
+Verify that the device token exists in store database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em device\-\_\-token} & \mbox{[}string\mbox{]} The token\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+status \mbox{[}bool\mbox{]} True if token exists, false otherwise 
+\end{DoxyReturn}
+
+
+Definition at line 211 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ac508819d954ef10696106e9875d8bdb3}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!write\-\_\-new\-\_\-application\-\_\-token@{write\-\_\-new\-\_\-application\-\_\-token}}
+\index{write\-\_\-new\-\_\-application\-\_\-token@{write\-\_\-new\-\_\-application\-\_\-token}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{write\-\_\-new\-\_\-application\-\_\-token}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-write\-\_\-new\-\_\-application\-\_\-token (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username, }
+\item[{}]{store\-\_\-token, }
+\item[{}]{appl\-\_\-token}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ac508819d954ef10696106e9875d8bdb3}
+
+
+Write new token to the platform database. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The user issuing the token \\
+\hline
+{\em store\-\_\-token} & \mbox{[}string\mbox{]} The device\-\_\-token of the application token \\
+\hline
+{\em app\-\_\-token} & \mbox{[}string\mbox{]} The user's application token\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Failed to write token \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 339 of file database\-\_\-handler.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_abff83e481ec569527cc83941c4e7ad46}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-add\-\_\-new\-\_\-user\-\_\-proxy@{\-\_\-add\-\_\-new\-\_\-user\-\_\-proxy}}
+\index{\-\_\-add\-\_\-new\-\_\-user\-\_\-proxy@{\-\_\-add\-\_\-new\-\_\-user\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-add\-\_\-new\-\_\-user\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-add\-\_\-new\-\_\-user\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_abff83e481ec569527cc83941c4e7ad46}
+
+
+Service proxy to add new user to the database. 
+
+(see database\-\_\-handler.\-add\-\_\-new\-\_\-user) 
+
+Definition at line 145 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a69b9c29be7e8360459e29eac7f54c4dd}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device\-\_\-proxy@{\-\_\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device\-\_\-proxy}}
+\index{\-\_\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device\-\_\-proxy@{\-\_\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a69b9c29be7e8360459e29eac7f54c4dd}
+
+
+Service proxy to add new device token from store to the database. 
+
+(see database\-\_\-handler.\-add\-\_\-store\-\_\-token\-\_\-to\-\_\-device) 
+
+Definition at line 173 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_abe0a85fff839029dd6be19ce3eda291b}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-create\-\_\-new\-\_\-app\-\_\-token\-\_\-proxy@{\-\_\-create\-\_\-new\-\_\-app\-\_\-token\-\_\-proxy}}
+\index{\-\_\-create\-\_\-new\-\_\-app\-\_\-token\-\_\-proxy@{\-\_\-create\-\_\-new\-\_\-app\-\_\-token\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-create\-\_\-new\-\_\-app\-\_\-token\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-create\-\_\-new\-\_\-app\-\_\-token\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_abe0a85fff839029dd6be19ce3eda291b}
+
+
+Service proxy to add new application token to the database. 
+
+(see database\-\_\-handler.\-write\-\_\-new\-\_\-application\-\_\-token) 
+
+Definition at line 159 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a1d6f0076f803ce6ace5305c98f9feaaa}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-get\-\_\-token\-\_\-user\-\_\-proxy@{\-\_\-get\-\_\-token\-\_\-user\-\_\-proxy}}
+\index{\-\_\-get\-\_\-token\-\_\-user\-\_\-proxy@{\-\_\-get\-\_\-token\-\_\-user\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-get\-\_\-token\-\_\-user\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-get\-\_\-token\-\_\-user\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a1d6f0076f803ce6ace5305c98f9feaaa}
+
+
+Service proxy to query database for the user associated with a token. 
+
+(see database\-\_\-handler.\-get\-\_\-token\-\_\-user) 
+
+Definition at line 116 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_afcee5506c1801addb0702d0c7b209d21}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-get\-\_\-user\-\_\-passwd\-\_\-proxy@{\-\_\-get\-\_\-user\-\_\-passwd\-\_\-proxy}}
+\index{\-\_\-get\-\_\-user\-\_\-passwd\-\_\-proxy@{\-\_\-get\-\_\-user\-\_\-passwd\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-get\-\_\-user\-\_\-passwd\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-get\-\_\-user\-\_\-passwd\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_afcee5506c1801addb0702d0c7b209d21}
+
+
+Service proxy to query database for user password. 
+
+(see database\-\_\-handler.\-get\-\_\-user\-\_\-password) 
+
+Definition at line 86 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a4cfb9a393dc0fbe21f0985e02c36d60c}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-username\-\_\-exists\-\_\-proxy@{\-\_\-username\-\_\-exists\-\_\-proxy}}
+\index{\-\_\-username\-\_\-exists\-\_\-proxy@{\-\_\-username\-\_\-exists\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-username\-\_\-exists\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-username\-\_\-exists\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a4cfb9a393dc0fbe21f0985e02c36d60c}
+
+
+Service proxy to query database for user existance. 
+
+(see database\-\_\-handler.\-username\-\_\-exists) 
+
+Definition at line 72 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a686fd3a9b7d9426454dfd1471dd6db6c}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-validate\-\_\-existing\-\_\-device\-\_\-token\-\_\-proxy@{\-\_\-validate\-\_\-existing\-\_\-device\-\_\-token\-\_\-proxy}}
+\index{\-\_\-validate\-\_\-existing\-\_\-device\-\_\-token\-\_\-proxy@{\-\_\-validate\-\_\-existing\-\_\-device\-\_\-token\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-validate\-\_\-existing\-\_\-device\-\_\-token\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-validate\-\_\-existing\-\_\-device\-\_\-token\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a686fd3a9b7d9426454dfd1471dd6db6c}
+
+
+Service proxy to query the database for a device token. 
+
+(see database\-\_\-handler.\-verify\-\_\-platform\-\_\-device\-\_\-token) 
+
+Definition at line 202 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a2c43b89eb219c26dac8f04bb2fc1701b}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-validate\-\_\-user\-\_\-role\-\_\-proxy@{\-\_\-validate\-\_\-user\-\_\-role\-\_\-proxy}}
+\index{\-\_\-validate\-\_\-user\-\_\-role\-\_\-proxy@{\-\_\-validate\-\_\-user\-\_\-role\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-validate\-\_\-user\-\_\-role\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-validate\-\_\-user\-\_\-role\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a2c43b89eb219c26dac8f04bb2fc1701b}
+
+
+Service proxy to query the database for the user's role. 
+
+(see database\-\_\-handler.\-validate\-\_\-user\-\_\-role) 
+
+Definition at line 187 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ae21e898efe1a1b6bcc6ce73b008459e1}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-verify\-\_\-appl\-\_\-token\-\_\-proxy@{\-\_\-verify\-\_\-appl\-\_\-token\-\_\-proxy}}
+\index{\-\_\-verify\-\_\-appl\-\_\-token\-\_\-proxy@{\-\_\-verify\-\_\-appl\-\_\-token\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-verify\-\_\-appl\-\_\-token\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-verify\-\_\-appl\-\_\-token\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_ae21e898efe1a1b6bcc6ce73b008459e1}
+
+
+Service proxy to query database for application token validity. 
+
+(see database\-\_\-handler.\-verify\-\_\-active\-\_\-application\-\_\-token) 
+
+Definition at line 101 of file database\-\_\-handler.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a9e58d8759993da8626073ecc804638df}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}!\-\_\-verify\-\_\-robot\-\_\-session\-\_\-proxy@{\-\_\-verify\-\_\-robot\-\_\-session\-\_\-proxy}}
+\index{\-\_\-verify\-\_\-robot\-\_\-session\-\_\-proxy@{\-\_\-verify\-\_\-robot\-\_\-session\-\_\-proxy}!rapp_application_authentication_manager::database_handler::DatabaseHandler@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::database\-\_\-handler\-::\-Database\-Handler}}
+\subsubsection[{\-\_\-verify\-\_\-robot\-\_\-session\-\_\-proxy}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-database\-\_\-handler.\-Database\-Handler.\-\_\-verify\-\_\-robot\-\_\-session\-\_\-proxy\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler_a9e58d8759993da8626073ecc804638df}
+
+
+Service proxy to query database for active user session. 
+
+(see database\-\_\-handler.\-verify\-\_\-active\-\_\-robot\-\_\-session) 
+
+Definition at line 131 of file database\-\_\-handler.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-application\-\_\-authentication\-\_\-manager/src/rapp\-\_\-application\-\_\-authentication\-\_\-manager/\hyperlink{database__handler_8py}{database\-\_\-handler.\-py}\end{DoxyCompactItemize}

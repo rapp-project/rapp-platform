@@ -162,74 +162,74 @@ $(document).ready(function(){initNavTree('functional__tests_8py_source.html','')
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        self.assertEqual( <span class="stringliteral">&#39;no&#39;</span> <span class="keywordflow">in</span> response.words, <span class="keyword">True</span>)</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">## Tests Google ASR with a NAO recorded ogg file. Should return &quot;Monday&quot;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1SpeechToTextFunc.html#a1c3e6cc84f1bf7ba8efc03f3f602a4f8">   56</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1SpeechToTextFunc.html#a1c3e6cc84f1bf7ba8efc03f3f602a4f8">test_wavFile_2</a>(self):</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        rospack = rospkg.RosPack()</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        google_service = rospy.get_param(\</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="stringliteral">&quot;rapp_speech_detection_google_detect_speech_topic&quot;</span>)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        rospy.wait_for_service(google_service)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        req = SpeechToTextSrvRequest()</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        req.filename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="stringliteral">&#39;/test_data/speech_detection_samples/recording_monday.ogg&#39;</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        req.audio_type = <span class="stringliteral">&#39;nao_ogg&#39;</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        req.user = <span class="stringliteral">&#39;rapp&#39;</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        req.language = <span class="stringliteral">&#39;en&#39;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        response = stt_service(req)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        words_basic = len(response.words)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment"># Check number of words</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        self.assertEqual( words_basic, 1)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        self.assertEqual( <span class="stringliteral">&#39;Monday&#39;</span> <span class="keywordflow">in</span> response.words, <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">## Tests Google ASR with an image. Should return nothing</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1SpeechToTextFunc.html#ab33701bb946c7e8c80d8a5b6e7c4abfc">   76</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1SpeechToTextFunc.html#ab33701bb946c7e8c80d8a5b6e7c4abfc">test_imageFile</a>(self):</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        rospack = rospkg.RosPack()</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        google_service = rospy.get_param(\</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="stringliteral">&quot;rapp_speech_detection_google_detect_speech_topic&quot;</span>)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        rospy.wait_for_service(google_service)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        req = SpeechToTextSrvRequest()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        req.filename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="stringliteral">&#39;/test_data/Lenna.png&#39;</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        req.audio_type = <span class="stringliteral">&#39;nao_wav_1_ch&#39;</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        req.user = <span class="stringliteral">&#39;rapp&#39;</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        req.language = <span class="stringliteral">&#39;en&#39;</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        response = stt_service(req)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        words_basic = len(response.words)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment"># Check number of words</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        self.assertEqual( words_basic, 0)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment"># Check number of alternatives</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        self.assertEqual( len(response.alternatives), 0)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">## Tests Google ASR with a missing file. Should return nothing</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1SpeechToTextFunc.html#ae5fda4eac95917536723e8134b50a353">   98</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1SpeechToTextFunc.html#ae5fda4eac95917536723e8134b50a353">test_notExistentFile</a>(self):</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        rospack = rospkg.RosPack()</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        google_service = rospy.get_param(\</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="stringliteral">&quot;rapp_speech_detection_google_detect_speech_topic&quot;</span>)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        rospy.wait_for_service(google_service)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        req = SpeechToTextSrvRequest()</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        req.filename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="stringliteral">&#39;/test_data/something.flac&#39;</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        req.audio_type = <span class="stringliteral">&#39;nao_wav_1_ch&#39;</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        req.user = <span class="stringliteral">&#39;rapp&#39;</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        req.language = <span class="stringliteral">&#39;en&#39;</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        response = stt_service(req)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        words_basic = len(response.words)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="comment"># Check number of words</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        self.assertEqual( words_basic, 0)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="comment"># Check number of alternatives</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        self.assertEqual( len(response.alternatives), 0)</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">## The main function. Initializes the Google ASR functional tests</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keyword">import</span> rosunit</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    rosunit.unitrun(PKG, <span class="stringliteral">&#39;SpeechToTextFunc&#39;</span>, SpeechToTextFunc)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment"># @unittest.skip(&quot;Depends on Google ASR result - Sometimes fails&quot;)</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment"># def test_wavFile_2(self):</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="comment"># rospack = rospkg.RosPack()</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment"># google_service = rospy.get_param(\</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="comment"># &quot;rapp_speech_detection_google_detect_speech_topic&quot;)</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment"># rospy.wait_for_service(google_service)</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment"># stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment"># req = SpeechToTextSrvRequest()</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment"># req.filename = rospack.get_path(&#39;rapp_testing_tools&#39;) + \</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="comment"># &#39;/test_data/speech_detection_samples/recording_monday.ogg&#39;</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment"># req.audio_type = &#39;nao_ogg&#39;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment"># req.user = &#39;rapp&#39;</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment"># req.language = &#39;en&#39;</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment"># response = stt_service(req)</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment"># words_basic = len(response.words)</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="comment"># Check number of words</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="comment"># self.assertEqual( words_basic, 1)</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment"># self.assertEqual( &#39;Monday&#39; in response.words, True)</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">## Tests Google ASR with an image. Should return nothing</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1SpeechToTextFunc.html#ab33701bb946c7e8c80d8a5b6e7c4abfc">   77</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1SpeechToTextFunc.html#ab33701bb946c7e8c80d8a5b6e7c4abfc">test_imageFile</a>(self):</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        rospack = rospkg.RosPack()</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        google_service = rospy.get_param(\</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                <span class="stringliteral">&quot;rapp_speech_detection_google_detect_speech_topic&quot;</span>)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        rospy.wait_for_service(google_service)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        req = SpeechToTextSrvRequest()</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        req.filename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="stringliteral">&#39;/test_data/Lenna.png&#39;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        req.audio_type = <span class="stringliteral">&#39;nao_wav_1_ch&#39;</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        req.user = <span class="stringliteral">&#39;rapp&#39;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        req.language = <span class="stringliteral">&#39;en&#39;</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        response = stt_service(req)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        words_basic = len(response.words)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment"># Check number of words</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        self.assertEqual( words_basic, 0)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="comment"># Check number of alternatives</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        self.assertEqual( len(response.alternatives), 0)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="comment">## Tests Google ASR with a missing file. Should return nothing</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1SpeechToTextFunc.html#ae5fda4eac95917536723e8134b50a353">   99</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1SpeechToTextFunc.html#ae5fda4eac95917536723e8134b50a353">test_notExistentFile</a>(self):</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        rospack = rospkg.RosPack()</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        google_service = rospy.get_param(\</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="stringliteral">&quot;rapp_speech_detection_google_detect_speech_topic&quot;</span>)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        rospy.wait_for_service(google_service)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        req = SpeechToTextSrvRequest()</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        req.filename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="stringliteral">&#39;/test_data/something.flac&#39;</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        req.audio_type = <span class="stringliteral">&#39;nao_wav_1_ch&#39;</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        req.user = <span class="stringliteral">&#39;rapp&#39;</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        req.language = <span class="stringliteral">&#39;en&#39;</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        response = stt_service(req)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        words_basic = len(response.words)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment"># Check number of words</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        self.assertEqual( words_basic, 0)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment"># Check number of alternatives</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        self.assertEqual( len(response.alternatives), 0)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">## The main function. Initializes the Google ASR functional tests</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keyword">import</span> rosunit</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    rosunit.unitrun(PKG, <span class="stringliteral">&#39;SpeechToTextFunc&#39;</span>, SpeechToTextFunc)</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
@@ -243,18 +243,18 @@ $(document).ready(function(){initNavTree('functional__tests_8py_source.html','')
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
 <div class="ttc" id="classfunctional__tests_1_1SpeechToTextFunc_html"><div class="ttname"><a href="classfunctional__tests_1_1SpeechToTextFunc.html">functional_tests.SpeechToTextFunc</a></div><div class="ttdoc">Inherits the unittest.TestCase class in order to offer functional tests functionality. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00032">functional_tests.py:32</a></div></div>
 <div class="ttc" id="classfunctional__tests_1_1SpeechToTextFunc_html_a1038ecffd4b8c2d0ceb9626aedefe2c9"><div class="ttname"><a href="classfunctional__tests_1_1SpeechToTextFunc.html#a1038ecffd4b8c2d0ceb9626aedefe2c9">functional_tests.SpeechToTextFunc.test_wavFile</a></div><div class="ttdeci">def test_wavFile</div><div class="ttdoc">Tests Google ASR with a NAO captured wav file, 1 channel. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00035">functional_tests.py:35</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1SpeechToTextFunc_html_ab33701bb946c7e8c80d8a5b6e7c4abfc"><div class="ttname"><a href="classfunctional__tests_1_1SpeechToTextFunc.html#ab33701bb946c7e8c80d8a5b6e7c4abfc">functional_tests.SpeechToTextFunc.test_imageFile</a></div><div class="ttdeci">def test_imageFile</div><div class="ttdoc">Tests Google ASR with an image. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00076">functional_tests.py:76</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1SpeechToTextFunc_html_a1c3e6cc84f1bf7ba8efc03f3f602a4f8"><div class="ttname"><a href="classfunctional__tests_1_1SpeechToTextFunc.html#a1c3e6cc84f1bf7ba8efc03f3f602a4f8">functional_tests.SpeechToTextFunc.test_wavFile_2</a></div><div class="ttdeci">def test_wavFile_2</div><div class="ttdoc">Tests Google ASR with a NAO recorded ogg file. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00056">functional_tests.py:56</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1SpeechToTextFunc_html_ae5fda4eac95917536723e8134b50a353"><div class="ttname"><a href="classfunctional__tests_1_1SpeechToTextFunc.html#ae5fda4eac95917536723e8134b50a353">functional_tests.SpeechToTextFunc.test_notExistentFile</a></div><div class="ttdeci">def test_notExistentFile</div><div class="ttdoc">Tests Google ASR with a missing file. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00098">functional_tests.py:98</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1SpeechToTextFunc_html_ab33701bb946c7e8c80d8a5b6e7c4abfc"><div class="ttname"><a href="classfunctional__tests_1_1SpeechToTextFunc.html#ab33701bb946c7e8c80d8a5b6e7c4abfc">functional_tests.SpeechToTextFunc.test_imageFile</a></div><div class="ttdeci">def test_imageFile</div><div class="ttdoc">Tests Google ASR with a NAO recorded ogg file. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00077">functional_tests.py:77</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1SpeechToTextFunc_html_ae5fda4eac95917536723e8134b50a353"><div class="ttname"><a href="classfunctional__tests_1_1SpeechToTextFunc.html#ae5fda4eac95917536723e8134b50a353">functional_tests.SpeechToTextFunc.test_notExistentFile</a></div><div class="ttdeci">def test_notExistentFile</div><div class="ttdoc">Tests Google ASR with a missing file. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00099">functional_tests.py:99</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_e0e61ad8a500407e26fb740a2ee0e630.html">rapp_speech_detection_google</a></li><li class="navelem"><a class="el" href="dir_37432e342a7846ef5399d9bd75bd5ace.html">tests</a></li><li class="navelem"><a class="el" href="dir_5a24065015946a85ddf894d158c7192a.html">speech_to_text</a></li><li class="navelem"><a class="el" href="functional__tests_8py.html">functional_tests.py</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:46 for RAPP Platform Tests - Speech Detection Google by
+    <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_413b105a3310002bcfaca28801d744de.html">rapp_speech_detection_google</a></li><li class="navelem"><a class="el" href="dir_f7068e481b4a94814d154723c8cd857a.html">tests</a></li><li class="navelem"><a class="el" href="dir_f3f4c718410b1e74a3e9a986ffa9a733.html">speech_to_text</a></li><li class="navelem"><a class="el" href="functional__tests_8py.html">functional_tests.py</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:13 for RAPP Platform Tests - Speech Detection Google by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

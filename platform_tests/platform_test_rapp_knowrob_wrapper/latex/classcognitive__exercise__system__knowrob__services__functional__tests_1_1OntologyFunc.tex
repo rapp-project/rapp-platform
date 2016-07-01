@@ -37,6 +37,10 @@ def \hyperlink{classcognitive__exercise__system__knowrob__services__functional__
 \begin{DoxyCompactList}\small\item\em Test create existent cognitive test def test\-\_\-create\-\_\-existent\-\_\-cognitive\-\_\-test(self)\-: subclasses\-\_\-of\-\_\-service = rospy.\-get\-\_\-param(\textbackslash{} \char`\"{}rapp\-\_\-knowrob\-\_\-wrapper\-\_\-create\-\_\-cognitve\-\_\-tests\char`\"{}) rospy.\-wait\-\_\-for\-\_\-service(subclasses\-\_\-of\-\_\-service) \end{DoxyCompactList}\item 
 def \hyperlink{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a60ac919b56f4153fb3c7e5f7149eedb3}{test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test\-\_\-xml\-\_\-path\-\_\-nonexistent}
 \begin{DoxyCompactList}\small\item\em Test create non existent cognitive test with invalid xml path. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a3c9113598b5d2f42d439a4965db22d9d}{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-existent\-\_\-user}
+\begin{DoxyCompactList}\small\item\em Test get user ontology alias of existent user. \end{DoxyCompactList}\item 
+def \hyperlink{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_af2dd09a1ea405c586906a8db0b4de689}{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-nonexistent\-\_\-user}
+\begin{DoxyCompactList}\small\item\em Test get user ontology alias of nonexistent user. \end{DoxyCompactList}\item 
 def \hyperlink{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_ab2bcb296c17b73a1baa76c55ffdade52}{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-nonexisting\-\_\-test\-\_\-and\-\_\-user}
 \begin{DoxyCompactList}\small\item\em Test record user performance of existent user and test type def test\-\_\-record\-\_\-user\-\_\-performance\-\_\-existing\-\_\-test\-\_\-and\-\_\-user(self)\-: subclasses\-\_\-of\-\_\-service = rospy.\-get\-\_\-param(\textbackslash{} \char`\"{}rapp\-\_\-knowrob\-\_\-wrapper\-\_\-record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\char`\"{}) rospy.\-wait\-\_\-for\-\_\-service(subclasses\-\_\-of\-\_\-service) \end{DoxyCompactList}\item 
 def \hyperlink{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a7589b1b87bf171a7b19fb1620e689c4b}{test\-\_\-user\-\_\-performance\-\_\-existent\-\_\-user\-\_\-and\-\_\-test}
@@ -48,7 +52,7 @@ def \hyperlink{classcognitive__exercise__system__knowrob__services__functional__
 \subsection{Detailed Description}
 Inherits the unittest.\-Test\-Case class in order to offer functional tests functionality. 
 
-Definition at line 41 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 44 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 
 
@@ -66,7 +70,7 @@ Test cognitive tests of existent type.
 
 
 
-Definition at line 44 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 47 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a651c94c6b07b35dd8b9b3a66045ac502}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-cognitive\-\_\-tests\-\_\-of\-\_\-nonexistent\-\_\-type@{test\-\_\-cognitive\-\_\-tests\-\_\-of\-\_\-nonexistent\-\_\-type}}
 \index{test\-\_\-cognitive\-\_\-tests\-\_\-of\-\_\-nonexistent\-\_\-type@{test\-\_\-cognitive\-\_\-tests\-\_\-of\-\_\-nonexistent\-\_\-type}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
@@ -81,7 +85,7 @@ Test cognitive tests of non existent type.
 
 
 
-Definition at line 62 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 65 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_af4ed2d90b352171d1cd40a6bc09f951d}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test@{test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test}}
 \index{test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test@{test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
@@ -96,7 +100,7 @@ Test create existent cognitive test def test\-\_\-create\-\_\-existent\-\_\-cogn
 
 Test create non existent cognitive test 
 
-Definition at line 166 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 196 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a60ac919b56f4153fb3c7e5f7149eedb3}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test\-\_\-xml\-\_\-path\-\_\-nonexistent@{test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test\-\_\-xml\-\_\-path\-\_\-nonexistent}}
 \index{test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test\-\_\-xml\-\_\-path\-\_\-nonexistent@{test\-\_\-create\-\_\-nonexistent\-\_\-cognitive\-\_\-test\-\_\-xml\-\_\-path\-\_\-nonexistent}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
@@ -111,7 +115,37 @@ Test create non existent cognitive test with invalid xml path.
 
 
 
-Definition at line 186 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 216 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a3c9113598b5d2f42d439a4965db22d9d}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-existent\-\_\-user@{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-existent\-\_\-user}}
+\index{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-existent\-\_\-user@{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-existent\-\_\-user}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
+\subsubsection[{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-existent\-\_\-user}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-Ontology\-Func.\-test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-existent\-\_\-user (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a3c9113598b5d2f42d439a4965db22d9d}
+
+
+Test get user ontology alias of existent user. 
+
+
+
+Definition at line 81 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+
+\hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_af2dd09a1ea405c586906a8db0b4de689}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-nonexistent\-\_\-user@{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-nonexistent\-\_\-user}}
+\index{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-nonexistent\-\_\-user@{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-nonexistent\-\_\-user}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
+\subsubsection[{test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-nonexistent\-\_\-user}]{\setlength{\rightskip}{0pt plus 5cm}def cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-Ontology\-Func.\-test\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-nonexistent\-\_\-user (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_af2dd09a1ea405c586906a8db0b4de689}
+
+
+Test get user ontology alias of nonexistent user. 
+
+
+
+Definition at line 96 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_ab2bcb296c17b73a1baa76c55ffdade52}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-record\-\_\-user\-\_\-performance\-\_\-nonexisting\-\_\-test\-\_\-and\-\_\-user@{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-nonexisting\-\_\-test\-\_\-and\-\_\-user}}
 \index{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-nonexisting\-\_\-test\-\_\-and\-\_\-user@{test\-\_\-record\-\_\-user\-\_\-performance\-\_\-nonexisting\-\_\-test\-\_\-and\-\_\-user}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
@@ -126,7 +160,7 @@ Test record user performance of existent user and test type def test\-\_\-record
 
 req.\-test\-\_\-type=\char`\"{}\-Arithmetic\-Cts\char`\"{} req.\-test=\char`\"{}\-Arithmetic\-Cts\-\_\-\-Mewmm\-Es\-P\char`\"{} req.\-score=11 req.\-timestamp=1 response = test\-\_\-service(req) self.\-assert\-Equal(response.\-success, True) Test record user performance of nonexistent user and test type 
 
-Definition at line 131 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 161 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_a7589b1b87bf171a7b19fb1620e689c4b}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-user\-\_\-performance\-\_\-existent\-\_\-user\-\_\-and\-\_\-test@{test\-\_\-user\-\_\-performance\-\_\-existent\-\_\-user\-\_\-and\-\_\-test}}
 \index{test\-\_\-user\-\_\-performance\-\_\-existent\-\_\-user\-\_\-and\-\_\-test@{test\-\_\-user\-\_\-performance\-\_\-existent\-\_\-user\-\_\-and\-\_\-test}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
@@ -141,7 +175,7 @@ Test user performance of existent user and test type.
 
 
 
-Definition at line 78 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 110 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 \hypertarget{classcognitive__exercise__system__knowrob__services__functional__tests_1_1OntologyFunc_ad697dd9b6de9014f73d1deda76e17abf}{\index{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}!test\-\_\-user\-\_\-performance\-\_\-nonexistent\-\_\-user\-\_\-and\-\_\-test@{test\-\_\-user\-\_\-performance\-\_\-nonexistent\-\_\-user\-\_\-and\-\_\-test}}
 \index{test\-\_\-user\-\_\-performance\-\_\-nonexistent\-\_\-user\-\_\-and\-\_\-test@{test\-\_\-user\-\_\-performance\-\_\-nonexistent\-\_\-user\-\_\-and\-\_\-test}!cognitive_exercise_system_knowrob_services_functional_tests::OntologyFunc@{cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests\-::\-Ontology\-Func}}
@@ -156,7 +190,7 @@ Test user performance of nonexistent user and test type.
 
 
 
-Definition at line 97 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
+Definition at line 127 of file cognitive\-\_\-exercise\-\_\-system\-\_\-knowrob\-\_\-services\-\_\-functional\-\_\-tests.\-py.
 
 
 

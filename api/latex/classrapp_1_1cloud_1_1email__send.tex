@@ -1,0 +1,146 @@
+\hypertarget{classrapp_1_1cloud_1_1email__send}{\section{rapp\-:\-:cloud\-:\-:email\-\_\-send Class Reference}
+\label{classrapp_1_1cloud_1_1email__send}\index{rapp\-::cloud\-::email\-\_\-send@{rapp\-::cloud\-::email\-\_\-send}}
+}
+
+
+send an email  
+
+
+
+
+{\ttfamily \#include $<$email.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:email\-\_\-send\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1email__send__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:email\-\_\-send\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1email__send__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1email__send_ade7d3dd80278c1975f74c1526e0d3cab}{email\-\_\-send} (const std\-::string email, const std\-::string pwd, const std\-::string server, const std\-::string \hyperlink{namespacerapp_1_1cloud_ae0e4cb6fd54bbf45234fc3c21f752b7a}{port}, const std\-::vector$<$ std\-::string $>$ recipients, const std\-::string body, const std\-::string subject, const std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d307b}{rapp\-::types\-::byte} $>$ data, const std\-::string token, std\-::function$<$ void(std\-::string)$>$ callback)
+\begin{DoxyCompactList}\small\item\em construct in order to send email \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1email__send_a90e15e8336d8561a626f685aafc6c5a7}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1email__send_a8411459df7614fa390cfa8351277ec4c}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+send an email 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+
+
+Definition at line 79 of file email.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1email__send_ade7d3dd80278c1975f74c1526e0d3cab}{\index{rapp\-::cloud\-::email\-\_\-send@{rapp\-::cloud\-::email\-\_\-send}!email\-\_\-send@{email\-\_\-send}}
+\index{email\-\_\-send@{email\-\_\-send}!rapp::cloud::email_send@{rapp\-::cloud\-::email\-\_\-send}}
+\subsubsection[{email\-\_\-send}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::email\-\_\-send\-::email\-\_\-send (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{email, }
+\item[{const std\-::string}]{pwd, }
+\item[{const std\-::string}]{server, }
+\item[{const std\-::string}]{port, }
+\item[{const std\-::vector$<$ std\-::string $>$}]{recipients, }
+\item[{const std\-::string}]{body, }
+\item[{const std\-::string}]{subject, }
+\item[{const std\-::vector$<$ {\bf rapp\-::types\-::byte} $>$}]{data, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::string)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1email__send_ade7d3dd80278c1975f74c1526e0d3cab}
+
+
+construct in order to send email 
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & user's email address \\
+\hline
+{\em pwd} & user's plain-\/text password \\
+\hline
+{\em server} & email imap address \\
+\hline
+{\em port} & email imap port \\
+\hline
+{\em recipients} & vector of email addresses \\
+\hline
+{\em body} & email body \\
+\hline
+{\em subject} & email subject \\
+\hline
+{\em data} & data attached to the email \\
+\hline
+{\em token} & rapp platform auth token \\
+\hline
+{\em callback} & may receive a J\-S\-O\-N reply of error(s) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 95 of file email.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1email__send_a90e15e8336d8561a626f685aafc6c5a7}{\index{rapp\-::cloud\-::email\-\_\-send@{rapp\-::cloud\-::email\-\_\-send}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::email_send@{rapp\-::cloud\-::email\-\_\-send}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::email\-\_\-send\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1email__send_a90e15e8336d8561a626f685aafc6c5a7}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 145 of file email.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1email__send_a8411459df7614fa390cfa8351277ec4c}{\index{rapp\-::cloud\-::email\-\_\-send@{rapp\-::cloud\-::email\-\_\-send}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::email_send@{rapp\-::cloud\-::email\-\_\-send}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::string)$>$ rapp\-::cloud\-::email\-\_\-send\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1email__send_a8411459df7614fa390cfa8351277ec4c}
+
+
+Definition at line 152 of file email.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/email/\hyperlink{email_8hpp}{email.\-hpp}\end{DoxyCompactItemize}

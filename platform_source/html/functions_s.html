@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -100,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_l.html#index_l"><span>l</span></a></li>
       <li><a href="functions_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_n.html#index_n"><span>n</span></a></li>
+      <li><a href="functions_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_p.html#index_p"><span>p</span></a></li>
       <li><a href="functions_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_r.html#index_r"><span>r</span></a></li>
@@ -108,6 +108,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
       <li><a href="functions_v.html#index_v"><span>v</span></a></li>
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
+      <li><a href="functions_x.html#index_x"><span>x</span></a></li>
+      <li><a href="functions_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_~.html#index_~"><span>~</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -130,7 +133,7 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -143,15 +146,34 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
+<li>saved_map_
+: <a class="el" href="classMapGenerator.html#ad899126ba6b03388bd076e1418ae7120">MapGenerator</a>
+</li>
+<li>select_geolocator()
+: <a class="el" href="classrapp__geolocator_1_1geolocator__factory_1_1GeolocatorFactory.html#a321d8526143fbb78498096e838d27b65">rapp_geolocator.geolocator_factory.GeolocatorFactory</a>
+</li>
+<li>select_news_engine()
+: <a class="el" href="classrapp__news__explorer_1_1engine__factory_1_1EngineFactory.html#a0c41788e7a77cb28c6b68c3b3bd84908">rapp_news_explorer.engine_factory.EngineFactory</a>
+</li>
+<li>select_weather_reporter()
+: <a class="el" href="classrapp__weather__reporter_1_1weather__reporter__factory_1_1WeatherReporterFactory.html#ab8bedaf16917fb85958cee3d61e1806e">rapp_weather_reporter.weather_reporter_factory.WeatherReporterFactory</a>
+</li>
+<li>sendEmailSrvCallback()
+: <a class="el" href="classrapp__email_1_1email__sender_1_1EmailSender.html#a45f55e0f4898f0a587d33822967250af">rapp_email.email_sender.EmailSender</a>
+</li>
 <li>serv
-: <a class="el" href="classcognitive__exercise_1_1CognitiveExercise.html#a31a4e22c02bc1d7bda11b5e1fda5d065">cognitive_exercise.CognitiveExercise</a>
+: <a class="el" href="classcaffe__wrapper_1_1RappCaffeWrapper.html#aa639e886573f4b7ecdc4e06890547fc5">caffe_wrapper.RappCaffeWrapper</a>
+, <a class="el" href="classcognitive__exercise_1_1CognitiveExercise.html#a31a4e22c02bc1d7bda11b5e1fda5d065">cognitive_exercise.CognitiveExercise</a>
 , <a class="el" href="classmysql__wrapper_1_1MySQLdbWrapper.html#ad3f471033029f6ca7487fa7e32ba533b">mysql_wrapper.MySQLdbWrapper</a>
+, <a class="el" href="classmysql__wrapper__old_1_1MySQLdbWrapper.html#abcac7ae4b4b405dbdfd6080adabf4eb0">mysql_wrapper_old.MySQLdbWrapper</a>
 , <a class="el" href="classspeech__recognition__google_1_1SpeechToTextGoogle.html#a94ebcefbc7bdfb0f53d1c8d91cebae1c">speech_recognition_google.SpeechToTextGoogle</a>
 , <a class="el" href="classtext__to__speech__espeak_1_1TextToSpeechEspeak.html#a2d7125fa374df3f2464895e9912740e1">text_to_speech_espeak.TextToSpeechEspeak</a>
 </li>
 <li>serv_topic
-: <a class="el" href="classcognitive__exercise_1_1CognitiveExercise.html#a01c12d3ff9258c812e34f89a516699ed">cognitive_exercise.CognitiveExercise</a>
+: <a class="el" href="classcaffe__wrapper_1_1RappCaffeWrapper.html#ade290e890641a63e9a75abe540dff6d4">caffe_wrapper.RappCaffeWrapper</a>
+, <a class="el" href="classcognitive__exercise_1_1CognitiveExercise.html#a01c12d3ff9258c812e34f89a516699ed">cognitive_exercise.CognitiveExercise</a>
 , <a class="el" href="classmysql__wrapper_1_1MySQLdbWrapper.html#a63992807961399f3fbd3f963daad8cc1">mysql_wrapper.MySQLdbWrapper</a>
+, <a class="el" href="classmysql__wrapper__old_1_1MySQLdbWrapper.html#a592e1305b902af699be5e0a2c638c79c">mysql_wrapper_old.MySQLdbWrapper</a>
 , <a class="el" href="classspeech__recognition__google_1_1SpeechToTextGoogle.html#a706a8904bbb7ae3e7431250323b559d6">speech_recognition_google.SpeechToTextGoogle</a>
 , <a class="el" href="classtext__to__speech__espeak_1_1TextToSpeechEspeak.html#a90fad6605bb18dd67187858f7389bf13">text_to_speech_espeak.TextToSpeechEspeak</a>
 </li>
@@ -160,6 +182,9 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 </li>
 <li>setNoiseProfileCallback()
 : <a class="el" href="classrapp__audio__processing_1_1rapp__audio__processing_1_1AudioProcessing.html#abae3b74a23c3bb6c7d41b31276dfc3cc">rapp_audio_processing.rapp_audio_processing.AudioProcessing</a>
+</li>
+<li>setSequenceNR()
+: <a class="el" href="classPathPlanner.html#adab13f270c11f92aa0463c96f0ec20e0">PathPlanner</a>
 </li>
 <li>soxDenoise()
 : <a class="el" href="classrapp__audio__processing_1_1rapp__sox__denoise_1_1SoxDenoise.html#a96c7e0f872235ce4c383ed775b088a9c">rapp_audio_processing.rapp_sox_denoise.SoxDenoise</a>
@@ -173,8 +198,8 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <li>speechRecognitionBatch()
 : <a class="el" href="classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4_1_1SpeechRecognitionSphinx4.html#a60e2286679d5dce9da486c7b6c3b5ad3">rapp_speech_detection_sphinx4.speech_recognition_sphinx4.SpeechRecognitionSphinx4</a>
 </li>
-<li>sphinx_configuration
-: <a class="el" href="classrapp__speech__detection__sphinx4_1_1limited__vocabulary__creator_1_1LimitedVocabularyCreator.html#a7ddf95a2e0ec8488cf1677f8d68e0846">rapp_speech_detection_sphinx4.limited_vocabulary_creator.LimitedVocabularyCreator</a>
+<li>startSequence()
+: <a class="el" href="classPathPlanner.html#a4af33ccade9ae9429d8aba91b91d50e9">PathPlanner</a>
 </li>
 <li>subclasses_of_service_
 : <a class="el" href="classKnowrobWrapperCommunications.html#aa694eb182b48822ca845e34096b17ad4">KnowrobWrapperCommunications</a>
@@ -187,6 +212,9 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 </li>
 <li>subclassesOfQuery()
 : <a class="el" href="classKnowrobWrapper.html#a6e2ee6a631a705466a490f37ecf8afd5">KnowrobWrapper</a>
+</li>
+<li>subscribe_to_updates_
+: <a class="el" href="classcostmap__2d_1_1RappStaticLayer.html#ae11ef5367996ffd66dc4e42d510e8cb8">costmap_2d::RappStaticLayer</a>
 </li>
 <li>superclasses_of_service_
 : <a class="el" href="classKnowrobWrapperCommunications.html#a4f20e98c56e5dd773524db0518ea55a2">KnowrobWrapperCommunications</a>
@@ -206,7 +234,7 @@ $(document).ready(function(){initNavTree('functions_s.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:31 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

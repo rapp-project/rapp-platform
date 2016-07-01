@@ -1,0 +1,48 @@
+R\-A\-P\-P Geolocator allows a user to get information about his location using his I\-P address. It is mainly considered an intermediate node that provides information to other nodes such as \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-Weather-Reporter}{\tt R\-A\-P\-P Weather Reporter}. The availability of geolocator services that rely on third party A\-P\-Is such as I\-P-\/\-A\-P\-I is restricted according to the A\-P\-Is' rules and limitations. Thus, service call failures may exist.
+
+Currently supported geolocators\-:
+\begin{DoxyItemize}
+\item \href{http://ip-api.com/}{\tt I\-P-\/\-A\-P\-I}
+\end{DoxyItemize}
+
+\section*{R\-O\-S Service}
+
+\subsection*{Locate}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-geolocator/locate}
+
+Service Type\-:
+
+Geolocator\-Srv.\-srv
+
+``` string ip \subsection*{string geolocator }
+
+string error
+
+string city string country string country\-Code float32 latitude float32 longtitude string region\-Name string timezone string zip ``` {\bfseries Available geolocator values\-:}
+\begin{DoxyItemize}
+\item '' (uses a default geolocator)
+\item 'ip-\/api'
+\end{DoxyItemize}
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the rapp geolocator node and can be invoked by executing\-:
+
+{\ttfamily roslaunch rapp\-\_\-geolocator geolocator.\-launch}
+
+\section*{H\-O\-P Services}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/geolocation}
+
+\subsection*{Input/\-Output}
+
+``` Input = \{ ipaddr\-: '', engine\-: '' \} ``` {\bfseries Available engine values\-:}
+\begin{DoxyItemize}
+\item '' (uses a default engine)
+\item 'ip-\/api'
+\end{DoxyItemize}
+
+``` Output = \{ city\-: '', country\-: '', country\-\_\-code\-: '', latitude\-: 0.\-0, longtitude\-: 0.\-0, region\-: '', timezone\-: '', zip\-: '', error\-: '' \} ``` 

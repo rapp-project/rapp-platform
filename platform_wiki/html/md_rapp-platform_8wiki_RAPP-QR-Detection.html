@@ -112,17 +112,18 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-QR-Detecti
 <h1>Launchers</h1>
 <h2>Standard launcher</h2>
 <p>Launches the <b>qr detection</b> node and can be launched using ``` roslaunch rapp_qr_detection qr_detection.launch ```</p>
-<h1>HOP services</h1>
+<h1>Web services</h1>
 <h2>URL</h2>
 <p><code>localhost:9001/hop/qr_detection</code></p>
 <h2>Input / Output</h2>
-<p>``` Input = { “image”: “THE_ACTUAL_IMAGE_DATA” } <code> </code> Output = { “qrs”: [ { “qr_x” : “QR_X”, “qr_y” : “QR_Y”, “message” : “MESSAGE” }, { … } ] } ``` </p>
+<p>``` Input = { “file”: “THE_ACTUAL_IMAGE_DATA” } <code> </code> Output = { “qr_centers”: [ {x: 100, y: 200} ], "qr_messages": ["rapp project qr sample"], "error": "" } ```</p>
+<p>The full documentation exists <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#qr-detection">here</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

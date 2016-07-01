@@ -1,5 +1,8 @@
 <map id="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/objects/face/face.hpp" name="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/objects/face/face.hpp">
-<area shape="rect" id="node2" href="$cloud_2faceDetector_2Includes_8ihh.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/includes\l/cloud/faceDetector/Includes.ihh" alt="" coords="20,109,229,165"/>
-<area shape="rect" id="node3" href="$faceDetector_8hpp.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/includes\l/cloud/faceDetector/faceDetector.hpp" alt="" coords="5,213,245,269"/>
-<area shape="rect" id="node4" href="$face__detect_8cpp.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/examples\l/face_detect.cpp" alt="" coords="46,317,204,373"/>
+<area shape="rect" id="node2" href="$cloud_2vision_2face__detection_2includes_8ihh.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/includes\l/cloud/vision/face_detection\l/includes.ihh" alt="" coords="112,110,296,181"/>
+<area shape="rect" id="node7" href="$objects_8hpp.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/includes\l/objects.hpp" alt="" coords="305,237,463,293"/>
+<area shape="rect" id="node3" href="$face__detection_8hpp.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/includes\l/cloud/vision/face_detection\l/face_detection.hpp" alt="" coords="96,230,280,301"/>
+<area shape="rect" id="node4" href="$face__detect_8cpp.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/examples\l/face_detect.cpp" alt="" coords="5,349,163,405"/>
+<area shape="rect" id="node5" href="$cloud__basic_8hpp.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/includes\l/cloud_basic.hpp" alt="" coords="187,349,345,405"/>
+<area shape="rect" id="node6" href="$rapp_8hpp.html" title="/home/travis/rapp_temp\l/rapp&#45;api/cpp/includes\l/rapp.hpp" alt="" coords="246,453,404,509"/>
 </map>

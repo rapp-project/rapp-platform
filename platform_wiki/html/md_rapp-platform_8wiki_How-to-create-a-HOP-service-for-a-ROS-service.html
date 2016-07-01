@@ -100,120 +100,224 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-to-create-a
 <div class="title">? How-to-create-a-HOP-service-for-a-ROS-service? </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Currently, there does not exist a tool to automate generation of web_services. Developers must be familiar with developing server-side applications using Nodejs and have a minor knowledge on developing Web-Services using the HOP Framework.</p>
-<p>While developing RAPP Platform Web Services, you might want to read on <a href="https://github.com/manuel-serrano/hop">HOP/hopjs</a>.</p>
+<div class="textblock"><p>RAPP Web Services are implemented on top of the <a href="http://hop.inria.fr/home/index.html">hop.js</a> framework. </p>
+<blockquote class="doxtable">
+<p>Hop.js is a multitier extension of JavaScript. It allows a single JavaScript program to describe the client-side and the server-side components of a Web application.</p>
+<p></p>
+</blockquote>
+<p>Its runtime environment ensures a consistent execution of the application on the server and on the client. Hop programs execute in the context of a builtin web server. They define services, which are super JavaScript functions that get automatically invoked when HTTP requests are received.</p>
+<p>A framework has been developed, build ontop of hop.js, for easily implementing Web Services for the RAPP Platform. Zero knowledge of hop.js is required. Additionally, Web Services are fully parametrized through single configuration files:</p>
+<ul>
+<li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/services.json">services.json</a></li>
+<li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/workers.json">workers.json</a></li>
+</ul>
 <p>If you are not familiar with server-side applications, you might also have to read on <a href="https://nodejs.org/en/">Nodejs</a>.</p>
-<h2>Hop.js made simple - Overview</h2>
-<p>Hop.js is a multitier extension of JavaScript. It allows a single JavaScript program to describe the client-side and the server-side components of a Web application. Its runtime environment ensures a consistent execution of the application on the server and on the client.</p>
-<p>HopScript is based on JavaScript and aims at ensuring compatibility with this language</p>
+<h2>RAPP Web Services framework</h2>
+<p>For easily implementing and launching Web Services for the RAPP Platform, the RAPP Web Services framework has been developed. It consists of a <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/src/webService">WebService</a> implementation. build ontop of hop.js and an engine that allows to assign specific Web Services to Worker threads (Web Workers).</p>
+<h3>Web Service implementation</h3>
+<p>Web Services are implemented in a single function implementation:</p>
+<p>```js function svcImpl(req, resp, ros){ // Web service implementation here. } ```</p>
+<p>This is the onrequest callback function to feed to the engine and will be called as soon as a request arrives.</p>
+<blockquote class="doxtable">
+<p>The <b>req</b> (request) and <b>res</b> (response) objects are passed so you can access the request properties and craft and return responses. Additionally a <b>ros</b> object is passed that allows connections to ROS thought the rosbridge-websocket transport layer.</p>
+<p></p>
+</blockquote>
+<p>The <code>req</code> object has the following properties:</p>
 <ul>
-<li>HopScript fully supports ECMAScript 5</li>
-<li>HopScript also support some ECMAScript 6 features:<ul>
-<li>arrow functions.</li>
-<li>default function parameters.</li>
-<li>rest arguments.</li>
-<li>let and const bindings.</li>
-<li>symbols.</li>
-<li>template strings.</li>
-<li>promises.</li>
-<li>typed Arrays.</li>
+<li><code>header</code>: Request header.</li>
 </ul>
-</li>
-<li>HopScript supports most Nodejs APIs (see Section Nodejs)</li>
-</ul>
-<p>Hop programs execute in the context of a builtin web server. They define services, which are super JavaScript functions that get automatically invoked when HTTP requests are received. Functions and services are almost syntactically similar but the latter are defined using the service keyword:</p>
-<p>```javascript service hello() { return "hello world"; } ```</p>
-<p>To run this program put this code in the file hello.js and execute:</p>
-<p>```shell $ hop -p 8080 hello.js ```</p>
-<p>Hop extends JavaScript with the geniune HTML. if we want to modify our service to make it return an HTML document, we can use:</p>
-<p>```javascript service hello() { return &lt;html&gt;</p>
-<div>hello world</div><p>&lt;/html&gt;; } ```</p>
-<p>Hop is multitier. That is client-side codes are also implemented in Hop. The ~{ mark switches from server-side context to client-side context:</p>
-<p>```javascript service hello() { return &lt;html&gt;&lt;div onclick=~{ alert( "world" ) }&gt;hello&lt;/html&gt;; } ```</p>
-<p>Hop client-side code and server-side can also be mixed using the ${ mark:</p>
-<p>```javascript service hello( { who: "foo" } ) { return &lt;html&gt;&lt;div onclick=~{ alert( "Hi " + ${who} + "!") }&gt;hello&lt;/html&gt;; } ```</p>
-<h2>Integration with the ROS Framework</h2>
-<p>In most cases a HOP Web Service must be able to "**Talk ROS**", meaning that a stable interface between the two, HOP Web Service and ROS, must exist.</p>
-<p>For the RAPP Platform requirements, we use the lightweight, <a href="https://github.com/klpanagi/RosBridgeJS">RosBridgeJS</a> module. This module has been developed under the RAPP Project to provide to HOP Services developers, an <b>easy-to-use</b> intermediate transport interface layer for calling ROS-Services through their hopjs applications. It integrates a websocket client that allows connections to <a href="http://wiki.ros.org/rosbridge_server">rosbridge-websocket-server</a> and a service controller to call ROS-Service(s).</p>
-<p>Initiate rosbridgejs:</p>
-<p>```javascript /***</p>
+<p>```js console.log(req.header) </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{ host: 'localhost:9001', content-length: 679, accept-encoding: 'gzip, deflate', accept: '*/*', user-agent: 'rapp-platform-api/python', accept-token: 'rapp_token', connection: 'keep-alive', content-type: 'multipart/form-data; boundary=595d1046de7f4c958ca662c37140215a' }</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>```</p>
 <ul>
-<li>Import the RosBridgeJS module.</li>
+<li><code>socket</code>: Connection socket</li>
 </ul>
-<p>var Rosbridge = require( '&lt;path_to_RosBridgeJs_sources&gt;/RosBridgeJS.js' );</p>
+<p>```js console.log(req.socket) </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{ hostname: 'localhost', hostAddress: '127.0.0.1', localAddress: '127.0.0.1', port: 43661 }</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>```</p>
+<ul>
+<li><code>body</code>: Request body</li>
+</ul>
+<p>```js console.log(req.body) </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{ fast: true }</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>```</p>
+<ul>
+<li><code>files</code>: In case of uploading files, this field contains the paths to the uploaded files. Access the files by name using dot notation. For example a service receives a single-file in fieldname <code>single_file</code> and an array of files in fieldname <code>file_array</code>:</li>
+</ul>
+<p>```js console.log(req.files) </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>{ single_file: ["PATH"], file_array: ["PATH_FILE_1", "PATH_FILE_2"] }</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>```</p>
+<p><b>Note</b>: Note that even if it is a <b>single-file</b>, the <code>single_file</code> property of <code>req.files</code> (<code>req.files.single_file</code>) is an Array.</p>
+<ul>
+<li><code>username</code>: This is the <b>username</b> of the client that requested access to the RAPP Platform resources (Services). It is automatically applied to the <code>req</code> object, after appliance of the <a href="https://github.com/rapp-project/rapp-platform/wiki/RAPP-Application-Authentication">RAPP Authentication</a> on request arrival. Note that before execution of the onrequest callback function, we apply authentication to the request. If the authentication is not successful, an <b>HTTP 401 Unauthorized</b> error is returned to the client.</li>
+</ul>
+<p>```js console.log(req.username) </p>
+<blockquote class="doxtable">
+<blockquote class="doxtable">
+<p>"RAPP_USER"</p>
+<p></p>
+</blockquote>
+<p></p>
+</blockquote>
+<p>```</p>
+<p>The <code>resp</code> object has the following properties (methods):</p>
+<ul>
+<li>sendJson(obj): Send an application/json response</li>
+</ul>
+<p>```js function svcImpl(req, resp, ros){ ...</p>
+<p>var response = {error: ''}; resp.sendJson(response); } ```</p>
+<ul>
+<li><code>sendServerError()</code>: Respond with <b>HTTP 500 Internal Server Error</b></li>
+</ul>
+<p>```js function svcImpl(req, resp, ros){ ...</p>
+<p>resp.sendServerError(); } ```</p>
+<ul>
+<li><code>sendUnauthorized()</code>: Respond with <b>HTTP 401 Unauthorized Client Error</b></li>
+</ul>
+<p>```js function svcImpl(req, resp, ros){ ...</p>
+<p>resp.sendUnauthorized(); } ```</p>
+<h3>Web Service configuration and registration.</h3>
+<p>Web Services are fully parametrized through the <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/services.json">services.json</a> file. This file includes Web Services to be launched (along with the Web Service parameters), that was previously declared in the <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/workers.json">workers.json</a> file.</p>
+<p>Below is the face_detection entry:</p>
+<p>```js "face_detection": { "launch": true, "anonymous": false, "name": "face_detection", "url_name": "face_detection", "namespace": "", "ros_connection": true, "timeout": 45000 } ```</p>
+<p><b>Web Service configuration parameters</b>:</p>
+<ul>
+<li><code>launch</code> (Boolean): If true this Web Service will be launched.</li>
+<li><code>anonymous</code> (Boolean): If true, this service will be anonymous, which means that it will be assigned a random url path.</li>
+<li><code>name</code> (String): The service name.</li>
+<li><code>urlname</code> (String): The service urlname. Service name can be different from the urlname.</li>
+<li><code>namespace</code> (String): Namespace for the urlname to append as a prefix to the service url name. For example, a service with <b>urlname="faca_detection"</b> and <b>namespace="computervision"</b> will be translated to **/computervision/face_detection**</li>
+<li><code>timeout</code> (String): Request timeout value.</li>
+<li><code>ros_connection</code> (Boolean): If true, a ros object that allowes for calls to the ROS Services will be passed to the onrequest callback function.</li>
+</ul>
+<h3>Run a Web Service within an existing Web Worker</h3>
+<p>Web services run within server-side workers (Web Workers). A worker can include more than one web service. We consider server-side workers to be forked processes, thus allowing concurrent execution.</p>
+<p>To run a Web Service within a Web Worker, just specify the service name in the <b>services</b> field of the worker in the <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/workers.json">worker.json</a> file.</p>
+<p>For example, the <b>weather_report</b> worker holds the <b>weather_report_current</b> and <b>weather_report_forecast</b> Web Services:</p>
+<p>```js "weather_report": { "launch": true, "path": "workers/weather_report.js", "services": [ "weather_report_forecast", "weather_report_current" ] } ```</p>
+<p><b>Web Worker configuration parameters</b>:</p>
+<ul>
+<li><code>launch</code> (Boolean): Weather to launch the Web Worker or not.</li>
+<li><code>path</code> (String): Path to the Web Worker source file. Relative to the <b>rapp_web_services</b> directory</li>
+<li><code>services</code>: (Array): Services to launch under the Web Worker thread.</li>
+</ul>
+<h3>Where to store Web Service implementation source file(s) and how to launch it.</h3>
+<p>Source files are stored under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services">services</a> directory, of the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services">rapp_web_services</a> package.</p>
+<p>Web Services are automatically loaded from single .js files, as node.js modules. Make sure you export the Web Service implementation function:</p>
+<p>```js function svcImpl(req, resp, ros){ // Web service implementation here. }</p>
+<p>...</p>
+<p>module.exports = svcImpl;</p>
+<p>```</p>
+<h3>Complete Web Service Implementation Example - Face Detection</h3>
+<p>The following example illustrates the implementation of a WebService that connects to the Face-Detection RAPP-Platform backend Service</p>
+<p><b>ROS Service Message</b>: ```bash </p>
+<h1>Contains info about time and reference</h1>
+<p>Header header </p>
+<h1>The image's filename to perform face detection</h1>
+<p>string imageFilepath </p>
+<h1>Flag to define if a fast detection if desired</h1>
+<h2>bool fast </h2>
+<h1>Container for detected face positions</h1>
+<p>geometry_msgs/PointStamped[] faces_up_left geometry_msgs/PointStamped[] faces_down_right string error ```</p>
+<p>and the Face-Detection ROS Service url path is: <code>/rapp/rapp_face_detection/detect_faces</code></p>
+<p><b>Web Service Request</b>:</p>
+<ul>
+<li><code>file</code>: Image file.</li>
+<li><code>fast</code> (Bool): If true, detection will take less time but it will be less accurate.</li>
+</ul>
+<p><b>Web Service Response</b>:</p>
+<ul>
+<li><code>faces</code> (Array): Detected faces.</li>
+<li><code>error</code> (String): Error message.</li>
+</ul>
+<p>First, create the face_detection <code>svc.js</code> file:</p>
+<p>```bash $ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services/services $ mkdir face_detection &amp;&amp; cd face_detection $ touch svc.js ```</p>
+<p>Open the svc.js file with your favorite editor:</p>
+<p>```bash $ vim svc.js ```</p>
+<p>Implement the structure of the <code>client-response</code> and <code>ros-msg</code> objects:</p>
+<p>```js var clientRes = function(faces, error) { return { faces: [], error: '' } }</p>
+<p>var rosReqMsg = function(imageFilepath, fast) { return { imageFilepath: '', fast: false } } ```</p>
+<p>Assign ROS Service url path to a global variable:</p>
+<p>```js var rosSrvUrlPath = "/rapp/rapp_face_detection/detect_faces"; ```</p>
+<p>Next, implement the service onrequest callback function:</p>
+<p>```js function svcImpl(req, resp, ros) { // If no image file received, return to client with an error if( ! req.files.file ){ // Create a client response object response = new client_res(); response.error = "No image file received"; // Send response (application/json) resp.sendJson(response); return; }</p>
+<p>// Create a ROS Service Request Message and fill values from client request var rosMsg = new rosReqMsg(); rosMsg.imageFilename = req.files.file[0]; rosMsg.fast = req.body.fast;</p>
 <p>/***</p>
 <ul>
-<li>Initiate connection to rosbridge_websocket_server.</li>
-<li></li>
-<li>By default, it tries to connect to ws://localhost:9090.</li>
-<li>This is the default URL the rosbridge-websocket-server listens to.</li>
+<li>ROS-Service response callback. */ function callback(data){ // Delete image file from the Platform cache directory. fs.exists(_filepath, function(exists){ if(exists){ fs.unlink(_filepath) } }) // Parse rosbridge message and craft client response var response = parseRosbridgeMsg( data ); resp.sendJson(response); }</li>
 </ul>
-<p>var ros = new ROS({hostname: '', port: '', reconnect: true, onconnection: function(){ // . } });</p>
-<p>```</p>
-<p>Fill request parameters for the ROS-Service:</p>
-<p>```javascript /***</p>
+<p>/***</p>
 <ul>
-<li>Fill Ros Service request msg parameters here.</li>
-<li>var args = {param1: '', param2: ''};</li>
-<li>var args = { imageFilename: 'face_image_frame.png' }; ```</li>
+<li>ROS-Service onerror callback. */ function onerror(e){ // Delete image file from the Platform cache directory. fs.exists(_filepath, function(exists){ if(exists){ fs.unlink(_filepath) } }) // Respond a "Server Error". HTTP Error 501 - Internal Server Error resp.sendServerError(); }</li>
 </ul>
-<p>Declare/Implement the callback functions:</p>
-<p>```javascript </p>
-<pre class="fragment">  /***
-   * Declare the ROS-Service response callback here!!
-   * This callback function will be passed into the rosbridge service
-   * controller and will be called when a response from rosbridge
-   * websocket server arrives.
-
-  function callback(data){
-     console.log(data);
-  }
-
-  /***
-   * Declare the onerror callback.
-   * The onerror callack function will be called by the service
-   * controller as soon as an error occures, on service request.
-   *
-
-  function onerror(e){
-    console.log(e);
-  }
-</pre><p>```</p>
-<p>Call the ROS-Service (/rapp/rapp_face_detection/detect_faces):</p>
-<p>```javascript </p>
-<pre class="fragment"> var rosSrvName = '/rapp/rapp_face_detection/detect_faces';
-
-  /***
-   * Call ROS-Service.
-   * Input arguments:
-   *   - rosSrvName: The name of the ROS-Service to call&lt;/li&gt;
-   *   - args: ROS-Service request message arguments&lt;/li&gt;
-   *   - objLiteral: An object literal to declare the onsuccess and
-   *        onerror callbacks.
-   *      { success: &lt;onsuccess_callback&gt;,fail: &lt;onerror_callback&gt; }
-   *
-
-  ros.callService(rosSrvName, args,
-    {success: callback, fail: onerror});
-</pre><p> ```</p>
-<h2>Use the provided by us, HOP Service Creation Templates:</h2>
-<p>To make development of HOP Web Services more attractive and understandable, we provide two template source files:</p>
+<p>/***</p>
 <ul>
-<li><a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates/web_service.template.js">web_service.template.js</a></li>
-<li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/services/templates/web_service_post_file.template.js">web_services_post_file.template.js</a></li>
+<li>Call ROS-Service. */ ros.callService(rosSrvUrlPath, rosMsg, {success: callback, fail: onerror}); }</li>
 </ul>
-<p>Using these templates as a reference while developing HOP Web Services for a ROS-Service, might save you alot of hours studying! In most cases, you might have to change just a few lines of code!</p>
-<p>For more information read <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates">here</a>.</p>
-<h2>Where to store HOP Service source files and how to register the service under the HOP Server.</h2>
-<p>HOP Service source files are stored under the <b>services/</b> directory, of the rapp_web_services package.</p>
-<p>Any **.js** file, stored under this directory with a **.service.js** extension, is considered to be a HOP Web Service source file.</p>
-<p>HOP Server is responsible for registering those services, on run-time, as workers, so you will never have to write code to register your HOP Web Service. Just store the source file under the aforementioned directory with a **.service.js** extension. </p>
+<p>function parseRosbridgeMsg( rosbridge_msg ) { var faces_up_left = rosbridge_msg.faces_up_left; var faces_down_right = rosbridge_msg.faces_down_right; var error = rosbridge_msg.error; var numFaces = faces_up_left.length;</p>
+<p>// Create a new response object var response = new client_res();</p>
+<p>if( error ){ // If ROS Service responded with an error response.error = error; return response; }</p>
+<p>for (var ii = 0; ii &lt; numFaces; ii++) { var face = { up_left_point: {x: 0, y:0}, down_right_point: {x: 0, y: 0} };</p>
+<p>face.up_left_point.x = faces_up_left[ii].point.x; face.up_left_point.y = faces_up_left[ii].point.y; face.down_right_point.x = faces_down_right[ii].point.x; face.down_right_point.y = faces_down_right[ii].point.y; response.faces.push( face ); }</p>
+<p>return response; } ```</p>
+<p>Export the service onrequest callback function (<code>svcImpl</code>):</p>
+<p>```js module.exports = svcImpl ```</p>
+<p>Next you will need to create the Web Worker to launch the Web Service:</p>
+<p>```bash $ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services/workers $ touch face_detection.js ```</p>
+<p>Open the <b>face_detection.js</b> file with your favorite editor:</p>
+<p>```bash $ vim face_detection.js ```</p>
+<p>Import the workerUtils module:</p>
+<p>```js var path = require('path');</p>
+<p>var ENV = require( path.join(__dirname, '../..', 'env.js') );</p>
+<p>// Include it even if not used!!! Sets properties to the thread's global scope. var workerUtils = require(path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'worker_utils.js')); ```</p>
+<p>Next, you will have to set the worker name and call to launch all services registred to this Web Worker:</p>
+<p>```js // Set worker thread name under the global scope. (WORKER.name) workerUtils.setWorkerName('face_detection');</p>
+<p>// Launch all services assigned to this worker thread. // Search in workers.json config file for assigned web services. workerUtils.launchSvcAll(); ```</p>
+<p>We need to tell the <em>run-engine</em> to launch the, newly implemented, Web Worker.</p>
+<p>The <code>workers.json</code> file containes Web Workers entries. It is located under:</p>
+<p>```bash ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services/config/services ```</p>
+<p>Append the following entry in the workers.json file:</p>
+<p>```js "face_detection": { "launch": true, "path": "workers/face_detection.js", "services": [ "face_detection" ] } ```</p>
+<p>Finally append the following <em>web-service</em> entry in the services.json file (under the same directory):</p>
+<p>```js "face_detection": { "launch": true, "anonymous": false, "name": "face_detection", "url_name": "face_detection", "namespace": "", "authentication": true, "ros_connection": true, "timeout": 45000 } ```</p>
+<p>Now the RAPP Platform is ready to receive requests for the newly created face_detection service.</p>
+<p>```bash $ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services $ pm2 start server.yaml ```</p>
+<p>You will notice the following output from the logs:</p>
+<p>```bash info: [Service Handler] Registered worker service {<a href="http://rapp-platform-local:9001/hop/face_detection">http://rapp-platform-local:9001/hop/face_detection</a>} under worker thread {face_detection} info: [Service Handler] { worker: 'face_detection', path: '/hop/face_detection', url: '<a href="http://rapp-platform-local:9001/hop/face_detection',">http://rapp-platform-local:9001/hop/face_detection',</a> frame: [Function] } ```</p>
+<h2>Further study</h2>
+<p>You can check on already implemented Web Services <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services">here</a>.</p>
+<p>The RAPP WebService code API is documented [here]().</p>
+<p>Documentation of the RAPP Web Services package can be found <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services">here</a>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

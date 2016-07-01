@@ -100,69 +100,78 @@ $(document).ready(function(){initNavTree('RAPP-Face-Detection_8md.html','');});
 <div class="title">rapp-platform.wiki/RAPP-Face-Detection.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="RAPP-Face-Detection_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;In the RAPP <span class="keywordflow">case</span>, the face detection functionality is implemented in the form of a C++ developed ROS node, interfaced by a HOP service. The HOP service is invoked <span class="keyword">using</span> the RAPP API and gets an RGB image as input, in which faces must be detected. The second step is <span class="keywordflow">for</span> the HOP service to locally save the input image. At the same time, the Face Detection ROS node is executed in the background, waiting to server requests. The HOP service calls the ROS service via the ROS Bridge, the ROS node make the necessary computations and a response is delivered.</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;# ROS Services</div>
+<a href="RAPP-Face-Detection_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#Methodology</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;In the RAPP <span class="keywordflow">case</span>, the face detection functionality is implemented in the form of a C++ developed ROS node, interfaced by a Web service. The Web service is invoked <span class="keyword">using</span> the RAPP API and gets an RGB image as input, in which faces must be detected. The second step is <span class="keywordflow">for</span> the Web service to locally save the input image. At the same time, the Face Detection ROS node is executed in the background, waiting to server requests. The Web service calls the ROS service via the ROS Bridge, the ROS node makes the necessary computations and a response is delivered.</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">## Face detection </span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span>Service URL: ```/rapp/rapp_face_detection/detect_faces```</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;Service type:</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;```bash</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#Contains info about time and reference</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span>Header header</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#The image&#39;s filename to perform face detection</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="keywordtype">string</span> imageFilename</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;---</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#Container for detected face positions</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span>geometry_msgs/PointStamped[] faces_up_left</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;geometry_msgs/PointStamped[] faces_down_right</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">string</span> error</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;``` </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"># Launchers</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">## Standard launcher</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;Launches the **face detection** node and can be launched <span class="keyword">using</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;```</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;roslaunch rapp_face_detection face_detection.launch</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;```</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"># HOP services</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">## URL</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span>```localhost:9001/hop/face_detection ```</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">## Input / Output</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;```</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;Input = {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  “image”: “THE_ACTUAL_IMAGE_DATA”</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;```</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;```</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;Output = {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  “faces”: [</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      “top_left_x” : “T_P_X”,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      “top_left_y” : “T_P_Y”,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      “bottom_right_x” : “B_R_X”,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      “bottom_right_y” : “B_R_Y”</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    },</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      …</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  ]</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;```</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;In the current implementation the ```fast``` input variable exists. If ```fast = False```, the face detection algorithm searches <span class="keywordflow">for</span> faces both profile and en face and then cross-checks the results, aiming to provide the most precise result.</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;On the other hand, <span class="keywordflow">if</span> ```fast = True``` only profile faces are checked without further checking, thus the response <span class="keywordflow">if</span> faster but not that precise.</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;#ROS Services</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">##Face detection </span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span>Service URL: ```/rapp/rapp_face_detection/detect_faces```</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;Service type:</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;```bash</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"># Contains info about time and reference</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span>Header header</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"># The image&#39;s filename to perform face detection</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="keywordtype">string</span> imageFilename</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"># Flag to define if a fast detection is desired</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="keywordtype">bool</span> fast</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;---</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"># Container for detected face positions</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span>geometry_msgs/PointStamped[] faces_up_left</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;geometry_msgs/PointStamped[] faces_down_right</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">string</span> error</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;``` </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#Launchers</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">##Standard launcher</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;Launches the **face detection** node and can be launched <span class="keyword">using</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;```</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;roslaunch rapp_face_detection face_detection.launch</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;```</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#Web services</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">## URL</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span>```localhost:9001/hop/face_detection ```</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">## Input / Output</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;```</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;Input = {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="stringliteral">&quot;file&quot;</span>: “THE_ACTUAL_IMAGE_DATA”</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="stringliteral">&quot;fast&quot;</span>: <span class="keyword">true</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;```</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;```</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;Output = {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  “faces”: [</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      “up_left_point” : {x: 10, y: 30},</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      “down_right_point” : {x: 100, y: 200}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    },</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      …</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  ]</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;```</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;The full documentation exists [here](https:<span class="comment">//github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#face-detection)</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="RAPP-Face-Detection_8md.html">RAPP-Face-Detection.md</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

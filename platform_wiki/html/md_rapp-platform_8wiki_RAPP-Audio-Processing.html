@@ -100,55 +100,87 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Audio-Proc
 <div class="title">RAPP-Audio-Processing </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The audio processing node was created in order to perform necessary operations for the speech recognition modules to operate for all audio cases. Even though both the Google and Sphinx4 speech recognition modules were functional when the input was captured from a headset, the same did not happen with the audio captured from the NAO robot.</p>
+<div class="textblock"><p>#Methodology</p>
+<p>The audio processing node was created in order to perform necessary operations for the speech recognition modules to operate for all audio cases. Even though both Google and Sphinx4 speech recognition modules are functional when the input is captured from a headset, the same does not apply with audio captured from the NAO robot.</p>
 <p>NAO is able to record a single audio file at a time (wav or ogg), either from all microphones (4 channels at 48kHz) or from any single microphone (1 channel, 16kHz). The RAPP Speech detection modules can operate either with ogg or with wav (1 and 4 channels) by employing the Audio processing node. Nevertheless, the one-channel audio is the most appropriate selection, since Sphinx-4 requires single channel wav files, with a 16kHz sample rate and 16 bit little-endian format. The NAO captured audio contains considerable background static noise, being probably the result of a cooling fan that also exists in the NAO head. The problem raised is that the high noise levels cause Sphinx-4, as well as Google API to fail by producing no output.</p>
 <p>It is obvious that in order for the speech recognition modules to operate successfully, denoising operations must take place. Additionally, since each NAO robot creates its own noise with different spectral characteristics, a personalization effort must be performed, storing silence samples from each robot and extracting the NAO noise’s DFT coefficients. These denoising operations are offered as ROS services by the Audio Processing package. This node utilizes the SoX Unix audio library in order to perform spectral denoising, along with other custom made techniques.</p>
-<h1>ROS Services</h1>
+<p>#ROS Services</p>
 <h2>Set noise profile service</h2>
 <p>This service was created in order to store each robot’s noise profile. The service expects three inputs: a string containing the audio file, the audio type and the user that owns the robot. The supported audio types are nao_ogg, nao_wav_1_ch and nao_wav_4_ch.</p>
-<p>Initially, the user is authenticated against the MySQL database, in order to check if they have the necessary access rights to execute speech recognition and audio processing functionalities. Then, the audio file (ogg, wav 1 or 4 channels) is converted to wav, single channel with a sampling rate of 16kHz, employing the SoX library. Finally, the noise profile is acquired using the SoX noiseprof tool and the respective file is stored in the RAPP Platform under the user’s folder.</p>
+<p>Once the service is invoked, the audio file (ogg, wav 1 or 4 channels) is converted to wav, single channel with a sampling rate of 16kHz, employing the SoX library. Finally, the noise profile is acquired using the SoX noiseprof tool and the respective file is stored in the RAPP Platform under the user’s folder.</p>
 <p>Service URL: <code>/rapp/rapp_audio_processing/set_noise_profile</code></p>
-<p>Service type:</p>
-<p>```bash #The stored audio file containing silence string noise_audio_file #The audio type [nao_ogg, nao_wav_1_ch, nao_wav_4_ch] string audio_file_type #The user </p>
+<p>Service type: ```bash </p>
+<h1>The stored audio file containing silence</h1>
+<p>string noise_audio_file </p>
+<h1>The audio type [nao_ogg, nao_wav_1_ch, nao_wav_4_ch]</h1>
+<p>string audio_file_type </p>
+<h1>The user</h1>
 <h2>string user </h2>
-<p>#Possible error string error ```</p>
+<h1>Possible error</h1>
+<p>string error ```</p>
 <h2>Denoise service</h2>
 <p>This ROS service utilizes the user’s stored noise profile in order to perform spectral subtraction against the input audio signal. For this reason the SoX library is used, and specifically the noisered plugin.</p>
 <p>Service URL: <code>/rapp/rapp_audio_processing/denoise</code></p>
-<p>Service type: ```bash #The stored audio file containing the user’s input string audio_file #The audio type [nao_ogg, nao_wav_1_ch, nao_wav_4_ch] string audio_type #The denoised audio file string denoised_audio_file #The user string user #The denoising scale </p>
+<p>Service type: ```bash </p>
+<h1>The stored audio file containing the user’s input</h1>
+<p>string audio_file </p>
+<h1>The audio type [nao_ogg, nao_wav_1_ch, nao_wav_4_ch]</h1>
+<p>string audio_type </p>
+<h1>The denoised audio file</h1>
+<p>string denoised_audio_file </p>
+<h1>The user</h1>
+<p>string user </p>
+<h1>The denoising scale</h1>
 <h2>float32 scale </h2>
 <h1>Possible error</h1>
 <p>string error ```</p>
 <h2>Energy denoise service</h2>
-<p>The energy denoise ROS service performs a signal hard gating in the time domain, based on the RMS metric (Root Mean Squared). The hard signal gating is applied in the individual sample’s power when compared with the RMS value.</p>
+<p>The energy denoise ROS service performs hard gating in the time domain, of the signal based on the RMS metric. The hard signal gating is applied in the individual sample’s power when compared with the RMS value.</p>
 <p>Service URL: <code>/rapp/rapp_audio_processing/energy_denoise</code></p>
-<p>Service type: ```bash #The stored audio file containing the user’s input string audio_file #The audio type [nao_ogg, nao_wav_1_ch, nao_wav_4_ch] string audio_type #The denoised audio file string denoised_audio_file #The user string user #The denoising scale </p>
+<p>Service type: ```bash </p>
+<h1>The stored audio file containing the user’s input</h1>
+<p>string audio_file </p>
+<h1>The audio type [nao_ogg, nao_wav_1_ch, nao_wav_4_ch]</h1>
+<p>string audio_type </p>
+<h1>The denoised audio file</h1>
+<p>string denoised_audio_file </p>
+<h1>The user</h1>
+<p>string user </p>
+<h1>The denoising scale</h1>
 <h2>float32 scale </h2>
-<p>#Possible error string error ``` </p>
+<h1>Possible error</h1>
+<p>string error ``` </p>
 <h2>Detect silence service</h2>
 <p>There are cases where the captured audio files from NAO do not contain any speech. Since the recording length is limited (e.g. 3 seconds) it is possible for some cases for the actual speech to miss this critical time slot. If this happens, the detect silence service is capable of indicating this issue in order for the robot to ask again the question it was not answered.</p>
 <p>In order to detect if the signal contains silence, we follow a statistical approach. We suppose that if the file does not contain a voice, the samples’ power levels will be homogeneous to a certain extend. Thus, we calculate the RSD (Relative Standard Deviation) of the signal’s power and compare each sample with it. If one sample has a higher value, the signal is considered to contain voice.</p>
 <p>Service URL: <code>/rapp/rapp_audio_processing/detect_silence</code></p>
-<p>Service type: ```bash #The stored audio file containing the user’s input string audio_file #The silence threshold </p>
+<p>Service type: ```bash </p>
+<h1>The stored audio file containing the user’s input</h1>
+<p>string audio_file </p>
+<h1>The silence threshold</h1>
 <h2>float32 threshold </h2>
-<p>#The result bool silence #Possible error string error ```</p>
-<h1>Launchers</h1>
+<h1>The result</h1>
+<p>bool silence </p>
+<h1>Possible error</h1>
+<p>string error ```</p>
+<p>#Launchers</p>
 <h2>Standard launcher</h2>
 <p>Launches the <b>rapp_audio_processing</b> node and can be launched using ``` roslaunch rapp_audio_processing audio_processing.launch ```</p>
-<h1>HOP services</h1>
+<p>#Web services</p>
 <h2>Set denoise profile RPS</h2>
 <p>The only RPS Audio Processing is the set_denoise_profile. The set_denoise_profile RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS service, which utilizes the SoX audio library.</p>
 <p>Service URL: <code>localhost:9001/hop/set_noise_profile</code></p>
 <h3>Input/Output</h3>
 <p>The set_noise_profile RPS has three input arguments, which are the input file, the audio file type and the user. These are encoded in JSON format in an ASCII string representation.</p>
 <p>The set_noise_profile RPS returns the success status. The encoding is in JSON format.</p>
-<p>``` Input = { “noise_audio_file”: “THE_AUDIO_FILE” “audio_file_type”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch” “user”: “THE_USERNAME” } <code> </code> Output = { “error”: “Possible error” } ``` </p>
+<p>``` Input = { “file”: “THE_AUDIO_FILE” “audio_source”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch” } <code> </code> Output = { “error”: “Possible error” } ```</p>
+<p>The full documentation exists <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#set-noise-profile">here</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

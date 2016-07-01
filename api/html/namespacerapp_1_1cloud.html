@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('namespacerapp_1_1cloud.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,36 +112,105 @@ $(document).ready(function(){initNavTree('namespacerapp_1_1cloud.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1faceDetector.html">faceDetector</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronous Service which will request the cloud to detect faces.  <a href="classrapp_1_1cloud_1_1faceDetector.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1asio__handler.html">asio_handler</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">base class for asio handling, including helper methods and most protected members  <a href="classrapp_1_1cloud_1_1asio__handler.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1fetchPersonalData.html">fetchPersonalData</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all personal data for a specific user.  <a href="classrapp_1_1cloud_1_1fetchPersonalData.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1asio__service__http.html">asio_service_http</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">base class for asynchronous http websockets used for connecting to cloud services  <a href="classrapp_1_1cloud_1_1asio__service__http.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1ontologyIsSubSuperClassOf.html">ontologyIsSubSuperClassOf</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1asio__socket.html">asio_socket</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract Base ASIO Socket class Use for passing around to the service controller, various types of cloud handlers. This Interface is needed so that different handlers can be passed to the scheduler transparently.  <a href="classrapp_1_1cloud_1_1asio__socket.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1ontologySubClassesOf.html">ontologySubClassesOf</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1asio__socket__https.html">asio_socket_https</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">wrapper for SSL/TLS secure HTTP communication  <a href="classrapp_1_1cloud_1_1asio__socket__https.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1ontologySuperClassesOf.html">ontologySuperClassesOf</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1available__services.html">available_services</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">requests available services from platform  <a href="classrapp_1_1cloud_1_1available__services.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1qrDetector.html">qrDetector</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronous Service which will request the cloud to detect QR codes.  <a href="classrapp_1_1cloud_1_1qrDetector.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1cognitive__get__history.html">cognitive_get_history</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1setDenoiseProfile.html">setDenoiseProfile</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">setting the denoising audio profile for speech recognition  <a href="classrapp_1_1cloud_1_1setDenoiseProfile.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1cognitive__get__scores.html">cognitive_get_scores</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1speechToText.html">speechToText</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronous Service which will request the cloud to process speech-to-text.  <a href="classrapp_1_1cloud_1_1speechToText.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1cognitive__record__performance.html">cognitive_record_performance</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1cognitive__test__selector.html">cognitive_test_selector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">chose a congitive game to play  <a href="classrapp_1_1cloud_1_1cognitive__test__selector.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1email__fetch.html">email_fetch</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch email(s)  <a href="classrapp_1_1cloud_1_1email__fetch.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1email__send.html">email_send</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">send an email  <a href="classrapp_1_1cloud_1_1email__send.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1face__detection.html">face_detection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronous Service which will request the cloud to detect faces.  <a href="classrapp_1_1cloud_1_1face__detection.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1fetch__personal__data.html">fetch_personal_data</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all personal data for a specific user.  <a href="classrapp_1_1cloud_1_1fetch__personal__data.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1geolocation.html">geolocation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">geolocation service  <a href="classrapp_1_1cloud_1_1geolocation.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1hazard__detection__door__check.html">hazard_detection_door_check</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">detect open doors  <a href="classrapp_1_1cloud_1_1hazard__detection__door__check.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1hazard__detection__light__check.html">hazard_detection_light_check</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">detect light levels  <a href="classrapp_1_1cloud_1_1hazard__detection__light__check.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1human__detection.html">human_detection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">detect humans in an image  <a href="classrapp_1_1cloud_1_1human__detection.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1login__user.html">login_user</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1news__explore.html">news_explore</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">get news  <a href="classrapp_1_1cloud_1_1news__explore.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1object__recognition.html">object_recognition</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">recognize object from an image  <a href="classrapp_1_1cloud_1_1object__recognition.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1ontology__is__subsuperclass__of.html">ontology_is_subsuperclass_of</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">query if sub class is a super class of param  <a href="classrapp_1_1cloud_1_1ontology__is__subsuperclass__of.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1ontology__subclasses__of.html">ontology_subclasses_of</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">get ontology subclass of a query  <a href="classrapp_1_1cloud_1_1ontology__subclasses__of.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1ontology__superclasses__of.html">ontology_superclasses_of</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">get ontology super-classes of query  <a href="classrapp_1_1cloud_1_1ontology__superclasses__of.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1path__upload__map.html">path_upload_map</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1plan__path__2d.html">plan_path_2d</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1qr__detection.html">qr_detection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asynchronous Service which will request the cloud to detect QR codes.  <a href="classrapp_1_1cloud_1_1qr__detection.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1service__controller.html">service_controller</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main class that controllers RAPP Services.  <a href="classrapp_1_1cloud_1_1service__controller.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1set__denoise__profile.html">set_denoise_profile</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">setting the denoising audio profile for speech recognition  <a href="classrapp_1_1cloud_1_1set__denoise__profile.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1speech__detection__google.html">speech_detection_google</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">delegate speech-to-text to Google via RAPP  <a href="classrapp_1_1cloud_1_1speech__detection__google.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1speech__detection__sphinx4.html">speech_detection_sphinx4</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">speech-to-text recognition using CMU sphinx4  <a href="classrapp_1_1cloud_1_1speech__detection__sphinx4.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1text__to__speech.html">text_to_speech</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">request speech audio from text  <a href="classrapp_1_1cloud_1_1text__to__speech.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1weather__report__current.html">weather_report_current</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">get current weather report  <a href="classrapp_1_1cloud_1_1weather__report__current.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1cloud_1_1weather__report__forecast.html">weather_report_forecast</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">get weather forecast  <a href="classrapp_1_1cloud_1_1weather__report__forecast.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:afb654734a7584ea0243e431aaebd4728"><td class="memItemLeft" align="right" valign="top">constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapp_1_1cloud.html#afb654734a7584ea0243e431aaebd4728">address</a> [] = &quot;localhost&quot;</td></tr>
-<tr class="memdesc:afb654734a7584ea0243e431aaebd4728"><td class="mdescLeft">&#160;</td><td class="mdescRight">api.rapp.cloud - use deployment IP  <a href="#afb654734a7584ea0243e431aaebd4728">More...</a><br/></td></tr>
+<tr class="memdesc:afb654734a7584ea0243e431aaebd4728"><td class="mdescLeft">&#160;</td><td class="mdescRight">api.rapp.cloud -  <a href="#afb654734a7584ea0243e431aaebd4728">More...</a><br/></td></tr>
 <tr class="separator:afb654734a7584ea0243e431aaebd4728"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff8eeba44e8c84efe3401443fb83699a"><td class="memItemLeft" align="right" valign="top">constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapp_1_1cloud.html#aff8eeba44e8c84efe3401443fb83699a">auth_token</a> [] = &quot;cmFwcGRldjpyYXBwZGV2&quot;</td></tr>
-<tr class="memdesc:aff8eeba44e8c84efe3401443fb83699a"><td class="mdescLeft">&#160;</td><td class="mdescRight">base64 encoded authentication token  <a href="#aff8eeba44e8c84efe3401443fb83699a">More...</a><br/></td></tr>
-<tr class="separator:aff8eeba44e8c84efe3401443fb83699a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0e4cb6fd54bbf45234fc3c21f752b7a"><td class="memItemLeft" align="right" valign="top">constexpr char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacerapp_1_1cloud.html#ae0e4cb6fd54bbf45234fc3c21f752b7a">port</a> [] = &quot;9001&quot;</td></tr>
 <tr class="memdesc:ae0e4cb6fd54bbf45234fc3c21f752b7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">api.rapp.cloud - HOP server port  <a href="#ae0e4cb6fd54bbf45234fc3c21f752b7a">More...</a><br/></td></tr>
 <tr class="separator:ae0e4cb6fd54bbf45234fc3c21f752b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,29 +226,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>api.rapp.cloud - use deployment IP </p>
-<p>A few global strings needed internally </p>
-<dl class="section version"><dt>Version</dt><dd>3 </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>13-February-2015 </dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Alex Gkiokas <a href="#" onclick="location.href='mai'+'lto:'+'a.g'+'ki'+'oka'+'s@'+'ort'+'el'+'io.'+'co'+'.uk'; return false;">a.gki<span style="display: none;">.nosp@m.</span>okas<span style="display: none;">.nosp@m.</span>@orte<span style="display: none;">.nosp@m.</span>lio.<span style="display: none;">.nosp@m.</span>co.uk</a> </dd></dl>
+<p>api.rapp.cloud - </p>
 
-<p>Definition at line <a class="el" href="globals_8hpp_source.html#l00016">16</a> of file <a class="el" href="globals_8hpp_source.html">globals.hpp</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aff8eeba44e8c84efe3401443fb83699a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr char rapp::cloud::auth_token[] = &quot;cmFwcGRldjpyYXBwZGV2&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>base64 encoded authentication token </p>
-
-<p>Definition at line <a class="el" href="globals_8hpp_source.html#l00022">22</a> of file <a class="el" href="globals_8hpp_source.html">globals.hpp</a>.</p>
+<p>Definition at line <a class="el" href="asio__socket_8hpp_source.html#l00008">8</a> of file <a class="el" href="asio__socket_8hpp_source.html">asio_socket.hpp</a>.</p>
 
 </div>
 </div>
@@ -195,7 +244,7 @@ Variables</h2></td></tr>
 
 <p>api.rapp.cloud - HOP server port </p>
 
-<p>Definition at line <a class="el" href="globals_8hpp_source.html#l00019">19</a> of file <a class="el" href="globals_8hpp_source.html">globals.hpp</a>.</p>
+<p>Definition at line <a class="el" href="asio__socket_8hpp_source.html#l00010">10</a> of file <a class="el" href="asio__socket_8hpp_source.html">asio_socket.hpp</a>.</p>
 
 </div>
 </div>
@@ -205,7 +254,7 @@ Variables</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapp.html">rapp</a></li><li class="navelem"><a class="el" href="namespacerapp_1_1cloud.html">cloud</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:02:11 for RAPP Platform API by
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:48 for RAPP Platform API by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

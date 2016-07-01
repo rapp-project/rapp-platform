@@ -1,7 +1,6 @@
 var NAVTREE =
 [
   [ "RAPP Platform", "index.html", [
-    [ "Todo List", "todo.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -16,15 +15,17 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Functions", "functions_func.html", "functions_func" ],
+        [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "Files", null, [
       [ "File List", "files.html", "files" ],
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
-        [ "Functions", "globals_func.html", null ]
+        [ "Functions", "globals_func.html", null ],
+        [ "Variables", "globals_vars.html", null ],
+        [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]
   ] ]
@@ -33,8 +34,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Sphinx4_8java.html",
-"classrapp__speech__detection__sphinx4_1_1rapp__exceptions_1_1RappError.html#a96920fb0892c1070dc41c2d19a4d7535",
-"rapp__text__to__speech__espeak_2src_2rapp__exceptions_8py_source.html"
+"classcostmap__2d_1_1RappStaticLayer.html#ae072d082fab3e885667ef88321ecf7a1",
+"classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#ae4f2553c61a306faa2ac59ccbe1159b5",
+"dir_84a286ed91f5cb8cf67ffaeee86a9ce2.html",
+"namespacemap__server.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

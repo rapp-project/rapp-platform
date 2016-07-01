@@ -1,0 +1,134 @@
+\hypertarget{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories}{\section{user\-Score\-History\-For\-All\-Categories.\-User\-Score\-History\-For\-All\-Categories Class Reference}
+\label{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories}\index{user\-Score\-History\-For\-All\-Categories.\-User\-Score\-History\-For\-All\-Categories@{user\-Score\-History\-For\-All\-Categories.\-User\-Score\-History\-For\-All\-Categories}}
+}
+
+
+Provides the necessary functions for returning the history of user scores.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_a53ff38dc9793d099309aec998eeb3745}{assign\-Test\-History\-For\-Test\-Categories\-To\-Srv}
+\begin{DoxyCompactList}\small\item\em Retrieves the test history of the user for the provided test categories. \end{DoxyCompactList}\item 
+def \hyperlink{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_afec98a890e1b34dcd2fd89ce6e422d83}{return\-User\-History}
+\begin{DoxyCompactList}\small\item\em The callback function of the cognitive exercise user score history for all categories service. \end{DoxyCompactList}\item 
+def \hyperlink{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_a226888e324ec3a8867ffa47530acd073}{validate\-Time\-Range}
+\begin{DoxyCompactList}\small\item\em Validates the from\-Time and to\-Time variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides the necessary functions for returning the history of user scores. 
+
+It implements the cognitive exercise return user score history for all categories service 
+
+Definition at line 39 of file user\-Score\-History\-For\-All\-Categories.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_a53ff38dc9793d099309aec998eeb3745}{\index{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories@{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories}!assign\-Test\-History\-For\-Test\-Categories\-To\-Srv@{assign\-Test\-History\-For\-Test\-Categories\-To\-Srv}}
+\index{assign\-Test\-History\-For\-Test\-Categories\-To\-Srv@{assign\-Test\-History\-For\-Test\-Categories\-To\-Srv}!userScoreHistoryForAllCategories::UserScoreHistoryForAllCategories@{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories}}
+\subsubsection[{assign\-Test\-History\-For\-Test\-Categories\-To\-Srv}]{\setlength{\rightskip}{0pt plus 5cm}def user\-Score\-History\-For\-All\-Categories.\-User\-Score\-History\-For\-All\-Categories.\-assign\-Test\-History\-For\-Test\-Categories\-To\-Srv (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{test\-Types\-List, }
+\item[{}]{user\-Ontology\-Alias, }
+\item[{}]{from\-Time, }
+\item[{}]{to\-Time, }
+\item[{}]{res}
+\end{DoxyParamCaption}
+)}}\label{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_a53ff38dc9793d099309aec998eeb3745}
+
+
+Retrieves the test history of the user for the provided test categories. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em test\-Types\-List} & \mbox{[}list\mbox{]} The list of the available tests as they were read from the ontology \\
+\hline
+{\em user\-Ontology\-Alias} & \mbox{[}string\mbox{]} The user's ontology alias \\
+\hline
+{\em from\-Time} & \mbox{[}long\mbox{]} The time from which the user's performance records are taken into account \\
+\hline
+{\em to\-Time} & \mbox{[}long\mbox{]} The time up to which the user's performance records are taken into account\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Score\-History\-For\-All\-Categories\-Srv\-Response\-::\-Response\&\mbox{]} The output arguments of the service as defined in the user\-Score\-History\-For\-All\-Categories\-Srv 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file user\-Score\-History\-For\-All\-Categories.\-py.
+
+\hypertarget{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_afec98a890e1b34dcd2fd89ce6e422d83}{\index{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories@{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories}!return\-User\-History@{return\-User\-History}}
+\index{return\-User\-History@{return\-User\-History}!userScoreHistoryForAllCategories::UserScoreHistoryForAllCategories@{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories}}
+\subsubsection[{return\-User\-History}]{\setlength{\rightskip}{0pt plus 5cm}def user\-Score\-History\-For\-All\-Categories.\-User\-Score\-History\-For\-All\-Categories.\-return\-User\-History (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_afec98a890e1b34dcd2fd89ce6e422d83}
+
+
+The callback function of the cognitive exercise user score history for all categories service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Score\-History\-For\-All\-Categories\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+{\em res} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Score\-History\-For\-All\-Categories\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & Value\-Error \\
+\hline
+{\em Exception} & Index\-Error \\
+\hline
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 47 of file user\-Score\-History\-For\-All\-Categories.\-py.
+
+\hypertarget{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_a226888e324ec3a8867ffa47530acd073}{\index{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories@{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories}!validate\-Time\-Range@{validate\-Time\-Range}}
+\index{validate\-Time\-Range@{validate\-Time\-Range}!userScoreHistoryForAllCategories::UserScoreHistoryForAllCategories@{user\-Score\-History\-For\-All\-Categories\-::\-User\-Score\-History\-For\-All\-Categories}}
+\subsubsection[{validate\-Time\-Range}]{\setlength{\rightskip}{0pt plus 5cm}def user\-Score\-History\-For\-All\-Categories.\-User\-Score\-History\-For\-All\-Categories.\-validate\-Time\-Range (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{from\-Time, }
+\item[{}]{to\-Time}
+\end{DoxyParamCaption}
+)}}\label{classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_a226888e324ec3a8867ffa47530acd073}
+
+
+Validates the from\-Time and to\-Time variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em from\-Time} & \mbox{[}long\mbox{]} The time from which the performance records are evaluated \\
+\hline
+{\em to\-Time} & \mbox{[}long\mbox{]} The time up to which the performance records are evaluated\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+from\-Time \mbox{[}long\mbox{]} The time from which the performance records are evaluated 
+
+to\-Time \mbox{[}long\mbox{]} The time up to which the performance records are evaluated 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 121 of file user\-Score\-History\-For\-All\-Categories.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-cognitive\-\_\-exercise/src/\hyperlink{userScoreHistoryForAllCategories_8py}{user\-Score\-History\-For\-All\-Categories.\-py}\end{DoxyCompactItemize}

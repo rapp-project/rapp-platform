@@ -1,7 +1,7 @@
-\hypertarget{asio__socket_8hpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/service/asio\-\_\-socket/asio\-\_\-socket.hpp File Reference}
-\label{asio__socket_8hpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/service/asio\-\_\-socket/asio\-\_\-socket.\-hpp@{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/service/asio\-\_\-socket/asio\-\_\-socket.\-hpp}}
+\hypertarget{asio__socket_8hpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-socket/asio\-\_\-socket.hpp File Reference}
+\label{asio__socket_8hpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-socket/asio\-\_\-socket.\-hpp@{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-socket/asio\-\_\-socket.\-hpp}}
 }
-{\ttfamily \#include \char`\"{}Includes.\-ihh\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}includes.\-ihh\char`\"{}}\\*
 Include dependency graph for asio\-\_\-socket.\-hpp\-:
 \nopagebreak
 \begin{figure}[H]
@@ -21,12 +21,19 @@ This graph shows which files directly or indirectly include this file\-:
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{classrapp_1_1services_1_1asio__socket}{rapp\-::services\-::asio\-\_\-socket}
-\begin{DoxyCompactList}\small\item\em Abstract Base A\-S\-I\-O Socket class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+class \hyperlink{classrapp_1_1cloud_1_1asio__socket}{rapp\-::cloud\-::asio\-\_\-socket}
+\begin{DoxyCompactList}\small\item\em Abstract Base A\-S\-I\-O Socket class Use for passing around to the service controller, various types of cloud handlers. This Interface is needed so that different handlers can be passed to the scheduler transparently. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{namespacerapp}{rapp}
 \item 
-\hyperlink{namespacerapp_1_1services}{rapp\-::services}
+\hyperlink{namespacerapp_1_1cloud}{rapp\-::cloud}
 \end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+constexpr char \hyperlink{namespacerapp_1_1cloud_afb654734a7584ea0243e431aaebd4728}{rapp\-::cloud\-::address} \mbox{[}$\,$\mbox{]} = \char`\"{}localhost\char`\"{}
+\begin{DoxyCompactList}\small\item\em api.\-rapp.\-cloud -\/ \end{DoxyCompactList}\item 
+constexpr char \hyperlink{namespacerapp_1_1cloud_ae0e4cb6fd54bbf45234fc3c21f752b7a}{rapp\-::cloud\-::port} \mbox{[}$\,$\mbox{]} = \char`\"{}9001\char`\"{}
+\begin{DoxyCompactList}\small\item\em api.\-rapp.\-cloud -\/ H\-O\-P server port \end{DoxyCompactList}\end{DoxyCompactItemize}

@@ -1,0 +1,132 @@
+\hypertarget{classrapp_1_1cloud_1_1hazard__detection__light__check}{\section{rapp\-:\-:cloud\-:\-:hazard\-\_\-detection\-\_\-light\-\_\-check Class Reference}
+\label{classrapp_1_1cloud_1_1hazard__detection__light__check}\index{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check@{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check}}
+}
+
+
+detect light levels  
+
+
+
+
+{\ttfamily \#include $<$hazard\-\_\-detection.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:hazard\-\_\-detection\-\_\-light\-\_\-check\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1hazard__detection__light__check__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:hazard\-\_\-detection\-\_\-light\-\_\-check\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1hazard__detection__light__check__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1hazard__detection__light__check_a0c96e78b8b17f775fb35816cc24dbdbc}{hazard\-\_\-detection\-\_\-light\-\_\-check} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1picture}{rapp\-::object\-::picture} $>$ image, std\-::function$<$ void(double light\-\_\-level)$>$ callback, std\-::string token)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1hazard__detection__light__check_abc906b76894a8dd45a589b059c53d02a}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle the rapp-\/platform J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(double)$>$ \hyperlink{classrapp_1_1cloud_1_1hazard__detection__light__check_acdadeca1ce2b179e39073654fa1ba4ac}{delegate\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+detect light levels 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 94 of file hazard\-\_\-detection.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1hazard__detection__light__check_a0c96e78b8b17f775fb35816cc24dbdbc}{\index{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check@{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check}!hazard\-\_\-detection\-\_\-light\-\_\-check@{hazard\-\_\-detection\-\_\-light\-\_\-check}}
+\index{hazard\-\_\-detection\-\_\-light\-\_\-check@{hazard\-\_\-detection\-\_\-light\-\_\-check}!rapp::cloud::hazard_detection_light_check@{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check}}
+\subsubsection[{hazard\-\_\-detection\-\_\-light\-\_\-check}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check\-::hazard\-\_\-detection\-\_\-light\-\_\-check (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::picture} $>$}]{image, }
+\item[{std\-::function$<$ void(double light\-\_\-level)$>$}]{callback, }
+\item[{std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1hazard__detection__light__check_a0c96e78b8b17f775fb35816cc24dbdbc}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & is a picture object pointer \\
+\hline
+{\em callback} & is the function that will receive a vector of detected qr(s) \\
+\hline
+{\em image\-\_\-format} & must be defined, e.\-g.\-: jpeg, png, gif, etc. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 103 of file hazard\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1hazard__detection__light__check_abc906b76894a8dd45a589b059c53d02a}{\index{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check@{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::hazard_detection_light_check@{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1hazard__detection__light__check_abc906b76894a8dd45a589b059c53d02a}
+
+
+handle the rapp-\/platform J\-S\-O\-N reply 
+
+
+
+Definition at line 138 of file hazard\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1hazard__detection__light__check_acdadeca1ce2b179e39073654fa1ba4ac}{\index{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check@{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check}!delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}}
+\index{delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}!rapp::cloud::hazard_detection_light_check@{rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check}}
+\subsubsection[{delegate\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(double)$>$ rapp\-::cloud\-::hazard\-\_\-detection\-\_\-light\-\_\-check\-::delegate\-\_\-\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1hazard__detection__light__check_acdadeca1ce2b179e39073654fa1ba4ac}
+
+
+The callback called upon completion of receiving the detected faces. 
+
+
+
+Definition at line 166 of file hazard\-\_\-detection.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/vision/hazard\-\_\-detection/\hyperlink{hazard__detection_8hpp}{hazard\-\_\-detection.\-hpp}\end{DoxyCompactItemize}

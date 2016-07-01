@@ -1,0 +1,97 @@
+This tutorial has a goal to introduce a novice programmer (who is not necessarily a roboticist) into the R\-Apps concept (where R\-Apps stands for Robotic Applications). Here, a simple application will be created for the N\-A\-O robot using the Python programming language. This application will be executed in-\/robot, thus a real N\-A\-O robot is necessary.
+
+\subsection*{Preparation steps}
+
+For this tutorial we will use the following tools\-:
+\begin{DoxyItemize}
+\item A real N\-A\-O robot
+\item the {\ttfamily rapp-\/robots-\/api} Github repository
+\end{DoxyItemize}
+
+Of course the standard prerequisites are a functional installation of Ubuntu 14.\-04, an editor and a terminal.
+
+\paragraph*{R\-A\-P\-P Robots A\-P\-I libraries setup}
+
+The first step is to clone the appropriate Git\-Hub repository in your P\-C\-:
+
+```bash mkdir $\sim$/rapp\-\_\-nao cd $\sim$/rapp\-\_\-nao git clone \href{https://github.com/rapp-project/rapp-robots-api.git}{\tt https\-://github.\-com/rapp-\/project/rapp-\/robots-\/api.\-git} ```
+
+The next step is to transfer the R\-A\-P\-P Python libraries to the N\-A\-O robot. This will be done via {\ttfamily scp}, assuming that the N\-A\-O robot's I\-P is {\ttfamily 192.\-168.\-0.\-101} and username and password are {\ttfamily nao}\-:
+
+```bash cd $\sim$/rapp\-\_\-nao/ tar -\/zcvf rapp\-\_\-api.\-tar.\-gz rapp-\/robots-\/api/ scp rapp\-\_\-api.\-tar.\-gz \href{mailto:nao@192.168.0.101}{\tt nao@192.\-168.\-0.\-101}\-:$\sim$/rapp\-\_\-api.tar.\-gz ```
+
+Now connect in N\-A\-O via ssh by {\ttfamily ssh nao@192.\-168.\-0.\-101} giving {\ttfamily nao} as password. Then untar the A\-P\-I\-:
+
+```bash tar -\/xvf rapp\-\_\-api.\-tar.\-gz rm rapp\-\_\-api.\-tar.\-gz ```
+
+The next step is to update the {\ttfamily P\-Y\-T\-H\-O\-N\-P\-A\-T\-H} variable. Since N\-A\-O has Gentoo as O\-S, we will modify the {\ttfamily bash\-\_\-profile} file\-:
+
+```bash echo 'export P\-Y\-T\-H\-O\-N\-P\-A\-T\-H=\$\-P\-Y\-T\-H\-O\-N\-P\-A\-T\-H\-:$\sim$/rapp-\/robots-\/api/python/abstract\-\_\-classes' $>$$>$ /home/nao/.bash\-\_\-profile echo 'export P\-Y\-T\-H\-O\-N\-P\-A\-T\-H=\$\-P\-Y\-T\-H\-O\-N\-P\-A\-T\-H\-:$\sim$/rapp-\/robots-\/api/python/implementations/nao\-\_\-v4\-\_\-naoqi2.1.\-4' $>$$>$ /home/nao/.bash\-\_\-profile source $\sim$/.bash\-\_\-profile ```
+
+The last step to configure the {\ttfamily rapp-\/robots-\/api} is to declare the N\-A\-O I\-P. Since the robot A\-P\-I is in-\/robot, the I\-P must be localhost\-: {\ttfamily 127.\-0.\-0.\-1}.
+
+The I\-P must be declared in the first line of \href{https://github.com/rapp-project/rapp-robots-api/blob/master/python/implementations/nao_v4_naoqi2.1.4/nao_connectivity}{\tt this} file, thus the {\ttfamily nao\-\_\-connectivity} file located under {\ttfamily /home/nao/rapp-\/robots-\/api/python/implementations/nao\-\_\-v4\-\_\-naoqi2.1.\-4/nao\-\_\-connectivity} should contain\-:
+
+``` 127.\-0.\-0.\-1 9559 ```
+
+Now all tools are in place to write our simple N\-A\-O Python application.
+
+\subsection*{Writing a simple application}
+
+Let's create a Python file for our application and give it execution rights\-:
+
+```bash mkdir $\sim$/rapp\-\_\-nao cd /home/nao/rapp\-\_\-nao mkdir rapps \&\& cd rapps touch simple\-\_\-app.\-py chmod +x simple\-\_\-app.\-py ```
+
+The first step is to check if everything is in place. Write the following in the {\ttfamily simple\-\_\-app.\-py} file\-:
+
+```python \#!/usr/bin/env python from rapp\-\_\-robot\-\_\-api import Rapp\-Robot rh = Rapp\-Robot() rh.\-audio.\-speak(\char`\"{}\-Hello there!\char`\"{}) ```
+
+If everything was set-\/up correctly the N\-A\-O robot should talk and say \char`\"{}\-Hello there!\char`\"{} to you. If not, one of the aforementioned instructions was not performed correctly (or if it they all were, please submit a bug to correct this tutorial!).
+
+Now for the real application, you can use any of the documented A\-P\-I calls that exist \href{https://github.com/rapp-project/rapp-robots-api/tree/master/python}{\tt here}. Insert the following in the {\ttfamily simple\-\_\-app.\-py} file\-:
+
+```python \#!/usr/bin/env python
+
+\section*{Import the R\-A\-P\-P Robot A\-P\-I}
+
+from rapp\-\_\-robot\-\_\-api import Rapp\-Robot \section*{Create an object in order to call the desired functions}
+
+rh = Rapp\-Robot()
+
+\section*{Adjust the N\-A\-O master volume and ask for instructions. The valid commands are 'stand' and 'sit' and N\-A\-O waits for 5 seconds}
+
+rh.\-audio.\-set\-Volume(50) rh.\-audio.\-speak(\char`\"{}\-Hello there! What do you want me to do? I can sit or get up.\char`\"{}) res = rh.\-audio.\-speech\-Detection(\mbox{[}'sit', 'get up'\mbox{]}, 5) print res word = '' inner\-\_\-word = '' if res\mbox{[}'error'\mbox{]} == None\-: word = res\mbox{[}'word'\mbox{]}
+
+\section*{Check which command was dictated by the human}
+
+if word == 'sit'\-: \section*{The motors must be enabled for N\-A\-O to move}
+
+rh.\-motion.\-enable\-Motors() \section*{N\-A\-O sits with 75\% of its maximum speed}
+
+rh.\-humanoid\-\_\-motion.\-go\-To\-Posture('Sit', 0.\-75) elif word == 'get up'\-: \section*{The motors must be enabled for N\-A\-O to move}
+
+rh.\-motion.\-enable\-Motors() \section*{N\-A\-O stands with 75\% of its maximum speed}
+
+rh.\-humanoid\-\_\-motion.\-go\-To\-Posture('Stand', 0.\-75) else\-: \section*{No command was dictated or the command was not understood}
+
+pass
+
+\section*{Ask the human what movement to do\-: move the hands or the head?}
+
+rh.\-audio.\-speak(\char`\"{}\-Do you want me to move my arms or my head?\char`\"{}) res = rh.\-audio.\-speech\-Detection(\mbox{[}'arms', 'head'\mbox{]}, 5) print res if res\mbox{[}'error'\mbox{]} == None\-: word = res\mbox{[}'word'\mbox{]}
+
+rh.\-motion.\-enable\-Motors() if word == 'arms'\-: rh.\-audio.\-speak(\char`\"{}\-Do you want me to open the left or right hand?\char`\"{}) res = rh.\-audio.\-speech\-Detection(\mbox{[}'left', 'right'\mbox{]}, 5) print res if res\mbox{[}'error'\mbox{]} == None\-: inner\-\_\-word = res\mbox{[}'word'\mbox{]} if inner\-\_\-word == 'left'\-: rh.\-humanoid\-\_\-motion.\-open\-Hand('Left') elif inner\-\_\-word == 'right'\-: rh.\-humanoid\-\_\-motion.\-open\-Hand('Right') else\-: pass
+
+rh.\-audio.\-speak(\char`\"{}\-I will close my hands now\char`\"{}) rh.\-humanoid\-\_\-motion.\-close\-Hand('Right') rh.\-humanoid\-\_\-motion.\-close\-Hand('Left') elif word == 'head'\-: rh.\-audio.\-speak(\char`\"{}\-Do you want me to turn my head left or right?\char`\"{}) res = rh.\-audio.\-speech\-Detection(\mbox{[}'left', 'right'\mbox{]}, 5) print res if res\mbox{[}'error'\mbox{]} == None\-: inner\-\_\-word = res\mbox{[}'word'\mbox{]} \section*{The head moves by 0.\-4 rads left or right with 50\% of its maximum speed}
+
+if inner\-\_\-word == 'left'\-: rh.\-humanoid\-\_\-motion.\-set\-Joint\-Angles(\mbox{[}'Head\-Yaw'\mbox{]}, \mbox{[}0.\-4\mbox{]}, 0.\-5) elif inner\-\_\-word == 'right'\-: rh.\-humanoid\-\_\-motion.\-set\-Joint\-Angles(\mbox{[}'Head\-Yaw'\mbox{]}, \mbox{[}-\/0.\-4\mbox{]}, 0.\-5) else\-: pass
+
+rh.\-audio.\-speak(\char`\"{}\-I will look straight now\char`\"{}) rh.\-humanoid\-\_\-motion.\-set\-Joint\-Angles(\mbox{[}'Head\-Yaw'\mbox{]}, \mbox{[}0\mbox{]}, 0.\-5) else\-: pass
+
+rh.\-audio.\-speak(\char`\"{}\-And now I will sit down and sleep!\char`\"{}) rh.\-humanoid\-\_\-motion.\-go\-To\-Posture('Sit', 0.\-7) rh.\-motion.\-disable\-Motors() ```
+
+As you may have noticed the A\-P\-I calls are robot-\/agnostic, meaning that the developer (you) can create applications without having to specify on which robot they will be executed. If a specific function is not implemented in a robot that will execute this application, the specific command will simply have no effect.
+
+Finally, the last step is to execute the R\-App\-:
+
+```bash python /home/nao/rapp\-\_\-nao/rapps/simple\-\_\-app.py ``` 

@@ -1,15 +1,17 @@
 <map id="/home/travis/rapp_temp/rapp&#45;api/cpp/examples/qr_detect.cpp" name="/home/travis/rapp_temp/rapp&#45;api/cpp/examples/qr_detect.cpp">
-<area shape="rect" id="node2" href="$service__controller_8hpp.html" title="../includes/service\l/service_controller\l/service_controller.hpp" alt="" coords="1518,109,1671,165"/>
-<area shape="rect" id="node18" href="$qrDetector_8hpp.html" title="../includes/cloud/qrDetector\l/qrDetector.hpp" alt="" coords="1167,117,1349,158"/>
-<area shape="rect" id="node33" href="$picture_8hpp.html" title="../../objects/picture\l/picture.hpp" alt="" coords="1712,295,1841,337"/>
-<area shape="rect" id="node3" href="$service_2service__controller_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1545,392,1636,419"/>
-<area shape="rect" id="node10" href="$asio__socket_8hpp.html" title="../asio_socket/asio\l_socket.hpp" alt="" coords="1246,467,1377,509"/>
-<area shape="rect" id="node17" href="$globals_8hpp.html" title="../globals/globals.hpp" alt="" coords="1865,475,2009,501"/>
-<area shape="rect" id="node11" href="$service_2asio__socket_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1246,557,1337,584"/>
-<area shape="rect" id="node19" href="$cloud_2qrDetector_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1069,213,1160,240"/>
-<area shape="rect" id="node26" href="$asio__service__http_8hpp.html" title="../../service/asio\l_service_http/asio_service\l_http.hpp" alt="" coords="899,288,1076,344"/>
-<area shape="rect" id="node30" href="$qrCode_8hpp.html" title="../../objects/qrCode\l/qrCode.hpp" alt="" coords="335,295,469,337"/>
-<area shape="rect" id="node27" href="$service_2asio__service__http_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="985,392,1076,419"/>
-<area shape="rect" id="node31" href="$objects_2qrCode_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="347,392,439,419"/>
-<area shape="rect" id="node34" href="$objects_2picture_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="2057,392,2148,419"/>
+<area shape="rect" id="node2" href="$service__controller_8hpp.html" title="cloud/service_controller\l/service_controller.hpp" alt="" coords="854,110,1012,151"/>
+<area shape="rect" id="node35" href="$qr__detection_8hpp.html" title="cloud/vision/qr_detection\l/qr_detection.hpp" alt="" coords="1359,110,1525,151"/>
+<area shape="rect" id="node44" href="$picture_8hpp.html" title="objects/picture/picture.hpp" alt="" coords="1837,283,2011,309"/>
+<area shape="rect" id="node3" href="$cloud_2service__controller_2includes_8ihh.html" title="includes.ihh" alt="" coords="591,200,681,227"/>
+<area shape="rect" id="node13" href="$asio__socket_8hpp.html" title="cloud/asio_socket/asio\l_socket.hpp" alt="" coords="832,441,985,482"/>
+<area shape="rect" id="node20" href="$asio__service__http_8hpp.html" title="cloud/asio_service\l_http/asio_service_http.hpp" alt="" coords="894,275,1076,317"/>
+<area shape="rect" id="node14" href="$cloud_2asio__socket_2includes_8ihh.html" title="includes.ihh" alt="" coords="997,531,1088,557"/>
+<area shape="rect" id="node21" href="$cloud_2asio__service__http_2includes_8ihh.html" title="includes.ihh" alt="" coords="979,365,1069,392"/>
+<area shape="rect" id="node23" href="$asio__handler_8hpp.html" title="cloud/asio_handler\l/asio_handler.hpp" alt="" coords="1325,441,1455,482"/>
+<area shape="rect" id="node24" href="$cloud_2asio__handler_2includes_8ihh.html" title="includes.ihh" alt="" coords="1448,531,1539,557"/>
+<area shape="rect" id="node36" href="$cloud_2vision_2qr__detection_2includes_8ihh.html" title="includes.ihh" alt="" coords="1397,200,1488,227"/>
+<area shape="rect" id="node42" href="$qr__code_8hpp.html" title="objects/qr_code/qr\l_code.hpp" alt="" coords="2242,275,2371,317"/>
+<area shape="rect" id="node43" href="$objects_2qr__code_2includes_8ihh.html" title="includes.ihh" alt="" coords="2477,531,2568,557"/>
+<area shape="rect" id="node45" href="$objects_2picture_2includes_8ihh.html" title="includes.ihh" alt="" coords="1836,365,1927,392"/>
+<area shape="rect" id="node47" href="$globals_8hpp.html" title="objects/globals.hpp" alt="" coords="2015,448,2149,475"/>
 </map>

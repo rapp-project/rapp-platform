@@ -1,53 +1,147 @@
-The R\-A\-P\-P My\-S\-Q\-L wrapper R\-O\-S node provides the means to interact with the developed My\-S\-Q\-L database by providing 26 R\-O\-S services that aid in selecting, inserting, updating or deleting information from some of the tables of the R\-A\-P\-P My\-S\-Q\-L Database.
+\#\-Methodology
 
-The scheme of the My\-S\-Q\-L Database is depicted below.
+The R\-A\-P\-P My\-S\-Q\-L wrapper R\-O\-S node provides the means to interact with the developed My\-S\-Q\-L database by providing a number of R\-O\-S services that perform specific, predefined procedures of reading from and writing to the database.
 
-\mbox{[}\mbox{[}images/mysql\-\_\-scheme.\-png\mbox{]}\mbox{]}
+\#\-R\-O\-S Services Each service is analyzed below.
 
-The component diagram of the My\-S\-Q\-L wrapper is depicted below. \mbox{[}\mbox{[}images/mysql\-\_\-wrapper\-\_\-component\-\_\-diagram.\-png\mbox{]}\mbox{]}
+\subsection*{Add store token to device service}
 
-\section*{R\-O\-S Services}
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/add\-\_\-store\-\_\-token\-\_\-to\-\_\-device}
 
-A write, fetch, update and delete service exists for each of the tables of the My\-S\-Q\-L database that are accessible through the wrapper. These four services follow a general approach, irrespective of the actual table they affect. The U\-R\-Ls of the available services are shown below.
+Service type\-: ```bash \subsection*{string store\-\_\-token }
 
-``` /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-apps\-\_\-robots\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-model\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-rapp\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-robot\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-user\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-delete\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-update\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/tbl\-\_\-users\-\_\-ontology\-\_\-instances\-\_\-write\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/view\-\_\-users\-\_\-robots\-\_\-apps\-\_\-fetch\-\_\-data /rapp/rapp\-\_\-mysql\-\_\-wrapper/what\-\_\-rapps\-\_\-can\-\_\-run ``` Below is a detailed explanation of how the fetch, write, update and delete services work in general. Examples of how these services are called can be found in\-: \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_mysql_wrapper/test/mysql_wrapper/db_test.py#L217-L304}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/blob/master/rapp\-\_\-mysql\-\_\-wrapper/test/mysql\-\_\-wrapper/db\-\_\-test.\-py\#\-L217-\/\-L304}
+string error ```
 
-\subsection*{Fetch Data}
+\subsection*{Check active application token service}
 
-The general format of the service responsible for fetching data from an array is presented below.
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/check\-\_\-active\-\_\-application\-\_\-token}
 
-```bash \#the requested column names in the My\-S\-Q\-L select query string\mbox{[}\mbox{]} req\-\_\-cols \#a 2 dimensional array each line of which is a where relationship in the select query \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} where\-\_\-data }
+Service type\-: ```bash \subsection*{string application\-\_\-token }
 
-\#the resulting column names string\mbox{[}\mbox{]} res\-\_\-cols \#the resulting column data (in 2 dimensional array) where each line is an entry rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} res\-\_\-data \#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+bool application\-\_\-token\-\_\-exists bool success string error string\mbox{[}\mbox{]} trace ```
 
-\subsection*{Write Data}
+\subsection*{Check active robot session service}
 
-The general format of the service responsible for writing data to an array is presented below.
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/check\-\_\-active\-\_\-robot\-\_\-session}
 
-```bash \#the to be written column names string\mbox{[}\mbox{]} req\-\_\-cols \#the values to be written to the above columns \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} req\-\_\-data }
+Service type\-: ```bash string username \subsection*{string device\-\_\-token }
 
-\#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+bool application\-\_\-token\-\_\-exists bool success string error string\mbox{[}\mbox{]} trace ```
 
-\subsection*{Update Data}
+\subsection*{Check if user exists service}
 
-The general format of the service responsible for updating data of an array is presented below.
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/check\-\_\-if\-\_\-user\-\_\-exists}
 
-```bash \#the to be set columns along with their new values in 'column\-Name=new\-Value' format string\mbox{[}\mbox{]} set\-\_\-cols \#a 2 dimensional array each line of which is a where relationship \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} where\-\_\-data }
+Service type\-: ```bash \subsection*{string username }
 
-\#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+bool user\-\_\-exists bool success string error string\mbox{[}\mbox{]} trace ```
 
-\subsection*{Delete Data}
+\subsection*{Create new application token service}
 
-The general format of the service responsible for deleting data of an array is presented below.
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/create\-\_\-new\-\_\-application\-\_\-token}
 
-```bash \#a 2 dimensional array each line of which is a where relationship \subsection*{rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} where\-\_\-data }
+Service type\-: ```bash string username string store\-\_\-token \subsection*{string application\-\_\-token }
 
-\#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ```
+bool success string error string\mbox{[}\mbox{]} trace ```
 
-\subsection*{what\-Rapps\-Can\-Run}
+\subsection*{Create new cloud agent service}
 
-This service returns what R\-Apps can run on a robot when given the robot's model I\-D and it's Core Agent version.
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/create\-\_\-new\-\_\-cloud\-\_\-agent}
 
-```bash \#the robot's model id string model\-\_\-id \#the robot's core agent version \subsection*{string core\-\_\-agent\-\_\-version }
+Service type\-: ```bash string username string tarball\-\_\-path string container\-\_\-identifier string image\-\_\-identifier \subsection*{string container\-\_\-type }
 
-\#the resulting column names string\mbox{[}\mbox{]} res\-\_\-cols \#the resulting column data (in 2 dimensional array) where each line is an entry rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} res\-\_\-data \#possible error information string\mbox{[}\mbox{]} trace \#true if successful std\-\_\-msgs/\-Bool success ``` 
+bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Create new cloud agent service service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/create\-\_\-new\-\_\-cloud\-\_\-agent\-\_\-service}
+
+Service type\-: ```bash string container\-\_\-identifier string service\-\_\-name string service\-\_\-type int16 container\-\_\-port \subsection*{int16 host\-\_\-port }
+
+bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Create new platform user service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/create\-\_\-new\-\_\-platform\-\_\-user}
+
+Service type\-: ```bash string username string password string creator\-\_\-username \subsection*{string language }
+
+bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Get cloud agent service type and host port service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/get\-\_\-cloud\-\_\-agent\-\_\-service\-\_\-type\-\_\-and\-\_\-host\-\_\-port}
+
+Service type\-: ```bash string container\-\_\-identifier \subsection*{string service\-\_\-name }
+
+string service\-\_\-type int16 host\-\_\-port bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Get user language service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/get\-\_\-user\-\_\-language}
+
+Service type\-: ```bash \subsection*{string username }
+
+string user\-\_\-language bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Get username associated with application token service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/get\-\_\-username\-\_\-associated\-\_\-with\-\_\-application\-\_\-token}
+
+Service type\-: ```bash \subsection*{string application\-\_\-token }
+
+string username bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Get user ontology alias service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/get\-\_\-user\-\_\-ontology\-\_\-alias}
+
+Service type\-: ```bash \subsection*{string username }
+
+string ontology\-\_\-alias bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Get user password service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/get\-\_\-user\-\_\-password}
+
+Service type\-: ```bash \subsection*{string username }
+
+string password bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Register user ontology alias service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/register\-\_\-user\-\_\-ontology\-\_\-alias}
+
+Service type\-: ```bash string username \subsection*{string ontology\-\_\-alias }
+
+bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Remove platform user service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/remove\-\_\-platform\-\_\-user}
+
+Service type\-: ```bash \subsection*{string username }
+
+string password bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Validate existing platform device token service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/validate\-\_\-existing\-\_\-platform\-\_\-device\-\_\-token}
+
+Service type\-: ```bash \subsection*{string device\-\_\-token }
+
+bool device\-\_\-token\-\_\-exists bool success string error string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Validate user role service}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-mysql\-\_\-wrapper/validate\-\_\-user\-\_\-role}
+
+Service type\-: ```bash \subsection*{string username }
+
+string error string\mbox{[}\mbox{]} trace ```
+
+\section*{Launchers}
+
+\subsection*{Standard Launcher}
+
+Launches the rapp\-\_\-mysql\-\_\-wrapper node and can be invoked using {\ttfamily roslaunch rapp\-\_\-mysql\-\_\-wrapper mysql\-\_\-wrapper.\-launch} 

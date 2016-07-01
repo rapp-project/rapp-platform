@@ -1,0 +1,108 @@
+\hypertarget{path__planning_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-path\-\_\-planning/src/path\-\_\-planning.cpp File Reference}
+\label{path__planning_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-path\-\_\-planning/src/path\-\_\-planning.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-path\-\_\-planning/src/path\-\_\-planning.\-cpp}}
+}
+{\ttfamily \#include $<$path\-\_\-planning/path\-\_\-planning.\-h$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$sys/stat.\-h$>$}\\*
+{\ttfamily \#include $<$sys/types.\-h$>$}\\*
+{\ttfamily \#include $<$unistd.\-h$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include $<$stdlib.\-h$>$}\\*
+{\ttfamily \#include $<$boost/filesystem.\-hpp$>$}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+Include dependency graph for path\-\_\-planning.\-cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{path__planning_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{path__planning_8cpp_a7cec9f4f9ebd175d0659ca6af28407a5}{exists\-\_\-file} (const std\-::string \&name)
+\item 
+bool \hyperlink{path__planning_8cpp_a2d7f67d6a56a0c2f6f3e6dbb15a13e03}{input\-\_\-poses\-\_\-correct} (geometry\-\_\-msgs\-::\-Pose\-Stamped \&start, geometry\-\_\-msgs\-::\-Pose\-Stamped \&goal)
+\item 
+std\-::vector\\*
+$<$ geometry\-\_\-msgs\-::\-Pose\-Stamped $>$ \hyperlink{path__planning_8cpp_a32c836d364af6fbdc2c156cd79790bfa}{set\-Pose\-Dist} (double pose\-\_\-dist, std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose\-Stamped $>$ input\-\_\-path)
+\item 
+pid\-\_\-t \hyperlink{path__planning_8cpp_ada6fceb5f400dc77d77a85a420c20cb7}{start\-\_\-global\-\_\-planners} (std\-::string node\-\_\-nr\-\_\-str)
+\item 
+pid\-\_\-t \hyperlink{path__planning_8cpp_a59a75750f22db778adfe665823a8e801}{start\-\_\-map\-\_\-servers} (std\-::string node\-\_\-nr\-\_\-str)
+\item 
+pid\-\_\-t \hyperlink{path__planning_8cpp_a71f26f1a13d2a731ecad98ae7f181e10}{start\-\_\-tf\-\_\-publisher} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{path__planning_8cpp_a7cec9f4f9ebd175d0659ca6af28407a5}{\index{path\-\_\-planning.\-cpp@{path\-\_\-planning.\-cpp}!exists\-\_\-file@{exists\-\_\-file}}
+\index{exists\-\_\-file@{exists\-\_\-file}!path_planning.cpp@{path\-\_\-planning.\-cpp}}
+\subsubsection[{exists\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}bool exists\-\_\-file (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{name}
+\end{DoxyParamCaption}
+)}}\label{path__planning_8cpp_a7cec9f4f9ebd175d0659ca6af28407a5}
+
+
+Definition at line 41 of file path\-\_\-planning.\-cpp.
+
+\hypertarget{path__planning_8cpp_a2d7f67d6a56a0c2f6f3e6dbb15a13e03}{\index{path\-\_\-planning.\-cpp@{path\-\_\-planning.\-cpp}!input\-\_\-poses\-\_\-correct@{input\-\_\-poses\-\_\-correct}}
+\index{input\-\_\-poses\-\_\-correct@{input\-\_\-poses\-\_\-correct}!path_planning.cpp@{path\-\_\-planning.\-cpp}}
+\subsubsection[{input\-\_\-poses\-\_\-correct}]{\setlength{\rightskip}{0pt plus 5cm}bool input\-\_\-poses\-\_\-correct (
+\begin{DoxyParamCaption}
+\item[{geometry\-\_\-msgs\-::\-Pose\-Stamped \&}]{start, }
+\item[{geometry\-\_\-msgs\-::\-Pose\-Stamped \&}]{goal}
+\end{DoxyParamCaption}
+)}}\label{path__planning_8cpp_a2d7f67d6a56a0c2f6f3e6dbb15a13e03}
+
+
+Definition at line 14 of file path\-\_\-planning.\-cpp.
+
+\hypertarget{path__planning_8cpp_a32c836d364af6fbdc2c156cd79790bfa}{\index{path\-\_\-planning.\-cpp@{path\-\_\-planning.\-cpp}!set\-Pose\-Dist@{set\-Pose\-Dist}}
+\index{set\-Pose\-Dist@{set\-Pose\-Dist}!path_planning.cpp@{path\-\_\-planning.\-cpp}}
+\subsubsection[{set\-Pose\-Dist}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$geometry\-\_\-msgs\-::\-Pose\-Stamped$>$ set\-Pose\-Dist (
+\begin{DoxyParamCaption}
+\item[{double}]{pose\-\_\-dist, }
+\item[{std\-::vector$<$ geometry\-\_\-msgs\-::\-Pose\-Stamped $>$}]{input\-\_\-path}
+\end{DoxyParamCaption}
+)}}\label{path__planning_8cpp_a32c836d364af6fbdc2c156cd79790bfa}
+
+
+Definition at line 259 of file path\-\_\-planning.\-cpp.
+
+\hypertarget{path__planning_8cpp_ada6fceb5f400dc77d77a85a420c20cb7}{\index{path\-\_\-planning.\-cpp@{path\-\_\-planning.\-cpp}!start\-\_\-global\-\_\-planners@{start\-\_\-global\-\_\-planners}}
+\index{start\-\_\-global\-\_\-planners@{start\-\_\-global\-\_\-planners}!path_planning.cpp@{path\-\_\-planning.\-cpp}}
+\subsubsection[{start\-\_\-global\-\_\-planners}]{\setlength{\rightskip}{0pt plus 5cm}pid\-\_\-t start\-\_\-global\-\_\-planners (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{node\-\_\-nr\-\_\-str}
+\end{DoxyParamCaption}
+)}}\label{path__planning_8cpp_ada6fceb5f400dc77d77a85a420c20cb7}
+
+
+Definition at line 98 of file path\-\_\-planning.\-cpp.
+
+\hypertarget{path__planning_8cpp_a59a75750f22db778adfe665823a8e801}{\index{path\-\_\-planning.\-cpp@{path\-\_\-planning.\-cpp}!start\-\_\-map\-\_\-servers@{start\-\_\-map\-\_\-servers}}
+\index{start\-\_\-map\-\_\-servers@{start\-\_\-map\-\_\-servers}!path_planning.cpp@{path\-\_\-planning.\-cpp}}
+\subsubsection[{start\-\_\-map\-\_\-servers}]{\setlength{\rightskip}{0pt plus 5cm}pid\-\_\-t start\-\_\-map\-\_\-servers (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{node\-\_\-nr\-\_\-str}
+\end{DoxyParamCaption}
+)}}\label{path__planning_8cpp_a59a75750f22db778adfe665823a8e801}
+
+
+Definition at line 67 of file path\-\_\-planning.\-cpp.
+
+\hypertarget{path__planning_8cpp_a71f26f1a13d2a731ecad98ae7f181e10}{\index{path\-\_\-planning.\-cpp@{path\-\_\-planning.\-cpp}!start\-\_\-tf\-\_\-publisher@{start\-\_\-tf\-\_\-publisher}}
+\index{start\-\_\-tf\-\_\-publisher@{start\-\_\-tf\-\_\-publisher}!path_planning.cpp@{path\-\_\-planning.\-cpp}}
+\subsubsection[{start\-\_\-tf\-\_\-publisher}]{\setlength{\rightskip}{0pt plus 5cm}pid\-\_\-t start\-\_\-tf\-\_\-publisher (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{path__planning_8cpp_a71f26f1a13d2a731ecad98ae7f181e10}
+
+
+Definition at line 46 of file path\-\_\-planning.\-cpp.
+

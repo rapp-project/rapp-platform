@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['template_2epy',['template.py',['../template_8py.html',1,'']]],
-  ['text_5fto_5fspeech_5ftest_5fgr_5fauto_5fstore_5ffile_2epy',['text_to_speech_test_gr_auto_store_file.py',['../text__to__speech__test__gr__auto__store__file_8py.html',1,'']]],
-  ['text_5fto_5fspeech_5ftest_5fgr_5fdefault_2epy',['text_to_speech_test_gr_default.py',['../text__to__speech__test__gr__default_8py.html',1,'']]]
+  ['object_5frecognition_5ftests_2epy',['object_recognition_tests.py',['../object__recognition__tests_8py.html',1,'']]],
+  ['ontology_5fis_5fsubsuperclass_5fof_5fspatialthing_2epy',['ontology_is_subsuperclass_of_SpatialThing.py',['../ontology__is__subsuperclass__of__SpatialThing_8py.html',1,'']]],
+  ['ontology_5ftests_2epy',['ontology_tests.py',['../ontology__tests_8py.html',1,'']]]
 ];

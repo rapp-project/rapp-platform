@@ -1,0 +1,127 @@
+\hypertarget{classrapp_1_1cloud_1_1weather__report__forecast}{\section{rapp\-:\-:cloud\-:\-:weather\-\_\-report\-\_\-forecast Class Reference}
+\label{classrapp_1_1cloud_1_1weather__report__forecast}\index{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast@{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast}}
+}
+
+
+get weather forecast  
+
+
+
+
+{\ttfamily \#include $<$weather\-\_\-report.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:weather\-\_\-report\-\_\-forecast\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1weather__report__forecast__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:weather\-\_\-report\-\_\-forecast\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1weather__report__forecast__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1weather__report__forecast_a068808d8b323fd126e1e0755cb00cccd}{weather\-\_\-report\-\_\-forecast} (const std\-::string city, const std\-::string weather\-\_\-reporter, const unsigned int metric, const std\-::string token, std\-::function$<$ void(std\-::string)$>$ callback)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1weather__report__forecast_a8e0084466e12c7ce43783e908b02e47f}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1weather__report__forecast_afad181406c2d9f1d292e6eedc8ec82fd}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+get weather forecast 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+
+
+Definition at line 62 of file weather\-\_\-report.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1weather__report__forecast_a068808d8b323fd126e1e0755cb00cccd}{\index{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast@{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast}!weather\-\_\-report\-\_\-forecast@{weather\-\_\-report\-\_\-forecast}}
+\index{weather\-\_\-report\-\_\-forecast@{weather\-\_\-report\-\_\-forecast}!rapp::cloud::weather_report_forecast@{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast}}
+\subsubsection[{weather\-\_\-report\-\_\-forecast}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast\-::weather\-\_\-report\-\_\-forecast (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{city, }
+\item[{const std\-::string}]{weather\-\_\-reporter, }
+\item[{const unsigned int}]{metric, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::string)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1weather__report__forecast_a068808d8b323fd126e1e0755cb00cccd}
+
+\begin{DoxyParams}{Parameters}
+{\em city} & location of the weather forecast query \\
+\hline
+{\em weather\-\_\-reporter} & weather A\-P\-I being queried \\
+\hline
+{\em metric} & return value units \\
+\hline
+{\em token} & the rapp auth token \\
+\hline
+{\em callback} & receives a J\-S\-O\-N reply \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 72 of file weather\-\_\-report.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1weather__report__forecast_a8e0084466e12c7ce43783e908b02e47f}{\index{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast@{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::weather_report_forecast@{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1weather__report__forecast_a8e0084466e12c7ce43783e908b02e47f}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 96 of file weather\-\_\-report.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1weather__report__forecast_afad181406c2d9f1d292e6eedc8ec82fd}{\index{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast@{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::weather_report_forecast@{rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::string)$>$ rapp\-::cloud\-::weather\-\_\-report\-\_\-forecast\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1weather__report__forecast_afad181406c2d9f1d292e6eedc8ec82fd}
+
+
+Definition at line 102 of file weather\-\_\-report.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/weather\-\_\-report/\hyperlink{weather__report_8hpp}{weather\-\_\-report.\-hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,41 @@
+\#\-Methodology
+
+In the R\-A\-P\-P case, the human detection functionality is implemented in the form of a C++ developed R\-O\-S node, interfaced by a Web service. The Web service is invoked using the R\-A\-P\-P A\-P\-I and gets an R\-G\-B image as input, in which humans has to be checked. The second step is for the H\-O\-P service to locally save the input image. At the same time, the hazard\-\_\-detection R\-O\-S node is executed in the background, waiting to server requests. The Web service calls the R\-O\-S service via the R\-O\-S Bridge, the R\-O\-S node make the necessary computations and a response is delivered.
+
+\#\-R\-O\-S Services
+
+\subsection*{Human detection}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-hazard\-\_\-detection/light\-\_\-check}
+
+Service type\-: ```bash \section*{Contains info about time and reference}
+
+Header header \section*{The image's filename to perform light checking}
+
+\subsection*{string image\-Filename }
+
+\section*{List of bounding box borders, where the humans were detected}
+
+geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} humans\-\_\-up\-\_\-left geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} humans\-\_\-down\-\_\-right \section*{Possible error}
+
+string error ```
+
+\#\-Launchers
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries human\-\_\-detection} node and can be launched using ``` roslaunch rapp\-\_\-human\-\_\-detection human\-\_\-detection.\-launch ```
+
+\#\-Web services
+
+\subsection*{Human detection}
+
+\subsubsection*{U\-R\-L}
+
+{\ttfamily localhost\-:9001/hop/human\-\_\-detection}
+
+\subsubsection*{Input / Output}
+
+``` Input = \{ \char`\"{}file\char`\"{}\-: “\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A” \} {\ttfamily  } Output = \{ \char`\"{}humans\char`\"{}\-: \mbox{[}\{ \char`\"{}up\-\_\-left\-\_\-point\char`\"{}\-: \{x\-: 0, y\-: 0\}, \char`\"{}down\-\_\-right\-\_\-point\char`\"{}\-: \{x\-: 0, y\-: 0\} \}\mbox{]} \} ```
+
+The full documentation exists \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#human-detection}{\tt here} 

@@ -9,6 +9,7 @@ var classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams 
     [ "_sphinx_jar_file", "classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams.html#aef8bca74a5ed8b58dbe8f842c3e685e0", null ],
     [ "_sphinx_jar_files_url", "classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams.html#afcb09126b08bb8de186f3687f62ff83a", null ],
     [ "_sphinx_package_url", "classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams.html#aec2fabfa84128e000d5af362d659cc95", null ],
+    [ "_sphinx_preconf", "classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams.html#a7812512e88ceff516022a250a218a7c6", null ],
     [ "_tmp_language_models_url", "classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams.html#ac21cbb95712d8873cf5c357e7006bf59", null ],
     [ "rospack", "classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams.html#a544bff3ab91e6ec8c782ba2b4386ef0a", null ]
 ];

@@ -1,0 +1,130 @@
+\hypertarget{classrapp_1_1cloud_1_1ontology__superclasses__of}{\section{rapp\-:\-:cloud\-:\-:ontology\-\_\-superclasses\-\_\-of Class Reference}
+\label{classrapp_1_1cloud_1_1ontology__superclasses__of}\index{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of@{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of}}
+}
+
+
+get ontology super-\/classes of query  
+
+
+
+
+{\ttfamily \#include $<$ontology.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:ontology\-\_\-superclasses\-\_\-of\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1ontology__superclasses__of__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:ontology\-\_\-superclasses\-\_\-of\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1ontology__superclasses__of__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1ontology__superclasses__of_a5ea014e66c47b185c28a05ccd24254d4}{ontology\-\_\-superclasses\-\_\-of} (const std\-::string ontology\-\_\-class, bool recursive, std\-::function$<$ void(std\-::vector$<$ std\-::string $>$)$>$ callback, std\-::string token)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1ontology__superclasses__of_a2f7e716668e287e965357498958fb446}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle and parse J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ std\-::string $>$ classes)$>$ \hyperlink{classrapp_1_1cloud_1_1ontology__superclasses__of_a884f5a0c97c6cc6e0fe695168ae07a9a}{delegate\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+get ontology super-\/classes of query 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 79 of file ontology.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1ontology__superclasses__of_a5ea014e66c47b185c28a05ccd24254d4}{\index{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of@{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of}!ontology\-\_\-superclasses\-\_\-of@{ontology\-\_\-superclasses\-\_\-of}}
+\index{ontology\-\_\-superclasses\-\_\-of@{ontology\-\_\-superclasses\-\_\-of}!rapp::cloud::ontology_superclasses_of@{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of}}
+\subsubsection[{ontology\-\_\-superclasses\-\_\-of}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of\-::ontology\-\_\-superclasses\-\_\-of (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{ontology\-\_\-class, }
+\item[{bool}]{recursive, }
+\item[{std\-::function$<$ void(std\-::vector$<$ std\-::string $>$)$>$}]{callback, }
+\item[{std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1ontology__superclasses__of_a5ea014e66c47b185c28a05ccd24254d4}
+
+\begin{DoxyParams}{Parameters}
+{\em ontology\-\_\-class} & is the entity for which we will try to acquire its Super-\/\-Ordinates \\
+\hline
+{\em callback} & is the functor that will receive the classes discovered \\
+\hline
+{\em token} & is user authentication token \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 87 of file ontology.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1ontology__superclasses__of_a2f7e716668e287e965357498958fb446}{\index{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of@{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::ontology_superclasses_of@{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1ontology__superclasses__of_a2f7e716668e287e965357498958fb446}
+
+
+handle and parse J\-S\-O\-N reply 
+
+
+
+Definition at line 108 of file ontology.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1ontology__superclasses__of_a884f5a0c97c6cc6e0fe695168ae07a9a}{\index{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of@{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of}!delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}}
+\index{delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}!rapp::cloud::ontology_superclasses_of@{rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of}}
+\subsubsection[{delegate\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<$std\-::string$>$ classes)$>$ rapp\-::cloud\-::ontology\-\_\-superclasses\-\_\-of\-::delegate\-\_\-\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1ontology__superclasses__of_a884f5a0c97c6cc6e0fe695168ae07a9a}
+
+
+The callback called upon completion of receiving the detected faces. 
+
+
+
+Definition at line 135 of file ontology.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/ontology/\hyperlink{ontology_8hpp}{ontology.\-hpp}\end{DoxyCompactItemize}

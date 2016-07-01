@@ -1,0 +1,134 @@
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync}{\section{Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async Class Reference}
+\label{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync}\index{Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async@{Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async}}
+}
+
+
+Inheritance diagram for Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=304pt]{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_ace2e2145c0d5eacdcdcfc35abf8fe38f}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_aeafa437bf85355e8f454d04e4ff22441}{run\-\_\-job}
+\begin{DoxyCompactList}\small\item\em Run the service. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_a73a32e67eda63747cf7472bcebd8bfd7}{\-\_\-worker\-\_\-exec}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_a1fac92ab781148dc7a9f2881c0757a85}{\-\_\-\-\_\-thread\-Pool}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}Synchronous service controller class implementation. \end{DoxyVerb}
+ 
+
+Definition at line 37 of file Service\-Controller\-Async.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_ace2e2145c0d5eacdcdcfc35abf8fe38f}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!RappCloud::ServiceController::ServiceControllerAsync::ServiceControllerAsync@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{service, }
+\item[{}]{max\-\_\-workers = {\ttfamily 8}}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_ace2e2145c0d5eacdcdcfc35abf8fe38f}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em service} & \hyperlink{namespaceRappCloud_1_1Service}{Service} -\/ \hyperlink{namespaceRappCloud_1_1Service}{Service} instance. \\
+\hline
+{\em max\-\_\-workers} & -\/ Number of maximum workers to spawn \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 40 of file Service\-Controller\-Async.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_a73a32e67eda63747cf7472bcebd8bfd7}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}!\-\_\-worker\-\_\-exec@{\-\_\-worker\-\_\-exec}}
+\index{\-\_\-worker\-\_\-exec@{\-\_\-worker\-\_\-exec}!RappCloud::ServiceController::ServiceControllerAsync::ServiceControllerAsync@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}}
+\subsubsection[{\-\_\-worker\-\_\-exec}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async.\-\_\-worker\-\_\-exec (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{msg, }
+\item[{}]{url, }
+\item[{}]{clb = {\ttfamily None}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_a73a32e67eda63747cf7472bcebd8bfd7}
+
+
+Definition at line 65 of file Service\-Controller\-Async.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_aeafa437bf85355e8f454d04e4ff22441}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}!run\-\_\-job@{run\-\_\-job}}
+\index{run\-\_\-job@{run\-\_\-job}!RappCloud::ServiceController::ServiceControllerAsync::ServiceControllerAsync@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}}
+\subsubsection[{run\-\_\-job}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async.\-run\-\_\-job (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{msg, }
+\item[{}]{url, }
+\item[{}]{clb = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_aeafa437bf85355e8f454d04e4ff22441}
+
+
+Run the service. 
+
+Submit callback function to the worker thread and return the future. 
+\begin{DoxyParams}{Parameters}
+{\em clb} & Function -\/ Callback function to execute on arrival of the response.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\-\_\-future -\/ The future. 
+\end{DoxyReturn}
+
+
+Definition at line 52 of file Service\-Controller\-Async.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_a1fac92ab781148dc7a9f2881c0757a85}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}!\-\_\-\-\_\-thread\-Pool@{\-\_\-\-\_\-thread\-Pool}}
+\index{\-\_\-\-\_\-thread\-Pool@{\-\_\-\-\_\-thread\-Pool}!RappCloud::ServiceController::ServiceControllerAsync::ServiceControllerAsync@{Rapp\-Cloud\-::\-Service\-Controller\-::\-Service\-Controller\-Async\-::\-Service\-Controller\-Async}}
+\subsubsection[{\-\_\-\-\_\-thread\-Pool}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Service\-Controller.\-Service\-Controller\-Async.\-Service\-Controller\-Async.\-\_\-\-\_\-thread\-Pool\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1ServiceControllerAsync_1_1ServiceControllerAsync_a1fac92ab781148dc7a9f2881c0757a85}
+
+
+Definition at line 47 of file Service\-Controller\-Async.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/python/\-Rapp\-Cloud/\-Service\-Controller/\hyperlink{ServiceControllerAsync_8py}{Service\-Controller\-Async.\-py}\end{DoxyCompactItemize}

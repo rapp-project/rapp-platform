@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['qr_5fdetection',['qr_detection',['../classRappCloud_1_1RappCloud_1_1RappCloud.html#a48cdf2409b0d5bcd2be12b7fadbcea86',1,'RappCloud::RappCloud::RappCloud']]],
-  ['qrcode',['qrCode',['../classrapp_1_1object_1_1qrCode.html#a554b8eae4e757f48bc4b8448e81e59a1',1,'rapp::object::qrCode::qrCode(float centre_x, float centre_y, std::string label)'],['../classrapp_1_1object_1_1qrCode.html#ae1be3ca19c3264e6963ec8ccfdfb5c76',1,'rapp::object::qrCode::qrCode()=default'],['../classrapp_1_1object_1_1qrCode.html#a3b640b791a571346951967a8971f8a65',1,'rapp::object::qrCode::qrCode(const qrCode &amp;)=default']]],
-  ['qrdetector',['qrDetector',['../classrapp_1_1cloud_1_1qrDetector.html#aec014d825c4cc07867efbc9ed68570eb',1,'rapp::cloud::qrDetector']]],
-  ['queue',['queue',['../classrapp_1_1services_1_1service__controller.html#a200b57341d45404f38c3d5879dbaae9a',1,'rapp::services::service_controller']]]
+  ['qr_5fcode',['qr_code',['../classrapp_1_1object_1_1qr__code.html#a4b67f58a2ab9aa5469535be5fca9ac24',1,'rapp::object::qr_code::qr_code(float centre_x, float centre_y, std::string label)'],['../classrapp_1_1object_1_1qr__code.html#a0eb67b8035200345e21aec74b0f4ea72',1,'rapp::object::qr_code::qr_code()=default'],['../classrapp_1_1object_1_1qr__code.html#ab2d3e54e4f22a03e44bd288882631627',1,'rapp::object::qr_code::qr_code(const qr_code &amp;)=default']]],
+  ['qr_5fdetection',['qr_detection',['../classrapp_1_1cloud_1_1qr__detection.html#a6006885dc4ef44b2352b52b57c884ae3',1,'rapp::cloud::qr_detection']]],
+  ['qrdetection',['qrDetection',['../classRappCloud_1_1RappPlatformApi_1_1RappPlatformAPI.html#a3a2ebc4083d98ffc218024e46c09a085',1,'RappCloud::RappPlatformApi::RappPlatformAPI']]]
 ];

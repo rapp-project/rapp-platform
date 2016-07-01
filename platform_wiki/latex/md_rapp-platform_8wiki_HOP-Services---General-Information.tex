@@ -1,8 +1,12 @@
-Developed algorithms located under R\-A\-P\-P Improvement Center (R\-I\-C), can be utilized by robots via the R\-A\-P\-P Platform Web Services, exposed by R\-I\-C and furthermore the R\-A\-P\-P Platform. We consider R\-A\-P\-P Platform Web Services an imperative component of the R\-A\-P\-P Improvement Center (R\-I\-C) as they define the client-\/server interface layer.
+R\-A\-P\-P Improvement Center (R\-I\-C) nodes, can be utilized by robots via the R\-A\-P\-P Platform Web Services. The service layer has been developed using H\-O\-P. That consists of a web server implementation, an http/https server, and the web services developed in Hop.\-js framework. Web services run within server-\/side workers (web workers). A worker can include more than one web service. We consider server-\/side workers to be forked processes, thus allowing concurrent execution.
 
-H\-O\-P Web Services run under H\-O\-P Web Broker, as a part of R\-I\-C. Communication between remote clients and the H\-O\-P Server, and furthermore H\-O\-P Web Services, is achieved via {\bfseries H\-T\-T\-P Post requests}. H\-O\-P Web Server is exposed to the web via a public I\-Pv4 Address. Furthermore the H\-O\-P Web Services run on a specific system port and so those are accessible from remote clients via the H\-O\-P Web Server running I\-Pv4 Address followed by a port ({\bfseries xxx.\-xxx.\-xxx.\-xxx\-:8080}).
+As H\-O\-P-\/\-Web-\/\-Services act as the interface layer between the Robot Platform and the Cloud Platform (along with the R\-A\-P\-P A\-P\-I), the development of those depends on both Client (User/\-Developer) and R\-I\-C requirements.
 
-As H\-O\-P Web Services act as the interface layer between the Robot Platform and the Cloud Platform (along with the R\-A\-P\-P A\-P\-I), the development of those depends on both Client (User/\-Developer) and R\-I\-C requirements.
+Web service responses are asynchronous http responses. This way we allow robot platforms to request for cloud services while performing other tasks.
+
+Robot platforms can access R\-A\-P\-P Platform services using H\-T\-T\-P P\-O\-S\-T requests, as most of the services require an arbitrary amount of data to be sent to the Cloud for processing, like image and audio data files. H\-O\-P Web Server has been configured to accept application/x-\/www-\/urlencoded and $\ast$multipart/form-\/data form submissions.
+
+The R\-A\-P\-P A\-P\-I, used from the client-\/side platform, integrates calls to the H\-O\-P Server and furthermore to the H\-O\-P Web Services. A H\-O\-P Web Service delegates service calls to the R\-A\-P\-P Services through the Rosbridge transport layer. Rosbridge Server provides a Web\-Socket transport layer to R\-O\-S and so it allows web clients to talk R\-O\-S using the rosbridge protocol. We use the Rosbridge Websocket Server in order to interfere with A\-I modules developed under R\-O\-S. That Web\-Socket server is not exposed to the public network and it is only accessible locally.
 
 The communication workflow, from the client-\/side platform to R\-A\-P\-P Services can be severed into the following independent interface layers\-:
 
@@ -14,20 +18,24 @@ The communication workflow, from the client-\/side platform to R\-A\-P\-P Servic
 \item Rosbridge Web\-Socket Server -\/$>$ R\-A\-P\-P Services (R\-O\-S Services).
 \end{DoxyItemize}
 
-\mbox{[}\mbox{[}images/platform-\/robot.\-png\mbox{]}\mbox{]}
+\mbox{[}\mbox{[}images/platform-\/comm-\/layers.\-png\mbox{]}\mbox{]}
 
-The R\-A\-P\-P A\-P\-I, used from the client-\/side platform, integrates calls to the H\-O\-P Server and furthermore to the H\-O\-P Web Services. A H\-O\-P Web Service delegates service calls to the R\-A\-P\-P Services through the \href{https://github.com/RobotWebTools/rosbridge_suite}{\tt Rosbridge} interface layer.
+Currently, H\-O\-P-\/\-Server is configured to act as an H\-T\-T\-P/\-H\-T\-T\-P\-S Web Server ({\bfseries Does not accept proxy connections}).
 
-Rosbridge Server provides a Web\-Socket transport layer to R\-O\-S and so it allows web clients to talk R\-O\-S using the rosbridge protocol. We use the Rosbridge Websocket Server in order to interfere with A\-I modules developed under R\-O\-S. That Web\-Socket server is not exposed to the public network and it is only accessible locally.
+\subsection*{Deploy H\-O\-P Web Server}
 
-\mbox{[}\mbox{[}images/srv-\/rosnodes.\-png\mbox{]}\mbox{]}
+First, go the rapp\-\_\-web\-\_\-services directory\-:
 
-Furthermore, user authentication on Hop Web Services requests, is handled by Hop Web Server. Currently we use {\bfseries H\-T\-T\-P-\/\-Basic-\/\-Authentication} technique for enforcing access controls to the R\-A\-P\-P Platform web resources.
+```shell \$ cd \$\{H\-O\-M\-E\}/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-web\-\_\-services ```
 
-\subsection*{Initiate H\-O\-P Web Services}
+Install required dependencies\-:
 
-For initiating H\-O\-P Web Server (and H\-O\-P Web Services), execute, under the $\ast$$\ast$$\ast$rapp-\/platform/rapp\-\_\-web\-\_\-services$\ast$$\ast$$\ast$ directory.
+```shell \$ npm install ```
 
-```shell \$ npm start ```
+For initiating H\-O\-P Web Server (and H\-O\-P Web Services), a grunt task exists\-:
 
-Every js file, stored under the services/ directory with a .service.\-js extension, is considered to be a H\-O\-P Web Service js executable file. H\-O\-P Server is responsible for registering those services, on run-\/time, as workers. 
+```shell \$ grunt init-\/hop ```
+
+H\-O\-P Web Server can also be deployed through the deploy\-\_\-web\-\_\-services.\-sh script
+
+{\bfseries Note}\-: Do not change H\-O\-P Server configuration parameters, unless you know what you are doing!! 

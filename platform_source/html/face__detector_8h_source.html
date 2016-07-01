@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -95,7 +94,7 @@ $(document).ready(function(){initNavTree('face__detector_8h_source.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -144,25 +143,26 @@ $(document).ready(function(){initNavTree('face__detector_8h_source.html','');});
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    cv::Mat <a class="code" href="classFaceDetector.html#ad8223498ebc15a177485f86274583d81">loadImage</a>(std::string file_name);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#a2b337f0b4fb0d0865334c928ac8629ef">findFaces</a>(std::string file_name);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#abfbe382ac183aff81abe56585cb58f2f">detectFaces</a>(<span class="keyword">const</span> cv::Mat&amp; input_img);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#abfbe382ac183aff81abe56585cb58f2f">detectFaces</a>(<span class="keyword">const</span> cv::Mat&amp; input_img,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keyword">const</span> std::string&amp; haar_path);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#a31426b2557e0548c5ca5c0542e51f394">identifyUniqueFaces</a>(</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keyword">const</span> std::vector&lt;cv::Rect&gt; firstFaceVector,</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keyword">const</span> std::vector&lt;cv::Rect&gt; secondFaceVector);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classFaceDetector_html_a2b337f0b4fb0d0865334c928ac8629ef"><div class="ttname"><a href="classFaceDetector.html#a2b337f0b4fb0d0865334c928ac8629ef">FaceDetector::findFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; findFaces(std::string file_name)</div><div class="ttdoc">Finds faces in an image retrieved from a file URL. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00160">face_detector.cpp:160</a></div></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#a590b5ba361a049b2b93d63ebb7518647">findFaces</a>(std::string file_name, <span class="keywordtype">bool</span> fast = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#a154988581f876e3a15f59c57c4420df8">detectFaces</a>(<span class="keyword">const</span> cv::Mat&amp; input_img, </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordtype">bool</span> fast = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#a154988581f876e3a15f59c57c4420df8">detectFaces</a>(<span class="keyword">const</span> cv::Mat&amp; input_img,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      <span class="keyword">const</span> std::string&amp; haar_path);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    std::vector&lt;cv::Rect&gt; <a class="code" href="classFaceDetector.html#a31426b2557e0548c5ca5c0542e51f394">identifyUniqueFaces</a>(</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keyword">const</span> std::vector&lt;cv::Rect&gt; firstFaceVector,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <span class="keyword">const</span> std::vector&lt;cv::Rect&gt; secondFaceVector);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;};</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="classFaceDetector_html"><div class="ttname"><a href="classFaceDetector.html">FaceDetector</a></div><div class="ttdoc">Class that implements a face detection algorithm based on a Haar cascade classifier. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8h_source.html#l00033">face_detector.h:33</a></div></div>
-<div class="ttc" id="classFaceDetector_html_abfbe382ac183aff81abe56585cb58f2f"><div class="ttname"><a href="classFaceDetector.html#abfbe382ac183aff81abe56585cb58f2f">FaceDetector::detectFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; detectFaces(const cv::Mat &amp;input_img)</div><div class="ttdoc">Detects faces from a cv::Mat. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00049">face_detector.cpp:49</a></div></div>
-<div class="ttc" id="classFaceDetector_html_a31426b2557e0548c5ca5c0542e51f394"><div class="ttname"><a href="classFaceDetector.html#a31426b2557e0548c5ca5c0542e51f394">FaceDetector::identifyUniqueFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; identifyUniqueFaces(const std::vector&lt; cv::Rect &gt; firstFaceVector, const std::vector&lt; cv::Rect &gt; secondFaceVector)</div><div class="ttdoc">Identify unique faces from two sets of faces. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00133">face_detector.cpp:133</a></div></div>
+<div class="ttc" id="classFaceDetector_html_a154988581f876e3a15f59c57c4420df8"><div class="ttname"><a href="classFaceDetector.html#a154988581f876e3a15f59c57c4420df8">FaceDetector::detectFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; detectFaces(const cv::Mat &amp;input_img, bool fast=false)</div><div class="ttdoc">Detects faces from a cv::Mat. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00050">face_detector.cpp:50</a></div></div>
+<div class="ttc" id="classFaceDetector_html_a31426b2557e0548c5ca5c0542e51f394"><div class="ttname"><a href="classFaceDetector.html#a31426b2557e0548c5ca5c0542e51f394">FaceDetector::identifyUniqueFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; identifyUniqueFaces(const std::vector&lt; cv::Rect &gt; firstFaceVector, const std::vector&lt; cv::Rect &gt; secondFaceVector)</div><div class="ttdoc">Identify unique faces from two sets of faces. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00140">face_detector.cpp:140</a></div></div>
+<div class="ttc" id="classFaceDetector_html_a590b5ba361a049b2b93d63ebb7518647"><div class="ttname"><a href="classFaceDetector.html#a590b5ba361a049b2b93d63ebb7518647">FaceDetector::findFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; findFaces(std::string file_name, bool fast=false)</div><div class="ttdoc">Finds faces in an image retrieved from a file URL. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00168">face_detector.cpp:168</a></div></div>
 <div class="ttc" id="classFaceDetector_html_ad8223498ebc15a177485f86274583d81"><div class="ttname"><a href="classFaceDetector.html#ad8223498ebc15a177485f86274583d81">FaceDetector::loadImage</a></div><div class="ttdeci">cv::Mat loadImage(std::string file_name)</div><div class="ttdoc">Loads an image from a file URL. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00035">face_detector.cpp:35</a></div></div>
 <div class="ttc" id="classFaceDetector_html_af08a8c38a26b029e02e05d8d9498332c"><div class="ttname"><a href="classFaceDetector.html#af08a8c38a26b029e02e05d8d9498332c">FaceDetector::FaceDetector</a></div><div class="ttdeci">FaceDetector(void)</div><div class="ttdoc">Default constructor. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00026">face_detector.cpp:26</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -170,8 +170,8 @@ $(document).ready(function(){initNavTree('face__detector_8h_source.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f0b9e3eb238af0396e656a14fad7377d.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_e3001b79ae390a1e40cf47975a3cdfa0.html">include</a></li><li class="navelem"><a class="el" href="dir_cc2cfdb285a1c75434f46c93cd4b8a8f.html">face_detection</a></li><li class="navelem"><a class="el" href="face__detector_8h.html">face_detector.h</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_530913858f2fa3bde7279a9e8604db89.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_baaca0c5e0374b97612108e565877289.html">include</a></li><li class="navelem"><a class="el" href="dir_516ffcb3a95c3aca9ae0ba34b03dce3c.html">face_detection</a></li><li class="navelem"><a class="el" href="face__detector_8h.html">face_detector.h</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:30 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

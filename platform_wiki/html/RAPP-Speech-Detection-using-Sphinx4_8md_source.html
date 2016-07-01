@@ -147,16 +147,16 @@ $(document).ready(function(){initNavTree('RAPP-Speech-Detection-using-Sphinx4_8m
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;- Substitute special sigma rules</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;- Substitute all remaining letters with CMU phonemes</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;For more information you can read the full description [here - 2bchanged](http:<span class="comment">//rapp-project.eu/wp-content/uploads/2015/03/RAPP_D2.1.1_V1.0_13032015.pdf)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;Then, the appropriate files are created (custom dictionary and language model) and the Sphinx4 library is configured. Then the audio pre-processing takes place, performing denoising similarly to the Google Speech Recognition module by deploying the ROS services of the Audio processing node.</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;Then, the appropriate files are created (custom dictionary and language model) and the Sphinx4 library is configured. Then the audio pre-processing takes place, performing denoising similarly to the Google Speech Recognition module by deploying the ROS services of the Audio processing node.</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;The RAPP Speech Detection using Sphinx component diagram is depicted in the figure.</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;The RAPP Speech Detection using Sphinx component diagram is depicted in the figure.</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;[[images/sphinx_speech_component_diagram.png]]</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;[[images/sphinx_speech_component_diagram.png]]</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"># ROS Services</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"># ROS Services</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;It should be stated that the language model is created based on the ARPA model <span class="keywordflow">for</span> the ```sentences``` and on the JSGS <span class="keywordflow">for</span> the ```grammar``` parameters, nevertheless only pure sentences are supported (i.e. the advanced JSGF uses cannot be employed). More information on the Sphinx language model can be found [here](http:<span class="comment">//cmusphinx.sourceforge.net/wiki/tutoriallm). </span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">## Speech Recognition using Sphinx service</span></div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor"></span>The Sphinx4 ROS node provides a ROS service, dedicated to perform speech recognition.</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
@@ -185,13 +185,13 @@ $(document).ready(function(){initNavTree('RAPP-Speech-Detection-using-Sphinx4_8m
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span><span class="keywordtype">string</span> error</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;``` </div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"># HOP services</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"># Web services</span></div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">## Speech recognition sphinx RPS</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;The speech_recognition_sphinx RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS node, which utilizes the Sphinx4 library. The speech_recognition_sphinx RPS can be invoked <span class="keyword">using</span> the following URI: </div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;Service URL: ```localhost:9001/hop/speech_recognition_sphinx```</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;Service URL: ```localhost:9001/hop/speech_recognition_sphinx4```</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor">### Input/Output</span></div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor"></span>The speech_recognition_sphinx RPS has several input arguments, which are encoded in JSON format in an ASCII <span class="keywordtype">string</span> representation.</div>
@@ -204,45 +204,46 @@ $(document).ready(function(){initNavTree('RAPP-Speech-Detection-using-Sphinx4_8m
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  “words”: “[WORD_1, WORD_2 …]”</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  “grammar”: “[WORD_1, WORD_2 …]”</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  “sentences”: “[WORD_1, WORD_2 …]”</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  “path”: “AUDIO_FILE_URI”</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  “file”: “AUDIO_FILE_URI”</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  “audio_source”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch, headset”</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  “user”: “USERNAME”</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;```</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;```</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;```</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;Output = {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  “words”: “[WORD_1, WORD_2 …]</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  “error”: “Possible error”</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;```</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;The request parameters are:</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;- `language`: The language to perform ASR (Automatic Speech Recognition). Supported values:</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; - `en`: English</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; - `el`: Greek (also supports English)</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;- `words[]`: The limited vocabulary from which Sphinx4 will <span class="keywordflow">do</span> the matching. Must provide individual words in the language declared in the language parameter. If left empty a generalized vocabulary will be assumed. This will be valid <span class="keywordflow">for</span> English but the results are not good.</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;- `grammar[]`: A form of language model. Contains either words or sentences that contain the words declared in the words parameter. If grammar is declared, Sphinx4 will either <span class="keywordflow">return</span> results that exist as is in grammar or &lt;nul&gt; <span class="keywordflow">if</span> no matching exists.</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;- `sentences[]`: The second form of language model. Same functionality as grammar but Sphinx can <span class="keywordflow">return</span> individual words contained in the sentences provided. This is essentially used to extract probabilities regarding the phonemes succession.</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;- `path`: The audio file path.</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;- `audio_source`: Declares the source of the audio capture in order to perform correct denoising. The different types are:</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; - headset: Clean sound, no denoising needed</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; - nao_ogg: Captured ogg file from a single microphone from NAO. Supposed to have 1 channel.</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; - nao_wav_1_ch: Captured wav file from one microphone of NAO. Supposed to have 1 channel, 16kHz.</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; - nao_wav_4_ch: Captured wav file from all 4 NAO<span class="stringliteral">&#39;s microphones. Supposed to have 4 channels at 48kHz.</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="stringliteral">- `user`: The user invoking the service. Must exist as username in the database to work. Also a noise profile for the declared user must exist (check rapp_audio_processing node for set_noise_profile service)</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="stringliteral">The returned parameters are:</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="stringliteral">- `error`: Possible errors</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="stringliteral">- `words[]`: The recognized words</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;Output = {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  “words”: “[WORD_1, WORD_2 …]</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  “error”: “Possible error”</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;```</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;The request parameters are:</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;- `language`: The language to perform ASR (Automatic Speech Recognition). Supported values:</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; - `en`: English</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; - `el`: Greek (also supports English)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;- `words[]`: The limited vocabulary from which Sphinx4 will <span class="keywordflow">do</span> the matching. Must provide individual words in the language declared in the language parameter. If left empty a generalized vocabulary will be assumed. This will be valid <span class="keywordflow">for</span> English but the results are not good.</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;- `grammar[]`: A form of language model. Contains either words or sentences that contain the words declared in the words parameter. If grammar is declared, Sphinx4 will either <span class="keywordflow">return</span> results that exist as is in grammar or &lt;nul&gt; <span class="keywordflow">if</span> no matching exists.</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;- `sentences[]`: The second form of language model. Same functionality as grammar but Sphinx can <span class="keywordflow">return</span> individual words contained in the sentences provided. This is essentially used to extract probabilities regarding the phonemes succession.</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;- `file`: The audio file path.</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;- `audio_source`: Declares the source of the audio capture in order to perform correct denoising. The different types are:</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; - headset: Clean sound, no denoising needed</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; - nao_ogg: Captured ogg file from a single microphone from NAO. Supposed to have 1 channel.</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; - nao_wav_1_ch: Captured wav file from one microphone of NAO. Supposed to have 1 channel, 16kHz.</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; - nao_wav_4_ch: Captured wav file from all 4 NAO<span class="stringliteral">&#39;s microphones. Supposed to have 4 channels at 48kHz.</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="stringliteral">- `user`: The user invoking the service. Must exist as username in the database to work. Also a noise profile for the declared user must exist (check rapp_audio_processing node for set_noise_profile service)</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="stringliteral">The returned parameters are:</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="stringliteral">- `error`: Possible errors</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="stringliteral">- `words[]`: The recognized words</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="stringliteral">The full documentation exists [here](https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#speech-detection-sphinx4)</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="RAPP-Speech-Detection-using-Sphinx4_8md.html">RAPP-Speech-Detection-using-Sphinx4.md</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

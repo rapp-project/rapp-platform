@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['knowrobwrapper',['KnowrobWrapper',['../classKnowrobWrapper.html',1,'']]],
-  ['knowrobwrappercommunications',['KnowrobWrapperCommunications',['../classKnowrobWrapperCommunications.html',1,'']]]
+  ['humandetection',['HumanDetection',['../classHumanDetection.html',1,'']]],
+  ['humandetector',['HumanDetector',['../classHumanDetector.html',1,'']]]
 ];

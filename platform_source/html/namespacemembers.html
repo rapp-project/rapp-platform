@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -102,7 +101,7 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -113,17 +112,74 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 
 <div class="contents">
 <div class="textblock">Here is a list of all namespace members with links to the namespace documentation for each member:</div><ul>
+<li>application_authentication_ros_node
+: <a class="el" href="namespacerapp__application__authentication__manager_1_1application__authentication__node.html#a3453488fb80c78931a845180b0dad02c">rapp_application_authentication_manager::application_authentication_node</a>
+</li>
 <li>AudioProcessingNode
 : <a class="el" href="namespacerapp__audio__processing_1_1rapp__audio__processing.html#a84653cf2b197c76158dfa50ca85aae35">rapp_audio_processing::rapp_audio_processing</a>
+</li>
+<li>bounds
+: <a class="el" href="namespacecrop__map.html#aa587e91d57d18ea9906970aa85ee4bd2">crop_map</a>
 </li>
 <li>CognitiveExerciseNode
 : <a class="el" href="namespacecognitive__exercise__main.html#a9e8ef96f956fde0e9e57e46c76da6ada">cognitive_exercise_main</a>
 </li>
+<li>computed_cropped_origin()
+: <a class="el" href="namespacecrop__map.html#a88dd7bb50d457a2feb6e9587dd59c57d">crop_map</a>
+</li>
+<li>crop_image
+: <a class="el" href="namespacecrop__map.html#a07069eafc6d8c8f341771d2ac8bbf616">crop_map</a>
+</li>
+<li>crop_name
+: <a class="el" href="namespacecrop__map.html#addfc4aa986e764d9ad40aa6109771415">crop_map</a>
+</li>
+<li>crop_yaml
+: <a class="el" href="namespacecrop__map.html#a087380cbd829f0b2fad3fe1840a484ef">crop_map</a>
+</li>
+<li>cropped_image
+: <a class="el" href="namespacecrop__map.html#a2f013a29ad592b823d543b8efc8bc9ae">crop_map</a>
+</li>
+<li>emailReceiver
+: <a class="el" href="namespacerapp__email_1_1email__node.html#ae9251dd8ab5a692f1b2ea489d7a94bef">rapp_email::email_node</a>
+</li>
+<li>emailSender
+: <a class="el" href="namespacerapp__email_1_1email__node.html#aaf8e53caf5cfebf7af01a7d222c326a5">rapp_email::email_node</a>
+</li>
+<li>find_bounds()
+: <a class="el" href="namespacecrop__map.html#af40274c22a8c8ec323ede2c6353d653a">crop_map</a>
+</li>
+<li>geolocator_node
+: <a class="el" href="namespacerapp__geolocator_1_1geolocator__node.html#ae89aecb0113a4b7e0bdcaf582f54b0fc">rapp_geolocator::geolocator_node</a>
+</li>
+<li>loadMapFromFile()
+: <a class="el" href="namespacemap__server.html#ad81c6e515c033e87a2e5137fcdae335c">map_server</a>
+</li>
+<li>map_data
+: <a class="el" href="namespacecrop__map.html#af86edf3ccdfff41391f99efc69d2d4da">crop_map</a>
+</li>
+<li>map_image
+: <a class="el" href="namespacecrop__map.html#afd633be1a08796a6cf51525ffe2c798c">crop_map</a>
+</li>
+<li>map_image_file
+: <a class="el" href="namespacecrop__map.html#af48d47a4bef471975d0ec5c45897b900">crop_map</a>
+</li>
 <li>MySQLWrapperNode
 : <a class="el" href="namespacemysql__wrapper__main.html#a168b1afc2608b144cd98ea4aac4b4639">mysql_wrapper_main</a>
 </li>
-<li>rapp_print()
-: <a class="el" href="namespacerapp__speech__detection__sphinx4_1_1rapp__tools.html#a384dbe83beec8b9ec2c0795dc8220a78">rapp_speech_detection_sphinx4::rapp_tools</a>
+<li>news_explorer_node
+: <a class="el" href="namespacerapp__news__explorer_1_1news__explorer__node.html#a97fd7e6737b76e081bc610dd41af2f95">rapp_news_explorer::news_explorer_node</a>
+</li>
+<li>origin
+: <a class="el" href="namespacecrop__map.html#a4cc67daeadf848702b238b211698dd8a">crop_map</a>
+</li>
+<li>RappCaffeWrapperNode
+: <a class="el" href="namespacecaffe__wrapper__main.html#a8ab432c9a16684277065d99e428078f2">caffe_wrapper_main</a>
+</li>
+<li>resolution
+: <a class="el" href="namespacecrop__map.html#a43467b8e29a36d66d95b7ee9f9570572">crop_map</a>
+</li>
+<li>rospack
+: <a class="el" href="namespacerapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node.html#a43af84982c3e86720b3e4812674439d0">rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node</a>
 </li>
 <li>speech_to_text_node
 : <a class="el" href="namespacespeech__recognition__google.html#a72262ab039ae77c265a0575478792276">speech_recognition_google</a>
@@ -134,8 +190,14 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 <li>SpeechRecognitionSphinx4Node
 : <a class="el" href="namespacerapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4.html#a1f7be52b8e1565fce0c39407a1d72775">rapp_speech_detection_sphinx4::speech_recognition_sphinx4</a>
 </li>
+<li>sphinx_class
+: <a class="el" href="namespacerapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node.html#a6e5653796d4a0ce39db8711e77770610">rapp_speech_detection_sphinx4::speech_recognition_sphinx4_handler_node</a>
+</li>
 <li>text_to_speech_espeak_ros_node
 : <a class="el" href="namespacetext__to__speech__espeak.html#a9bdb1306d820edf490e227c108cd1dfa">text_to_speech_espeak</a>
+</li>
+<li>weather_reporter_node
+: <a class="el" href="namespacerapp__weather__reporter_1_1weather__reporter__node.html#a5ac658971af27ea7aed979aa364e0c0c">rapp_weather_reporter::weather_reporter_node</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -143,7 +205,7 @@ $(document).ready(function(){initNavTree('namespacemembers.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:31 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

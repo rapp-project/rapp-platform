@@ -2,6 +2,7 @@ var classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handl
 [
     [ "__init__", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#a82c15c573f92e81d51b4d07bdf8d801c", null ],
     [ "_calculateRequestHash", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#ab0aee24f2a30e54932d173dbfe4063aa", null ],
+    [ "_getPreconfigurationNames", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#a0c7361126cde2b0e291506310ac022f5", null ],
     [ "handleSpeechRecognitionCallback", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#ab2a5e3c1fb1b126c727ac554147830b1", null ],
     [ "_availableProcesses", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#a528ab714ddc50a375936f09d62ec2a8a", null ],
     [ "_lock", "classrapp__speech__detection__sphinx4_1_1speech__recognition__sphinx4__handler__node_1_1SpeechRecognitionSphinx4HandlerNode.html#a26891ed7d1142f5f72cf81c7ff98d8d2", null ],

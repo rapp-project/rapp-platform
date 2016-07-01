@@ -1,0 +1,116 @@
+\hypertarget{classrapp_1_1cloud_1_1set__denoise__profile}{\section{rapp\-:\-:cloud\-:\-:set\-\_\-denoise\-\_\-profile Class Reference}
+\label{classrapp_1_1cloud_1_1set__denoise__profile}\index{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile@{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile}}
+}
+
+
+setting the denoising audio profile for speech recognition  
+
+
+
+
+{\ttfamily \#include $<$set\-\_\-denoise\-\_\-profile.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:set\-\_\-denoise\-\_\-profile\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1set__denoise__profile__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:set\-\_\-denoise\-\_\-profile\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1set__denoise__profile__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1set__denoise__profile_a4b89d167cc316f38561064a3ea541b4e}{set\-\_\-denoise\-\_\-profile} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1audio}{rapp\-::object\-::audio} $>$ file, const std\-::string user, const std\-::string token)
+\begin{DoxyCompactList}\small\item\em set a de-\/noising profile for a user (for speech recognition) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1set__denoise__profile_a279b89d935c97d77df896772b3c60292}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform reply (error notifications only) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+setting the denoising audio profile for speech recognition 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file set\-\_\-denoise\-\_\-profile.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1set__denoise__profile_a4b89d167cc316f38561064a3ea541b4e}{\index{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile@{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile}!set\-\_\-denoise\-\_\-profile@{set\-\_\-denoise\-\_\-profile}}
+\index{set\-\_\-denoise\-\_\-profile@{set\-\_\-denoise\-\_\-profile}!rapp::cloud::set_denoise_profile@{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile}}
+\subsubsection[{set\-\_\-denoise\-\_\-profile}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile\-::set\-\_\-denoise\-\_\-profile (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::audio} $>$}]{file, }
+\item[{const std\-::string}]{user, }
+\item[{const std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1set__denoise__profile_a4b89d167cc316f38561064a3ea541b4e}
+
+
+set a de-\/noising profile for a user (for speech recognition) 
+
+\begin{DoxyNote}{Note}
+This class does not return something, it only captures an error 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em file} & is the noise audio file used for de-\/noising \\
+\hline
+{\em user} & is the user denoise profile \\
+\hline
+{\em token} & is the rapp authentication token \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 23 of file set\-\_\-denoise\-\_\-profile.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1set__denoise__profile_a279b89d935c97d77df896772b3c60292}{\index{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile@{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::set_denoise_profile@{rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::set\-\_\-denoise\-\_\-profile\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1set__denoise__profile_a279b89d935c97d77df896772b3c60292}
+
+
+handle platform reply (error notifications only) 
+
+
+
+Definition at line 57 of file set\-\_\-denoise\-\_\-profile.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/speech/set\-\_\-denoise\-\_\-profile/\hyperlink{set__denoise__profile_8hpp}{set\-\_\-denoise\-\_\-profile.\-hpp}\end{DoxyCompactItemize}

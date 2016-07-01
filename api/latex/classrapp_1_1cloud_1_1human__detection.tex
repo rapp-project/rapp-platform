@@ -1,0 +1,133 @@
+\hypertarget{classrapp_1_1cloud_1_1human__detection}{\section{rapp\-:\-:cloud\-:\-:human\-\_\-detection Class Reference}
+\label{classrapp_1_1cloud_1_1human__detection}\index{rapp\-::cloud\-::human\-\_\-detection@{rapp\-::cloud\-::human\-\_\-detection}}
+}
+
+
+detect humans in an image  
+
+
+
+
+{\ttfamily \#include $<$human\-\_\-detection.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:human\-\_\-detection\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1human__detection__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:human\-\_\-detection\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1human__detection__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1human__detection_a98d56d1951de9c4bcbb0ca57b7f95317}{human\-\_\-detection} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1picture}{rapp\-::object\-::picture} $>$ image, std\-::function$<$ void(std\-::vector$<$ \hyperlink{classrapp_1_1object_1_1human}{rapp\-::object\-::human} $>$)$>$ callback, std\-::string token)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1human__detection_a8fca03d4fc737641da591d6b16aea62e}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle the rapp-\/platform J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ \hyperlink{classrapp_1_1object_1_1human}{rapp\-::object\-::human} $>$)$>$ \hyperlink{classrapp_1_1cloud_1_1human__detection_ac72243e2f29e25cd927a5664a79c626f}{delegate\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+detect humans in an image 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file human\-\_\-detection.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1human__detection_a98d56d1951de9c4bcbb0ca57b7f95317}{\index{rapp\-::cloud\-::human\-\_\-detection@{rapp\-::cloud\-::human\-\_\-detection}!human\-\_\-detection@{human\-\_\-detection}}
+\index{human\-\_\-detection@{human\-\_\-detection}!rapp::cloud::human_detection@{rapp\-::cloud\-::human\-\_\-detection}}
+\subsubsection[{human\-\_\-detection}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::human\-\_\-detection\-::human\-\_\-detection (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::picture} $>$}]{image, }
+\item[{std\-::function$<$ void(std\-::vector$<$ {\bf rapp\-::object\-::human} $>$)$>$}]{callback, }
+\item[{std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1human__detection_a98d56d1951de9c4bcbb0ca57b7f95317}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & is a picture object pointer \\
+\hline
+{\em callback} & is the function that will receive a vector of detected qr(s) \\
+\hline
+{\em image\-\_\-format} & must be defined, e.\-g.\-: jpeg, png, gif, etc. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file human\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1human__detection_a8fca03d4fc737641da591d6b16aea62e}{\index{rapp\-::cloud\-::human\-\_\-detection@{rapp\-::cloud\-::human\-\_\-detection}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::human_detection@{rapp\-::cloud\-::human\-\_\-detection}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::human\-\_\-detection\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1human__detection_a8fca03d4fc737641da591d6b16aea62e}
+
+
+handle the rapp-\/platform J\-S\-O\-N reply 
+
+
+
+Definition at line 56 of file human\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1human__detection_ac72243e2f29e25cd927a5664a79c626f}{\index{rapp\-::cloud\-::human\-\_\-detection@{rapp\-::cloud\-::human\-\_\-detection}!delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}}
+\index{delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}!rapp::cloud::human_detection@{rapp\-::cloud\-::human\-\_\-detection}}
+\subsubsection[{delegate\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<${\bf rapp\-::object\-::human}$>$)$>$ rapp\-::cloud\-::human\-\_\-detection\-::delegate\-\_\-\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1human__detection_ac72243e2f29e25cd927a5664a79c626f}
+
+
+The callback called upon completion of receiving the detected faces. 
+
+
+
+Definition at line 112 of file human\-\_\-detection.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/vision/human\-\_\-detection/\hyperlink{human__detection_8hpp}{human\-\_\-detection.\-hpp}\end{DoxyCompactItemize}

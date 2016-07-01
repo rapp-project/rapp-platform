@@ -1,9 +1,8 @@
 var annotated =
 [
+    [ "CloudServices", "namespaceCloudServices.html", null ],
     [ "rapp", "namespacerapp.html", "namespacerapp" ],
     [ "RappCloud", "namespaceRappCloud.html", "namespaceRappCloud" ],
-    [ "face", "classface.html", null ],
-    [ "ontologySubclassOf", "classontologySubclassOf.html", null ],
-    [ "ontologySubSuperclassOf", "classontologySubSuperclassOf.html", null ],
-    [ "ontologySuperclassesOf", "classontologySuperclassesOf.html", null ]
+    [ "plan_path2d", "classplan__path2d.html", null ],
+    [ "qrCode", "classqrCode.html", null ]
 ];

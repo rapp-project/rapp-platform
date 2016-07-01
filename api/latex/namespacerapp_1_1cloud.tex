@@ -4,29 +4,77 @@
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-class \hyperlink{classrapp_1_1cloud_1_1faceDetector}{face\-Detector}
+class \hyperlink{classrapp_1_1cloud_1_1asio__handler}{asio\-\_\-handler}
+\begin{DoxyCompactList}\small\item\em base class for asio handling, including helper methods and most protected members \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1asio__service__http}{asio\-\_\-service\-\_\-http}
+\begin{DoxyCompactList}\small\item\em base class for asynchronous http websockets used for connecting to cloud services \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1asio__socket}{asio\-\_\-socket}
+\begin{DoxyCompactList}\small\item\em Abstract Base A\-S\-I\-O Socket class Use for passing around to the service controller, various types of cloud handlers. This Interface is needed so that different handlers can be passed to the scheduler transparently. \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1asio__socket__https}{asio\-\_\-socket\-\_\-https}
+\begin{DoxyCompactList}\small\item\em wrapper for S\-S\-L/\-T\-L\-S secure H\-T\-T\-P communication \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1available__services}{available\-\_\-services}
+\begin{DoxyCompactList}\small\item\em requests available services from platform \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1cognitive__get__history}{cognitive\-\_\-get\-\_\-history}
+\item 
+class \hyperlink{classrapp_1_1cloud_1_1cognitive__get__scores}{cognitive\-\_\-get\-\_\-scores}
+\item 
+class \hyperlink{classrapp_1_1cloud_1_1cognitive__record__performance}{cognitive\-\_\-record\-\_\-performance}
+\item 
+class \hyperlink{classrapp_1_1cloud_1_1cognitive__test__selector}{cognitive\-\_\-test\-\_\-selector}
+\begin{DoxyCompactList}\small\item\em chose a congitive game to play \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1email__fetch}{email\-\_\-fetch}
+\begin{DoxyCompactList}\small\item\em fetch email(s) \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1email__send}{email\-\_\-send}
+\begin{DoxyCompactList}\small\item\em send an email \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1face__detection}{face\-\_\-detection}
 \begin{DoxyCompactList}\small\item\em Asynchronous Service which will request the cloud to detect faces. \end{DoxyCompactList}\item 
-class \hyperlink{classrapp_1_1cloud_1_1fetchPersonalData}{fetch\-Personal\-Data}
+class \hyperlink{classrapp_1_1cloud_1_1fetch__personal__data}{fetch\-\_\-personal\-\_\-data}
 \begin{DoxyCompactList}\small\item\em Get all personal data for a specific user. \end{DoxyCompactList}\item 
-class \hyperlink{classrapp_1_1cloud_1_1ontologyIsSubSuperClassOf}{ontology\-Is\-Sub\-Super\-Class\-Of}
+class \hyperlink{classrapp_1_1cloud_1_1geolocation}{geolocation}
+\begin{DoxyCompactList}\small\item\em geolocation service \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1hazard__detection__door__check}{hazard\-\_\-detection\-\_\-door\-\_\-check}
+\begin{DoxyCompactList}\small\item\em detect open doors \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1hazard__detection__light__check}{hazard\-\_\-detection\-\_\-light\-\_\-check}
+\begin{DoxyCompactList}\small\item\em detect light levels \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1human__detection}{human\-\_\-detection}
+\begin{DoxyCompactList}\small\item\em detect humans in an image \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1login__user}{login\-\_\-user}
 \item 
-class \hyperlink{classrapp_1_1cloud_1_1ontologySubClassesOf}{ontology\-Sub\-Classes\-Of}
+class \hyperlink{classrapp_1_1cloud_1_1news__explore}{news\-\_\-explore}
+\begin{DoxyCompactList}\small\item\em get news \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1object__recognition}{object\-\_\-recognition}
+\begin{DoxyCompactList}\small\item\em recognize object from an image \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1ontology__is__subsuperclass__of}{ontology\-\_\-is\-\_\-subsuperclass\-\_\-of}
+\begin{DoxyCompactList}\small\item\em query if sub class is a super class of param \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1ontology__subclasses__of}{ontology\-\_\-subclasses\-\_\-of}
+\begin{DoxyCompactList}\small\item\em get ontology subclass of a query \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1ontology__superclasses__of}{ontology\-\_\-superclasses\-\_\-of}
+\begin{DoxyCompactList}\small\item\em get ontology super-\/classes of query \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1path__upload__map}{path\-\_\-upload\-\_\-map}
 \item 
-class \hyperlink{classrapp_1_1cloud_1_1ontologySuperClassesOf}{ontology\-Super\-Classes\-Of}
+class \hyperlink{classrapp_1_1cloud_1_1plan__path__2d}{plan\-\_\-path\-\_\-2d}
 \item 
-class \hyperlink{classrapp_1_1cloud_1_1qrDetector}{qr\-Detector}
+class \hyperlink{classrapp_1_1cloud_1_1qr__detection}{qr\-\_\-detection}
 \begin{DoxyCompactList}\small\item\em Asynchronous Service which will request the cloud to detect Q\-R codes. \end{DoxyCompactList}\item 
-class \hyperlink{classrapp_1_1cloud_1_1setDenoiseProfile}{set\-Denoise\-Profile}
+class \hyperlink{classrapp_1_1cloud_1_1service__controller}{service\-\_\-controller}
+\begin{DoxyCompactList}\small\item\em Main class that controllers R\-A\-P\-P Services. \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1set__denoise__profile}{set\-\_\-denoise\-\_\-profile}
 \begin{DoxyCompactList}\small\item\em setting the denoising audio profile for speech recognition \end{DoxyCompactList}\item 
-class \hyperlink{classrapp_1_1cloud_1_1speechToText}{speech\-To\-Text}
-\begin{DoxyCompactList}\small\item\em Asynchronous Service which will request the cloud to process speech-\/to-\/text. \end{DoxyCompactList}\end{DoxyCompactItemize}
+class \hyperlink{classrapp_1_1cloud_1_1speech__detection__google}{speech\-\_\-detection\-\_\-google}
+\begin{DoxyCompactList}\small\item\em delegate speech-\/to-\/text to Google via R\-A\-P\-P \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1speech__detection__sphinx4}{speech\-\_\-detection\-\_\-sphinx4}
+\begin{DoxyCompactList}\small\item\em speech-\/to-\/text recognition using C\-M\-U sphinx4 \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1text__to__speech}{text\-\_\-to\-\_\-speech}
+\begin{DoxyCompactList}\small\item\em request speech audio from text \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1weather__report__current}{weather\-\_\-report\-\_\-current}
+\begin{DoxyCompactList}\small\item\em get current weather report \end{DoxyCompactList}\item 
+class \hyperlink{classrapp_1_1cloud_1_1weather__report__forecast}{weather\-\_\-report\-\_\-forecast}
+\begin{DoxyCompactList}\small\item\em get weather forecast \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
 constexpr char \hyperlink{namespacerapp_1_1cloud_afb654734a7584ea0243e431aaebd4728}{address} \mbox{[}$\,$\mbox{]} = \char`\"{}localhost\char`\"{}
-\begin{DoxyCompactList}\small\item\em api.\-rapp.\-cloud -\/ use deployment I\-P \end{DoxyCompactList}\item 
-constexpr char \hyperlink{namespacerapp_1_1cloud_aff8eeba44e8c84efe3401443fb83699a}{auth\-\_\-token} \mbox{[}$\,$\mbox{]} = \char`\"{}cm\-Fwc\-G\-Rldjpy\-Y\-X\-Bw\-Z\-G\-V2\char`\"{}
-\begin{DoxyCompactList}\small\item\em base64 encoded authentication token \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em api.\-rapp.\-cloud -\/ \end{DoxyCompactList}\item 
 constexpr char \hyperlink{namespacerapp_1_1cloud_ae0e4cb6fd54bbf45234fc3c21f752b7a}{port} \mbox{[}$\,$\mbox{]} = \char`\"{}9001\char`\"{}
 \begin{DoxyCompactList}\small\item\em api.\-rapp.\-cloud -\/ H\-O\-P server port \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -37,31 +85,11 @@ constexpr char \hyperlink{namespacerapp_1_1cloud_ae0e4cb6fd54bbf45234fc3c21f752b
 \subsubsection[{address}]{\setlength{\rightskip}{0pt plus 5cm}constexpr char rapp\-::cloud\-::address\mbox{[}$\,$\mbox{]} = \char`\"{}localhost\char`\"{}}}\label{namespacerapp_1_1cloud_afb654734a7584ea0243e431aaebd4728}
 
 
-api.\-rapp.\-cloud -\/ use deployment I\-P 
-
-A few global strings needed internally \begin{DoxyVersion}{Version}
-3 
-\end{DoxyVersion}
-\begin{DoxyDate}{Date}
-13-\/\-February-\/2015 
-\end{DoxyDate}
-\begin{DoxyAuthor}{Author}
-Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
-\end{DoxyAuthor}
-
-
-Definition at line 16 of file globals.\-hpp.
-
-\hypertarget{namespacerapp_1_1cloud_aff8eeba44e8c84efe3401443fb83699a}{\index{rapp\-::cloud@{rapp\-::cloud}!auth\-\_\-token@{auth\-\_\-token}}
-\index{auth\-\_\-token@{auth\-\_\-token}!rapp::cloud@{rapp\-::cloud}}
-\subsubsection[{auth\-\_\-token}]{\setlength{\rightskip}{0pt plus 5cm}constexpr char rapp\-::cloud\-::auth\-\_\-token\mbox{[}$\,$\mbox{]} = \char`\"{}cm\-Fwc\-G\-Rldjpy\-Y\-X\-Bw\-Z\-G\-V2\char`\"{}}}\label{namespacerapp_1_1cloud_aff8eeba44e8c84efe3401443fb83699a}
-
-
-base64 encoded authentication token 
+api.\-rapp.\-cloud -\/ 
 
 
 
-Definition at line 22 of file globals.\-hpp.
+Definition at line 8 of file asio\-\_\-socket.\-hpp.
 
 \hypertarget{namespacerapp_1_1cloud_ae0e4cb6fd54bbf45234fc3c21f752b7a}{\index{rapp\-::cloud@{rapp\-::cloud}!port@{port}}
 \index{port@{port}!rapp::cloud@{rapp\-::cloud}}
@@ -72,5 +100,5 @@ api.\-rapp.\-cloud -\/ H\-O\-P server port
 
 
 
-Definition at line 19 of file globals.\-hpp.
+Definition at line 10 of file asio\-\_\-socket.\-hpp.
 

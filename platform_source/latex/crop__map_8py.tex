@@ -1,0 +1,38 @@
+\hypertarget{crop__map_8py}{\section{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-map\-\_\-server/scripts/crop\-\_\-map.py File Reference}
+\label{crop__map_8py}\index{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-map\-\_\-server/scripts/crop\-\_\-map.\-py@{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-map\-\_\-server/scripts/crop\-\_\-map.\-py}}
+}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespacecrop__map}{crop\-\_\-map}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{namespacecrop__map_a88dd7bb50d457a2feb6e9587dd59c57d}{crop\-\_\-map.\-computed\-\_\-cropped\-\_\-origin}
+\item 
+def \hyperlink{namespacecrop__map_af40274c22a8c8ec323ede2c6353d653a}{crop\-\_\-map.\-find\-\_\-bounds}
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+tuple \hyperlink{namespacecrop__map_aa587e91d57d18ea9906970aa85ee4bd2}{crop\-\_\-map.\-bounds} = find\-\_\-bounds(map\-\_\-image)
+\item 
+string \hyperlink{namespacecrop__map_a07069eafc6d8c8f341771d2ac8bbf616}{crop\-\_\-map.\-crop\-\_\-image} = crop\-\_\-name+\char`\"{}.pgm\char`\"{}
+\item 
+list \hyperlink{namespacecrop__map_addfc4aa986e764d9ad40aa6109771415}{crop\-\_\-map.\-crop\-\_\-name} = sys.\-argv\mbox{[}2\mbox{]}
+\item 
+string \hyperlink{namespacecrop__map_a087380cbd829f0b2fad3fe1840a484ef}{crop\-\_\-map.\-crop\-\_\-yaml} = crop\-\_\-name+\char`\"{}.yaml\char`\"{}
+\item 
+tuple \hyperlink{namespacecrop__map_a2f013a29ad592b823d543b8efc8bc9ae}{crop\-\_\-map.\-cropped\-\_\-image} = map\-\_\-image.\-crop((bounds\mbox{[}0\mbox{]}, bounds\mbox{[}2\mbox{]}, bounds\mbox{[}1\mbox{]} + 1, bounds\mbox{[}3\mbox{]} + 1))
+\item 
+tuple \hyperlink{namespacecrop__map_af86edf3ccdfff41391f99efc69d2d4da}{crop\-\_\-map.\-map\-\_\-data} = yaml.\-safe\-\_\-load(f)
+\item 
+tuple \hyperlink{namespacecrop__map_afd633be1a08796a6cf51525ffe2c798c}{crop\-\_\-map.\-map\-\_\-image} = Image.\-open(map\-\_\-image\-\_\-file)
+\item 
+list \hyperlink{namespacecrop__map_af48d47a4bef471975d0ec5c45897b900}{crop\-\_\-map.\-map\-\_\-image\-\_\-file} = map\-\_\-data\mbox{[}\char`\"{}image\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacecrop__map_a4cc67daeadf848702b238b211698dd8a}{crop\-\_\-map.\-origin} = map\-\_\-data\mbox{[}\char`\"{}origin\char`\"{}\mbox{]}
+\item 
+list \hyperlink{namespacecrop__map_a43467b8e29a36d66d95b7ee9f9570572}{crop\-\_\-map.\-resolution} = map\-\_\-data\mbox{[}\char`\"{}resolution\char`\"{}\mbox{]}
+\end{DoxyCompactItemize}

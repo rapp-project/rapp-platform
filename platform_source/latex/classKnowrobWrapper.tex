@@ -29,6 +29,8 @@ std\-::string \hyperlink{classKnowrobWrapper_a85be3123e645ca77004c7461e097a15e}{
 \begin{DoxyCompactList}\small\item\em Creates a new ontology alias for a user. \end{DoxyCompactList}\item 
 rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Instance\-Srv\-::\-Response \hyperlink{classKnowrobWrapper_a798a52556983073055944fd1c51495de}{create\-Instance\-Query} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Instance\-Srv\-::\-Request req)
 \begin{DoxyCompactList}\small\item\em Implements the create\-Instance R\-O\-S service. \end{DoxyCompactList}\item 
+void \hyperlink{classKnowrobWrapper_a38b7c73ddd7fee3004e22f1110a86b6c}{dump\-\_\-ontology\-\_\-now} ()
+\begin{DoxyCompactList}\small\item\em Dumps the ontology to default path. \end{DoxyCompactList}\item 
 rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Response \hyperlink{classKnowrobWrapper_a86796d95e57f4620474dab7e1f2df128}{dump\-Ontology\-Query} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Request req)
 \begin{DoxyCompactList}\small\item\em Implements the dump\-Ontology R\-O\-S service. \end{DoxyCompactList}\item 
 std\-::string \hyperlink{classKnowrobWrapper_af50b1b512559d86a74c6de69a34ac3cc}{get\-\_\-ontology\-\_\-alias} (std\-::string user\-\_\-id)
@@ -39,6 +41,10 @@ rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::
 \begin{DoxyCompactList}\small\item\em Implements the load\-Ontology R\-O\-S service. \end{DoxyCompactList}\item 
 rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Performance\-Cognitive\-Tests\-Srv\-::\-Response \hyperlink{classKnowrobWrapper_a77d7c7d52db582093065271ebb6d8be7}{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Performance\-Cognitive\-Tests\-Srv\-::\-Request req)
 \begin{DoxyCompactList}\small\item\em Implements the record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance R\-O\-S service. \end{DoxyCompactList}\item 
+rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Response \hyperlink{classKnowrobWrapper_a7a53523ea96e21a32f7f52495ce81f3a}{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Request req)
+\begin{DoxyCompactList}\small\item\em Implements the register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology R\-O\-S service. \end{DoxyCompactList}\item 
+rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Response \hyperlink{classKnowrobWrapper_a05ff27a5905ad1a44feb97b304a61e67}{retract\-\_\-user\-\_\-ontology\-\_\-alias} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Request req)
+\begin{DoxyCompactList}\small\item\em Implements the retract\-\_\-user\-\_\-ontology\-\_\-alias R\-O\-S service. \end{DoxyCompactList}\item 
 rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response \hyperlink{classKnowrobWrapper_a6e2ee6a631a705466a490f37ecf8afd5}{subclasses\-Of\-Query} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Request req)
 \begin{DoxyCompactList}\small\item\em Implements the subclasses\-Of R\-O\-S service. \end{DoxyCompactList}\item 
 rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response \hyperlink{classKnowrobWrapper_a5347e77b2c2bf866c91b883f7eb19e42}{superclasses\-Of\-Query} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Request req)
@@ -50,11 +56,9 @@ rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Performance\-Cognitve\-
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-ros\-::\-Service\-Client \hyperlink{classKnowrobWrapper_aaa8ac92e0387787a4ba8bdc9a5886c4d}{mysql\-\_\-fetch\-\_\-client}
+ros\-::\-Service\-Client \hyperlink{classKnowrobWrapper_a39f2268a17653590d51a7b3e0e243c6c}{mysql\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}
 \item 
-ros\-::\-Service\-Client \hyperlink{classKnowrobWrapper_a16a7e3854cd229eabb1675eded4bafb4}{mysql\-\_\-update\-\_\-client}
-\item 
-ros\-::\-Service\-Client \hyperlink{classKnowrobWrapper_a3751c23317ae08cb539f51ea1eead504}{mysql\-\_\-write\-\_\-client}
+ros\-::\-Service\-Client \hyperlink{classKnowrobWrapper_a57089b048f31c7b67ccdaeff7a834bc3}{mysql\-\_\-register\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}
 \item 
 ros\-::\-Node\-Handle \hyperlink{classKnowrobWrapper_a7e3aae6f36c23857030d977fa53e3baf}{nh\-\_\-}
 \item 
@@ -65,7 +69,7 @@ json\-\_\-prolog\-::\-Prolog \hyperlink{classKnowrobWrapper_a85cb0352dccaebe49a4
 \subsection{Detailed Description}
 Class \hyperlink{classKnowrobWrapperCommunications}{Knowrob\-Wrapper\-Communications} contains all the necessary knowrob wrapper functions. 
 
-Definition at line 46 of file knowrob\-\_\-wrapper.\-h.
+Definition at line 49 of file knowrob\-\_\-wrapper.\-h.
 
 
 
@@ -124,11 +128,24 @@ Implements the clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-r
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::clear\-User\-Performance\-Cognitve\-Tests\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::clear\-User\-Performance\-Cognitve\-Tests\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::clear\-User\-Performance\-Cognitve\-Tests\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 458 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 444 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a6b97ec7ecde086f444cfce881c4625dc}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!cognitive\-\_\-tests\-\_\-of\-\_\-type@{cognitive\-\_\-tests\-\_\-of\-\_\-type}}
 \index{cognitive\-\_\-tests\-\_\-of\-\_\-type@{cognitive\-\_\-tests\-\_\-of\-\_\-type}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -147,11 +164,24 @@ Implements the cognitive\-\_\-tests\-\_\-of\-\_\-type R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::cognitive\-Tests\-Of\-Type\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::cognitive\-Tests\-Of\-Type\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::cognitive\-Tests\-Of\-Type\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 321 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 329 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a21bb40079cf4cd21afe114f51ec6125b}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!create\-\_\-cognitve\-\_\-tests@{create\-\_\-cognitve\-\_\-tests}}
 \index{create\-\_\-cognitve\-\_\-tests@{create\-\_\-cognitve\-\_\-tests}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -170,11 +200,24 @@ Implements the create\-\_\-cognitve\-\_\-tests R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Cognitive\-Exercise\-Test\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Cognitive\-Exercise\-Test\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Cognitive\-Exercise\-Test\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 248 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 271 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a6b5c92e16d3592a63d6509dbca1317fe}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!create\-\_\-ontology\-\_\-alias@{create\-\_\-ontology\-\_\-alias}}
 \index{create\-\_\-ontology\-\_\-alias@{create\-\_\-ontology\-\_\-alias}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -193,17 +236,30 @@ Implements the create\-\_\-ontology\-\_\-alias R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Ontology\-Alias\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Ontology\-Alias\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Ontology\-Alias\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 513 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 132 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a85be3123e645ca77004c7461e097a15e}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!create\-\_\-ontology\-\_\-alias\-\_\-for\-\_\-new\-\_\-user@{create\-\_\-ontology\-\_\-alias\-\_\-for\-\_\-new\-\_\-user}}
 \index{create\-\_\-ontology\-\_\-alias\-\_\-for\-\_\-new\-\_\-user@{create\-\_\-ontology\-\_\-alias\-\_\-for\-\_\-new\-\_\-user}!KnowrobWrapper@{Knowrob\-Wrapper}}
 \subsubsection[{create\-\_\-ontology\-\_\-alias\-\_\-for\-\_\-new\-\_\-user}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Knowrob\-Wrapper\-::create\-\_\-ontology\-\_\-alias\-\_\-for\-\_\-new\-\_\-user (
 \begin{DoxyParamCaption}
-\item[{std\-::string}]{user\-\_\-id}
+\item[{std\-::string}]{username}
 \end{DoxyParamCaption}
 )}}\label{classKnowrobWrapper_a85be3123e645ca77004c7461e097a15e}
 
@@ -216,11 +272,24 @@ Creates a new ontology alias for a user.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+ontology\-\_\-alias \mbox{[}string\mbox{]} The ontology\-\_\-alias of the user or possible error
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username of the user \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 ontology\-\_\-alias \mbox{[}string\mbox{]} The ontology\-\_\-alias of the user or possible error 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 134 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 183 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a798a52556983073055944fd1c51495de}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!create\-Instance\-Query@{create\-Instance\-Query}}
 \index{create\-Instance\-Query@{create\-Instance\-Query}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -239,11 +308,39 @@ Implements the create\-Instance R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Instance\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Instance\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::create\-Instance\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 757 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 633 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{classKnowrobWrapper_a38b7c73ddd7fee3004e22f1110a86b6c}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!dump\-\_\-ontology\-\_\-now@{dump\-\_\-ontology\-\_\-now}}
+\index{dump\-\_\-ontology\-\_\-now@{dump\-\_\-ontology\-\_\-now}!KnowrobWrapper@{Knowrob\-Wrapper}}
+\subsubsection[{dump\-\_\-ontology\-\_\-now}]{\setlength{\rightskip}{0pt plus 5cm}void Knowrob\-Wrapper\-::dump\-\_\-ontology\-\_\-now (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classKnowrobWrapper_a38b7c73ddd7fee3004e22f1110a86b6c}
+
+
+Dumps the ontology to default path. 
+
+
+
+Definition at line 39 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a86796d95e57f4620474dab7e1f2df128}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!dump\-Ontology\-Query@{dump\-Ontology\-Query}}
 \index{dump\-Ontology\-Query@{dump\-Ontology\-Query}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -262,17 +359,30 @@ Implements the dump\-Ontology R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 924 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 682 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_af50b1b512559d86a74c6de69a34ac3cc}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!get\-\_\-ontology\-\_\-alias@{get\-\_\-ontology\-\_\-alias}}
 \index{get\-\_\-ontology\-\_\-alias@{get\-\_\-ontology\-\_\-alias}!KnowrobWrapper@{Knowrob\-Wrapper}}
 \subsubsection[{get\-\_\-ontology\-\_\-alias}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Knowrob\-Wrapper\-::get\-\_\-ontology\-\_\-alias (
 \begin{DoxyParamCaption}
-\item[{std\-::string}]{user\-\_\-id}
+\item[{std\-::string}]{username}
 \end{DoxyParamCaption}
 )}}\label{classKnowrobWrapper_af50b1b512559d86a74c6de69a34ac3cc}
 
@@ -285,11 +395,24 @@ Returns the ontology alias of the user.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+ontology\-\_\-alias \mbox{[}string\mbox{]} The ontology\-\_\-alias of the user or possible error
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username of the user \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 ontology\-\_\-alias \mbox{[}string\mbox{]} The ontology\-\_\-alias of the user or possible error 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 95 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 161 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a0608e1b44bdbf4925b8f3df7433e1b4d}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!is\-Sub\-Superclass\-Of\-Query@{is\-Sub\-Superclass\-Of\-Query}}
 \index{is\-Sub\-Superclass\-Of\-Query@{is\-Sub\-Superclass\-Of\-Query}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -308,11 +431,24 @@ Implements the is\-Sub\-Superclass R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Is\-Sub\-Super\-Class\-Of\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Is\-Sub\-Super\-Class\-Of\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Is\-Sub\-Super\-Class\-Of\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 687 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 580 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_acb503520ab8db0e11b5d6511c7d1a69b}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!load\-Ontology\-Query@{load\-Ontology\-Query}}
 \index{load\-Ontology\-Query@{load\-Ontology\-Query}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -331,11 +467,24 @@ Implements the load\-Ontology R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Load\-Dump\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 989 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 723 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a77d7c7d52db582093065271ebb6d8be7}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance@{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance}}
 \index{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance@{record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -358,7 +507,53 @@ res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::record\-User\-Per
 \end{DoxyReturn}
 
 
-Definition at line 195 of file knowrob\-\_\-wrapper.\-cpp.
+Definition at line 226 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{classKnowrobWrapper_a7a53523ea96e21a32f7f52495ce81f3a}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology}}
+\index{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology@{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology}!KnowrobWrapper@{Knowrob\-Wrapper}}
+\subsubsection[{register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Response Knowrob\-Wrapper\-::register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Request}]{req}
+\end{DoxyParamCaption}
+)}}\label{classKnowrobWrapper_a7a53523ea96e21a32f7f52495ce81f3a}
+
+
+Implements the register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology R\-O\-S service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-Object\-To\-Ontology\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 804 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{classKnowrobWrapper_a05ff27a5905ad1a44feb97b304a61e67}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!retract\-\_\-user\-\_\-ontology\-\_\-alias@{retract\-\_\-user\-\_\-ontology\-\_\-alias}}
+\index{retract\-\_\-user\-\_\-ontology\-\_\-alias@{retract\-\_\-user\-\_\-ontology\-\_\-alias}!KnowrobWrapper@{Knowrob\-Wrapper}}
+\subsubsection[{retract\-\_\-user\-\_\-ontology\-\_\-alias}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Response Knowrob\-Wrapper\-::retract\-\_\-user\-\_\-ontology\-\_\-alias (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Request}]{req}
+\end{DoxyParamCaption}
+)}}\label{classKnowrobWrapper_a05ff27a5905ad1a44feb97b304a61e67}
+
+
+Implements the retract\-\_\-user\-\_\-ontology\-\_\-alias R\-O\-S service. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::retract\-User\-Ontology\-Alias\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 853 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a6e2ee6a631a705466a490f37ecf8afd5}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!subclasses\-Of\-Query@{subclasses\-Of\-Query}}
 \index{subclasses\-Of\-Query@{subclasses\-Of\-Query}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -377,11 +572,24 @@ Implements the subclasses\-Of R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 546 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 486 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a5347e77b2c2bf866c91b883f7eb19e42}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!superclasses\-Of\-Query@{superclasses\-Of\-Query}}
 \index{superclasses\-Of\-Query@{superclasses\-Of\-Query}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -400,11 +608,24 @@ Implements the superclasses\-Of R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Sub\-Super\-Classes\-Of\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 617 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 533 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_a458f965a337460f5822c71bab7a9180d}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!user\-\_\-instances\-\_\-of\-\_\-class@{user\-\_\-instances\-\_\-of\-\_\-class}}
 \index{user\-\_\-instances\-\_\-of\-\_\-class@{user\-\_\-instances\-\_\-of\-\_\-class}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -423,11 +644,24 @@ Implements the return\-User\-Instances\-Of\-Class R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::return\-User\-Instances\-Of\-Class\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::return\-User\-Instances\-Of\-Class\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::return\-User\-Instances\-Of\-Class\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 1037 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 759 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{classKnowrobWrapper_aada77adb91efe2be3ddd2ade2e90154a}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!user\-\_\-performance\-\_\-cognitve\-\_\-tests@{user\-\_\-performance\-\_\-cognitve\-\_\-tests}}
 \index{user\-\_\-performance\-\_\-cognitve\-\_\-tests@{user\-\_\-performance\-\_\-cognitve\-\_\-tests}!KnowrobWrapper@{Knowrob\-Wrapper}}
@@ -446,49 +680,55 @@ Implements the user\-\_\-performance\-\_\-cognitve\-\_\-tests R\-O\-S service.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Performance\-Cognitve\-Tests\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Performance\-Cognitve\-Tests\-Srv\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
 res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Performance\-Cognitve\-Tests\-Srv\-::\-Response\&\mbox{]} The R\-O\-S service response 
 \end{DoxyReturn}
 
+\begin{DoxyExceptions}{Exceptions}
+{\em App\-Error} & \\
+\hline
+\end{DoxyExceptions}
 
-Definition at line 390 of file knowrob\-\_\-wrapper.\-cpp.
+
+Definition at line 387 of file knowrob\-\_\-wrapper.\-cpp.
 
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classKnowrobWrapper_aaa8ac92e0387787a4ba8bdc9a5886c4d}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!mysql\-\_\-fetch\-\_\-client@{mysql\-\_\-fetch\-\_\-client}}
-\index{mysql\-\_\-fetch\-\_\-client@{mysql\-\_\-fetch\-\_\-client}!KnowrobWrapper@{Knowrob\-Wrapper}}
-\subsubsection[{mysql\-\_\-fetch\-\_\-client}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client Knowrob\-Wrapper\-::mysql\-\_\-fetch\-\_\-client\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapper_aaa8ac92e0387787a4ba8bdc9a5886c4d}
+\hypertarget{classKnowrobWrapper_a39f2268a17653590d51a7b3e0e243c6c}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!mysql\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client@{mysql\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}}
+\index{mysql\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client@{mysql\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}!KnowrobWrapper@{Knowrob\-Wrapper}}
+\subsubsection[{mysql\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client Knowrob\-Wrapper\-::mysql\-\_\-get\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapper_a39f2268a17653590d51a7b3e0e243c6c}
 The mysql update tbl\-User client server 
-
-Definition at line 59 of file knowrob\-\_\-wrapper.\-h.
-
-\hypertarget{classKnowrobWrapper_a16a7e3854cd229eabb1675eded4bafb4}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!mysql\-\_\-update\-\_\-client@{mysql\-\_\-update\-\_\-client}}
-\index{mysql\-\_\-update\-\_\-client@{mysql\-\_\-update\-\_\-client}!KnowrobWrapper@{Knowrob\-Wrapper}}
-\subsubsection[{mysql\-\_\-update\-\_\-client}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client Knowrob\-Wrapper\-::mysql\-\_\-update\-\_\-client\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapper_a16a7e3854cd229eabb1675eded4bafb4}
-
 
 Definition at line 62 of file knowrob\-\_\-wrapper.\-h.
 
-\hypertarget{classKnowrobWrapper_a3751c23317ae08cb539f51ea1eead504}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!mysql\-\_\-write\-\_\-client@{mysql\-\_\-write\-\_\-client}}
-\index{mysql\-\_\-write\-\_\-client@{mysql\-\_\-write\-\_\-client}!KnowrobWrapper@{Knowrob\-Wrapper}}
-\subsubsection[{mysql\-\_\-write\-\_\-client}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client Knowrob\-Wrapper\-::mysql\-\_\-write\-\_\-client\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapper_a3751c23317ae08cb539f51ea1eead504}
+\hypertarget{classKnowrobWrapper_a57089b048f31c7b67ccdaeff7a834bc3}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!mysql\-\_\-register\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client@{mysql\-\_\-register\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}}
+\index{mysql\-\_\-register\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client@{mysql\-\_\-register\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}!KnowrobWrapper@{Knowrob\-Wrapper}}
+\subsubsection[{mysql\-\_\-register\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Client Knowrob\-Wrapper\-::mysql\-\_\-register\-\_\-user\-\_\-ontology\-\_\-alias\-\_\-client\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapper_a57089b048f31c7b67ccdaeff7a834bc3}
 The mysql fetch from tbl\-User client server 
 
-Definition at line 56 of file knowrob\-\_\-wrapper.\-h.
+Definition at line 59 of file knowrob\-\_\-wrapper.\-h.
 
 \hypertarget{classKnowrobWrapper_a7e3aae6f36c23857030d977fa53e3baf}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!nh\-\_\-@{nh\-\_\-}}
 \index{nh\-\_\-@{nh\-\_\-}!KnowrobWrapper@{Knowrob\-Wrapper}}
 \subsubsection[{nh\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle Knowrob\-Wrapper\-::nh\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapper_a7e3aae6f36c23857030d977fa53e3baf}
 $<$ The R\-O\-S node handle The json prolog handle 
 
-Definition at line 50 of file knowrob\-\_\-wrapper.\-h.
+Definition at line 53 of file knowrob\-\_\-wrapper.\-h.
 
 \hypertarget{classKnowrobWrapper_a85cb0352dccaebe49a4f382d39911400}{\index{Knowrob\-Wrapper@{Knowrob\-Wrapper}!pl@{pl}}
 \index{pl@{pl}!KnowrobWrapper@{Knowrob\-Wrapper}}
 \subsubsection[{pl}]{\setlength{\rightskip}{0pt plus 5cm}json\-\_\-prolog\-::\-Prolog Knowrob\-Wrapper\-::pl\hspace{0.3cm}{\ttfamily [private]}}}\label{classKnowrobWrapper_a85cb0352dccaebe49a4f382d39911400}
 The mysql write to tbl\-User client server 
 
-Definition at line 53 of file knowrob\-\_\-wrapper.\-h.
+Definition at line 56 of file knowrob\-\_\-wrapper.\-h.
 
 
 

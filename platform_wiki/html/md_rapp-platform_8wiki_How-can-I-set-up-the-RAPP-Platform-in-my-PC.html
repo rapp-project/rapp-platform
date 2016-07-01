@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-can-I-set-u
 <div class="title">? How-can-I-set-up-the-RAPP-Platform-in-my-PC? </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The setup scripts are located in <code>rapp_scripts/setup</code>.</p>
+<div class="textblock"><p>The setup scripts are located in the <a href="https://github.com/rapp-project/rapp-platform-scripts">rapp-platform-scripts</a> in the folder <code>/setup/</code>.</p>
 <p>These scripts can be executed after a clean Ubuntu 14.04 installation, in order to install the appropriate packages and setup the environment.</p>
 <h4>Step 0 - Github installation</h4>
 <p>Install git in order to be able to clone the repositories:</p>
@@ -117,6 +117,8 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-can-I-set-u
 <li>downloads builds and installs depending libraries for Sphinx4</li>
 <li>installs MySQL</li>
 <li>installs HOP</li>
+<li>installs Caffe</li>
+<li>installs the authentication system</li>
 </ul>
 <h4>What you must do manually</h4>
 <p>A new MySQL user was created with username = <code>dummyUser</code> and password = <code>changeMe</code> and was granted all on RappStore DB. It is highly recommended that you change the password and the username of the user. The username and password are stored in the file located at /etc/db_credentials. The file db_credentials is used by the RAPP platform services, be sure to update it with the correct username and password. It's first line is the username and it's second line the password.</p>
@@ -135,24 +137,15 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-can-I-set-u
 <li><code>9_create_rapp_mysql_db.sh</code>: Adds the RAPP MySQL empty database in mysql</li>
 <li><code>10_create_rapp_mysql_user.sh</code>: Creates a user to enable access the to database from the RAPP Platform code</li>
 <li><code>11_hop_setup.sh</code>: Installs HOP and Bigloo, the tools providing the RAPP Platform generic services.</li>
-</ul>
-<h5>NOTES:</h5>
-<p>The following notes concern the manual setup of rapp-platform (not the clean setup form our scripts):</p>
-<ul>
-<li>To compile <code>rapp_qr_detection</code> you must install the <code>libzbar</code> library</li>
-<li>To compile <code>rapp_knowrob_wrapper</code> you must execute the following scripts:<ul>
-<li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh">https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh</a></li>
-<li><a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh">https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh</a></li>
-<li><b>If you don't want interaction with the ontology, add an empty <code>CATKIN_IGNORE</code> file in the <code>rapp-platform/rapp_knowrob_wrapper/</code> folder</b> </li>
-</ul>
-</li>
+<li><code>12_caffe_setup.sh</code>: Installs Caffe along with the bvlc reference models.</li>
+<li><code>13_authentication_setup.sh</code>: Installs the authentication management system. </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

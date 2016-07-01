@@ -1,0 +1,4 @@
+var namespaceRappCloud_1_1CloudMsgs_1_1CognitiveRecordPerformance =
+[
+    [ "CognitiveRecordPerformance", "classRappCloud_1_1CloudMsgs_1_1CognitiveRecordPerformance_1_1CognitiveRecordPerformance.html", "classRappCloud_1_1CloudMsgs_1_1CognitiveRecordPerformance_1_1CognitiveRecordPerformance" ]
+];

@@ -1,0 +1,36 @@
+<map id="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/cloud_basic.hpp" name="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/cloud_basic.hpp">
+<area shape="rect" id="node2" href="$available__services_8hpp.html" title="cloud/available_services\l/available_services.hpp" alt="" coords="424,117,587,158"/>
+<area shape="rect" id="node15" href="$ontology_8hpp.html" title="cloud/ontology/ontology.hpp" alt="" coords="1414,124,1598,151"/>
+<area shape="rect" id="node22" href="$face__detection_8hpp.html" title="cloud/vision/face_detection\l/face_detection.hpp" alt="" coords="1857,117,2036,158"/>
+<area shape="rect" id="node28" href="$hazard__detection_8hpp.html" title="cloud/vision/hazard\l_detection/hazard_detection.hpp" alt="" coords="1622,117,1831,158"/>
+<area shape="rect" id="node30" href="$human__detection_8hpp.html" title="cloud/vision/human\l_detection/human_detection.hpp" alt="" coords="2062,117,2271,158"/>
+<area shape="rect" id="node34" href="$object__recognition_8hpp.html" title="cloud/vision/object\l_recognition/object\l_recognition.hpp" alt="" coords="1259,109,1388,165"/>
+<area shape="rect" id="node36" href="$qr__detection_8hpp.html" title="cloud/vision/qr_detection\l/qr_detection.hpp" alt="" coords="2296,117,2462,158"/>
+<area shape="rect" id="node41" href="$set__denoise__profile_8hpp.html" title="cloud/speech/set_denoise\l_profile/set_denoise_profile.hpp" alt="" coords="816,117,1022,158"/>
+<area shape="rect" id="node45" href="$speech__detection__google_8hpp.html" title="cloud/speech/speech\l_detection_google/speech\l_detection_google.hpp" alt="" coords="2487,109,2660,165"/>
+<area shape="rect" id="node47" href="$speech__detection__sphinx4_8hpp.html" title="cloud/speech/speech\l_detection_sphinx4/speech\l_detection_sphinx4.hpp" alt="" coords="612,109,791,165"/>
+<area shape="rect" id="node49" href="$text__to__speech_8hpp.html" title="cloud/speech/text_to\l_speech/text_to_speech.hpp" alt="" coords="1046,117,1235,158"/>
+<area shape="rect" id="node3" href="$cloud_2available__services_2includes_8ihh.html" title="includes.ihh" alt="" coords="460,213,551,240"/>
+<area shape="rect" id="node8" href="$asio__service__http_8hpp.html" title="cloud/asio_service\l_http/asio_service_http.hpp" alt="" coords="1049,289,1231,330"/>
+<area shape="rect" id="node9" href="$cloud_2asio__service__http_2includes_8ihh.html" title="includes.ihh" alt="" coords="720,379,811,405"/>
+<area shape="rect" id="node16" href="$cloud_2ontology_2includes_8ihh.html" title="includes.ihh" alt="" coords="1466,213,1556,240"/>
+<area shape="rect" id="node23" href="$cloud_2vision_2face__detection_2includes_8ihh.html" title="includes.ihh" alt="" coords="1846,213,1936,240"/>
+<area shape="rect" id="node24" href="$face_8hpp.html" title="objects/face/face.hpp" alt="" coords="2392,296,2539,323"/>
+<area shape="rect" id="node26" href="$picture_8hpp.html" title="objects/picture/picture.hpp" alt="" coords="2193,296,2367,323"/>
+<area shape="rect" id="node25" href="$objects_2face_2includes_8ihh.html" title="includes.ihh" alt="" coords="2420,379,2511,405"/>
+<area shape="rect" id="node27" href="$objects_2picture_2includes_8ihh.html" title="includes.ihh" alt="" coords="950,379,1040,405"/>
+<area shape="rect" id="node29" href="$cloud_2vision_2hazard__detection_2includes_8ihh.html" title="includes.ihh" alt="" coords="1704,213,1795,240"/>
+<area shape="rect" id="node31" href="$cloud_2vision_2human__detection_2includes_8ihh.html" title="includes.ihh" alt="" coords="1960,213,2051,240"/>
+<area shape="rect" id="node32" href="$human_8hpp.html" title="objects/human/human.hpp" alt="" coords="2766,296,2940,323"/>
+<area shape="rect" id="node33" href="$objects_2human_2includes_8ihh.html" title="includes.ihh" alt="" coords="2808,379,2899,405"/>
+<area shape="rect" id="node35" href="$cloud_2vision_2object__recognition_2includes_8ihh.html" title="includes.ihh" alt="" coords="1263,213,1354,240"/>
+<area shape="rect" id="node37" href="$cloud_2vision_2qr__detection_2includes_8ihh.html" title="includes.ihh" alt="" coords="2235,213,2326,240"/>
+<area shape="rect" id="node39" href="$qr__code_8hpp.html" title="objects/qr_code/qr\l_code.hpp" alt="" coords="3289,289,3418,330"/>
+<area shape="rect" id="node40" href="$objects_2qr__code_2includes_8ihh.html" title="includes.ihh" alt="" coords="3308,379,3399,405"/>
+<area shape="rect" id="node42" href="$cloud_2speech_2set__denoise__profile_2includes_8ihh.html" title="includes.ihh" alt="" coords="942,213,1032,240"/>
+<area shape="rect" id="node43" href="$audio_8hpp.html" title="objects/audio/audio.hpp" alt="" coords="284,296,442,323"/>
+<area shape="rect" id="node44" href="$objects_2audio_2includes_8ihh.html" title="includes.ihh" alt="" coords="835,379,926,405"/>
+<area shape="rect" id="node46" href="$cloud_2speech_2speech__detection__google_2includes_8ihh.html" title="includes.ihh" alt="" coords="2528,213,2619,240"/>
+<area shape="rect" id="node48" href="$cloud_2speech_2speech__detection__sphinx4_2includes_8ihh.html" title="includes.ihh" alt="" coords="827,213,918,240"/>
+<area shape="rect" id="node50" href="$cloud_2speech_2text__to__speech_2includes_8ihh.html" title="includes.ihh" alt="" coords="1095,213,1186,240"/>
+</map>

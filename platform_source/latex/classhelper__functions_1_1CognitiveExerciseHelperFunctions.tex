@@ -1,0 +1,286 @@
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions}{\section{helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions Class Reference}
+\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions}\index{helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions}}
+}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a3c7b93ecb18a8f644acd41b39c7cda38}{determine\-Test\-Type\-List\-For\-Returning\-Scores\-Or\-History}
+\begin{DoxyCompactList}\small\item\em Validates the provided test type or selects all test types from ontology if non provided. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a5f06797d72eabbb7f2fe16cd78a53a2f}{filter\-Testsby\-Difficulty\-And\-Subtype}
+\begin{DoxyCompactList}\small\item\em Filters the tests by Difficulty and test subtype. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_ab6068ecebe273ff39840754b613d2474}{get\-Cognitive\-Tests\-Of\-Type}
+\begin{DoxyCompactList}\small\item\em Gets the cognitive tests of the given type and difficulty available in the ontology. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a9de637525f6de5c9e48c3ad7cd76843f}{get\-Test\-Languages\-From\-Ontology}
+\begin{DoxyCompactList}\small\item\em Queries the ontology and returns the cognitive test languages available. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_afe782783345ebcf8cb2228b8379786c4}{get\-Test\-Types\-From\-Ontology}
+\begin{DoxyCompactList}\small\item\em Queries the ontology and returns the cognitive test types available. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a41f7e6e6342f8dc016a3bfd349f69167}{get\-User\-Language}
+\begin{DoxyCompactList}\small\item\em Queries the My\-S\-Q\-L database through the My\-S\-Q\-L wrapper and returns the user's language. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a4165e639bb258e4ff0b7954d8596b96d}{get\-User\-Ontology\-Alias}
+\begin{DoxyCompactList}\small\item\em Gets the users ontology alias and if it doesnt exist it creates it. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a22a95ff40ea4c5de8751484dca12d425}{get\-User\-Performance\-Records\-For\-Test\-Type}
+\begin{DoxyCompactList}\small\item\em Gets the user cognitive test performance records for given test type. \end{DoxyCompactList}\item 
+def \hyperlink{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a60d24a04497455fdbf8d12a3d968de4b}{organize\-User\-Performance\-By\-Timestamp}
+\begin{DoxyCompactList}\small\item\em Organizes the user's performance entries by timestamp. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 33 of file helper\-\_\-functions.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a3c7b93ecb18a8f644acd41b39c7cda38}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!determine\-Test\-Type\-List\-For\-Returning\-Scores\-Or\-History@{determine\-Test\-Type\-List\-For\-Returning\-Scores\-Or\-History}}
+\index{determine\-Test\-Type\-List\-For\-Returning\-Scores\-Or\-History@{determine\-Test\-Type\-List\-For\-Returning\-Scores\-Or\-History}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{determine\-Test\-Type\-List\-For\-Returning\-Scores\-Or\-History}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-determine\-Test\-Type\-List\-For\-Returning\-Scores\-Or\-History (
+\begin{DoxyParamCaption}
+\item[{}]{test\-Type, }
+\item[{}]{validtest\-Types\-List}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a3c7b93ecb18a8f644acd41b39c7cda38}
+
+
+Validates the provided test type or selects all test types from ontology if non provided. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em test\-Type} & \mbox{[}string\mbox{]} The provided test type \\
+\hline
+{\em validtest\-Types\-List} & \mbox{[}list\mbox{]} The list of valid test types\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+test\-Types\-List \mbox{[}list\mbox{]} The list of test\-Types returned 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 165 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a5f06797d72eabbb7f2fe16cd78a53a2f}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!filter\-Testsby\-Difficulty\-And\-Subtype@{filter\-Testsby\-Difficulty\-And\-Subtype}}
+\index{filter\-Testsby\-Difficulty\-And\-Subtype@{filter\-Testsby\-Difficulty\-And\-Subtype}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{filter\-Testsby\-Difficulty\-And\-Subtype}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-filter\-Testsby\-Difficulty\-And\-Subtype (
+\begin{DoxyParamCaption}
+\item[{}]{tests\-Of\-Type, }
+\item[{}]{chosen\-Dif, }
+\item[{}]{test\-Sub\-Type}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a5f06797d72eabbb7f2fe16cd78a53a2f}
+
+
+Filters the tests by Difficulty and test subtype. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em tests\-Of\-Type} & \mbox{[}dictionary\mbox{]} The dictionary containing all the tests \\
+\hline
+{\em chosen\-Dif} & \mbox{[}string\mbox{]} The test difficulty \\
+\hline
+{\em test\-Sub\-Type} & \mbox{[}string\mbox{]} The test sub type\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+d \mbox{[}dictionary\mbox{]} The selected cognitive tests after filtering was applied 
+\end{DoxyReturn}
+
+
+Definition at line 131 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_ab6068ecebe273ff39840754b613d2474}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!get\-Cognitive\-Tests\-Of\-Type@{get\-Cognitive\-Tests\-Of\-Type}}
+\index{get\-Cognitive\-Tests\-Of\-Type@{get\-Cognitive\-Tests\-Of\-Type}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{get\-Cognitive\-Tests\-Of\-Type}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-get\-Cognitive\-Tests\-Of\-Type (
+\begin{DoxyParamCaption}
+\item[{}]{test\-Type, }
+\item[{}]{user\-Language}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_ab6068ecebe273ff39840754b613d2474}
+
+
+Gets the cognitive tests of the given type and difficulty available in the ontology. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em test\-Type} & \mbox{[}string\mbox{]} The test type (category) \\
+\hline
+{\em user\-Language} & \mbox{[}string\mbox{]} The user's language\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+cognitive\-Tests\-Of\-Type\-Response \mbox{[}cognitive\-Tests\-Of\-Type\-Response\mbox{]} The cognitive tests of type service response 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 112 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a9de637525f6de5c9e48c3ad7cd76843f}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!get\-Test\-Languages\-From\-Ontology@{get\-Test\-Languages\-From\-Ontology}}
+\index{get\-Test\-Languages\-From\-Ontology@{get\-Test\-Languages\-From\-Ontology}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{get\-Test\-Languages\-From\-Ontology}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-get\-Test\-Languages\-From\-Ontology (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a9de637525f6de5c9e48c3ad7cd76843f}
+
+
+Queries the ontology and returns the cognitive test languages available. 
+
+\begin{DoxyReturn}{Returns}
+languages\-List \mbox{[}list\mbox{]} The list of the available cognitive test languages they were read from the ontology 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 90 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_afe782783345ebcf8cb2228b8379786c4}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!get\-Test\-Types\-From\-Ontology@{get\-Test\-Types\-From\-Ontology}}
+\index{get\-Test\-Types\-From\-Ontology@{get\-Test\-Types\-From\-Ontology}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{get\-Test\-Types\-From\-Ontology}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-get\-Test\-Types\-From\-Ontology (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_afe782783345ebcf8cb2228b8379786c4}
+
+
+Queries the ontology and returns the cognitive test types available. 
+
+\begin{DoxyReturn}{Returns}
+test\-Types\-List \mbox{[}list\mbox{]} The list of the available tests as they were read from the ontology 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 70 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a41f7e6e6342f8dc016a3bfd349f69167}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!get\-User\-Language@{get\-User\-Language}}
+\index{get\-User\-Language@{get\-User\-Language}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{get\-User\-Language}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-get\-User\-Language (
+\begin{DoxyParamCaption}
+\item[{}]{username}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a41f7e6e6342f8dc016a3bfd349f69167}
+
+
+Queries the My\-S\-Q\-L database through the My\-S\-Q\-L wrapper and returns the user's language. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username of the user as is in the My\-S\-Q\-L database \\
+\hline
+{\em language\-In\-Srv} & \mbox{[}string\mbox{]} The user's language for assigning it to the srv response trace\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+user\-Language \mbox{[}string\mbox{]} The user's language 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 148 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a4165e639bb258e4ff0b7954d8596b96d}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!get\-User\-Ontology\-Alias@{get\-User\-Ontology\-Alias}}
+\index{get\-User\-Ontology\-Alias@{get\-User\-Ontology\-Alias}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{get\-User\-Ontology\-Alias}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-get\-User\-Ontology\-Alias (
+\begin{DoxyParamCaption}
+\item[{}]{username}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a4165e639bb258e4ff0b7954d8596b96d}
+
+
+Gets the users ontology alias and if it doesnt exist it creates it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The user's username\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ontology\-Alias \mbox{[}string\mbox{]} The user's ontology alias 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 55 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a22a95ff40ea4c5de8751484dca12d425}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!get\-User\-Performance\-Records\-For\-Test\-Type@{get\-User\-Performance\-Records\-For\-Test\-Type}}
+\index{get\-User\-Performance\-Records\-For\-Test\-Type@{get\-User\-Performance\-Records\-For\-Test\-Type}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{get\-User\-Performance\-Records\-For\-Test\-Type}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-get\-User\-Performance\-Records\-For\-Test\-Type (
+\begin{DoxyParamCaption}
+\item[{}]{test\-Type, }
+\item[{}]{user\-Ontology\-Alias}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a22a95ff40ea4c5de8751484dca12d425}
+
+
+Gets the user cognitive test performance records for given test type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The user's username\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+user\-Performance\-Req \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::user\-Performance\-Cognitve\-Tests\-Srv\-Request\-::\-Request\&\mbox{]} The user's performance records 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 41 of file helper\-\_\-functions.\-py.
+
+\hypertarget{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a60d24a04497455fdbf8d12a3d968de4b}{\index{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}!organize\-User\-Performance\-By\-Timestamp@{organize\-User\-Performance\-By\-Timestamp}}
+\index{organize\-User\-Performance\-By\-Timestamp@{organize\-User\-Performance\-By\-Timestamp}!helper_functions::CognitiveExerciseHelperFunctions@{helper\-\_\-functions\-::\-Cognitive\-Exercise\-Helper\-Functions}}
+\subsubsection[{organize\-User\-Performance\-By\-Timestamp}]{\setlength{\rightskip}{0pt plus 5cm}def helper\-\_\-functions.\-Cognitive\-Exercise\-Helper\-Functions.\-organize\-User\-Performance\-By\-Timestamp (
+\begin{DoxyParamCaption}
+\item[{}]{user\-Perf}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{classhelper__functions_1_1CognitiveExerciseHelperFunctions_a60d24a04497455fdbf8d12a3d968de4b}
+
+
+Organizes the user's performance entries by timestamp. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\-Perf} & \mbox{[}dict\mbox{]} The dictionary containing the user's performance entries\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+user\-Perf\-Organized\-By\-Timestamp \mbox{[}Ordered\-Dict\mbox{]} The dictionary containing the user's performance entries organized by timestamp 
+\end{DoxyReturn}
+
+
+Definition at line 181 of file helper\-\_\-functions.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-cognitive\-\_\-exercise/src/\hyperlink{helper__functions_8py}{helper\-\_\-functions.\-py}\end{DoxyCompactItemize}

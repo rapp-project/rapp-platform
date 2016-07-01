@@ -1,0 +1,97 @@
+Recognition of known objects, implemented in R\-A\-P\-P Platform, is based on feature points extracted from the image. From this reason, only textured objects can be recognized and localized on the image at the moment, but in typical R\-A\-P\-P scenarios there are a lot of objects of this type -\/ food boxes and cans, books, medicines and more everyday things. Object recognition module is able to recognize multiple objects at the same time, many instances od the same type of object in particular. Whole process of object learning and recognition is composed of four services.
+
+Every user using object recognition module owns separate objects database. Recognition module can use all of the models or only selected subset during object detection, and this subset loaded at the moment is called operational memory.
+
+\subsection*{Learn new object}
+
+Recognition module is prepared to find specific object instances, learnt beforehand by the user. To learn new objects, picture consisting its view on plain (featureless) background should be used. Best recognition results are achieved, if models are learnt using the same sensor that will be used for detection (i.\-e. don't use high resolution, high quality object images if recognition will be done using lower quality camera). Every model should have different name. Subsequent calls to learn service with the same object name will overwrite previously learnt model. Model names are used in further calls of load service.
+
+\subsection*{Clear objects}
+
+Clears operational memory for selected user. After this operation, object recognition module will always fail to recognize anything.
+
+\subsection*{Load models}
+
+Load one or more models to operational memory. This operation should be done at least once before first recognition request. Subsequent calls of this service extends operational memory. To replace operational memory with new models, clear service should be called first.
+
+\subsection*{Find objects}
+
+When set of models is loaded to operational memory, user can provide query image to detect objects on. If any object of known type is recognized, its center point in query image, model name and recognition score (certainty) is returned. User can setup search results to contain only limited number of strongest object hypotheses. If more objects are found, weakest are dropped.
+
+\mbox{[}\mbox{[}images/object\-\_\-recognition/ex\-\_\-match\-\_\-0.\-jpg\mbox{]}\mbox{]}
+
+\section*{R\-O\-S Services}
+
+\subsection*{Learn object}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-object\-\_\-recognition/learn\-\_\-object}
+
+Service type\-: ```bash \section*{Path (id) of model image}
+
+string fname \section*{Name of the object}
+
+string name \section*{User name}
+
+\subsection*{string user }
+
+\section*{Result\-: 0 -\/ ok, -\/1 -\/ no models, -\/2 -\/ no image to analyse}
+
+int32 result ```
+
+\subsection*{Clear models}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-object\-\_\-recognition/clear\-\_\-models}
+
+Service type\-: ```bash \section*{User name}
+
+\subsection*{string user }
+
+\section*{Result\-: 0 -\/ ok, -\/1 -\/ no models, -\/2 -\/ no image to analyse}
+
+int32 result ```
+
+\subsection*{Load models}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-object\-\_\-recognition/load\-\_\-models}
+
+Service type\-: ```bash \section*{User name}
+
+string user \section*{Object names to load}
+
+\subsection*{string\mbox{[}\mbox{]} names }
+
+\section*{Result\-: 0 -\/ ok, -\/1 -\/ no models, -\/2 -\/ no image to analyse}
+
+int32 result ```
+
+\subsection*{Find objects}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-object\-\_\-recognition/find\-\_\-objects}
+
+Service type\-: ```bash \section*{Path (id) of query image}
+
+string fname \section*{Limit search to N best matches}
+
+uint32 limit \section*{User name}
+
+\subsection*{string user }
+
+\section*{List of found objects -\/ names}
+
+string\mbox{[}\mbox{]} found\-\_\-names \section*{List of found objects -\/ centroids in image}
+
+geometry\-\_\-msgs/\-Point\mbox{[}\mbox{]} found\-\_\-centers \section*{List of found objects -\/ scores}
+
+float64\mbox{[}\mbox{]} found\-\_\-scores \section*{Result\-: 0 -\/ ok, -\/1 -\/ no models, -\/2 -\/ no image to analyse}
+
+int32 result ```
+
+\#\-Launchers
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries object\-\_\-recognition} node and can be launched using ``` roslaunch rapp\-\_\-object\-\_\-recognition object\-\_\-detection.\-launch ```
+
+\#\-Web services
+
+T\-B\-D 

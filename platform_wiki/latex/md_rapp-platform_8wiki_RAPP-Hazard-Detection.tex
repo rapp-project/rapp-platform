@@ -1,0 +1,73 @@
+In the R\-A\-P\-P case, the hazard detection functionality is implemented in the form of a C++ developed R\-O\-S node, interfaced by a H\-O\-P service. The H\-O\-P service is invoked using the R\-A\-P\-P A\-P\-I and gets an R\-G\-B image as input, in which hazards has to be checked. The second step is for the H\-O\-P service to locally save the input image. At the same time, the hazard\-\_\-detection R\-O\-S node is executed in the background, waiting to server requests. The H\-O\-P service calls the R\-O\-S service via the R\-O\-S Bridge, the R\-O\-S node make the necessary computations and a response is delivered.
+
+\subsection*{Light checking}
+
+Sample image (taken at exposure of 1ms) present a lamp that is switched on (see figure). Final result for image is computed by comparison of average brightness of eight surrounding regions (red) with central region (blue). In the case of looking at the lamp central region will be much brighter than surrounding (light left switched on). In case of looking through the door into other room central column will be brighter than border ones for light left switched on.
+
+\mbox{[}\mbox{[}images/hazard\-\_\-detection/lamp\-\_\-on\-\_\-small.\-jpg\mbox{]}\mbox{]}
+
+\subsection*{Door checking}
+
+Solution is based on a single image (see figure), that is acquired in a way that a bottom part of the door, with (possibly) both right and left frame is visible. By analyzing vertical and horizontal lines decision about door opening angle is taken. If horizontal lines are almost parallel to each other, doors are closed. If the lines between frames (vertical) have different angle to those to the left and right of the frame, doors are treated as opened.
+
+\mbox{[}\mbox{[}images/hazard\-\_\-detection/door\-\_\-1.\-png\mbox{]}\mbox{]}
+
+\#\-R\-O\-S Services
+
+\subsection*{Light checking}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-hazard\-\_\-detection/light\-\_\-check}
+
+Service type\-: ```bash \section*{Contains info about time and reference}
+
+Header header \section*{The image's filename to perform light checking}
+
+\subsection*{string image\-Filename }
+
+\section*{Light level in the center of the provided image}
+
+int32 light\-\_\-level string error ```
+
+\subsection*{Door checking}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-hazard\-\_\-detection/light\-\_\-check}
+
+Service type\-: ```bash \section*{Contains info about time and reference}
+
+Header header \section*{The image's filename to perform door checking}
+
+\subsection*{string image\-Filename }
+
+\section*{Estimated door opening angle}
+
+int32 door\-\_\-angle string error ```
+
+\#\-Launchers
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries hazard\-\_\-detection} node and can be launched using ``` roslaunch rapp\-\_\-hazard\-\_\-detection hazard\-\_\-detection.\-launch ```
+
+\#\-Web services
+
+\subsection*{Light checking}
+
+\subsubsection*{U\-R\-L}
+
+{\ttfamily localhost\-:9001/hop/hazard\-\_\-detection\-\_\-light\-\_\-check}
+
+\subsubsection*{Input / Output}
+
+``` Input = \{ \char`\"{}file\char`\"{}\-: “\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A” \} {\ttfamily  } Output = \{ \char`\"{}light\-\_\-level\char`\"{}\-: 50, \char`\"{}error\char`\"{}\-: \char`\"{}\char`\"{} \} ```
+
+\subsection*{Door checking}
+
+\subsubsection*{U\-R\-L}
+
+{\ttfamily localhost\-:9001/hop/hazard\-\_\-detection\-\_\-door\-\_\-check}
+
+\subsubsection*{Input / Output}
+
+``` Input = \{ \char`\"{}file\char`\"{}\-: \char`\"{}\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A\char`\"{} \} {\ttfamily  } Output = \{ \char`\"{}door\-\_\-angle\char`\"{}\-: 50, \char`\"{}error\char`\"{}\-: \char`\"{}\char`\"{} \} ```
+
+The full documentation exists \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#hazard-detection-door-check}{\tt here} and \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#hazard-detection-door-check}{\tt here} 

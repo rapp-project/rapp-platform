@@ -1,0 +1,304 @@
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http}{\section{rapp\-:\-:cloud\-:\-:asio\-\_\-service\-\_\-http Class Reference}
+\label{classrapp_1_1cloud_1_1asio__service__http}\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+}
+
+
+base class for asynchronous http websockets used for connecting to cloud services  
+
+
+
+
+{\ttfamily \#include $<$asio\-\_\-service\-\_\-http.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:asio\-\_\-service\-\_\-http\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classrapp_1_1cloud_1_1asio__service__http__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:asio\-\_\-service\-\_\-http\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1asio__service__http__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1asio__service__http_accd548dd920b5265937c5af2ffebe606}{asio\-\_\-service\-\_\-http} (const std\-::string token)
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_a796f3ed98261ae22243d08056cc9e8ca}{schedule} (boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&query, boost\-::asio\-::ip\-::tcp\-::resolver \&resolver, boost\-::asio\-::io\-\_\-service \&io\-\_\-service)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_aad88336c3d281533fad5de26a7bdc19c}{check\-\_\-timeout} ()
+\begin{DoxyCompactList}\small\item\em check timed-\/out \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_a0cb462a86df726f12183c0c68b6ad38c}{handle\-\_\-connect} (const boost\-::system\-::error\-\_\-code \&err, boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator endpoint\-\_\-iterator)
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_a5dc1600e4bb2ba82c9be9fb209f4edfd}{handle\-\_\-read\-\_\-content} (const boost\-::system\-::error\-\_\-code \&err, std\-::size\-\_\-t bytes)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Actual Data Contents. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_afb9ba20beed3369b6455a20b974daa4f}{handle\-\_\-read\-\_\-headers} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Headers. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_a72cb0683b4406a1324913f468092674b}{handle\-\_\-read\-\_\-status\-\_\-line} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for handling H\-T\-T\-P Header Response Data. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_afc10f3f69b8869f2ba3f27a5591df038}{handle\-\_\-resolve} (const boost\-::system\-::error\-\_\-code \&err, boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator endpoint\-\_\-iterator)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Address Resolution. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_ae408c936e746f56a5ff0890e126e32fd}{handle\-\_\-write\-\_\-request} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for handling request and waiting for response. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__service__http_a562b730d1b9ebf9473b97d441459218b}{reset} ()
+\begin{DoxyCompactList}\small\item\em reset handler (clear data, bytes, etc) and stop connection \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::unique\-\_\-ptr\\*
+$<$ boost\-::asio\-::ip\-::tcp\-::socket $>$ \hyperlink{classrapp_1_1cloud_1_1asio__service__http_a300bce910d976e3d7efa6be1ce183fb1}{socket\-\_\-}
+\begin{DoxyCompactList}\small\item\em T\-C\-P Socket (plain-\/text) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+base class for asynchronous http websockets used for connecting to cloud services 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} T\-O\-D\-O\-: rename to {\ttfamily asio\-\_\-socket\-\_\-http} 
+\end{DoxyAuthor}
+
+
+Definition at line 14 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_accd548dd920b5265937c5af2ffebe606}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!asio\-\_\-service\-\_\-http@{asio\-\_\-service\-\_\-http}}
+\index{asio\-\_\-service\-\_\-http@{asio\-\_\-service\-\_\-http}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{asio\-\_\-service\-\_\-http}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::asio\-\_\-service\-\_\-http (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__service__http_accd548dd920b5265937c5af2ffebe606}
+Construct the asio http service 
+\begin{DoxyParams}{Parameters}
+{\em token} & is the \hyperlink{namespacerapp_1_1cloud}{rapp.\-cloud} authentication token \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 21 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_aad88336c3d281533fad5de26a7bdc19c}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!check\-\_\-timeout@{check\-\_\-timeout}}
+\index{check\-\_\-timeout@{check\-\_\-timeout}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{check\-\_\-timeout}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::check\-\_\-timeout (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_aad88336c3d281533fad5de26a7bdc19c}
+
+
+check timed-\/out 
+
+
+
+Definition at line 230 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_a0cb462a86df726f12183c0c68b6ad38c}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!handle\-\_\-connect@{handle\-\_\-connect}}
+\index{handle\-\_\-connect@{handle\-\_\-connect}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-connect}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-connect (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator}]{endpoint\-\_\-iterator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_a0cb462a86df726f12183c0c68b6ad38c}
+Callback for Handling Connection Events 
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error \\
+\hline
+{\em endpoint\-\_\-iterator} & is boosts' hostname address handler \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 59 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_a5dc1600e4bb2ba82c9be9fb209f4edfd}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!handle\-\_\-read\-\_\-content@{handle\-\_\-read\-\_\-content}}
+\index{handle\-\_\-read\-\_\-content@{handle\-\_\-read\-\_\-content}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-read\-\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-read\-\_\-content (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err, }
+\item[{std\-::size\-\_\-t}]{bytes}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_a5dc1600e4bb2ba82c9be9fb209f4edfd}
+
+
+Callback for Handling Actual Data Contents. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 163 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_afb9ba20beed3369b6455a20b974daa4f}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!handle\-\_\-read\-\_\-headers@{handle\-\_\-read\-\_\-headers}}
+\index{handle\-\_\-read\-\_\-headers@{handle\-\_\-read\-\_\-headers}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-read\-\_\-headers}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-read\-\_\-headers (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_afb9ba20beed3369b6455a20b974daa4f}
+
+
+Callback for Handling Headers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 143 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_a72cb0683b4406a1324913f468092674b}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!handle\-\_\-read\-\_\-status\-\_\-line@{handle\-\_\-read\-\_\-status\-\_\-line}}
+\index{handle\-\_\-read\-\_\-status\-\_\-line@{handle\-\_\-read\-\_\-status\-\_\-line}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-read\-\_\-status\-\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-read\-\_\-status\-\_\-line (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_a72cb0683b4406a1324913f468092674b}
+
+
+Callback for handling H\-T\-T\-P Header Response Data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 107 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_afc10f3f69b8869f2ba3f27a5591df038}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!handle\-\_\-resolve@{handle\-\_\-resolve}}
+\index{handle\-\_\-resolve@{handle\-\_\-resolve}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-resolve}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-resolve (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::iterator}]{endpoint\-\_\-iterator}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_afc10f3f69b8869f2ba3f27a5591df038}
+
+
+Callback for Handling Address Resolution. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error \\
+\hline
+{\em endpoint\-\_\-iterator} & is boost's hostname address handler \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 41 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_ae408c936e746f56a5ff0890e126e32fd}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!handle\-\_\-write\-\_\-request@{handle\-\_\-write\-\_\-request}}
+\index{handle\-\_\-write\-\_\-request@{handle\-\_\-write\-\_\-request}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{handle\-\_\-write\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::handle\-\_\-write\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_ae408c936e746f56a5ff0890e126e32fd}
+
+
+Callback for handling request and waiting for response. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 88 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_a562b730d1b9ebf9473b97d441459218b}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!reset@{reset}}
+\index{reset@{reset}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__service__http_a562b730d1b9ebf9473b97d441459218b}
+
+
+reset handler (clear data, bytes, etc) and stop connection 
+
+
+
+Definition at line 217 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_a796f3ed98261ae22243d08056cc9e8ca}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!schedule@{schedule}}
+\index{schedule@{schedule}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{schedule}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::schedule (
+\begin{DoxyParamCaption}
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&}]{query, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver \&}]{resolver, }
+\item[{boost\-::asio\-::io\-\_\-service \&}]{io\-\_\-service}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1cloud_1_1asio__service__http_a796f3ed98261ae22243d08056cc9e8ca}
+schedule this client as a job for execution using 
+\begin{DoxyParams}{Parameters}
+{\em query} & defines the actual U\-R\-L/\-U\-R\-I \\
+\hline
+{\em resolver} & is the U\-R\-L/\-U\-R\-I resolver reference \\
+\hline
+{\em io\-\_\-service} & is the queue on which jobs are scheduled \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classrapp_1_1cloud_1_1asio__socket_a3782c40466dc0ce70d645d65bcae6c01}{rapp\-::cloud\-::asio\-\_\-socket}.
+
+
+
+Definition at line 6 of file asio\-\_\-service\-\_\-http.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__service__http_a300bce910d976e3d7efa6be1ce183fb1}{\index{rapp\-::cloud\-::asio\-\_\-service\-\_\-http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}!socket\-\_\-@{socket\-\_\-}}
+\index{socket\-\_\-@{socket\-\_\-}!rapp::cloud::asio_service_http@{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}}
+\subsubsection[{socket\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::unique\-\_\-ptr$<$boost\-::asio\-::ip\-::tcp\-::socket$>$ rapp\-::cloud\-::asio\-\_\-service\-\_\-http\-::socket\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1asio__service__http_a300bce910d976e3d7efa6be1ce183fb1}
+
+
+T\-C\-P Socket (plain-\/text) 
+
+
+
+Definition at line 78 of file asio\-\_\-service\-\_\-http.\-hpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-service\-\_\-http/\hyperlink{asio__service__http_8hpp}{asio\-\_\-service\-\_\-http.\-hpp}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-service\-\_\-http/\hyperlink{asio__service__http_8cpp}{asio\-\_\-service\-\_\-http.\-cpp}\end{DoxyCompactItemize}

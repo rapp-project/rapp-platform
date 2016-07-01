@@ -1,151 +1,334 @@
-Currently, there does not exist a tool to automate generation of web\-\_\-services. Developers must be familiar with developing server-\/side applications using Nodejs and have a minor knowledge on developing Web-\/\-Services using the H\-O\-P Framework.
+R\-A\-P\-P Web Services are implemented on top of the \href{http://hop.inria.fr/home/index.html}{\tt hop.\-js} framework. \begin{quotation}
+Hop.\-js is a multitier extension of Java\-Script. It allows a single Java\-Script program to describe the client-\/side and the server-\/side components of a Web application.
 
-While developing R\-A\-P\-P Platform Web Services, you might want to read on \href{https://github.com/manuel-serrano/hop}{\tt H\-O\-P/hopjs}.
+\end{quotation}
+Its runtime environment ensures a consistent execution of the application on the server and on the client. Hop programs execute in the context of a builtin web server. They define services, which are super Java\-Script functions that get automatically invoked when H\-T\-T\-P requests are received.
+
+A framework has been developed, build ontop of hop.\-js, for easily implementing Web Services for the R\-A\-P\-P Platform. Zero knowledge of hop.\-js is required. Additionally, Web Services are fully parametrized through single configuration files\-:
+
+
+\begin{DoxyItemize}
+\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/services.json}{\tt services.\-json}
+\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/workers.json}{\tt workers.\-json}
+\end{DoxyItemize}
 
 If you are not familiar with server-\/side applications, you might also have to read on \href{https://nodejs.org/en/}{\tt Nodejs}.
 
-\subsection*{Hop.\-js made simple -\/ Overview}
+\subsection*{R\-A\-P\-P Web Services framework}
 
-Hop.\-js is a multitier extension of Java\-Script. It allows a single Java\-Script program to describe the client-\/side and the server-\/side components of a Web application. Its runtime environment ensures a consistent execution of the application on the server and on the client.
+For easily implementing and launching Web Services for the R\-A\-P\-P Platform, the R\-A\-P\-P Web Services framework has been developed. It consists of a \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/src/webService}{\tt Web\-Service} implementation. build ontop of hop.\-js and an engine that allows to assign specific Web Services to Worker threads (Web Workers).
 
-Hop\-Script is based on Java\-Script and aims at ensuring compatibility with this language
+\subsubsection*{Web Service implementation}
+
+Web Services are implemented in a single function implementation\-:
+
+```js function svc\-Impl(req, resp, ros)\{ // Web service implementation here. \} ```
+
+This is the onrequest callback function to feed to the engine and will be called as soon as a request arrives.
+
+\begin{quotation}
+The {\bfseries req} (request) and {\bfseries res} (response) objects are passed so you can access the request properties and craft and return responses. Additionally a {\bfseries ros} object is passed that allows connections to R\-O\-S thought the rosbridge-\/websocket transport layer.
+
+\end{quotation}
+
+
+The {\ttfamily req} object has the following properties\-:
+\begin{DoxyItemize}
+\item {\ttfamily header}\-: Request header.
+\end{DoxyItemize}
+
+```js console.\-log(req.\-header) \begin{quotation}
+\begin{quotation}
+\{ host\-: 'localhost\-:9001', content-\/length\-: 679, accept-\/encoding\-: 'gzip, deflate', accept\-: '$\ast$/$\ast$', user-\/agent\-: 'rapp-\/platform-\/api/python', accept-\/token\-: 'rapp\-\_\-token', connection\-: 'keep-\/alive', content-\/type\-: 'multipart/form-\/data; boundary=595d1046de7f4c958ca662c37140215a' \}
+
+\end{quotation}
+
+
+\end{quotation}
+```
 
 
 \begin{DoxyItemize}
-\item Hop\-Script fully supports E\-C\-M\-A\-Script 5
-\item Hop\-Script also support some E\-C\-M\-A\-Script 6 features\-:
+\item {\ttfamily socket}\-: Connection socket
+\end{DoxyItemize}
+
+```js console.\-log(req.\-socket) \begin{quotation}
+\begin{quotation}
+\{ hostname\-: 'localhost', host\-Address\-: '127.\-0.\-0.\-1', local\-Address\-: '127.\-0.\-0.\-1', port\-: 43661 \}
+
+\end{quotation}
+
+
+\end{quotation}
+```
+
+
 \begin{DoxyItemize}
-\item arrow functions.
-\item default function parameters.
-\item rest arguments.
-\item let and const bindings.
-\item symbols.
-\item template strings.
-\item promises.
-\item typed Arrays.
-\end{DoxyItemize}
-\item Hop\-Script supports most Nodejs A\-P\-Is (see Section Nodejs)
+\item {\ttfamily body}\-: Request body
 \end{DoxyItemize}
 
-Hop programs execute in the context of a builtin web server. They define services, which are super Java\-Script functions that get automatically invoked when H\-T\-T\-P requests are received. Functions and services are almost syntactically similar but the latter are defined using the service keyword\-:
+```js console.\-log(req.\-body) \begin{quotation}
+\begin{quotation}
+\{ fast\-: true \}
 
-```javascript service hello() \{ return \char`\"{}hello world\char`\"{}; \} ```
+\end{quotation}
 
-To run this program put this code in the file hello.\-js and execute\-:
 
-```shell \$ hop -\/p 8080 hello.\-js ```
+\end{quotation}
+```
 
-Hop extends Java\-Script with the geniune H\-T\-M\-L. if we want to modify our service to make it return an H\-T\-M\-L document, we can use\-:
 
-```javascript service hello() \{ return $<$html$>$hello world$<$/html$>$; \} ```
-
-Hop is multitier. That is client-\/side codes are also implemented in Hop. The $\sim$\{ mark switches from server-\/side context to client-\/side context\-:
-
-```javascript service hello() \{ return $<$html$>$$<$div onclick=$\sim$\{ alert( \char`\"{}world\char`\"{} ) \}$>$hello$<$/html$>$; \} ```
-
-Hop client-\/side code and server-\/side can also be mixed using the \$\{ mark\-:
-
-```javascript service hello( \{ who\-: \char`\"{}foo\char`\"{} \} ) \{ return $<$html$>$$<$div onclick=$\sim$\{ alert( \char`\"{}\-Hi \char`\"{} + \$\{who\} + \char`\"{}!\char`\"{}) \}$>$hello$<$/html$>$; \} ```
-
-\subsection*{Integration with the R\-O\-S Framework}
-
-In most cases a H\-O\-P Web Service must be able to \char`\"{}$\ast$$\ast$\-Talk R\-O\-S$\ast$$\ast$\char`\"{}, meaning that a stable interface between the two, H\-O\-P Web Service and R\-O\-S, must exist.
-
-For the R\-A\-P\-P Platform requirements, we use the lightweight, \href{https://github.com/klpanagi/RosBridgeJS}{\tt Ros\-Bridge\-J\-S} module. This module has been developed under the R\-A\-P\-P Project to provide to H\-O\-P Services developers, an {\bfseries easy-\/to-\/use} intermediate transport interface layer for calling R\-O\-S-\/\-Services through their hopjs applications. It integrates a websocket client that allows connections to \href{http://wiki.ros.org/rosbridge_server}{\tt rosbridge-\/websocket-\/server} and a service controller to call R\-O\-S-\/\-Service(s).
-
-Initiate rosbridgejs\-:
-
-```javascript /$\ast$$\ast$$\ast$
 \begin{DoxyItemize}
-\item Import the Ros\-Bridge\-J\-S module.
+\item {\ttfamily files}\-: In case of uploading files, this field contains the paths to the uploaded files. Access the files by name using dot notation. For example a service receives a single-\/file in fieldname {\ttfamily single\-\_\-file} and an array of files in fieldname {\ttfamily file\-\_\-array}\-:
 \end{DoxyItemize}
 
-var Rosbridge = require( '$<$path\-\_\-to\-\_\-\-Ros\-Bridge\-Js\-\_\-sources$>$/\-Ros\-Bridge\-J\-S.js' );
+```js console.\-log(req.\-files) \begin{quotation}
+\begin{quotation}
+\{ single\-\_\-file\-: \mbox{[}\char`\"{}\-P\-A\-T\-H\char`\"{}\mbox{]}, file\-\_\-array\-: \mbox{[}\char`\"{}\-P\-A\-T\-H\-\_\-\-F\-I\-L\-E\-\_\-1\char`\"{}, \char`\"{}\-P\-A\-T\-H\-\_\-\-F\-I\-L\-E\-\_\-2\char`\"{}\mbox{]} \}
+
+\end{quotation}
+
+
+\end{quotation}
+```
+
+{\bfseries Note}\-: Note that even if it is a {\bfseries single-\/file}, the {\ttfamily single\-\_\-file} property of {\ttfamily req.\-files} ({\ttfamily req.\-files.\-single\-\_\-file}) is an Array.
+
+
+\begin{DoxyItemize}
+\item {\ttfamily username}\-: This is the {\bfseries username} of the client that requested access to the R\-A\-P\-P Platform resources (Services). It is automatically applied to the {\ttfamily req} object, after appliance of the \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-Application-Authentication}{\tt R\-A\-P\-P Authentication} on request arrival. Note that before execution of the onrequest callback function, we apply authentication to the request. If the authentication is not successful, an {\bfseries H\-T\-T\-P 401 Unauthorized} error is returned to the client.
+\end{DoxyItemize}
+
+```js console.\-log(req.\-username) \begin{quotation}
+\begin{quotation}
+\char`\"{}\-R\-A\-P\-P\-\_\-\-U\-S\-E\-R\char`\"{}
+
+\end{quotation}
+
+
+\end{quotation}
+```
+
+The {\ttfamily resp} object has the following properties (methods)\-:
+
+
+\begin{DoxyItemize}
+\item send\-Json(obj)\-: Send an application/json response
+\end{DoxyItemize}
+
+```js function svc\-Impl(req, resp, ros)\{ ...
+
+var response = \{error\-: ''\}; resp.\-send\-Json(response); \} ```
+
+
+\begin{DoxyItemize}
+\item {\ttfamily send\-Server\-Error()}\-: Respond with {\bfseries H\-T\-T\-P 500 Internal Server Error}
+\end{DoxyItemize}
+
+```js function svc\-Impl(req, resp, ros)\{ ...
+
+resp.\-send\-Server\-Error(); \} ```
+
+
+\begin{DoxyItemize}
+\item {\ttfamily send\-Unauthorized()}\-: Respond with {\bfseries H\-T\-T\-P 401 Unauthorized Client Error}
+\end{DoxyItemize}
+
+```js function svc\-Impl(req, resp, ros)\{ ...
+
+resp.\-send\-Unauthorized(); \} ```
+
+\subsubsection*{Web Service configuration and registration.}
+
+Web Services are fully parametrized through the \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/services.json}{\tt services.\-json} file. This file includes Web Services to be launched (along with the Web Service parameters), that was previously declared in the \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/workers.json}{\tt workers.\-json} file.
+
+Below is the face\-\_\-detection entry\-:
+
+```js \char`\"{}face\-\_\-detection\char`\"{}\-: \{ \char`\"{}launch\char`\"{}\-: true, \char`\"{}anonymous\char`\"{}\-: false, \char`\"{}name\char`\"{}\-: \char`\"{}face\-\_\-detection\char`\"{}, \char`\"{}url\-\_\-name\char`\"{}\-: \char`\"{}face\-\_\-detection\char`\"{}, \char`\"{}namespace\char`\"{}\-: \char`\"{}\char`\"{}, \char`\"{}ros\-\_\-connection\char`\"{}\-: true, \char`\"{}timeout\char`\"{}\-: 45000 \} ```
+
+{\bfseries Web Service configuration parameters}\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily launch} (Boolean)\-: If true this Web Service will be launched.
+\item {\ttfamily anonymous} (Boolean)\-: If true, this service will be anonymous, which means that it will be assigned a random url path.
+\item {\ttfamily name} (String)\-: The service name.
+\item {\ttfamily urlname} (String)\-: The service urlname. Service name can be different from the urlname.
+\item {\ttfamily namespace} (String)\-: Namespace for the urlname to append as a prefix to the service url name. For example, a service with {\bfseries urlname=\char`\"{}faca\-\_\-detection\char`\"{}} and {\bfseries namespace=\char`\"{}computervision\char`\"{}} will be translated to $\ast$$\ast$/computervision/face\-\_\-detection$\ast$$\ast$
+\item {\ttfamily timeout} (String)\-: Request timeout value.
+\item {\ttfamily ros\-\_\-connection} (Boolean)\-: If true, a ros object that allowes for calls to the R\-O\-S Services will be passed to the onrequest callback function.
+\end{DoxyItemize}
+
+\subsubsection*{Run a Web Service within an existing Web Worker}
+
+Web services run within server-\/side workers (Web Workers). A worker can include more than one web service. We consider server-\/side workers to be forked processes, thus allowing concurrent execution.
+
+To run a Web Service within a Web Worker, just specify the service name in the {\bfseries services} field of the worker in the \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/workers.json}{\tt worker.\-json} file.
+
+For example, the {\bfseries weather\-\_\-report} worker holds the {\bfseries weather\-\_\-report\-\_\-current} and {\bfseries weather\-\_\-report\-\_\-forecast} Web Services\-:
+
+```js \char`\"{}weather\-\_\-report\char`\"{}\-: \{ \char`\"{}launch\char`\"{}\-: true, \char`\"{}path\char`\"{}\-: \char`\"{}workers/weather\-\_\-report.\-js\char`\"{}, \char`\"{}services\char`\"{}\-: \mbox{[} \char`\"{}weather\-\_\-report\-\_\-forecast\char`\"{}, \char`\"{}weather\-\_\-report\-\_\-current\char`\"{} \mbox{]} \} ```
+
+{\bfseries Web Worker configuration parameters}\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily launch} (Boolean)\-: Weather to launch the Web Worker or not.
+\item {\ttfamily path} (String)\-: Path to the Web Worker source file. Relative to the {\bfseries rapp\-\_\-web\-\_\-services} directory
+\item {\ttfamily services}\-: (Array)\-: Services to launch under the Web Worker thread.
+\end{DoxyItemize}
+
+\subsubsection*{Where to store Web Service implementation source file(s) and how to launch it.}
+
+Source files are stored under the \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services}{\tt services} directory, of the \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services}{\tt rapp\-\_\-web\-\_\-services} package.
+
+Web Services are automatically loaded from single .js files, as node.\-js modules. Make sure you export the Web Service implementation function\-:
+
+```js function svc\-Impl(req, resp, ros)\{ // Web service implementation here. \}
+
+...
+
+module.\-exports = svc\-Impl;
+
+```
+
+\subsubsection*{Complete Web Service Implementation Example -\/ Face Detection}
+
+The following example illustrates the implementation of a Web\-Service that connects to the Face-\/\-Detection R\-A\-P\-P-\/\-Platform backend Service
+
+{\bfseries R\-O\-S Service Message}\-: ```bash \section*{Contains info about time and reference}
+
+Header header \section*{The image's filename to perform face detection}
+
+string image\-Filepath \section*{Flag to define if a fast detection if desired}
+
+\subsection*{bool fast }
+
+\section*{Container for detected face positions}
+
+geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} faces\-\_\-up\-\_\-left geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} faces\-\_\-down\-\_\-right string error ```
+
+and the Face-\/\-Detection R\-O\-S Service url path is\-: {\ttfamily /rapp/rapp\-\_\-face\-\_\-detection/detect\-\_\-faces}
+
+{\bfseries Web Service Request}\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily file}\-: Image file.
+\item {\ttfamily fast} (Bool)\-: If true, detection will take less time but it will be less accurate.
+\end{DoxyItemize}
+
+{\bfseries Web Service Response}\-:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily faces} (Array)\-: Detected faces.
+\item {\ttfamily error} (String)\-: Error message.
+\end{DoxyItemize}
+
+First, create the face\-\_\-detection {\ttfamily svc.\-js} file\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-web\-\_\-services/services \$ mkdir face\-\_\-detection \&\& cd face\-\_\-detection \$ touch svc.\-js ```
+
+Open the svc.\-js file with your favorite editor\-:
+
+```bash \$ vim svc.\-js ```
+
+Implement the structure of the {\ttfamily client-\/response} and {\ttfamily ros-\/msg} objects\-:
+
+```js var client\-Res = function(faces, error) \{ return \{ faces\-: \mbox{[}\mbox{]}, error\-: '' \} \}
+
+var ros\-Req\-Msg = function(image\-Filepath, fast) \{ return \{ image\-Filepath\-: '', fast\-: false \} \} ```
+
+Assign R\-O\-S Service url path to a global variable\-:
+
+```js var ros\-Srv\-Url\-Path = \char`\"{}/rapp/rapp\-\_\-face\-\_\-detection/detect\-\_\-faces\char`\"{}; ```
+
+Next, implement the service onrequest callback function\-:
+
+```js function svc\-Impl(req, resp, ros) \{ // If no image file received, return to client with an error if( ! req.\-files.\-file )\{ // Create a client response object response = new client\-\_\-res(); response.\-error = \char`\"{}\-No image file received\char`\"{}; // Send response (application/json) resp.\-send\-Json(response); return; \}
+
+// Create a R\-O\-S Service Request Message and fill values from client request var ros\-Msg = new ros\-Req\-Msg(); ros\-Msg.\-image\-Filename = req.\-files.\-file\mbox{[}0\mbox{]}; ros\-Msg.\-fast = req.\-body.\-fast;
 
 /$\ast$$\ast$$\ast$
 \begin{DoxyItemize}
-\item Initiate connection to rosbridge\-\_\-websocket\-\_\-server.
-\item 
-\item By default, it tries to connect to ws\-://localhost\-:9090.
-\item This is the default U\-R\-L the rosbridge-\/websocket-\/server listens to.
+\item R\-O\-S-\/\-Service response callback. $\ast$/ function callback(data)\{ // Delete image file from the Platform cache directory. fs.\-exists(\-\_\-filepath, function(exists)\{ if(exists)\{ fs.\-unlink(\-\_\-filepath) \} \}) // Parse rosbridge message and craft client response var response = parse\-Rosbridge\-Msg( data ); resp.\-send\-Json(response); \}
 \end{DoxyItemize}
 
-var ros = new R\-O\-S(\{hostname\-: '', port\-: '', reconnect\-: true, onconnection\-: function()\{ // . \} \});
-
-```
-
-Fill request parameters for the R\-O\-S-\/\-Service\-:
-
-```javascript /$\ast$$\ast$$\ast$
+/$\ast$$\ast$$\ast$
 \begin{DoxyItemize}
-\item Fill Ros Service request msg parameters here.
-\item var args = \{param1\-: '', param2\-: ''\};
-\item var args = \{ image\-Filename\-: 'face\-\_\-image\-\_\-frame.\-png' \}; ```
+\item R\-O\-S-\/\-Service onerror callback. $\ast$/ function onerror(e)\{ // Delete image file from the Platform cache directory. fs.\-exists(\-\_\-filepath, function(exists)\{ if(exists)\{ fs.\-unlink(\-\_\-filepath) \} \}) // Respond a \char`\"{}\-Server Error\char`\"{}. H\-T\-T\-P Error 501 -\/ Internal Server Error resp.\-send\-Server\-Error(); \}
 \end{DoxyItemize}
 
-Declare/\-Implement the callback functions\-:
-
-```javascript \begin{DoxyVerb}  /***
-   * Declare the ROS-Service response callback here!!
-   * This callback function will be passed into the rosbridge service
-   * controller and will be called when a response from rosbridge
-   * websocket server arrives.
-
-  function callback(data){
-     console.log(data);
-  }
-
-  /***
-   * Declare the onerror callback.
-   * The onerror callack function will be called by the service
-   * controller as soon as an error occures, on service request.
-   *
-
-  function onerror(e){
-    console.log(e);
-  }
-\end{DoxyVerb}
-
-
-```
-
-Call the R\-O\-S-\/\-Service (/rapp/rapp\-\_\-face\-\_\-detection/detect\-\_\-faces)\-:
-
-```javascript \begin{DoxyVerb} var rosSrvName = '/rapp/rapp_face_detection/detect_faces';
-
-  /***
-   * Call ROS-Service.
-   * Input arguments:
-   *   - rosSrvName: The name of the ROS-Service to call</li>
-   *   - args: ROS-Service request message arguments</li>
-   *   - objLiteral: An object literal to declare the onsuccess and
-   *        onerror callbacks.
-   *      { success: <onsuccess_callback>,fail: <onerror_callback> }
-   *
-
-  ros.callService(rosSrvName, args,
-    {success: callback, fail: onerror});
-\end{DoxyVerb}
- ```
-
-\subsection*{Use the provided by us, H\-O\-P Service Creation Templates\-:}
-
-To make development of H\-O\-P Web Services more attractive and understandable, we provide two template source files\-:
-
-
+/$\ast$$\ast$$\ast$
 \begin{DoxyItemize}
-\item \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates/web_service.template.js}{\tt web\-\_\-service.\-template.\-js}
-\item \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/services/templates/web_service_post_file.template.js}{\tt web\-\_\-services\-\_\-post\-\_\-file.\-template.\-js}
+\item Call R\-O\-S-\/\-Service. $\ast$/ ros.\-call\-Service(ros\-Srv\-Url\-Path, ros\-Msg, \{success\-: callback, fail\-: onerror\}); \}
 \end{DoxyItemize}
 
-Using these templates as a reference while developing H\-O\-P Web Services for a R\-O\-S-\/\-Service, might save you alot of hours studying! In most cases, you might have to change just a few lines of code!
+function parse\-Rosbridge\-Msg( rosbridge\-\_\-msg ) \{ var faces\-\_\-up\-\_\-left = rosbridge\-\_\-msg.\-faces\-\_\-up\-\_\-left; var faces\-\_\-down\-\_\-right = rosbridge\-\_\-msg.\-faces\-\_\-down\-\_\-right; var error = rosbridge\-\_\-msg.\-error; var num\-Faces = faces\-\_\-up\-\_\-left.\-length;
 
-For more information read \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services/templates}{\tt here}.
+// Create a new response object var response = new client\-\_\-res();
 
-\subsection*{Where to store H\-O\-P Service source files and how to register the service under the H\-O\-P Server.}
+if( error )\{ // If R\-O\-S Service responded with an error response.\-error = error; return response; \}
 
-H\-O\-P Service source files are stored under the {\bfseries services/} directory, of the rapp\-\_\-web\-\_\-services package.
+for (var ii = 0; ii $<$ num\-Faces; ii++) \{ var face = \{ up\-\_\-left\-\_\-point\-: \{x\-: 0, y\-:0\}, down\-\_\-right\-\_\-point\-: \{x\-: 0, y\-: 0\} \};
 
-Any $\ast$$\ast$.js$\ast$$\ast$ file, stored under this directory with a $\ast$$\ast$.service.\-js$\ast$$\ast$ extension, is considered to be a H\-O\-P Web Service source file.
+face.\-up\-\_\-left\-\_\-point.\-x = faces\-\_\-up\-\_\-left\mbox{[}ii\mbox{]}.point.\-x; face.\-up\-\_\-left\-\_\-point.\-y = faces\-\_\-up\-\_\-left\mbox{[}ii\mbox{]}.point.\-y; face.\-down\-\_\-right\-\_\-point.\-x = faces\-\_\-down\-\_\-right\mbox{[}ii\mbox{]}.point.\-x; face.\-down\-\_\-right\-\_\-point.\-y = faces\-\_\-down\-\_\-right\mbox{[}ii\mbox{]}.point.\-y; response.\-faces.\-push( face ); \}
 
-H\-O\-P Server is responsible for registering those services, on run-\/time, as workers, so you will never have to write code to register your H\-O\-P Web Service. Just store the source file under the aforementioned directory with a $\ast$$\ast$.service.\-js$\ast$$\ast$ extension. 
+return response; \} ```
+
+Export the service onrequest callback function ({\ttfamily svc\-Impl})\-:
+
+```js module.\-exports = svc\-Impl ```
+
+Next you will need to create the Web Worker to launch the Web Service\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-web\-\_\-services/workers \$ touch face\-\_\-detection.\-js ```
+
+Open the {\bfseries face\-\_\-detection.\-js} file with your favorite editor\-:
+
+```bash \$ vim face\-\_\-detection.\-js ```
+
+Import the worker\-Utils module\-:
+
+```js var path = require('path');
+
+var E\-N\-V = require( path.\-join(\-\_\-\-\_\-dirname, '../..', 'env.\-js') );
+
+// Include it even if not used!!! Sets properties to the thread's global scope. var worker\-Utils = require(path.\-join(E\-N\-V.\-P\-A\-T\-H\-S.\-I\-N\-C\-L\-U\-D\-E\-\_\-\-D\-I\-R, 'common', 'worker\-\_\-utils.\-js')); ```
+
+Next, you will have to set the worker name and call to launch all services registred to this Web Worker\-:
+
+```js // Set worker thread name under the global scope. (W\-O\-R\-K\-E\-R.\-name) worker\-Utils.\-set\-Worker\-Name('face\-\_\-detection');
+
+// Launch all services assigned to this worker thread. // Search in workers.\-json config file for assigned web services. worker\-Utils.\-launch\-Svc\-All(); ```
+
+We need to tell the {\itshape run-\/engine} to launch the, newly implemented, Web Worker.
+
+The {\ttfamily workers.\-json} file containes Web Workers entries. It is located under\-:
+
+```bash $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-web\-\_\-services/config/services ```
+
+Append the following entry in the workers.\-json file\-:
+
+```js \char`\"{}face\-\_\-detection\char`\"{}\-: \{ \char`\"{}launch\char`\"{}\-: true, \char`\"{}path\char`\"{}\-: \char`\"{}workers/face\-\_\-detection.\-js\char`\"{}, \char`\"{}services\char`\"{}\-: \mbox{[} \char`\"{}face\-\_\-detection\char`\"{} \mbox{]} \} ```
+
+Finally append the following {\itshape web-\/service} entry in the services.\-json file (under the same directory)\-:
+
+```js \char`\"{}face\-\_\-detection\char`\"{}\-: \{ \char`\"{}launch\char`\"{}\-: true, \char`\"{}anonymous\char`\"{}\-: false, \char`\"{}name\char`\"{}\-: \char`\"{}face\-\_\-detection\char`\"{}, \char`\"{}url\-\_\-name\char`\"{}\-: \char`\"{}face\-\_\-detection\char`\"{}, \char`\"{}namespace\char`\"{}\-: \char`\"{}\char`\"{}, \char`\"{}authentication\char`\"{}\-: true, \char`\"{}ros\-\_\-connection\char`\"{}\-: true, \char`\"{}timeout\char`\"{}\-: 45000 \} ```
+
+Now the R\-A\-P\-P Platform is ready to receive requests for the newly created face\-\_\-detection service.
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-web\-\_\-services \$ pm2 start server.\-yaml ```
+
+You will notice the following output from the logs\-:
+
+```bash info\-: \mbox{[}Service Handler\mbox{]} Registered worker service \{\href{http://rapp-platform-local:9001/hop/face_detection}{\tt http\-://rapp-\/platform-\/local\-:9001/hop/face\-\_\-detection}\} under worker thread \{face\-\_\-detection\} info\-: \mbox{[}Service Handler\mbox{]} \{ worker\-: 'face\-\_\-detection', path\-: '/hop/face\-\_\-detection', url\-: '\href{http://rapp-platform-local:9001/hop/face_detection',}{\tt http\-://rapp-\/platform-\/local\-:9001/hop/face\-\_\-detection',} frame\-: \mbox{[}Function\mbox{]} \} ```
+
+\subsection*{Further study}
+
+You can check on already implemented Web Services \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services}{\tt here}.
+
+The R\-A\-P\-P Web\-Service code A\-P\-I is documented \mbox{[}here\mbox{]}().
+
+Documentation of the R\-A\-P\-P Web Services package can be found \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services}{\tt here}. 

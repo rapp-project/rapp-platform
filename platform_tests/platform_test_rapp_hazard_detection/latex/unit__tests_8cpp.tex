@@ -1,0 +1,154 @@
+\hypertarget{unit__tests_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-hazard\-\_\-detection/tests/hazard\-\_\-detection/unit\-\_\-tests.cpp File Reference}
+\label{unit__tests_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-hazard\-\_\-detection/tests/hazard\-\_\-detection/unit\-\_\-tests.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-hazard\-\_\-detection/tests/hazard\-\_\-detection/unit\-\_\-tests.\-cpp}}
+}
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$hazard\-\_\-detection/light\-\_\-check.\-hpp$>$}\\*
+{\ttfamily \#include $<$hazard\-\_\-detection/door\-\_\-check.\-hpp$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+Include dependency graph for unit\-\_\-tests.\-cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{unit__tests_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classDoorCheckTest}{Door\-Check\-Test}
+\begin{DoxyCompactList}\small\item\em Handles the door angle detection unit testing using gtests. \end{DoxyCompactList}\item 
+class \hyperlink{classLightCheckTest}{Light\-Check\-Test}
+\begin{DoxyCompactList}\small\item\em Handles the light cheking unit testing using gtests. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em The main function. Initialized the unit tests. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a25497651dab20e8ce0c7f5b6d9c36534}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classLightCheckTest}{Light\-Check\-Test}, test\-\_\-on)
+\begin{DoxyCompactList}\small\item\em Tests light detection with the lamp turned on. Should be successful. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a99b4a483ee6f83a28e90dfb96761122f}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classLightCheckTest}{Light\-Check\-Test}, test\-\_\-off)
+\begin{DoxyCompactList}\small\item\em Tests light detection with the lamp turned off. Should be successful. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a765c0269469869caada3b4bf40d5398c}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classLightCheckTest}{Light\-Check\-Test}, test\-\_\-size)
+\begin{DoxyCompactList}\small\item\em Tests light detection on the same image with different scales. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_ac37517df2c7876ecc3e2e9dec76c5490}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classLightCheckTest}{Light\-Check\-Test}, file\-\_\-not\-\_\-exists\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests light detection with a missing file. Should return 0. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a92f4df6beb0723cdd1511ec98d578279}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classDoorCheckTest}{Door\-Check\-Test}, file\-\_\-not\-\_\-exists\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests door angle detection with a missing file. Should return 0. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a3d24d8e3eb46dbdeb2a8fa0715ce3de8}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classDoorCheckTest}{Door\-Check\-Test}, door\-\_\-open\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests door angle detection with a example file. Should return positive value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!main@{main}}
+\index{main@{main}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+The main function. Initialized the unit tests. 
+
+
+
+Definition at line 167 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a25497651dab20e8ce0c7f5b6d9c36534}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Light\-Check\-Test}}]{, }
+\item[{test\-\_\-on}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a25497651dab20e8ce0c7f5b6d9c36534}
+
+
+Tests light detection with the lamp turned on. Should be successful. 
+
+
+
+Definition at line 61 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a99b4a483ee6f83a28e90dfb96761122f}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Light\-Check\-Test}}]{, }
+\item[{test\-\_\-off}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a99b4a483ee6f83a28e90dfb96761122f}
+
+
+Tests light detection with the lamp turned off. Should be successful. 
+
+
+
+Definition at line 72 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a765c0269469869caada3b4bf40d5398c}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Light\-Check\-Test}}]{, }
+\item[{test\-\_\-size}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a765c0269469869caada3b4bf40d5398c}
+
+
+Tests light detection on the same image with different scales. 
+
+
+
+Definition at line 84 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_ac37517df2c7876ecc3e2e9dec76c5490}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Light\-Check\-Test}}]{, }
+\item[{file\-\_\-not\-\_\-exists\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_ac37517df2c7876ecc3e2e9dec76c5490}
+
+
+Tests light detection with a missing file. Should return 0. 
+
+
+
+Definition at line 97 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a92f4df6beb0723cdd1511ec98d578279}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Door\-Check\-Test}}]{, }
+\item[{file\-\_\-not\-\_\-exists\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a92f4df6beb0723cdd1511ec98d578279}
+
+
+Tests door angle detection with a missing file. Should return 0. 
+
+
+
+Definition at line 145 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a3d24d8e3eb46dbdeb2a8fa0715ce3de8}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Door\-Check\-Test}}]{, }
+\item[{door\-\_\-open\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a3d24d8e3eb46dbdeb2a8fa0715ce3de8}
+
+
+Tests door angle detection with a example file. Should return positive value. 
+
+
+
+Definition at line 156 of file unit\-\_\-tests.\-cpp.
+

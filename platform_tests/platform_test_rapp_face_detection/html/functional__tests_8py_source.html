@@ -156,7 +156,7 @@ $(document).ready(function(){initNavTree('functional__tests_8py_source.html','')
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        faces_num = len(response.faces_up_left)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        self.assertEqual( faces_num, 1 )</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">## Tests face detection with a NAO captured image. Should return 1 face</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">## Tests face detection with realistic images. Should return 1 face</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#a172b3f268ec490f02df4af12f14fc245">   50</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#a172b3f268ec490f02df4af12f14fc245">test_faceExists_realistic</a>(self):</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        rospack = rospkg.RosPack()</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
@@ -164,110 +164,138 @@ $(document).ready(function(){initNavTree('functional__tests_8py_source.html','')
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="stringliteral">&#39;/test_data/face_samples/etsardou_medium.jpg&#39;</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="stringliteral">&#39;/test_data/face_samples/klpanagi_close_straight.jpg&#39;</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        response = fd_service(req)</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        faces_num = len(response.faces_up_left)</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        self.assertEqual( faces_num, 1 )</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">## Tests face detection with a NAO captured image from almost 2 meters. Should return 1 face</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">   63</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">test_faceExists_realistic_2</a>(self):</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">## Tests face detection with realistic images. Should return 1 face</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#a835cad2adf50c3d7dcc3f88a0b3e460e">   63</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#a835cad2adf50c3d7dcc3f88a0b3e460e">test_faceExists_realistic_fast</a>(self):</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        rospack = rospkg.RosPack()</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        rospy.wait_for_service(face_service)</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="stringliteral">&#39;/test_data/face_samples/klpanagi_medium_straight.jpg&#39;</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        response = fd_service(req)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        faces_num = len(response.faces_up_left)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        self.assertEqual( faces_num, 1 )</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">## Stress test for face detection. 20 calls in a row</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#a07f7b9fb313461bbe4dd8625c44797b3">   76</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#a07f7b9fb313461bbe4dd8625c44797b3">test_faceExists_stress</a>(self):</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        rospack = rospkg.RosPack()</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        rospy.wait_for_service(face_service)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="stringliteral">&#39;/test_data/Lenna.png&#39;</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, 20):</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            response = fd_service(req)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            faces_num = len(response.faces_up_left)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            self.assertEqual( faces_num, 1 )</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="stringliteral">&#39;/test_data/face_samples/klpanagi_close_straight.jpg&#39;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        req.fast = <span class="keyword">True</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        response = fd_service(req)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        faces_num = len(response.faces_up_left)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        self.assertEqual( faces_num, 1 )</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">## Tests face detection with a NAO captured image. Should return 1 face</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">   77</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">test_faceExists_realistic_2</a>(self):</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        rospack = rospkg.RosPack()</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        rospy.wait_for_service(face_service)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <span class="stringliteral">&#39;/test_data/face_samples/etsardou_medium.jpg&#39;</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        response = fd_service(req)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        faces_num = len(response.faces_up_left)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        self.assertEqual( faces_num, 1 )</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">## Tests face detection with an image that does not contain faces. Should return 0 faces</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#ad00297274fd209b5417544feca4e2202">   90</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#ad00297274fd209b5417544feca4e2202">test_faceDoesNotExist</a>(self):</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">## Tests face detection with a NAO captured image from almost 2 meters. Should return 1 face</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">   90</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">test_faceExists_realistic_2</a>(self):</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        rospack = rospkg.RosPack()</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        rospy.wait_for_service(face_service)</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="stringliteral">&#39;/test_data/qr_code_rapp.jpg&#39;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="stringliteral">&#39;/test_data/face_samples/klpanagi_medium_straight.jpg&#39;</span></div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        response = fd_service(req)</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        faces_num = len(response.faces_up_left)</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        self.assertEqual( faces_num, 0 )</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        self.assertEqual( faces_num, 1 )</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">## Tests face detection with a non existent image. Should return 0 faces</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#aa2d6f937de6906d2fc09fc1ecdc0dba7">  103</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#aa2d6f937de6906d2fc09fc1ecdc0dba7">test_fileDoesNotExist</a>(self):</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">## Stress test for face detection. 20 calls in a row</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#a07f7b9fb313461bbe4dd8625c44797b3">  103</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#a07f7b9fb313461bbe4dd8625c44797b3">test_faceExists_stress</a>(self):</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        rospack = rospkg.RosPack()</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        rospy.wait_for_service(face_service)</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                <span class="stringliteral">&#39;/test_data/qr_code_rapp.png&#39;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        response = fd_service(req)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        faces_num = len(response.faces_up_left)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        self.assertEqual( faces_num, 0 )</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">## Tests face detection with an audio file. Should not crush an return 0 faces</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#a3a2cb0be8ac38266ce81356ac3212e00">  116</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#a3a2cb0be8ac38266ce81356ac3212e00">test_fileExistsButItAudio</a>(self):</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        rospack = rospkg.RosPack()</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        rospy.wait_for_service(face_service)</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="stringliteral">&#39;/test_data/silence_sample.wav&#39;</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        response = fd_service(req)</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        faces_num = len(response.faces_up_left)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        self.assertEqual( faces_num, 0 )</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">## The main function. Initializes the functional tests</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keyword">import</span> rosunit</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    rosunit.unitrun(PKG, <span class="stringliteral">&#39;FaceDetFunc&#39;</span>, FaceDetFunc)</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                <span class="stringliteral">&#39;/test_data/Lenna.png&#39;</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, 20):</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            response = fd_service(req)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            faces_num = len(response.faces_up_left)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            self.assertEqual( faces_num, 1 )</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">## Tests face detection with an image that does not contain faces. Should return 0 faces</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#ad00297274fd209b5417544feca4e2202">  117</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#ad00297274fd209b5417544feca4e2202">test_faceDoesNotExist</a>(self):</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        rospack = rospkg.RosPack()</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        rospy.wait_for_service(face_service)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                <span class="stringliteral">&#39;/test_data/qr_code_rapp.jpg&#39;</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        response = fd_service(req)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        faces_num = len(response.faces_up_left)</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        self.assertEqual( faces_num, 0 )</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">## Tests face detection with a non existent image. Should return 0 faces</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#aa2d6f937de6906d2fc09fc1ecdc0dba7">  130</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#aa2d6f937de6906d2fc09fc1ecdc0dba7">test_fileDoesNotExist</a>(self):</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        rospack = rospkg.RosPack()</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        rospy.wait_for_service(face_service)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <span class="stringliteral">&#39;/test_data/qr_code_rapp.png&#39;</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        response = fd_service(req)</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        faces_num = len(response.faces_up_left)</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        self.assertEqual( faces_num, 0 )</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_a07f7b9fb313461bbe4dd8625c44797b3"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#a07f7b9fb313461bbe4dd8625c44797b3">functional_tests.FaceDetFunc.test_faceExists_stress</a></div><div class="ttdeci">def test_faceExists_stress</div><div class="ttdoc">Stress test for face detection. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00076">functional_tests.py:76</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_a3a2cb0be8ac38266ce81356ac3212e00"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#a3a2cb0be8ac38266ce81356ac3212e00">functional_tests.FaceDetFunc.test_fileExistsButItAudio</a></div><div class="ttdeci">def test_fileExistsButItAudio</div><div class="ttdoc">Tests face detection with an audio file. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00116">functional_tests.py:116</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_ad00297274fd209b5417544feca4e2202"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#ad00297274fd209b5417544feca4e2202">functional_tests.FaceDetFunc.test_faceDoesNotExist</a></div><div class="ttdeci">def test_faceDoesNotExist</div><div class="ttdoc">Tests face detection with an image that does not contain faces. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00090">functional_tests.py:90</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_aa2d6f937de6906d2fc09fc1ecdc0dba7"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#aa2d6f937de6906d2fc09fc1ecdc0dba7">functional_tests.FaceDetFunc.test_fileDoesNotExist</a></div><div class="ttdeci">def test_fileDoesNotExist</div><div class="ttdoc">Tests face detection with a non existent image. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00103">functional_tests.py:103</a></div></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">## Tests face detection with an audio file. Should not crush an return 0 faces</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1FaceDetFunc.html#a3a2cb0be8ac38266ce81356ac3212e00">  143</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1FaceDetFunc.html#a3a2cb0be8ac38266ce81356ac3212e00">test_fileExistsButItAudio</a>(self):</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        rospack = rospkg.RosPack()</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        face_service = rospy.get_param(<span class="stringliteral">&quot;rapp_face_detection_detect_faces_topic&quot;</span>)</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        rospy.wait_for_service(face_service)</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        fd_service = rospy.ServiceProxy(face_service, FaceDetectionRosSrv)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        req = FaceDetectionRosSrvRequest()</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        req.imageFilename = rospack.get_path(<span class="stringliteral">&#39;rapp_testing_tools&#39;</span>) + \</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                <span class="stringliteral">&#39;/test_data/silence_sample.wav&#39;</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        response = fd_service(req)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        faces_num = len(response.faces_up_left)</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        self.assertEqual( faces_num, 0 )</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment">## The main function. Initializes the functional tests</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keyword">import</span> rosunit</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    rosunit.unitrun(PKG, <span class="stringliteral">&#39;FaceDetFunc&#39;</span>, FaceDetFunc)</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_a07f7b9fb313461bbe4dd8625c44797b3"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#a07f7b9fb313461bbe4dd8625c44797b3">functional_tests.FaceDetFunc.test_faceExists_stress</a></div><div class="ttdeci">def test_faceExists_stress</div><div class="ttdoc">Stress test for face detection. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00103">functional_tests.py:103</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_a3a2cb0be8ac38266ce81356ac3212e00"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#a3a2cb0be8ac38266ce81356ac3212e00">functional_tests.FaceDetFunc.test_fileExistsButItAudio</a></div><div class="ttdeci">def test_fileExistsButItAudio</div><div class="ttdoc">Tests face detection with an audio file. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00143">functional_tests.py:143</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_ad00297274fd209b5417544feca4e2202"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#ad00297274fd209b5417544feca4e2202">functional_tests.FaceDetFunc.test_faceDoesNotExist</a></div><div class="ttdeci">def test_faceDoesNotExist</div><div class="ttdoc">Tests face detection with an image that does not contain faces. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00117">functional_tests.py:117</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_aa2d6f937de6906d2fc09fc1ecdc0dba7"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#aa2d6f937de6906d2fc09fc1ecdc0dba7">functional_tests.FaceDetFunc.test_fileDoesNotExist</a></div><div class="ttdeci">def test_fileDoesNotExist</div><div class="ttdoc">Tests face detection with a non existent image. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00130">functional_tests.py:130</a></div></div>
 <div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_acf87b7486a14e8cb90711b205ed59fdc"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#acf87b7486a14e8cb90711b205ed59fdc">functional_tests.FaceDetFunc.test_faceExists</a></div><div class="ttdeci">def test_faceExists</div><div class="ttdoc">Tests face detection with Lenna image. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00037">functional_tests.py:37</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_a172b3f268ec490f02df4af12f14fc245"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#a172b3f268ec490f02df4af12f14fc245">functional_tests.FaceDetFunc.test_faceExists_realistic</a></div><div class="ttdeci">def test_faceExists_realistic</div><div class="ttdoc">Tests face detection with a NAO captured image. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00050">functional_tests.py:50</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_a172b3f268ec490f02df4af12f14fc245"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#a172b3f268ec490f02df4af12f14fc245">functional_tests.FaceDetFunc.test_faceExists_realistic</a></div><div class="ttdeci">def test_faceExists_realistic</div><div class="ttdoc">Tests face detection with realistic images. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00050">functional_tests.py:50</a></div></div>
 <div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html">functional_tests.FaceDetFunc</a></div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00032">functional_tests.py:32</a></div></div>
-<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_ac4f8c1308171f3b2e2ee364a125d688f"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">functional_tests.FaceDetFunc.test_faceExists_realistic_2</a></div><div class="ttdeci">def test_faceExists_realistic_2</div><div class="ttdoc">Tests face detection with a NAO captured image from almost 2 meters. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00063">functional_tests.py:63</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_a835cad2adf50c3d7dcc3f88a0b3e460e"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#a835cad2adf50c3d7dcc3f88a0b3e460e">functional_tests.FaceDetFunc.test_faceExists_realistic_fast</a></div><div class="ttdeci">def test_faceExists_realistic_fast</div><div class="ttdoc">Tests face detection with realistic images. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00063">functional_tests.py:63</a></div></div>
+<div class="ttc" id="classfunctional__tests_1_1FaceDetFunc_html_ac4f8c1308171f3b2e2ee364a125d688f"><div class="ttname"><a href="classfunctional__tests_1_1FaceDetFunc.html#ac4f8c1308171f3b2e2ee364a125d688f">functional_tests.FaceDetFunc.test_faceExists_realistic_2</a></div><div class="ttdeci">def test_faceExists_realistic_2</div><div class="ttdoc">Tests face detection with a NAO captured image. </div><div class="ttdef"><b>Definition:</b> <a href="functional__tests_8py_source.html#l00077">functional_tests.py:77</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_2d58d1813b7f5f8e463ef374e5158992.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_e4d27d3c4266e300f77eb674af76d482.html">tests</a></li><li class="navelem"><a class="el" href="dir_8b235cc8ebf4314a9adad5da147265b1.html">face_detection</a></li><li class="navelem"><a class="el" href="functional__tests_8py.html">functional_tests.py</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:52 for RAPP Platform Tests - Face Detection by
+    <li class="navelem"><a class="el" href="dir_8063c66539b437b8063feef97c7863fa.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_2d58d1813b7f5f8e463ef374e5158992.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_e4d27d3c4266e300f77eb674af76d482.html">tests</a></li><li class="navelem"><a class="el" href="dir_8b235cc8ebf4314a9adad5da147265b1.html">face_detection</a></li><li class="navelem"><a class="el" href="functional__tests_8py.html">functional_tests.py</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:24 for RAPP Platform Tests - Face Detection by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

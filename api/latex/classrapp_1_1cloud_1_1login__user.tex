@@ -1,0 +1,110 @@
+\hypertarget{classrapp_1_1cloud_1_1login__user}{\section{rapp\-:\-:cloud\-:\-:login\-\_\-user Class Reference}
+\label{classrapp_1_1cloud_1_1login__user}\index{rapp\-::cloud\-::login\-\_\-user@{rapp\-::cloud\-::login\-\_\-user}}
+}
+
+
+{\ttfamily \#include $<$user.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:login\-\_\-user\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1login__user__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:login\-\_\-user\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1login__user__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1login__user_ace2a78da76bd98970cfd3c01a3053c71}{available\-\_\-services} (const std\-::string token, std\-::function$<$ void(std\-::vector$<$ std\-::string $>$)$>$ callback)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1login__user_a749edf3a4dc2168947ea8b78c952fe75}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ std\-::string $>$ services)$>$ \hyperlink{classrapp_1_1cloud_1_1login__user_ab36ba8bfaf26a1960ab874ce38cc94b0}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file user.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1login__user_ace2a78da76bd98970cfd3c01a3053c71}{\index{rapp\-::cloud\-::login\-\_\-user@{rapp\-::cloud\-::login\-\_\-user}!available\-\_\-services@{available\-\_\-services}}
+\index{available\-\_\-services@{available\-\_\-services}!rapp::cloud::login_user@{rapp\-::cloud\-::login\-\_\-user}}
+\subsubsection[{available\-\_\-services}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::login\-\_\-user\-::available\-\_\-services (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::vector$<$ std\-::string $>$)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1login__user_ace2a78da76bd98970cfd3c01a3053c71}
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & will receive a vector of services strings \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 19 of file user.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1login__user_a749edf3a4dc2168947ea8b78c952fe75}{\index{rapp\-::cloud\-::login\-\_\-user@{rapp\-::cloud\-::login\-\_\-user}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::login_user@{rapp\-::cloud\-::login\-\_\-user}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::login\-\_\-user\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1login__user_a749edf3a4dc2168947ea8b78c952fe75}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 32 of file user.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1login__user_ab36ba8bfaf26a1960ab874ce38cc94b0}{\index{rapp\-::cloud\-::login\-\_\-user@{rapp\-::cloud\-::login\-\_\-user}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::login_user@{rapp\-::cloud\-::login\-\_\-user}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<$std\-::string$>$ services)$>$ rapp\-::cloud\-::login\-\_\-user\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1login__user_ab36ba8bfaf26a1960ab874ce38cc94b0}
+
+
+Definition at line 57 of file user.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/user/\hyperlink{user_8hpp}{user.\-hpp}\end{DoxyCompactItemize}

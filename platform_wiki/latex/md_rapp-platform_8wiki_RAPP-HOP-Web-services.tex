@@ -1,0 +1,1056 @@
+\subsection*{Synopsis}
+
+{\bfseries R\-A\-P\-P Platform Web Services} are developed under the \href{https://github.com/manuel-serrano/hop}{\tt H\-O\-P Web Server}. These services are used in order to communicate with the R\-A\-P\-P Platform ecosystem and access R\-I\-C(\-R\-A\-P\-P Improvement Center) A\-I modules.
+
+\begin{TabularC}{2}
+\hline
+\rowcolor{lightgray}\PBS\centering {\bf Platform Services }&\PBS\centering {\bf Description  }\\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Computer Vision} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#face-detection}{\tt Face-\/\-Detection} &\PBS\centering Detect faces on an image frame \\\cline{1-2}
+\PBS\centering \href{#qr-detection}{\tt Qr-\/\-Detection} &\PBS\centering Detect and recognize Qr-\/\-Codes on an image frame \\\cline{1-2}
+\PBS\centering \href{#hazard-detection-door-check}{\tt Hazard-\/\-Detection-\/\-Door-\/\-Check} &\PBS\centering Detect open-\/doors (hazard) on an image frame \\\cline{1-2}
+\PBS\centering \href{#hazard-detection-light-check}{\tt Hazard-\/\-Detection-\/\-Light-\/\-Check} &\PBS\centering Detect lights-\/on (hazard) on an image frame \\\cline{1-2}
+\PBS\centering \href{#human-detection}{\tt Human-\/\-Detection} &\PBS\centering Detect human existance on on an image frame \\\cline{1-2}
+\PBS\centering \href{#object-recognition-caffe}{\tt Object-\/\-Recognition-\/\-Caffe} &\PBS\centering Recognize objects on an image frame using caffe framework \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Speech Recognition} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#set-noise-profile}{\tt Set-\/\-Noise-\/\-Profile} &\PBS\centering Set user's noise profile. Used to apply denoising on speech-\/recognition \\\cline{1-2}
+\PBS\centering \href{#speech-detection-sphinx4}{\tt Speech-\/\-Detection-\/\-Sphinx4} &\PBS\centering Performs speech-\/detection using the Platform integrated Sphinx4 engine \\\cline{1-2}
+\PBS\centering \href{#speech-detection-google}{\tt Speech-\/\-Detection-\/\-Google} &\PBS\centering Performs speech-\/detection using the Platform integrated Google engine \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Ontology Queries} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#ontology-subclasses-of}{\tt Ontology-\/\-Subclasses\-Of} &\PBS\centering Perform Ontology, subclasses-\/of, query \\\cline{1-2}
+\PBS\centering \href{#ontology-superclasses-of}{\tt Ontology-\/\-Super\-Classes\-Of} &\PBS\centering Perform Ontology, superclasses-\/of, query \\\cline{1-2}
+\PBS\centering \href{#ontology-is-subsuperclass-of}{\tt Ontology-\/\-Is-\/\-Sub\-Super\-Class} &\PBS\centering Perform Ontology, is-\/subsuperclass-\/of, query \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Cognitive Exercises} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#cognitive-test-selector}{\tt Cognitive-\/\-Test-\/\-Selector} &\PBS\centering Returns a Cognitive Exercise literal that describes the test \\\cline{1-2}
+\PBS\centering \href{#cognitive-record-performance}{\tt Cognitive-\/\-Record-\/\-Performance} &\PBS\centering Record user's performance on a Cognitive Exercise \\\cline{1-2}
+\PBS\centering \href{#cognitive-get-history}{\tt Cognitive-\/\-Get-\/\-History} &\PBS\centering Returns user's history on Cognitive Exercise(s) \\\cline{1-2}
+\PBS\centering \href{#cognitive-get-scores}{\tt Cognitive-\/\-Get-\/\-Scores} &\PBS\centering Returns user's performance scores on Cognitive Exercise(s) \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Email Support} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#email-fetch}{\tt Email-\/\-Fetch} &\PBS\centering Fetch user's emails \\\cline{1-2}
+\PBS\centering \href{#email-send}{\tt Email-\/\-Send} &\PBS\centering Send an email, using user's account \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Weather Report} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#weather-report-forecast}{\tt Weather-\/\-Report-\/\-Forecast} &\PBS\centering Get detailed information about future weather conditions \\\cline{1-2}
+\PBS\centering \href{#weather-report-current}{\tt Weather-\/\-Repost-\/\-Current} &\PBS\centering Get detailed information about current weather conditions \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Path Planning} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#path-planning-upload-map}{\tt Path-\/\-Planning-\/\-Upload-\/\-Map} &\PBS\centering Upload a map to store on the Platform \\\cline{1-2}
+\PBS\centering \href{#path-planning-plan-path-2d}{\tt Path-\/\-Planning-\/\-Plan-\/\-Path-\/2\-D} &\PBS\centering 2\-D Path Planning service \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Authentication-\/\-Registration} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#login-user}{\tt Login-\/\-User} &\PBS\centering Login existing user \\\cline{1-2}
+\PBS\centering \href{#register-user-from-platform}{\tt Register-\/\-User-\/\-From-\/\-Platform} &\PBS\centering Add new platform user using R\-A\-P\-P-\/\-Platform credentials \\\cline{1-2}
+\PBS\centering \href{#register-user-from-store}{\tt Register-\/\-User-\/\-From-\/\-Store} &\PBS\centering Add new platform user using R\-A\-P\-P-\/\-Store credentials \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering {\itshape Other} &\PBS\centering \\\cline{1-2}
+\PBS\centering &\PBS\centering \\\cline{1-2}
+\PBS\centering \href{#text-to-speech}{\tt Text-\/\-To-\/\-Speech} &\PBS\centering Text-\/to-\/speech translation on given input plain text \\\cline{1-2}
+\PBS\centering \href{#available-services}{\tt Available-\/\-Services} &\PBS\centering Returns a list of the Platform available services (up-\/to-\/date) \\\cline{1-2}
+\PBS\centering \href{#geolocation}{\tt Geolocaiton} &\PBS\centering Get information about client's location \\\cline{1-2}
+\PBS\centering \href{#news-explore}{\tt News-\/\-Explore} &\PBS\centering Search for news articles \\\cline{1-2}
+\end{TabularC}
+
+
+\subsection*{Service specifications -\/ Request arguments and response objects}
+
+The Web Services listen to {\bfseries P\-O\-S\-T} requests and can parse contents of the following type (Content-\/\-Type)\-:
+
+
+\begin{DoxyItemize}
+\item application/x-\/www-\/form-\/urlencoded
+\item multipart/form-\/data
+\end{DoxyItemize}
+
+A lot of services require from the client to upload a file to the server for processing, like Computer-\/\-V\-Ision, Speech-\/\-Recognition and more. The {\itshape multipart/form-\/data} content-\/type is used to call a service that requresres file upload to the server. Otherwise, use {\itshape application/x-\/www-\/form-\/urlencoded}.
+
+All data, except files, have to be be send under a field named {\bfseries json}. In case of using {\itshape application/x-\/www-\/form-\/urlencoded} type this will look like\-:
+
+```http P\-O\-S\-T /hop/ontology\-\_\-subclasses\-\_\-of H\-T\-T\-P/1.\-1 Connection\-: keep-\/alive ... Content-\/\-Type\-: application/x-\/www-\/form-\/urlencoded
+
+json=\%7\-B\%22query\%22\%3\-A+\%22\-Oven\%22\%7\-D ```
+
+and in case of multipart/form-\/data\-:
+
+```http P\-O\-S\-T /hop/face\-\_\-detection H\-T\-T\-P/1.\-1 Connection\-: keep-\/alive ... Content-\/\-Type\-: multipart/form-\/data; boundary=993ac36c568042aa86582023b7422092
+
+--993ac36c568042aa86582023b7422092 Content-\/\-Disposition\-: form-\/data; name=\char`\"{}json\char`\"{}
+
+\{\char`\"{}fast\char`\"{}\-: false\} --993ac36c568042aa86582023b7422092 Content-\/\-Disposition\-: form-\/data; name=\char`\"{}file\char`\"{}; filename=\char`\"{}\-Lenna.\-jpg\char`\"{}
+
+$<$file-\/data-\/here$>$ ...
+
+``` 
+
+ \subsection*{\#\#\# Computer Vision }
+
+\paragraph*{Face-\/\-Detection}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/face\-\_\-detection ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '', fast\-: false \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries image file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\item {\bfseries fast} (Boolean)\-: If true, detection will take less time but it will be less accurate.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```js \{ faces\-: \mbox{[}\{$<$face\-\_\-1$>$\}, ..., \{$<$face\-\_\-n$>$\}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries faces} (Array)\-: Vector with the recognized faces in an image frame.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+where {\bfseries face\-\_\-x} is an object of the following structure\-:
+
+```js face\-: \{ up\-\_\-left\-\_\-point\-: \{$<$point$>$\}, down\-\_\-right\-\_\-point\-: \{$<$point$>$\} \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries up\-\_\-left\-\_\-point} (Object)\-: The up-\/left point coordinates of the detected face.
+\item {\bfseries down\-\_\-right\-\_\-point} (Object)\-: The down-\/right point coordinates of the detected face.
+\end{DoxyItemize}
+
+and {\bfseries point} coordinates are presented in Cartesian Coordinate System as\-:
+
+```js point\-: \{ x\-: $<$value\-\_\-int$>$, y\-: $<$value\-\_\-int$>$ \} ```
+
+Response Sample\-:
+
+```javascript \{ faces\-: \mbox{[}\{ up\-\_\-left\-\_\-point\-: \{ y\-: 200, x\-: 212 \}, down\-\_\-right\-\_\-point\-: \{ y\-: 379, x\-: 391 \} \}\mbox{]}, error\-: '' \} ```
+
+\paragraph*{Q\-R-\/\-Detection}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/qr\-\_\-detection ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries image file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ qr\-\_\-centers\-: \mbox{[}\{$<$point\-\_\-1$>$\}, ..., \{$<$point\-\_\-n$>$\}\mbox{]}, qr\-\_\-messages\-: \mbox{[}\char`\"{}$<$qr\-\_\-msg\-\_\-1$>$\char`\"{}, ..., \char`\"{}$<$qr\-\_\-msg\-\_\-n$>$\char`\"{}\mbox{]}, error\-: '' \} ```
+
+where {\bfseries point\-\_\-n} coordinates are presented in Cartesian Coordinate System as\-:
+
+```js point\-: \{ x\-: $<$value\-\_\-int$>$, y\-: $<$value\-\_\-int$>$ \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries qr\-\_\-centers} (Array)\-: Vector of points (x,y) of found Q\-R in the image frame.
+\item {\bfseries qr\-\_\-messages} (Array)\-: Vector that containes message descriptions of found Q\-R in an image frame (Array of Strings).
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+Response Sample\-:
+
+```javascript \{ qr\-\_\-centers\-: \mbox{[} \{ y\-: 165, x\-: 165 \} \mbox{]}, qr\-\_\-messages\-: \mbox{[}'rapp project qr sample'\mbox{]}, error\-: '' \} ```
+
+\paragraph*{Hazard-\/\-Detection-\/\-Door-\/\-Check}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/hazard\-\_\-detection\-\_\-door\-\_\-check ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries image file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```js \{ door\-\_\-angle\-: 0, error\-: \char`\"{}\char`\"{} \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries door\-\_\-angle} (Integer)\-: The angle of the detected door, on the image frame. (Integer)
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Hazard-\/\-Detection-\/\-Light-\/\-Check}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/hazard\-\_\-detection\-\_\-light\-\_\-check ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries image file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```js \{ light\-\_\-level\-: 0, error\-: \char`\"{}\char`\"{} \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries light\-\_\-level} (Integer)\-: The, detected on the iimage frame, light level. (Integer)
+\item {\bfseries error} (String)\-: Error message, if one occures. (String)
+\end{DoxyItemize}
+
+\paragraph*{Human-\/\-Detection}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/human\-\_\-detection ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries image file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```js \{ humans\-: \mbox{[}\{$<$human\-\_\-1$>$\}, ..., \{$<$human\-\_\-n$>$\}\mbox{]}, error\-: \char`\"{}\char`\"{} \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries humans} (Array)\-: Array of detected humans.
+\item {\bfseries error} (String)\-: Error message, if one occures. (String)
+\end{DoxyItemize}
+
+where {\bfseries human\-\_\-x} is an object of the following structure\-:
+
+```js human\-: \{ up\-\_\-left\-\_\-point\-: \{x\-: 0, y\-: 0\}, down\-\_\-right\-\_\-point\-: \{x\-: 0, y\-: 0\} \} ```
+
+Each point (x, y) is presented in Cartesian Coordinate System as\-:
+
+```js point2\-D\-: \{ x\-: $<$val, y\-: $<$val$>$ \} ```
+
+\paragraph*{Object-\/\-Recognition-\/\-Caffe}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/object\-\_\-recognition\-\_\-caffe ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries image file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```js \{ object\-\_\-class\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries object\-\_\-class} (String)\-: Recognized object class.
+\item {\bfseries error} (String)\-: Error message, if one occures. (String)
+\end{DoxyItemize}
+
+
+
+ \subsection*{\#\#\# Speech Recognition }
+
+\paragraph*{Set-\/\-Noise-\/\-Profile}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/set\-\_\-noise\-\_\-profile ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '', audio\-\_\-source\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries audio file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\item {\bfseries audio\-\_\-source} (String)\-: A value that presents the $<$robot$>$\-\_\-$<$encode$>$\-\_\-$<$channels$>$ information for the audio source data. e.\-g \char`\"{}nao\-\_\-wav\-\_\-1\-\_\-ch\char`\"{}.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Speech-\/\-Detection-\/\-Sphinx4}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/speech\-\_\-detection\-\_\-sphinx4 ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '', language\-: '', audio\-\_\-source\-: '', words\-: \mbox{[}\mbox{]}, sentences\-: \mbox{[}\mbox{]}, grammar\-: \mbox{[}\mbox{]}\} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries audio file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\item {\bfseries language} (String)\-: Language to be used by the speech\-\_\-detection\-\_\-sphinx4 module. Currently valid language values are ‘gr’ for Greek and ‘en’ for English.
+\item {\bfseries audio\-\_\-source} (String)\-: A value that presents the $<$robot$>$\-\_\-$<$encode$>$\-\_\-$<$channels$>$ information for the audio source data. e.\-g \char`\"{}nao\-\_\-wav\-\_\-1\-\_\-ch\char`\"{}.
+\item {\bfseries words} (Array)\-: A vector that carries the words to search for into the voice-\/audio-\/source.
+\item {\bfseries sentences} (Array)\-: The under consideration sentences.
+\item {\bfseries grammar} (Array)\-: Grammars to use in speech recognition.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ words\-: \mbox{[}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries words} (Array)\-: A vector with the \char`\"{}words-\/found\char`\"{}
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Speech-\/\-Detection-\/\-Google}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/speech\-\_\-detection\-\_\-google ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ file\-: '', audio\-\_\-source\-: '', language\-: ''\} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries audio file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\item {\bfseries language} (String)\-: Language to be used by the speech\-\_\-detection\-\_\-sphinx4 module. Currently valid language values are ‘gr’ for Greek and ‘en’ for English.
+\item {\bfseries audio\-\_\-source} (String)\-: A value that presents the \{robot\}\-\_\-\{encode\}\-\_\-\{channels\} information for the audio source data. e.\-g \char`\"{}nao\-\_\-wav\-\_\-1\-\_\-ch\char`\"{}.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ words\-: \mbox{[}\mbox{]}, alternatives\-: \mbox{[}\mbox{]} error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item $\ast$$\ast$'words'$\ast$$\ast$ (Array)\-: A vector that contains the \char`\"{}words-\/found\char`\"{} with highest confidence.
+\item {\bfseries alternatives} (Array)\-: Alternative sentences. e.\-g. \mbox{[}\mbox{[}'send', 'mail'\mbox{]}, \mbox{[}'send', 'email'\mbox{]}, \mbox{[}'set', 'mail'\mbox{]}...\mbox{]}
+\item {\bfseries error} (String)\-: Error message, if one occures. 
+
+ \subsection*{\#\#\# Ontology Queries }
+\end{DoxyItemize}
+
+The following Platform services give access to the Platform integrated Ontology system.
+
+\paragraph*{Ontology-\/\-Sub\-Classes-\/\-Of}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/ontology\-\_\-subclasses\-\_\-of ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ ontology\-\_\-class\-: '', recursive\-: false \} ```
+\begin{DoxyItemize}
+\item {\bfseries ontology\-\_\-class} (String)\-: The ontology class.
+\item {\bfseries recursive} (Boolean)\-: Recursive search.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ results\-: \mbox{[}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries results} (Array)\-: Query results.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+```javascript \{ results\-: \mbox{[} '\href{http://knowrob.org/kb/knowrob.owl#Oven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Oven',} '\href{http://knowrob.org/kb/knowrob.owl#MicrowaveOven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Microwave\-Oven',} '\href{http://knowrob.org/kb/knowrob.owl#RegularOven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Regular\-Oven',} '\href{http://knowrob.org/kb/knowrob.owl#ToasterOven'}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Toaster\-Oven'}\mbox{]}, error\-: '' \} ```
+
+\paragraph*{Ontology-\/\-Super\-Classes-\/\-Of}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/ontology\-\_\-superclasses\-\_\-of ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ ontology\-\_\-class\-: '', recursive\-: false \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries ontology\-\_\-class} (String)\-: The ontology class.
+\item {\bfseries recursive} (Boolean)\-: Recursive search.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ results\-: \mbox{[}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries results} (Array)\-: Query results returned from ontology database.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Ontology-\/\-Is-\/\-Sub\-Super\-Class-\/\-Of}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/ontology\-\_\-is\-\_\-subsuperclass\-\_\-of ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ parent\-\_\-class\-: '', child\-\_\-class\-: '', recursive\-: false \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries parent\-\_\-class} (String)\-: The parent class name.
+\item {\bfseries child\-\_\-class} (String) The child class name.
+\item {\bfseries recursive} (Boolean)\-: Recursive search.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ result\-: true, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries result} (Boolena)\-: Success index on ontology-\/is-\/subsuperclass-\/of query.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+
+
+ \subsection*{\#\#\# Cognitive Exercises }
+
+\paragraph*{Cognitive-\/\-Test-\/\-Selector}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/cognitive\-\_\-test\-\_\-chooser ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ test\-\_\-type\-: '', test\-\_\-subtype\-: '', test\-\_\-diff\-: '', test\-\_\-index\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive Exercise test type. Can be one of
+\begin{DoxyItemize}
+\item 'Arithmetic\-Cts'
+\item 'Awareness\-Cts'
+\item 'Reasoning\-Cts'
+\item ''
+\end{DoxyItemize}
+\item {\bfseries test\-\_\-subtype} (String)\-: Use this to force select from this subtype. Defaults to empty string \char`\"{}\char`\"{}.
+\item {\bfseries test\-\_\-diff} (String)\-: Use this to force select from this difficulty. Defaults to empty string \char`\"{}\char`\"{}.
+\item {\bfseries test\-\_\-index} (String)\-: Use this to force select from this id. Defaults to empty string \char`\"{}\char`\"{}.
+\end{DoxyItemize}
+
+i.\-e
+
+```js \{ test\-\_\-type\-: 'Arithmetic', test\-\_\-subtype\-: 'Basic\-Arithmetic', test\-\_\-diff\-: '1', test\-\_\-index\-: '1' \} ```
+
+For more information on available exercises have a look \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_cognitive_exercise}{\tt here}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ questions\-: \mbox{[}\mbox{]}, possib\-\_\-ans\-: \mbox{[}\mbox{]}, correct\-\_\-ans\-: \mbox{[}\mbox{]}, test\-\_\-instance\-: '', test\-\_\-type\-: '', test\-\_\-subtype\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries questions} (Array)\-: The exercise set of questions.
+\item {\bfseries possib\-\_\-ans}(Array)\-: The set of answers for each question. vector$<$vector$<$string$>$$>$
+\item {\bfseries correct\-\_\-ans}(Array)\-: The set of correct answers for each question. vector$<$string$>$
+\item {\bfseries test\-\_\-instance} (String)\-: Returned test name. For example, 'Arithmetic\-Cts\-\_\-askw0\-Snwk'
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive exercise class/type. Documentation on Cognitive Exercise classes can be found \href{https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise}{\tt here}
+\item {\bfseries test\-\_\-subtype} (String)\-: Cognitive exercise sub-\/type. Documentation on Subtypes can be found \href{https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise}{\tt here}
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Cognitive-\/\-Record-\/\-Performance}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/cognitive\-\_\-record\-\_\-performance ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ test\-\_\-instance\-: '', score\-: 0 \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-instance} (String)\-: Cognitive Exercise test instance. The full cognitive test entry name as returned by the {\bfseries cognitive\-\_\-test\-\_\-chooser} web service.
+\item {\bfseries score} (Integer)\-: User's performance score on given test entry.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ performance\-\_\-entry\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries performace\-\_\-entry} (String)\-: User's cognitive test performance entry in ontology.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Cognitive-\/\-Get-\/\-History}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/cognitive\-\_\-get\-\_\-history ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ from\-\_\-time\-: '', to\-\_\-time\-: 0, test\-\_\-type\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive Exercise test type. Can be one of \mbox{[}'Arithmetic\-Cts', 'Awareness\-Cts', 'Reasoning\-Cts'\mbox{]} or leave empty (\char`\"{}\char`\"{}) for all.
+\item {\bfseries from\-\_\-time} (Integer)\-: Unix timestamp.
+\item {\bfseries to\-\_\-time} (Integer)\-: Unix timestamp.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ records\-: \{\}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries records} (Object)\-: Users history records on Cognitive Exerises
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Cognitive-\/\-Get-\/\-Scores}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/cognitive\-\_\-get\-\_\-scores ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ up\-\_\-to\-\_\-time\-: 0, test\-\_\-type\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive Exercise test type. Can be one of \mbox{[}'Arithmetic\-Cts', 'Awareness\-Cts', 'Reasoning\-Cts'\mbox{]} or leave empty (\char`\"{}\char`\"{}) for all.
+\item {\bfseries up\-\_\-to\-\_\-time} (Integer)\-: Unix timestamp. Return scores that have been recorder up to this time value.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ test\-\_\-classes\-: \mbox{[}\mbox{]}, scores\-: \mbox{[}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-classes} (Array)\-: An array of the test classes indexes.
+\item {\bfseries scores} (Array)\-: Array of scores. Each array index corresponds to the test class of the {\bfseries test\-\_\-classes} property.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+
+
+ \subsection*{\#\#\# Email Support }
+
+\paragraph*{Email-\/\-Fetch}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/email\-\_\-fetch ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ email\-: '', passwd\-: '', server\-: '', port\-: '', email\-\_\-status\-: '', from\-\_\-date\-: 0, to\-\_\-date\-: 0, num\-\_\-emails\-: 0 \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries email} (String)\-: The user's email username
+\item {\bfseries passwd} (String)\-: The user's email password
+\item {\bfseries server} (String)\-: The email server's imap address, i.\-e. 'imap.\-gmail.\-com'
+\item {\bfseries port} (String)\-: The email server imap port
+\item {\bfseries email\-\_\-status} (String)\-: Define which mails the users requests. Values\-: A\-L\-L, U\-N\-S\-E\-E\-N(\-D\-E\-F\-A\-U\-L\-T)
+\item {\bfseries from\-\_\-date} (Integer)\-: Emails since date. Unix timestamp.
+\item {\bfseries to\-\_\-date} (Integer)\-: Emails until date. Unix timestamp.
+\item {\bfseries num\-\_\-emails} (Integer)\-: Number of requested emails
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ emails\-: \mbox{[}\{$<$email\-Entry\-\_\-1$>$\}, ..., \{$<$email\-Entry\-\_\-n$>$\}\mbox{]}, error\-: '' \} ```
+
+where email\-Entry is an object of structure\-:
+
+```js \{ sender\-: '', receivers\-: \mbox{[}\mbox{]}, body\-: '', date\-: '', attachments\-: \mbox{[}\mbox{]} \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries emails} (Array)\-: An array of email\-Entry objects.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Email-\/\-Send}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/email\-\_\-send ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ email\-: '', passwd\-: '', server\-: '', port\-: '', recipients\-: \mbox{[}\mbox{]}, body\-: '', subject\-: '', file\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries email} (String)\-: The user's email username
+\item {\bfseries passwd} (String)\-: The user's email password
+\item {\bfseries server} (String)\-: The email server's smtp address, i.\-e. 'smtp.\-gmail.\-com'
+\item {\bfseries port} (String)\-: The email server imap port
+\item {\bfseries recipients} (Array)\-: Email addresses of the recipients
+\item {\bfseries body} (String)\-: The email body
+\item {\bfseries subject} (String)\-: The email subject
+\item {\bfseries file}\-: File attachment. Single file. {\bfseries In case of multiple attachments a zip file must be send to this field name.}
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+
+
+ \subsection*{\#\#\# Weather Report }
+
+\paragraph*{Weather-\/\-Report-\/\-Current}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/weather\-\_\-report\-\_\-current ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ city\-: '', weather\-\_\-reporter\-: '', metric\-: 0 \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries city} (String)\-: The desirec city
+\item {\bfseries weather\-\_\-reporter} (String)\-: The weather A\-P\-I to use. Defaults to \char`\"{}yweather\char`\"{} .
+\item {\bfseries metric} (Integer)\-: The return value units.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ weather\-\_\-current\-: \{ date\-: '', temperature\-: '', weather\-\_\-description\-: '', humidity\-: '', visibility\-: '', pressure\-: '', wind\-\_\-speed\-: '', wind\-\_\-temperature\-: '', wind\-\_\-direction\-: '' \}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries date} (String)\-: The date.
+\item {\bfseries temperature} (String)\-: The current temerature.
+\item {\bfseries weather\-\_\-description} (String)\-: A brief desctiption of the current weather
+\item {\bfseries humidity} (String)\-: The current humidity
+\item {\bfseries visibility} (String)\-: The current visibility.
+\item {\bfseries pressure} (String)\-: The current pressure.
+\item {\bfseries wind\-\_\-speed} (String)\-: The current speed of the wind.
+\item {\bfseries wind\-\_\-temperature} (String)\-: The current temperature of the wind.
+\item {\bfseries wind\-\_\-direction} (String)\-: The current direction of the wind.
+\end{DoxyItemize}
+
+\paragraph*{Weather-\/\-Report-\/\-Forecast}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/weather\-\_\-report\-\_\-forecast ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ city\-: '', weather\-\_\-reporter\-: '', metric\-: 0 \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries city} (String)\-: The desirec city
+\item {\bfseries weather\-\_\-reporter} (String)\-: The weather A\-P\-I to use. Defaults to \char`\"{}yweather\char`\"{} .
+\item {\bfseries metric} (Integer)\-: The return value units.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ forecast\-: \mbox{[}\{$<$forecast\-Entry\-\_\-1$>$\}, ..., \{$<$forecast\-Entry\-\_\-n$>$\}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries forecast} (Array)\-: Array of {\bfseries forecast\-Entry} objects.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+where forecast entries are forecast\-Entry objects\-:
+
+\{ high\-\_\-temp\-: '', low\-\_\-temp\-: '', description\-: '', date\-: '' \}
+
+
+
+ \subsection*{\#\#\# Path Planning }
+
+\paragraph*{Path-\/\-Planning-\/\-Plan-\/\-Path-\/2\-D}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/path\-\_\-planning\-\_\-plan\-\_\-path\-\_\-2d ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ map\-\_\-name\-: '', robot\-\_\-type\-: '', algorithm\-: '', start\-: \{\}, goal\-: \{\} \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries map\-\_\-name} (String)\-: The map name to use.
+\item {\bfseries robot\-\_\-type} (String)\-: The robot type. It is required to determine it's parameters (footprint etc.)
+\item {\bfseries algorithm} \{String\}\-: The path planning algorithm to apply.
+\item {\bfseries start} \{Object\}\-: Start pose of the robot. (R\-O\-S-\/\-Geometry\-Msgs/\-Pose\-Stamped)
+\item {\bfseries goal}\-: Goal pose of the robot. (R\-O\-S-\/\-Geometry\-Msgs/\-Pose\-Stamped)
+\end{DoxyItemize}
+
+More information on argument values under the \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_path_planning/rapp_path_planning}{\tt rapp\-\_\-path\-\_\-planning package}
+
+\subparagraph*{Service response}
+
+```js \{ plan\-\_\-found\-: 0, path\-: \mbox{[}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries plan\-\_\-found} (String)\-: Plan Status. Can be one of
+\begin{DoxyItemize}
+\item 0 \-: path cannot be planned.
+\item 1 \-: path found.
+\item 2 \-: wrong map name.
+\item 3 \-: wrong robot type.
+\item 4 \-: wrong algorithm.
+\end{DoxyItemize}
+\item {\bfseries path}\-: if plan\-\_\-found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Path-\/\-Planning-\/\-Upload-\/\-Map}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/path\-\_\-planning\-\_\-upload\-\_\-map ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ png\-\_\-file\-: '', yaml\-\_\-file\-: '', map\-\_\-name\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries png\-\_\-file}\-: The map image png file.
+\item {\bfseries png\-\_\-file}\-: The map description yaml file.
+\item {\bfseries map\-\_\-name}\-: The map name.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+```js \{ error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+
+
+ \subsection*{\#\#\# Authentication -\/ Registration }
+
+\paragraph*{Login-\/\-User}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/login\-\_\-user ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ username\-: '', password\-: '', device\-\_\-token \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries username} (String)\-: Account username.
+\item {\bfseries password} (String)\-: Account password.
+\item {\bfseries device\-\_\-token} (String)\-: The device (token) from which a user tries to login.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ token\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries token} (String)\-: Token used for accessing R\-A\-P\-P-\/\-Platform resources.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Register-\/\-User-\/\-From-\/\-Platform}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/register\-\_\-user\-\_\-from\-\_\-platform ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ creator\-\_\-username\-: '', creator\-\_\-password\-: '', new\-\_\-user\-\_\-username\-: '', new\-\_\-user\-\_\-password\-: '', language\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries creator\-\_\-username} (String)\-: Creator's (robot-\/admin) R\-A\-P\-P-\/\-Platform account username.
+\item {\bfseries creator\-\_\-password} (String)\-: Creator's (robot-\/admin) R\-A\-P\-P-\/\-Platform account password.
+\item {\bfseries new\-\_\-user\-\_\-username} (String)\-: New user's account username.
+\item {\bfseries new\-\_\-user\-\_\-password} (String)\-: New user's account password.
+\item {\bfseries language} (String)\-: New user's language.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ suggested\-\_\-username\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries suggested\-\_\-username} (String)\-: Suggested username if the provided one already exists.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Register-\/\-User-\/\-From-\/\-Store}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/register\-\_\-user\-\_\-from\-\_\-store ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ username\-: '', password\-: '', device\-\_\-token\-: '', language\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries username} (String)\-: New user's username.
+\item {\bfseries password} (String)\-: New user's password.
+\item {\bfseries device\-\_\-token} (String)\-: Creator device token from R\-A\-P\-P Store.
+\item {\bfseries language} (String)\-: New user's account language.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ suggested\-\_\-username\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries suggested\-\_\-username} (String)\-: Suggested username if the provided one already exists.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+
+
+ \subsection*{\#\#\# Other }
+
+\paragraph*{Text-\/\-To-\/\-Speech}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/text\-\_\-to\-\_\-speech ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ text\-: '', language\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries text} (String)\-: Input text to translate to audio data.
+\item {\bfseries language} (String)\-: Language to be used for the T\-T\-S module. Valid values are currently {\bfseries el} and {\bfseries en}
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```javascript \{ payload\-: $<$audio\-\_\-data$>$, basename\-: $<$audio\-\_\-file\-\_\-basename$>$, encoding\-: $<$payload\-\_\-encoding$>$, error\-: $<$error\-\_\-message$>$ \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries payload} (String/base64)\-: The audio data payload. Payload encoding is defined by the 'encoding' json field. Decode the payload audio data (client-\/side) using the codec value from the 'encoding' field.
+\item {\bfseries encoding} (String)\-: Codec used to encode the audio data payload. Currently encoding of binary data is done using base64 codec. Ignore this field. May be used in future implementations.
+\item {\bfseries basename} (String)\-: A static basename for the audio data file, returned by the platform service. Ignore this field. May be usefull in future implementations.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Available-\/\-Services}
+
+``` /hop/available\-\_\-services ```
+
+\subparagraph*{Service request arguments}
+
+None.
+
+\subparagraph*{Service response}
+
+```js \{ services\-: \mbox{[}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries services} (Array)\-: An array of available R\-A\-P\-P Platform Services.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{Geolocation}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/geolocation ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ ipaddr\-: '', engine\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries ipaddr}\-: The machine's ipaddr
+\item {\bfseries engine}\-: Engine to use. Defaults to 'ip-\/api' (Currently the only supported).
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```js \{ city\-: '', country\-: '', country\-\_\-code\-: '', latitude\-: 0.\-0, longtitude\-: 0.\-0, region\-: '', timezone\-: '', zip\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries city}\-: (String)\-: The city.
+\item {\bfseries country} (String)\-: The country.
+\item {\bfseries country\-\_\-code} (String)\-: The country code.
+\item {\bfseries latitude}\-: (Float)\-: The latitude.
+\item {\bfseries longtitude} (Float)\-: The longtitude.
+\item {\bfseries timezone} (String)\-: The timezone.
+\item {\bfseries zip} (String)\-: The zip postal code.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\paragraph*{News-\/\-Explore}
+
+\subparagraph*{Service-\/\-Url}
+
+``` /hop/news\-\_\-explore ```
+
+\subparagraph*{Service request arguments}
+
+```js \{ news\-\_\-engine\-: '', keywords\-: \mbox{[}\mbox{]}, exclude\-\_\-titles\-: \mbox{[}\mbox{]}, region\-: '', topic\-: '', num\-\_\-news\-: 0 \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries news\-\_\-engine} (String)\-: The news search engine to use.
+\item {\bfseries keywords} (Array)\-: Desired keywords.
+\item {\bfseries exclude\-\_\-titles} (Array)\-: Reject list of previously read articles, in order to avoid duplicates.
+\item {\bfseries region} (String)\-: Language/\-Region.
+\item {\bfseries topic} (String)\-: Main topics, i.\-e. sports, politics, etc.
+\item {\bfseries num\-\_\-news} (Integer)\-: Number of news stories.
+\end{DoxyItemize}
+
+\subparagraph*{Service response}
+
+application/json response.
+
+```js \{ news\-\_\-stories\-: \mbox{[}\{$<$story\-\_\-1$>$\}, ..., \{$<$story\-\_\-n$>$\}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries news\-\_\-stories} (Array)\-: Array of {\bfseries story} objects.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+where {\itshape story} object is\-:
+
+```js \{ title\-: '', content\-: '', puplisher\-: '', published\-Date\-: '', url\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries title} (String)\-: Article title.
+\item {\bfseries content} (String)\-: Article brief content.
+\item {\bfseries publisher} (String)\-: Article publisher.
+\item {\bfseries published\-Date} (String)\-: Article publication date.
+\item {\bfseries url} (String)\-: Article original url. 
+\end{DoxyItemize}

@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('How-to-implement-an-integration-test_0
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; - The RappInterfaceTest <span class="keyword">class </span>must define two member methods:</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;     - execute()</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;     - validate()</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; - The Python RAPP-API is imported into our code in order to invoke Platform. Web Service requests.</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; - The [Python RAPP Platform API](https:<span class="comment">//github.com/rapp-project/rapp-api/tree/master/python) is used to call RAPP Platform Services.</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;So lets first create our RappInterfaceTest <span class="keyword">class </span>which includes the aforementioned member methods.</div>
@@ -128,102 +128,93 @@ $(document).ready(function(){initNavTree('How-to-implement-an-integration-test_0
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    def execute(self):</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        pass</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    def validate(self):</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        pass</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;```</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;Next we need to include the Python RAPP-API module and create an in instance of the RappCloud class which will allow us to invoke Platform Web Service calls.</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;From the Python RAPP Platform API import the required components. Instantiate a new `RappPlatformService` object and the Cloud Messages that will be used.</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;```python</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;from RappCloud import RappCloud</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;class RappInterfaceTest:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="stringliteral">&quot;&quot;</span><span class="stringliteral">&quot; Integration test class &quot;</span><span class="stringliteral">&quot;&quot;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    def __init__(self):</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        self.rappCloud = RappCloud()</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        pass</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;```</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;Load any files required for integration test on initialization of the RappInterfaceTest instance and declare the validation values.</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;```python</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;from RappCloud import RappPlatformService</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;from RappCloud.CloudMsgs import (...)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;class RappInterfaceTest:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="stringliteral">&quot;&quot;</span><span class="stringliteral">&quot; Integration test class &quot;</span><span class="stringliteral">&quot;&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    def __init__(self):</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        self.svcClient = RappPlatformService()</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        ...</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;```</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;```python</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  def __init__(self):</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    self.rappCloud = RappCloud()</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    # Set the file path</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    self.file_uri = <span class="stringliteral">&#39;PATH_TO_LOADED_FILE&#39;</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    # Set the valid results.</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    self.valid_results = {}</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;```</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;Next we need to implement the validation <span class="keyword">function</span>, **validate(<span class="keyword">self</span>)**.</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;```python</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  def validate(<span class="keyword">self</span>, response):</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    error = response[<span class="stringliteral">&#39;error&#39;</span>]</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    if error != <span class="stringliteral">&quot;&quot;</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      return [error, self.elapsed_time]</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;Next we need to implement the validation function, `validate()`.</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;```python</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  def validate(self, response):</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    error = response.error</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    if error != <span class="stringliteral">&quot;&quot;</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      return [error, self.elapsed_time]</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    # Validate Results</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    if self.valid_results == response.serialize():</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      return [True, self.elapsed_time]</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    else:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      return [<span class="stringliteral">&quot;Unexpected result : &quot;</span> + str(response.serialize()), self.elapsed_time]</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;```</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;Notice that the `validate()` function has a parameter named response. This is the response object returned from the Platform Service call.</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;It is critical to return validation results as presented above!!</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    return_data = response[<span class="stringliteral">&#39;qr_centers&#39;</span>]</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    # Check if the returned data are equal to the expected</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    if self.valid_results == return_data:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      return [True, self.elapsed_time]</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    else:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      return [<span class="stringliteral">&quot;Unexpected result : &quot;</span> + str(return_data), self.elapsed_time]</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;```</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;Notice that the validate() function has a parameter named response. This is the response object returned from the Platform Service call.</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;It is critical to return validation results as presented above!!</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;```python</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;return [True, self.elapsed_time]</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;```</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;If the response was succesfully validated,</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;```python</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;return [<span class="stringliteral">&quot;Unexpected result : &quot;</span> + str(return_data), self.elapsed_time]</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;```</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;if the validation failed.</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;```python</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;return [True, self.elapsed_time]</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;```</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;If the response was succesfully validated,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;```python</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;return [<span class="stringliteral">&quot;Unexpected result : &quot;</span> + str(response.serialize()), self.elapsed_time]</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;```</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;if the validation failed.</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;The [timeit](https:<span class="comment">//docs.python.org/2/library/timeit.html) python module is used to time the execution of the test.</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;**This will be deprecated in v0.7.0 release and execution time of each test will be calculated by the rapp-testing-core-engine.**</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;Implement the execution function.</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;The execution function must:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;- Call the, **to-test**, RAPP Platform Web Service(s).</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;- Invoke the validation function.</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;The [timeit](https:<span class="comment">//docs.python.org/2/library/timeit.html) python module is used to time the execution of the test.</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;**This will be raplaced in v0.6.0 release and execution time of each test will be calculated by the rapp-testing-core-engine.**</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;Implement the execution function. The execution function is called by the test-core-engine to execute implemented test.</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;The execution function must:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;- Call the, **to-test**, Platform Web Service through the Python RAPP-API call.</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;- Invoke the validation function.</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;```python</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;def execute(self):</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    start_time = timeit.default_timer()</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    msg = QrDetection(imageFilepath=<span class="stringliteral">&#39;PATH&#39;</span>)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    response = self.svc.call(msg)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    end_time = timeit.default_timer()</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    self.elapsed_time = end_time - start_time</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    return self.validate(response)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;```</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;```python</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;def execute(self):</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    start_time = timeit.default_timer()</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    # Call the Python RappCloud service</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    response = self.rappCloud.qr_detection(self.file_uri)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    end_time = timeit.default_timer()</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    self.elapsed_time = end_time - start_time</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    return self.validate(response)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;```</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;You will notice that the above implementation of the execute() method calls the qr_detection Service!!</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;```python</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;response = self.rappCloud.qr_detection(self.file_uri)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;```</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;You will notice that the above implementation of the `execute()` method calls the qr_detection Service!!</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;```python</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;msg = QrDetection(imageFilepath=<span class="stringliteral">&#39;PATH&#39;</span>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;response = self.svc.call(msg)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;```</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="How-to-implement-an-integration-test_04_8md.html">How-to-implement-an-integration-test?.md</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

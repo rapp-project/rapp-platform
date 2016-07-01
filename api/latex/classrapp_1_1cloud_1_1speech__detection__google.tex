@@ -1,0 +1,146 @@
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__google}{\section{rapp\-:\-:cloud\-:\-:speech\-\_\-detection\-\_\-google Class Reference}
+\label{classrapp_1_1cloud_1_1speech__detection__google}\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google}}
+}
+
+
+delegate speech-\/to-\/text to Google via R\-A\-P\-P  
+
+
+
+
+{\ttfamily \#include $<$speech\-\_\-detection\-\_\-google.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:speech\-\_\-detection\-\_\-google\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1speech__detection__google__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:speech\-\_\-detection\-\_\-google\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1speech__detection__google__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1speech__detection__google_a3a28dbcee0c87b651b4c04b0d0a9d0ac}{speech\-\_\-detection\-\_\-google} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1audio}{rapp\-::object\-::audio} $>$ file, const std\-::string language, const std\-::string user, std\-::function$<$ void(std\-::vector$<$ std\-::string $>$, std\-::vector$<$ std\-::string $>$)$>$ callback)
+\begin{DoxyCompactList}\small\item\em construct the handler which will query the Google A\-P\-I \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1speech__detection__google_a62bc378ebda856ce72370a8888867994}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle rapp-\/platform J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ std\-::string $>$, std\-::vector\\*
+$<$ std\-::string $>$)$>$ \hyperlink{classrapp_1_1cloud_1_1speech__detection__google_ab5e6f6510bd6ff397a719423faa56780}{delegate\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected words and alternatives. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+delegate speech-\/to-\/text to Google via R\-A\-P\-P 
+
+\begin{DoxyVersion}{Version}
+0.\-5.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+January 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file speech\-\_\-detection\-\_\-google.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__google_a3a28dbcee0c87b651b4c04b0d0a9d0ac}{\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google}!speech\-\_\-detection\-\_\-google@{speech\-\_\-detection\-\_\-google}}
+\index{speech\-\_\-detection\-\_\-google@{speech\-\_\-detection\-\_\-google}!rapp::cloud::speech_detection_google@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google}}
+\subsubsection[{speech\-\_\-detection\-\_\-google}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::speech\-\_\-detection\-\_\-google\-::speech\-\_\-detection\-\_\-google (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::audio} $>$}]{file, }
+\item[{const std\-::string}]{language, }
+\item[{const std\-::string}]{user, }
+\item[{std\-::function$<$ void(std\-::vector$<$ std\-::string $>$, std\-::vector$<$ std\-::string $>$)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1speech__detection__google_a3a28dbcee0c87b651b4c04b0d0a9d0ac}
+
+
+construct the handler which will query the Google A\-P\-I 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & is the audio file used for speech recognition. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+the audio file should be an inheriting class (
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{audio_8hpp}{objects/audio/audio.\-hpp}) 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em language} & defines the language used for speech recognition (e.\-g., 'en', 'gr', etc.) \\
+\hline
+{\em user} & is required so that denoising can take place \\
+\hline
+{\em callback} & is the functor/lambda/function pointer delegate that will receive the result \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 24 of file speech\-\_\-detection\-\_\-google.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__google_a62bc378ebda856ce72370a8888867994}{\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::speech_detection_google@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::speech\-\_\-detection\-\_\-google\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1speech__detection__google_a62bc378ebda856ce72370a8888867994}
+
+
+handle rapp-\/platform J\-S\-O\-N reply 
+
+
+
+Definition at line 56 of file speech\-\_\-detection\-\_\-google.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__google_ab5e6f6510bd6ff397a719423faa56780}{\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::speech_detection_google@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-google}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<$std\-::string$>$, std\-::vector$<$std\-::string$>$)$>$ rapp\-::cloud\-::speech\-\_\-detection\-\_\-google\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1speech__detection__google_ab5e6f6510bd6ff397a719423faa56780}
+
+
+The callback called upon completion of receiving the detected words and alternatives. 
+
+
+
+Definition at line 87 of file speech\-\_\-detection\-\_\-google.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/speech/speech\-\_\-detection\-\_\-google/\hyperlink{speech__detection__google_8hpp}{speech\-\_\-detection\-\_\-google.\-hpp}\end{DoxyCompactItemize}

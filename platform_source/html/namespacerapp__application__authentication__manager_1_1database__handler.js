@@ -1,0 +1,4 @@
+var namespacerapp__application__authentication__manager_1_1database__handler =
+[
+    [ "DatabaseHandler", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler" ]
+];

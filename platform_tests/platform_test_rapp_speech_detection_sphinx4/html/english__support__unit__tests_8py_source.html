@@ -131,7 +131,7 @@ $(document).ready(function(){initNavTree('english__support__unit__tests_8py_sour
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;roslib.load_manifest(<span class="stringliteral">&quot;rapp_speech_detection_sphinx4&quot;</span>)</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">from</span> rapp_speech_detection_sphinx4 <span class="keyword">import</span> EnglishSupport</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">from</span> rapp_speech_detection_sphinx4 <span class="keyword">import</span> RappError</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">from</span> rapp_exceptions <span class="keyword">import</span> RappError</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 <div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html">TestAudioProcessing</a>(unittest.TestCase):</div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#a0c4275044a58bff1192579b87c86f71c">   28</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#a0c4275044a58bff1192579b87c86f71c">setUp</a>(self):</div>
@@ -166,7 +166,7 @@ $(document).ready(function(){initNavTree('english__support__unit__tests_8py_sour
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#aac1fc989bb8c79cf941f54febabe3f39">   58</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#aac1fc989bb8c79cf941f54febabe3f39">test_limitedVocabularyConfigurationFiles_correctCase</a>(self):</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            conf = self.english_support_module.getLimitedVocebularyConfiguration(\</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            [conf, wordDict] = self.english_support_module.getLimitedVocebularyConfiguration(\</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    [<span class="stringliteral">&#39;this&#39;</span>, <span class="stringliteral">&#39;is&#39;</span>, <span class="stringliteral">&#39;a&#39;</span>, <span class="stringliteral">&#39;test&#39;</span>],\</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    [],\</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    [])</div>
@@ -196,15 +196,10 @@ $(document).ready(function(){initNavTree('english__support__unit__tests_8py_sour
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
 <div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#a0baa86921674f6631da9ac2c13f1d0ed">   88</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#a0baa86921674f6631da9ac2c13f1d0ed">test_limitedVocabularyConfigurationFiles_notExistentWords</a>(self):</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="comment"># This produces the proper files without the erroneous words</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        with self.assertRaises(Exception) <span class="keyword">as</span> err:</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;          [conf, success] = self.english_support_module.getLimitedVocebularyConfiguration(\</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    [<span class="stringliteral">&#39;kakakakaka&#39;</span>, <span class="stringliteral">&#39;lslslslsl&#39;</span>, <span class="stringliteral">&#39;a&#39;</span>, <span class="stringliteral">&#39;test&#39;</span>],\</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    [],\</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    [])</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">except</span> RappError <span class="keyword">as</span> e:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            self.assertNotEqual(e.value, <span class="stringliteral">&#39;&#39;</span>)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            self.assertNotEqual(e.value, <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    [], [])</div>
 <div class="ttc" id="classenglish__support__unit__tests_1_1TestAudioProcessing_html"><div class="ttname"><a href="classenglish__support__unit__tests_1_1TestAudioProcessing.html">english_support_unit_tests.TestAudioProcessing</a></div><div class="ttdef"><b>Definition:</b> <a href="english__support__unit__tests_8py_source.html#l00027">english_support_unit_tests.py:27</a></div></div>
 <div class="ttc" id="classenglish__support__unit__tests_1_1TestAudioProcessing_html_a0baa86921674f6631da9ac2c13f1d0ed"><div class="ttname"><a href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#a0baa86921674f6631da9ac2c13f1d0ed">english_support_unit_tests.TestAudioProcessing.test_limitedVocabularyConfigurationFiles_notExistentWords</a></div><div class="ttdeci">def test_limitedVocabularyConfigurationFiles_notExistentWords</div><div class="ttdef"><b>Definition:</b> <a href="english__support__unit__tests_8py_source.html#l00088">english_support_unit_tests.py:88</a></div></div>
 <div class="ttc" id="classenglish__support__unit__tests_1_1TestAudioProcessing_html_aac1fc989bb8c79cf941f54febabe3f39"><div class="ttname"><a href="classenglish__support__unit__tests_1_1TestAudioProcessing.html#aac1fc989bb8c79cf941f54febabe3f39">english_support_unit_tests.TestAudioProcessing.test_limitedVocabularyConfigurationFiles_correctCase</a></div><div class="ttdeci">def test_limitedVocabularyConfigurationFiles_correctCase</div><div class="ttdef"><b>Definition:</b> <a href="english__support__unit__tests_8py_source.html#l00058">english_support_unit_tests.py:58</a></div></div>
@@ -218,8 +213,8 @@ $(document).ready(function(){initNavTree('english__support__unit__tests_8py_sour
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_da3ea0f2ac0c100638ceec93695c5053.html">rapp_speech_detection_sphinx4</a></li><li class="navelem"><a class="el" href="dir_566b2142c898e8531a5b096fd366b079.html">tests</a></li><li class="navelem"><a class="el" href="dir_5f7bab38d76b8cdd9931394d8ec3a952.html">unit</a></li><li class="navelem"><a class="el" href="english__support__unit__tests_8py.html">english_support_unit_tests.py</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:49 for RAPP Platform Tests - Speech Detection Sphinx4 by
+    <li class="navelem"><a class="el" href="dir_8063c66539b437b8063feef97c7863fa.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_da3ea0f2ac0c100638ceec93695c5053.html">rapp_speech_detection_sphinx4</a></li><li class="navelem"><a class="el" href="dir_566b2142c898e8531a5b096fd366b079.html">tests</a></li><li class="navelem"><a class="el" href="dir_5f7bab38d76b8cdd9931394d8ec3a952.html">unit</a></li><li class="navelem"><a class="el" href="english__support__unit__tests_8py.html">english_support_unit_tests.py</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:18 for RAPP Platform Tests - Speech Detection Sphinx4 by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

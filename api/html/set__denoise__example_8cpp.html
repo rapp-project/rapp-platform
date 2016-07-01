@@ -92,7 +92,7 @@ $(document).ready(function(){initNavTree('set__denoise__example_8cpp.html','');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -108,39 +108,52 @@ $(document).ready(function(){initNavTree('set__denoise__example_8cpp.html','');}
 <div class="title">set_denoise_example.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="service__controller_8hpp_source.html">../includes/service/service_controller/service_controller.hpp</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="setDenoiseProfile_8hpp_source.html">../includes/cloud/setDenoiseProfile/setDenoiseProfile.hpp</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="audio_8hpp_source.html">../includes/objects/audio/audio.hpp</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="service__controller_8hpp_source.html">cloud/service_controller/service_controller.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="set__denoise__profile_8hpp_source.html">cloud/speech/set_denoise_profile/set_denoise_profile.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="audio_8hpp_source.html">objects/audio/audio.hpp</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for set_denoise_example.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="set__denoise__example_8cpp__incl.png" border="0" usemap="#_2home_2travis_2rapp__temp_2rapp-api_2cpp_2examples_2set__denoise__example_8cpp" alt=""/></div>
 <map name="_2home_2travis_2rapp__temp_2rapp-api_2cpp_2examples_2set__denoise__example_8cpp" id="_2home_2travis_2rapp__temp_2rapp-api_2cpp_2examples_2set__denoise__example_8cpp">
-<area shape="rect" id="node2" href="service__controller_8hpp.html" title="../includes/service\l/service_controller\l/service_controller.hpp" alt="" coords="574,109,727,165"/><area shape="rect" id="node18" href="setDenoiseProfile_8hpp.html" title="../includes/cloud/setDenoise\lProfile/setDenoiseProfile.hpp" alt="" coords="1101,117,1291,158"/><area shape="rect" id="node29" href="audio_8hpp.html" title="../../objects/audio\l/audio.hpp" alt="" coords="1008,295,1131,337"/><area shape="rect" id="node3" href="service_2service__controller_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="266,392,357,419"/><area shape="rect" id="node10" href="asio__socket_8hpp.html" title="../asio_socket/asio\l_socket.hpp" alt="" coords="629,467,760,509"/><area shape="rect" id="node17" href="globals_8hpp.html" title="../globals/globals.hpp" alt="" coords="111,475,256,501"/><area shape="rect" id="node11" href="service_2asio__socket_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="802,557,893,584"/><area shape="rect" id="node19" href="cloud_2setDenoiseProfile_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1150,213,1241,240"/><area shape="rect" id="node25" href="asio__service__http_8hpp.html" title="../../service/asio\l_service_http/asio_service\l_http.hpp" alt="" coords="806,288,983,344"/><area shape="rect" id="node26" href="service_2asio__service__http_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="886,392,977,419"/><area shape="rect" id="node30" href="objects_2audio_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="1485,392,1576,419"/></map>
+<area shape="rect" id="node2" href="service__controller_8hpp.html" title="cloud/service_controller\l/service_controller.hpp" alt="" coords="978,110,1136,151"/><area shape="rect" id="node35" href="set__denoise__profile_8hpp.html" title="cloud/speech/set_denoise\l_profile/set_denoise_profile.hpp" alt="" coords="1655,110,1860,151"/><area shape="rect" id="node41" href="audio_8hpp.html" title="objects/audio/audio.hpp" alt="" coords="1509,283,1667,309"/><area shape="rect" id="node3" href="cloud_2service__controller_2includes_8ihh.html" title="includes.ihh" alt="" coords="615,200,705,227"/><area shape="rect" id="node13" href="asio__socket_8hpp.html" title="cloud/asio_socket/asio\l_socket.hpp" alt="" coords="600,441,753,482"/><area shape="rect" id="node20" href="asio__service__http_8hpp.html" title="cloud/asio_service\l_http/asio_service_http.hpp" alt="" coords="1137,275,1319,317"/><area shape="rect" id="node14" href="cloud_2asio__socket_2includes_8ihh.html" title="includes.ihh" alt="" coords="651,531,741,557"/><area shape="rect" id="node21" href="cloud_2asio__service__http_2includes_8ihh.html" title="includes.ihh" alt="" coords="739,365,829,392"/><area shape="rect" id="node23" href="asio__handler_8hpp.html" title="cloud/asio_handler\l/asio_handler.hpp" alt="" coords="829,441,959,482"/><area shape="rect" id="node24" href="cloud_2asio__handler_2includes_8ihh.html" title="includes.ihh" alt="" coords="869,531,960,557"/><area shape="rect" id="node36" href="cloud_2speech_2set__denoise__profile_2includes_8ihh.html" title="includes.ihh" alt="" coords="1743,200,1833,227"/><area shape="rect" id="node42" href="objects_2audio_2includes_8ihh.html" title="includes.ihh" alt="" coords="1431,365,1521,392"/><area shape="rect" id="node44" href="globals_8hpp.html" title="objects/globals.hpp" alt="" coords="1474,448,1608,475"/></map>
 </div>
 </div>
 <p><a href="set__denoise__example_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__denoise__example_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
-<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="set__denoise__example_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
+<tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<a class="anchor" id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">int main </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">char **&#160;</td>
+          <td class="paramname"><em>argv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>set a denoise profile for a specific user argv[1] : audio file argv[2] : audio type (</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="audio_8hpp.html">audio.hpp</a>) e.g.: <code>microphone_wav</code>, <code>nao_single_channel_wav</code> <code>nao_quad_channel_wav</code> <code>ogg</code> argv[3] : user (by default: <code><a class="el" href="namespacerapp.html">rapp</a></code>) </dd></dl>
 
-<p>Definition at line <a class="el" href="set__denoise__example_8cpp_source.html#l00005">5</a> of file <a class="el" href="set__denoise__example_8cpp_source.html">set_denoise_example.cpp</a>.</p>
+<p>Definition at line <a class="el" href="set__denoise__example_8cpp_source.html#l00013">13</a> of file <a class="el" href="set__denoise__example_8cpp_source.html">set_denoise_example.cpp</a>.</p>
 
 </div>
 </div>
@@ -150,7 +163,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_df511e5bd85cec96854b39d5e1c27aa8.html">cpp</a></li><li class="navelem"><a class="el" href="dir_a06190f9ebbf14b881cd537a7e083730.html">examples</a></li><li class="navelem"><a class="el" href="set__denoise__example_8cpp.html">set_denoise_example.cpp</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:02:11 for RAPP Platform API by
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:48 for RAPP Platform API by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

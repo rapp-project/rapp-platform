@@ -1,0 +1,222 @@
+\hypertarget{classimage__classification_1_1ImageClassification}{\section{image\-\_\-classification.\-Image\-Classification Class Reference}
+\label{classimage__classification_1_1ImageClassification}\index{image\-\_\-classification.\-Image\-Classification@{image\-\_\-classification.\-Image\-Classification}}
+}
+
+
+Contains the necessary functions for classifying an images and requesting registration to the ontology.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classimage__classification_1_1ImageClassification_aa8387fa530b991c247c07fb8e31659d7}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Initializes Caffe. \end{DoxyCompactList}\item 
+def \hyperlink{classimage__classification_1_1ImageClassification_a57a1c2a4c20c67a075e6750766b9ae47}{classify\-Image}
+\begin{DoxyCompactList}\small\item\em Implements the image\-Classification\-Srv service main function. \end{DoxyCompactList}\item 
+def \hyperlink{classimage__classification_1_1ImageClassification_a58d81fee571b013e4c42ff5f6b8e0f5b}{get\-Image\-Class}
+\begin{DoxyCompactList}\small\item\em Obtains the name of the class of the image from the caffe image classes file. \end{DoxyCompactList}\item 
+def \hyperlink{classimage__classification_1_1ImageClassification_a4423a4e0acac8e6100d0a35076411298}{get\-Ontology\-Class}
+\begin{DoxyCompactList}\small\item\em Calls the caffe wrapper service that registers the image to the ontology. \end{DoxyCompactList}\item 
+def \hyperlink{classimage__classification_1_1ImageClassification_ac8388da7f4188348ea700e2fb3b51bcc}{register\-To\-Ontology}
+\begin{DoxyCompactList}\small\item\em Calls the caffe wrapper service that registers the image to the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classimage__classification_1_1ImageClassification_a18e8e6b97425c52d1bdc3848a6ec0129}{caffe\-\_\-root}
+\item 
+\hyperlink{classimage__classification_1_1ImageClassification_a75dbb5faef2c379f270f8c38f79518cf}{labels}
+\item 
+\hyperlink{classimage__classification_1_1ImageClassification_a6d94c2cec465652b7330a0f3e513453c}{net}
+\item 
+\hyperlink{classimage__classification_1_1ImageClassification_ab0eca59e05e6226695a9475966734c0f}{transformer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains the necessary functions for classifying an images and requesting registration to the ontology. 
+
+Definition at line 46 of file image\-\_\-classification.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classimage__classification_1_1ImageClassification_aa8387fa530b991c247c07fb8e31659d7}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-classification.\-Image\-Classification.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classimage__classification_1_1ImageClassification_aa8387fa530b991c247c07fb8e31659d7}
+
+
+Initializes Caffe. 
+
+
+
+Definition at line 49 of file image\-\_\-classification.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classimage__classification_1_1ImageClassification_a57a1c2a4c20c67a075e6750766b9ae47}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!classify\-Image@{classify\-Image}}
+\index{classify\-Image@{classify\-Image}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{classify\-Image}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-classification.\-Image\-Classification.\-classify\-Image (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classimage__classification_1_1ImageClassification_a57a1c2a4c20c67a075e6750766b9ae47}
+
+
+Implements the image\-Classification\-Srv service main function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::image\-Classification\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::image\-Classification\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & Index\-Error \\
+\hline
+{\em Exception} & I\-O\-Error \\
+\hline
+{\em Exception} & App\-Error \\
+\hline
+{\em Exception} & Key\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 86 of file image\-\_\-classification.\-py.
+
+\hypertarget{classimage__classification_1_1ImageClassification_a58d81fee571b013e4c42ff5f6b8e0f5b}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!get\-Image\-Class@{get\-Image\-Class}}
+\index{get\-Image\-Class@{get\-Image\-Class}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{get\-Image\-Class}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-classification.\-Image\-Classification.\-get\-Image\-Class (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classimage__classification_1_1ImageClassification_a58d81fee571b013e4c42ff5f6b8e0f5b}
+
+
+Obtains the name of the class of the image from the caffe image classes file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Class\-Bridge\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}string\mbox{]} The class of the image 
+\end{DoxyReturn}
+
+
+Definition at line 163 of file image\-\_\-classification.\-py.
+
+\hypertarget{classimage__classification_1_1ImageClassification_a4423a4e0acac8e6100d0a35076411298}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!get\-Ontology\-Class@{get\-Ontology\-Class}}
+\index{get\-Ontology\-Class@{get\-Ontology\-Class}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{get\-Ontology\-Class}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-classification.\-Image\-Classification.\-get\-Ontology\-Class (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{caffe\-Object\-Class}
+\end{DoxyParamCaption}
+)}}\label{classimage__classification_1_1ImageClassification_a4423a4e0acac8e6100d0a35076411298}
+
+
+Calls the caffe wrapper service that registers the image to the ontology. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em caffe\-Object\-Class} & \mbox{[}string\mbox{]} The caffe object class\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ontology\-Class\-Bridge\-Response.\-ontology\-Class \mbox{[}string\mbox{]} The ontology class of the image 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 124 of file image\-\_\-classification.\-py.
+
+\hypertarget{classimage__classification_1_1ImageClassification_ac8388da7f4188348ea700e2fb3b51bcc}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!register\-To\-Ontology@{register\-To\-Ontology}}
+\index{register\-To\-Ontology@{register\-To\-Ontology}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{register\-To\-Ontology}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-classification.\-Image\-Classification.\-register\-To\-Ontology (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req, }
+\item[{}]{caffe\-Object\-Class, }
+\item[{}]{ontology\-Class, }
+\item[{}]{current\-Image\-Path}
+\end{DoxyParamCaption}
+)}}\label{classimage__classification_1_1ImageClassification_ac8388da7f4188348ea700e2fb3b51bcc}
+
+
+Calls the caffe wrapper service that registers the image to the ontology. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Class\-Bridge\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+{\em caffe\-Object\-Class} & \mbox{[}string\mbox{]} The caffe object class \\
+\hline
+{\em ontology\-Class} & \mbox{[}string\mbox{]} The ontology object class \\
+\hline
+{\em current\-Image\-Path} & \mbox{[}string\mbox{]} The path of the image file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+register\-Image\-To\-Ontology\-Response.\-object\-\_\-entry \mbox{[}string\mbox{]} The ontology entry of the image 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 145 of file image\-\_\-classification.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classimage__classification_1_1ImageClassification_a18e8e6b97425c52d1bdc3848a6ec0129}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!caffe\-\_\-root@{caffe\-\_\-root}}
+\index{caffe\-\_\-root@{caffe\-\_\-root}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{caffe\-\_\-root}]{\setlength{\rightskip}{0pt plus 5cm}image\-\_\-classification.\-Image\-Classification.\-caffe\-\_\-root}}\label{classimage__classification_1_1ImageClassification_a18e8e6b97425c52d1bdc3848a6ec0129}
+
+
+Definition at line 50 of file image\-\_\-classification.\-py.
+
+\hypertarget{classimage__classification_1_1ImageClassification_a75dbb5faef2c379f270f8c38f79518cf}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!labels@{labels}}
+\index{labels@{labels}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{labels}]{\setlength{\rightskip}{0pt plus 5cm}image\-\_\-classification.\-Image\-Classification.\-labels}}\label{classimage__classification_1_1ImageClassification_a75dbb5faef2c379f270f8c38f79518cf}
+
+
+Definition at line 76 of file image\-\_\-classification.\-py.
+
+\hypertarget{classimage__classification_1_1ImageClassification_a6d94c2cec465652b7330a0f3e513453c}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!net@{net}}
+\index{net@{net}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{net}]{\setlength{\rightskip}{0pt plus 5cm}image\-\_\-classification.\-Image\-Classification.\-net}}\label{classimage__classification_1_1ImageClassification_a6d94c2cec465652b7330a0f3e513453c}
+
+
+Definition at line 60 of file image\-\_\-classification.\-py.
+
+\hypertarget{classimage__classification_1_1ImageClassification_ab0eca59e05e6226695a9475966734c0f}{\index{image\-\_\-classification\-::\-Image\-Classification@{image\-\_\-classification\-::\-Image\-Classification}!transformer@{transformer}}
+\index{transformer@{transformer}!image_classification::ImageClassification@{image\-\_\-classification\-::\-Image\-Classification}}
+\subsubsection[{transformer}]{\setlength{\rightskip}{0pt plus 5cm}image\-\_\-classification.\-Image\-Classification.\-transformer}}\label{classimage__classification_1_1ImageClassification_ab0eca59e05e6226695a9475966734c0f}
+
+
+Definition at line 66 of file image\-\_\-classification.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-caffe\-\_\-wrapper/src/\hyperlink{image__classification_8py}{image\-\_\-classification.\-py}\end{DoxyCompactItemize}

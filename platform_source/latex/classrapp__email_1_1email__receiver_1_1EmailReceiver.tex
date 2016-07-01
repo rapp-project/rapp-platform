@@ -1,0 +1,207 @@
+\hypertarget{classrapp__email_1_1email__receiver_1_1EmailReceiver}{\section{rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver Class Reference}
+\label{classrapp__email_1_1email__receiver_1_1EmailReceiver}\index{rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver@{rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver}}
+}
+
+
+Fetches emails from user's email account.  
+
+
+
+
+Inheritance diagram for rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{classrapp__email_1_1email__receiver_1_1EmailReceiver__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{classrapp__email_1_1email__receiver_1_1EmailReceiver__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__email_1_1email__receiver_1_1EmailReceiver_ae5d530bae993a7611ba1b6a8a15131a1}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__email_1_1email__receiver_1_1EmailReceiver_a4c2e435099bf0edb69c28cbeba69e784}{receive\-Email\-Srv\-Callback}
+\begin{DoxyCompactList}\small\item\em The callback to receive specified mails from users email account. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__email_1_1email__receiver_1_1EmailReceiver_ab08deb87673ae56dcc547ba48a13cb00}{\-\_\-connect\-Imap}
+\begin{DoxyCompactList}\small\item\em Create an I\-M\-A\-P connection to the server. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__email_1_1email__receiver_1_1EmailReceiver_ae756430db410c703e8ec0ff14e677b20}{\-\_\-fetch\-Email}
+\begin{DoxyCompactList}\small\item\em Fetch specified email's data. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__email_1_1email__receiver_1_1EmailReceiver_a0fa7fad7e580d4a6f7c61fcc97061f72}{\-\_\-initialize\-Path}
+\begin{DoxyCompactList}\small\item\em Create a temporary path for the user emails. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__email_1_1email__receiver_1_1EmailReceiver_aba920384377d2e884237ba9022c37e76}{\-\_\-select\-Emails}
+\begin{DoxyCompactList}\small\item\em Fetch the emails that match the requests criteria. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Fetches emails from user's email account. 
+
+Definition at line 46 of file email\-\_\-receiver.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__email_1_1email__receiver_1_1EmailReceiver_ae5d530bae993a7611ba1b6a8a15131a1}{\index{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_email::email_receiver::EmailReceiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__email_1_1email__receiver_1_1EmailReceiver_ae5d530bae993a7611ba1b6a8a15131a1}
+
+
+Constructor. 
+
+
+
+Definition at line 49 of file email\-\_\-receiver.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__email_1_1email__receiver_1_1EmailReceiver_ab08deb87673ae56dcc547ba48a13cb00}{\index{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}!\-\_\-connect\-Imap@{\-\_\-connect\-Imap}}
+\index{\-\_\-connect\-Imap@{\-\_\-connect\-Imap}!rapp_email::email_receiver::EmailReceiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}}
+\subsubsection[{\-\_\-connect\-Imap}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver.\-\_\-connect\-Imap (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{email, }
+\item[{}]{password, }
+\item[{}]{server, }
+\item[{}]{port}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__email_1_1email__receiver_1_1EmailReceiver_ab08deb87673ae56dcc547ba48a13cb00}
+
+
+Create an I\-M\-A\-P connection to the server. 
+
+Initiates an I\-M\-A\-P connection according to the user's email and logins to the server using user's credentials
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & \mbox{[}string\mbox{]} The user's email \\
+\hline
+{\em password} & \mbox{[}string\mbox{]} The user's password \\
+\hline
+{\em server} & \mbox{[}string\mbox{]} The email server \\
+\hline
+{\em port} & \mbox{[}string\mbox{]} The email server's port\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+imap \mbox{[}imaplib\-::\-I\-M\-A\-P4\-\_\-\-S\-S\-L\mbox{]} The connection 
+\end{DoxyReturn}
+
+
+Definition at line 264 of file email\-\_\-receiver.\-py.
+
+\hypertarget{classrapp__email_1_1email__receiver_1_1EmailReceiver_ae756430db410c703e8ec0ff14e677b20}{\index{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}!\-\_\-fetch\-Email@{\-\_\-fetch\-Email}}
+\index{\-\_\-fetch\-Email@{\-\_\-fetch\-Email}!rapp_email::email_receiver::EmailReceiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}}
+\subsubsection[{\-\_\-fetch\-Email}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver.\-\_\-fetch\-Email (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{imap, }
+\item[{}]{email\-I\-D, }
+\item[{}]{receive\-Path, }
+\item[{}]{email\-Counter}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__email_1_1email__receiver_1_1EmailReceiver_ae756430db410c703e8ec0ff14e677b20}
+
+
+Fetch specified email's data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em imap} & \mbox{[}imaplib\-::\-I\-M\-A\-P4\-\_\-\-S\-S\-L\mbox{]} The connection \\
+\hline
+{\em email\-I\-D} & \mbox{[}int\mbox{]} The emails U\-I\-D \\
+\hline
+{\em receive\-Path} & \mbox{[}string\mbox{]} The absolute path where the contents of the email should be written. \\
+\hline
+{\em email\-Counter} & \mbox{[}int\mbox{]} The number of emails processed\\
+\hline
+\end{DoxyParams}
+return mail\-Msg \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Mail\-Msg\mbox{]} The mail msg to be appended in the service response 
+
+Definition at line 113 of file email\-\_\-receiver.\-py.
+
+\hypertarget{classrapp__email_1_1email__receiver_1_1EmailReceiver_a0fa7fad7e580d4a6f7c61fcc97061f72}{\index{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}!\-\_\-initialize\-Path@{\-\_\-initialize\-Path}}
+\index{\-\_\-initialize\-Path@{\-\_\-initialize\-Path}!rapp_email::email_receiver::EmailReceiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}}
+\subsubsection[{\-\_\-initialize\-Path}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver.\-\_\-initialize\-Path (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{email}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__email_1_1email__receiver_1_1EmailReceiver_a0fa7fad7e580d4a6f7c61fcc97061f72}
+
+
+Create a temporary path for the user emails. 
+
+The path will be placed in $\sim$/rapp\-\_\-platform\-\_\-files/emails/\{username\}\{random\-\_\-string\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em email} & \mbox{[}string\mbox{]} The rapp user's email \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 188 of file email\-\_\-receiver.\-py.
+
+\hypertarget{classrapp__email_1_1email__receiver_1_1EmailReceiver_aba920384377d2e884237ba9022c37e76}{\index{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}!\-\_\-select\-Emails@{\-\_\-select\-Emails}}
+\index{\-\_\-select\-Emails@{\-\_\-select\-Emails}!rapp_email::email_receiver::EmailReceiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}}
+\subsubsection[{\-\_\-select\-Emails}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver.\-\_\-select\-Emails (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req, }
+\item[{}]{imap}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__email_1_1email__receiver_1_1EmailReceiver_aba920384377d2e884237ba9022c37e76}
+
+
+Fetch the emails that match the requests criteria. 
+
+req \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Email\-::\-Receive\-Email\-Srv\-Request\mbox{]} The receive email request
+
+\begin{DoxyReturn}{Returns}
+emails \mbox{[}list$<$int$>$\mbox{]} The U\-I\-Ds of the selected emails
+\end{DoxyReturn}
+imaplib.\-I\-M\-A\-P4.\-error General imaplib error 
+
+Definition at line 215 of file email\-\_\-receiver.\-py.
+
+\hypertarget{classrapp__email_1_1email__receiver_1_1EmailReceiver_a4c2e435099bf0edb69c28cbeba69e784}{\index{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}!receive\-Email\-Srv\-Callback@{receive\-Email\-Srv\-Callback}}
+\index{receive\-Email\-Srv\-Callback@{receive\-Email\-Srv\-Callback}!rapp_email::email_receiver::EmailReceiver@{rapp\-\_\-email\-::email\-\_\-receiver\-::\-Email\-Receiver}}
+\subsubsection[{receive\-Email\-Srv\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-receiver.\-Email\-Receiver.\-receive\-Email\-Srv\-Callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__email_1_1email__receiver_1_1EmailReceiver_a4c2e435099bf0edb69c28cbeba69e784}
+
+
+The callback to receive specified mails from users email account. 
+
+req \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Email\-::\-Receive\-Email\-Srv\-Request\mbox{]} The receive email request
+
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Email\-::\-Receive\-Email\-Srv\-Response\mbox{]} The receive email response 
+
+Definition at line 59 of file email\-\_\-receiver.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-email/src/rapp\-\_\-email/\hyperlink{email__receiver_8py}{email\-\_\-receiver.\-py}\end{DoxyCompactItemize}

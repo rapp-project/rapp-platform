@@ -15,9 +15,9 @@ Class that implements a face detection algorithm based on a Haar cascade classif
 \item 
 \hyperlink{classFaceDetector_af08a8c38a26b029e02e05d8d9498332c}{Face\-Detector} (void)
 \begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
-std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_abfbe382ac183aff81abe56585cb58f2f}{detect\-Faces} (const cv\-::\-Mat \&input\-\_\-img)
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_a154988581f876e3a15f59c57c4420df8}{detect\-Faces} (const cv\-::\-Mat \&input\-\_\-img, bool fast=false)
 \begin{DoxyCompactList}\small\item\em Detects faces from a cv\-::\-Mat. \end{DoxyCompactList}\item 
-std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_a2b337f0b4fb0d0865334c928ac8629ef}{find\-Faces} (std\-::string file\-\_\-name)
+std\-::vector$<$ cv\-::\-Rect $>$ \hyperlink{classFaceDetector_a590b5ba361a049b2b93d63ebb7518647}{find\-Faces} (std\-::string file\-\_\-name, bool fast=false)
 \begin{DoxyCompactList}\small\item\em Finds faces in an image retrieved from a file U\-R\-L. \end{DoxyCompactList}\item 
 cv\-::\-Mat \hyperlink{classFaceDetector_ad8223498ebc15a177485f86274583d81}{load\-Image} (std\-::string file\-\_\-name)
 \begin{DoxyCompactList}\small\item\em Loads an image from a file U\-R\-L. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -56,13 +56,14 @@ Definition at line 26 of file face\-\_\-detector.\-cpp.
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classFaceDetector_abfbe382ac183aff81abe56585cb58f2f}{\index{Face\-Detector@{Face\-Detector}!detect\-Faces@{detect\-Faces}}
+\hypertarget{classFaceDetector_a154988581f876e3a15f59c57c4420df8}{\index{Face\-Detector@{Face\-Detector}!detect\-Faces@{detect\-Faces}}
 \index{detect\-Faces@{detect\-Faces}!FaceDetector@{Face\-Detector}}
 \subsubsection[{detect\-Faces}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Face\-Detector\-::detect\-Faces (
 \begin{DoxyParamCaption}
-\item[{const cv\-::\-Mat \&}]{input\-\_\-img}
+\item[{const cv\-::\-Mat \&}]{input\-\_\-img, }
+\item[{bool}]{fast = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{classFaceDetector_abfbe382ac183aff81abe56585cb58f2f}
+)}}\label{classFaceDetector_a154988581f876e3a15f59c57c4420df8}
 
 
 Detects faces from a cv\-::\-Mat. 
@@ -71,13 +72,15 @@ Detects faces from a cv\-::\-Mat.
 \begin{DoxyParams}{Parameters}
 {\em input\-\_\-img} & \mbox{[}const cv\-::\-Mat\&\mbox{]} The input image \\
 \hline
+{\em fast} & \mbox{[}bool\mbox{]} True for fast detection -- frontal only \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected faces. Each face is represented by a rectangle. 
 \end{DoxyReturn}
 
 
-Definition at line 49 of file face\-\_\-detector.\-cpp.
+Definition at line 50 of file face\-\_\-detector.\-cpp.
 
 \hypertarget{classFaceDetector_a442209589a939c663ed1ab07dd6c3a90}{\index{Face\-Detector@{Face\-Detector}!detect\-Faces@{detect\-Faces}}
 \index{detect\-Faces@{detect\-Faces}!FaceDetector@{Face\-Detector}}
@@ -103,15 +106,16 @@ Detects faces from a cv\-::\-Mat.
 \end{DoxyReturn}
 
 
-Definition at line 82 of file face\-\_\-detector.\-cpp.
+Definition at line 89 of file face\-\_\-detector.\-cpp.
 
-\hypertarget{classFaceDetector_a2b337f0b4fb0d0865334c928ac8629ef}{\index{Face\-Detector@{Face\-Detector}!find\-Faces@{find\-Faces}}
+\hypertarget{classFaceDetector_a590b5ba361a049b2b93d63ebb7518647}{\index{Face\-Detector@{Face\-Detector}!find\-Faces@{find\-Faces}}
 \index{find\-Faces@{find\-Faces}!FaceDetector@{Face\-Detector}}
 \subsubsection[{find\-Faces}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ cv\-::\-Rect $>$ Face\-Detector\-::find\-Faces (
 \begin{DoxyParamCaption}
-\item[{std\-::string}]{file\-\_\-name}
+\item[{std\-::string}]{file\-\_\-name, }
+\item[{bool}]{fast = {\ttfamily false}}
 \end{DoxyParamCaption}
-)}}\label{classFaceDetector_a2b337f0b4fb0d0865334c928ac8629ef}
+)}}\label{classFaceDetector_a590b5ba361a049b2b93d63ebb7518647}
 
 
 Finds faces in an image retrieved from a file U\-R\-L. 
@@ -120,13 +124,15 @@ Finds faces in an image retrieved from a file U\-R\-L.
 \begin{DoxyParams}{Parameters}
 {\em file\-\_\-name} & \mbox{[}std\-::string\mbox{]} The image file's U\-R\-L \\
 \hline
+{\em fast} & \mbox{[}bool\mbox{]} True for fast detection -- frontal only \\
+\hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \mbox{[}std\-::vector$<$cv\-::\-Rect$>$\mbox{]} A vector containing the detected faces. Each face is represented by a rectangle. 
 \end{DoxyReturn}
 
 
-Definition at line 160 of file face\-\_\-detector.\-cpp.
+Definition at line 168 of file face\-\_\-detector.\-cpp.
 
 \hypertarget{classFaceDetector_a31426b2557e0548c5ca5c0542e51f394}{\index{Face\-Detector@{Face\-Detector}!identify\-Unique\-Faces@{identify\-Unique\-Faces}}
 \index{identify\-Unique\-Faces@{identify\-Unique\-Faces}!FaceDetector@{Face\-Detector}}
@@ -152,7 +158,7 @@ Identify unique faces from two sets of faces.
 \end{DoxyReturn}
 
 
-Definition at line 133 of file face\-\_\-detector.\-cpp.
+Definition at line 140 of file face\-\_\-detector.\-cpp.
 
 \hypertarget{classFaceDetector_ad8223498ebc15a177485f86274583d81}{\index{Face\-Detector@{Face\-Detector}!load\-Image@{load\-Image}}
 \index{load\-Image@{load\-Image}!FaceDetector@{Face\-Detector}}

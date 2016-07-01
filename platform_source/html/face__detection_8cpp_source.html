@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -95,7 +94,7 @@ $(document).ready(function(){initNavTree('face__detection_8cpp_source.html','');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -146,50 +145,52 @@ $(document).ready(function(){initNavTree('face__detection_8cpp_source.html','');
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  rapp_platform_ros_communications::FaceDetectionRosSrv::Response&amp; res)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  std::vector&lt;unsigned int [4]&gt; history;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  std::vector&lt;cv::Rect&gt; faces = <a class="code" href="classFaceDetection.html#a74003a22de1b6d9b1140f3e2c1a6444c">face_detector_</a>.<a class="code" href="classFaceDetector.html#a2b337f0b4fb0d0865334c928ac8629ef">findFaces</a>(req.imageFilename);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0 ; i &lt; faces.size() ; i++)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> temp[4];</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    temp[0] = faces[i].x;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    temp[1] = faces[i].y;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    temp[2] = faces[i].x + faces[i].width;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    temp[3] = faces[i].y + faces[i].height;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> duplicate = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j = 0 ; j &lt; history.size() ; j++)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordflow">if</span>(temp[0] == history[j][0] &amp;&amp; temp[1] == history[j][1] &amp;&amp;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;         temp[2] == history[j][2] &amp;&amp; temp[3] == history[j][3])</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        duplicate = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">if</span>(duplicate)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    geometry_msgs::PointStamped up_left_corner;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    geometry_msgs::PointStamped down_right_corner;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    up_left_corner.point.x = temp[0];</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    up_left_corner.point.y = temp[1];</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    down_right_corner.point.x = temp[2];</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    down_right_corner.point.y = temp[3];</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    res.faces_up_left.push_back(up_left_corner);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    res.faces_down_right.push_back(down_right_corner);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  std::vector&lt;cv::Rect&gt; faces = <a class="code" href="classFaceDetection.html#a74003a22de1b6d9b1140f3e2c1a6444c">face_detector_</a>.<a class="code" href="classFaceDetector.html#a590b5ba361a049b2b93d63ebb7518647">findFaces</a>(req.imageFilename,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    req.fast);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0 ; i &lt; faces.size() ; i++)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> temp[4];</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    temp[0] = faces[i].x;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    temp[1] = faces[i].y;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    temp[2] = faces[i].x + faces[i].width;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    temp[3] = faces[i].y + faces[i].height;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">bool</span> duplicate = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j = 0 ; j &lt; history.size() ; j++)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordflow">if</span>(temp[0] == history[j][0] &amp;&amp; temp[1] == history[j][1] &amp;&amp;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;         temp[2] == history[j][2] &amp;&amp; temp[3] == history[j][3])</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        duplicate = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span>(duplicate)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    geometry_msgs::PointStamped up_left_corner;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    geometry_msgs::PointStamped down_right_corner;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    up_left_corner.point.x = temp[0];</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    up_left_corner.point.y = temp[1];</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    down_right_corner.point.x = temp[2];</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    down_right_corner.point.y = temp[3];</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    res.faces_up_left.push_back(up_left_corner);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    res.faces_down_right.push_back(down_right_corner);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
 <div class="ttc" id="face__detection_8h_html"><div class="ttname"><a href="face__detection_8h.html">face_detection.h</a></div></div>
 <div class="ttc" id="classFaceDetection_html_a72874127ac52787483a3f1a744771eb7"><div class="ttname"><a href="classFaceDetection.html#a72874127ac52787483a3f1a744771eb7">FaceDetection::faceDetectionService_</a></div><div class="ttdeci">ros::ServiceServer faceDetectionService_</div><div class="ttdef"><b>Definition:</b> <a href="face__detection_8h_source.html#l00056">face_detection.h:56</a></div></div>
 <div class="ttc" id="classFaceDetection_html_a72f7ce4daf0768075f88c48db5957195"><div class="ttname"><a href="classFaceDetection.html#a72f7ce4daf0768075f88c48db5957195">FaceDetection::nh_</a></div><div class="ttdeci">ros::NodeHandle nh_</div><div class="ttdef"><b>Definition:</b> <a href="face__detection_8h_source.html#l00053">face_detection.h:53</a></div></div>
-<div class="ttc" id="classFaceDetector_html_a2b337f0b4fb0d0865334c928ac8629ef"><div class="ttname"><a href="classFaceDetector.html#a2b337f0b4fb0d0865334c928ac8629ef">FaceDetector::findFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; findFaces(std::string file_name)</div><div class="ttdoc">Finds faces in an image retrieved from a file URL. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00160">face_detector.cpp:160</a></div></div>
 <div class="ttc" id="classFaceDetection_html_a72f1e1890fcf06eae61016ad42506314"><div class="ttname"><a href="classFaceDetection.html#a72f1e1890fcf06eae61016ad42506314">FaceDetection::faceDetectionCallback</a></div><div class="ttdeci">bool faceDetectionCallback(rapp_platform_ros_communications::FaceDetectionRosSrv::Request &amp;req, rapp_platform_ros_communications::FaceDetectionRosSrv::Response &amp;res)</div><div class="ttdoc">Serves the face detection ROS service callback. </div><div class="ttdef"><b>Definition:</b> <a href="face__detection_8cpp_source.html#l00042">face_detection.cpp:42</a></div></div>
+<div class="ttc" id="classFaceDetector_html_a590b5ba361a049b2b93d63ebb7518647"><div class="ttname"><a href="classFaceDetector.html#a590b5ba361a049b2b93d63ebb7518647">FaceDetector::findFaces</a></div><div class="ttdeci">std::vector&lt; cv::Rect &gt; findFaces(std::string file_name, bool fast=false)</div><div class="ttdoc">Finds faces in an image retrieved from a file URL. </div><div class="ttdef"><b>Definition:</b> <a href="face__detector_8cpp_source.html#l00168">face_detector.cpp:168</a></div></div>
 <div class="ttc" id="classFaceDetection_html_a579ac45aa616167d12e25b7657c05af1"><div class="ttname"><a href="classFaceDetection.html#a579ac45aa616167d12e25b7657c05af1">FaceDetection::faceDetectionTopic_</a></div><div class="ttdeci">std::string faceDetectionTopic_</div><div class="ttdef"><b>Definition:</b> <a href="face__detection_8h_source.html#l00059">face_detection.h:59</a></div></div>
 <div class="ttc" id="classFaceDetection_html_ae047cd60fcdc6a2b0fbfd06410c38529"><div class="ttname"><a href="classFaceDetection.html#ae047cd60fcdc6a2b0fbfd06410c38529">FaceDetection::FaceDetection</a></div><div class="ttdeci">FaceDetection(void)</div><div class="ttdoc">Default constructor. </div><div class="ttdef"><b>Definition:</b> <a href="face__detection_8cpp_source.html#l00024">face_detection.cpp:24</a></div></div>
 <div class="ttc" id="classFaceDetection_html_a74003a22de1b6d9b1140f3e2c1a6444c"><div class="ttname"><a href="classFaceDetection.html#a74003a22de1b6d9b1140f3e2c1a6444c">FaceDetection::face_detector_</a></div><div class="ttdeci">FaceDetector face_detector_</div><div class="ttdef"><b>Definition:</b> <a href="face__detection_8h_source.html#l00062">face_detection.h:62</a></div></div>
@@ -198,8 +199,8 @@ $(document).ready(function(){initNavTree('face__detection_8cpp_source.html','');
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f0b9e3eb238af0396e656a14fad7377d.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_44a0dcb725fba6196e164e8983d688d6.html">src</a></li><li class="navelem"><a class="el" href="face__detection_8cpp.html">face_detection.cpp</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_530913858f2fa3bde7279a9e8604db89.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_19eca88c434547ab5ffe41b954083fad.html">src</a></li><li class="navelem"><a class="el" href="face__detection_8cpp.html">face_detection.cpp</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:30 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

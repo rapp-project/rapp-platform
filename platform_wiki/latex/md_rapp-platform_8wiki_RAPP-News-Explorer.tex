@@ -1,0 +1,83 @@
+Rapp News Explorer allows users to search for news articles employing various news search engine A\-P\-Is. The user can specify the desired news search engine, topics (i.\-e. sports, economy, headlines, etc.), desired keywords, language/region (can be specified employing \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-Geolocator}{\tt R\-A\-P\-P Geolocator}), etc. The node returns a list of related articles. The availability of news\-\_\-explorer services that rely on third party A\-P\-Is such as Google News are restricted according to the A\-P\-Is' rules and limitations. Thus, service call failures may exist.
+
+Currently supported News Engines\-:
+\begin{DoxyItemize}
+\item Google News (\href{https://developers.google.com/news-search/v1/devguide}{\tt A\-P\-I}) (discontinued by Google)
+\item \href{http://eventregistry.org/}{\tt Event\-Registry} (\href{https://github.com/gregorleban/EventRegistry/wiki}{\tt Git\-Hub wiki})
+\end{DoxyItemize}
+
+Event\-Registry does not require login, however it is subjected to \href{https://github.com/gregorleban/EventRegistry/wiki/Daily-access-restrictions}{\tt daily access restrictions.} If you have an Event\-Registry account, you should provide the credentials in the file {\ttfamily \$\{H\-O\-M\-E\}/.config/rapp\-\_\-platform/api\-\_\-keys/event\-\_\-registry} in the format\-:
+
+``` username password ```
+
+\section*{R\-O\-S Services}
+
+\subsection*{Fetch News}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-news\-\_\-explorer/fetch\-\_\-news}
+
+Service Type\-:
+
+News\-Explorer\-Srv.\-srv ``` \section*{Request}
+
+\section*{The news search engine}
+
+string news\-Engine \section*{Desired keywords}
+
+string\mbox{[}\mbox{]} keywords \section*{Reject list of previously read articles, in order to avoid duplicates}
+
+string\mbox{[}\mbox{]} exclude\-Titles \section*{Language/\-Region}
+
+string region\-Edition \section*{Main topics, i.\-e. sports, politics etc}
+
+string topic \section*{Number of news stories}
+
+int8 story\-Num 
+
+ \section*{Response}
+
+string error \# Error description
+
+\section*{List of news articles}
+
+rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-News\-Story\-Msg\mbox{[}\mbox{]} stories ``` {\bfseries Available news\-Engine values\-:}
+\begin{DoxyItemize}
+\item '' (uses default news engine)
+\item 'google'
+\item 'event\-\_\-registry'
+\end{DoxyItemize}
+
+News\-Story\-Msg.\-msg ``` \section*{Article title}
+
+string title \section*{Article brief content}
+
+string content \section*{Article publisher}
+
+string publisher \section*{Article publication date}
+
+string published\-Date \section*{Article original url}
+
+string url ```
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the rapp\-\_\-news\-\_\-explorer node and can be invoked by executing\-:
+
+{\ttfamily roslaunch rapp\-\_\-news\-\_\-explorer news\-\_\-explorer.\-launch}
+
+\section*{H\-O\-P Services}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/news\-\_\-explore}
+
+\subsection*{Input/\-Output}
+
+``` Input = \{ news\-\_\-engine\-: '', keywords\-: \mbox{[}\mbox{]}, exclude\-\_\-titles\-: \mbox{[}\mbox{]}, region\-: '', topic\-: '', num\-\_\-news\-: 25 \} ``` {\bfseries Available news\-\_\-engine values\-:}
+\begin{DoxyItemize}
+\item '' (uses default news engine)
+\item 'google'
+\item 'event\-\_\-registry'
+\end{DoxyItemize}
+
+``` Output = \{ news\-\_\-stories\-: \mbox{[}\mbox{]}, error\-: '' \} ``` 

@@ -100,38 +100,39 @@ $(document).ready(function(){initNavTree('How-do-I-launch-the-RAPP-Platform_04_8
 <div class="title">rapp-platform.wiki/How-do-I-launch-the-RAPP-Platform?.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="How-do-I-launch-the-RAPP-Platform_04_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;This is quite easy! Just follow the instructions below which describe the ```deploy``` folder in ```rapp_scripts```:</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;There are two files aimed <span class="keywordflow">for</span> deployment:</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;- ```deploy_rapp_ros.sh```: Deploys the RAPP Platform back-end, i.e. all the ROS nodes</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;- ```deploy_hop_services.sh```: Deploys the corresponding HOP services</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;If you want to deploy the RAPP Platform in the background you can use ```screen```. Just follow the next steps:</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;- ```screen```</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;- ```./deploy_rapp_ros.sh```</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;- Press Ctrl + a + d to detach</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;- ```screen```</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;- ```./deploy_hop_services```</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;- Press Ctrl + a + d to detach</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;- ```screen -ls``` to check that 2 screen sessions exist</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;To reattach to screen session:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;```</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;screen -r [pid.]tty.host</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;```</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;The screen step is <span class="keywordflow">for</span> running rapp_ros and hop_services on detached terminals which is useful, <span class="keywordflow">for</span> example in the <span class="keywordflow">case</span> where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative <span class="keywordflow">for</span> the terminals to remain open <span class="keywordflow">for</span> the processes to remain active.</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;Screen how-to: http:<span class="comment">//www.rackaid.com/blog/linux-screen-tutorial-and-how-to/</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<a href="How-do-I-launch-the-RAPP-Platform_04_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;This is quite easy! Just follow the instructions below which describe how to launch the deploy scripts. These scripts</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;are located in the [rapp-platform-scripts](https:<span class="comment">//github.com/rapp-project/rapp-platform-scripts) repository in the folder ```/deploy/```.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;There are two files aimed <span class="keywordflow">for</span> deployment:</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;- ```deploy_rapp_ros.sh```: Deploys the RAPP Platform back-end, i.e. all the ROS nodes</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;- ```deploy_web_services.sh```: Deploys the corresponding HOP services</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;If you want to deploy the RAPP Platform in the background you can use ```screen```. Just follow the next steps:</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;- ```screen```</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;- ```./deploy_rapp_ros.sh```</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;- Press Ctrl + a + d to detach</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;- ```screen```</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;- ```./deploy_web_services```</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;- Press Ctrl + a + d to detach</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;- ```screen -ls``` to check that 2 screen sessions exist</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;To reattach to screen session:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;```</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;screen -r [pid.]tty.host</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;```</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;The screen step is <span class="keywordflow">for</span> running rapp_ros and web_services on detached terminals which is useful, <span class="keywordflow">for</span> example in the <span class="keywordflow">case</span> where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative <span class="keywordflow">for</span> the terminals to remain open <span class="keywordflow">for</span> the processes to remain active.</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;Screen how-to: http:<span class="comment">//www.rackaid.com/blog/linux-screen-tutorial-and-how-to/</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="How-do-I-launch-the-RAPP-Platform_04_8md.html">How-do-I-launch-the-RAPP-Platform?.md</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

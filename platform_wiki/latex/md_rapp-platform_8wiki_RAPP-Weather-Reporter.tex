@@ -1,0 +1,103 @@
+R\-A\-P\-P Weather Reporter allows users to get details about current or future weather conditions. It provides two services; a) current weather conditions and b) weather forecast. The user has to provide his current city, which could be evaluated using \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-Geolocator}{\tt R\-A\-P\-P Geolocator}. The availability of weather services that rely on third party A\-P\-Is such as Y\-Weahter are restricted according to the A\-P\-Is' rules and limitations. Thus, service call failures may exist.
+
+Currently supported weather reporters\-:
+\begin{DoxyItemize}
+\item \href{https://pypi.python.org/pypi/yweather/}{\tt Y\-Weather}
+\item \href{https://forecast.io}{\tt Forecast\-I\-O} (default)
+\end{DoxyItemize}
+
+In order for the Forecast\-I\-O weather reporter to be deployed an A\-P\-I key is required. After obtaining the key via registration, the key should be stored in the following location\-: ``` \$\{H\-O\-M\-E\}/.config/rapp\-\_\-platform/api\-\_\-keys/forecast.\-io ```
+
+\section*{R\-O\-S Services}
+
+\subsection*{Current Weather}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-weather\-\_\-reporter/current\-\_\-weather}
+
+Service Type\-: ``` \section*{The desired city}
+
+string city \section*{The weather A\-P\-I}
+
+string weather\-\_\-reporter \section*{The return value units}
+
+\subsection*{int8 metric }
+
+string error
+
+string date string temperature string weather\-\_\-description string humidity string visibility string pressure string wind\-\_\-speed string wind\-\_\-temperature string wind\-\_\-direction ``` {\bfseries Available weather\-\_\-reporter values\-:}
+\begin{DoxyItemize}
+\item '' (uses default weather reporter)
+\item 'yweather'
+\item 'forecastio'
+\end{DoxyItemize}
+
+\subsection*{Weather Forecast}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-weather\-\_\-reporter/weather\-\_\-forecast}
+
+Service Type\-: ``` \section*{The desired city}
+
+string city \section*{The weather A\-P\-I}
+
+string weather\-\_\-reporter \section*{The return value units}
+
+\subsection*{int8 metric }
+
+string error
+
+rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-Weather\-Forecast\-Msg\mbox{[}\mbox{]} forecast ```
+
+{\bfseries Available weather\-\_\-reporter values\-:}
+\begin{DoxyItemize}
+\item '' (uses default weather reporter)
+\item 'yweather'
+\item 'forecastio'
+\end{DoxyItemize}
+
+Weather\-Forecast\-Msg.\-msg
+
+``` string high\-\_\-temperature string low\-\_\-temperature string description string date ```
+
+\section*{Launchers}
+
+\subsection*{Standard Launcher}
+
+Launches the rapp weather reporter node and can be invoked by executing\-:
+
+{\ttfamily roslaunch rapp\-\_\-weather\-\_\-reporter weather\-\_\-reporter.\-launch}
+
+\section*{H\-O\-P Services}
+
+\subsection*{Current weather}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/weather\-\_\-report\-\_\-current}
+
+\subsubsection*{Input/\-Output}
+
+``` Input = \{ city\-: '', weather\-\_\-reporter\-: '', metric\-: 0 \} ```
+
+{\bfseries Available weather\-\_\-reporter values\-:}
+\begin{DoxyItemize}
+\item '' (uses default weather reporter)
+\item 'yweather'
+\item 'forecastio'
+\end{DoxyItemize}
+
+``` Output = \{ date\-: '', temperature\-: '', weather\-\_\-description\-: '', humidity\-: '', visibility\-: '', pressure\-: '', wind\-\_\-speed\-: '', wind\-\_\-temperature\-: '', wind\-\_\-direction\-: '', error = '' \} ```
+
+\subsection*{Weather forecast}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/weather\-\_\-report\-\_\-forecast}
+
+\subsubsection*{Input/\-Output}
+
+``` Input = \{ city\-: '', weather\-\_\-reporter\-: '', metric\-: 0 \} ```
+
+{\bfseries Available weather\-\_\-reporter values\-:}
+\begin{DoxyItemize}
+\item '' (uses default weather reporter)
+\item 'yweather'
+\item 'forecastio'
+\end{DoxyItemize}
+
+``` Output = \{ forecast\-: \mbox{[}\mbox{]}, error\-: '' \} ``` 

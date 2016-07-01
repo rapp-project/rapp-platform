@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>RAPP Platform Wiki: HOP framework and HOP Web Services</title>
+<title>RAPP Platform Wiki: HOP-Services---General-Information</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,12 +97,14 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_HOP-Services---
 
 <div class="header">
   <div class="headertitle">
-<div class="title">HOP framework and HOP Web Services </div>  </div>
+<div class="title">HOP-Services---General-Information </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Developed algorithms located under RAPP Improvement Center (RIC), can be utilized by robots via the RAPP Platform Web Services, exposed by RIC and furthermore the RAPP Platform. We consider RAPP Platform Web Services an imperative component of the RAPP Improvement Center (RIC) as they define the client-server interface layer.</p>
-<p>HOP Web Services run under HOP Web Broker, as a part of RIC. Communication between remote clients and the HOP Server, and furthermore HOP Web Services, is achieved via <b>HTTP Post requests</b>. HOP Web Server is exposed to the web via a public IPv4 Address. Furthermore the HOP Web Services run on a specific system port and so those are accessible from remote clients via the HOP Web Server running IPv4 Address followed by a port (<b>xxx.xxx.xxx.xxx:8080</b>).</p>
-<p>As HOP Web Services act as the interface layer between the Robot Platform and the Cloud Platform (along with the RAPP API), the development of those depends on both Client (User/Developer) and RIC requirements.</p>
+<div class="textblock"><p>RAPP Improvement Center (RIC) nodes, can be utilized by robots via the RAPP Platform Web Services. The service layer has been developed using HOP. That consists of a web server implementation, an http/https server, and the web services developed in Hop.js framework. Web services run within server-side workers (web workers). A worker can include more than one web service. We consider server-side workers to be forked processes, thus allowing concurrent execution.</p>
+<p>As HOP-Web-Services act as the interface layer between the Robot Platform and the Cloud Platform (along with the RAPP API), the development of those depends on both Client (User/Developer) and RIC requirements.</p>
+<p>Web service responses are asynchronous http responses. This way we allow robot platforms to request for cloud services while performing other tasks.</p>
+<p>Robot platforms can access RAPP Platform services using HTTP POST requests, as most of the services require an arbitrary amount of data to be sent to the Cloud for processing, like image and audio data files. HOP Web Server has been configured to accept application/x-www-urlencoded and *multipart/form-data form submissions.</p>
+<p>The RAPP API, used from the client-side platform, integrates calls to the HOP Server and furthermore to the HOP Web Services. A HOP Web Service delegates service calls to the RAPP Services through the Rosbridge transport layer. Rosbridge Server provides a WebSocket transport layer to ROS and so it allows web clients to talk ROS using the rosbridge protocol. We use the Rosbridge Websocket Server in order to interfere with AI modules developed under ROS. That WebSocket server is not exposed to the public network and it is only accessible locally.</p>
 <p>The communication workflow, from the client-side platform to RAPP Services can be severed into the following independent interface layers:</p>
 <ul>
 <li>Client-side Platform -&gt; HOP Server.</li>
@@ -110,21 +112,23 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_HOP-Services---
 <li>HOP Web Services -&gt; Rosbridge WebSocket Server.</li>
 <li>Rosbridge WebSocket Server -&gt; RAPP Services (ROS Services).</li>
 </ul>
-<p>[[images/platform-robot.png]]</p>
-<p>The RAPP API, used from the client-side platform, integrates calls to the HOP Server and furthermore to the HOP Web Services. A HOP Web Service delegates service calls to the RAPP Services through the <a href="https://github.com/RobotWebTools/rosbridge_suite">Rosbridge</a> interface layer.</p>
-<p>Rosbridge Server provides a WebSocket transport layer to ROS and so it allows web clients to talk ROS using the rosbridge protocol. We use the Rosbridge Websocket Server in order to interfere with AI modules developed under ROS. That WebSocket server is not exposed to the public network and it is only accessible locally.</p>
-<p>[[images/srv-rosnodes.png]]</p>
-<p>Furthermore, user authentication on Hop Web Services requests, is handled by Hop Web Server. Currently we use <b>HTTP-Basic-Authentication</b> technique for enforcing access controls to the RAPP Platform web resources.</p>
-<h2>Initiate HOP Web Services</h2>
-<p>For initiating HOP Web Server (and HOP Web Services), execute, under the ***rapp-platform/rapp_web_services*** directory.</p>
-<p>```shell $ npm start ```</p>
-<p>Every js file, stored under the services/ directory with a .service.js extension, is considered to be a HOP Web Service js executable file. HOP Server is responsible for registering those services, on run-time, as workers. </p>
+<p>[[images/platform-comm-layers.png]]</p>
+<p>Currently, HOP-Server is configured to act as an HTTP/HTTPS Web Server (<b>Does not accept proxy connections</b>).</p>
+<h2>Deploy HOP Web Server</h2>
+<p>First, go the rapp_web_services directory:</p>
+<p>```shell $ cd ${HOME}/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_web_services ```</p>
+<p>Install required dependencies:</p>
+<p>```shell $ npm install ```</p>
+<p>For initiating HOP Web Server (and HOP Web Services), a grunt task exists:</p>
+<p>```shell $ grunt init-hop ```</p>
+<p>HOP Web Server can also be deployed through the deploy_web_services.sh script</p>
+<p><b>Note</b>: Do not change HOP Server configuration parameters, unless you know what you are doing!! </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

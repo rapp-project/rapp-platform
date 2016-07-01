@@ -1,0 +1,428 @@
+\hypertarget{classcostmap__2d_1_1RappStaticLayer}{\section{costmap\-\_\-2d\-:\-:Rapp\-Static\-Layer Class Reference}
+\label{classcostmap__2d_1_1RappStaticLayer}\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+}
+
+
+{\ttfamily \#include $<$rapp\-\_\-static\-\_\-layer.\-h$>$}
+
+
+
+Inheritance diagram for costmap\-\_\-2d\-:\-:Rapp\-Static\-Layer\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{classcostmap__2d_1_1RappStaticLayer__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for costmap\-\_\-2d\-:\-:Rapp\-Static\-Layer\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{classcostmap__2d_1_1RappStaticLayer__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcostmap__2d_1_1RappStaticLayer_aafc8750e4a6cdecfd2208c3cbef1b9e3}{Rapp\-Static\-Layer} ()
+\item 
+virtual \hyperlink{classcostmap__2d_1_1RappStaticLayer_ab550b41686e2d7918f8029dd20908aac}{$\sim$\-Rapp\-Static\-Layer} ()
+\item 
+virtual void \hyperlink{classcostmap__2d_1_1RappStaticLayer_a8c8a2d49cb525cb861c1cfdd6d5a89b1}{activate} ()
+\item 
+virtual void \hyperlink{classcostmap__2d_1_1RappStaticLayer_ac78bf4bd8fa9123b57466d171e6b76e5}{deactivate} ()
+\item 
+virtual void \hyperlink{classcostmap__2d_1_1RappStaticLayer_a3c3628d218ccea099becefc62ae8df11}{match\-Size} ()
+\item 
+virtual void \hyperlink{classcostmap__2d_1_1RappStaticLayer_ab35c59f69929e82416894cc07e2d1614}{on\-Initialize} ()
+\item 
+virtual void \hyperlink{classcostmap__2d_1_1RappStaticLayer_abfe970c32df0436d4e8fddb5f4eb5809}{reset} ()
+\item 
+virtual void \hyperlink{classcostmap__2d_1_1RappStaticLayer_aa77b0cbf7d9ef125dbcfa945e4b47228}{update\-Bounds} (double robot\-\_\-x, double robot\-\_\-y, double robot\-\_\-yaw, double $\ast$min\-\_\-x, double $\ast$min\-\_\-y, double $\ast$max\-\_\-x, double $\ast$max\-\_\-y)
+\item 
+virtual void \hyperlink{classcostmap__2d_1_1RappStaticLayer_ae072d082fab3e885667ef88321ecf7a1}{update\-Costs} (costmap\-\_\-2d\-::\-Costmap2\-D \&master\-\_\-grid, int min\-\_\-i, int min\-\_\-j, int max\-\_\-i, int max\-\_\-j)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classcostmap__2d_1_1RappStaticLayer_a02c7a4b33b54c1831b8755f3a1817705}{incoming\-Map} (const nav\-\_\-msgs\-::\-Occupancy\-Grid\-Const\-Ptr \&new\-\_\-map)
+\begin{DoxyCompactList}\small\item\em Callback to update the costmap's map from the \hyperlink{namespacemap__server}{map\-\_\-server}. \end{DoxyCompactList}\item 
+void \hyperlink{classcostmap__2d_1_1RappStaticLayer_a59db2ea6f0a661cdfed0f83e410d92c2}{incoming\-Update} (const map\-\_\-msgs\-::\-Occupancy\-Grid\-Update\-Const\-Ptr \&update)
+\item 
+bool \hyperlink{classcostmap__2d_1_1RappStaticLayer_af9862dc861d72fff8f408b8d9b4114dc}{incoming\-Update\-Service} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Costmap2d\-Ros\-Srv\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Costmap2d\-Ros\-Srv\-Response \&res)
+\item 
+unsigned char \hyperlink{classcostmap__2d_1_1RappStaticLayer_a444e0b1ef1ca6763001390c555e7eca4}{interpret\-Value} (unsigned char value)
+\item 
+void \hyperlink{classcostmap__2d_1_1RappStaticLayer_a041586185fa7f670236c9b95efbbc7e9}{reconfigure\-C\-B} (costmap\-\_\-2d\-::\-Generic\-Plugin\-Config \&config, uint32\-\_\-t level)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+ros\-::\-Service\-Server \hyperlink{classcostmap__2d_1_1RappStaticLayer_abc6ece9e63ad19b730e6212175e5b09a}{costmap\-\_\-update\-\_\-service}
+\item 
+dynamic\-\_\-reconfigure\-::\-Server\\*
+$<$ costmap\-\_\-2d\-::\-Generic\-Plugin\-Config $>$ $\ast$ \hyperlink{classcostmap__2d_1_1RappStaticLayer_a81284848f241f743f0ade2d9253157f8}{dsrv\-\_\-}
+\item 
+std\-::string \hyperlink{classcostmap__2d_1_1RappStaticLayer_a30e8c9d0097e7cbcc22fa4f8ab60d896}{global\-\_\-frame\-\_\-}
+\begin{DoxyCompactList}\small\item\em The global frame for the costmap. \end{DoxyCompactList}\item 
+bool \hyperlink{classcostmap__2d_1_1RappStaticLayer_a7e1b829620b5d72827c398279d0cacee}{has\-\_\-updated\-\_\-data\-\_\-}
+\item 
+unsigned int \hyperlink{classcostmap__2d_1_1RappStaticLayer_a1e8fa4631dfd2c0973498acffdde25f0}{height\-\_\-}
+\item 
+unsigned char \hyperlink{classcostmap__2d_1_1RappStaticLayer_aca5230d14fdd4ad09de3c22b3488a2e6}{lethal\-\_\-threshold\-\_\-}
+\item 
+boost\-::recursive\-\_\-mutex \hyperlink{classcostmap__2d_1_1RappStaticLayer_ab8eef08e36456dbd1ca2291600d6dc23}{lock\-\_\-}
+\item 
+bool \hyperlink{classcostmap__2d_1_1RappStaticLayer_abe9f1fbe3e0a5f77fb5c20352dc8fd7d}{map\-\_\-received\-\_\-}
+\item 
+ros\-::\-Subscriber \hyperlink{classcostmap__2d_1_1RappStaticLayer_a3ec9bdcd0e1fd00e0413ca2ace33213c}{map\-\_\-sub\-\_\-}
+\item 
+ros\-::\-Subscriber \hyperlink{classcostmap__2d_1_1RappStaticLayer_a2a347b65373e54e1755412c145115369}{map\-\_\-update\-\_\-sub\-\_\-}
+\item 
+bool \hyperlink{classcostmap__2d_1_1RappStaticLayer_ae11ef5367996ffd66dc4e42d510e8cb8}{subscribe\-\_\-to\-\_\-updates\-\_\-}
+\item 
+bool \hyperlink{classcostmap__2d_1_1RappStaticLayer_a59bbc6d857f64db82fba12d6738b64b9}{track\-\_\-unknown\-\_\-space\-\_\-}
+\item 
+bool \hyperlink{classcostmap__2d_1_1RappStaticLayer_a5a52be9bdba0653f94dd54ed9b74988f}{trinary\-\_\-costmap\-\_\-}
+\item 
+unsigned char \hyperlink{classcostmap__2d_1_1RappStaticLayer_a1eaa2242b66c95ca1daf7a7d4d99c2c2}{unknown\-\_\-cost\-\_\-value\-\_\-}
+\item 
+bool \hyperlink{classcostmap__2d_1_1RappStaticLayer_a9f1de23d69ed6a9d52c68e17c5b57fe7}{use\-\_\-maximum\-\_\-}
+\item 
+unsigned int \hyperlink{classcostmap__2d_1_1RappStaticLayer_ab987401de34356cd0c997ad64096048c}{width\-\_\-}
+\item 
+unsigned int \hyperlink{classcostmap__2d_1_1RappStaticLayer_a14718147c9334c14efea1aa845f7f650}{x\-\_\-}
+\item 
+unsigned int \hyperlink{classcostmap__2d_1_1RappStaticLayer_a3cebcf2d60339655080a13cd4c4719d7}{y\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 57 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_aafc8750e4a6cdecfd2208c3cbef1b9e3}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!Rapp\-Static\-Layer@{Rapp\-Static\-Layer}}
+\index{Rapp\-Static\-Layer@{Rapp\-Static\-Layer}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{Rapp\-Static\-Layer}]{\setlength{\rightskip}{0pt plus 5cm}costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::\-Rapp\-Static\-Layer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classcostmap__2d_1_1RappStaticLayer_aafc8750e4a6cdecfd2208c3cbef1b9e3}
+
+
+Definition at line 50 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_ab550b41686e2d7918f8029dd20908aac}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!$\sim$\-Rapp\-Static\-Layer@{$\sim$\-Rapp\-Static\-Layer}}
+\index{$\sim$\-Rapp\-Static\-Layer@{$\sim$\-Rapp\-Static\-Layer}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{$\sim$\-Rapp\-Static\-Layer}]{\setlength{\rightskip}{0pt plus 5cm}costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::$\sim$\-Rapp\-Static\-Layer (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_ab550b41686e2d7918f8029dd20908aac}
+
+
+Definition at line 52 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a8c8a2d49cb525cb861c1cfdd6d5a89b1}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!activate@{activate}}
+\index{activate@{activate}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{activate}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::activate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_a8c8a2d49cb525cb861c1cfdd6d5a89b1}
+
+
+Definition at line 257 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_ac78bf4bd8fa9123b57466d171e6b76e5}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!deactivate@{deactivate}}
+\index{deactivate@{deactivate}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{deactivate}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::deactivate (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_ac78bf4bd8fa9123b57466d171e6b76e5}
+
+
+Definition at line 262 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a02c7a4b33b54c1831b8755f3a1817705}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!incoming\-Map@{incoming\-Map}}
+\index{incoming\-Map@{incoming\-Map}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{incoming\-Map}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::incoming\-Map (
+\begin{DoxyParamCaption}
+\item[{const nav\-\_\-msgs\-::\-Occupancy\-Grid\-Const\-Ptr \&}]{new\-\_\-map}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a02c7a4b33b54c1831b8755f3a1817705}
+
+
+Callback to update the costmap's map from the \hyperlink{namespacemap__server}{map\-\_\-server}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\-\_\-map} & The map to put into the costmap. The origin of the new map along with its size will determine what parts of the costmap's static map are overwritten. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 194 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a59db2ea6f0a661cdfed0f83e410d92c2}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!incoming\-Update@{incoming\-Update}}
+\index{incoming\-Update@{incoming\-Update}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{incoming\-Update}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::incoming\-Update (
+\begin{DoxyParamCaption}
+\item[{const map\-\_\-msgs\-::\-Occupancy\-Grid\-Update\-Const\-Ptr \&}]{update}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a59db2ea6f0a661cdfed0f83e410d92c2}
+
+
+Definition at line 238 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_af9862dc861d72fff8f408b8d9b4114dc}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!incoming\-Update\-Service@{incoming\-Update\-Service}}
+\index{incoming\-Update\-Service@{incoming\-Update\-Service}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{incoming\-Update\-Service}]{\setlength{\rightskip}{0pt plus 5cm}bool costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::incoming\-Update\-Service (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Costmap2d\-Ros\-Srv\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Costmap2d\-Ros\-Srv\-Response \&}]{res}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_af9862dc861d72fff8f408b8d9b4114dc}
+
+
+Definition at line 148 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a444e0b1ef1ca6763001390c555e7eca4}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!interpret\-Value@{interpret\-Value}}
+\index{interpret\-Value@{interpret\-Value}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{interpret\-Value}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::interpret\-Value (
+\begin{DoxyParamCaption}
+\item[{unsigned char}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a444e0b1ef1ca6763001390c555e7eca4}
+
+
+Definition at line 180 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a3c3628d218ccea099becefc62ae8df11}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!match\-Size@{match\-Size}}
+\index{match\-Size@{match\-Size}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{match\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::match\-Size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_a3c3628d218ccea099becefc62ae8df11}
+
+
+Definition at line 173 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_ab35c59f69929e82416894cc07e2d1614}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!on\-Initialize@{on\-Initialize}}
+\index{on\-Initialize@{on\-Initialize}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{on\-Initialize}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::on\-Initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_ab35c59f69929e82416894cc07e2d1614}
+
+
+Definition at line 58 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a041586185fa7f670236c9b95efbbc7e9}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!reconfigure\-C\-B@{reconfigure\-C\-B}}
+\index{reconfigure\-C\-B@{reconfigure\-C\-B}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{reconfigure\-C\-B}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::reconfigure\-C\-B (
+\begin{DoxyParamCaption}
+\item[{costmap\-\_\-2d\-::\-Generic\-Plugin\-Config \&}]{config, }
+\item[{uint32\-\_\-t}]{level}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a041586185fa7f670236c9b95efbbc7e9}
+
+
+Definition at line 161 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_abfe970c32df0436d4e8fddb5f4eb5809}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!reset@{reset}}
+\index{reset@{reset}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_abfe970c32df0436d4e8fddb5f4eb5809}
+
+
+Definition at line 269 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_aa77b0cbf7d9ef125dbcfa945e4b47228}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!update\-Bounds@{update\-Bounds}}
+\index{update\-Bounds@{update\-Bounds}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{update\-Bounds}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::update\-Bounds (
+\begin{DoxyParamCaption}
+\item[{double}]{robot\-\_\-x, }
+\item[{double}]{robot\-\_\-y, }
+\item[{double}]{robot\-\_\-yaw, }
+\item[{double $\ast$}]{min\-\_\-x, }
+\item[{double $\ast$}]{min\-\_\-y, }
+\item[{double $\ast$}]{max\-\_\-x, }
+\item[{double $\ast$}]{max\-\_\-y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_aa77b0cbf7d9ef125dbcfa945e4b47228}
+
+
+Definition at line 275 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_ae072d082fab3e885667ef88321ecf7a1}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!update\-Costs@{update\-Costs}}
+\index{update\-Costs@{update\-Costs}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{update\-Costs}]{\setlength{\rightskip}{0pt plus 5cm}void costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::update\-Costs (
+\begin{DoxyParamCaption}
+\item[{costmap\-\_\-2d\-::\-Costmap2\-D \&}]{master\-\_\-grid, }
+\item[{int}]{min\-\_\-i, }
+\item[{int}]{min\-\_\-j, }
+\item[{int}]{max\-\_\-i, }
+\item[{int}]{max\-\_\-j}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classcostmap__2d_1_1RappStaticLayer_ae072d082fab3e885667ef88321ecf7a1}
+
+
+Definition at line 296 of file rapp\-\_\-static\-\_\-layer.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_abc6ece9e63ad19b730e6212175e5b09a}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!costmap\-\_\-update\-\_\-service@{costmap\-\_\-update\-\_\-service}}
+\index{costmap\-\_\-update\-\_\-service@{costmap\-\_\-update\-\_\-service}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{costmap\-\_\-update\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::costmap\-\_\-update\-\_\-service\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_abc6ece9e63ad19b730e6212175e5b09a}
+
+
+Definition at line 96 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a81284848f241f743f0ade2d9253157f8}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!dsrv\-\_\-@{dsrv\-\_\-}}
+\index{dsrv\-\_\-@{dsrv\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{dsrv\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}dynamic\-\_\-reconfigure\-::\-Server$<$costmap\-\_\-2d\-::\-Generic\-Plugin\-Config$>$$\ast$ costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::dsrv\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a81284848f241f743f0ade2d9253157f8}
+
+
+Definition at line 100 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a30e8c9d0097e7cbcc22fa4f8ab60d896}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!global\-\_\-frame\-\_\-@{global\-\_\-frame\-\_\-}}
+\index{global\-\_\-frame\-\_\-@{global\-\_\-frame\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{global\-\_\-frame\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::global\-\_\-frame\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a30e8c9d0097e7cbcc22fa4f8ab60d896}
+
+
+The global frame for the costmap. 
+
+
+
+Definition at line 87 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a7e1b829620b5d72827c398279d0cacee}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!has\-\_\-updated\-\_\-data\-\_\-@{has\-\_\-updated\-\_\-data\-\_\-}}
+\index{has\-\_\-updated\-\_\-data\-\_\-@{has\-\_\-updated\-\_\-data\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{has\-\_\-updated\-\_\-data\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::has\-\_\-updated\-\_\-data\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a7e1b829620b5d72827c398279d0cacee}
+
+
+Definition at line 90 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a1e8fa4631dfd2c0973498acffdde25f0}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!height\-\_\-@{height\-\_\-}}
+\index{height\-\_\-@{height\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{height\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::height\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a1e8fa4631dfd2c0973498acffdde25f0}
+
+
+Definition at line 91 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_aca5230d14fdd4ad09de3c22b3488a2e6}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!lethal\-\_\-threshold\-\_\-@{lethal\-\_\-threshold\-\_\-}}
+\index{lethal\-\_\-threshold\-\_\-@{lethal\-\_\-threshold\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{lethal\-\_\-threshold\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::lethal\-\_\-threshold\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_aca5230d14fdd4ad09de3c22b3488a2e6}
+
+
+Definition at line 97 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_ab8eef08e36456dbd1ca2291600d6dc23}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!lock\-\_\-@{lock\-\_\-}}
+\index{lock\-\_\-@{lock\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{lock\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::recursive\-\_\-mutex costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::lock\-\_\-\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_ab8eef08e36456dbd1ca2291600d6dc23}
+
+
+Definition at line 99 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_abe9f1fbe3e0a5f77fb5c20352dc8fd7d}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!map\-\_\-received\-\_\-@{map\-\_\-received\-\_\-}}
+\index{map\-\_\-received\-\_\-@{map\-\_\-received\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{map\-\_\-received\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::map\-\_\-received\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_abe9f1fbe3e0a5f77fb5c20352dc8fd7d}
+
+
+Definition at line 89 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a3ec9bdcd0e1fd00e0413ca2ace33213c}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!map\-\_\-sub\-\_\-@{map\-\_\-sub\-\_\-}}
+\index{map\-\_\-sub\-\_\-@{map\-\_\-sub\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{map\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::map\-\_\-sub\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a3ec9bdcd0e1fd00e0413ca2ace33213c}
+
+
+Definition at line 95 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a2a347b65373e54e1755412c145115369}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!map\-\_\-update\-\_\-sub\-\_\-@{map\-\_\-update\-\_\-sub\-\_\-}}
+\index{map\-\_\-update\-\_\-sub\-\_\-@{map\-\_\-update\-\_\-sub\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{map\-\_\-update\-\_\-sub\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Subscriber costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::map\-\_\-update\-\_\-sub\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a2a347b65373e54e1755412c145115369}
+
+
+Definition at line 95 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_ae11ef5367996ffd66dc4e42d510e8cb8}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!subscribe\-\_\-to\-\_\-updates\-\_\-@{subscribe\-\_\-to\-\_\-updates\-\_\-}}
+\index{subscribe\-\_\-to\-\_\-updates\-\_\-@{subscribe\-\_\-to\-\_\-updates\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{subscribe\-\_\-to\-\_\-updates\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::subscribe\-\_\-to\-\_\-updates\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_ae11ef5367996ffd66dc4e42d510e8cb8}
+
+
+Definition at line 88 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a59bbc6d857f64db82fba12d6738b64b9}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!track\-\_\-unknown\-\_\-space\-\_\-@{track\-\_\-unknown\-\_\-space\-\_\-}}
+\index{track\-\_\-unknown\-\_\-space\-\_\-@{track\-\_\-unknown\-\_\-space\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{track\-\_\-unknown\-\_\-space\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::track\-\_\-unknown\-\_\-space\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a59bbc6d857f64db82fba12d6738b64b9}
+
+
+Definition at line 92 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a5a52be9bdba0653f94dd54ed9b74988f}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!trinary\-\_\-costmap\-\_\-@{trinary\-\_\-costmap\-\_\-}}
+\index{trinary\-\_\-costmap\-\_\-@{trinary\-\_\-costmap\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{trinary\-\_\-costmap\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::trinary\-\_\-costmap\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a5a52be9bdba0653f94dd54ed9b74988f}
+
+
+Definition at line 94 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a1eaa2242b66c95ca1daf7a7d4d99c2c2}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!unknown\-\_\-cost\-\_\-value\-\_\-@{unknown\-\_\-cost\-\_\-value\-\_\-}}
+\index{unknown\-\_\-cost\-\_\-value\-\_\-@{unknown\-\_\-cost\-\_\-value\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{unknown\-\_\-cost\-\_\-value\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned char costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::unknown\-\_\-cost\-\_\-value\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a1eaa2242b66c95ca1daf7a7d4d99c2c2}
+
+
+Definition at line 97 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a9f1de23d69ed6a9d52c68e17c5b57fe7}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!use\-\_\-maximum\-\_\-@{use\-\_\-maximum\-\_\-}}
+\index{use\-\_\-maximum\-\_\-@{use\-\_\-maximum\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{use\-\_\-maximum\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}bool costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::use\-\_\-maximum\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a9f1de23d69ed6a9d52c68e17c5b57fe7}
+
+
+Definition at line 93 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_ab987401de34356cd0c997ad64096048c}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!width\-\_\-@{width\-\_\-}}
+\index{width\-\_\-@{width\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{width\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::width\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_ab987401de34356cd0c997ad64096048c}
+
+
+Definition at line 91 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a14718147c9334c14efea1aa845f7f650}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!x\-\_\-@{x\-\_\-}}
+\index{x\-\_\-@{x\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{x\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::x\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a14718147c9334c14efea1aa845f7f650}
+
+
+Definition at line 91 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+\hypertarget{classcostmap__2d_1_1RappStaticLayer_a3cebcf2d60339655080a13cd4c4719d7}{\index{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}!y\-\_\-@{y\-\_\-}}
+\index{y\-\_\-@{y\-\_\-}!costmap_2d::RappStaticLayer@{costmap\-\_\-2d\-::\-Rapp\-Static\-Layer}}
+\subsubsection[{y\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int costmap\-\_\-2d\-::\-Rapp\-Static\-Layer\-::y\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classcostmap__2d_1_1RappStaticLayer_a3cebcf2d60339655080a13cd4c4719d7}
+
+
+Definition at line 91 of file rapp\-\_\-static\-\_\-layer.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-costmap2d/include/rapp\-\_\-costmap\-\_\-2d/\hyperlink{rapp__static__layer_8h}{rapp\-\_\-static\-\_\-layer.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-costmap2d/plugins/\hyperlink{rapp__static__layer_8cpp}{rapp\-\_\-static\-\_\-layer.\-cpp}\end{DoxyCompactItemize}

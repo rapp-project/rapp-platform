@@ -1,6 +1,9 @@
 <map id="/home/travis/rapp_temp/rapp&#45;api/python/RappCloud" name="/home/travis/rapp_temp/rapp&#45;api/python/RappCloud">
-<area shape="rect" id="node2" href="dir_98c3755de22d07bfb71749dd724f0dd1.html" title="CloudInterface" alt="" coords="157,63,264,111"/>
-<area shape="rect" id="node3" href="dir_e91465a5df1c8a17f403653b6c5f807a.html" title="RandStrGen" alt="" coords="38,63,132,111"/>
-<area shape="rect" id="clust2" href="dir_153cfe001e47a918389fb481f1b7c907.html" alt="" coords="27,52,387,121"/>
-<area shape="rect" id="clust1" href="dir_7837fde3ab9c1fb2fc5be7b717af8d79.html" title="python" alt="" coords="16,16,397,132"/>
+<area shape="rect" id="node2" href="dir_8d661e141b9e49d952e98f5504eec3dc.html" title="CloudMsgs" alt="" coords="472,63,560,111"/>
+<area shape="rect" id="node3" href="dir_9a457c897592c3e44a0d212aa96511a6.html" title="Objects" alt="" coords="376,63,448,111"/>
+<area shape="rect" id="node4" href="dir_04712d52d1f3498c5c9154e2656683d6.html" title="Service" alt="" coords="280,63,352,111"/>
+<area shape="rect" id="node5" href="dir_0f562f4400be05812b71fdc6a66fedc7.html" title="ServiceController" alt="" coords="133,63,256,111"/>
+<area shape="rect" id="node6" href="dir_9de74481624172e3a4982f3c27abd6f1.html" title="Utils" alt="" coords="37,63,109,111"/>
+<area shape="rect" id="clust2" href="dir_153cfe001e47a918389fb481f1b7c907.html" alt="" coords="27,52,683,121"/>
+<area shape="rect" id="clust1" href="dir_7837fde3ab9c1fb2fc5be7b717af8d79.html" title="python" alt="" coords="16,16,693,132"/>
 </map>

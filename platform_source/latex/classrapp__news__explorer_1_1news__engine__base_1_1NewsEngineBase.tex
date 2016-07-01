@@ -1,0 +1,157 @@
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase}{\section{rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base Class Reference}
+\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase}\index{rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base}}
+}
+
+
+Base class for news engines.  
+
+
+
+
+Inheritance diagram for rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_a1fda6376fa5d76de79dbf8f5b44438f9}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_af14098e2dc744cd4f55e50e98e808623}{fetch\-\_\-news}
+\begin{DoxyCompactList}\small\item\em Abstract method to fetch news from news engine. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_ad1fe3e8243ed542c6daae881a67bdd46}{rapp\-\_\-http\-\_\-json\-\_\-parser}
+\begin{DoxyCompactList}\small\item\em Strips html tags from strings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_a121744fe761da152f89c91af07e1d0c8}{\-\_\-accepted\-\_\-status}
+\begin{DoxyCompactList}\small\item\em The value of valid response status code. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_ae4f2553c61a306faa2ac59ccbe1159b5}{\-\_\-http\-\_\-request}
+\begin{DoxyCompactList}\small\item\em Perform http requests to servers. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_af60c108531498c4b24469f00d5c2c84e}{\-\_\-url}
+\begin{DoxyCompactList}\small\item\em The base news engine url. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_abb582bd5ed92e40591357e2422aa5eab}{\-\_\-\-\_\-metaclass\-\_\-\-\_\-} = abc.\-A\-B\-C\-Meta
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for news engines. 
+
+Definition at line 32 of file news\-\_\-engine\-\_\-base.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_a1fda6376fa5d76de79dbf8f5b44438f9}{\index{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_news_explorer::news_engine_base::NewsEngineBase@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_a1fda6376fa5d76de79dbf8f5b44438f9}
+
+
+Constructor. 
+
+
+
+Definition at line 37 of file news\-\_\-engine\-\_\-base.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_af14098e2dc744cd4f55e50e98e808623}{\index{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}!fetch\-\_\-news@{fetch\-\_\-news}}
+\index{fetch\-\_\-news@{fetch\-\_\-news}!rapp_news_explorer::news_engine_base::NewsEngineBase@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}}
+\subsubsection[{fetch\-\_\-news}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base.\-fetch\-\_\-news (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_af14098e2dc744cd4f55e50e98e808623}
+
+
+Abstract method to fetch news from news engine. 
+
+
+
+Definition at line 52 of file news\-\_\-engine\-\_\-base.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_abb582bd5ed92e40591357e2422aa5eab}{\index{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}!\-\_\-\-\_\-metaclass\-\_\-\-\_\-@{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-metaclass\-\_\-\-\_\-@{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}!rapp_news_explorer::news_engine_base::NewsEngineBase@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}}
+\subsubsection[{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base.\-\_\-\-\_\-metaclass\-\_\-\-\_\- = abc.\-A\-B\-C\-Meta\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_abb582bd5ed92e40591357e2422aa5eab}
+
+
+Definition at line 34 of file news\-\_\-engine\-\_\-base.\-py.
+
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_a121744fe761da152f89c91af07e1d0c8}{\index{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}!\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}}
+\index{\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}!rapp_news_explorer::news_engine_base::NewsEngineBase@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}}
+\subsubsection[{\-\_\-accepted\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base.\-\_\-accepted\-\_\-status\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_a121744fe761da152f89c91af07e1d0c8}
+
+
+The value of valid response status code. 
+
+
+
+Definition at line 42 of file news\-\_\-engine\-\_\-base.\-py.
+
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_ae4f2553c61a306faa2ac59ccbe1159b5}{\index{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}!\-\_\-http\-\_\-request@{\-\_\-http\-\_\-request}}
+\index{\-\_\-http\-\_\-request@{\-\_\-http\-\_\-request}!rapp_news_explorer::news_engine_base::NewsEngineBase@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}}
+\subsubsection[{\-\_\-http\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base.\-\_\-http\-\_\-request\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_ae4f2553c61a306faa2ac59ccbe1159b5}
+
+
+Perform http requests to servers. 
+
+
+
+Definition at line 45 of file news\-\_\-engine\-\_\-base.\-py.
+
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_af60c108531498c4b24469f00d5c2c84e}{\index{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}!\-\_\-url@{\-\_\-url}}
+\index{\-\_\-url@{\-\_\-url}!rapp_news_explorer::news_engine_base::NewsEngineBase@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}}
+\subsubsection[{\-\_\-url}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base.\-\_\-url\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_af60c108531498c4b24469f00d5c2c84e}
+
+
+The base news engine url. 
+
+
+
+Definition at line 39 of file news\-\_\-engine\-\_\-base.\-py.
+
+\hypertarget{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_ad1fe3e8243ed542c6daae881a67bdd46}{\index{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}!rapp\-\_\-http\-\_\-json\-\_\-parser@{rapp\-\_\-http\-\_\-json\-\_\-parser}}
+\index{rapp\-\_\-http\-\_\-json\-\_\-parser@{rapp\-\_\-http\-\_\-json\-\_\-parser}!rapp_news_explorer::news_engine_base::NewsEngineBase@{rapp\-\_\-news\-\_\-explorer\-::news\-\_\-engine\-\_\-base\-::\-News\-Engine\-Base}}
+\subsubsection[{rapp\-\_\-http\-\_\-json\-\_\-parser}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-news\-\_\-explorer.\-news\-\_\-engine\-\_\-base.\-News\-Engine\-Base.\-rapp\-\_\-http\-\_\-json\-\_\-parser}}\label{classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase_ad1fe3e8243ed542c6daae881a67bdd46}
+
+
+Strips html tags from strings. 
+
+
+
+Definition at line 48 of file news\-\_\-engine\-\_\-base.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-news\-\_\-explorer/src/rapp\-\_\-news\-\_\-explorer/\hyperlink{news__engine__base_8py}{news\-\_\-engine\-\_\-base.\-py}\end{DoxyCompactItemize}

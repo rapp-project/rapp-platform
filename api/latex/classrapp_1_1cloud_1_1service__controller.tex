@@ -1,0 +1,171 @@
+\hypertarget{classrapp_1_1cloud_1_1service__controller}{\section{rapp\-:\-:cloud\-:\-:service\-\_\-controller Class Reference}
+\label{classrapp_1_1cloud_1_1service__controller}\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}}
+}
+
+
+Main class that controllers R\-A\-P\-P Services.  
+
+
+
+
+{\ttfamily \#include $<$service\-\_\-controller.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1service__controller_a61ed62dfff1175f312c89056690f4a54}{service\-\_\-controller} ()
+\begin{DoxyCompactList}\small\item\em no empty constructor \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1service__controller_aaec041d0f4df40abda2e17f88b895ca2}{run\-\_\-job} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1cloud_1_1asio__socket}{asio\-\_\-socket} $>$ job)
+\begin{DoxyCompactList}\small\item\em Run one service job. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1service__controller_acaab91110259314722958a57e2aa6963}{run\-\_\-jobs} (const std\-::vector$<$ std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1cloud_1_1asio__socket}{asio\-\_\-socket} $>$$>$ \&jobs)
+\begin{DoxyCompactList}\small\item\em Run a group of jobs in a batch. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1service__controller_afb25b43a525c321557455f29f3d59db9}{stop} ()
+\begin{DoxyCompactList}\small\item\em stop the service controller \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::asio\-::io\-\_\-service \hyperlink{classrapp_1_1cloud_1_1service__controller_ae75747e5cb7ec35db7413b6a5d8c560d}{io\-\_\-}
+\item 
+boost\-::asio\-::ip\-::tcp\-::resolver\-::query \hyperlink{classrapp_1_1cloud_1_1service__controller_a9f8f7b72c7ca33968f3a549cc1b78458}{query\-\_\-}
+\begin{DoxyCompactList}\small\item\em resolution, query and io service \end{DoxyCompactList}\item 
+boost\-::asio\-::ip\-::tcp\-::resolver \hyperlink{classrapp_1_1cloud_1_1service__controller_ae26bae9aaefaf7ddbd104fd1772afdd3}{resol\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Main class that controllers R\-A\-P\-P Services. 
+
+\begin{DoxyVersion}{Version}
+
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+January-\/2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk}
+\end{DoxyAuthor}
+This class controls services (be it on cloud or robot). A service is a callable function which offers some type of functionality to the callee. Whilst most services reside on the cloud (rapp\-::services\-::cloud) some may reside on the robot (rapp\-::services\-::robot) The service controller is used for either clour or robot, as it essentially controlls the socket connections. This is low-\/level stuff, and is of little concern to external developers, and is to be used only by developers who wish to create or extend services. 
+
+Definition at line 20 of file service\-\_\-controller.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1service__controller_a61ed62dfff1175f312c89056690f4a54}{\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}!service\-\_\-controller@{service\-\_\-controller}}
+\index{service\-\_\-controller@{service\-\_\-controller}!rapp::cloud::service_controller@{rapp\-::cloud\-::service\-\_\-controller}}
+\subsubsection[{service\-\_\-controller}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::service\-\_\-controller\-::service\-\_\-controller (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1service__controller_a61ed62dfff1175f312c89056690f4a54}
+
+
+no empty constructor 
+
+
+
+Definition at line 5 of file service\-\_\-controller.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1service__controller_aaec041d0f4df40abda2e17f88b895ca2}{\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}!run\-\_\-job@{run\-\_\-job}}
+\index{run\-\_\-job@{run\-\_\-job}!rapp::cloud::service_controller@{rapp\-::cloud\-::service\-\_\-controller}}
+\subsubsection[{run\-\_\-job}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::service\-\_\-controller\-::run\-\_\-job (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf asio\-\_\-socket} $>$}]{job}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1service__controller_aaec041d0f4df40abda2e17f88b895ca2}
+
+
+Run one service job. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em client} & is the actual object pointer that will be executed in a single operation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+upon completion, the object's handler will be invoked 
+
+upon completion -\/ scheduler is reset 
+\end{DoxyNote}
+
+
+Definition at line 9 of file service\-\_\-controller.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1service__controller_acaab91110259314722958a57e2aa6963}{\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}!run\-\_\-jobs@{run\-\_\-jobs}}
+\index{run\-\_\-jobs@{run\-\_\-jobs}!rapp::cloud::service_controller@{rapp\-::cloud\-::service\-\_\-controller}}
+\subsubsection[{run\-\_\-jobs}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::service\-\_\-controller\-::run\-\_\-jobs (
+\begin{DoxyParamCaption}
+\item[{const std\-::vector$<$ std\-::shared\-\_\-ptr$<$ {\bf asio\-\_\-socket} $>$$>$ \&}]{jobs}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1service__controller_acaab91110259314722958a57e2aa6963}
+
+
+Run a group of jobs in a batch. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em jobs} & is vector of constant pointers to client services \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+upon completion, the each object's handler will be invoked 
+\end{DoxyNote}
+\begin{DoxyWarning}{Warning}
+upon completion, the queue schedule will be reset. 
+\end{DoxyWarning}
+
+
+Definition at line 19 of file service\-\_\-controller.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1service__controller_afb25b43a525c321557455f29f3d59db9}{\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}!stop@{stop}}
+\index{stop@{stop}!rapp::cloud::service_controller@{rapp\-::cloud\-::service\-\_\-controller}}
+\subsubsection[{stop}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::service\-\_\-controller\-::stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1service__controller_afb25b43a525c321557455f29f3d59db9}
+
+
+stop the service controller 
+
+
+
+Definition at line 33 of file service\-\_\-controller.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1service__controller_ae75747e5cb7ec35db7413b6a5d8c560d}{\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}!io\-\_\-@{io\-\_\-}}
+\index{io\-\_\-@{io\-\_\-}!rapp::cloud::service_controller@{rapp\-::cloud\-::service\-\_\-controller}}
+\subsubsection[{io\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::io\-\_\-service rapp\-::cloud\-::service\-\_\-controller\-::io\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1service__controller_ae75747e5cb7ec35db7413b6a5d8c560d}
+
+
+Definition at line 49 of file service\-\_\-controller.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1service__controller_a9f8f7b72c7ca33968f3a549cc1b78458}{\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}!query\-\_\-@{query\-\_\-}}
+\index{query\-\_\-@{query\-\_\-}!rapp::cloud::service_controller@{rapp\-::cloud\-::service\-\_\-controller}}
+\subsubsection[{query\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::ip\-::tcp\-::resolver\-::query rapp\-::cloud\-::service\-\_\-controller\-::query\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1service__controller_a9f8f7b72c7ca33968f3a549cc1b78458}
+
+
+resolution, query and io service 
+
+
+
+Definition at line 48 of file service\-\_\-controller.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1service__controller_ae26bae9aaefaf7ddbd104fd1772afdd3}{\index{rapp\-::cloud\-::service\-\_\-controller@{rapp\-::cloud\-::service\-\_\-controller}!resol\-\_\-@{resol\-\_\-}}
+\index{resol\-\_\-@{resol\-\_\-}!rapp::cloud::service_controller@{rapp\-::cloud\-::service\-\_\-controller}}
+\subsubsection[{resol\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::ip\-::tcp\-::resolver rapp\-::cloud\-::service\-\_\-controller\-::resol\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1service__controller_ae26bae9aaefaf7ddbd104fd1772afdd3}
+
+
+Definition at line 50 of file service\-\_\-controller.\-hpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/service\-\_\-controller/\hyperlink{service__controller_8hpp}{service\-\_\-controller.\-hpp}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/service\-\_\-controller/\hyperlink{service__controller_8cpp}{service\-\_\-controller.\-cpp}\end{DoxyCompactItemize}

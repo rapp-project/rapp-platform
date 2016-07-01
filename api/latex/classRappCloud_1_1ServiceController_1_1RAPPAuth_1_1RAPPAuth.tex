@@ -1,0 +1,160 @@
+\hypertarget{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth}{\section{Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth Class Reference}
+\label{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth}\index{Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth@{Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth}}
+}
+
+
+Inheritance diagram for Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_ab17204a0a45a2b49a59c43bf59ac7a93}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a2ee81e35f8e8b617fc3177a8fdf2be07}{\-\_\-\-\_\-call\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Append the application token to the H\-T\-T\-P application protocol header. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a149651cee9690b01ce29553cde57671a}{\-\_\-\-\_\-load\-\_\-token}
+\begin{DoxyCompactList}\small\item\em Load the R\-A\-P\-P Platform authentication token. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_ad3922bc7e2d1e39ab360ce70e7a3f9b8}{\-\_\-\-\_\-read\-\_\-token\-\_\-from\-\_\-file}
+\begin{DoxyCompactList}\small\item\em Read and token string stored in a file. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a1e729169998595ec592b3d742584d3b4}{\-\_\-token}
+\item 
+\hyperlink{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a4566caf8f02272e821a871776e0f1b8d}{\-\_\-token\-Store\-Dir}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}RAPP Authentication Class
+
+Implements the RAPP Authentication mechanism for Platform requests.
+\end{DoxyVerb}
+ 
+
+Definition at line 34 of file R\-A\-P\-P\-Auth.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_ab17204a0a45a2b49a59c43bf59ac7a93}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!RappCloud::ServiceController::RAPPAuth::RAPPAuth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{token = {\ttfamily ''}, }
+\item[{}]{svcname = {\ttfamily ''}}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_ab17204a0a45a2b49a59c43bf59ac7a93}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em string} & token \\
+\hline
+{\em string} & svcname -\/ The service/application name. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 40 of file R\-A\-P\-P\-Auth.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a2ee81e35f8e8b617fc3177a8fdf2be07}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}!\-\_\-\-\_\-call\-\_\-\-\_\-@{\-\_\-\-\_\-call\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-call\-\_\-\-\_\-@{\-\_\-\-\_\-call\-\_\-\-\_\-}!RappCloud::ServiceController::RAPPAuth::RAPPAuth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}}
+\subsubsection[{\-\_\-\-\_\-call\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth.\-\_\-\-\_\-call\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{r}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a2ee81e35f8e8b617fc3177a8fdf2be07}
+
+
+Append the application token to the H\-T\-T\-P application protocol header. 
+
+Modify the request object. Append token string to the Accept-\/\-Token field of the request header. 
+
+Definition at line 55 of file R\-A\-P\-P\-Auth.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a149651cee9690b01ce29553cde57671a}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}!\-\_\-\-\_\-load\-\_\-token@{\-\_\-\-\_\-load\-\_\-token}}
+\index{\-\_\-\-\_\-load\-\_\-token@{\-\_\-\-\_\-load\-\_\-token}!RappCloud::ServiceController::RAPPAuth::RAPPAuth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}}
+\subsubsection[{\-\_\-\-\_\-load\-\_\-token}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth.\-\_\-\-\_\-load\-\_\-token (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{svcname = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a149651cee9690b01ce29553cde57671a}
+
+
+Load the R\-A\-P\-P Platform authentication token. 
+
+Currently only one application token exists, giving access to all the R\-A\-P\-P Platform services!! 
+
+Definition at line 65 of file R\-A\-P\-P\-Auth.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_ad3922bc7e2d1e39ab360ce70e7a3f9b8}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}!\-\_\-\-\_\-read\-\_\-token\-\_\-from\-\_\-file@{\-\_\-\-\_\-read\-\_\-token\-\_\-from\-\_\-file}}
+\index{\-\_\-\-\_\-read\-\_\-token\-\_\-from\-\_\-file@{\-\_\-\-\_\-read\-\_\-token\-\_\-from\-\_\-file}!RappCloud::ServiceController::RAPPAuth::RAPPAuth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}}
+\subsubsection[{\-\_\-\-\_\-read\-\_\-token\-\_\-from\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth.\-\_\-\-\_\-read\-\_\-token\-\_\-from\-\_\-file (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filepath}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_ad3922bc7e2d1e39ab360ce70e7a3f9b8}
+
+
+Read and token string stored in a file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filepath} & string -\/ The token file path. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 75 of file R\-A\-P\-P\-Auth.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a1e729169998595ec592b3d742584d3b4}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}!\-\_\-token@{\-\_\-token}}
+\index{\-\_\-token@{\-\_\-token}!RappCloud::ServiceController::RAPPAuth::RAPPAuth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}}
+\subsubsection[{\-\_\-token}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth.\-\_\-token\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a1e729169998595ec592b3d742584d3b4}
+
+
+Definition at line 50 of file R\-A\-P\-P\-Auth.\-py.
+
+\hypertarget{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a4566caf8f02272e821a871776e0f1b8d}{\index{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}!\-\_\-token\-Store\-Dir@{\-\_\-token\-Store\-Dir}}
+\index{\-\_\-token\-Store\-Dir@{\-\_\-token\-Store\-Dir}!RappCloud::ServiceController::RAPPAuth::RAPPAuth@{Rapp\-Cloud\-::\-Service\-Controller\-::\-R\-A\-P\-P\-Auth\-::\-R\-A\-P\-P\-Auth}}
+\subsubsection[{\-\_\-token\-Store\-Dir}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Service\-Controller.\-R\-A\-P\-P\-Auth.\-R\-A\-P\-P\-Auth.\-\_\-token\-Store\-Dir\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1ServiceController_1_1RAPPAuth_1_1RAPPAuth_a4566caf8f02272e821a871776e0f1b8d}
+
+
+Definition at line 47 of file R\-A\-P\-P\-Auth.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/python/\-Rapp\-Cloud/\-Service\-Controller/\hyperlink{RAPPAuth_8py}{R\-A\-P\-P\-Auth.\-py}\end{DoxyCompactItemize}

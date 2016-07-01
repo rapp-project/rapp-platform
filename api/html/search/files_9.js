@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['qr_5fdetect_2ecpp',['qr_detect.cpp',['../qr__detect_8cpp.html',1,'']]],
-  ['qrcode_2ehpp',['qrCode.hpp',['../qrCode_8hpp.html',1,'']]],
-  ['qrdetector_2ehpp',['qrDetector.hpp',['../qrDetector_8hpp.html',1,'']]]
+  ['net_2epy',['Net.py',['../Net_8py.html',1,'']]],
+  ['news_2ehpp',['news.hpp',['../news_8hpp.html',1,'']]],
+  ['newsexplore_2epy',['NewsExplore.py',['../NewsExplore_8py.html',1,'']]]
 ];

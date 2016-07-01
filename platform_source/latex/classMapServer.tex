@@ -1,0 +1,205 @@
+\hypertarget{classMapServer}{\section{Map\-Server Class Reference}
+\label{classMapServer}\index{Map\-Server@{Map\-Server}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classMapServer_a97df74346b07a9a1484664a0c41d5bdd}{Map\-Server} (std\-::string \hyperlink{classMapServer_ad6965ce117f3fd625ee154c9401adbd1}{fname})
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classMapServer_ac6d14174ad41d296a33f6477f5f1ca73}{map\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Get\-Map\-Ros\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Get\-Map\-Ros\-Srv\-::\-Response \&res)
+\item 
+bool \hyperlink{classMapServer_a2c261b01ef4787563d6921a8819bcc07}{map\-Upload\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Response \&res)
+\item 
+bool \hyperlink{classMapServer_a3850ab709ee42eb8b0179d9838887905}{update\-Map} (const std\-::string \hyperlink{classMapServer_ad6965ce117f3fd625ee154c9401adbd1}{fname}, double res)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classMapServer_a14e98192ccb9b3750ec15ab9bc504c89}{deprecated}
+\item 
+std\-::string \hyperlink{classMapServer_ad6965ce117f3fd625ee154c9401adbd1}{fname}
+\item 
+ros\-::\-Service\-Server \hyperlink{classMapServer_a9cf3f0c9eb77614d824d11a8b0e26494}{get\-\_\-service}
+\item 
+const char $\ast$ \hyperlink{classMapServer_afb9e1200e8b84b9cbc1e2d9fa9bb4f82}{homedir}
+\item 
+ros\-::\-Publisher \hyperlink{classMapServer_a470be44b3a485ea9650f7b39bc41cb4b}{map\-\_\-pub}
+\item 
+nav\-\_\-msgs\-::\-Get\-Map\-::\-Response \hyperlink{classMapServer_ac1be64f4c32a295b8a0bd09e716aeb42}{map\-\_\-resp\-\_\-}
+\item 
+nav\-\_\-msgs\-::\-Map\-Meta\-Data \hyperlink{classMapServer_a5aca513fe2a230e89e41f700703ee477}{meta\-\_\-data\-\_\-message\-\_\-}
+\item 
+ros\-::\-Publisher \hyperlink{classMapServer_a39b9c75c5bb3ca55346ba696b9cdcbb0}{metadata\-\_\-pub}
+\item 
+ros\-::\-Node\-Handle \hyperlink{classMapServer_a819c2adc93d1cb5175509f939de80b73}{n}
+\item 
+ros\-::\-Service\-Server \hyperlink{classMapServer_a2f853a0cd5519cae4ad0975bd82b5e43}{test\-\_\-service}
+\item 
+bool \hyperlink{classMapServer_a474607e20044b6f1bd25c82cb26df12c}{upload\-\_\-map\-\_\-trigger}
+\item 
+std\-::string \hyperlink{classMapServer_a07c4ad578d29ad41fb12cdb89883c9ad}{upload\-\_\-map\-\_\-trigger\-\_\-name}
+\item 
+ros\-::\-Service\-Server \hyperlink{classMapServer_a69f6590f7c64f1e2f95f252ec9613406}{upload\-\_\-service}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 74 of file main.\-cpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classMapServer_a97df74346b07a9a1484664a0c41d5bdd}{\index{Map\-Server@{Map\-Server}!Map\-Server@{Map\-Server}}
+\index{Map\-Server@{Map\-Server}!MapServer@{Map\-Server}}
+\subsubsection[{Map\-Server}]{\setlength{\rightskip}{0pt plus 5cm}Map\-Server\-::\-Map\-Server (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{fname}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classMapServer_a97df74346b07a9a1484664a0c41d5bdd}
+Trivial constructor 
+
+Definition at line 78 of file main.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classMapServer_ac6d14174ad41d296a33f6477f5f1ca73}{\index{Map\-Server@{Map\-Server}!map\-Callback@{map\-Callback}}
+\index{map\-Callback@{map\-Callback}!MapServer@{Map\-Server}}
+\subsubsection[{map\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Map\-Server\-::map\-Callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Get\-Map\-Ros\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Get\-Map\-Ros\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classMapServer_ac6d14174ad41d296a33f6477f5f1ca73}
+Callback invoked when someone requests our service 
+
+Definition at line 162 of file main.\-cpp.
+
+\hypertarget{classMapServer_a2c261b01ef4787563d6921a8819bcc07}{\index{Map\-Server@{Map\-Server}!map\-Upload\-Callback@{map\-Upload\-Callback}}
+\index{map\-Upload\-Callback@{map\-Upload\-Callback}!MapServer@{Map\-Server}}
+\subsubsection[{map\-Upload\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Map\-Server\-::map\-Upload\-Callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classMapServer_a2c261b01ef4787563d6921a8819bcc07}
+
+
+Definition at line 121 of file main.\-cpp.
+
+\hypertarget{classMapServer_a3850ab709ee42eb8b0179d9838887905}{\index{Map\-Server@{Map\-Server}!update\-Map@{update\-Map}}
+\index{update\-Map@{update\-Map}!MapServer@{Map\-Server}}
+\subsubsection[{update\-Map}]{\setlength{\rightskip}{0pt plus 5cm}bool Map\-Server\-::update\-Map (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{fname, }
+\item[{double}]{res}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}}\label{classMapServer_a3850ab709ee42eb8b0179d9838887905}
+
+
+Definition at line 178 of file main.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classMapServer_a14e98192ccb9b3750ec15ab9bc504c89}{\index{Map\-Server@{Map\-Server}!deprecated@{deprecated}}
+\index{deprecated@{deprecated}!MapServer@{Map\-Server}}
+\subsubsection[{deprecated}]{\setlength{\rightskip}{0pt plus 5cm}bool Map\-Server\-::deprecated\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a14e98192ccb9b3750ec15ab9bc504c89}
+
+
+Definition at line 119 of file main.\-cpp.
+
+\hypertarget{classMapServer_ad6965ce117f3fd625ee154c9401adbd1}{\index{Map\-Server@{Map\-Server}!fname@{fname}}
+\index{fname@{fname}!MapServer@{Map\-Server}}
+\subsubsection[{fname}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Map\-Server\-::fname\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_ad6965ce117f3fd625ee154c9401adbd1}
+
+
+Definition at line 118 of file main.\-cpp.
+
+\hypertarget{classMapServer_a9cf3f0c9eb77614d824d11a8b0e26494}{\index{Map\-Server@{Map\-Server}!get\-\_\-service@{get\-\_\-service}}
+\index{get\-\_\-service@{get\-\_\-service}!MapServer@{Map\-Server}}
+\subsubsection[{get\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Map\-Server\-::get\-\_\-service\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a9cf3f0c9eb77614d824d11a8b0e26494}
+
+
+Definition at line 117 of file main.\-cpp.
+
+\hypertarget{classMapServer_afb9e1200e8b84b9cbc1e2d9fa9bb4f82}{\index{Map\-Server@{Map\-Server}!homedir@{homedir}}
+\index{homedir@{homedir}!MapServer@{Map\-Server}}
+\subsubsection[{homedir}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ Map\-Server\-::homedir\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_afb9e1200e8b84b9cbc1e2d9fa9bb4f82}
+
+
+Definition at line 111 of file main.\-cpp.
+
+\hypertarget{classMapServer_a470be44b3a485ea9650f7b39bc41cb4b}{\index{Map\-Server@{Map\-Server}!map\-\_\-pub@{map\-\_\-pub}}
+\index{map\-\_\-pub@{map\-\_\-pub}!MapServer@{Map\-Server}}
+\subsubsection[{map\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher Map\-Server\-::map\-\_\-pub\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a470be44b3a485ea9650f7b39bc41cb4b}
+
+
+Definition at line 115 of file main.\-cpp.
+
+\hypertarget{classMapServer_ac1be64f4c32a295b8a0bd09e716aeb42}{\index{Map\-Server@{Map\-Server}!map\-\_\-resp\-\_\-@{map\-\_\-resp\-\_\-}}
+\index{map\-\_\-resp\-\_\-@{map\-\_\-resp\-\_\-}!MapServer@{Map\-Server}}
+\subsubsection[{map\-\_\-resp\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}nav\-\_\-msgs\-::\-Get\-Map\-::\-Response Map\-Server\-::map\-\_\-resp\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_ac1be64f4c32a295b8a0bd09e716aeb42}
+
+
+Definition at line 285 of file main.\-cpp.
+
+\hypertarget{classMapServer_a5aca513fe2a230e89e41f700703ee477}{\index{Map\-Server@{Map\-Server}!meta\-\_\-data\-\_\-message\-\_\-@{meta\-\_\-data\-\_\-message\-\_\-}}
+\index{meta\-\_\-data\-\_\-message\-\_\-@{meta\-\_\-data\-\_\-message\-\_\-}!MapServer@{Map\-Server}}
+\subsubsection[{meta\-\_\-data\-\_\-message\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}nav\-\_\-msgs\-::\-Map\-Meta\-Data Map\-Server\-::meta\-\_\-data\-\_\-message\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a5aca513fe2a230e89e41f700703ee477}
+The map data is cached here, to be sent out to service callers 
+
+Definition at line 284 of file main.\-cpp.
+
+\hypertarget{classMapServer_a39b9c75c5bb3ca55346ba696b9cdcbb0}{\index{Map\-Server@{Map\-Server}!metadata\-\_\-pub@{metadata\-\_\-pub}}
+\index{metadata\-\_\-pub@{metadata\-\_\-pub}!MapServer@{Map\-Server}}
+\subsubsection[{metadata\-\_\-pub}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Publisher Map\-Server\-::metadata\-\_\-pub\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a39b9c75c5bb3ca55346ba696b9cdcbb0}
+
+
+Definition at line 116 of file main.\-cpp.
+
+\hypertarget{classMapServer_a819c2adc93d1cb5175509f939de80b73}{\index{Map\-Server@{Map\-Server}!n@{n}}
+\index{n@{n}!MapServer@{Map\-Server}}
+\subsubsection[{n}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle Map\-Server\-::n\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a819c2adc93d1cb5175509f939de80b73}
+
+
+Definition at line 114 of file main.\-cpp.
+
+\hypertarget{classMapServer_a2f853a0cd5519cae4ad0975bd82b5e43}{\index{Map\-Server@{Map\-Server}!test\-\_\-service@{test\-\_\-service}}
+\index{test\-\_\-service@{test\-\_\-service}!MapServer@{Map\-Server}}
+\subsubsection[{test\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Map\-Server\-::test\-\_\-service\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a2f853a0cd5519cae4ad0975bd82b5e43}
+
+
+Definition at line 117 of file main.\-cpp.
+
+\hypertarget{classMapServer_a474607e20044b6f1bd25c82cb26df12c}{\index{Map\-Server@{Map\-Server}!upload\-\_\-map\-\_\-trigger@{upload\-\_\-map\-\_\-trigger}}
+\index{upload\-\_\-map\-\_\-trigger@{upload\-\_\-map\-\_\-trigger}!MapServer@{Map\-Server}}
+\subsubsection[{upload\-\_\-map\-\_\-trigger}]{\setlength{\rightskip}{0pt plus 5cm}bool Map\-Server\-::upload\-\_\-map\-\_\-trigger\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a474607e20044b6f1bd25c82cb26df12c}
+
+
+Definition at line 113 of file main.\-cpp.
+
+\hypertarget{classMapServer_a07c4ad578d29ad41fb12cdb89883c9ad}{\index{Map\-Server@{Map\-Server}!upload\-\_\-map\-\_\-trigger\-\_\-name@{upload\-\_\-map\-\_\-trigger\-\_\-name}}
+\index{upload\-\_\-map\-\_\-trigger\-\_\-name@{upload\-\_\-map\-\_\-trigger\-\_\-name}!MapServer@{Map\-Server}}
+\subsubsection[{upload\-\_\-map\-\_\-trigger\-\_\-name}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Map\-Server\-::upload\-\_\-map\-\_\-trigger\-\_\-name\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a07c4ad578d29ad41fb12cdb89883c9ad}
+
+
+Definition at line 112 of file main.\-cpp.
+
+\hypertarget{classMapServer_a69f6590f7c64f1e2f95f252ec9613406}{\index{Map\-Server@{Map\-Server}!upload\-\_\-service@{upload\-\_\-service}}
+\index{upload\-\_\-service@{upload\-\_\-service}!MapServer@{Map\-Server}}
+\subsubsection[{upload\-\_\-service}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Map\-Server\-::upload\-\_\-service\hspace{0.3cm}{\ttfamily [private]}}}\label{classMapServer_a69f6590f7c64f1e2f95f252ec9613406}
+
+
+Definition at line 117 of file main.\-cpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-map\-\_\-server/src/\hyperlink{main_8cpp}{main.\-cpp}\end{DoxyCompactItemize}

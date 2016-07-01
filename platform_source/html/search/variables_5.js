@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['face_5fdetector_5f',['face_detector_',['../classFaceDetection.html#a74003a22de1b6d9b1140f3e2c1a6444c',1,'FaceDetection']]],
-  ['facedetectionservice_5f',['faceDetectionService_',['../classFaceDetection.html#a72874127ac52787483a3f1a744771eb7',1,'FaceDetection']]],
-  ['facedetectiontopic_5f',['faceDetectionTopic_',['../classFaceDetection.html#a579ac45aa616167d12e25b7657c05af1',1,'FaceDetection']]]
+  ['emailreceiver',['emailReceiver',['../namespacerapp__email_1_1email__node.html#ae9251dd8ab5a692f1b2ea489d7a94bef',1,'rapp_email::email_node']]],
+  ['emailsender',['emailSender',['../namespacerapp__email_1_1email__node.html#aaf8e53caf5cfebf7af01a7d222c326a5',1,'rapp_email::email_node']]]
 ];

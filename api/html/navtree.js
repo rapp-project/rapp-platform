@@ -5,6 +5,7 @@ var NAVTREE =
       [ "Packages", "namespaces.html", "namespaces" ],
       [ "Package Functions", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
         [ "Variables", "namespacemembers_vars.html", null ],
         [ "Typedefs", "namespacemembers_type.html", null ]
       ] ]
@@ -14,11 +15,10 @@ var NAVTREE =
       [ "Class Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
-        [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ],
-        [ "Enumerations", "functions_enum.html", null ],
-        [ "Enumerator", "functions_eval.html", null ]
+        [ "All", "functions.html", "functions_dup" ],
+        [ "Functions", "functions_func.html", "functions_func" ],
+        [ "Variables", "functions_vars.html", "functions_vars" ],
+        [ "Typedefs", "functions_type.html", null ]
       ] ]
     ] ],
     [ "Files", null, [
@@ -33,8 +33,12 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"CloudInterface_2____init_____8py.html",
-"dir_17c9848460db4ab25089cc330ded432b.html"
+"Adapters_8py.html",
+"classRappCloud_1_1CloudMsgs_1_1FaceDetection_1_1FaceDetection_1_1Response.html#a0801cf31e4f120fb90cff1516c06994f",
+"classRappCloud_1_1CloudMsgs_1_1WeatherReportCurrent_1_1WeatherReportCurrent.html#a82bdfd470647e7a2af126749ffb372b8",
+"classrapp_1_1cloud_1_1fetch__personal__data.html",
+"dir_abc2584895d9127abfa30e1acfd8ec1e.html",
+"qr__code_8hpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

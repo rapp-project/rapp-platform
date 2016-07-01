@@ -110,23 +110,24 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Speech-Det
 <p>Service URL: <code>/rapp/rapp_speech_detection_google/speech_to_text</code></p>
 <p>Service type: ```bash #The stored audio file string audio_file #The audio type [nao_ogg, nao_wav_1_ch, nao_wav_4_ch] string audio_file_type #The user </p>
 <h2>string user </h2>
-<p>#The words string[] words #The confidence returned by Google float64 confidence #A list of alternative phrases returned from Google string[][] alternatives #Possible error string error ```</p>
-<h2>Test Selector RPS</h2>
+<p>#The words string[] words #The confidence returned by Google float64 confidence #A list of alternative phrases returned from Google string[][] alternatives #Possible error string error ``` </p>
+<h2>Speech detection Google RPS</h2>
 <p>The QR detection RPS is of type 4 since it contains a HOP service frontend that contacts a ROS node wrapper, which in turn invokes an external service. The speech detection RPS can be invoked using the following URL.</p>
 <p>Service URL: <code>localhost:9001/hop/speech_detection_google</code></p>
 <h3>Input/Output</h3>
 <p>As described, the speech detection RPS takes as input the audio file in which we desire to detect the words. The file path is encoded in JSON format in a binary string representation.</p>
 <p>The speech detection RPS returns as output an array of words determining the dominant guess, the confidence in a probability form and the suggested alternative sentences. The encoding is in JSON format.</p>
-<p>``` Input = { “audio_file”: “THE_AUDIO_FILE” “audio_file_type”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch” “user”: “USERNAME” } <code> </code> Output = { “words”: [ “WORD_1”, “WORD_2”, … , “WORD_N” ], “confidence” : “PROBABILITY”, “alternatives”: [ { “words”: [ “WORD_1”, “WORD_2”, … , “WORD_N” ] }, { … } ] } ``` </p>
+<p>``` Input = { “file”: “THE_AUDIO_FILE” “audio_source”: “nao_ogg, nao_wav_1_ch, nao_wav_4_ch” “language”: “el” } <code> </code> Output = { “words”: [ “WORD_1”, “WORD_2”, … , “WORD_N” ], “alternatives”: [[ “WORD_1”, “WORD_2”, … , “WORD_N” ], [.... ]], "error": "" } ``` </p>
 <h3>Example</h3>
 <p>An example input for the speech detection RPS was created. The actual input was a flac file, having a size of 242.6 KB, where the “I want to use the Skype” sentence was recorded. For this specific input, the result obtained was:</p>
-<p>For this specific input, the result obtained was ``` Output = { “words”: [ “I”, “want”, “to” , “use” , “Skype” ], “confidence” : “0.9400593”, “alternatives”: [ { “words”: [ “I”, “want”, “to” , “use” , “the” , “Skype” ]}, { “words”: [ “I”, “want”, “to” , “use” , “Skype” ]}, { “words”: [ “I”, “want”, “to” , “use” , “the” , “Skype” , “app” ]} ] } ``` </p>
+<p>For this specific input, the result obtained was ``` Output = { “words”: [ “I”, “want”, “to” , “use” , “Skype” ], “alternatives”: [ [ “I”, “want”, “to” , “use” , “the” , “Skype” ], [ “I”, “want”, “to” , “use” , “Skype” ], [ “I”, “want”, “to” , “use” , “the” , “Skype” , “app” ] ], "error": "" } ```</p>
+<p>The full documentation exists <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#speech-detection-google">here</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

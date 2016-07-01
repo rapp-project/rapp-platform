@@ -100,27 +100,37 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Face-Detec
 <div class="title">RAPP-Face-Detection </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>In the RAPP case, the face detection functionality is implemented in the form of a C++ developed ROS node, interfaced by a HOP service. The HOP service is invoked using the RAPP API and gets an RGB image as input, in which faces must be detected. The second step is for the HOP service to locally save the input image. At the same time, the Face Detection ROS node is executed in the background, waiting to server requests. The HOP service calls the ROS service via the ROS Bridge, the ROS node make the necessary computations and a response is delivered.</p>
-<h1>ROS Services</h1>
+<div class="textblock"><p>#Methodology</p>
+<p>In the RAPP case, the face detection functionality is implemented in the form of a C++ developed ROS node, interfaced by a Web service. The Web service is invoked using the RAPP API and gets an RGB image as input, in which faces must be detected. The second step is for the Web service to locally save the input image. At the same time, the Face Detection ROS node is executed in the background, waiting to server requests. The Web service calls the ROS service via the ROS Bridge, the ROS node makes the necessary computations and a response is delivered.</p>
+<p>In the current implementation the <code>fast</code> input variable exists. If <code>fast = False</code>, the face detection algorithm searches for faces both profile and en face and then cross-checks the results, aiming to provide the most precise result.</p>
+<p>On the other hand, if <code>fast = True</code> only profile faces are checked without further checking, thus the response if faster but not that precise.</p>
+<p>#ROS Services</p>
 <h2>Face detection</h2>
 <p>Service URL: <code>/rapp/rapp_face_detection/detect_faces</code></p>
-<p>Service type: ```bash #Contains info about time and reference Header header #The image's filename to perform face detection </p>
-<h2>string imageFilename </h2>
-<p>#Container for detected face positions geometry_msgs/PointStamped[] faces_up_left geometry_msgs/PointStamped[] faces_down_right string error ```</p>
-<h1>Launchers</h1>
+<p>Service type: ```bash </p>
+<h1>Contains info about time and reference</h1>
+<p>Header header </p>
+<h1>The image's filename to perform face detection</h1>
+<p>string imageFilename </p>
+<h1>Flag to define if a fast detection is desired</h1>
+<h2>bool fast </h2>
+<h1>Container for detected face positions</h1>
+<p>geometry_msgs/PointStamped[] faces_up_left geometry_msgs/PointStamped[] faces_down_right string error ```</p>
+<p>#Launchers</p>
 <h2>Standard launcher</h2>
 <p>Launches the <b>face detection</b> node and can be launched using ``` roslaunch rapp_face_detection face_detection.launch ```</p>
-<h1>HOP services</h1>
+<p>#Web services</p>
 <h2>URL</h2>
 <p><code>localhost:9001/hop/face_detection</code></p>
 <h2>Input / Output</h2>
-<p>``` Input = { “image”: “THE_ACTUAL_IMAGE_DATA” } <code> </code> Output = { “faces”: [ { “top_left_x” : “T_P_X”, “top_left_y” : “T_P_Y”, “bottom_right_x” : “B_R_X”, “bottom_right_y” : “B_R_Y” }, { … } ] } ``` </p>
+<p>``` Input = { "file": “THE_ACTUAL_IMAGE_DATA” "fast": true } <code> </code> Output = { “faces”: [ { “up_left_point” : {x: 10, y: 30}, “down_right_point” : {x: 100, y: 200} }, { … } ] } ```</p>
+<p>The full documentation exists <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#face-detection">here</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

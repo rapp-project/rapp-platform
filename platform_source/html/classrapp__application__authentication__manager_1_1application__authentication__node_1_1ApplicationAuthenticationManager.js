@@ -1,0 +1,14 @@
+var classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager =
+[
+    [ "__init__", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#aae80eb82e0c244b5149f3ab2c4fc14c1", null ],
+    [ "_add_new_user_to_db", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#a5d4f73e942d2a349b536521637a9017a", null ],
+    [ "_validate_username_format", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#af6865850e85661e67d775ae4d8f3436f", null ],
+    [ "_verify_new_username_uniqueness", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#ad813c30b34bdb2d2c29ce03fa6f82983", null ],
+    [ "_verify_user_credentials", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#a3e57a2cb944023865629defecceeb6cb", null ],
+    [ "add_new_user_from_platform_callback", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#af33d953e7f05fe1d0c9a62ece6402724", null ],
+    [ "add_new_user_from_store_callback", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#a73cd0709502565c55f961a759b953ced", null ],
+    [ "authenticate_token_callback", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#ab99515d6978f8acb3f73dc48a8386bb7", null ],
+    [ "login_callback", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#ad741850fc28c535bfbca57bc5c80562d", null ],
+    [ "login_from_store_callback", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#a06aa5d640269fbf99e3e7d2f8b694ab8", null ],
+    [ "_db_handler", "classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager.html#aad51dbc5ed8b839dc2606eb32c6cc10b", null ]
+];

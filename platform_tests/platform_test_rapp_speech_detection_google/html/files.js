@@ -1,4 +1,4 @@
 var files =
 [
-    [ "rapp_speech_detection_google", "dir_e0e61ad8a500407e26fb740a2ee0e630.html", "dir_e0e61ad8a500407e26fb740a2ee0e630" ]
+    [ "rapp-platform", "dir_96d1f91f24e86765b0aae729dbf21983.html", "dir_96d1f91f24e86765b0aae729dbf21983" ]
 ];

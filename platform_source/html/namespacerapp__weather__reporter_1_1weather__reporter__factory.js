@@ -1,0 +1,4 @@
+var namespacerapp__weather__reporter_1_1weather__reporter__factory =
+[
+    [ "WeatherReporterFactory", "classrapp__weather__reporter_1_1weather__reporter__factory_1_1WeatherReporterFactory.html", "classrapp__weather__reporter_1_1weather__reporter__factory_1_1WeatherReporterFactory" ]
+];

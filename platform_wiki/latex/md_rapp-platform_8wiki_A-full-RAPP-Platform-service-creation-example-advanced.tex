@@ -1,0 +1,557 @@
+In this example, a basic guide will be presented that will cover the basics of creating an example R\-A\-P\-P Platform service. We assume that you have successfully installed the R\-A\-P\-P Platform and run the tests, if not please see our installation guide located at
+
+\href{https://github.com/rapp-project/rapp-platform/wiki/How-can-I-set-up-the-RAPP-Platform-in-my-PC%3F}{\tt https\-://github.\-com/rapp-\/project/rapp-\/platform/wiki/\-How-\/can-\/\-I-\/set-\/up-\/the-\/\-R\-A\-P\-P-\/\-Platform-\/in-\/my-\/\-P\-C\%3\-F}
+
+It is addressed to the novice user and as such, experienced users may find it too detailed or need to skip over some sections. This tutorial assumes some basic R\-O\-S knowledge. Users not familiar with R\-O\-S are advised to first complete relevant R\-O\-S tutorials that can be found at
+
+\href{http://wiki.ros.org/ROS/Tutorials}{\tt http\-://wiki.\-ros.\-org/\-R\-O\-S/\-Tutorials}
+
+By the end of the tutorial you should be able to call the service itself and obtain meaningful results. What you will learn\-:
+
+
+\begin{DoxyItemize}
+\item How to create a R\-O\-S service in the R\-A\-P\-P Platform and how to incorporate its launcher in the R\-A\-P\-P Platform launchers in order for the service to start along with the other services of the R\-A\-P\-P Platform
+\item How to call another R\-O\-S service within your service
+\item How to create a R\-O\-S test for your service
+\item How to create a H\-O\-P service for the R\-O\-S service that you created. The H\-O\-P service will be exposed on the network and will allow you to call the service over an http web request.
+\end{DoxyItemize}
+
+\subsection*{Section 1\-: Creating a R\-O\-S R\-A\-P\-P Platform example service}
+
+In this section we will cover how to create a basic R\-O\-S R\-A\-P\-P Platform service. Let us assume that the service we should to create takes as input two integer number, adds them together and returns the result. It also takes as input a string containing the username of a user and it returns a string containing the ontology alias of the user, by making a call to the appropriate R\-O\-S R\-A\-P\-P Platform service.
+
+\subsubsection*{Create a R\-O\-S Node}
+
+The first thing to do is to create a new R\-O\-S Node which will be responsible for the service we want to implement. In order to create a new R\-O\-S node, navigate within the rapp-\/platform directory and create a new package\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/ \$ catkin\-\_\-create\-\_\-pkg rapp\-\_\-example\-\_\-service std\-\_\-msgs rospy rapp\-\_\-platform\-\_\-ros\-\_\-communications ```
+
+This command creates a new package named rapp\-\_\-example\-\_\-service and adds the its dependencies upon the std\-\_\-msgs, rospy and rapp\-\_\-platform\-\_\-ros\-\_\-communications packages. You can now navigate within the newly created package, and create a directory named cfg\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service/ \$ mkdir cfg \$ cd cfg \$ touch rapp\-\_\-example\-\_\-service\-\_\-params.\-yaml \$ echo 'rapp\-\_\-example\-\_\-service\-\_\-topic\-: /rapp/rapp\-\_\-example\-\_\-service/add\-\_\-two\-\_\-integers' $>$$>$ rapp\-\_\-example\-\_\-service\-\_\-params.\-yaml ```
+
+We declared was the name of the service within the .yaml file. Now we will navigate back into the rapp\-\_\-example\-\_\-service package and create the launch dir.
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service \$ mkdir launch \$ cd launch \$ touch rapp\-\_\-example\-\_\-service.\-launch ```
+
+The content of {\ttfamily rapp\-\_\-example\-\_\-service.\-launch} follows\-:
+
+```xml $<$launch$>$ $<$node name=\char`\"{}rapp\-\_\-example\-\_\-service\-\_\-node\char`\"{} pkg=\char`\"{}rapp\-\_\-example\-\_\-service\char`\"{} type=\char`\"{}rapp\-\_\-example\-\_\-service\-\_\-main.\-py\char`\"{} output=\char`\"{}screen\char`\"{}$>$ $<$rosparam file=\char`\"{}\$(find rapp\-\_\-example\-\_\-service)/cfg/rapp\-\_\-example\-\_\-service\-\_\-params.\-yaml\char`\"{} command=\char`\"{}load\char`\"{}$>$ $<$/launch$>$ ```
+
+This file declares the launcher of the service.
+
+Now, we will create the source code files according to the coding standards of the R\-A\-P\-P project.
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service/src \$ touch rapp\-\_\-example\-\_\-service\-\_\-main.\-py ```
+
+The content of {\ttfamily rapp\-\_\-example\-\_\-service\-\_\-main.\-py} follows
+
+```python \#!/usr/bin/env python
+
+import rospy from rapp\-\_\-example\-\_\-service import Example\-Service
+
+if {\bfseries name} == \char`\"{}\-\_\-\-\_\-main\-\_\-\-\_\-\char`\"{}\-: rospy.\-init\-\_\-node('Example\-Service') Example\-Services\-Node = Example\-Service() rospy.\-spin() ```
+
+We have declared the main function of the R\-O\-S node and launched the R\-O\-S node with the rospy.\-spin() command. Now we will create the {\ttfamily rapp\-\_\-example\-\_\-service.\-py} below\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service/src \$ touch rapp\-\_\-example\-\_\-service.\-py ```
+
+The content of {\ttfamily rapp\-\_\-example\-\_\-service.\-py} follows\-:
+
+```python \#!/usr/bin/env python
+
+import rospy
+
+from add\-\_\-two\-\_\-integers import Add\-Two\-Integers
+
+from rapp\-\_\-platform\-\_\-ros\-\_\-communications.\-srv import ( tutorial\-Example\-Service\-Srv, tutorial\-Example\-Service\-Srv\-Request, tutorial\-Example\-Service\-Srv\-Response)
+
+class Example\-Service\-: \begin{DoxyVerb}def __init__(self):
+    self.serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
+    if(not self.serv_topic):
+        rospy.logerror("rapp_knowrob_wrapper_create_ontology_alias param not found")
+    rospy.wait_for_service(self.serv_topic)
+
+    self.serv_topic = rospy.get_param("rapp_example_service_topic")
+    if(not self.serv_topic):
+        rospy.logerror("rapp_example_service_topic")
+    self.serv=rospy.Service(self.serv_topic, tutorialExampleServiceSrv, self.tutorialExampleServiceDataHandler)
+
+def tutorialExampleServiceDataHandler(self,req):
+    res = tutorialExampleServiceSrvResponse()
+    it = AddTwoIntegers()
+    res=it.addTwoIntegersFunction(req)
+    return res
+\end{DoxyVerb}
+ ```
+
+In this file, we initially declare python dependencies, one of them is the Add\-Two\-Integers class which we will define in a new file next. As you can see, we have imported an srv message files that needs to be created and declared in the rapp\-\_\-platform\-\_\-ros\-\_\-communications package. We will cover this shortly. We also imported the name of the service from the .yaml file located in the cfg folder by the rospy.\-get\-\_\-param() command. As our service depends on the {\ttfamily rapp\-\_\-knowrob\-\_\-wrapper\-\_\-create\-\_\-ontology\-\_\-alias} we have it wait until it is available. The return message of the service is handled by the Data\-Handler function we created, named tutorial\-Example\-Service\-Data\-Handler.
+
+The last file we need to create is the {\ttfamily add\-\_\-two\-\_\-integers.\-py}.
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service/src \$ touch add\-\_\-two\-\_\-integers.\-py ```
+
+The content of {\ttfamily add\-\_\-two\-\_\-integers.\-py} follows\-:
+
+```python \#!/usr/bin/env python
+
+import rospy from rapp\-\_\-platform\-\_\-ros\-\_\-communications.\-srv import ( tutorial\-Example\-Service\-Srv, tutorial\-Example\-Service\-Srv\-Request, tutorial\-Example\-Service\-Srv\-Response, create\-Ontology\-Alias\-Srv, create\-Ontology\-Alias\-Srv\-Request, create\-Ontology\-Alias\-Srv\-Response)
+
+class Add\-Two\-Integers\-: \begin{DoxyVerb}def addTwoIntegersFunction(self,req):
+    res = tutorialExampleServiceSrvResponse()
+    res.additionResult=req.a+req.b
+    res.userOntologyAlias=self.getUserOntologyAlias(req.username)
+    return res
+
+def getUserOntologyAlias(self,username):
+    serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_ontology_alias')
+    knowrob_service = rospy.ServiceProxy(serv_topic, createOntologyAliasSrv)
+    createOntologyAliasReq = createOntologyAliasSrvRequest()
+    createOntologyAliasReq.username=username
+    createOntologyAliasResponse = knowrob_service(createOntologyAliasReq)
+    return createOntologyAliasResponse.ontology_alias
+\end{DoxyVerb}
+ ```
+
+In this file, initially we define the imports again and following we define the Add\-Two\-Integers class and within it a simple function named add\-Two\-Integers\-Function that accepts the service requirements as input and returns the service response. We initially construct the response named res, and we assign to the addition value the addition of the parameters a and b. The function get\-User\-Ontology\-Alias defined, is tasked with calling an existing R\-A\-P\-P Platform service, the {\ttfamily rapp\-\_\-knowrob\-\_\-wrapper\-\_\-create\-\_\-ontology\-\_\-alias}. This service will create an ontology alias for a user in case it does not already exist, or simply return the existing one if it already exists. The argument to call the service is the user's username. In this way, by calling this existing R\-A\-P\-P Platform service, we obtain the user\-Ontology\-Alias of a user given his username, and we assign it to the appropriate service response variable.
+
+\subsubsection*{Create the service srv file}
+
+The srv file defines what the service will accept as input and what it will return as output. These must be declared in a special file, called the service's srv file. R\-A\-P\-P Platform conveniently places all R\-O\-S service srv files, as well as R\-O\-S service message files in the
+
+``` /rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-platform\-\_\-ros\-\_\-communications/ ```
+
+package. Let us assume that the service we should to create takes as input two integer number, adds them together and returns the result. First we need to create the .srv file declaring the inputs and outputs of the service as shown\-:
+
+```bash \$ cd /rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-platform\-\_\-ros\-\_\-communications/srv \$ mkdir Example\-Services \$ cd Example\-Services \$ touch tutorial\-Example\-Service\-Srv.\-srv ```
+
+The content of {\ttfamily tutorial\-Example\-Service\-Srv.\-srv} follows\-:
+
+```yaml Header header int32 a int32 b \subsection*{string username }
+
+string user\-Ontology\-Alias int32 addition\-Result string error ```
+
+Toe declare the .srv file in the package, open the {\ttfamily /rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-platform\-\_\-ros\-\_\-communications/rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-C\-Make\-Lists.txt} file and add the following line within the {\ttfamily add\-\_\-service\-\_\-files()} block,
+
+``` Example\-Services/tutorial\-Example\-Service\-Srv.\-srv ```
+
+The whole file now should look like this\-:
+
+```cmake cmake\-\_\-minimum\-\_\-required(V\-E\-R\-S\-I\-O\-N 2.\-8.\-3) project(rapp\-\_\-platform\-\_\-ros\-\_\-communications) set(\-R\-O\-S\-\_\-\-B\-U\-I\-L\-D\-\_\-\-T\-Y\-P\-E Release)
+
+find\-\_\-package(catkin R\-E\-Q\-U\-I\-R\-E\-D C\-O\-M\-P\-O\-N\-E\-N\-T\-S message\-\_\-generation message\-\_\-runtime std\-\_\-msgs geometry\-\_\-msgs nav\-\_\-msgs )
+
+\subparagraph*{}
+
+\subsection*{Declare R\-O\-S messages, services and actions}
+
+\subparagraph*{}
+
+\subsection*{Generate messages in the 'msg' folder}
+
+add\-\_\-message\-\_\-files( F\-I\-L\-E\-S String\-Array\-Msg.\-msg Cognitive\-Exercise\-Performance\-Records\-Msg.\-msg Mail\-Msg.\-msg News\-Story\-Msg.\-msg Weather\-Forecast\-Msg.\-msg Array\-Cognitive\-Exercise\-Performance\-Records\-Msg.\-msg Cognitive\-Exercises\-Msg.\-msg )
+
+\subsection*{Generate services in the 'srv' folder}
+
+add\-\_\-service\-\_\-files( F\-I\-L\-E\-S
+
+/\-Example\-Services/tutorial\-Example\-Service\-Srv.srv
+
+/\-Cognitive\-Exercise/test\-Selector\-Srv.srv /\-Cognitive\-Exercise/record\-User\-Cognitive\-Test\-Performance\-Srv.srv /\-Cognitive\-Exercise/cognitive\-Test\-Creator\-Srv.srv /\-Cognitive\-Exercise/user\-Scores\-For\-All\-Categories\-Srv.srv /\-Cognitive\-Exercise/user\-Score\-History\-For\-All\-Categories\-Srv.srv /\-Cognitive\-Exercise/return\-Tests\-Of\-Type\-Subtype\-Difficulty\-Srv.srv
+
+/\-Human\-Detection/\-Human\-Detection\-Ros\-Srv.srv
+
+/\-Caffe\-Wrapper/image\-Classification\-Srv.srv /\-Caffe\-Wrapper/ontology\-Class\-Bridge\-Srv.srv /\-Caffe\-Wrapper/register\-Image\-To\-Ontology\-Srv.srv
+
+/\-Db\-Wrapper/check\-If\-User\-Exists\-Srv.srv /\-Db\-Wrapper/get\-User\-Ontology\-Alias\-Srv.srv /\-Db\-Wrapper/get\-User\-Language\-Srv.srv /\-Db\-Wrapper/register\-User\-Ontology\-Alias\-Srv.srv /\-Db\-Wrapper/get\-User\-Password\-Srv.srv /\-Db\-Wrapper/get\-Username\-Associated\-With\-Application\-Token\-Srv.srv /\-Db\-Wrapper/create\-New\-Platform\-User\-Srv.srv /\-Db\-Wrapper/create\-New\-Application\-Token\-Srv.srv /\-Db\-Wrapper/check\-Active\-Application\-Token\-Srv.srv /\-Db\-Wrapper/check\-Active\-Robot\-Session\-Srv.srv /\-Db\-Wrapper/add\-Store\-Token\-To\-Device\-Srv.srv /\-Db\-Wrapper/validate\-User\-Role\-Srv.srv /\-Db\-Wrapper/validate\-Existing\-Platform\-Device\-Token\-Srv.srv /\-Db\-Wrapper/remove\-Platform\-User\-Srv.srv /\-Db\-Wrapper/create\-New\-Cloud\-Agent\-Service\-Srv.srv /\-Db\-Wrapper/create\-New\-Cloud\-Agent\-Srv.srv /\-Db\-Wrapper/get\-Cloud\-Agent\-Service\-Type\-And\-Host\-Port\-Srv.srv
+
+/\-Ontology\-Wrapper/create\-Instance\-Srv.srv /\-Ontology\-Wrapper/ontology\-Sub\-Super\-Classes\-Of\-Srv.srv /\-Ontology\-Wrapper/ontology\-Is\-Sub\-Super\-Class\-Of\-Srv.srv /\-Ontology\-Wrapper/ontology\-Load\-Dump\-Srv.srv /\-Ontology\-Wrapper/ontology\-Instances\-Of\-Srv.srv /\-Ontology\-Wrapper/assert\-Retract\-Attribute\-Srv.srv /\-Ontology\-Wrapper/return\-User\-Instances\-Of\-Class\-Srv.srv /\-Ontology\-Wrapper/create\-Ontology\-Alias\-Srv.srv /\-Ontology\-Wrapper/user\-Performance\-Cognitve\-Tests\-Srv.srv /\-Ontology\-Wrapper/create\-Cognitive\-Exercise\-Test\-Srv.srv /\-Ontology\-Wrapper/cognitive\-Tests\-Of\-Type\-Srv.srv /\-Ontology\-Wrapper/record\-User\-Performance\-Cognitive\-Tests\-Srv.srv /\-Ontology\-Wrapper/clear\-User\-Performance\-Cognitve\-Tests\-Srv.srv /\-Ontology\-Wrapper/register\-Image\-Object\-To\-Ontology\-Srv.srv /\-Ontology\-Wrapper/retract\-User\-Ontology\-Alias\-Srv.srv
+
+/\-Face\-Detection/\-Face\-Detection\-Ros\-Srv.srv
+
+/\-News\-Explorer/\-News\-Explorer\-Srv.srv /\-Geolocator/\-Geolocator\-Srv.srv
+
+/\-Weather\-Reporter/\-Weather\-Reporter\-Current\-Srv.srv /\-Weather\-Reporter/\-Weather\-Reporter\-Forecast\-Srv.srv
+
+/\-Qr\-Detection/\-Qr\-Detection\-Ros\-Srv.srv
+
+/\-Email/\-Send\-Email\-Srv.srv /\-Email/\-Receive\-Email\-Srv.srv
+
+/\-Speech\-Detection\-Google\-Wrapper/\-Speech\-To\-Text\-Srv.srv
+
+/\-Speech\-Detection\-Sphinx4\-Wrapper/\-Speech\-Recognition\-Sphinx4\-Srv.srv /\-Speech\-Detection\-Sphinx4\-Wrapper/\-Speech\-Recognition\-Sphinx4\-Configure\-Srv.srv /\-Speech\-Detection\-Sphinx4\-Wrapper/\-Speech\-Recognition\-Sphinx4\-Total\-Srv.srv
+
+/\-Audio\-Processing/\-Audio\-Processing\-Denoise\-Srv.srv /\-Audio\-Processing/\-Audio\-Processing\-Set\-Noise\-Profile\-Srv.srv /\-Audio\-Processing/\-Audio\-Processing\-Detect\-Silence\-Srv.srv /\-Audio\-Processing/\-Audio\-Processing\-Transform\-Audio\-Srv.srv
+
+/\-Text\-To\-Speech\-Espeak/\-Text\-To\-Speech\-Srv.srv
+
+/\-Hazard\-Detection/\-Light\-Check\-Ros\-Srv.srv /\-Hazard\-Detection/\-Door\-Check\-Ros\-Srv.srv
+
+/\-Path\-Planning/\-Path\-Planning\-Ros\-Srv.srv /\-Costmap2d/\-Costmap2d\-Ros\-Srv.srv /\-Path\-Planning/\-Map\-Server/\-Map\-Server\-Get\-Map\-Ros\-Srv.srv /\-Path\-Planning/\-Map\-Server/\-Map\-Server\-Upload\-Map\-Ros\-Srv.srv
+
+/\-Application\-Authentication/\-User\-Token\-Authentication\-Srv.srv /\-Application\-Authentication/\-User\-Login\-Srv.srv /\-Application\-Authentication/\-Add\-New\-User\-From\-Store\-Srv.srv /\-Application\-Authentication/\-Add\-New\-User\-From\-Platform\-Srv.srv )
+
+\subsection*{Generate added messages and services with any dependencies listed here}
+
+generate\-\_\-messages( D\-E\-P\-E\-N\-D\-E\-N\-C\-I\-E\-S std\-\_\-msgs \# Or other packages containing msgs geometry\-\_\-msgs nav\-\_\-msgs )
+
+\subparagraph*{}
+
+\subsection*{catkin specific configuration}
+
+\subparagraph*{}
+
+\subsection*{The catkin\-\_\-package macro generates cmake config files for your package}
+
+\subsection*{Declare things to be passed to dependent projects}
+
+\subsection*{I\-N\-C\-L\-U\-D\-E\-\_\-\-D\-I\-R\-S\-: uncomment this if you package contains header files}
+
+\subsection*{L\-I\-B\-R\-A\-R\-I\-E\-S\-: libraries you create in this project that dependent projects also need}
+
+\subsection*{C\-A\-T\-K\-I\-N\-\_\-\-D\-E\-P\-E\-N\-D\-S\-: catkin\-\_\-packages dependent projects also need}
+
+\subsection*{D\-E\-P\-E\-N\-D\-S\-: system dependencies of this project that dependent projects also need}
+
+catkin\-\_\-package( \section*{I\-N\-C\-L\-U\-D\-E\-\_\-\-D\-I\-R\-S include}
+
+\section*{L\-I\-B\-R\-A\-R\-I\-E\-S rapp\-\_\-platform\-\_\-ros\-\_\-communications}
+
+\section*{C\-A\-T\-K\-I\-N\-\_\-\-D\-E\-P\-E\-N\-D\-S other\-\_\-catkin\-\_\-pkg}
+
+C\-A\-T\-K\-I\-N\-\_\-\-D\-E\-P\-E\-N\-D\-S message\-\_\-generation message\-\_\-runtime std\-\_\-msgs geometry\-\_\-msgs ) ```
+
+This line will declare the srv file we created and stage it to be compiled.
+
+Now we need to recompile the package. We will navigate to the root R\-A\-P\-P Platform catkin workspace directory and compile the code as shown below\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/ \$ catkin\-\_\-make --pkg rapp\-\_\-platform\-\_\-ros\-\_\-communications ```
+
+this will recompile only the specific package. Sometimes it is preferable to recompile the whole project, in that case please delete the folders build and devel and compile the whole project, as shown below\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/ \$ rm -\/rf ./build ./devel \$ catkin\-\_\-make ```
+
+\subsubsection*{Launch and manually test the service}
+
+In order to test that our R\-O\-S service works\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/ \$ roslaunch rapp\-\_\-example\-\_\-service rapp\-\_\-example\-\_\-service.\-launch ```
+
+With our service launched, use a different terminal and type\-:
+
+```bash \$ rosservice call /rapp/rapp\-\_\-example\-\_\-service/add\-\_\-two\-\_\-integers ```
+
+and immediately press tab twice in order to auto complete the service requirements. Please assign values on the parameters a and b and in the username put 'rapp' and hit enter. Voila! You can see the result in the addition\-Result parameter and you can see the username of the user rapp in the user\-Ontology\-Alias parameter. In case you use a different username which does not exist, the field will return blank, ''.
+
+\subsubsection*{Create a R\-O\-S test for the service}
+
+Now we will create a R\-O\-S test that will perform a test to ensure our service is working correctly. The first thing to do is edit the {\ttfamily C\-Make\-Lists.\-txt} of the rapp\-\_\-example\-\_\-service package, to incorporate the testing dependencies. The file located at
+
+``` $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service/\-C\-Make\-Lists.txt ```
+
+must now contain the following content\-:
+
+```cmake cmake\-\_\-minimum\-\_\-required(V\-E\-R\-S\-I\-O\-N 2.\-8.\-3) project(rapp\-\_\-example\-\_\-service)
+
+\subsection*{Find catkin macros and libraries}
+
+\subsection*{if C\-O\-M\-P\-O\-N\-E\-N\-T\-S list like find\-\_\-package(catkin R\-E\-Q\-U\-I\-R\-E\-D C\-O\-M\-P\-O\-N\-E\-N\-T\-S xyz)}
+
+\subsection*{is used, also find other catkin packages}
+
+find\-\_\-package(catkin R\-E\-Q\-U\-I\-R\-E\-D C\-O\-M\-P\-O\-N\-E\-N\-T\-S rapp\-\_\-platform\-\_\-ros\-\_\-communications rospy std\-\_\-msgs rostest )
+
+\subparagraph*{}
+
+\subsection*{catkin specific configuration}
+
+\subparagraph*{}
+
+catkin\-\_\-package( C\-A\-T\-K\-I\-N\-\_\-\-D\-E\-P\-E\-N\-D\-S rospy std\-\_\-msgs rostest rapp\-\_\-platform\-\_\-ros\-\_\-communications I\-N\-C\-L\-U\-D\-E\-\_\-\-D\-I\-R\-S )
+
+\subparagraph*{}
+
+\subsection*{Build}
+
+\subparagraph*{}
+
+include\-\_\-directories( \$\{catkin\-\_\-\-I\-N\-C\-L\-U\-D\-E\-\_\-\-D\-I\-R\-S\} )
+
+\subparagraph*{}
+
+\subsection*{Build}
+
+\subparagraph*{}
+
+if (C\-A\-T\-K\-I\-N\-\_\-\-E\-N\-A\-B\-L\-E\-\_\-\-T\-E\-S\-T\-I\-N\-G) \#catkin\-\_\-add\-\_\-nosetests(tests/cognitive\-\_\-exercise\-\_\-system\-\_\-services\-\_\-functional\-\_\-tests.\-py) add\-\_\-rostest(tests/example\-\_\-service\-\_\-tests.\-launch) endif() ```
+
+As you can see we have added rostest in the dependencies and enabled testing. Similarly, the file located at
+
+``` $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service/package.xml ```
+
+must be updated in order to contain the following\-:
+
+```xml $<$?xml version=\char`\"{}1.\-0\char`\"{}?$>$ $<$package$>$ $<$name$>$rapp\-\_\-example\-\_\-service$<$/name$>$ $<$version$>$0.\-0.\-0$<$/version$>$ The rapp\-\_\-example\-\_\-service package
+
+$<$maintainer email=\char`\"{}thanos@todo.\-todo\char`\"{}$>$thanos$<$/maintainer$>$
+
+$<$license$>$T\-O\-D\-O$<$/license$>$
+
+$<$buildtool\-\_\-depend$>$catkin$<$/buildtool\-\_\-depend$>$ $<$build\-\_\-depend$>$rapp\-\_\-platform\-\_\-ros\-\_\-communications$<$/build\-\_\-depend$>$ $<$build\-\_\-depend$>$rospy$<$/build\-\_\-depend$>$ $<$build\-\_\-depend$>$std\-\_\-msgs$<$/build\-\_\-depend$>$ $<$run\-\_\-depend$>$rapp\-\_\-platform\-\_\-ros\-\_\-communications$<$/run\-\_\-depend$>$ $<$run\-\_\-depend$>$rospy$<$/run\-\_\-depend$>$ $<$run\-\_\-depend$>$std\-\_\-msgs$<$/run\-\_\-depend$>$ $<$run\-\_\-depend$>$rostest$<$/run\-\_\-depend$>$ $<$build\-\_\-depend$>$rostest$<$/build\-\_\-depend$>$
+
+$<$export$>$
+
+$<$/export$>$ $<$/package$>$ ```
+
+We have added the rostest run and build dependencies. Now we can proceed to creating the test source files. Navigate into the package folder and create the necessary files\-:
+
+```bash cd /rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-example\-\_\-service mkdir tests touch example\-\_\-service\-\_\-tests.\-launch touch example\-\_\-service\-\_\-tests.\-py ```
+
+The content of the {\ttfamily example\-\_\-service\-\_\-tests.\-launch} file is\-:
+
+```xml $<$launch$>$    $<$test time-\/limit=\char`\"{}100\char`\"{} test-\/name=\char`\"{}rapp\-\_\-example\-\_\-service\-\_\-tests\char`\"{} pkg=\char`\"{}rapp\-\_\-example\-\_\-service\char`\"{} type=\char`\"{}example\-\_\-service\-\_\-tests.\-py\char`\"{}$>$ $<$/launch$>$ ```
+
+The launch file declares the other R\-O\-S node dependencies and the source file of tests to run. The content of the {\ttfamily example\-\_\-service\-\_\-tests.\-py} file is\-:
+
+```python \#!/usr/bin/env python
+
+\#\-Copyright 2015 R\-A\-P\-P
+
+P\-K\-G='rapp\-\_\-example\-\_\-service'
+
+import sys import unittest import rospy import roslib
+
+from rapp\-\_\-platform\-\_\-ros\-\_\-communications.\-srv import ( tutorial\-Example\-Service\-Srv, tutorial\-Example\-Service\-Srv\-Request, tutorial\-Example\-Service\-Srv\-Response)
+
+class Example\-Service\-Tests(unittest.\-Test\-Case)\-: \begin{DoxyVerb}def test_example_service_basic(self):
+    ros_service = rospy.get_param("rapp_example_service_topic")
+    rospy.wait_for_service(ros_service)
+
+    test_service = rospy.ServiceProxy(ros_service, tutorialExampleServiceSrv)
+
+    req = tutorialExampleServiceSrvRequest()
+    req.a=10
+    req.b=25
+    req.username="rapp"
+    response = test_service(req)
+    self.assertEqual(response.userOntologyAlias, "Person_DpphmPqg")
+    self.assertEqual(response.additionResult, 35)
+\end{DoxyVerb}
+
+
+\subsection*{The main function. Initializes the Cognitive Exercise System functional tests}
+
+if {\bfseries name} == '{\bfseries main}'\-: import rosunit rosunit.\-unitrun(P\-K\-G, 'Example\-Service\-Tests', Example\-Service\-Tests) ```
+
+We have created a python unit test, where the input is checked against the expected output in order to validate the results and consequently that the service is working correctly. The last thing to do now is to perform the test. Please first recompile the project\-:
+
+```bash \$ cd /rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/ \$ rm -\/rf ./build ./devel \$ catkin\-\_\-make ```
+
+And now, in order to launch the test run the command\-:
+
+```bash \$ cd /rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/ \$ catkin\-\_\-make run\-\_\-tests\-\_\-rapp\-\_\-example\-\_\-service ```
+
+The result should be that 1 test executed successfully.
+
+\subsection*{Section 2\-: Create the H\-O\-P web service}
+
+Read on \href{https://github.com/rapp-project/rapp-platform/wiki/How-to-create-a-HOP-service-for-a-ROS-service%3F}{\tt How-\/to-\/create-\/a-\/\-H\-O\-P-\/service-\/for-\/a-\/\-R\-O\-S-\/service}, if you have not done so already.
+
+Also, this web service implementation requires to have previously read on the \href{https://github.com/rapp-project/rapp-platform/wiki/A-full-RAPP-Platform-service-creation-example#section-2-create-the-hop-web-service}{\tt simple-\/example}. The steps are the same, with a difference in the Web Service onrequest callback implementation.
+
+Follow the steps described \href{https://github.com/rapp-project/rapp-platform/wiki/A-full-RAPP-Platform-service-creation-example#section-2-create-the-hop-web-service}{\tt here} to create the respective directories and source files.
+
+The Web-\/\-Service response message includes the {\ttfamily sum\-\_\-result} and {\ttfamily error} properties. The R\-O\-S Service request message has two integer properties, {\ttfamily a} and {\ttfamily b} and the {\ttfamily username} value.
+
+```js var client\-Res = function(sum\-\_\-result, user\-\_\-ontology\-\_\-alias, error) \{ sum\-\_\-result = sum\-\_\-result $\vert$$\vert$ 0; error = error $\vert$$\vert$ ''; user\-\_\-ontology\-\_\-alias = user\-\_\-ontology\-\_\-alias $\vert$$\vert$ '' return \{ sum\-\_\-result\-: sum\-\_\-result, user\-\_\-ontology\-\_\-alias\-: user\-\_\-ontology\-\_\-alias, error\-: error \} \}
+
+var ros\-Req\-Msg = function(a, b, username) \{ a = a $\vert$$\vert$ 0; b = b $\vert$$\vert$ 0; username = username $\vert$$\vert$ ''; return \{ a\-: a, b\-: b, username\-: username \} \} ```
+
+The rapp\-\_\-example\-\_\-service R\-O\-S Service url path is {\ttfamily /rapp/rapp\-\_\-example\-\_\-service/add\-\_\-two\-\_\-integers}
+
+```js var ros\-Srv\-Url\-Path = \char`\"{}/rapp/rapp\-\_\-example\-\_\-service/add\-\_\-two\-\_\-integers\char`\"{} ```
+
+Next you need to implement the Web\-Service {\bfseries onrequest} callback function. This is the function that will be called as long as a request for the rapp\-\_\-example\-\_\-web\-\_\-service arrives.
+
+A question comes. How will we obtain the {\ttfamily username} value to be passed to the R\-O\-S Service? The easy way is for the clients to pass the {\ttfamily username} value on the request body, but this means that the R\-A\-P\-P Application Authentication mechanisms break. As explained \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-Application-Authentication}{\tt here} and \href{https://github.com/rapp-project/rapp-platform/wiki/How-to-create-a-HOP-service-for-a-ROS-service%3F#rapp-web-services-framework}{\tt here}, the {\bfseries username} of the client can be found in {\ttfamily username} property of the {\ttfamily req} object, {\ttfamily req.\-username}, after authentication of the incoming client request.
+
+Below is the implementation of the respective Web Service onrequest callback.
+
+```js function svc\-Impl(req, resp, ros) \{ // Get values of 'a' and 'b' from request body. var num\-A = req.\-body.\-a; var num\-B = req.\-body.\-b; var username = req.\-username;
+
+// Create the ros\-Msg var ros\-Msg = new ros\-Req\-Msg(num\-A, num\-B, username);
+
+/$\ast$$\ast$$\ast$
+\begin{DoxyItemize}
+\item R\-O\-S-\/\-Service response callback.
+\end{DoxyItemize}
+
+function callback(ros\-Response)\{ // Get the sum result value from R\-O\-S Service response message. var response = client\-Res( ros\-Response.\-addition\-Result, ros\-Response.\-user\-Ontology\-Alias ); // Return the sum result, of numbers 'a' and 'b', and the {\ttfamily user\-\_\-ontology\-\_\-alias} to the client. resp.\-send\-Json(response); \}
+
+/$\ast$$\ast$$\ast$
+\begin{DoxyItemize}
+\item R\-O\-S-\/\-Service onerror callback.
+\end{DoxyItemize}
+
+function onerror(e)\{ // Respond a \char`\"{}\-Server Error\char`\"{}. H\-T\-T\-P Error 501 -\/ Internal Server Error resp.\-send\-Server\-Error(); \}
+
+/$\ast$$\ast$$\ast$
+\begin{DoxyItemize}
+\item Call R\-O\-S-\/\-Service.
+\end{DoxyItemize}
+
+ros.\-call\-Service(ros\-Srv\-Url\-Path, ros\-Msg, \{success\-: callback, fail\-: onerror\}); \} ```
+
+Export the service onrequest callback function (svc\-Impl)\-:
+
+```js module.\-exports = svc\-Impl; ```
+
+Add the {\ttfamily rapp\-\_\-example\-\_\-web\-\_\-service} entry in \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/services.json}{\tt services.\-json} file\-:
+
+```json \char`\"{}rapp\-\_\-example\-\_\-web\-\_\-service\char`\"{}\-: \{ \char`\"{}launch\char`\"{}\-: true, \char`\"{}anonymous\char`\"{}\-: false, \char`\"{}name\char`\"{}\-: \char`\"{}rapp\-\_\-example\-\_\-web\-\_\-service\char`\"{}, \char`\"{}url\-\_\-name\char`\"{}\-: \char`\"{}add\-\_\-two\-\_\-ints\char`\"{}, \char`\"{}namespace\char`\"{}\-: \char`\"{}\char`\"{}, \char`\"{}ros\-\_\-connection\char`\"{}\-: true, \char`\"{}timeout\char`\"{}\-: 45000 \} ```
+
+The Web Service will listen at {\ttfamily \href{http://localhost:9001/hop/add_two_ints}{\tt http\-://localhost\-:9001/hop/add\-\_\-two\-\_\-ints}} as defined by the {\ttfamily url\-\_\-name} value.
+
+You can set the url path for the Web Service to be {\ttfamily rapp\-\_\-example\-\_\-web\-\_\-service/add\-\_\-two\-\_\-ints} by setting the url\-\_\-name and namespace respectively\-:
+
+```json \char`\"{}rapp\-\_\-example\-\_\-web\-\_\-service\char`\"{}\-: \{ \char`\"{}launch\char`\"{}\-: true, \char`\"{}anonymous\char`\"{}\-: false, \char`\"{}name\char`\"{}\-: \char`\"{}rapp\-\_\-example\-\_\-web\-\_\-service\char`\"{}, \char`\"{}url\-\_\-name\char`\"{}\-: \char`\"{}add\-\_\-two\-\_\-ints\char`\"{}, \char`\"{}namespace\char`\"{}\-: \char`\"{}rapp\-\_\-example\-\_\-web\-\_\-service\char`\"{}, \char`\"{}ros\-\_\-connection\char`\"{}\-: true, \char`\"{}timeout\char`\"{}\-: 45000 \} ```
+
+We have also set this Web Service to timeout after 45 seconds ({\ttfamily timeout}). This is critical when Web\-Service-\/to-\/\-R\-O\-S communcation bridge breaks!
+
+For simplicity, we will configure this Web\-Service to be launched under an already existed Web Worker thread ({\bfseries main-\/1}).
+
+The \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_web_services/config/services/workers.json}{\tt workers.\-json} file contains Web Workers entries. Add the {\ttfamily rapp\-\_\-example\-\_\-web\-\_\-service} service under the {\ttfamily main-\/1} worker\-:
+
+```json \char`\"{}main-\/1\char`\"{}\-: \{ \char`\"{}launch\char`\"{}\-: true, \char`\"{}path\char`\"{}\-: \char`\"{}workers/main1.\-js\char`\"{}, \char`\"{}services\char`\"{}\-: \mbox{[} ... \char`\"{}rapp\-\_\-example\-\_\-web\-\_\-service\char`\"{} \mbox{]} \} ```
+
+The newly implemented {\ttfamily rapp\-\_\-example\-\_\-web\-\_\-service} Web Service is ready to be launched. Launch the R\-A\-P\-P Platform Web Server\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-web\-\_\-services \$ pm2 start server.\-yaml ```
+
+If you dont want to launch the Web Server using pm2 process manager, just execute the {\ttfamily run.\-sh} script in the same directory\-:
+
+```bash \$ ./run.sh ```
+
+You will notice the following output from the logs\-:
+
+```bash info\-: \mbox{[}\mbox{]} Registered worker service \{\href{http://localhost:9001/hop/add_two_ints}{\tt http\-://localhost\-:9001/hop/add\-\_\-two\-\_\-ints}\} under worker thread \{main-\/1\} info\-: \mbox{[}\mbox{]} \{ worker\-: 'main-\/1', path\-: '/hop/add\-\_\-two\-\_\-ints', url\-: '\href{http://localhost:9001/hop/add_two_ints',}{\tt http\-://localhost\-:9001/hop/add\-\_\-two\-\_\-ints',} frame\-: \mbox{[}Function\mbox{]} \} ```
+
+All set! The R\-A\-P\-P Platform accepts requests for the {\ttfamily rapp\-\_\-example\-\_\-web\-\_\-service} at {\ttfamily \href{http://rapp-platform-local:9001/hop/add_two_ints}{\tt http\-://rapp-\/platform-\/local\-:9001/hop/add\-\_\-two\-\_\-ints}}
+
+You can test it using {\ttfamily curl} from commandline\-:
+
+```bash \$ curl --data \char`\"{}a=100\&b=20\char`\"{} \href{http://localhost:9001/hop/add_two_ints}{\tt http\-://localhost\-:9001/hop/add\-\_\-two\-\_\-ints} ```
+
+Notice that the R\-A\-P\-P Platform will return {\ttfamily Authentication Failure} (H\-T\-T\-P 401 Unauthorized Error). This is because the R\-A\-P\-P Platform uses token-\/based application authentication mechanisms to authenticate incoming client requests. You will have to pass a valid token to the {\bfseries request headers}. By default, the R\-A\-P\-P Platform database includes a user {\ttfamily rapp} and the token is {\bfseries rapp\-\_\-token}. Pass that token value to the {\ttfamily Accept-\/\-Token} field of the request header\-:
+
+```bash \$ curl -\/\-H \char`\"{}\-Accept-\/\-Token\-: rapp\-\_\-token\char`\"{} --data \char`\"{}a=100\&b=20\char`\"{} \href{http://localhost:9001/hop/add_two_ints}{\tt http\-://localhost\-:9001/hop/add\-\_\-two\-\_\-ints} ```
+
+The output should now be similar to\-:
+
+```bash \{sum\-\_\-result\-: 120, user\-\_\-ontology\-\_\-alias\-: \char`\"{}\-T\-H\-E\-\_\-\-U\-S\-E\-R\-\_\-\-O\-N\-T\-O\-L\-O\-G\-Y\-\_\-\-A\-L\-I\-A\-S\char`\"{}, error\-: \char`\"{}\char`\"{}\} ```
+
+\subsection*{Section 3\-: Update the R\-A\-P\-P Platform A\-P\-I}
+
+First, read on \href{https://github.com/rapp-project/rapp-platform/wiki/How-to-write-the-API-for-a-HOP-service%3F}{\tt How to write the A\-P\-I for a H\-O\-P service}, if you have not done so already.
+
+The Add\-Two\-Ints Cloud Message class is identical to the {\bfseries simple-\/example} presented \href{https://github.com/rapp-project/rapp-platform/wiki/A-full-RAPP-Platform-service-creation-example#section-3-update-the-rapp-platform-api}{\tt here}, with the addition of {\ttfamily user\-\_\-ontology\-\_\-alias} property to the {\ttfamily Add\-Two\-Ints.\-Response} class\-:
+
+```python from Rapp\-Cloud.\-Objects import ( File, Payload)
+
+from Cloud import ( Cloud\-Msg, Cloud\-Request, Cloud\-Response)
+
+class Add\-Two\-Ints(\-Cloud\-Msg)\-: \char`\"{}\char`\"{}\char`\"{} Add Two Integers Exqample Cloud\-Msg object\char`\"{}\char`\"{}\char`\"{}
+
+class Request(\-Cloud\-Request)\-: \char`\"{}\char`\"{}\char`\"{} Add Two Integers Cloud Request object. Add\-Two\-Ints.\-Request \char`\"{}\char`\"{}\char`\"{} def {\bfseries init}(self, $\ast$$\ast$kwargs)\-: \char`\"{}\char`\"{}"! Constructor 
+\begin{DoxyParams}{Parameters}
+{\em $\ast$$\ast$kwargs} & -\/ Keyword arguments. Apply values to the request attributes.
+\begin{DoxyItemize}
+\item a
+\item b"
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\subsection*{Number \#1}
+
+self.\-a = 0 \subsection*{Number \#2}
+
+self.\-b = 0 \section*{Apply passed keyword arguments to the Request object.}
+
+super(Add\-Two\-Ints.\-Request, self).\-\_\-\-\_\-init\-\_\-\-\_\-($\ast$$\ast$kwargs)
+
+\begin{DoxyVerb}    def make_payload(self):
+        """ Create and return the Payload of the Request. """
+        return Payload(a=self.a, b=self.b)
+
+    def make_files(self):
+        """ Create and return Array of File objects of the Request. """
+        return []
+
+    class Response(CloudResponse):
+        """ Add Two Integers Cloud Response object. AddTwoInts.Response """
+        def __init__(self, **kwargs):
+            """!
+            Constructor
+
+            @param **kwargs - Keyword arguments. Apply values to the request attributes.
+            - @ref error
+            - @ref sum_result
+            """
+            ## Error message
+            self.error = ''
+            ## The sum result of numbers a and b
+            self.sum_result = 0
+            ## User's ontology alias
+            self.user_ontology_alias
+            ## Apply passed keyword arguments to the Request object.
+            super(AddTwoInts.Response, self).__init__(**kwargs)
+
+
+    def __init__(self, **kwargs):
+        """!
+        Constructor
+
+        @param **kwargs - Keyword arguments. Apply values to the request attributes.
+            - @ref Request.a
+            - @ref Request.b
+        """
+
+        # Create and hold the Request object for this CloudMsg
+        self.req = AddTwoInts.Request()
+        # Create and hold the Response object for this CloudMsg
+        self.resp = AddTwoInts.Response()
+        super(AddTwoInts, self).__init__(svcname='add_two_ints', **kwargs)
+\end{DoxyVerb}
+
+
+```
+
+Similar to the simple-\/example, append the following line of code in the {\ttfamily Rapp\-Cloud/\-Cloud\-Msgs/\-\_\-\-\_\-init\-\_\-\-\_\-.\-py} file\-:
+
+```python from Add\-Two\-Ints import Add\-Two\-Ints ```
+
+Now everything is in place to call the newly created R\-A\-P\-P Platform Service, using the python implementation of the rapp-\/platform-\/api. An example is presented below\-:
+
+```python from Rapp\-Cloud.\-Cloud\-Msgs import Add\-Two\-Ints from Rapp\-Cloud import Rapp\-Platform\-Service
+
+svc\-Client = Rapp\-Platform\-Service(persistent=True, timeout=1000) msg = Add\-Two\-Ints(a=5, b=4)
+
+response svc\-Client.\-call(msg)
+
+print response.\-sum\-\_\-result \begin{quotation}
+\begin{quotation}
+9
+
+\end{quotation}
+
+
+\end{quotation}
+print response.\-user\-\_\-ontology\-\_\-alias \begin{quotation}
+\begin{quotation}
+\char`\"{}\-T\-H\-E\-\_\-\-U\-S\-E\-R\-\_\-\-O\-N\-T\-O\-L\-O\-G\-Y\-\_\-\-A\-L\-I\-A\-S\char`\"{}
+
+\end{quotation}
+
+
+\end{quotation}
+``` 

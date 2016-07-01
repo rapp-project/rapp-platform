@@ -1,22 +1,36 @@
-In the R\-A\-P\-P case, the face detection functionality is implemented in the form of a C++ developed R\-O\-S node, interfaced by a H\-O\-P service. The H\-O\-P service is invoked using the R\-A\-P\-P A\-P\-I and gets an R\-G\-B image as input, in which faces must be detected. The second step is for the H\-O\-P service to locally save the input image. At the same time, the Face Detection R\-O\-S node is executed in the background, waiting to server requests. The H\-O\-P service calls the R\-O\-S service via the R\-O\-S Bridge, the R\-O\-S node make the necessary computations and a response is delivered.
+\#\-Methodology
 
-\section*{R\-O\-S Services}
+In the R\-A\-P\-P case, the face detection functionality is implemented in the form of a C++ developed R\-O\-S node, interfaced by a Web service. The Web service is invoked using the R\-A\-P\-P A\-P\-I and gets an R\-G\-B image as input, in which faces must be detected. The second step is for the Web service to locally save the input image. At the same time, the Face Detection R\-O\-S node is executed in the background, waiting to server requests. The Web service calls the R\-O\-S service via the R\-O\-S Bridge, the R\-O\-S node makes the necessary computations and a response is delivered.
+
+In the current implementation the {\ttfamily fast} input variable exists. If {\ttfamily fast = False}, the face detection algorithm searches for faces both profile and en face and then cross-\/checks the results, aiming to provide the most precise result.
+
+On the other hand, if {\ttfamily fast = True} only profile faces are checked without further checking, thus the response if faster but not that precise.
+
+\#\-R\-O\-S Services
 
 \subsection*{Face detection}
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-face\-\_\-detection/detect\-\_\-faces}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The image's filename to perform face detection \subsection*{string image\-Filename }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-Container for detected face positions geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} faces\-\_\-up\-\_\-left geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} faces\-\_\-down\-\_\-right string error ```
+Header header \section*{The image's filename to perform face detection}
 
-\section*{Launchers}
+string image\-Filename \section*{Flag to define if a fast detection is desired}
+
+\subsection*{bool fast }
+
+\section*{Container for detected face positions}
+
+geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} faces\-\_\-up\-\_\-left geometry\-\_\-msgs/\-Point\-Stamped\mbox{[}\mbox{]} faces\-\_\-down\-\_\-right string error ```
+
+\#\-Launchers
 
 \subsection*{Standard launcher}
 
 Launches the {\bfseries face detection} node and can be launched using ``` roslaunch rapp\-\_\-face\-\_\-detection face\-\_\-detection.\-launch ```
 
-\section*{H\-O\-P services}
+\#\-Web services
 
 \subsection*{U\-R\-L}
 
@@ -24,4 +38,6 @@ Launches the {\bfseries face detection} node and can be launched using ``` rosla
 
 \subsection*{Input / Output}
 
-``` Input = \{ “image”\-: “\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A” \} {\ttfamily  } Output = \{ “faces”\-: \mbox{[} \{ “top\-\_\-left\-\_\-x” \-: “\-T\-\_\-\-P\-\_\-\-X”, “top\-\_\-left\-\_\-y” \-: “\-T\-\_\-\-P\-\_\-\-Y”, “bottom\-\_\-right\-\_\-x” \-: “\-B\-\_\-\-R\-\_\-\-X”, “bottom\-\_\-right\-\_\-y” \-: “\-B\-\_\-\-R\-\_\-\-Y” \}, \{ … \} \mbox{]} \} ``` 
+``` Input = \{ \char`\"{}file\char`\"{}\-: “\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A” \char`\"{}fast\char`\"{}\-: true \} {\ttfamily  } Output = \{ “faces”\-: \mbox{[} \{ “up\-\_\-left\-\_\-point” \-: \{x\-: 10, y\-: 30\}, “down\-\_\-right\-\_\-point” \-: \{x\-: 100, y\-: 200\} \}, \{ … \} \mbox{]} \} ```
+
+The full documentation exists \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#face-detection}{\tt here} 

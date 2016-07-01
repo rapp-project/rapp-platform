@@ -1,9 +1,9 @@
 \hypertarget{set__denoise__example_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/examples/set\-\_\-denoise\-\_\-example.cpp File Reference}
 \label{set__denoise__example_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/examples/set\-\_\-denoise\-\_\-example.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/examples/set\-\_\-denoise\-\_\-example.\-cpp}}
 }
-{\ttfamily \#include \char`\"{}../includes/service/service\-\_\-controller/service\-\_\-controller.\-hpp\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}../includes/cloud/set\-Denoise\-Profile/set\-Denoise\-Profile.\-hpp\char`\"{}}\\*
-{\ttfamily \#include \char`\"{}../includes/objects/audio/audio.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cloud/service\-\_\-controller/service\-\_\-controller.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}cloud/speech/set\-\_\-denoise\-\_\-profile/set\-\_\-denoise\-\_\-profile.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}objects/audio/audio.\-hpp\char`\"{}}\\*
 Include dependency graph for set\-\_\-denoise\-\_\-example.\-cpp\-:
 \nopagebreak
 \begin{figure}[H]
@@ -15,19 +15,23 @@ Include dependency graph for set\-\_\-denoise\-\_\-example.\-cpp\-:
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \hyperlink{set__denoise__example_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+int \hyperlink{set__denoise__example_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
 \end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\hypertarget{set__denoise__example_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{\index{set\-\_\-denoise\-\_\-example.\-cpp@{set\-\_\-denoise\-\_\-example.\-cpp}!main@{main}}
+\hypertarget{set__denoise__example_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{set\-\_\-denoise\-\_\-example.\-cpp@{set\-\_\-denoise\-\_\-example.\-cpp}!main@{main}}
 \index{main@{main}!set_denoise_example.cpp@{set\-\_\-denoise\-\_\-example.\-cpp}}
 \subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
 \begin{DoxyParamCaption}
-{}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
 \end{DoxyParamCaption}
-)}}\label{set__denoise__example_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}
+)}}\label{set__denoise__example_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+set a denoise profile for a specific user argv\mbox{[}1\mbox{]} \-: audio file argv\mbox{[}2\mbox{]} \-: audio type (\begin{DoxySeeAlso}{See Also}
+\hyperlink{audio_8hpp}{audio.\-hpp}) e.\-g.\-: {\ttfamily microphone\-\_\-wav}, {\ttfamily nao\-\_\-single\-\_\-channel\-\_\-wav} {\ttfamily nao\-\_\-quad\-\_\-channel\-\_\-wav} {\ttfamily ogg} argv\mbox{[}3\mbox{]} \-: user (by default\-: {\ttfamily \hyperlink{namespacerapp}{rapp}}) 
+\end{DoxySeeAlso}
 
 
-Definition at line 5 of file set\-\_\-denoise\-\_\-example.\-cpp.
+Definition at line 13 of file set\-\_\-denoise\-\_\-example.\-cpp.
 

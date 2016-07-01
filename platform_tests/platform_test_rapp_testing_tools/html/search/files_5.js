@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['ontology_5fis_5fsubsuperclass_5fof_5fmicrowave_5foven_2epy',['ontology_is_subsuperclass_of_microwave_oven.py',['../ontology__is__subsuperclass__of__microwave__oven_8py.html',1,'']]],
-  ['ontology_5fis_5fsubsuperclass_5fof_5fspatialthing_2epy',['ontology_is_subsuperclass_of_SpatialThing.py',['../ontology__is__subsuperclass__of__SpatialThing_8py.html',1,'']]],
-  ['ontology_5fsubclasses_5fof_5ftest_5foven_2epy',['ontology_subclasses_of_test_Oven.py',['../ontology__subclasses__of__test__Oven_8py.html',1,'']]],
-  ['ontology_5fsuperclasses_5fof_5ftest_5f1_2epy',['ontology_superclasses_of_test_1.py',['../ontology__superclasses__of__test__1_8py.html',1,'']]]
+  ['face_5fdetection_5ftest_5fclose_5fangle_2epy',['face_detection_test_close_angle.py',['../face__detection__test__close__angle_8py.html',1,'']]],
+  ['face_5fdetection_5ftest_5ffar_5fangle_2epy',['face_detection_test_far_angle.py',['../face__detection__test__far__angle_8py.html',1,'']]],
+  ['face_5fdetection_5ftest_5ffar_5fstraight_2epy',['face_detection_test_far_straight.py',['../face__detection__test__far__straight_8py.html',1,'']]],
+  ['face_5fdetection_5ftest_5fmedium_5fangle_2epy',['face_detection_test_medium_angle.py',['../face__detection__test__medium__angle_8py.html',1,'']]],
+  ['face_5fdetection_5ftest_5fmedium_5fstraight_2epy',['face_detection_test_medium_straight.py',['../face__detection__test__medium__straight_8py.html',1,'']]],
+  ['face_5fdetection_5ftest_5ftwo_5ffaces_5fjpg_2epy',['face_detection_test_two_faces_jpg.py',['../face__detection__test__two__faces__jpg_8py.html',1,'']]],
+  ['face_5fdetection_5ftests_2epy',['face_detection_tests.py',['../face__detection__tests_8py.html',1,'']]]
 ];

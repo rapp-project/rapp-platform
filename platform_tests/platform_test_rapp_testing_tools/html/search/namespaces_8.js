@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['template',['template',['../namespacetemplate.html',1,'']]],
-  ['text_5fto_5fspeech_5ftest_5fgr_5fauto_5fstore_5ffile',['text_to_speech_test_gr_auto_store_file',['../namespacetext__to__speech__test__gr__auto__store__file.html',1,'']]],
-  ['text_5fto_5fspeech_5ftest_5fgr_5fdefault',['text_to_speech_test_gr_default',['../namespacetext__to__speech__test__gr__default.html',1,'']]]
+  ['object_5frecognition_5ftests',['object_recognition_tests',['../namespaceobject__recognition__tests.html',1,'']]],
+  ['ontology_5fis_5fsubsuperclass_5fof_5fspatialthing',['ontology_is_subsuperclass_of_SpatialThing',['../namespaceontology__is__subsuperclass__of__SpatialThing.html',1,'']]],
+  ['ontology_5ftests',['ontology_tests',['../namespaceontology__tests.html',1,'']]]
 ];

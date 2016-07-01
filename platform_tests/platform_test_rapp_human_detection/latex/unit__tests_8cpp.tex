@@ -1,0 +1,115 @@
+\hypertarget{unit__tests_8cpp}{\section{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-human\-\_\-detection/tests/human\-\_\-detection/unit\-\_\-tests.cpp File Reference}
+\label{unit__tests_8cpp}\index{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-human\-\_\-detection/tests/human\-\_\-detection/unit\-\_\-tests.\-cpp@{/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-human\-\_\-detection/tests/human\-\_\-detection/unit\-\_\-tests.\-cpp}}
+}
+{\ttfamily \#include $<$gtest/gtest.\-h$>$}\\*
+{\ttfamily \#include $<$human\-\_\-detection/human\-\_\-detector.\-h$>$}\\*
+{\ttfamily \#include $<$ros/package.\-h$>$}\\*
+Include dependency graph for unit\-\_\-tests.\-cpp\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{unit__tests_8cpp__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classHumanDetectionTest}{Human\-Detection\-Test}
+\begin{DoxyCompactList}\small\item\em Handles the human detection unit testing using gtests. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em The main function. Initialized the unit tests. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_aab1f73b361e59bd6dbdb364b988a080c}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classHumanDetectionTest}{Human\-Detection\-Test}, human\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests human detection with the Lenna image. Should be successful. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a2448a01f3cbc293e40b4f0f2b7b9f63c}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classHumanDetectionTest}{Human\-Detection\-Test}, qr\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests human detection with a qr code. Should return 0 humans. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a55557497fad2b391dac2e0f04073cd1f}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classHumanDetectionTest}{Human\-Detection\-Test}, file\-\_\-not\-\_\-exists\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests human detection with a missing file. Should return 0 humans. \end{DoxyCompactList}\item 
+\hyperlink{unit__tests_8cpp_a6836477e2e13f6767c2da35ccf782df1}{T\-E\-S\-T\-\_\-\-F} (\hyperlink{classHumanDetectionTest}{Human\-Detection\-Test}, zero\-\_\-sized\-\_\-image\-\_\-test)
+\begin{DoxyCompactList}\small\item\em Tests human detection with an empty image. Should return 0 humans. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!main@{main}}
+\index{main@{main}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$$\ast$}]{argv}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}
+
+
+The main function. Initialized the unit tests. 
+
+
+
+Definition at line 103 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_aab1f73b361e59bd6dbdb364b988a080c}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Human\-Detection\-Test}}]{, }
+\item[{human\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_aab1f73b361e59bd6dbdb364b988a080c}
+
+
+Tests human detection with the Lenna image. Should be successful. 
+
+
+
+Definition at line 60 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a2448a01f3cbc293e40b4f0f2b7b9f63c}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Human\-Detection\-Test}}]{, }
+\item[{qr\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a2448a01f3cbc293e40b4f0f2b7b9f63c}
+
+
+Tests human detection with a qr code. Should return 0 humans. 
+
+
+
+Definition at line 71 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a55557497fad2b391dac2e0f04073cd1f}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Human\-Detection\-Test}}]{, }
+\item[{file\-\_\-not\-\_\-exists\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a55557497fad2b391dac2e0f04073cd1f}
+
+
+Tests human detection with a missing file. Should return 0 humans. 
+
+
+
+Definition at line 82 of file unit\-\_\-tests.\-cpp.
+
+\hypertarget{unit__tests_8cpp_a6836477e2e13f6767c2da35ccf782df1}{\index{unit\-\_\-tests.\-cpp@{unit\-\_\-tests.\-cpp}!T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}}
+\index{T\-E\-S\-T\-\_\-\-F@{T\-E\-S\-T\-\_\-\-F}!unit_tests.cpp@{unit\-\_\-tests.\-cpp}}
+\subsubsection[{T\-E\-S\-T\-\_\-\-F}]{\setlength{\rightskip}{0pt plus 5cm}T\-E\-S\-T\-\_\-\-F (
+\begin{DoxyParamCaption}
+\item[{{\bf Human\-Detection\-Test}}]{, }
+\item[{zero\-\_\-sized\-\_\-image\-\_\-test}]{}
+\end{DoxyParamCaption}
+)}}\label{unit__tests_8cpp_a6836477e2e13f6767c2da35ccf782df1}
+
+
+Tests human detection with an empty image. Should return 0 humans. 
+
+
+
+Definition at line 93 of file unit\-\_\-tests.\-cpp.
+

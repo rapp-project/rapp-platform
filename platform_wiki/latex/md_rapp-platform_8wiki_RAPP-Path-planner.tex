@@ -1,6 +1,15 @@
+ \subsection*{$\ast$$\ast$\-List of contents$\ast$$\ast$ }
 
 
-\subsection*{$\ast$$\ast$\-Components$\ast$$\ast$ }
+\begin{DoxyEnumerate}
+\item \href{https://github.com/rapp-project/rapp-platform/wiki/#components}{\tt Components}
+\item \href{https://github.com/rapp-project/rapp-platform/wiki/#package-launch}{\tt Package launch}
+\item \href{https://github.com/rapp-project/rapp-platform/wiki/#prepare-new-map-manually}{\tt Prepare new map manually}
+\item \href{https://github.com/rapp-project/rapp-platform/wiki/#ros-services}{\tt R\-O\-S services}
+\item \href{https://github.com/rapp-project/rapp-platform/wiki/#web-services}{\tt W\-E\-B services}
+\end{DoxyEnumerate}
+
+\subsection*{Components}
 
 \paragraph*{1. {\itshape rapp\-\_\-path\-\_\-planning}}
 
@@ -15,13 +24,64 @@ Rapp\-\_\-path\-\_\-planning is used in the R\-A\-P\-P case to plan path from gi
 
 Rapp\-\_\-map\-\_\-server delivers prebuild maps to rapp\-\_\-path\-\_\-planning component. All avaliable maps are contained \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_map_server/maps}{\tt here}.
 
-This component is based on the R\-O\-S package\-: \href{http://wiki.ros.org/map_server}{\tt map\-\_\-server}. The rapp\-\_\-map\-\_\-server reads .png and .yaml files and publishes map as \href{http://docs.ros.org/jade/api/nav_msgs/html/msg/OccupancyGrid.html}{\tt Occupacy\-Grid} data. R\-A\-P\-P case needs run-\/time changing map publication, thus the rapp\-\_\-map\-\_\-server extands map\-\_\-server functionality. The rapp\-\_\-map\-\_\-server enables user run-\/time changes of map. It subscribes to R\-O\-S parameter\-: {\ttfamily rospy.\-set\-\_\-param(node\-Name+\char`\"{}/set\-Map\char`\"{}, map\-\_\-path)} and publishes the map specified in map\-\_\-path. Examplary map changing request is presented below. ```python nodename = rospy.\-get\-\_\-name() map\-\_\-path = \char`\"{}/home/rapp/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-map\-\_\-server/maps/empty.\-yaml\char`\"{} rospy.\-set\-\_\-param(nodename+/set\-Map, map\-\_\-path) ```
+This component is based on the R\-O\-S package\-: \href{http://wiki.ros.org/map_server}{\tt map\-\_\-server}. The rapp\-\_\-map\-\_\-server reads .png and .yaml files and publishes map as \href{http://docs.ros.org/jade/api/nav_msgs/html/msg/OccupancyGrid.html}{\tt Occupacy\-Grid} data. R\-A\-P\-P case needs run-\/time changing map publication, thus the rapp\-\_\-map\-\_\-server extands map\-\_\-server functionality. The rapp\-\_\-map\-\_\-server enables user run-\/time changes of map. It subscribes to R\-O\-S parameter\-: {\ttfamily rospy.\-set\-\_\-param(node\-Name+\char`\"{}/set\-Map\char`\"{}, map\-\_\-path)} and publishes the map specified in map\-\_\-path. Examplary map changing request is presented below. ```python nodename = rospy.\-get\-\_\-name() map\-\_\-path = \char`\"{}/home/rapp/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-map\-\_\-server/maps/empty.\-yaml\char`\"{} rospy.\-set\-\_\-param(nodename+/set\-Map, map\-\_\-path) {\ttfamily  A R\-O\-S service exists to store new maps in each user's workspace, called}upload\-\_\-map{\ttfamily . Then each application can invoke the}plan\-Path2\-D``` service, providing the map's name (among others) as input argument.
 
-\subsection*{$\ast$$\ast$\-R\-O\-S Services$\ast$$\ast$ }
+\subsection*{Package launch}
 
-\paragraph*{$\ast$\-Path planning$\ast$}
+\paragraph*{$\ast$\-Standard launch$\ast$}
 
-Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-path\-\_\-planning/plan\-\_\-path}
+Launches the {\bfseries path planning} node and can be launched using ```bash roslaunch rapp\-\_\-path\-\_\-planning path\-\_\-planning.\-launch ```
+
+\subsection*{Prepare new map manually}
+
+New map files have to be compatible with the \href{http://wiki.ros.org/map_server}{\tt map\-\_\-server} package. Detailed description of files and their parameters can be found \href{http://wiki.ros.org/map_server/#Map_format}{\tt here}. Exemplary map files can be found \href{https://github.com/rapp-project/rapp-platform/tree/devel/rapp_path_planning/rapp_map_server/maps}{\tt here}.
+
+
+\begin{DoxyEnumerate}
+\item Prepare P\-N\-G file\-:\par
+ a) Dimension desired area,\par
+ b) Scale measurements by a desired factor. Chosen factor represents the map resolution! \par
+ c) Draw obstacles and walls with black color carefully. Size of obstacles and walls is very important and every pixel makes difference!\par
+ d) Rest of the map should be left white.\par
+ e) Export your image to the .png file. Name of the file is important, so choose wisely!\par
+
+\item Write configuration file\-:\par
+ a) Create empty file\-: {\ttfamily $<$map\-\_\-name$>$.yaml}\par
+ b) Open the file and set following configuration parameters\-:\par
+
+\end{DoxyEnumerate}
+
+``` \section*{Name of .png file.}
+
+image\-: $<$png\-\_\-file\-\_\-name$>$ \# example -\/$>$ image\-: test\-\_\-map.\-png
+
+\section*{The map's resolution \mbox{[}meters / pixel\mbox{]}}
+
+resolution\-: $<$resolution$>$ \# example -\/$>$ resolution\-: 0.\-1
+
+\section*{The map's origin. 2\-D pose of the map origin. \mbox{[}x, y, yaw\mbox{]}}
+
+origin\-: $<$map\-\_\-origin$>$ \# example -\/$>$ origin\-: \mbox{[}0.\-0, 0.\-0, 0.\-0\mbox{]}
+
+\section*{Whether the occupied / unoccupied pixels must be negated}
+
+negate\-: $<$negate$>$ \# example -\/$>$ negate\-: 0
+
+\section*{Pixels with occupancy probability greater than this threshold are considered completely occupied.}
+
+occupied\-\_\-thresh\-: 
+
+\# example -\/$>$ occupied\-\_\-thresh\-: 0.\-65
+
+\section*{Pixels with occupancy probability less than this threshold are considered completely free.}
+
+free\-\_\-thresh\-: 
+
+\# example -\/$>$ free\-\_\-thresh\-: 0.\-196 ``` \subsection*{R\-O\-S Services}
+
+\paragraph*{2\-D path planning}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-path\-\_\-planning/plan\-Path2\-D}
 
 Service type\-: ```bash \section*{Contains name to the desired map}
 
@@ -53,18 +113,60 @@ uint8 plan\-\_\-found \section*{error\-\_\-message \-: error explanation}
 
 string error\-\_\-message \section*{path \-: vector of Pose\-Stamped objects}
 
-\section*{if plan\-\_\-found is true, this is an array of waypoints from start to goal, where the first}
-
-\section*{one equals start and the last one equals goal}
+\section*{if plan\-\_\-found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal}
 
 geometry\-\_\-msgs/\-Pose\-Stamped\mbox{[}\mbox{]} path ```
 
-\subsection*{$\ast$$\ast$\-Launchers$\ast$$\ast$ }
+\subsubsection*{map file upload}
 
-\paragraph*{$\ast$\-Standard launcher$\ast$}
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-path\-\_\-planning/upload\-\_\-map}
 
-Launches the {\bfseries path planning} node and can be launched using ```bash roslaunch rapp\-\_\-path\-\_\-planning path\-\_\-planning.\-launch ```
+Service type\-: ```bash \section*{The end user's username, since the uploaded map is personal}
 
-\paragraph*{Author}
+string user\-\_\-name \section*{The map's name. Must be unique for this user}
+
+string map\-\_\-name \section*{The map's resolution}
+
+float32 resolution \section*{R\-O\-S-\/specific\-: The map's origin}
+
+float32\mbox{[}\mbox{]} origin \section*{R\-O\-S-\/specific\-: Whether the occupied / unoccupied pixels must be negated}
+
+int16 negate \section*{Occupied threshold}
+
+float32 occupied\-\_\-thresh \section*{Unoccupied threshold}
+
+float32 free\-\_\-thresh \section*{File size for sanity checks}
+
+uint32 file\-\_\-size \section*{The map data}
+
+\subsection*{char\mbox{[}\mbox{]} data }
+
+byte status ``` More information on the Occupancy Grid Map representation can be found \href{http://docs.ros.org/jade/api/nav_msgs/html/msg/OccupancyGrid.html}{\tt here}
+
+\subsection*{Web services}
+
+\subsubsection*{Path planning 2\-D}
+
+\paragraph*{U\-R\-L}
+
+{\ttfamily localhost\-:9001/hop/path\-\_\-planning\-\_\-path\-\_\-2d}
+
+\paragraph*{Input / Output}
+
+``` Input = \{ \char`\"{}map\-\_\-name\char`\"{}\-: “\-T\-H\-E\-\_\-\-P\-R\-E\-S\-T\-O\-R\-E\-D\-\_\-\-M\-A\-P\-\_\-\-N\-A\-M\-E”, \char`\"{}robot\-\_\-type\char`\"{}\-: \char`\"{}\-Nao\char`\"{}, \char`\"{}algorithm\char`\"{}\-: \char`\"{}dijkstra\char`\"{}, \char`\"{}start\char`\"{}\-: \{x\-: 0, y\-: 10\}, \char`\"{}goal\char`\"{}\-: \{x\-: 10, y\-: 0\} \} {\ttfamily  } Output = \{ \char`\"{}plan\-\_\-found\char`\"{}\-: 0, \char`\"{}path\char`\"{}\-: \mbox{[}\{x\-: 0, y\-: 10\}, \{x\-: ... \mbox{]}, \char`\"{}error\char`\"{}\-: \char`\"{}\char`\"{} \} ```
+
+\subsubsection*{Upload map}
+
+\paragraph*{U\-R\-L}
+
+{\ttfamily localhost\-:9001/hop/path\-\_\-planning\-\_\-upload\-\_\-map}
+
+\paragraph*{Input / Output}
+
+``` Input = \{ \char`\"{}png\-\_\-file\char`\"{}\-: “map.\-png”, \char`\"{}yaml\-\_\-file\char`\"{}\-: \char`\"{}map.\-yaml\char`\"{}, \char`\"{}map\-\_\-name\char`\"{}\-: \char`\"{}simple\-\_\-map\-\_\-1\char`\"{} \} {\ttfamily  } Output = \{ \char`\"{}error\char`\"{}\-: \char`\"{}\char`\"{} \} ```
+
+The full documentation exists \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#path-planning-plan-path-2d}{\tt here} and \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#path-planning-upload-map}{\tt here}.
+
+\subparagraph*{Author}
 
 \href{https://github.com/dudekw}{\tt Wojciech Dudek} 

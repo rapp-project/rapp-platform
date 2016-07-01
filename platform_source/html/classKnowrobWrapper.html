@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -97,7 +96,7 @@ $(document).ready(function(){initNavTree('classKnowrobWrapper.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -147,6 +146,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a798a52556983073055944fd1c51495de"><td class="memItemLeft" align="right" valign="top">rapp_platform_ros_communications::createInstanceSrv::Response&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a798a52556983073055944fd1c51495de">createInstanceQuery</a> (rapp_platform_ros_communications::createInstanceSrv::Request req)</td></tr>
 <tr class="memdesc:a798a52556983073055944fd1c51495de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the createInstance ROS service.  <a href="#a798a52556983073055944fd1c51495de">More...</a><br/></td></tr>
 <tr class="separator:a798a52556983073055944fd1c51495de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b7c73ddd7fee3004e22f1110a86b6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a38b7c73ddd7fee3004e22f1110a86b6c">dump_ontology_now</a> ()</td></tr>
+<tr class="memdesc:a38b7c73ddd7fee3004e22f1110a86b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dumps the ontology to default path.  <a href="#a38b7c73ddd7fee3004e22f1110a86b6c">More...</a><br/></td></tr>
+<tr class="separator:a38b7c73ddd7fee3004e22f1110a86b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86796d95e57f4620474dab7e1f2df128"><td class="memItemLeft" align="right" valign="top">rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a86796d95e57f4620474dab7e1f2df128">dumpOntologyQuery</a> (rapp_platform_ros_communications::ontologyLoadDumpSrv::Request req)</td></tr>
 <tr class="memdesc:a86796d95e57f4620474dab7e1f2df128"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the dumpOntology ROS service.  <a href="#a86796d95e57f4620474dab7e1f2df128">More...</a><br/></td></tr>
 <tr class="separator:a86796d95e57f4620474dab7e1f2df128"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,6 +164,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a77d7c7d52db582093065271ebb6d8be7"><td class="memItemLeft" align="right" valign="top">rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a77d7c7d52db582093065271ebb6d8be7">record_user_cognitive_tests_performance</a> (rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Request req)</td></tr>
 <tr class="memdesc:a77d7c7d52db582093065271ebb6d8be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the record_user_cognitive_tests_performance ROS service.  <a href="#a77d7c7d52db582093065271ebb6d8be7">More...</a><br/></td></tr>
 <tr class="separator:a77d7c7d52db582093065271ebb6d8be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a53523ea96e21a32f7f52495ce81f3a"><td class="memItemLeft" align="right" valign="top">rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a7a53523ea96e21a32f7f52495ce81f3a">register_image_object_to_ontology</a> (rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request req)</td></tr>
+<tr class="memdesc:a7a53523ea96e21a32f7f52495ce81f3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the register_image_object_to_ontology ROS service.  <a href="#a7a53523ea96e21a32f7f52495ce81f3a">More...</a><br/></td></tr>
+<tr class="separator:a7a53523ea96e21a32f7f52495ce81f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05ff27a5905ad1a44feb97b304a61e67"><td class="memItemLeft" align="right" valign="top">rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a05ff27a5905ad1a44feb97b304a61e67">retract_user_ontology_alias</a> (rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request req)</td></tr>
+<tr class="memdesc:a05ff27a5905ad1a44feb97b304a61e67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the retract_user_ontology_alias ROS service.  <a href="#a05ff27a5905ad1a44feb97b304a61e67">More...</a><br/></td></tr>
+<tr class="separator:a05ff27a5905ad1a44feb97b304a61e67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e2ee6a631a705466a490f37ecf8afd5"><td class="memItemLeft" align="right" valign="top">rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a6e2ee6a631a705466a490f37ecf8afd5">subclassesOfQuery</a> (rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request req)</td></tr>
 <tr class="memdesc:a6e2ee6a631a705466a490f37ecf8afd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the subclassesOf ROS service.  <a href="#a6e2ee6a631a705466a490f37ecf8afd5">More...</a><br/></td></tr>
 <tr class="separator:a6e2ee6a631a705466a490f37ecf8afd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,12 +185,10 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:aaa8ac92e0387787a4ba8bdc9a5886c4d"><td class="memItemLeft" align="right" valign="top">ros::ServiceClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#aaa8ac92e0387787a4ba8bdc9a5886c4d">mysql_fetch_client</a></td></tr>
-<tr class="separator:aaa8ac92e0387787a4ba8bdc9a5886c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16a7e3854cd229eabb1675eded4bafb4"><td class="memItemLeft" align="right" valign="top">ros::ServiceClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a16a7e3854cd229eabb1675eded4bafb4">mysql_update_client</a></td></tr>
-<tr class="separator:a16a7e3854cd229eabb1675eded4bafb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3751c23317ae08cb539f51ea1eead504"><td class="memItemLeft" align="right" valign="top">ros::ServiceClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a3751c23317ae08cb539f51ea1eead504">mysql_write_client</a></td></tr>
-<tr class="separator:a3751c23317ae08cb539f51ea1eead504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39f2268a17653590d51a7b3e0e243c6c"><td class="memItemLeft" align="right" valign="top">ros::ServiceClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a39f2268a17653590d51a7b3e0e243c6c">mysql_get_user_ontology_alias_client</a></td></tr>
+<tr class="separator:a39f2268a17653590d51a7b3e0e243c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57089b048f31c7b67ccdaeff7a834bc3"><td class="memItemLeft" align="right" valign="top">ros::ServiceClient&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a57089b048f31c7b67ccdaeff7a834bc3">mysql_register_user_ontology_alias_client</a></td></tr>
+<tr class="separator:a57089b048f31c7b67ccdaeff7a834bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e3aae6f36c23857030d977fa53e3baf"><td class="memItemLeft" align="right" valign="top">ros::NodeHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a7e3aae6f36c23857030d977fa53e3baf">nh_</a></td></tr>
 <tr class="separator:a7e3aae6f36c23857030d977fa53e3baf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85cb0352dccaebe49a4f382d39911400"><td class="memItemLeft" align="right" valign="top">json_prolog::Prolog&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classKnowrobWrapper.html#a85cb0352dccaebe49a4f382d39911400">pl</a></td></tr>
@@ -191,7 +197,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class <a class="el" href="classKnowrobWrapperCommunications.html" title="Class KnowrobWrapperCommunications uptakes the task of handling the ROS service callbacks. ">KnowrobWrapperCommunications</a> contains all the necessary knowrob wrapper functions. </p>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00046">46</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00049">49</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="adfaff3e5574aa56d54fcf31c36fd3450"></a>
 <div class="memitem">
@@ -260,9 +266,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::clearUserPerformanceCognitveTestsSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00458">458</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00444">444</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -287,9 +306,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::cognitiveTestsOfTypeSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00321">321</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00329">329</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -314,9 +346,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::createCognitiveExerciseTestSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00248">248</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00271">271</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -341,9 +386,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::createOntologyAliasSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::createOntologyAliasSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::createOntologyAliasSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00513">513</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00132">132</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -355,7 +413,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">std::string KnowrobWrapper::create_ontology_alias_for_new_user </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>user_id</em></td><td>)</td>
+          <td class="paramname"><em>username</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -368,9 +426,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>ontology_alias [string] The ontology_alias of the user or possible error</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>[string] The username of the user </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>ontology_alias [string] The ontology_alias of the user or possible error </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00134">134</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00183">183</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -395,9 +466,41 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::createInstanceSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::createInstanceSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::createInstanceSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00757">757</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00633">633</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a38b7c73ddd7fee3004e22f1110a86b6c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KnowrobWrapper::dump_ontology_now </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dumps the ontology to default path. </p>
+
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00039">39</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -422,9 +525,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00924">924</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00682">682</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -436,7 +552,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">std::string KnowrobWrapper::get_ontology_alias </td>
           <td>(</td>
           <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>user_id</em></td><td>)</td>
+          <td class="paramname"><em>username</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -449,9 +565,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>ontology_alias [string] The ontology_alias of the user or possible error</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">username</td><td>[string] The username of the user </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>ontology_alias [string] The ontology_alias of the user or possible error </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00095">95</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00161">161</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -476,9 +605,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologyIsSubSuperClassOfSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00687">687</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00580">580</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -503,9 +645,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::ontologyLoadDumpSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologyLoadDumpSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00989">989</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00723">723</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -532,7 +687,61 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::recordUserPerformanceCognitiveTestsSrv::Response&amp;] The ROS service response </dd></dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00195">195</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00226">226</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a53523ea96e21a32f7f52495ce81f3a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response KnowrobWrapper::register_image_object_to_ontology </td>
+          <td>(</td>
+          <td class="paramtype">rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request&#160;</td>
+          <td class="paramname"><em>req</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Implements the register_image_object_to_ontology ROS service. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::registerImageObjectToOntologySrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::registerImageObjectToOntologySrv::Response&amp;] The ROS service response </dd></dl>
+
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00804">804</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a05ff27a5905ad1a44feb97b304a61e67"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response KnowrobWrapper::retract_user_ontology_alias </td>
+          <td>(</td>
+          <td class="paramtype">rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request&#160;</td>
+          <td class="paramname"><em>req</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Implements the retract_user_ontology_alias ROS service. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::retractUserOntologyAliasSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::retractUserOntologyAliasSrv::Response&amp;] The ROS service response </dd></dl>
+
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00853">853</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -557,9 +766,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00546">546</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00486">486</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -584,9 +806,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::ontologySubSuperClassesOfSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00617">617</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00533">533</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -611,9 +846,22 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::returnUserInstancesOfClassSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l01037">1037</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00759">759</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
@@ -638,14 +886,27 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&amp;] The ROS service response</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">req</td><td>[rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Request&amp;] The ROS service request </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>res [rapp_platform_ros_communications::userPerformanceCognitveTestsSrv::Response&amp;] The ROS service response </dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">AppError</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00390">390</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8cpp_source.html#l00387">387</a> of file <a class="el" href="knowrob__wrapper_8cpp_source.html">knowrob_wrapper.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="aaa8ac92e0387787a4ba8bdc9a5886c4d"></a>
+<a class="anchor" id="a39f2268a17653590d51a7b3e0e243c6c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -653,7 +914,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ros::ServiceClient KnowrobWrapper::mysql_fetch_client</td>
+          <td class="memname">ros::ServiceClient KnowrobWrapper::mysql_get_user_ontology_alias_client</td>
         </tr>
       </table>
   </td>
@@ -664,33 +925,11 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The mysql update tblUser client server </p>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00059">59</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a16a7e3854cd229eabb1675eded4bafb4"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::ServiceClient KnowrobWrapper::mysql_update_client</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
 <p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00062">62</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a3751c23317ae08cb539f51ea1eead504"></a>
+<a class="anchor" id="a57089b048f31c7b67ccdaeff7a834bc3"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -698,7 +937,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ros::ServiceClient KnowrobWrapper::mysql_write_client</td>
+          <td class="memname">ros::ServiceClient KnowrobWrapper::mysql_register_user_ontology_alias_client</td>
         </tr>
       </table>
   </td>
@@ -709,7 +948,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The mysql fetch from tblUser client server </p>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00056">56</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00059">59</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
 
 </div>
 </div>
@@ -732,7 +971,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>&lt; The ROS node handle The json prolog handle </p>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00050">50</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00053">53</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
 
 </div>
 </div>
@@ -755,7 +994,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p>The mysql write to tblUser client server </p>
 
-<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00053">53</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
+<p>Definition at line <a class="el" href="knowrob__wrapper_8h_source.html#l00056">56</a> of file <a class="el" href="knowrob__wrapper_8h_source.html">knowrob_wrapper.h</a>.</p>
 
 </div>
 </div>
@@ -769,7 +1008,7 @@ Private Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classKnowrobWrapper.html">KnowrobWrapper</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:30 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

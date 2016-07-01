@@ -1,0 +1,255 @@
+\hypertarget{classPathPlanning}{\section{Path\-Planning Class Reference}
+\label{classPathPlanning}\index{Path\-Planning@{Path\-Planning}}
+}
+
+
+{\ttfamily \#include $<$path\-\_\-planning.\-h$>$}
+
+
+
+Collaboration diagram for Path\-Planning\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=181pt]{classPathPlanning__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPathPlanning_a4a883f95ad5022c7fb80b49b7a1e4d71}{Path\-Planning} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\hyperlink{classPathPlanning_ae87cafad0b154631f91ea576142f44df}{$\sim$\-Path\-Planning} (void)
+\item 
+bool \hyperlink{classPathPlanning_a6451e5aac084a63136bcb809d9207d43}{path\-Planning\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Path\-Planning\-Ros\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Path\-Planning\-Ros\-Srv\-::\-Response \&res)
+\begin{DoxyCompactList}\small\item\em Determines next planning seqence (which global\-\_\-planner and \hyperlink{namespacemap__server}{map\-\_\-server} should be used) \end{DoxyCompactList}\item 
+bool \hyperlink{classPathPlanning_adc015b964eb39c733ff95a4e38d150fe}{upload\-Map\-Callback} (rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Request \&req, rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Response \&res)
+\begin{DoxyCompactList}\small\item\em Upload map to R\-A\-P\-P Platform. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::vector$<$ pid\-\_\-t $>$ \hyperlink{classPathPlanning_abddfa7cdfc6256b97d42ab69a486f4c0}{G\-P\-\_\-p\-I\-Ds}
+\item 
+const char $\ast$ \hyperlink{classPathPlanning_a9ed58fad470b9b836cfa353805292362}{homedir}
+\item 
+std\-::vector$<$ pid\-\_\-t $>$ \hyperlink{classPathPlanning_a8aed5a7bee30a377a8d6cb24032bd861}{M\-S\-\_\-p\-I\-Ds}
+\item 
+std\-::vector\\*
+$<$ geometry\-\_\-msgs\-::\-Pose\-Stamped $>$ \hyperlink{classPathPlanning_a7967da99fc8e0c96d987528c96312187}{new\-\_\-path}
+\item 
+ros\-::\-Node\-Handle \hyperlink{classPathPlanning_a0d693961ace8af4460a0d26f4404757d}{nh\-\_\-}
+\item 
+\hyperlink{classPathPlanner}{Path\-Planner} \hyperlink{classPathPlanning_a9baf3995e48bfcb73b15db9c9b0ee0f3}{path\-\_\-planner\-\_\-}
+\item 
+ros\-::\-Service\-Server \hyperlink{classPathPlanning_a7508db0be8dbd74709c582a0e3a2af60}{path\-Planning\-Service\-\_\-}
+\item 
+int \hyperlink{classPathPlanning_a5efb84ce4c2a62274b4d86bbe36da4e5}{path\-Planning\-Threads\-\_\-}
+\item 
+std\-::vector$<$ ros\-::\-Service\-Server $>$ \hyperlink{classPathPlanning_af4843567f14bcf61b51a40adf3a26842}{path\-Planning\-Thread\-Services\-\_\-}
+\item 
+std\-::string \hyperlink{classPathPlanning_a75832e9bcc3b6feb3ce17e9ea3f0b208}{path\-Planning\-Topic\-\_\-}
+\item 
+double \hyperlink{classPathPlanning_ad1da5fbacd5f283a5b778bf4c1a29d0a}{pose\-\_\-dist\-\_\-}
+\item 
+pid\-\_\-t \hyperlink{classPathPlanning_a27d61d0eeb2e094043c517dd7ec380f4}{T\-P\-\_\-p\-I\-D}
+\item 
+ros\-::\-Service\-Server \hyperlink{classPathPlanning_a0932d5ff3842ada8e5b3ba8a621df551}{upload\-Map\-Service\-\_\-}
+\item 
+std\-::string \hyperlink{classPathPlanning_a4a677303130f32e4f552f674b068a9b6}{upload\-Map\-Topic\-\_\-}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 23 of file path\-\_\-planning.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classPathPlanning_a4a883f95ad5022c7fb80b49b7a1e4d71}{\index{Path\-Planning@{Path\-Planning}!Path\-Planning@{Path\-Planning}}
+\index{Path\-Planning@{Path\-Planning}!PathPlanning@{Path\-Planning}}
+\subsubsection[{Path\-Planning}]{\setlength{\rightskip}{0pt plus 5cm}Path\-Planning\-::\-Path\-Planning (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanning_a4a883f95ad5022c7fb80b49b7a1e4d71}
+
+
+Default constructor. 
+
+
+
+Definition at line 181 of file path\-\_\-planning.\-cpp.
+
+\hypertarget{classPathPlanning_ae87cafad0b154631f91ea576142f44df}{\index{Path\-Planning@{Path\-Planning}!$\sim$\-Path\-Planning@{$\sim$\-Path\-Planning}}
+\index{$\sim$\-Path\-Planning@{$\sim$\-Path\-Planning}!PathPlanning@{Path\-Planning}}
+\subsubsection[{$\sim$\-Path\-Planning}]{\setlength{\rightskip}{0pt plus 5cm}Path\-Planning\-::$\sim$\-Path\-Planning (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanning_ae87cafad0b154631f91ea576142f44df}
+
+
+Definition at line 31 of file path\-\_\-planning.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classPathPlanning_a6451e5aac084a63136bcb809d9207d43}{\index{Path\-Planning@{Path\-Planning}!path\-Planning\-Callback@{path\-Planning\-Callback}}
+\index{path\-Planning\-Callback@{path\-Planning\-Callback}!PathPlanning@{Path\-Planning}}
+\subsubsection[{path\-Planning\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Path\-Planning\-::path\-Planning\-Callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Path\-Planning\-Ros\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Path\-Planning\-Ros\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanning_a6451e5aac084a63136bcb809d9207d43}
+
+
+Determines next planning seqence (which global\-\_\-planner and \hyperlink{namespacemap__server}{map\-\_\-server} should be used) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \mbox{[}navfn\-::\-Make\-Nav\-Plan\-Request\mbox{]}} & \&req\-: \mbox{[}std\-::string\mbox{]} req.\-user\-\_\-name -\/ Determine user name -\/ owner of the environment map \mbox{[}std\-::string\mbox{]} req.\-map\-\_\-name -\/ Contains path to the desired map \mbox{[}std\-::string\mbox{]} req.\-robot\-\_\-type -\/ Contains type of the robot. It is required to determine it's parameters (footprint etc.) \mbox{[}std\-::string\mbox{]} req.\-algorithm -\/ Contains path planning algorithm name \mbox{[}geometry\-\_\-msgs/\-Pose\-Stamped\mbox{]} req.\-start -\/ Contains start pose of the robot \mbox{[}geometry\-\_\-msgs/\-Pose\-Stamped\mbox{]} req.\-goal -\/ Contains goal pose of the robot \\
+\hline
+{\em \mbox{[}navfn\-::\-Make\-Nav\-Plan\-Response\mbox{]}} & \&res\-: \mbox{[}uint8\mbox{]} res.\-plan\-\_\-found\-: 0 \-: path cannot be planned. 1 \-: path found 2 \-: wrong map name 3 \-: wrong robot type 4 \-: wrong algorithm \mbox{[}std\-::string\mbox{]} res.\-error\-\_\-message \-: error explenation \mbox{[}geometry\-\_\-msgs/\-Pose\-Stamped\mbox{[}\mbox{]}\mbox{]} res.\-path \-: if plan\-\_\-found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal vector of Pose\-Stamped objects \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 302 of file path\-\_\-planning.\-cpp.
+
+\hypertarget{classPathPlanning_adc015b964eb39c733ff95a4e38d150fe}{\index{Path\-Planning@{Path\-Planning}!upload\-Map\-Callback@{upload\-Map\-Callback}}
+\index{upload\-Map\-Callback@{upload\-Map\-Callback}!PathPlanning@{Path\-Planning}}
+\subsubsection[{upload\-Map\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}bool Path\-Planning\-::upload\-Map\-Callback (
+\begin{DoxyParamCaption}
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Request \&}]{req, }
+\item[{rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Map\-Server\-Upload\-Map\-Ros\-Srv\-::\-Response \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanning_adc015b964eb39c733ff95a4e38d150fe}
+
+
+Upload map to R\-A\-P\-P Platform. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \&req} & \mbox{[}std\-::string\mbox{]} user\-\_\-name, \mbox{[}std\-::string\mbox{]} map\-\_\-name, \mbox{[}float32\mbox{]} resolution, \mbox{[}float32\mbox{[}\mbox{]}\mbox{]} origin, int16 negate, \mbox{[}float32\mbox{]} occupied\-\_\-thresh, \mbox{[}float32\mbox{]} free\-\_\-thresh, \mbox{[}uint32\mbox{]} file\-\_\-size, \mbox{[}char\mbox{[}\mbox{]}\mbox{]} data, \\
+\hline
+{\em \&res} & \mbox{[}byte\mbox{]} status , \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}bool\mbox{]} true-\/$>$ success, false-\/$>$ failure. 
+\end{DoxyReturn}
+
+
+Definition at line 242 of file path\-\_\-planning.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classPathPlanning_abddfa7cdfc6256b97d42ab69a486f4c0}{\index{Path\-Planning@{Path\-Planning}!G\-P\-\_\-p\-I\-Ds@{G\-P\-\_\-p\-I\-Ds}}
+\index{G\-P\-\_\-p\-I\-Ds@{G\-P\-\_\-p\-I\-Ds}!PathPlanning@{Path\-Planning}}
+\subsubsection[{G\-P\-\_\-p\-I\-Ds}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$pid\-\_\-t$>$ Path\-Planning\-::\-G\-P\-\_\-p\-I\-Ds\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_abddfa7cdfc6256b97d42ab69a486f4c0}
+
+
+Definition at line 74 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a9ed58fad470b9b836cfa353805292362}{\index{Path\-Planning@{Path\-Planning}!homedir@{homedir}}
+\index{homedir@{homedir}!PathPlanning@{Path\-Planning}}
+\subsubsection[{homedir}]{\setlength{\rightskip}{0pt plus 5cm}const char$\ast$ Path\-Planning\-::homedir\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a9ed58fad470b9b836cfa353805292362}
+
+
+Definition at line 69 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a8aed5a7bee30a377a8d6cb24032bd861}{\index{Path\-Planning@{Path\-Planning}!M\-S\-\_\-p\-I\-Ds@{M\-S\-\_\-p\-I\-Ds}}
+\index{M\-S\-\_\-p\-I\-Ds@{M\-S\-\_\-p\-I\-Ds}!PathPlanning@{Path\-Planning}}
+\subsubsection[{M\-S\-\_\-p\-I\-Ds}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$pid\-\_\-t$>$ Path\-Planning\-::\-M\-S\-\_\-p\-I\-Ds\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a8aed5a7bee30a377a8d6cb24032bd861}
+
+
+Definition at line 75 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a7967da99fc8e0c96d987528c96312187}{\index{Path\-Planning@{Path\-Planning}!new\-\_\-path@{new\-\_\-path}}
+\index{new\-\_\-path@{new\-\_\-path}!PathPlanning@{Path\-Planning}}
+\subsubsection[{new\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$geometry\-\_\-msgs\-::\-Pose\-Stamped$>$ Path\-Planning\-::new\-\_\-path\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a7967da99fc8e0c96d987528c96312187}
+
+
+Definition at line 82 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a0d693961ace8af4460a0d26f4404757d}{\index{Path\-Planning@{Path\-Planning}!nh\-\_\-@{nh\-\_\-}}
+\index{nh\-\_\-@{nh\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{nh\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Node\-Handle Path\-Planning\-::nh\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a0d693961ace8af4460a0d26f4404757d}
+
+
+Definition at line 67 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a9baf3995e48bfcb73b15db9c9b0ee0f3}{\index{Path\-Planning@{Path\-Planning}!path\-\_\-planner\-\_\-@{path\-\_\-planner\-\_\-}}
+\index{path\-\_\-planner\-\_\-@{path\-\_\-planner\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{path\-\_\-planner\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Path\-Planner} Path\-Planning\-::path\-\_\-planner\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a9baf3995e48bfcb73b15db9c9b0ee0f3}
+
+
+Definition at line 83 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a7508db0be8dbd74709c582a0e3a2af60}{\index{Path\-Planning@{Path\-Planning}!path\-Planning\-Service\-\_\-@{path\-Planning\-Service\-\_\-}}
+\index{path\-Planning\-Service\-\_\-@{path\-Planning\-Service\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{path\-Planning\-Service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Path\-Planning\-::path\-Planning\-Service\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a7508db0be8dbd74709c582a0e3a2af60}
+
+
+Definition at line 71 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a5efb84ce4c2a62274b4d86bbe36da4e5}{\index{Path\-Planning@{Path\-Planning}!path\-Planning\-Threads\-\_\-@{path\-Planning\-Threads\-\_\-}}
+\index{path\-Planning\-Threads\-\_\-@{path\-Planning\-Threads\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{path\-Planning\-Threads\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}int Path\-Planning\-::path\-Planning\-Threads\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a5efb84ce4c2a62274b4d86bbe36da4e5}
+
+
+Definition at line 80 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_af4843567f14bcf61b51a40adf3a26842}{\index{Path\-Planning@{Path\-Planning}!path\-Planning\-Thread\-Services\-\_\-@{path\-Planning\-Thread\-Services\-\_\-}}
+\index{path\-Planning\-Thread\-Services\-\_\-@{path\-Planning\-Thread\-Services\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{path\-Planning\-Thread\-Services\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ros\-::\-Service\-Server$>$ Path\-Planning\-::path\-Planning\-Thread\-Services\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_af4843567f14bcf61b51a40adf3a26842}
+
+
+Definition at line 73 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a75832e9bcc3b6feb3ce17e9ea3f0b208}{\index{Path\-Planning@{Path\-Planning}!path\-Planning\-Topic\-\_\-@{path\-Planning\-Topic\-\_\-}}
+\index{path\-Planning\-Topic\-\_\-@{path\-Planning\-Topic\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{path\-Planning\-Topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Path\-Planning\-::path\-Planning\-Topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a75832e9bcc3b6feb3ce17e9ea3f0b208}
+
+
+Definition at line 78 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_ad1da5fbacd5f283a5b778bf4c1a29d0a}{\index{Path\-Planning@{Path\-Planning}!pose\-\_\-dist\-\_\-@{pose\-\_\-dist\-\_\-}}
+\index{pose\-\_\-dist\-\_\-@{pose\-\_\-dist\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{pose\-\_\-dist\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}double Path\-Planning\-::pose\-\_\-dist\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_ad1da5fbacd5f283a5b778bf4c1a29d0a}
+
+
+Definition at line 81 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a27d61d0eeb2e094043c517dd7ec380f4}{\index{Path\-Planning@{Path\-Planning}!T\-P\-\_\-p\-I\-D@{T\-P\-\_\-p\-I\-D}}
+\index{T\-P\-\_\-p\-I\-D@{T\-P\-\_\-p\-I\-D}!PathPlanning@{Path\-Planning}}
+\subsubsection[{T\-P\-\_\-p\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}pid\-\_\-t Path\-Planning\-::\-T\-P\-\_\-p\-I\-D\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a27d61d0eeb2e094043c517dd7ec380f4}
+
+
+Definition at line 76 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a0932d5ff3842ada8e5b3ba8a621df551}{\index{Path\-Planning@{Path\-Planning}!upload\-Map\-Service\-\_\-@{upload\-Map\-Service\-\_\-}}
+\index{upload\-Map\-Service\-\_\-@{upload\-Map\-Service\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{upload\-Map\-Service\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}ros\-::\-Service\-Server Path\-Planning\-::upload\-Map\-Service\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a0932d5ff3842ada8e5b3ba8a621df551}
+
+
+Definition at line 72 of file path\-\_\-planning.\-h.
+
+\hypertarget{classPathPlanning_a4a677303130f32e4f552f674b068a9b6}{\index{Path\-Planning@{Path\-Planning}!upload\-Map\-Topic\-\_\-@{upload\-Map\-Topic\-\_\-}}
+\index{upload\-Map\-Topic\-\_\-@{upload\-Map\-Topic\-\_\-}!PathPlanning@{Path\-Planning}}
+\subsubsection[{upload\-Map\-Topic\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Path\-Planning\-::upload\-Map\-Topic\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classPathPlanning_a4a677303130f32e4f552f674b068a9b6}
+
+
+Definition at line 79 of file path\-\_\-planning.\-h.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-path\-\_\-planning/include/path\-\_\-planning/\hyperlink{path__planning_8h}{path\-\_\-planning.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-path\-\_\-planning/src/\hyperlink{path__planning_8cpp}{path\-\_\-planning.\-cpp}\end{DoxyCompactItemize}

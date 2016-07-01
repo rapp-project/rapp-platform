@@ -1,0 +1,82 @@
+\#\-Methodology The R\-A\-P\-P Caffe Wrapper node contains the services responsible for object identification via the Caffe deep learning framework and the assistive services for translating caffe classes to ontolgoy classes and registering the object images to the ontology.
+
+\section*{R\-O\-S Services}
+
+/rapp/rapp\-\_\-caffe\-\_\-wrapper/register\-\_\-image\-\_\-to\-\_\-ontology
+
+\subsection*{Image classification}
+
+This service will classify an image using the Caffe deep learning framework and if requested it will translate its caffe class to ontology class and register it to the ontology.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-caffe\-\_\-wrapper/get\-\_\-ontology\-\_\-class\-\_\-equivalent}
+
+Service type\-: ```bash \#the url of the image string object\-File\-Url \#the username of the user calling the service string username \#true if the image will be registered to the ontology \subsection*{bool register\-To\-Ontology }
+
+\#the value of the ontology entry if the image was registered string ontology\-Name\-Of\-Image \#the caffe object class of the image string object\-Class bool success \section*{possible error}
+
+string error \#tracen information string\mbox{[}\mbox{]} trace
+
+```
+
+\subsection*{Get ontology class equivalent}
+
+This service will return the ontology class equivalent of a caffe object class.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-caffe\-\_\-wrapper/get\-\_\-ontology\-\_\-class\-\_\-equivalent}
+
+Service type\-: ```bash \#the caffe object class of the iamge \subsection*{string caffe\-Class }
+
+\#true if a corresponding object exists in the ontology bool exists\-In\-Ontology \#the ontology equivalent class of the caffe class string ontology\-Class bool success \section*{possible error}
+
+string error \#tracen information string\mbox{[}\mbox{]} trace
+
+```
+
+\subsection*{Register image to ontology}
+
+This service will register an image to the ontology along with the caffe and ontology class of the depicted object.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-caffe\-\_\-wrapper/get\-\_\-ontology\-\_\-class\-\_\-equivalent}
+
+Service type\-: ```bash \#the caffe object class of the iamge \subsection*{string caffe\-Class }
+
+\#true if a corresponding object exists in the ontology bool exists\-In\-Ontology \#the ontology equivalent class of the caffe class string ontology\-Class bool success \section*{possible error}
+
+string error \#tracen information string\mbox{[}\mbox{]} trace
+
+```
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries rapp\-\_\-caffe\-\_\-wrapper} node and can be launched using ``` roslaunch rapp\-\_\-caffe\-\_\-wrapper rapp\-\_\-caffe\-\_\-wrapper\-\_\-functional\-\_\-tests.\-launch ```
+
+\section*{H\-O\-P services}
+
+\subsection*{Object-\/\-Recognition-\/\-Caffe}
+
+\subsubsection*{Service-\/\-Url}
+
+``` /hop/object\-\_\-recognition\-\_\-caffe ```
+
+\subsubsection*{Service request arguments}
+
+```js \{ file\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries file}\-: Path to the uploaded file ({\bfseries image file}), stored by hop-\/server. This is the form-\/data name to attach the file to.
+\end{DoxyItemize}
+
+\subsubsection*{Service response}
+
+application/json response.
+
+```js \{ object\-\_\-class\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries object\-\_\-class} (String)\-: Recognized object class.
+\item {\bfseries error} (String)\-: Error message, if one occures. (String) 
+\end{DoxyItemize}

@@ -1,0 +1,136 @@
+\hypertarget{classrapp_1_1cloud_1_1news__explore}{\section{rapp\-:\-:cloud\-:\-:news\-\_\-explore Class Reference}
+\label{classrapp_1_1cloud_1_1news__explore}\index{rapp\-::cloud\-::news\-\_\-explore@{rapp\-::cloud\-::news\-\_\-explore}}
+}
+
+
+get news  
+
+
+
+
+{\ttfamily \#include $<$news.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:news\-\_\-explore\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1news__explore__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:news\-\_\-explore\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1news__explore__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1news__explore_a9b3688370151e4a77185b0a1e26428c3}{news\-\_\-explore} (const std\-::string news\-\_\-engine, const std\-::vector$<$ std\-::string $>$ keywords, const std\-::vector$<$ std\-::string $>$ exclude\-\_\-titles, const std\-::string region, const std\-::string topic, const unsigned int num\-\_\-news, const std\-::string token, std\-::function$<$ void(std\-::string)$>$ callback)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1news__explore_a8351cc88df83279cf3bf83c9cf79d4e9}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1news__explore_a12411f442b4d68dd0f7d53ea0eb4b119}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+get news 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+
+
+Definition at line 12 of file news.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1news__explore_a9b3688370151e4a77185b0a1e26428c3}{\index{rapp\-::cloud\-::news\-\_\-explore@{rapp\-::cloud\-::news\-\_\-explore}!news\-\_\-explore@{news\-\_\-explore}}
+\index{news\-\_\-explore@{news\-\_\-explore}!rapp::cloud::news_explore@{rapp\-::cloud\-::news\-\_\-explore}}
+\subsubsection[{news\-\_\-explore}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::news\-\_\-explore\-::news\-\_\-explore (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{news\-\_\-engine, }
+\item[{const std\-::vector$<$ std\-::string $>$}]{keywords, }
+\item[{const std\-::vector$<$ std\-::string $>$}]{exclude\-\_\-titles, }
+\item[{const std\-::string}]{region, }
+\item[{const std\-::string}]{topic, }
+\item[{const unsigned int}]{num\-\_\-news, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::string)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1news__explore_a9b3688370151e4a77185b0a1e26428c3}
+
+\begin{DoxyParams}{Parameters}
+{\em news\-\_\-engine} & search news engine \\
+\hline
+{\em keywords} & list desired keywords \\
+\hline
+{\em exclude\-\_\-titles} & list of ecluded titles \\
+\hline
+{\em region} & language/region \\
+\hline
+{\em topic} & main news topic \\
+\hline
+{\em num\-\_\-news} & number of news stories limit \\
+\hline
+{\em token} & rapp auth token \\
+\hline
+{\em callback} & receives a J\-S\-O\-N reply \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 25 of file news.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1news__explore_a8351cc88df83279cf3bf83c9cf79d4e9}{\index{rapp\-::cloud\-::news\-\_\-explore@{rapp\-::cloud\-::news\-\_\-explore}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::news_explore@{rapp\-::cloud\-::news\-\_\-explore}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::news\-\_\-explore\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1news__explore_a8351cc88df83279cf3bf83c9cf79d4e9}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 65 of file news.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1news__explore_a12411f442b4d68dd0f7d53ea0eb4b119}{\index{rapp\-::cloud\-::news\-\_\-explore@{rapp\-::cloud\-::news\-\_\-explore}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::news_explore@{rapp\-::cloud\-::news\-\_\-explore}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::string)$>$ rapp\-::cloud\-::news\-\_\-explore\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1news__explore_a12411f442b4d68dd0f7d53ea0eb4b119}
+
+
+Definition at line 71 of file news.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/news/\hyperlink{news_8hpp}{news.\-hpp}\end{DoxyCompactItemize}

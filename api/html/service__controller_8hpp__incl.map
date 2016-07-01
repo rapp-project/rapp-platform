@@ -1,6 +1,9 @@
-<map id="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/service/service_controller/service_controller.hpp" name="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/service/service_controller/service_controller.hpp">
-<area shape="rect" id="node2" href="$service_2service__controller_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="346,125,437,152"/>
-<area shape="rect" id="node9" href="$asio__socket_8hpp.html" title="../asio_socket/asio\l_socket.hpp" alt="" coords="266,201,397,242"/>
-<area shape="rect" id="node16" href="$globals_8hpp.html" title="../globals/globals.hpp" alt="" coords="682,208,827,235"/>
-<area shape="rect" id="node10" href="$service_2asio__socket_2Includes_8ihh.html" title="Includes.ihh" alt="" coords="330,291,421,317"/>
+<map id="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/cloud/service_controller/service_controller.hpp" name="/home/travis/rapp_temp/rapp&#45;api/cpp/includes/cloud/service_controller/service_controller.hpp">
+<area shape="rect" id="node2" href="$cloud_2service__controller_2includes_8ihh.html" title="includes.ihh" alt="" coords="2480,125,2571,152"/>
+<area shape="rect" id="node12" href="$asio__socket_8hpp.html" title="cloud/asio_socket/asio\l_socket.hpp" alt="" coords="2232,366,2385,407"/>
+<area shape="rect" id="node19" href="$asio__service__http_8hpp.html" title="cloud/asio_service\l_http/asio_service_http.hpp" alt="" coords="1918,201,2100,242"/>
+<area shape="rect" id="node13" href="$cloud_2asio__socket_2includes_8ihh.html" title="includes.ihh" alt="" coords="2049,456,2140,483"/>
+<area shape="rect" id="node20" href="$cloud_2asio__service__http_2includes_8ihh.html" title="includes.ihh" alt="" coords="1941,291,2032,317"/>
+<area shape="rect" id="node22" href="$asio__handler_8hpp.html" title="cloud/asio_handler\l/asio_handler.hpp" alt="" coords="1731,366,1860,407"/>
+<area shape="rect" id="node23" href="$cloud_2asio__handler_2includes_8ihh.html" title="includes.ihh" alt="" coords="1627,456,1717,483"/>
 </map>

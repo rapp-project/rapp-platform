@@ -10,17 +10,33 @@ class which wraps around raw bytes of an audiofile
 
 {\ttfamily \#include $<$audio.\-hpp$>$}
 
+
+
+Inheritance diagram for rapp\-:\-:object\-:\-:audio\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classrapp_1_1object_1_1audio__inherit__graph}
+\end{center}
+\end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classrapp_1_1object_1_1audio_a01c7492e030076cf3f579fee73990b96}{audio} (const std\-::string filepath)
-\begin{DoxyCompactList}\small\item\em Construct from a file-\/path. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Construct from a file on disk. \end{DoxyCompactList}\item 
 \hyperlink{classrapp_1_1object_1_1audio_a5f8b8dea6ffe4c30bb7af66244a3cd48}{audio} (std\-::ifstream \&bytestream)
 \begin{DoxyCompactList}\small\item\em Construct using an open file stream. \end{DoxyCompactList}\item 
+\hyperlink{classrapp_1_1object_1_1audio_af6cb71fb68efdfa45194b640d6076d94}{audio} (std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d307b}{rapp\-::types\-::byte} $>$ \hyperlink{classrapp_1_1object_1_1audio_aa2a7060842d1c1109ef2f0962c8351d4}{bytearray})
+\begin{DoxyCompactList}\small\item\em construct using an existing byte-\/array \end{DoxyCompactList}\item 
 \hyperlink{classrapp_1_1object_1_1audio_a55ba2b7c267b6e6ad168611d7141e239}{audio} (const \hyperlink{classrapp_1_1object_1_1audio}{audio} \&)=default
 \begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual std\-::string \hyperlink{classrapp_1_1object_1_1audio_a6eddc8038cd4fc4bff131175f7072893}{audio\-\_\-source} () const 
+\item 
 std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d307b}{rapp\-::types\-::byte} $>$ \hyperlink{classrapp_1_1object_1_1audio_aa2a7060842d1c1109ef2f0962c8351d4}{bytearray} () const 
 \begin{DoxyCompactList}\small\item\em Get audio as array of bytes. \end{DoxyCompactList}\item 
+virtual std\-::string \hyperlink{classrapp_1_1object_1_1audio_a7ee90cb61007fd9104e3349f5525ee47}{extension} () const 
+\item 
 \hyperlink{classrapp_1_1object_1_1audio}{audio} \& \hyperlink{classrapp_1_1object_1_1audio_a24f8fec829056bc30d9ec0fe0f23cac3}{operator=} (const \hyperlink{classrapp_1_1object_1_1audio}{audio} \&)=default
 \begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
 bool \hyperlink{classrapp_1_1object_1_1audio_ab8b7346c6154da6b265b904a1a23d576}{operator==} (const \hyperlink{classrapp_1_1object_1_1audio}{audio} \&rhs) const 
@@ -32,7 +48,7 @@ bool \hyperlink{classrapp_1_1object_1_1audio_a5181e49b76ea2e1de3e384faca2ec3e2}{
 \item 
 \hyperlink{classrapp_1_1object_1_1audio_abd9bb56f1a4395059f8e2cde05e8a909}{audio} ()=delete
 \item 
-void \hyperlink{classrapp_1_1object_1_1audio_adb16e406322d7bc1e042e300c6ee59ec}{open\-Copy\-\_\-} (std\-::ifstream \&bytestream)
+void \hyperlink{classrapp_1_1object_1_1audio_a528d4cbe9e092cdb8bfb293878c4717c}{read\-\_\-bytes} (std\-::ifstream \&bytestream)
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
@@ -45,10 +61,10 @@ std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d
 class which wraps around raw bytes of an audiofile 
 
 \begin{DoxyVersion}{Version}
-1 
+2 
 \end{DoxyVersion}
 \begin{DoxyDate}{Date}
-16-\/\-August-\/2015 
+January-\/2016 
 \end{DoxyDate}
 \begin{DoxyAuthor}{Author}
 Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
@@ -69,11 +85,11 @@ Definition at line 13 of file audio.\-hpp.
 )}}\label{classrapp_1_1object_1_1audio_a01c7492e030076cf3f579fee73990b96}
 
 
-Construct from a file-\/path. 
+Construct from a file on disk. 
 
 
 
-Definition at line 18 of file audio.\-hpp.
+Definition at line 17 of file audio.\-hpp.
 
 \hypertarget{classrapp_1_1object_1_1audio_a5f8b8dea6ffe4c30bb7af66244a3cd48}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!audio@{audio}}
 \index{audio@{audio}!rapp::object::audio@{rapp\-::object\-::audio}}
@@ -87,8 +103,33 @@ Definition at line 18 of file audio.\-hpp.
 Construct using an open file stream. 
 
 
+\begin{DoxyParams}{Parameters}
+{\em bytestream} & will be {\bfseries consumed} by the object \\
+\hline
+\end{DoxyParams}
 
-Definition at line 30 of file audio.\-hpp.
+
+Definition at line 33 of file audio.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1audio_af6cb71fb68efdfa45194b640d6076d94}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!audio@{audio}}
+\index{audio@{audio}!rapp::object::audio@{rapp\-::object\-::audio}}
+\subsubsection[{audio}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::object\-::audio\-::audio (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf rapp\-::types\-::byte} $>$}]{bytearray}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1object_1_1audio_af6cb71fb68efdfa45194b640d6076d94}
+
+
+construct using an existing byte-\/array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bytearray} & should contain the audio data \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 40 of file audio.\-hpp.
 
 \hypertarget{classrapp_1_1object_1_1audio_a55ba2b7c267b6e6ad168611d7141e239}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!audio@{audio}}
 \index{audio@{audio}!rapp::object::audio@{rapp\-::object\-::audio}}
@@ -111,6 +152,21 @@ Copy constructor.
 
 
 \subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1object_1_1audio_a6eddc8038cd4fc4bff131175f7072893}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!audio\-\_\-source@{audio\-\_\-source}}
+\index{audio\-\_\-source@{audio\-\_\-source}!rapp::object::audio@{rapp\-::object\-::audio}}
+\subsubsection[{audio\-\_\-source}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::string rapp\-::object\-::audio\-::audio\-\_\-source (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1object_1_1audio_a6eddc8038cd4fc4bff131175f7072893}
+
+
+Reimplemented in \hyperlink{classrapp_1_1object_1_1microphone__wav_a2342026e444e5cc08d31c4be598f7802}{rapp\-::object\-::microphone\-\_\-wav}, \hyperlink{classrapp_1_1object_1_1nao__quad__channel__wav_ade8c246f19eed5111d5946daeebec5ca}{rapp\-::object\-::nao\-\_\-quad\-\_\-channel\-\_\-wav}, \hyperlink{classrapp_1_1object_1_1nao__single__channel__wav_ab2f2352541061e3f4d66e549a588c197}{rapp\-::object\-::nao\-\_\-single\-\_\-channel\-\_\-wav}, and \hyperlink{classrapp_1_1object_1_1ogg_aa90df9567b6e09fef51d3c7f60df9d39}{rapp\-::object\-::ogg}.
+
+
+
+Definition at line 78 of file audio.\-hpp.
+
 \hypertarget{classrapp_1_1object_1_1audio_aa2a7060842d1c1109ef2f0962c8351d4}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!bytearray@{bytearray}}
 \index{bytearray@{bytearray}!rapp::object::audio@{rapp\-::object\-::audio}}
 \subsubsection[{bytearray}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf rapp\-::types\-::byte}$>$ rapp\-::object\-::audio\-::bytearray (
@@ -124,18 +180,22 @@ Get audio as array of bytes.
 
 
 
-Definition at line 39 of file audio.\-hpp.
+Definition at line 48 of file audio.\-hpp.
 
-\hypertarget{classrapp_1_1object_1_1audio_adb16e406322d7bc1e042e300c6ee59ec}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!open\-Copy\-\_\-@{open\-Copy\-\_\-}}
-\index{open\-Copy\-\_\-@{open\-Copy\-\_\-}!rapp::object::audio@{rapp\-::object\-::audio}}
-\subsubsection[{open\-Copy\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::object\-::audio\-::open\-Copy\-\_\- (
+\hypertarget{classrapp_1_1object_1_1audio_a7ee90cb61007fd9104e3349f5525ee47}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!extension@{extension}}
+\index{extension@{extension}!rapp::object::audio@{rapp\-::object\-::audio}}
+\subsubsection[{extension}]{\setlength{\rightskip}{0pt plus 5cm}virtual std\-::string rapp\-::object\-::audio\-::extension (
 \begin{DoxyParamCaption}
-\item[{std\-::ifstream \&}]{bytestream}
+{}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1audio_adb16e406322d7bc1e042e300c6ee59ec}
+) const\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1object_1_1audio_a7ee90cb61007fd9104e3349f5525ee47}
 
 
-Definition at line 74 of file audio.\-hpp.
+Reimplemented in \hyperlink{classrapp_1_1object_1_1microphone__wav_aa6bd3fcfba97df55ef01ac41eb8ea65f}{rapp\-::object\-::microphone\-\_\-wav}, \hyperlink{classrapp_1_1object_1_1nao__quad__channel__wav_adb9adb9f8704b1ac1ac8fd9d7148e5b8}{rapp\-::object\-::nao\-\_\-quad\-\_\-channel\-\_\-wav}, \hyperlink{classrapp_1_1object_1_1nao__single__channel__wav_a747c61b5de738b34f7a8bd549775bb57}{rapp\-::object\-::nao\-\_\-single\-\_\-channel\-\_\-wav}, and \hyperlink{classrapp_1_1object_1_1ogg_a58ef4781ddac8bfe114c8b7f2c12ebed}{rapp\-::object\-::ogg}.
+
+
+
+Definition at line 81 of file audio.\-hpp.
 
 \hypertarget{classrapp_1_1object_1_1audio_a24f8fec829056bc30d9ec0fe0f23cac3}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!operator=@{operator=}}
 \index{operator=@{operator=}!rapp::object::audio@{rapp\-::object\-::audio}}
@@ -161,7 +221,18 @@ Are audios same ?
 
 
 
-Definition at line 45 of file audio.\-hpp.
+Definition at line 54 of file audio.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1audio_a528d4cbe9e092cdb8bfb293878c4717c}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!read\-\_\-bytes@{read\-\_\-bytes}}
+\index{read\-\_\-bytes@{read\-\_\-bytes}!rapp::object::audio@{rapp\-::object\-::audio}}
+\subsubsection[{read\-\_\-bytes}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::object\-::audio\-::read\-\_\-bytes (
+\begin{DoxyParamCaption}
+\item[{std\-::ifstream \&}]{bytestream}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1audio_a528d4cbe9e092cdb8bfb293878c4717c}
+
+
+Definition at line 90 of file audio.\-hpp.
 
 \hypertarget{classrapp_1_1object_1_1audio_a5181e49b76ea2e1de3e384faca2ec3e2}{\index{rapp\-::object\-::audio@{rapp\-::object\-::audio}!save@{save}}
 \index{save@{save}!rapp::object::audio@{rapp\-::object\-::audio}}
@@ -176,7 +247,7 @@ Save audio to filepath.
 
 
 
-Definition at line 54 of file audio.\-hpp.
+Definition at line 64 of file audio.\-hpp.
 
 
 
@@ -186,7 +257,7 @@ Definition at line 54 of file audio.\-hpp.
 \subsubsection[{bytearray\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf rapp\-::types\-::byte}$>$ rapp\-::object\-::audio\-::bytearray\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1audio_a1ccd44fcbf55525739ef0c2f41de6878}
 
 
-Definition at line 84 of file audio.\-hpp.
+Definition at line 100 of file audio.\-hpp.
 
 
 

@@ -20,6 +20,10 @@ Include dependency graph for knowrob\-\_\-wrapper.\-cpp\-:
 \item 
 bool \hyperlink{knowrob__wrapper_8cpp_a1d733fb67ce063a4ec39598ed92b9934}{check\-If\-File\-Exists} (const char $\ast$file\-Name)
 \begin{DoxyCompactList}\small\item\em Checks if path exists. \end{DoxyCompactList}\item 
+bool \hyperlink{knowrob__wrapper_8cpp_afc85e3a5b5eafb9075c5d30488635cd9}{check\-If\-String\-Contains\-String} (std\-::string a, std\-::string b)
+\begin{DoxyCompactList}\small\item\em Checks if the second string is contained within the first string. \end{DoxyCompactList}\item 
+bool \hyperlink{knowrob__wrapper_8cpp_aa8cb4a268f99ed58cfc30f67201973df}{check\-If\-String\-Vector\-Contains\-String} (std\-::vector$<$ std\-::string $>$ vec, std\-::string a)
+\begin{DoxyCompactList}\small\item\em Check if a string is contained in a vector string. \end{DoxyCompactList}\item 
 std\-::string \hyperlink{knowrob__wrapper_8cpp_aaf197f973c9edcca9610fba8b86df471}{int\-To\-String} (int a)
 \begin{DoxyCompactList}\small\item\em Converts integer to string. \end{DoxyCompactList}\item 
 std\-::vector$<$ std\-::string $>$ \hyperlink{knowrob__wrapper_8cpp_a527876ebdba0ec57bd96287221b4a594}{split} (std\-::string str, std\-::string sep)
@@ -50,7 +54,55 @@ out \mbox{[}bool\mbox{]} True if file exists
 \end{DoxyReturn}
 
 
-Definition at line 66 of file knowrob\-\_\-wrapper.\-cpp.
+Definition at line 103 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{knowrob__wrapper_8cpp_afc85e3a5b5eafb9075c5d30488635cd9}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!check\-If\-String\-Contains\-String@{check\-If\-String\-Contains\-String}}
+\index{check\-If\-String\-Contains\-String@{check\-If\-String\-Contains\-String}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
+\subsubsection[{check\-If\-String\-Contains\-String}]{\setlength{\rightskip}{0pt plus 5cm}bool check\-If\-String\-Contains\-String (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{a, }
+\item[{std\-::string}]{b}
+\end{DoxyParamCaption}
+)}}\label{knowrob__wrapper_8cpp_afc85e3a5b5eafb9075c5d30488635cd9}
+
+
+Checks if the second string is contained within the first string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & \mbox{[}string\mbox{]} The first string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+b \mbox{[}string\mbox{]} The second String 
+\end{DoxyReturn}
+
+
+Definition at line 68 of file knowrob\-\_\-wrapper.\-cpp.
+
+\hypertarget{knowrob__wrapper_8cpp_aa8cb4a268f99ed58cfc30f67201973df}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!check\-If\-String\-Vector\-Contains\-String@{check\-If\-String\-Vector\-Contains\-String}}
+\index{check\-If\-String\-Vector\-Contains\-String@{check\-If\-String\-Vector\-Contains\-String}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
+\subsubsection[{check\-If\-String\-Vector\-Contains\-String}]{\setlength{\rightskip}{0pt plus 5cm}bool check\-If\-String\-Vector\-Contains\-String (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ std\-::string $>$}]{vec, }
+\item[{std\-::string}]{a}
+\end{DoxyParamCaption}
+)}}\label{knowrob__wrapper_8cpp_aa8cb4a268f99ed58cfc30f67201973df}
+
+
+Check if a string is contained in a vector string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & \mbox{[}vector$<$string$>$\mbox{]} The vector containing strings \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a \mbox{[}string\mbox{]} The string to check if it is contained 
+\end{DoxyReturn}
+
+
+Definition at line 52 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{knowrob__wrapper_8cpp_aaf197f973c9edcca9610fba8b86df471}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!int\-To\-String@{int\-To\-String}}
 \index{int\-To\-String@{int\-To\-String}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
@@ -73,7 +125,7 @@ out \mbox{[}string\mbox{]} The output string
 \end{DoxyReturn}
 
 
-Definition at line 42 of file knowrob\-\_\-wrapper.\-cpp.
+Definition at line 81 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{knowrob__wrapper_8cpp_a527876ebdba0ec57bd96287221b4a594}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!split@{split}}
 \index{split@{split}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
@@ -95,11 +147,11 @@ Splits string by delimiter.
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-arr \mbox{[}std\-::vector$<$std\-::string$>$\mbox{]} A vector with the string parts as splitted by the delimiter 
+arr \mbox{[}vector$<$string$>$\mbox{]} A vector with the string parts as splitted by the delimiter 
 \end{DoxyReturn}
 
 
-Definition at line 78 of file knowrob\-\_\-wrapper.\-cpp.
+Definition at line 114 of file knowrob\-\_\-wrapper.\-cpp.
 
 \hypertarget{knowrob__wrapper_8cpp_abe4875a997df10557ec66d950b0bcb53}{\index{knowrob\-\_\-wrapper.\-cpp@{knowrob\-\_\-wrapper.\-cpp}!Split\-Filename@{Split\-Filename}}
 \index{Split\-Filename@{Split\-Filename}!knowrob_wrapper.cpp@{knowrob\-\_\-wrapper.\-cpp}}
@@ -122,5 +174,5 @@ out \mbox{[}string\mbox{]} The output filename
 \end{DoxyReturn}
 
 
-Definition at line 54 of file knowrob\-\_\-wrapper.\-cpp.
+Definition at line 92 of file knowrob\-\_\-wrapper.\-cpp.
 

@@ -1,0 +1,318 @@
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager}{\section{rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager Class Reference}
+\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager}\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager}}
+}
+
+
+Provides user management features.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_aae80eb82e0c244b5149f3ab2c4fc14c1}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em R\-O\-S Service initializations. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_af33d953e7f05fe1d0c9a62ece6402724}{add\-\_\-new\-\_\-user\-\_\-from\-\_\-platform\-\_\-callback}
+\begin{DoxyCompactList}\small\item\em Add new platform user using platform credentials. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a73cd0709502565c55f961a759b953ced}{add\-\_\-new\-\_\-user\-\_\-from\-\_\-store\-\_\-callback}
+\begin{DoxyCompactList}\small\item\em Add new platform user using rapp\-\_\-store credentials. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ab99515d6978f8acb3f73dc48a8386bb7}{authenticate\-\_\-token\-\_\-callback}
+\begin{DoxyCompactList}\small\item\em Authenticate token. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ad741850fc28c535bfbca57bc5c80562d}{login\-\_\-callback}
+\begin{DoxyCompactList}\small\item\em Login existing user using platform device token. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a06aa5d640269fbf99e3e7d2f8b694ab8}{login\-\_\-from\-\_\-store\-\_\-callback}
+\begin{DoxyCompactList}\small\item\em Login existing user using store device token. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a5d4f73e942d2a349b536521637a9017a}{\-\_\-add\-\_\-new\-\_\-user\-\_\-to\-\_\-db}
+\begin{DoxyCompactList}\small\item\em Create password hash and store to the databse. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_af6865850e85661e67d775ae4d8f3436f}{\-\_\-validate\-\_\-username\-\_\-format}
+\begin{DoxyCompactList}\small\item\em Verify that new username complies with a set of rules. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ad813c30b34bdb2d2c29ce03fa6f82983}{\-\_\-verify\-\_\-new\-\_\-username\-\_\-uniqueness}
+\begin{DoxyCompactList}\small\item\em Verify that new username is unique. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a3e57a2cb944023865629defecceeb6cb}{\-\_\-verify\-\_\-user\-\_\-credentials}
+\begin{DoxyCompactList}\small\item\em Verify username and password. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_aad51dbc5ed8b839dc2606eb32c6cc10b}{\-\_\-db\-\_\-handler}
+\begin{DoxyCompactList}\small\item\em Handles the database queries. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Provides user management features. 
+
+Definition at line 49 of file application\-\_\-authentication\-\_\-node.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_aae80eb82e0c244b5149f3ab2c4fc14c1}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_aae80eb82e0c244b5149f3ab2c4fc14c1}
+
+
+R\-O\-S Service initializations. 
+
+
+
+Definition at line 52 of file application\-\_\-authentication\-\_\-node.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a5d4f73e942d2a349b536521637a9017a}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!\-\_\-add\-\_\-new\-\_\-user\-\_\-to\-\_\-db@{\-\_\-add\-\_\-new\-\_\-user\-\_\-to\-\_\-db}}
+\index{\-\_\-add\-\_\-new\-\_\-user\-\_\-to\-\_\-db@{\-\_\-add\-\_\-new\-\_\-user\-\_\-to\-\_\-db}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{\-\_\-add\-\_\-new\-\_\-user\-\_\-to\-\_\-db}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-\_\-add\-\_\-new\-\_\-user\-\_\-to\-\_\-db (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{new\-\_\-user\-\_\-username, }
+\item[{}]{new\-\_\-user\-\_\-password, }
+\item[{}]{creator\-\_\-username, }
+\item[{}]{language}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a5d4f73e942d2a349b536521637a9017a}
+
+
+Create password hash and store to the databse. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username \\
+\hline
+{\em password} & \mbox{[}string\mbox{]} The password \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 356 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_af6865850e85661e67d775ae4d8f3436f}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!\-\_\-validate\-\_\-username\-\_\-format@{\-\_\-validate\-\_\-username\-\_\-format}}
+\index{\-\_\-validate\-\_\-username\-\_\-format@{\-\_\-validate\-\_\-username\-\_\-format}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{\-\_\-validate\-\_\-username\-\_\-format}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-\_\-validate\-\_\-username\-\_\-format (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_af6865850e85661e67d775ae4d8f3436f}
+
+
+Verify that new username complies with a set of rules. 
+
+Alphanumerics, dashes and underscores are allowed
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Username violates rules \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 346 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ad813c30b34bdb2d2c29ce03fa6f82983}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!\-\_\-verify\-\_\-new\-\_\-username\-\_\-uniqueness@{\-\_\-verify\-\_\-new\-\_\-username\-\_\-uniqueness}}
+\index{\-\_\-verify\-\_\-new\-\_\-username\-\_\-uniqueness@{\-\_\-verify\-\_\-new\-\_\-username\-\_\-uniqueness}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{\-\_\-verify\-\_\-new\-\_\-username\-\_\-uniqueness}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-\_\-verify\-\_\-new\-\_\-username\-\_\-uniqueness (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ad813c30b34bdb2d2c29ce03fa6f82983}
+
+
+Verify that new username is unique. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+suggestion \mbox{[}string\mbox{]} A suggested username if the provided already exists
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Username exists and can not find a username suggestion \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 324 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a3e57a2cb944023865629defecceeb6cb}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!\-\_\-verify\-\_\-user\-\_\-credentials@{\-\_\-verify\-\_\-user\-\_\-credentials}}
+\index{\-\_\-verify\-\_\-user\-\_\-credentials@{\-\_\-verify\-\_\-user\-\_\-credentials}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{\-\_\-verify\-\_\-user\-\_\-credentials}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-\_\-verify\-\_\-user\-\_\-credentials (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username, }
+\item[{}]{password}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a3e57a2cb944023865629defecceeb6cb}
+
+
+Verify username and password. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The username \\
+\hline
+{\em password} & \mbox{[}string\mbox{]} Password associated with username\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Rapp\-Error} & Username does not exist or password does not match \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 312 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_af33d953e7f05fe1d0c9a62ece6402724}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!add\-\_\-new\-\_\-user\-\_\-from\-\_\-platform\-\_\-callback@{add\-\_\-new\-\_\-user\-\_\-from\-\_\-platform\-\_\-callback}}
+\index{add\-\_\-new\-\_\-user\-\_\-from\-\_\-platform\-\_\-callback@{add\-\_\-new\-\_\-user\-\_\-from\-\_\-platform\-\_\-callback}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{add\-\_\-new\-\_\-user\-\_\-from\-\_\-platform\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-add\-\_\-new\-\_\-user\-\_\-from\-\_\-platform\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_af33d953e7f05fe1d0c9a62ece6402724}
+
+
+Add new platform user using platform credentials. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-Add\-New\-User\-From\-Platform\-Srv\-Request\mbox{]} The service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-Add\-New\-User\-From\-Platform\-Srv\-Response\mbox{]} The service response 
+\end{DoxyReturn}
+
+
+Definition at line 120 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a73cd0709502565c55f961a759b953ced}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!add\-\_\-new\-\_\-user\-\_\-from\-\_\-store\-\_\-callback@{add\-\_\-new\-\_\-user\-\_\-from\-\_\-store\-\_\-callback}}
+\index{add\-\_\-new\-\_\-user\-\_\-from\-\_\-store\-\_\-callback@{add\-\_\-new\-\_\-user\-\_\-from\-\_\-store\-\_\-callback}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{add\-\_\-new\-\_\-user\-\_\-from\-\_\-store\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-add\-\_\-new\-\_\-user\-\_\-from\-\_\-store\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a73cd0709502565c55f961a759b953ced}
+
+
+Add new platform user using rapp\-\_\-store credentials. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-Add\-New\-User\-From\-Store\-Srv\-Request\mbox{]} The service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-Add\-New\-User\-From\-Store\-Srv\-Response\mbox{]} The service response 
+\end{DoxyReturn}
+
+
+Definition at line 162 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ab99515d6978f8acb3f73dc48a8386bb7}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!authenticate\-\_\-token\-\_\-callback@{authenticate\-\_\-token\-\_\-callback}}
+\index{authenticate\-\_\-token\-\_\-callback@{authenticate\-\_\-token\-\_\-callback}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{authenticate\-\_\-token\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-authenticate\-\_\-token\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ab99515d6978f8acb3f73dc48a8386bb7}
+
+
+Authenticate token. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-User\-Token\-Authentication\-Srv\-Request\mbox{]} The service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-User\-Token\-Authentication\-Srv\-Response\mbox{]} The service response 
+\end{DoxyReturn}
+
+
+Definition at line 295 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ad741850fc28c535bfbca57bc5c80562d}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!login\-\_\-callback@{login\-\_\-callback}}
+\index{login\-\_\-callback@{login\-\_\-callback}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{login\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-login\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_ad741850fc28c535bfbca57bc5c80562d}
+
+
+Login existing user using platform device token. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-User\-Login\-Srv\-Request\mbox{]} The service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-User\-Login\-Srv\-Response\mbox{]} The service response 
+\end{DoxyReturn}
+
+
+Definition at line 207 of file application\-\_\-authentication\-\_\-node.\-py.
+
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a06aa5d640269fbf99e3e7d2f8b694ab8}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!login\-\_\-from\-\_\-store\-\_\-callback@{login\-\_\-from\-\_\-store\-\_\-callback}}
+\index{login\-\_\-from\-\_\-store\-\_\-callback@{login\-\_\-from\-\_\-store\-\_\-callback}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{login\-\_\-from\-\_\-store\-\_\-callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-login\-\_\-from\-\_\-store\-\_\-callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_a06aa5d640269fbf99e3e7d2f8b694ab8}
+
+
+Login existing user using store device token. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-User\-Login\-Srv\-Request\mbox{]} The service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Application\-Authentication\-::\-User\-Login\-Srv\-Response\mbox{]} The service response 
+\end{DoxyReturn}
+
+
+Definition at line 248 of file application\-\_\-authentication\-\_\-node.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_aad51dbc5ed8b839dc2606eb32c6cc10b}{\index{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}!\-\_\-db\-\_\-handler@{\-\_\-db\-\_\-handler}}
+\index{\-\_\-db\-\_\-handler@{\-\_\-db\-\_\-handler}!rapp_application_authentication_manager::application_authentication_node::ApplicationAuthenticationManager@{rapp\-\_\-application\-\_\-authentication\-\_\-manager\-::application\-\_\-authentication\-\_\-node\-::\-Application\-Authentication\-Manager}}
+\subsubsection[{\-\_\-db\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-application\-\_\-authentication\-\_\-manager.\-application\-\_\-authentication\-\_\-node.\-Application\-Authentication\-Manager.\-\_\-db\-\_\-handler\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__application__authentication__manager_1_1application__authentication__node_1_1ApplicationAuthenticationManager_aad51dbc5ed8b839dc2606eb32c6cc10b}
+
+
+Handles the database queries. 
+
+(see \hyperlink{classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler}{database\-\_\-handler.\-Database\-Handler}) 
+
+Definition at line 57 of file application\-\_\-authentication\-\_\-node.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-application\-\_\-authentication\-\_\-manager/src/rapp\-\_\-application\-\_\-authentication\-\_\-manager/\hyperlink{application__authentication__node_8py}{application\-\_\-authentication\-\_\-node.\-py}\end{DoxyCompactItemize}

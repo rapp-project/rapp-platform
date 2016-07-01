@@ -107,20 +107,22 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Text-to-sp
 <p>Service type: ```bash #Contains info about time and reference Header header #The text to be spoken string text #The audio output file string audio_output #Language (en, gr) </p>
 <h2>string language </h2>
 <p>#Possible errors string error ```</p>
+<p>It should be mentioned that there are cases where Espeak fails to produce the entirety of the given text as audio (for example if the input is a long sentence in Greek, it would probably create a shorter audio than the desired).</p>
 <h1>Launchers</h1>
 <h2>Standard launcher</h2>
 <p>Launches the <b>rapp_text_to_speech_espeak</b> node and can be launched using ``` roslaunch rapp_text_to_speech_espeak text_to_speech_espeak.launch ```</p>
-<h1>HOP services</h1>
+<h1>Web services</h1>
 <h2>URL</h2>
 <p><code>localhost:9001/hop/text_to_speech</code></p>
 <h2>Input / Output</h2>
-<p>``` Input = { “text”: “THE_TEXT_TO_BECOME_SPEECH” “language”: “THE_TEXT_LANGUAGE” } <code> </code> Output = { THE_AUDIO_FILE } ``` </p>
+<p>``` Input = { “text”: “THE_TEXT_TO_BECOME_SPEECH” “language”: “THE_TEXT_LANGUAGE” } <code> </code> Output = { "payload": THE_AUDIO_DATA, "basename": "test.wav", "encoding": "base64", "error": "" } ```</p>
+<p>The full documentation exists [here]://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#text-to-speech) </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

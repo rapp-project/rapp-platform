@@ -1,0 +1,113 @@
+R\-A\-P\-P Email provides an interface to allow users to handle their email accounts. It provides two services; fetch user's emails and send new email. The receive email service supports the I\-M\-A\-P protocol and the send mail the classic S\-M\-T\-P protocol. R\-A\-P\-P Email {\itshape does} {\bfseries not} {\itshape implement an email server} and requires the user to have his own email provider who allows connections to the I\-M\-A\-P and S\-M\-T\-P servers.
+
+\section*{R\-O\-S Services}
+
+\subsection*{Fetch Emails}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-email/receive\-\_\-email}
+
+Service type\-:
+
+Receive\-Email\-Srv.\-srv ```bash \section*{The user email username}
+
+string email \section*{The user email password}
+
+string password \section*{The email server's imap address, i.\-e. 'imap.\-gmail.\-com'}
+
+string server \section*{The email server imap port}
+
+string port
+
+\section*{Define which mails the users requests.}
+
+\section*{Values\-: A\-L\-L, U\-N\-S\-E\-E\-N(\-D\-E\-F\-A\-U\-L\-T)}
+
+string requested\-Email\-Status
+
+\section*{Emails since date (unix timestamp)}
+
+uint64 from\-Date \section*{Emails until date (unix timestamp)}
+
+uint64 to\-Date \section*{Number of requested emails}
+
+uint16 number\-Of\-Emails 
+
+ \section*{Response}
+
+\section*{0 success, -\/1 failure}
+
+int8 status
+
+\section*{The requested emails}
+
+rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-Mail\-Msg\mbox{[}\mbox{]} emails ```
+
+Mail\-Msg.\-msg ``` \section*{Path to the email body file}
+
+string body\-Path
+
+string subject string sender string\mbox{[}\mbox{]} receivers string date\-Time
+
+\section*{Paths to the email's attachments}
+
+string\mbox{[}\mbox{]} attachment\-Paths ```
+
+\subsection*{Send Emails}
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-email/send\-\_\-email}
+
+Service type\-:
+
+Send\-Email\-Srv.\-srv ```bash \section*{The user email username}
+
+string user\-Email \section*{The user email password}
+
+string password \section*{The email server's smtp address, i.\-e. 'smtp.\-gmail.\-com'}
+
+string server \section*{The email server smtp port}
+
+string port
+
+\section*{Email addresses of the recipients}
+
+string\mbox{[}\mbox{]} recipients
+
+\section*{The email body}
+
+string body \section*{The email subject}
+
+string subject
+
+\section*{File paths of the attachments}
+
+string\mbox{[}\mbox{]} files 
+
+ \section*{Response}
+
+\section*{0 success, -\/1 failure}
+
+int8 status ```
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries rapp email} node and can be invoked using\-: ```bash roslaunch rapp\-\_\-email email.\-launch ```
+
+\section*{H\-O\-P Services}
+
+\subsection*{Send Email}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/email\-\_\-send}
+
+\subsubsection*{Input/\-Output}
+
+``` Input = \{ file\-\_\-uri\-: '', email\-: '', passwd\-: '', server\-: '', port\-: '', recipients\-: \mbox{[}\mbox{]}, body\-: '', subject\-: '' \} {\ttfamily  } Output = \{ error\-: '' \} ```
+
+\subsection*{Receive Email}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/email\-\_\-fetch}
+
+\subsubsection*{Input/\-Output}
+
+``` Input = \{ email\-: '', passwd\-: '', server\-: '', port\-: '', email\-\_\-status\-: '', from\-\_\-date\-: 0, to\-\_\-date\-: 0, num\-\_\-emails\-: 0 \} {\ttfamily  } Output = \{ emails\-: \mbox{[}\mbox{]}, error\-: '' \} ``` 

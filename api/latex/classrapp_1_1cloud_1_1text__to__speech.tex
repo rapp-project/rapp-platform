@@ -1,0 +1,144 @@
+\hypertarget{classrapp_1_1cloud_1_1text__to__speech}{\section{rapp\-:\-:cloud\-:\-:text\-\_\-to\-\_\-speech Class Reference}
+\label{classrapp_1_1cloud_1_1text__to__speech}\index{rapp\-::cloud\-::text\-\_\-to\-\_\-speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}}
+}
+
+
+request speech audio from text  
+
+
+
+
+{\ttfamily \#include $<$text\-\_\-to\-\_\-speech.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:text\-\_\-to\-\_\-speech\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1text__to__speech__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:text\-\_\-to\-\_\-speech\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1text__to__speech__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \\*
+\hyperlink{classrapp_1_1object_1_1microphone__wav}{rapp\-::object\-::microphone\-\_\-wav} \hyperlink{classrapp_1_1cloud_1_1text__to__speech_a13ce0c09ae955dc6ad999e85f7ef261a}{wav\-\_\-file}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1text__to__speech_a41ed41979830a82e124f0f51e0fef828}{text\-\_\-to\-\_\-speech} (const std\-::string text, const std\-::string language, const std\-::string token, std\-::function$<$ void(std\-::unique\-\_\-ptr$<$ \hyperlink{classrapp_1_1cloud_1_1text__to__speech_a13ce0c09ae955dc6ad999e85f7ef261a}{wav\-\_\-file} $>$)$>$ callback)
+\begin{DoxyCompactList}\small\item\em construct handler which will request speech audio from text \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1text__to__speech_a032f801177fdf793afa21b8ebc79ce4c}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::unique\-\_\-ptr\\*
+$<$ \hyperlink{classrapp_1_1cloud_1_1text__to__speech_a13ce0c09ae955dc6ad999e85f7ef261a}{wav\-\_\-file} $>$ wav)$>$ \hyperlink{classrapp_1_1cloud_1_1text__to__speech_ae8a699bb3ef79a4af941d4baddaadc7b}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+request speech audio from text 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file text\-\_\-to\-\_\-speech.\-hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classrapp_1_1cloud_1_1text__to__speech_a13ce0c09ae955dc6ad999e85f7ef261a}{\index{rapp\-::cloud\-::text\-\_\-to\-\_\-speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}!wav\-\_\-file@{wav\-\_\-file}}
+\index{wav\-\_\-file@{wav\-\_\-file}!rapp::cloud::text_to_speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}}
+\subsubsection[{wav\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf rapp\-::object\-::microphone\-\_\-wav} {\bf rapp\-::cloud\-::text\-\_\-to\-\_\-speech\-::wav\-\_\-file}}}\label{classrapp_1_1cloud_1_1text__to__speech_a13ce0c09ae955dc6ad999e85f7ef261a}
+
+
+Definition at line 16 of file text\-\_\-to\-\_\-speech.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1text__to__speech_a41ed41979830a82e124f0f51e0fef828}{\index{rapp\-::cloud\-::text\-\_\-to\-\_\-speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}!text\-\_\-to\-\_\-speech@{text\-\_\-to\-\_\-speech}}
+\index{text\-\_\-to\-\_\-speech@{text\-\_\-to\-\_\-speech}!rapp::cloud::text_to_speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}}
+\subsubsection[{text\-\_\-to\-\_\-speech}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::text\-\_\-to\-\_\-speech\-::text\-\_\-to\-\_\-speech (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{text, }
+\item[{const std\-::string}]{language, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::unique\-\_\-ptr$<$ {\bf wav\-\_\-file} $>$)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1text__to__speech_a41ed41979830a82e124f0f51e0fef828}
+
+
+construct handler which will request speech audio from text 
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & is the text to be converted to audio \\
+\hline
+{\em language} & is language  will receive the speech audio object \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 23 of file text\-\_\-to\-\_\-speech.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1text__to__speech_a032f801177fdf793afa21b8ebc79ce4c}{\index{rapp\-::cloud\-::text\-\_\-to\-\_\-speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::text_to_speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::text\-\_\-to\-\_\-speech\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1text__to__speech_a032f801177fdf793afa21b8ebc79ce4c}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 45 of file text\-\_\-to\-\_\-speech.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1text__to__speech_ae8a699bb3ef79a4af941d4baddaadc7b}{\index{rapp\-::cloud\-::text\-\_\-to\-\_\-speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::text_to_speech@{rapp\-::cloud\-::text\-\_\-to\-\_\-speech}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::unique\-\_\-ptr$<${\bf wav\-\_\-file}$>$ wav)$>$ rapp\-::cloud\-::text\-\_\-to\-\_\-speech\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1text__to__speech_ae8a699bb3ef79a4af941d4baddaadc7b}
+
+
+Definition at line 79 of file text\-\_\-to\-\_\-speech.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/speech/text\-\_\-to\-\_\-speech/\hyperlink{text__to__speech_8hpp}{text\-\_\-to\-\_\-speech.\-hpp}\end{DoxyCompactItemize}

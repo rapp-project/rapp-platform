@@ -1,0 +1,146 @@
+\hypertarget{classPathPlanner}{\section{Path\-Planner Class Reference}
+\label{classPathPlanner}\index{Path\-Planner@{Path\-Planner}}
+}
+
+
+Class that implements a path planning algorithm based on global\-\_\-planner and \hyperlink{namespacemap__server}{map\-\_\-server} R\-O\-S nodes.  
+
+
+
+
+{\ttfamily \#include $<$path\-\_\-planner.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPathPlanner_ad867f75b385040b840b2a3b23352357e}{Path\-Planner} (void)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+bool \hyperlink{classPathPlanner_ab62158cebe4f6c11b37014f1417e446f}{configure\-Sequence} (std\-::string seq\-\_\-nr, std\-::string map\-\_\-path, std\-::string robot\-\_\-type, std\-::string algorithm, ros\-::\-Node\-Handle \&nh\-\_\-)
+\begin{DoxyCompactList}\small\item\em Configures sequence. Sets map, approprate costmap parameters for specified robot type, sets global\-\_\-planner to use detemined algorithm. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classPathPlanner_adab13f270c11f92aa0463c96f0ec20e0}{set\-Sequence\-N\-R} (ros\-::\-Node\-Handle \&nh\-\_\-, int path\-Planning\-Threads\-\_\-)
+\begin{DoxyCompactList}\small\item\em Determines next planning seqence (which global\-\_\-planner and \hyperlink{namespacemap__server}{map\-\_\-server} should be used) \end{DoxyCompactList}\item 
+navfn\-::\-Make\-Nav\-Plan\-Response \hyperlink{classPathPlanner_a4af33ccade9ae9429d8aba91b91d50e9}{start\-Sequence} (std\-::string seq\-\_\-nr, geometry\-\_\-msgs\-::\-Pose\-Stamped request\-\_\-start, geometry\-\_\-msgs\-::\-Pose\-Stamped request\-\_\-goal, ros\-::\-Node\-Handle \&nh\-\_\-)
+\begin{DoxyCompactList}\small\item\em Starts planning service of determined planning sequence. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class that implements a path planning algorithm based on global\-\_\-planner and \hyperlink{namespacemap__server}{map\-\_\-server} R\-O\-S nodes. 
+
+Definition at line 12 of file path\-\_\-planner.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classPathPlanner_ad867f75b385040b840b2a3b23352357e}{\index{Path\-Planner@{Path\-Planner}!Path\-Planner@{Path\-Planner}}
+\index{Path\-Planner@{Path\-Planner}!PathPlanner@{Path\-Planner}}
+\subsubsection[{Path\-Planner}]{\setlength{\rightskip}{0pt plus 5cm}Path\-Planner\-::\-Path\-Planner (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanner_ad867f75b385040b840b2a3b23352357e}
+
+
+Default constructor. 
+
+
+
+Definition at line 4 of file path\-\_\-planner.\-cpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classPathPlanner_ab62158cebe4f6c11b37014f1417e446f}{\index{Path\-Planner@{Path\-Planner}!configure\-Sequence@{configure\-Sequence}}
+\index{configure\-Sequence@{configure\-Sequence}!PathPlanner@{Path\-Planner}}
+\subsubsection[{configure\-Sequence}]{\setlength{\rightskip}{0pt plus 5cm}bool Path\-Planner\-::configure\-Sequence (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{seq\-\_\-nr, }
+\item[{std\-::string}]{map\-\_\-path, }
+\item[{std\-::string}]{robot\-\_\-type, }
+\item[{std\-::string}]{algorithm, }
+\item[{ros\-::\-Node\-Handle \&}]{nh\-\_\-}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanner_ab62158cebe4f6c11b37014f1417e446f}
+
+
+Configures sequence. Sets map, approprate costmap parameters for specified robot type, sets global\-\_\-planner to use detemined algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seq\-\_\-nr} & \mbox{[}std\-::string\mbox{]} I\-D of current sequence, \\
+\hline
+{\em map\-\_\-path} & \mbox{[}std\-::string\mbox{]} Path to the map that should be passed to global\-\_\-planner, \\
+\hline
+{\em robot\-\_\-type} & \mbox{[}std\-::string\mbox{]} Name of robot\-\_\-type. It is used to configure costmap, \\
+\hline
+{\em algorithm} & \mbox{[}std\-::string\mbox{]} Name of algorithm that should be used by global\-\_\-planner, \\
+\hline
+{\em \&nh\-\_\-} & \mbox{[}ros\-::\-Node\-Handle\mbox{]} node handler for get\-Param() method, \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}bool\mbox{]} Returns if sequence was configured correctly. Returns false if \hyperlink{classPathPlanner}{Path\-Planner} could not configure sequence in 5 sec. 
+\end{DoxyReturn}
+
+
+Definition at line 26 of file path\-\_\-planner.\-cpp.
+
+\hypertarget{classPathPlanner_adab13f270c11f92aa0463c96f0ec20e0}{\index{Path\-Planner@{Path\-Planner}!set\-Sequence\-N\-R@{set\-Sequence\-N\-R}}
+\index{set\-Sequence\-N\-R@{set\-Sequence\-N\-R}!PathPlanner@{Path\-Planner}}
+\subsubsection[{set\-Sequence\-N\-R}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string Path\-Planner\-::set\-Sequence\-N\-R (
+\begin{DoxyParamCaption}
+\item[{ros\-::\-Node\-Handle \&}]{nh\-\_\-, }
+\item[{int}]{path\-Planning\-Threads\-\_\-}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanner_adab13f270c11f92aa0463c96f0ec20e0}
+
+
+Determines next planning seqence (which global\-\_\-planner and \hyperlink{namespacemap__server}{map\-\_\-server} should be used) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \&nh\-\_\-} & \mbox{[}ros\-::\-Node\-Handle\mbox{]} node handler for get\-Param() method, \\
+\hline
+{\em path\-Planning\-Threads\-\_\-} & \mbox{[}int\mbox{]} Number of planning sequences, \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}std\-::string\mbox{]} Next sequence nr. 
+\end{DoxyReturn}
+
+
+Definition at line 9 of file path\-\_\-planner.\-cpp.
+
+\hypertarget{classPathPlanner_a4af33ccade9ae9429d8aba91b91d50e9}{\index{Path\-Planner@{Path\-Planner}!start\-Sequence@{start\-Sequence}}
+\index{start\-Sequence@{start\-Sequence}!PathPlanner@{Path\-Planner}}
+\subsubsection[{start\-Sequence}]{\setlength{\rightskip}{0pt plus 5cm}navfn\-::\-Make\-Nav\-Plan\-Response Path\-Planner\-::start\-Sequence (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{seq\-\_\-nr, }
+\item[{geometry\-\_\-msgs\-::\-Pose\-Stamped}]{request\-\_\-start, }
+\item[{geometry\-\_\-msgs\-::\-Pose\-Stamped}]{request\-\_\-goal, }
+\item[{ros\-::\-Node\-Handle \&}]{nh\-\_\-}
+\end{DoxyParamCaption}
+)}}\label{classPathPlanner_a4af33ccade9ae9429d8aba91b91d50e9}
+
+
+Starts planning service of determined planning sequence. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start} & \mbox{[}geometry\-\_\-msgs\-::\-Pose\-Stamped\mbox{]} Robot start pose, \\
+\hline
+{\em finish} & \mbox{[}geometry\-\_\-msgs\-::\-Pose\-Stamped\mbox{]} Robot goal pose. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{[}navfn\-::\-Make\-Nav\-Plan\-Response\mbox{]}\-: -\/$>$ plan\-\_\-found\-: 0 \-: path cannot be planned. 1 \-: path found 2 \-: wrong map name 3 \-: wrong robot type 4 \-: wrong algorithm -\/$>$ error\-\_\-message \-: error explenation -\/$>$ path \-: if plan\-\_\-found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal vector of Pose\-Stamped objects 
+\end{DoxyReturn}
+
+
+Definition at line 137 of file path\-\_\-planner.\-cpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-path\-\_\-planning/include/path\-\_\-planning/\hyperlink{path__planner_8h}{path\-\_\-planner.\-h}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-path\-\_\-planning/rapp\-\_\-path\-\_\-planning/src/\hyperlink{path__planner_8cpp}{path\-\_\-planner.\-cpp}\end{DoxyCompactItemize}

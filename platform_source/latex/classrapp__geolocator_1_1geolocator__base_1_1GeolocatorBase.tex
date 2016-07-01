@@ -1,0 +1,157 @@
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase}{\section{rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base Class Reference}
+\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase}\index{rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base@{rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base}}
+}
+
+
+Base class for geolocators.  
+
+
+
+
+Inheritance diagram for rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a4ec5ed46e51b673b2bd0cd94021a0128}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ae7145ae156ac1d46542de3a03832db88}{fetch\-\_\-geolocation}
+\begin{DoxyCompactList}\small\item\em Abstract method to fetch geolocation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ab425091819e4da22d68271fc98e849d1}{rapp\-\_\-http\-\_\-json\-\_\-parser}
+\begin{DoxyCompactList}\small\item\em Strips html tags from strings. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a2b470a5fd81cbe88922bce9127c1cdae}{\-\_\-accepted\-\_\-status}
+\begin{DoxyCompactList}\small\item\em The value of valid response status code. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ab869b505130380af18703a32ca5982ed}{\-\_\-http\-\_\-request}
+\begin{DoxyCompactList}\small\item\em Perform http requests to servers. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a67ea8297b7cfc1a51213a74a8b37e7d3}{\-\_\-url}
+\begin{DoxyCompactList}\small\item\em The base geolocator url. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a70079e3a261c4337354130ea8e6d775b}{\-\_\-\-\_\-metaclass\-\_\-\-\_\-} = abc.\-A\-B\-C\-Meta
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Base class for geolocators. 
+
+Definition at line 32 of file geolocator\-\_\-base.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a4ec5ed46e51b673b2bd0cd94021a0128}{\index{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_geolocator::geolocator_base::GeolocatorBase@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a4ec5ed46e51b673b2bd0cd94021a0128}
+
+
+Constructor. 
+
+
+
+Definition at line 37 of file geolocator\-\_\-base.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ae7145ae156ac1d46542de3a03832db88}{\index{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}!fetch\-\_\-geolocation@{fetch\-\_\-geolocation}}
+\index{fetch\-\_\-geolocation@{fetch\-\_\-geolocation}!rapp_geolocator::geolocator_base::GeolocatorBase@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}}
+\subsubsection[{fetch\-\_\-geolocation}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base.\-fetch\-\_\-geolocation (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ae7145ae156ac1d46542de3a03832db88}
+
+
+Abstract method to fetch geolocation. 
+
+
+
+Definition at line 52 of file geolocator\-\_\-base.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a70079e3a261c4337354130ea8e6d775b}{\index{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}!\-\_\-\-\_\-metaclass\-\_\-\-\_\-@{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-metaclass\-\_\-\-\_\-@{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}!rapp_geolocator::geolocator_base::GeolocatorBase@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}}
+\subsubsection[{\-\_\-\-\_\-metaclass\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base.\-\_\-\-\_\-metaclass\-\_\-\-\_\- = abc.\-A\-B\-C\-Meta\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}}\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a70079e3a261c4337354130ea8e6d775b}
+
+
+Definition at line 34 of file geolocator\-\_\-base.\-py.
+
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a2b470a5fd81cbe88922bce9127c1cdae}{\index{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}!\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}}
+\index{\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}!rapp_geolocator::geolocator_base::GeolocatorBase@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}}
+\subsubsection[{\-\_\-accepted\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base.\-\_\-accepted\-\_\-status\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a2b470a5fd81cbe88922bce9127c1cdae}
+
+
+The value of valid response status code. 
+
+
+
+Definition at line 42 of file geolocator\-\_\-base.\-py.
+
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ab869b505130380af18703a32ca5982ed}{\index{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}!\-\_\-http\-\_\-request@{\-\_\-http\-\_\-request}}
+\index{\-\_\-http\-\_\-request@{\-\_\-http\-\_\-request}!rapp_geolocator::geolocator_base::GeolocatorBase@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}}
+\subsubsection[{\-\_\-http\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base.\-\_\-http\-\_\-request\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ab869b505130380af18703a32ca5982ed}
+
+
+Perform http requests to servers. 
+
+
+
+Definition at line 45 of file geolocator\-\_\-base.\-py.
+
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a67ea8297b7cfc1a51213a74a8b37e7d3}{\index{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}!\-\_\-url@{\-\_\-url}}
+\index{\-\_\-url@{\-\_\-url}!rapp_geolocator::geolocator_base::GeolocatorBase@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}}
+\subsubsection[{\-\_\-url}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base.\-\_\-url\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_a67ea8297b7cfc1a51213a74a8b37e7d3}
+
+
+The base geolocator url. 
+
+
+
+Definition at line 39 of file geolocator\-\_\-base.\-py.
+
+\hypertarget{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ab425091819e4da22d68271fc98e849d1}{\index{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}!rapp\-\_\-http\-\_\-json\-\_\-parser@{rapp\-\_\-http\-\_\-json\-\_\-parser}}
+\index{rapp\-\_\-http\-\_\-json\-\_\-parser@{rapp\-\_\-http\-\_\-json\-\_\-parser}!rapp_geolocator::geolocator_base::GeolocatorBase@{rapp\-\_\-geolocator\-::geolocator\-\_\-base\-::\-Geolocator\-Base}}
+\subsubsection[{rapp\-\_\-http\-\_\-json\-\_\-parser}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-geolocator.\-geolocator\-\_\-base.\-Geolocator\-Base.\-rapp\-\_\-http\-\_\-json\-\_\-parser}}\label{classrapp__geolocator_1_1geolocator__base_1_1GeolocatorBase_ab425091819e4da22d68271fc98e849d1}
+
+
+Strips html tags from strings. 
+
+
+
+Definition at line 48 of file geolocator\-\_\-base.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-geolocator/src/rapp\-\_\-geolocator/\hyperlink{geolocator__base_8py}{geolocator\-\_\-base.\-py}\end{DoxyCompactItemize}

@@ -100,11 +100,11 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-do-I-launch
 <div class="title">? How-do-I-launch-the-RAPP-Platform? </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This is quite easy! Just follow the instructions below which describe the <code>deploy</code> folder in <code>rapp_scripts</code>:</p>
+<div class="textblock"><p>This is quite easy! Just follow the instructions below which describe how to launch the deploy scripts. These scripts are located in the <a href="https://github.com/rapp-project/rapp-platform-scripts">rapp-platform-scripts</a> repository in the folder <code>/deploy/</code>.</p>
 <p>There are two files aimed for deployment:</p>
 <ul>
 <li><code>deploy_rapp_ros.sh</code>: Deploys the RAPP Platform back-end, i.e. all the ROS nodes</li>
-<li><code>deploy_hop_services.sh</code>: Deploys the corresponding HOP services</li>
+<li><code>deploy_web_services.sh</code>: Deploys the corresponding HOP services</li>
 </ul>
 <p>If you want to deploy the RAPP Platform in the background you can use <code>screen</code>. Just follow the next steps:</p>
 <ul>
@@ -112,18 +112,18 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-do-I-launch
 <li><code>./deploy_rapp_ros.sh</code></li>
 <li>Press Ctrl + a + d to detach</li>
 <li><code>screen</code></li>
-<li><code>./deploy_hop_services</code></li>
+<li><code>./deploy_web_services</code></li>
 <li>Press Ctrl + a + d to detach</li>
 <li><code>screen -ls</code> to check that 2 screen sessions exist</li>
 </ul>
-<p>To reattach to screen session: ``` screen -r [pid.]tty.host ``` The screen step is for running rapp_ros and hop_services on detached terminals which is useful, for example in the case where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative for the terminals to remain open for the processes to remain active.</p>
+<p>To reattach to screen session: ``` screen -r [pid.]tty.host ``` The screen step is for running rapp_ros and web_services on detached terminals which is useful, for example in the case where you want to connect via ssh to a remote computer, launch the processes and keep them running even after closing the connection. Alternatively, you can open two terminals and run one script on each, without including the screen commands. It is imperative for the terminals to remain open for the processes to remain active.</p>
 <p>Screen how-to: <a href="http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/">http://www.rackaid.com/blog/linux-screen-tutorial-and-how-to/</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

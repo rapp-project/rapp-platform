@@ -1,0 +1,133 @@
+\hypertarget{classrapp_1_1cloud_1_1qr__detection}{\section{rapp\-:\-:cloud\-:\-:qr\-\_\-detection Class Reference}
+\label{classrapp_1_1cloud_1_1qr__detection}\index{rapp\-::cloud\-::qr\-\_\-detection@{rapp\-::cloud\-::qr\-\_\-detection}}
+}
+
+
+Asynchronous Service which will request the cloud to detect Q\-R codes.  
+
+
+
+
+{\ttfamily \#include $<$qr\-\_\-detection.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:qr\-\_\-detection\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1qr__detection__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:qr\-\_\-detection\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1qr__detection__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1qr__detection_a6006885dc4ef44b2352b52b57c884ae3}{qr\-\_\-detection} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1picture}{rapp\-::object\-::picture} $>$ image, const std\-::string token, std\-::function$<$ void(std\-::vector$<$ \hyperlink{classrapp_1_1object_1_1qr__code}{rapp\-::object\-::qr\-\_\-code} $>$)$>$ callback)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1qr__detection_a1f3bba0cec4db62f9b88388eb9c89867}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle the rapp-\/platform J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ \hyperlink{classrapp_1_1object_1_1qr__code}{rapp\-::object\-::qr\-\_\-code} $>$)$>$ \hyperlink{classrapp_1_1cloud_1_1qr__detection_a02c037ac6a2ab8f29bb50a5ff27cd4bf}{delegate\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Asynchronous Service which will request the cloud to detect Q\-R codes. 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file qr\-\_\-detection.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1qr__detection_a6006885dc4ef44b2352b52b57c884ae3}{\index{rapp\-::cloud\-::qr\-\_\-detection@{rapp\-::cloud\-::qr\-\_\-detection}!qr\-\_\-detection@{qr\-\_\-detection}}
+\index{qr\-\_\-detection@{qr\-\_\-detection}!rapp::cloud::qr_detection@{rapp\-::cloud\-::qr\-\_\-detection}}
+\subsubsection[{qr\-\_\-detection}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::qr\-\_\-detection\-::qr\-\_\-detection (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::picture} $>$}]{image, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::vector$<$ {\bf rapp\-::object\-::qr\-\_\-code} $>$)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1qr__detection_a6006885dc4ef44b2352b52b57c884ae3}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & is a picture object pointer \\
+\hline
+{\em callback} & is the function that will receive a vector of detected qr(s) \\
+\hline
+{\em image\-\_\-format} & must be defined, e.\-g.\-: jpeg, png, gif, etc. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file qr\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1qr__detection_a1f3bba0cec4db62f9b88388eb9c89867}{\index{rapp\-::cloud\-::qr\-\_\-detection@{rapp\-::cloud\-::qr\-\_\-detection}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::qr_detection@{rapp\-::cloud\-::qr\-\_\-detection}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::qr\-\_\-detection\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1qr__detection_a1f3bba0cec4db62f9b88388eb9c89867}
+
+
+handle the rapp-\/platform J\-S\-O\-N reply 
+
+
+
+Definition at line 57 of file qr\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1qr__detection_a02c037ac6a2ab8f29bb50a5ff27cd4bf}{\index{rapp\-::cloud\-::qr\-\_\-detection@{rapp\-::cloud\-::qr\-\_\-detection}!delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}}
+\index{delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}!rapp::cloud::qr_detection@{rapp\-::cloud\-::qr\-\_\-detection}}
+\subsubsection[{delegate\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<${\bf rapp\-::object\-::qr\-\_\-code}$>$)$>$ rapp\-::cloud\-::qr\-\_\-detection\-::delegate\-\_\-\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1qr__detection_a02c037ac6a2ab8f29bb50a5ff27cd4bf}
+
+
+The callback called upon completion of receiving the detected faces. 
+
+
+
+Definition at line 98 of file qr\-\_\-detection.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/vision/qr\-\_\-detection/\hyperlink{qr__detection_8hpp}{qr\-\_\-detection.\-hpp}\end{DoxyCompactItemize}

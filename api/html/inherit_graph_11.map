@@ -1,3 +1,27 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classrapp_1_1services_1_1service__controller.html" title="Main class that controllers RAPP Services. " alt="" coords="5,5,160,46"/>
+<area shape="rect" id="node2" href="$classRappCloud_1_1CloudMsgs_1_1CognitiveExerciseSelect_1_1CognitiveExerciseSelect.html" title="RappCloud.CloudMsgs.Cognitive\lExerciseSelect.CognitiveExercise\lSelect" alt="" coords="162,5,382,61"/>
+<area shape="rect" id="node3" href="$classRappCloud_1_1CloudMsgs_1_1CognitiveGetHistory_1_1CognitiveGetHistory.html" title="RappCloud.CloudMsgs.Cognitive\lGetHistory.CognitiveGetHistory" alt="" coords="164,85,380,126"/>
+<area shape="rect" id="node4" href="$classRappCloud_1_1CloudMsgs_1_1CognitiveGetScores_1_1CognitiveGetScores.html" title="RappCloud.CloudMsgs.Cognitive\lGetScores.CognitiveGetScores" alt="" coords="164,150,380,191"/>
+<area shape="rect" id="node5" href="$classRappCloud_1_1CloudMsgs_1_1CognitiveRecordPerformance_1_1CognitiveRecordPerformance.html" title="RappCloud.CloudMsgs.Cognitive\lRecordPerformance.CognitiveRecord\lPerformance" alt="" coords="153,215,391,271"/>
+<area shape="rect" id="node6" href="$classRappCloud_1_1CloudMsgs_1_1EmailFetch_1_1EmailFetch.html" title="RappCloud.CloudMsgs.Email\lFetch.EmailFetch" alt="" coords="175,294,369,335"/>
+<area shape="rect" id="node7" href="$classRappCloud_1_1CloudMsgs_1_1EmailSend_1_1EmailSend.html" title="RappCloud.CloudMsgs.Email\lSend.EmailSend" alt="" coords="175,359,369,401"/>
+<area shape="rect" id="node8" href="$classRappCloud_1_1CloudMsgs_1_1FaceDetection_1_1FaceDetection.html" title="RappCloud.CloudMsgs.Face\lDetection.FaceDetection" alt="" coords="177,425,367,466"/>
+<area shape="rect" id="node9" href="$classRappCloud_1_1CloudMsgs_1_1Geolocation_1_1Geolocation.html" title="RappCloud.CloudMsgs.Geolocation.\lGeolocation" alt="" coords="155,490,389,531"/>
+<area shape="rect" id="node10" href="$classRappCloud_1_1CloudMsgs_1_1HazardDetectionDoor_1_1HazardDetectionDoor.html" title="RappCloud.CloudMsgs.Hazard\lDetectionDoor.HazardDetectionDoor" alt="" coords="154,555,390,597"/>
+<area shape="rect" id="node11" href="$classRappCloud_1_1CloudMsgs_1_1HazardDetectionLight_1_1HazardDetectionLight.html" title="RappCloud.CloudMsgs.Hazard\lDetectionLight.HazardDetectionLight" alt="" coords="154,621,390,662"/>
+<area shape="rect" id="node12" href="$classRappCloud_1_1CloudMsgs_1_1HumanDetection_1_1HumanDetection.html" title="RappCloud.CloudMsgs.Human\lDetection.HumanDetection" alt="" coords="171,686,373,727"/>
+<area shape="rect" id="node13" href="$classRappCloud_1_1CloudMsgs_1_1NewsExplore_1_1NewsExplore.html" title="RappCloud.CloudMsgs.News\lExplore.NewsExplore" alt="" coords="175,751,369,793"/>
+<area shape="rect" id="node14" href="$classRappCloud_1_1CloudMsgs_1_1ObjectRecognitionCaffe_1_1ObjectRecognitionCaffe.html" title="RappCloud.CloudMsgs.Object\lRecognitionCaffe.ObjectRecognitionCaffe" alt="" coords="139,817,405,858"/>
+<area shape="rect" id="node15" href="$classRappCloud_1_1CloudMsgs_1_1OntologyIsSubsuperclass_1_1OntologyIsSubsuperclass.html" title="RappCloud.CloudMsgs.Ontology\lIsSubsuperclass.OntologyIsSubsuperclass" alt="" coords="136,882,408,923"/>
+<area shape="rect" id="node16" href="$classRappCloud_1_1CloudMsgs_1_1OntologySubclasses_1_1OntologySubclasses.html" title="RappCloud.CloudMsgs.Ontology\lSubclasses.OntologySubclasses" alt="" coords="165,947,379,989"/>
+<area shape="rect" id="node17" href="$classRappCloud_1_1CloudMsgs_1_1OntologySuperclasses_1_1OntologySuperclasses.html" title="RappCloud.CloudMsgs.Ontology\lSuperclasses.OntologySuperclasses" alt="" coords="154,1013,390,1054"/>
+<area shape="rect" id="node18" href="$classRappCloud_1_1CloudMsgs_1_1PathPlanningPlan2D_1_1PathPlanningPlan2D.html" title="RappCloud.CloudMsgs.Path\lPlanningPlan2D.PathPlanningPlan2D" alt="" coords="153,1078,391,1119"/>
+<area shape="rect" id="node19" href="$classRappCloud_1_1CloudMsgs_1_1PathPlanningUploadMap_1_1PathPlanningUploadMap.html" title="RappCloud.CloudMsgs.Path\lPlanningUploadMap.PathPlanning\lUploadMap" alt="" coords="163,1143,381,1199"/>
+<area shape="rect" id="node20" href="$classRappCloud_1_1CloudMsgs_1_1QrDetection_1_1QrDetection.html" title="RappCloud.CloudMsgs.QrDetection.\lQrDetection" alt="" coords="155,1222,389,1263"/>
+<area shape="rect" id="node21" href="$classRappCloud_1_1CloudMsgs_1_1SetNoiseProfile_1_1SetNoiseProfile.html" title="RappCloud.CloudMsgs.SetNoise\lProfile.SetNoiseProfile" alt="" coords="165,1287,379,1329"/>
+<area shape="rect" id="node22" href="$classRappCloud_1_1CloudMsgs_1_1SpeechRecognitionGoogle_1_1SpeechRecognitionGoogle.html" title="RappCloud.CloudMsgs.Speech\lRecognitionGoogle.SpeechRecognition\lGoogle" alt="" coords="147,1352,397,1408"/>
+<area shape="rect" id="node23" href="$classRappCloud_1_1CloudMsgs_1_1SpeechRecognitionSphinx_1_1SpeechRecognitionSphinx.html" title="RappCloud.CloudMsgs.Speech\lRecognitionSphinx.SpeechRecognition\lSphinx" alt="" coords="148,1432,396,1488"/>
+<area shape="rect" id="node24" href="$classRappCloud_1_1CloudMsgs_1_1TextToSpeech_1_1TextToSpeech.html" title="RappCloud.CloudMsgs.Text\lToSpeech.TextToSpeech" alt="" coords="179,1511,365,1553"/>
+<area shape="rect" id="node25" href="$classRappCloud_1_1CloudMsgs_1_1WeatherReportCurrent_1_1WeatherReportCurrent.html" title="RappCloud.CloudMsgs.Weather\lReportCurrent.WeatherReportCurrent" alt="" coords="153,1577,391,1618"/>
+<area shape="rect" id="node26" href="$classRappCloud_1_1CloudMsgs_1_1WeatherReportForecast_1_1WeatherReportForecast.html" title="RappCloud.CloudMsgs.Weather\lReportForecast.WeatherReportForecast" alt="" coords="145,1642,399,1683"/>
 </map>

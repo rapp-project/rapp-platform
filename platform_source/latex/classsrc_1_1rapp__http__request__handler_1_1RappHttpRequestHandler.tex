@@ -1,0 +1,207 @@
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler}{\section{src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler Class Reference}
+\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler}\index{src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler@{src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler}}
+}
+
+
+Performs http requests.  
+
+
+
+
+Inheritance diagram for src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=248pt]{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a75a470e8da96e04dccafa18712377002}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\item 
+def \hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_ad31de831e16f7c95521801e00c064d93}{perform\-\_\-request}
+\begin{DoxyCompactList}\small\item\em Execute the request and verify response. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a58490e8f6850655b116b9ebca531b340}{\-\_\-modify\-\_\-response}
+\begin{DoxyCompactList}\small\item\em Return the proper response format. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a53bc07bf231c410b5d5ad043f36cd800}{\-\_\-accepted\-\_\-status}
+\begin{DoxyCompactList}\small\item\em The value of valid response status code. \end{DoxyCompactList}\item 
+\hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_acf070e840eae743e63e53903efecbb10}{\-\_\-headers}
+\begin{DoxyCompactList}\small\item\em The request additional headers. \end{DoxyCompactList}\item 
+\hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a4ec9b7ae43ef1dc659e2564ae5404a14}{\-\_\-params}
+\begin{DoxyCompactList}\small\item\em The request parameters. \end{DoxyCompactList}\item 
+\hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a9cbde05328347d9f42a4f7aa3e1698d6}{\-\_\-response\-\_\-format}
+\begin{DoxyCompactList}\small\item\em The required response format. \end{DoxyCompactList}\item 
+\hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_af4fec78b4cff29204738ac5169622a88}{\-\_\-server\-\_\-timeout}
+\begin{DoxyCompactList}\small\item\em Seconds to wait for any server response. \end{DoxyCompactList}\item 
+\hyperlink{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_abafcaefc660c7ac4b01a14b2d44c358b}{\-\_\-url}
+\begin{DoxyCompactList}\small\item\em The server url. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Performs http requests. 
+
+Definition at line 30 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a75a470e8da96e04dccafa18712377002}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a75a470e8da96e04dccafa18712377002}
+
+
+Definition at line 32 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a58490e8f6850655b116b9ebca531b340}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-modify\-\_\-response@{\-\_\-modify\-\_\-response}}
+\index{\-\_\-modify\-\_\-response@{\-\_\-modify\-\_\-response}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-modify\-\_\-response}]{\setlength{\rightskip}{0pt plus 5cm}def src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-modify\-\_\-response (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{response, }
+\item[{}]{form = {\ttfamily None}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a58490e8f6850655b116b9ebca531b340}
+
+
+Return the proper response format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em response} & \mbox{[}request module response\mbox{]} The servers response \\
+\hline
+{\em form} & \mbox{[}string\mbox{]} The required response format\\
+\hline
+\end{DoxyParams}
+Rapp\-Error Format transformation error 
+
+Definition at line 97 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_ad31de831e16f7c95521801e00c064d93}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!perform\-\_\-request@{perform\-\_\-request}}
+\index{perform\-\_\-request@{perform\-\_\-request}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{perform\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}def src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-perform\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{url\-\_\-add = {\ttfamily None}, }
+\item[{}]{params\-\_\-dict = {\ttfamily None}, }
+\item[{}]{headers\-\_\-dict = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_ad31de831e16f7c95521801e00c064d93}
+
+
+Execute the request and verify response. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em url\-\_\-add} & \mbox{[}string\mbox{]} The server url \\
+\hline
+{\em params\-\_\-dict} & \mbox{[}dict\mbox{]} The request's parameters \\
+\hline
+{\em headers\-\_\-dict} & \mbox{[}dict\mbox{]} The request's additional headers dictionary\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+response \mbox{[}request module response\mbox{]} The servers response
+\end{DoxyReturn}
+Rapp\-Error Request error 
+
+Definition at line 60 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a53bc07bf231c410b5d5ad043f36cd800}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}}
+\index{\-\_\-accepted\-\_\-status@{\-\_\-accepted\-\_\-status}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-accepted\-\_\-status}]{\setlength{\rightskip}{0pt plus 5cm}src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-accepted\-\_\-status\hspace{0.3cm}{\ttfamily [private]}}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a53bc07bf231c410b5d5ad043f36cd800}
+
+
+The value of valid response status code. 
+
+
+
+Definition at line 46 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_acf070e840eae743e63e53903efecbb10}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-headers@{\-\_\-headers}}
+\index{\-\_\-headers@{\-\_\-headers}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-headers}]{\setlength{\rightskip}{0pt plus 5cm}src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-headers\hspace{0.3cm}{\ttfamily [private]}}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_acf070e840eae743e63e53903efecbb10}
+
+
+The request additional headers. 
+
+
+
+Definition at line 38 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a4ec9b7ae43ef1dc659e2564ae5404a14}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-params@{\-\_\-params}}
+\index{\-\_\-params@{\-\_\-params}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-params}]{\setlength{\rightskip}{0pt plus 5cm}src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-params\hspace{0.3cm}{\ttfamily [private]}}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a4ec9b7ae43ef1dc659e2564ae5404a14}
+
+
+The request parameters. 
+
+
+
+Definition at line 36 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a9cbde05328347d9f42a4f7aa3e1698d6}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-response\-\_\-format@{\-\_\-response\-\_\-format}}
+\index{\-\_\-response\-\_\-format@{\-\_\-response\-\_\-format}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-response\-\_\-format}]{\setlength{\rightskip}{0pt plus 5cm}src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-response\-\_\-format\hspace{0.3cm}{\ttfamily [private]}}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_a9cbde05328347d9f42a4f7aa3e1698d6}
+
+
+The required response format. 
+
+
+
+Definition at line 41 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_af4fec78b4cff29204738ac5169622a88}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-server\-\_\-timeout@{\-\_\-server\-\_\-timeout}}
+\index{\-\_\-server\-\_\-timeout@{\-\_\-server\-\_\-timeout}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-server\-\_\-timeout}]{\setlength{\rightskip}{0pt plus 5cm}src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-server\-\_\-timeout\hspace{0.3cm}{\ttfamily [private]}}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_af4fec78b4cff29204738ac5169622a88}
+
+
+Seconds to wait for any server response. 
+
+
+
+Definition at line 44 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+\hypertarget{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_abafcaefc660c7ac4b01a14b2d44c358b}{\index{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}!\-\_\-url@{\-\_\-url}}
+\index{\-\_\-url@{\-\_\-url}!src::rapp_http_request_handler::RappHttpRequestHandler@{src\-::rapp\-\_\-http\-\_\-request\-\_\-handler\-::\-Rapp\-Http\-Request\-Handler}}
+\subsubsection[{\-\_\-url}]{\setlength{\rightskip}{0pt plus 5cm}src.\-rapp\-\_\-http\-\_\-request\-\_\-handler.\-Rapp\-Http\-Request\-Handler.\-\_\-url\hspace{0.3cm}{\ttfamily [private]}}}\label{classsrc_1_1rapp__http__request__handler_1_1RappHttpRequestHandler_abafcaefc660c7ac4b01a14b2d44c358b}
+
+
+The server url. 
+
+
+
+Definition at line 34 of file rapp\-\_\-http\-\_\-request\-\_\-handler.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-utilities/src/\hyperlink{rapp__http__request__handler_8py}{rapp\-\_\-http\-\_\-request\-\_\-handler.\-py}\end{DoxyCompactItemize}

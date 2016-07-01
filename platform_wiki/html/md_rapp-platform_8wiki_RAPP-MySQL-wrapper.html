@@ -100,44 +100,103 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-MySQL-wrap
 <div class="title">RAPP-MySQL-wrapper </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The RAPP MySQL wrapper ROS node provides the means to interact with the developed MySQL database by providing 26 ROS services that aid in selecting, inserting, updating or deleting information from some of the tables of the RAPP MySQL Database.</p>
-<p>The scheme of the MySQL Database is depicted below.</p>
-<p>[[images/mysql_scheme.png]]</p>
-<p>The component diagram of the MySQL wrapper is depicted below. [[images/mysql_wrapper_component_diagram.png]]</p>
-<h1>ROS Services</h1>
-<p>A write, fetch, update and delete service exists for each of the tables of the MySQL database that are accessible through the wrapper. These four services follow a general approach, irrespective of the actual table they affect. The URLs of the available services are shown below.</p>
-<p>``` /rapp/rapp_mysql_wrapper/tbl_apps_robots_delete_data /rapp/rapp_mysql_wrapper/tbl_apps_robots_fetch_data /rapp/rapp_mysql_wrapper/tbl_apps_robots_update_data /rapp/rapp_mysql_wrapper/tbl_apps_robots_write_data /rapp/rapp_mysql_wrapper/tbl_model_delete_data /rapp/rapp_mysql_wrapper/tbl_model_fetch_data /rapp/rapp_mysql_wrapper/tbl_model_update_data /rapp/rapp_mysql_wrapper/tbl_model_write_data /rapp/rapp_mysql_wrapper/tbl_rapp_delete_data /rapp/rapp_mysql_wrapper/tbl_rapp_fetch_data /rapp/rapp_mysql_wrapper/tbl_rapp_update_data /rapp/rapp_mysql_wrapper/tbl_rapp_write_data /rapp/rapp_mysql_wrapper/tbl_robot_delete_data /rapp/rapp_mysql_wrapper/tbl_robot_fetch_data /rapp/rapp_mysql_wrapper/tbl_robot_update_data /rapp/rapp_mysql_wrapper/tbl_robot_write_data /rapp/rapp_mysql_wrapper/tbl_user_delete_data /rapp/rapp_mysql_wrapper/tbl_user_fetch_data /rapp/rapp_mysql_wrapper/tbl_user_update_data /rapp/rapp_mysql_wrapper/tbl_user_write_data /rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_delete_data /rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_fetch_data /rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_update_data /rapp/rapp_mysql_wrapper/tbl_users_ontology_instances_write_data /rapp/rapp_mysql_wrapper/view_users_robots_apps_fetch_data /rapp/rapp_mysql_wrapper/what_rapps_can_run ``` Below is a detailed explanation of how the fetch, write, update and delete services work in general. Examples of how these services are called can be found in: <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_mysql_wrapper/test/mysql_wrapper/db_test.py#L217-L304">https://github.com/rapp-project/rapp-platform/blob/master/rapp_mysql_wrapper/test/mysql_wrapper/db_test.py#L217-L304</a></p>
-<h2>Fetch Data</h2>
-<p>The general format of the service responsible for fetching data from an array is presented below.</p>
-<p>```bash #the requested column names in the MySQL select query string[] req_cols #a 2 dimensional array each line of which is a where relationship in the select query </p>
-<h2>rapp_platform_ros_communications/StringArrayMsg[] where_data </h2>
-<p>#the resulting column names string[] res_cols #the resulting column data (in 2 dimensional array) where each line is an entry rapp_platform_ros_communications/StringArrayMsg[] res_data #possible error information string[] trace #true if successful std_msgs/Bool success ```</p>
-<h2>Write Data</h2>
-<p>The general format of the service responsible for writing data to an array is presented below.</p>
-<p>```bash #the to be written column names string[] req_cols #the values to be written to the above columns </p>
-<h2>rapp_platform_ros_communications/StringArrayMsg[] req_data </h2>
-<p>#possible error information string[] trace #true if successful std_msgs/Bool success ```</p>
-<h2>Update Data</h2>
-<p>The general format of the service responsible for updating data of an array is presented below.</p>
-<p>```bash #the to be set columns along with their new values in 'columnName=newValue' format string[] set_cols #a 2 dimensional array each line of which is a where relationship </p>
-<h2>rapp_platform_ros_communications/StringArrayMsg[] where_data </h2>
-<p>#possible error information string[] trace #true if successful std_msgs/Bool success ```</p>
-<h2>Delete Data</h2>
-<p>The general format of the service responsible for deleting data of an array is presented below.</p>
-<p>```bash #a 2 dimensional array each line of which is a where relationship </p>
-<h2>rapp_platform_ros_communications/StringArrayMsg[] where_data </h2>
-<p>#possible error information string[] trace #true if successful std_msgs/Bool success ```</p>
-<h2>whatRappsCanRun</h2>
-<p>This service returns what RApps can run on a robot when given the robot's model ID and it's Core Agent version.</p>
-<p>```bash #the robot's model id string model_id #the robot's core agent version </p>
-<h2>string core_agent_version </h2>
-<p>#the resulting column names string[] res_cols #the resulting column data (in 2 dimensional array) where each line is an entry rapp_platform_ros_communications/StringArrayMsg[] res_data #possible error information string[] trace #true if successful std_msgs/Bool success ``` </p>
+<div class="textblock"><p>#Methodology</p>
+<p>The RAPP MySQL wrapper ROS node provides the means to interact with the developed MySQL database by providing a number of ROS services that perform specific, predefined procedures of reading from and writing to the database.</p>
+<p>#ROS Services Each service is analyzed below.</p>
+<h2>Add store token to device service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/add_store_token_to_device</code></p>
+<p>Service type: ```bash </p>
+<h2>string store_token </h2>
+<p>string error ```</p>
+<h2>Check active application token service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/check_active_application_token</code></p>
+<p>Service type: ```bash </p>
+<h2>string application_token </h2>
+<p>bool application_token_exists bool success string error string[] trace ```</p>
+<h2>Check active robot session service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/check_active_robot_session</code></p>
+<p>Service type: ```bash string username </p>
+<h2>string device_token </h2>
+<p>bool application_token_exists bool success string error string[] trace ```</p>
+<h2>Check if user exists service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/check_if_user_exists</code></p>
+<p>Service type: ```bash </p>
+<h2>string username </h2>
+<p>bool user_exists bool success string error string[] trace ```</p>
+<h2>Create new application token service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/create_new_application_token</code></p>
+<p>Service type: ```bash string username string store_token </p>
+<h2>string application_token </h2>
+<p>bool success string error string[] trace ```</p>
+<h2>Create new cloud agent service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/create_new_cloud_agent</code></p>
+<p>Service type: ```bash string username string tarball_path string container_identifier string image_identifier </p>
+<h2>string container_type </h2>
+<p>bool success string error string[] trace ```</p>
+<h2>Create new cloud agent service service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/create_new_cloud_agent_service</code></p>
+<p>Service type: ```bash string container_identifier string service_name string service_type int16 container_port </p>
+<h2>int16 host_port </h2>
+<p>bool success string error string[] trace ```</p>
+<h2>Create new platform user service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/create_new_platform_user</code></p>
+<p>Service type: ```bash string username string password string creator_username </p>
+<h2>string language </h2>
+<p>bool success string error string[] trace ```</p>
+<h2>Get cloud agent service type and host port service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/get_cloud_agent_service_type_and_host_port</code></p>
+<p>Service type: ```bash string container_identifier </p>
+<h2>string service_name </h2>
+<p>string service_type int16 host_port bool success string error string[] trace ```</p>
+<h2>Get user language service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/get_user_language</code></p>
+<p>Service type: ```bash </p>
+<h2>string username </h2>
+<p>string user_language bool success string error string[] trace ```</p>
+<h2>Get username associated with application token service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/get_username_associated_with_application_token</code></p>
+<p>Service type: ```bash </p>
+<h2>string application_token </h2>
+<p>string username bool success string error string[] trace ```</p>
+<h2>Get user ontology alias service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/get_user_ontology_alias</code></p>
+<p>Service type: ```bash </p>
+<h2>string username </h2>
+<p>string ontology_alias bool success string error string[] trace ```</p>
+<h2>Get user password service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/get_user_password</code></p>
+<p>Service type: ```bash </p>
+<h2>string username </h2>
+<p>string password bool success string error string[] trace ```</p>
+<h2>Register user ontology alias service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/register_user_ontology_alias</code></p>
+<p>Service type: ```bash string username </p>
+<h2>string ontology_alias </h2>
+<p>bool success string error string[] trace ```</p>
+<h2>Remove platform user service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/remove_platform_user</code></p>
+<p>Service type: ```bash </p>
+<h2>string username </h2>
+<p>string password bool success string error string[] trace ```</p>
+<h2>Validate existing platform device token service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/validate_existing_platform_device_token</code></p>
+<p>Service type: ```bash </p>
+<h2>string device_token </h2>
+<p>bool device_token_exists bool success string error string[] trace ```</p>
+<h2>Validate user role service</h2>
+<p>Service URL: <code>/rapp/rapp_mysql_wrapper/validate_user_role</code></p>
+<p>Service type: ```bash </p>
+<h2>string username </h2>
+<p>string error string[] trace ```</p>
+<h1>Launchers</h1>
+<h2>Standard Launcher</h2>
+<p>Launches the rapp_mysql_wrapper node and can be invoked using <code>roslaunch rapp_mysql_wrapper mysql_wrapper.launch</code> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

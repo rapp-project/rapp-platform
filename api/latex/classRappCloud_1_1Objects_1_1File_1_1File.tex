@@ -1,0 +1,237 @@
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File}{\section{Rapp\-Cloud.\-Objects.\-File.\-File Class Reference}
+\label{classRappCloud_1_1Objects_1_1File_1_1File}\index{Rapp\-Cloud.\-Objects.\-File.\-File@{Rapp\-Cloud.\-Objects.\-File.\-File}}
+}
+
+
+Inheritance diagram for Rapp\-Cloud.\-Objects.\-File.\-File\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{classRappCloud_1_1Objects_1_1File_1_1File__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Rapp\-Cloud.\-Objects.\-File.\-File\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{classRappCloud_1_1Objects_1_1File_1_1File__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_a4510832401d723be3c86dba254a7d4af}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_a05684bb1596154d2779a184ad57b1916}{\-\_\-\-\_\-eq\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Equality method. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_abf1d241f18900d3ba311f91bb978950f}{make\-\_\-tuple}
+\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_ad255383d8159eb515edf02afea600939}{path}
+\begin{DoxyCompactList}\small\item\em file path getter \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_ad255383d8159eb515edf02afea600939}{path}
+\begin{DoxyCompactList}\small\item\em file path setter \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_a3d0593049cfbc11ccc1324b8a12a2ead}{postfield}
+\begin{DoxyCompactList}\small\item\em Post field name getter. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_a3d0593049cfbc11ccc1324b8a12a2ead}{postfield}
+\begin{DoxyCompactList}\small\item\em Post field name setter. \end{DoxyCompactList}\item 
+def \hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_a42dacd9e3965e63230aa1a879cb1927e}{serialize}
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_ac0f763aa8eb1b940a9f0c1484ddaa579}{\-\_\-\-\_\-boundary\-Size}
+\item 
+\hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_aa92f349468d20af64ebd42760503bd0b}{\-\_\-\-\_\-path}
+\item 
+\hyperlink{classRappCloud_1_1Objects_1_1File_1_1File_a9dad89eaa829822fa961f0513c7bbd59}{\-\_\-\-\_\-postfield}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVerb}File object class \end{DoxyVerb}
+ 
+
+Definition at line 32 of file File.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_a4510832401d723be3c86dba254a7d4af}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filepath = {\ttfamily \char`\"{}\char`\"{}}, }
+\item[{}]{postfield = {\ttfamily \char`\"{}\char`\"{}}, }
+\item[{}]{boundary\-\_\-size = {\ttfamily 30}}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_a4510832401d723be3c86dba254a7d4af}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & str -\/\-The filepath \\
+\hline
+{\em post\-Field} & str -\/ The post field name. \\
+\hline
+{\em boundary\-\_\-size} & int -\/ Size of random boundary string for the filename to add on the post field. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 35 of file File.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_a05684bb1596154d2779a184ad57b1916}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!\-\_\-\-\_\-eq\-\_\-\-\_\-@{\-\_\-\-\_\-eq\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-eq\-\_\-\-\_\-@{\-\_\-\-\_\-eq\-\_\-\-\_\-}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{\-\_\-\-\_\-eq\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-\_\-\-\_\-eq\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{other}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_a05684bb1596154d2779a184ad57b1916}
+
+
+Equality method. 
+
+
+
+Definition at line 57 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_abf1d241f18900d3ba311f91bb978950f}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!make\-\_\-tuple@{make\-\_\-tuple}}
+\index{make\-\_\-tuple@{make\-\_\-tuple}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{make\-\_\-tuple}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-make\-\_\-tuple (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_abf1d241f18900d3ba311f91bb978950f}
+
+
+Definition at line 103 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_ad255383d8159eb515edf02afea600939}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!path@{path}}
+\index{path@{path}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{path}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-path (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_ad255383d8159eb515edf02afea600939}
+
+
+file path getter 
+
+\begin{DoxyReturn}{Returns}
+string -\/ The file path. 
+\end{DoxyReturn}
+
+
+Definition at line 63 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_ad255383d8159eb515edf02afea600939}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!path@{path}}
+\index{path@{path}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{path}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-path (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filepath}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_ad255383d8159eb515edf02afea600939}
+
+
+file path setter 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & (String) -\/ The file path. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 72 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_a3d0593049cfbc11ccc1324b8a12a2ead}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!postfield@{postfield}}
+\index{postfield@{postfield}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{postfield}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-postfield (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_a3d0593049cfbc11ccc1324b8a12a2ead}
+
+
+Post field name getter. 
+
+\begin{DoxyReturn}{Returns}
+string -\/ The post field name. 
+\end{DoxyReturn}
+
+
+Definition at line 82 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_a3d0593049cfbc11ccc1324b8a12a2ead}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!postfield@{postfield}}
+\index{postfield@{postfield}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{postfield}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-postfield (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{fieldname}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_a3d0593049cfbc11ccc1324b8a12a2ead}
+
+
+Post field name setter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fieldname} & (String) -\/ The post field name. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 91 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_a42dacd9e3965e63230aa1a879cb1927e}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!serialize@{serialize}}
+\index{serialize@{serialize}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{serialize}]{\setlength{\rightskip}{0pt plus 5cm}def Rapp\-Cloud.\-Objects.\-File.\-File.\-serialize (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classRappCloud_1_1Objects_1_1File_1_1File_a42dacd9e3965e63230aa1a879cb1927e}
+
+
+Definition at line 99 of file File.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_ac0f763aa8eb1b940a9f0c1484ddaa579}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!\-\_\-\-\_\-boundary\-Size@{\-\_\-\-\_\-boundary\-Size}}
+\index{\-\_\-\-\_\-boundary\-Size@{\-\_\-\-\_\-boundary\-Size}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{\-\_\-\-\_\-boundary\-Size}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Objects.\-File.\-File.\-\_\-\-\_\-boundary\-Size\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1Objects_1_1File_1_1File_ac0f763aa8eb1b940a9f0c1484ddaa579}
+
+
+Definition at line 44 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_aa92f349468d20af64ebd42760503bd0b}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!\-\_\-\-\_\-path@{\-\_\-\-\_\-path}}
+\index{\-\_\-\-\_\-path@{\-\_\-\-\_\-path}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{\-\_\-\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Objects.\-File.\-File.\-\_\-\-\_\-path\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1Objects_1_1File_1_1File_aa92f349468d20af64ebd42760503bd0b}
+
+
+Definition at line 46 of file File.\-py.
+
+\hypertarget{classRappCloud_1_1Objects_1_1File_1_1File_a9dad89eaa829822fa961f0513c7bbd59}{\index{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}!\-\_\-\-\_\-postfield@{\-\_\-\-\_\-postfield}}
+\index{\-\_\-\-\_\-postfield@{\-\_\-\-\_\-postfield}!RappCloud::Objects::File::File@{Rapp\-Cloud\-::\-Objects\-::\-File\-::\-File}}
+\subsubsection[{\-\_\-\-\_\-postfield}]{\setlength{\rightskip}{0pt plus 5cm}Rapp\-Cloud.\-Objects.\-File.\-File.\-\_\-\-\_\-postfield\hspace{0.3cm}{\ttfamily [private]}}}\label{classRappCloud_1_1Objects_1_1File_1_1File_a9dad89eaa829822fa961f0513c7bbd59}
+
+
+Definition at line 51 of file File.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/python/\-Rapp\-Cloud/\-Objects/\hyperlink{File_8py}{File.\-py}\end{DoxyCompactItemize}

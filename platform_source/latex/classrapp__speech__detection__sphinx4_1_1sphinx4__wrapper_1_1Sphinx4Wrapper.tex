@@ -6,26 +6,6 @@
 Contains the Sphinx subprocess and is responsible for configuring Sphinx and performing the recognition request.  
 
 
-
-
-Inheritance diagram for rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper\-:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=250pt]{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper__inherit__graph}
-\end{center}
-\end{figure}
-
-
-Collaboration diagram for rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper\-:
-\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=250pt]{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper__coll__graph}
-\end{center}
-\end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -33,8 +13,6 @@ def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphi
 \begin{DoxyCompactList}\small\item\em Constructor Initiates service clients. \end{DoxyCompactList}\item 
 def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a0629ff048d1714cc7fe581a39375afc5}{configure\-Sphinx}
 \begin{DoxyCompactList}\small\item\em Perform \hyperlink{classSphinx4}{Sphinx4} configuration. \end{DoxyCompactList}\item 
-def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a9577435dcbae5622e390c5b5441be0e7}{initialize\-Sphinx}
-\begin{DoxyCompactList}\small\item\em Perform \hyperlink{classSphinx4}{Sphinx4} initialization Initiates Sphinx subprocess, sets up socket I\-P\-C and configures Sphinx subprocess. \end{DoxyCompactList}\item 
 def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_af43486249bab4de044fdccb7d43e8966}{perform\-Speech\-Recognition}
 \begin{DoxyCompactList}\small\item\em Performs the speech recognition and returns a list of words. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
@@ -46,6 +24,8 @@ def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphi
 \begin{DoxyCompactList}\small\item\em Creates audio profile based on the audio type for processing purposes. \end{DoxyCompactList}\item 
 def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_abfbb97cfec6c92e520dfe8733ca0a591}{\-\_\-create\-Socket}
 \begin{DoxyCompactList}\small\item\em Creates socket I\-P\-C between self and Sphinx subprocess Creates the socket server with a system provided port, which is pass as an argument to the created subprocess. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aa963466f3f98e9a961e6da6d20d8d3ca}{\-\_\-initialize\-Sphinx\-Process}
+\begin{DoxyCompactList}\small\item\em Perform \hyperlink{classSphinx4}{Sphinx4} initialization Initiates Sphinx subprocess, sets up socket I\-P\-C and configures Sphinx subprocess. \end{DoxyCompactList}\item 
 def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a850a6644cf5feb280c65f1f08466610c}{\-\_\-perform\-Energy\-Denoising}
 \begin{DoxyCompactList}\small\item\em Perform energy denoise. \end{DoxyCompactList}\item 
 def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_ac6ca615b241514eb49192e2bda55750b}{\-\_\-read\-Line}
@@ -54,8 +34,6 @@ def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphi
 \begin{DoxyCompactList}\small\item\em Respawns Sphinx subprocess, if it terminates abruptly. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
-\item 
-\hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aabe3ea84bc3621edd386fc05cd397816}{\-\_\-allow\-\_\-sphinx\-\_\-output}
 \item 
 \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_adb28d10db0b145ae5607eefbfa07edd3}{\-\_\-audio\-\_\-transform\-\_\-srv}
 \begin{DoxyCompactList}\small\item\em Transform audio service client. \end{DoxyCompactList}\item 
@@ -67,6 +45,10 @@ def \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphi
 \begin{DoxyCompactList}\small\item\em Detect silence service client. \end{DoxyCompactList}\item 
 \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a72b86a6db9d93651c9202cb5cbf67c4b}{\-\_\-energy\-\_\-denoise\-\_\-service}
 \begin{DoxyCompactList}\small\item\em Energy denoise service client. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aa4c29cee22a852acb4b6567e5bf8fafe}{\-\_\-global\-Params}
+\begin{DoxyCompactList}\small\item\em Contains global Sphinx parameters. \end{DoxyCompactList}\item 
+\hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_af920761cb98e95d75da0585cf69f0245}{\-\_\-jar\-\_\-path}
+\begin{DoxyCompactList}\small\item\em Contains the absolute path for the Sphinx jar file. \end{DoxyCompactList}\item 
 \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a99f828ccad07d66025d905bb2f42e2a0}{\-\_\-sphinx\-\_\-socket}
 \begin{DoxyCompactList}\small\item\em The I\-P\-C socket. \end{DoxyCompactList}\item 
 \hyperlink{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a01d764c85e252be352a991b0cdea11eb}{\-\_\-sphinx\-\_\-socket\-\_\-\-P\-O\-R\-T}
@@ -82,7 +64,7 @@ Contains the Sphinx subprocess and is responsible for configuring Sphinx and per
 
 Initializes a Sphinx.\-java subprocess and creates an I\-P\-C using sockets. It is responsible for interacting with Sphinx via the socket to send configuration params/instructions and initialize a recognition procedure. 
 
-Definition at line 46 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 48 of file sphinx4\-\_\-wrapper.\-py.
 
 
 
@@ -100,7 +82,7 @@ Constructor Initiates service clients.
 
 
 
-Definition at line 50 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 52 of file sphinx4\-\_\-wrapper.\-py.
 
 
 
@@ -127,7 +109,7 @@ words \mbox{[}list\-::string\mbox{]} The Sphinx result
 \end{DoxyReturn}
 
 
-Definition at line 407 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 410 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a98ef1ddb945b8ba21b6aa5e0034561c2}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-create\-Processing\-Profile@{\-\_\-create\-Processing\-Profile}}
 \index{\-\_\-create\-Processing\-Profile@{\-\_\-create\-Processing\-Profile}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -153,7 +135,7 @@ processing\-Profile \mbox{[}dictionary\mbox{]} The profile attributes
 \end{DoxyReturn}
 
 
-Definition at line 187 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 211 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_abfbb97cfec6c92e520dfe8733ca0a591}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-create\-Socket@{\-\_\-create\-Socket}}
 \index{\-\_\-create\-Socket@{\-\_\-create\-Socket}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -168,7 +150,28 @@ Creates socket I\-P\-C between self and Sphinx subprocess Creates the socket ser
 
 
 
-Definition at line 147 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 169 of file sphinx4\-\_\-wrapper.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aa963466f3f98e9a961e6da6d20d8d3ca}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-initialize\-Sphinx\-Process@{\-\_\-initialize\-Sphinx\-Process}}
+\index{\-\_\-initialize\-Sphinx\-Process@{\-\_\-initialize\-Sphinx\-Process}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
+\subsubsection[{\-\_\-initialize\-Sphinx\-Process}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper.\-\_\-initialize\-Sphinx\-Process (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{conf = {\ttfamily None}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aa963466f3f98e9a961e6da6d20d8d3ca}
+
+
+Perform \hyperlink{classSphinx4}{Sphinx4} initialization Initiates Sphinx subprocess, sets up socket I\-P\-C and configures Sphinx subprocess. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em conf} & \mbox{[}dictionary\mbox{]} Contains the configuration parameters \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 136 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a850a6644cf5feb280c65f1f08466610c}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-perform\-Energy\-Denoising@{\-\_\-perform\-Energy\-Denoising}}
 \index{\-\_\-perform\-Energy\-Denoising@{\-\_\-perform\-Energy\-Denoising}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -198,7 +201,7 @@ file\-\_\-path \mbox{[}string\mbox{]} T\-He path of the denoised file
 \end{DoxyReturn}
 
 
-Definition at line 394 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 397 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_ac6ca615b241514eb49192e2bda55750b}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-read\-Line@{\-\_\-read\-Line}}
 \index{\-\_\-read\-Line@{\-\_\-read\-Line}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -216,7 +219,7 @@ line \mbox{[}string\mbox{]} A buffer read from socket
 \end{DoxyReturn}
 
 
-Definition at line 113 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 126 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a442019ab62fa3ab63373f24bdcb60d63}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-respawn\-Sphinx@{\-\_\-respawn\-Sphinx}}
 \index{\-\_\-respawn\-Sphinx@{\-\_\-respawn\-Sphinx}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -231,7 +234,7 @@ Respawns Sphinx subprocess, if it terminates abruptly.
 
 
 
-Definition at line 434 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 437 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a0629ff048d1714cc7fe581a39375afc5}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!configure\-Sphinx@{configure\-Sphinx}}
 \index{configure\-Sphinx@{configure\-Sphinx}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -252,28 +255,7 @@ Perform \hyperlink{classSphinx4}{Sphinx4} configuration.
 \end{DoxyParams}
 
 
-Definition at line 158 of file sphinx4\-\_\-wrapper.\-py.
-
-\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a9577435dcbae5622e390c5b5441be0e7}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!initialize\-Sphinx@{initialize\-Sphinx}}
-\index{initialize\-Sphinx@{initialize\-Sphinx}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
-\subsubsection[{initialize\-Sphinx}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper.\-initialize\-Sphinx (
-\begin{DoxyParamCaption}
-\item[{}]{self, }
-\item[{}]{conf}
-\end{DoxyParamCaption}
-)}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a9577435dcbae5622e390c5b5441be0e7}
-
-
-Perform \hyperlink{classSphinx4}{Sphinx4} initialization Initiates Sphinx subprocess, sets up socket I\-P\-C and configures Sphinx subprocess. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em conf} & \mbox{[}dictionary\mbox{]} Contains the configuration parameters \\
-\hline
-\end{DoxyParams}
-
-
-Definition at line 123 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 182 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_af43486249bab4de044fdccb7d43e8966}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!perform\-Speech\-Recognition@{perform\-Speech\-Recognition}}
 \index{perform\-Speech\-Recognition@{perform\-Speech\-Recognition}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -306,18 +288,11 @@ words \mbox{[}list\-::string\mbox{]} The result words
 \end{DoxyExceptions}
 
 
-Definition at line 247 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 271 of file sphinx4\-\_\-wrapper.\-py.
 
 
 
 \subsection{Member Data Documentation}
-\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aabe3ea84bc3621edd386fc05cd397816}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-allow\-\_\-sphinx\-\_\-output@{\-\_\-allow\-\_\-sphinx\-\_\-output}}
-\index{\-\_\-allow\-\_\-sphinx\-\_\-output@{\-\_\-allow\-\_\-sphinx\-\_\-output}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
-\subsubsection[{\-\_\-allow\-\_\-sphinx\-\_\-output}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper.\-\_\-allow\-\_\-sphinx\-\_\-output\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aabe3ea84bc3621edd386fc05cd397816}
-
-
-Definition at line 115 of file sphinx4\-\_\-wrapper.\-py.
-
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_adb28d10db0b145ae5607eefbfa07edd3}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-audio\-\_\-transform\-\_\-srv@{\-\_\-audio\-\_\-transform\-\_\-srv}}
 \index{\-\_\-audio\-\_\-transform\-\_\-srv@{\-\_\-audio\-\_\-transform\-\_\-srv}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
 \subsubsection[{\-\_\-audio\-\_\-transform\-\_\-srv}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper.\-\_\-audio\-\_\-transform\-\_\-srv\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_adb28d10db0b145ae5607eefbfa07edd3}
@@ -327,7 +302,7 @@ Transform audio service client.
 
 rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-audio\-\_\-processing.\-Audio\-Processing\-::transform\-\_\-audio 
 
-Definition at line 107 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 113 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a8b61ba8ea3e28ea8cb2317d1a83a2730}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-conf@{\-\_\-conf}}
 \index{\-\_\-conf@{\-\_\-conf}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -338,7 +313,7 @@ Sphinx configuration.
 
 
 
-Definition at line 53 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 59 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_ad2e35b438312ce2396718371a9461597}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-denoise\-\_\-service@{\-\_\-denoise\-\_\-service}}
 \index{\-\_\-denoise\-\_\-service@{\-\_\-denoise\-\_\-service}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -349,7 +324,7 @@ Denoise service client.
 
 rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-audio\-\_\-processing.\-Audio\-Processing\-::denoise 
 
-Definition at line 89 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 95 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a59c868f2dda79206d0a53650d93f6f8b}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-detect\-\_\-silence\-\_\-service@{\-\_\-detect\-\_\-silence\-\_\-service}}
 \index{\-\_\-detect\-\_\-silence\-\_\-service@{\-\_\-detect\-\_\-silence\-\_\-service}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -360,7 +335,7 @@ Detect silence service client.
 
 rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-audio\-\_\-processing.\-Audio\-Processing\-::detect\-\_\-silence 
 
-Definition at line 101 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 107 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a72b86a6db9d93651c9202cb5cbf67c4b}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-energy\-\_\-denoise\-\_\-service@{\-\_\-energy\-\_\-denoise\-\_\-service}}
 \index{\-\_\-energy\-\_\-denoise\-\_\-service@{\-\_\-energy\-\_\-denoise\-\_\-service}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -371,7 +346,29 @@ Energy denoise service client.
 
 rapp\-\_\-audio\-\_\-processing.\-rapp\-\_\-audio\-\_\-processing.\-Audio\-Processing\-::energy\-\_\-denoise 
 
-Definition at line 95 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 101 of file sphinx4\-\_\-wrapper.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aa4c29cee22a852acb4b6567e5bf8fafe}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-global\-Params@{\-\_\-global\-Params}}
+\index{\-\_\-global\-Params@{\-\_\-global\-Params}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
+\subsubsection[{\-\_\-global\-Params}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper.\-\_\-global\-Params\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_aa4c29cee22a852acb4b6567e5bf8fafe}
+
+
+Contains global Sphinx parameters. 
+
+(see \hyperlink{classrapp__speech__detection__sphinx4_1_1global__parameters_1_1GlobalParams}{global\-\_\-parameters.\-Global\-Params}) 
+
+Definition at line 56 of file sphinx4\-\_\-wrapper.\-py.
+
+\hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_af920761cb98e95d75da0585cf69f0245}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-jar\-\_\-path@{\-\_\-jar\-\_\-path}}
+\index{\-\_\-jar\-\_\-path@{\-\_\-jar\-\_\-path}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
+\subsubsection[{\-\_\-jar\-\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4.\-sphinx4\-\_\-wrapper.\-Sphinx4\-Wrapper.\-\_\-jar\-\_\-path\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_af920761cb98e95d75da0585cf69f0245}
+
+
+Contains the absolute path for the Sphinx jar file. 
+
+
+
+Definition at line 117 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a99f828ccad07d66025d905bb2f42e2a0}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-sphinx\-\_\-socket@{\-\_\-sphinx\-\_\-socket}}
 \index{\-\_\-sphinx\-\_\-socket@{\-\_\-sphinx\-\_\-socket}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -382,7 +379,7 @@ The I\-P\-C socket.
 
 
 
-Definition at line 58 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 64 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a01d764c85e252be352a991b0cdea11eb}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-sphinx\-\_\-socket\-\_\-\-P\-O\-R\-T@{\-\_\-sphinx\-\_\-socket\-\_\-\-P\-O\-R\-T}}
 \index{\-\_\-sphinx\-\_\-socket\-\_\-\-P\-O\-R\-T@{\-\_\-sphinx\-\_\-socket\-\_\-\-P\-O\-R\-T}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -393,7 +390,7 @@ The I\-P\-C socket port.
 
 
 
-Definition at line 60 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 66 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_a069497790b485de857733d8d5b6ba592}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-sphinx\-Died@{\-\_\-sphinx\-Died}}
 \index{\-\_\-sphinx\-Died@{\-\_\-sphinx\-Died}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -404,7 +401,7 @@ Sphinx status flag.
 
 
 
-Definition at line 55 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 61 of file sphinx4\-\_\-wrapper.\-py.
 
 \hypertarget{classrapp__speech__detection__sphinx4_1_1sphinx4__wrapper_1_1Sphinx4Wrapper_ace5cad8dbe7ccd9870d3dadc165cff0e}{\index{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}!\-\_\-sphinx\-Subprocess@{\-\_\-sphinx\-Subprocess}}
 \index{\-\_\-sphinx\-Subprocess@{\-\_\-sphinx\-Subprocess}!rapp_speech_detection_sphinx4::sphinx4_wrapper::Sphinx4Wrapper@{rapp\-\_\-speech\-\_\-detection\-\_\-sphinx4\-::sphinx4\-\_\-wrapper\-::\-Sphinx4\-Wrapper}}
@@ -415,7 +412,7 @@ The Sphinx subprocess.
 
 
 
-Definition at line 63 of file sphinx4\-\_\-wrapper.\-py.
+Definition at line 69 of file sphinx4\-\_\-wrapper.\-py.
 
 
 

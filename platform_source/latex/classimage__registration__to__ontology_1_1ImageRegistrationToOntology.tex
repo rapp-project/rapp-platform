@@ -1,0 +1,128 @@
+\hypertarget{classimage__registration__to__ontology_1_1ImageRegistrationToOntology}{\section{image\-\_\-registration\-\_\-to\-\_\-ontology.\-Image\-Registration\-To\-Ontology Class Reference}
+\label{classimage__registration__to__ontology_1_1ImageRegistrationToOntology}\index{image\-\_\-registration\-\_\-to\-\_\-ontology.\-Image\-Registration\-To\-Ontology@{image\-\_\-registration\-\_\-to\-\_\-ontology.\-Image\-Registration\-To\-Ontology}}
+}
+
+
+Contains the necessary functions for registering images to the ontology.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_acbabf879634cf248ac60b92286c58fbf}{get\-User\-Ontology\-Alias}
+\begin{DoxyCompactList}\small\item\em Gets the users ontology alias and if it doesnt exist it creates it. \end{DoxyCompactList}\item 
+def \hyperlink{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_a1597593051dfb3205ff16d9d8122ac57}{register\-Image}
+\begin{DoxyCompactList}\small\item\em Implements the get\-Cloud\-Agent\-Service\-Type\-And\-Host\-Port service main function. \end{DoxyCompactList}\item 
+def \hyperlink{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_ae1dc2702a4f2a044360d6a64ac493133}{register\-Image\-To\-Ontology}
+\begin{DoxyCompactList}\small\item\em Calls the knowrob\-\_\-wrapper service that registers the image to the ontology. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Contains the necessary functions for registering images to the ontology. 
+
+Definition at line 44 of file image\-\_\-registration\-\_\-to\-\_\-ontology.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_acbabf879634cf248ac60b92286c58fbf}{\index{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology@{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology}!get\-User\-Ontology\-Alias@{get\-User\-Ontology\-Alias}}
+\index{get\-User\-Ontology\-Alias@{get\-User\-Ontology\-Alias}!image_registration_to_ontology::ImageRegistrationToOntology@{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology}}
+\subsubsection[{get\-User\-Ontology\-Alias}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-registration\-\_\-to\-\_\-ontology.\-Image\-Registration\-To\-Ontology.\-get\-User\-Ontology\-Alias (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{username}
+\end{DoxyParamCaption}
+)}}\label{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_acbabf879634cf248ac60b92286c58fbf}
+
+
+Gets the users ontology alias and if it doesnt exist it creates it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & \mbox{[}string\mbox{]} The user's username\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ontology\-Alias \mbox{[}string\mbox{]} The user's ontology alias 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 93 of file image\-\_\-registration\-\_\-to\-\_\-ontology.\-py.
+
+\hypertarget{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_a1597593051dfb3205ff16d9d8122ac57}{\index{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology@{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology}!register\-Image@{register\-Image}}
+\index{register\-Image@{register\-Image}!image_registration_to_ontology::ImageRegistrationToOntology@{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology}}
+\subsubsection[{register\-Image}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-registration\-\_\-to\-\_\-ontology.\-Image\-Registration\-To\-Ontology.\-register\-Image (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_a1597593051dfb3205ff16d9d8122ac57}
+
+
+Implements the get\-Cloud\-Agent\-Service\-Type\-And\-Host\-Port service main function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-To\-Ontology\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-To\-Ontology\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & Index\-Error \\
+\hline
+{\em Exception} & I\-O\-Error \\
+\hline
+{\em Exception} & App\-Error \\
+\hline
+{\em Exception} & Key\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 54 of file image\-\_\-registration\-\_\-to\-\_\-ontology.\-py.
+
+\hypertarget{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_ae1dc2702a4f2a044360d6a64ac493133}{\index{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology@{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology}!register\-Image\-To\-Ontology@{register\-Image\-To\-Ontology}}
+\index{register\-Image\-To\-Ontology@{register\-Image\-To\-Ontology}!image_registration_to_ontology::ImageRegistrationToOntology@{image\-\_\-registration\-\_\-to\-\_\-ontology\-::\-Image\-Registration\-To\-Ontology}}
+\subsubsection[{register\-Image\-To\-Ontology}]{\setlength{\rightskip}{0pt plus 5cm}def image\-\_\-registration\-\_\-to\-\_\-ontology.\-Image\-Registration\-To\-Ontology.\-register\-Image\-To\-Ontology (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req, }
+\item[{}]{base\-Destination\-Folder}
+\end{DoxyParamCaption}
+)}}\label{classimage__registration__to__ontology_1_1ImageRegistrationToOntology_ae1dc2702a4f2a044360d6a64ac493133}
+
+
+Calls the knowrob\-\_\-wrapper service that registers the image to the ontology. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-To\-Ontology\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+{\em base\-Destination\-Folder} & \mbox{[}string\mbox{]} The path to the image\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+register\-Image\-Object\-To\-Ontology\-Response.\-object\-\_\-entry \mbox{[}string\mbox{]} The ontology alias image entry 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Exception} & App\-Error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 109 of file image\-\_\-registration\-\_\-to\-\_\-ontology.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-caffe\-\_\-wrapper/src/\hyperlink{image__registration__to__ontology_8py}{image\-\_\-registration\-\_\-to\-\_\-ontology.\-py}\end{DoxyCompactItemize}

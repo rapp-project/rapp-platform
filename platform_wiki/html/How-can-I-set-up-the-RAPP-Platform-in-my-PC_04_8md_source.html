@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('How-can-I-set-up-the-RAPP-Platform-in-
 <div class="title">rapp-platform.wiki/How-can-I-set-up-the-RAPP-Platform-in-my-PC?.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="How-can-I-set-up-the-RAPP-Platform-in-my-PC_04_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;The setup scripts are located in ```rapp_scripts/setup```.</div>
+<a href="How-can-I-set-up-the-RAPP-Platform-in-my-PC_04_8md.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;The setup scripts are located in the [rapp-platform-scripts](https:<span class="comment">//github.com/rapp-project/rapp-platform-scripts) in the folder ```/setup/```.</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;These scripts can be executed after a clean Ubuntu 14.04 installation, in order</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;to install the appropriate packages and setup the environment.</div>
@@ -125,45 +125,40 @@ $(document).ready(function(){initNavTree('How-can-I-set-up-the-RAPP-Platform-in-
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">- downloads builds and installs depending libraries for Sphinx4</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">- installs MySQL</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">- installs HOP</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">#### What you must do manually</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">- installs Caffe</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">- installs the authentication system</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">A new MySQL user was created with username = ```dummyUser``` and password = ```changeMe``` and was granted all on RappStore DB. It is highly recommended that you change the password and the username of the user. The username and password are stored in the file located at /etc/db_credentials. The file db_credentials is used by the RAPP platform services, be sure to update it with the correct username and password. It&#39;</span>s first line is the username and it<span class="stringliteral">&#39;s second line the password.</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">#### What you must do manually</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">#### Setup in an existing system</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">A new MySQL user was created with username = ```dummyUser``` and password = ```changeMe``` and was granted all on RappStore DB. It is highly recommended that you change the password and the username of the user. The username and password are stored in the file located at /etc/db_credentials. The file db_credentials is used by the RAPP platform services, be sure to update it with the correct username and password. It&#39;</span>s first line is the username and it<span class="stringliteral">&#39;s second line the password.</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">If you want to add rapp-platform to an already existent system (Ubuntu 14.04) you should choose which setup scripts you need to execute. For example if you have MySQL install you do not need to execute ```8_mysql_install.sh```.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">#### Setup in an existing system</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">#### Scripts</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">If you want to add rapp-platform to an already existent system (Ubuntu 14.04) you should choose which setup scripts you need to execute. For example if you have MySQL install you do not need to execute ```8_mysql_install.sh```.</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">- ```1_system_updates.sh```: Fetches the Ubuntu 14.04 updates and installs them</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">- ```2_ros_setup.sh```: Installs ROS Indigo</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">- ```3_auxiliary_packages_setup.sh```: Installs software from apt-get, necessary for the correct RAPP Platform deployment</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">- ```4_rosjava_setup.sh```: Fetches a number of GitHub repositories and compiles rosjava. This is a dependency of Knowrob.</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">- ```5_knowrob_setup.sh```: Fetches the Knowrob repository and builds it. Knowrob is the tool that deploys the RAPP ontology.</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">- ```6_rapp_platform_setup.sh```: Fetches the rapp-platform and rapp-api repositories and builds them</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">- ```7_sphinx_libraries.sh```: Fetches the Sphinx4 necessary libraries, compiles them and installs them, Sphinx4 is used for ASR (Automatic Speech Recognition).</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">- ```8_mysql_install.sh```: Installs MySQL</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">- ```9_create_rapp_mysql_db.sh```: Adds the RAPP MySQL empty database in mysql</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">- ```10_create_rapp_mysql_user.sh```: Creates a user to enable access the to database from the RAPP Platform code</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">- ```11_hop_setup.sh```: Installs HOP and Bigloo, the tools providing the RAPP Platform generic services.</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">##### NOTES:</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">The following notes concern the manual setup of rapp-platform (not the clean setup form our scripts):</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">#### Scripts</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">- ```1_system_updates.sh```: Fetches the Ubuntu 14.04 updates and installs them</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">- ```2_ros_setup.sh```: Installs ROS Indigo</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">- ```3_auxiliary_packages_setup.sh```: Installs software from apt-get, necessary for the correct RAPP Platform deployment</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">- ```4_rosjava_setup.sh```: Fetches a number of GitHub repositories and compiles rosjava. This is a dependency of Knowrob.</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">- ```5_knowrob_setup.sh```: Fetches the Knowrob repository and builds it. Knowrob is the tool that deploys the RAPP ontology.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">- ```6_rapp_platform_setup.sh```: Fetches the rapp-platform and rapp-api repositories and builds them</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">- ```7_sphinx_libraries.sh```: Fetches the Sphinx4 necessary libraries, compiles them and installs them, Sphinx4 is used for ASR (Automatic Speech Recognition).</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">- ```8_mysql_install.sh```: Installs MySQL</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">- ```9_create_rapp_mysql_db.sh```: Adds the RAPP MySQL empty database in mysql</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">- ```10_create_rapp_mysql_user.sh```: Creates a user to enable access the to database from the RAPP Platform code</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">- ```11_hop_setup.sh```: Installs HOP and Bigloo, the tools providing the RAPP Platform generic services.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral">- ```12_caffe_setup.sh```: Installs Caffe along with the bvlc reference models.</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">- ```13_authentication_setup.sh```: Installs the authentication management system.</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">- To compile ```rapp_qr_detection``` you must install the ```libzbar``` library</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">- To compile ```rapp_knowrob_wrapper``` you must execute the following scripts:</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral"> - https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/4_rosjava_setup.sh</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral"> - https://github.com/rapp-project/rapp-platform/blob/master/rapp_scripts/setup/5_knowrob_setup.sh</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral"> - **If you don&#39;</span>t want interaction with the ontology, add an empty ```CATKIN_IGNORE``` file in the ```rapp-platform/rapp_knowrob_wrapper/``` folder**</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="How-can-I-set-up-the-RAPP-Platform-in-my-PC_04_8md.html">How-can-I-set-up-the-RAPP-Platform-in-my-PC?.md</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

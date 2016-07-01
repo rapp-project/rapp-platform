@@ -1,0 +1,131 @@
+\hypertarget{classrapp_1_1cloud_1_1fetch__personal__data}{\section{rapp\-:\-:cloud\-:\-:fetch\-\_\-personal\-\_\-data Class Reference}
+\label{classrapp_1_1cloud_1_1fetch__personal__data}\index{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data@{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data}}
+}
+
+
+Get all personal data for a specific user.  
+
+
+
+
+{\ttfamily \#include $<$fetch\-\_\-personal\-\_\-data.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:fetch\-\_\-personal\-\_\-data\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{classrapp_1_1cloud_1_1fetch__personal__data__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:fetch\-\_\-personal\-\_\-data\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=180pt]{classrapp_1_1cloud_1_1fetch__personal__data__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1fetch__personal__data_a1f2d7d03b374530100e20a1d3956f23b}{fetch\-\_\-personal\-\_\-data} (const std\-::string user, std\-::function$<$ void(const std\-::string) $>$ callback)
+\begin{DoxyCompactList}\small\item\em Constructor for obtained personal (J\-S\-O\-N) data for a specific user. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1fetch__personal__data_a92a1b53a0081f859e11ea99b7aa7bb2e}{handle\-\_\-reply} (std\-::string json)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(const \\*
+std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1fetch__personal__data_afbc83d44148dd79a0abb8c8f55351305}{delegate\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Get all personal data for a specific user. 
+
+\begin{DoxyVersion}{Version}
+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+18-\/\-April-\/2015 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file fetch\-\_\-personal\-\_\-data.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1fetch__personal__data_a1f2d7d03b374530100e20a1d3956f23b}{\index{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data@{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data}!fetch\-\_\-personal\-\_\-data@{fetch\-\_\-personal\-\_\-data}}
+\index{fetch\-\_\-personal\-\_\-data@{fetch\-\_\-personal\-\_\-data}!rapp::cloud::fetch_personal_data@{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data}}
+\subsubsection[{fetch\-\_\-personal\-\_\-data}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data\-::fetch\-\_\-personal\-\_\-data (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{user, }
+\item[{std\-::function$<$ void(const std\-::string) $>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1fetch__personal__data_a1f2d7d03b374530100e20a1d3956f23b}
+
+
+Constructor for obtained personal (J\-S\-O\-N) data for a specific user. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & is the string username as stored in the database \\
+\hline
+{\em callback} & is the functor that will received the obtained data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+this is asynchronous, not serial, execution time may vary 
+\end{DoxyNote}
+
+
+Definition at line 23 of file fetch\-\_\-personal\-\_\-data.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1fetch__personal__data_a92a1b53a0081f859e11ea99b7aa7bb2e}{\index{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data@{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::fetch_personal_data@{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1fetch__personal__data_a92a1b53a0081f859e11ea99b7aa7bb2e}
+Get reply and send it directly to delegate \begin{DoxyNote}{Note}
+we do not do any parsing at all here 
+\end{DoxyNote}
+
+
+Definition at line 47 of file fetch\-\_\-personal\-\_\-data.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1fetch__personal__data_afbc83d44148dd79a0abb8c8f55351305}{\index{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data@{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data}!delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}}
+\index{delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}!rapp::cloud::fetch_personal_data@{rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data}}
+\subsubsection[{delegate\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(const std\-::string)$>$ rapp\-::cloud\-::fetch\-\_\-personal\-\_\-data\-::delegate\-\_\-\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1fetch__personal__data_afbc83d44148dd79a0abb8c8f55351305}
+
+
+The callback called upon completion of receiving the detected faces. 
+
+
+
+Definition at line 53 of file fetch\-\_\-personal\-\_\-data.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/fetch\-\_\-personal\-\_\-data/\hyperlink{fetch__personal__data_8hpp}{fetch\-\_\-personal\-\_\-data.\-hpp}\end{DoxyCompactItemize}

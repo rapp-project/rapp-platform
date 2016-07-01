@@ -134,7 +134,7 @@ Collaboration diagram for functional_tests.SpeechToTextFunc:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab33701bb946c7e8c80d8a5b6e7c4abfc"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfunctional__tests_1_1SpeechToTextFunc.html#ab33701bb946c7e8c80d8a5b6e7c4abfc">test_imageFile</a></td></tr>
-<tr class="memdesc:ab33701bb946c7e8c80d8a5b6e7c4abfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests Google ASR with an image.  <a href="#ab33701bb946c7e8c80d8a5b6e7c4abfc">More...</a><br/></td></tr>
+<tr class="memdesc:ab33701bb946c7e8c80d8a5b6e7c4abfc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests Google ASR with a NAO recorded ogg file.  <a href="#ab33701bb946c7e8c80d8a5b6e7c4abfc">More...</a><br/></td></tr>
 <tr class="separator:ab33701bb946c7e8c80d8a5b6e7c4abfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5fda4eac95917536723e8134b50a353"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfunctional__tests_1_1SpeechToTextFunc.html#ae5fda4eac95917536723e8134b50a353">test_notExistentFile</a></td></tr>
 <tr class="memdesc:ae5fda4eac95917536723e8134b50a353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests Google ASR with a missing file.  <a href="#ae5fda4eac95917536723e8134b50a353">More...</a><br/></td></tr>
@@ -142,9 +142,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1038ecffd4b8c2d0ceb9626aedefe2c9"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfunctional__tests_1_1SpeechToTextFunc.html#a1038ecffd4b8c2d0ceb9626aedefe2c9">test_wavFile</a></td></tr>
 <tr class="memdesc:a1038ecffd4b8c2d0ceb9626aedefe2c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests Google ASR with a NAO captured wav file, 1 channel.  <a href="#a1038ecffd4b8c2d0ceb9626aedefe2c9">More...</a><br/></td></tr>
 <tr class="separator:a1038ecffd4b8c2d0ceb9626aedefe2c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c3e6cc84f1bf7ba8efc03f3f602a4f8"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfunctional__tests_1_1SpeechToTextFunc.html#a1c3e6cc84f1bf7ba8efc03f3f602a4f8">test_wavFile_2</a></td></tr>
-<tr class="memdesc:a1c3e6cc84f1bf7ba8efc03f3f602a4f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests Google ASR with a NAO recorded ogg file.  <a href="#a1c3e6cc84f1bf7ba8efc03f3f602a4f8">More...</a><br/></td></tr>
-<tr class="separator:a1c3e6cc84f1bf7ba8efc03f3f602a4f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Inherits the unittest.TestCase class in order to offer functional tests functionality. </p>
@@ -165,10 +162,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Tests Google ASR with an image. </p>
-<p>Should return nothing </p>
+<p>Tests Google ASR with a NAO recorded ogg file. </p>
+<p>Should return "Monday" .skip("Depends on Google ASR result - Sometimes fails") def test_wavFile_2(self): rospack = rospkg.RosPack() google_service = rospy.get_param(\ "rapp_speech_detection_google_detect_speech_topic") rospy.wait_for_service(google_service) stt_service = rospy.ServiceProxy(google_service, SpeechToTextSrv) req = SpeechToTextSrvRequest() req.filename = rospack.get_path('rapp_testing_tools') + \ '/test_data/speech_detection_samples/recording_monday.ogg' req.audio_type = 'nao_ogg' req.user = 'rapp' req.language = 'en' response = stt_service(req) words_basic = len(response.words) Tests Google ASR with an image. Should return nothing </p>
 
-<p>Definition at line <a class="el" href="functional__tests_8py_source.html#l00076">76</a> of file <a class="el" href="functional__tests_8py_source.html">functional_tests.py</a>.</p>
+<p>Definition at line <a class="el" href="functional__tests_8py_source.html#l00077">77</a> of file <a class="el" href="functional__tests_8py_source.html">functional_tests.py</a>.</p>
 
 </div>
 </div>
@@ -189,7 +186,7 @@ Public Member Functions</h2></td></tr>
 <p>Tests Google ASR with a missing file. </p>
 <p>Should return nothing </p>
 
-<p>Definition at line <a class="el" href="functional__tests_8py_source.html#l00098">98</a> of file <a class="el" href="functional__tests_8py_source.html">functional_tests.py</a>.</p>
+<p>Definition at line <a class="el" href="functional__tests_8py_source.html#l00099">99</a> of file <a class="el" href="functional__tests_8py_source.html">functional_tests.py</a>.</p>
 
 </div>
 </div>
@@ -214,27 +211,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a1c3e6cc84f1bf7ba8efc03f3f602a4f8"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def functional_tests.SpeechToTextFunc.test_wavFile_2 </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Tests Google ASR with a NAO recorded ogg file. </p>
-<p>Should return "Monday" </p>
-
-<p>Definition at line <a class="el" href="functional__tests_8py_source.html#l00056">56</a> of file <a class="el" href="functional__tests_8py_source.html">functional_tests.py</a>.</p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/travis/rapp_temp/rapp-platform/rapp_speech_detection_google/tests/speech_to_text/<a class="el" href="functional__tests_8py_source.html">functional_tests.py</a></li>
 </ul>
@@ -244,7 +220,7 @@ Public Member Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacefunctional__tests.html">functional_tests</a></li><li class="navelem"><a class="el" href="classfunctional__tests_1_1SpeechToTextFunc.html">SpeechToTextFunc</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:46 for RAPP Platform Tests - Speech Detection Google by
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:13 for RAPP Platform Tests - Speech Detection Google by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

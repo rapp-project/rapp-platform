@@ -1,0 +1,148 @@
+\hypertarget{classcaffe__wrapper_1_1RappCaffeWrapper}{\section{caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper Class Reference}
+\label{classcaffe__wrapper_1_1RappCaffeWrapper}\index{caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper@{caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper}}
+}
+
+
+The \hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper}{Rapp\-Caffe\-Wrapper} ros node.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper_af4cf1b45f28a24d6de623d95a11d30c8}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em Default contructor. \end{DoxyCompactList}\item 
+def \hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper_ac1fe2519d0dbe6fb49399d154ba74c1d}{image\-Classification\-Data\-Handler}
+\begin{DoxyCompactList}\small\item\em The image\-Classification\-Srv service callback. \end{DoxyCompactList}\item 
+def \hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper_a2a10c55c8220d4b225dd6fdea5e5bf6e}{ontology\-Class\-Bridge\-Data\-Handler}
+\begin{DoxyCompactList}\small\item\em The ontology\-Class\-Bridge\-Srv service callback. \end{DoxyCompactList}\item 
+def \hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper_a507c7e61baae82d4c0596d724a6cf18d}{register\-Image\-To\-Ontology\-Data\-Handler}
+\begin{DoxyCompactList}\small\item\em The register\-Image\-To\-Ontology\-Srv service callback. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper_aa639e886573f4b7ecdc4e06890547fc5}{serv}
+\item 
+\hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper_ade290e890641a63e9a75abe540dff6d4}{serv\-\_\-topic}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \hyperlink{classcaffe__wrapper_1_1RappCaffeWrapper}{Rapp\-Caffe\-Wrapper} ros node. 
+
+Definition at line 47 of file caffe\-\_\-wrapper.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcaffe__wrapper_1_1RappCaffeWrapper_af4cf1b45f28a24d6de623d95a11d30c8}{\index{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!caffe_wrapper::RappCaffeWrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classcaffe__wrapper_1_1RappCaffeWrapper_af4cf1b45f28a24d6de623d95a11d30c8}
+
+
+Default contructor. 
+
+Waits for services the node depends on and declares the callbacks of the node's services 
+
+Definition at line 52 of file caffe\-\_\-wrapper.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classcaffe__wrapper_1_1RappCaffeWrapper_ac1fe2519d0dbe6fb49399d154ba74c1d}{\index{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}!image\-Classification\-Data\-Handler@{image\-Classification\-Data\-Handler}}
+\index{image\-Classification\-Data\-Handler@{image\-Classification\-Data\-Handler}!caffe_wrapper::RappCaffeWrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}}
+\subsubsection[{image\-Classification\-Data\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}def caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper.\-image\-Classification\-Data\-Handler (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classcaffe__wrapper_1_1RappCaffeWrapper_ac1fe2519d0dbe6fb49399d154ba74c1d}
+
+
+The image\-Classification\-Srv service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::image\-Classification\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::image\-Classification\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 84 of file caffe\-\_\-wrapper.\-py.
+
+\hypertarget{classcaffe__wrapper_1_1RappCaffeWrapper_a2a10c55c8220d4b225dd6fdea5e5bf6e}{\index{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}!ontology\-Class\-Bridge\-Data\-Handler@{ontology\-Class\-Bridge\-Data\-Handler}}
+\index{ontology\-Class\-Bridge\-Data\-Handler@{ontology\-Class\-Bridge\-Data\-Handler}!caffe_wrapper::RappCaffeWrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}}
+\subsubsection[{ontology\-Class\-Bridge\-Data\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}def caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper.\-ontology\-Class\-Bridge\-Data\-Handler (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classcaffe__wrapper_1_1RappCaffeWrapper_a2a10c55c8220d4b225dd6fdea5e5bf6e}
+
+
+The ontology\-Class\-Bridge\-Srv service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Class\-Bridge\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::ontology\-Class\-Bridge\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 93 of file caffe\-\_\-wrapper.\-py.
+
+\hypertarget{classcaffe__wrapper_1_1RappCaffeWrapper_a507c7e61baae82d4c0596d724a6cf18d}{\index{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}!register\-Image\-To\-Ontology\-Data\-Handler@{register\-Image\-To\-Ontology\-Data\-Handler}}
+\index{register\-Image\-To\-Ontology\-Data\-Handler@{register\-Image\-To\-Ontology\-Data\-Handler}!caffe_wrapper::RappCaffeWrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}}
+\subsubsection[{register\-Image\-To\-Ontology\-Data\-Handler}]{\setlength{\rightskip}{0pt plus 5cm}def caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper.\-register\-Image\-To\-Ontology\-Data\-Handler (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classcaffe__wrapper_1_1RappCaffeWrapper_a507c7e61baae82d4c0596d724a6cf18d}
+
+
+The register\-Image\-To\-Ontology\-Srv service callback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-To\-Ontology\-Srv\-Request\-::\-Request\&\mbox{]} The R\-O\-S service request \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::register\-Image\-To\-Ontology\-Srv\-Response\-::\-Response\&\mbox{]} The R\-O\-S service response 
+\end{DoxyReturn}
+
+
+Definition at line 102 of file caffe\-\_\-wrapper.\-py.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classcaffe__wrapper_1_1RappCaffeWrapper_aa639e886573f4b7ecdc4e06890547fc5}{\index{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}!serv@{serv}}
+\index{serv@{serv}!caffe_wrapper::RappCaffeWrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}}
+\subsubsection[{serv}]{\setlength{\rightskip}{0pt plus 5cm}caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper.\-serv}}\label{classcaffe__wrapper_1_1RappCaffeWrapper_aa639e886573f4b7ecdc4e06890547fc5}
+
+
+Definition at line 69 of file caffe\-\_\-wrapper.\-py.
+
+\hypertarget{classcaffe__wrapper_1_1RappCaffeWrapper_ade290e890641a63e9a75abe540dff6d4}{\index{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}!serv\-\_\-topic@{serv\-\_\-topic}}
+\index{serv\-\_\-topic@{serv\-\_\-topic}!caffe_wrapper::RappCaffeWrapper@{caffe\-\_\-wrapper\-::\-Rapp\-Caffe\-Wrapper}}
+\subsubsection[{serv\-\_\-topic}]{\setlength{\rightskip}{0pt plus 5cm}caffe\-\_\-wrapper.\-Rapp\-Caffe\-Wrapper.\-serv\-\_\-topic}}\label{classcaffe__wrapper_1_1RappCaffeWrapper_ade290e890641a63e9a75abe540dff6d4}
+
+
+Definition at line 55 of file caffe\-\_\-wrapper.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-caffe\-\_\-wrapper/src/\hyperlink{caffe__wrapper_8py}{caffe\-\_\-wrapper.\-py}\end{DoxyCompactItemize}

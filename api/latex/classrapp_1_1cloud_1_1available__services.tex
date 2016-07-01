@@ -1,0 +1,124 @@
+\hypertarget{classrapp_1_1cloud_1_1available__services}{\section{rapp\-:\-:cloud\-:\-:available\-\_\-services Class Reference}
+\label{classrapp_1_1cloud_1_1available__services}\index{rapp\-::cloud\-::available\-\_\-services@{rapp\-::cloud\-::available\-\_\-services}}
+}
+
+
+requests available services from platform  
+
+
+
+
+{\ttfamily \#include $<$available\-\_\-services.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:available\-\_\-services\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1available__services__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:available\-\_\-services\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1available__services__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1available__services_a73a3a384f525cf630ff926289b2c49eb}{available\-\_\-services} (const std\-::string token, std\-::function$<$ void(std\-::vector$<$ std\-::string $>$)$>$ callback)
+\begin{DoxyCompactList}\small\item\em construct without any special parameters \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1available__services_a3467e87138e848a7d403e2d9e91bbb91}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ std\-::string $>$ services)$>$ \hyperlink{classrapp_1_1cloud_1_1available__services_a550d37b97cb866b77b6ef60121256311}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+requests available services from platform 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file available\-\_\-services.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1available__services_a73a3a384f525cf630ff926289b2c49eb}{\index{rapp\-::cloud\-::available\-\_\-services@{rapp\-::cloud\-::available\-\_\-services}!available\-\_\-services@{available\-\_\-services}}
+\index{available\-\_\-services@{available\-\_\-services}!rapp::cloud::available_services@{rapp\-::cloud\-::available\-\_\-services}}
+\subsubsection[{available\-\_\-services}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::available\-\_\-services\-::available\-\_\-services (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::vector$<$ std\-::string $>$)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1available__services_a73a3a384f525cf630ff926289b2c49eb}
+
+
+construct without any special parameters 
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & will receive a vector of services strings \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 20 of file available\-\_\-services.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1available__services_a3467e87138e848a7d403e2d9e91bbb91}{\index{rapp\-::cloud\-::available\-\_\-services@{rapp\-::cloud\-::available\-\_\-services}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::available_services@{rapp\-::cloud\-::available\-\_\-services}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::available\-\_\-services\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1available__services_a3467e87138e848a7d403e2d9e91bbb91}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 33 of file available\-\_\-services.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1available__services_a550d37b97cb866b77b6ef60121256311}{\index{rapp\-::cloud\-::available\-\_\-services@{rapp\-::cloud\-::available\-\_\-services}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::available_services@{rapp\-::cloud\-::available\-\_\-services}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<$std\-::string$>$ services)$>$ rapp\-::cloud\-::available\-\_\-services\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1available__services_a550d37b97cb866b77b6ef60121256311}
+
+
+Definition at line 58 of file available\-\_\-services.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/available\-\_\-services/\hyperlink{available__services_8hpp}{available\-\_\-services.\-hpp}\end{DoxyCompactItemize}

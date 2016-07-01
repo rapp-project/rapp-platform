@@ -1,0 +1,75 @@
+\hypertarget{classrapp_1_1cloud_1_1asio__socket}{\section{rapp\-:\-:cloud\-:\-:asio\-\_\-socket Class Reference}
+\label{classrapp_1_1cloud_1_1asio__socket}\index{rapp\-::cloud\-::asio\-\_\-socket@{rapp\-::cloud\-::asio\-\_\-socket}}
+}
+
+
+Abstract Base A\-S\-I\-O Socket class Use for passing around to the service controller, various types of cloud handlers. This Interface is needed so that different handlers can be passed to the scheduler transparently.  
+
+
+
+
+{\ttfamily \#include $<$asio\-\_\-socket.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:asio\-\_\-socket\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classrapp_1_1cloud_1_1asio__socket__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classrapp_1_1cloud_1_1asio__socket_a3782c40466dc0ce70d645d65bcae6c01}{schedule} (boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&, boost\-::asio\-::ip\-::tcp\-::resolver \&, boost\-::asio\-::io\-\_\-service \&)=0
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Abstract Base A\-S\-I\-O Socket class Use for passing around to the service controller, various types of cloud handlers. This Interface is needed so that different handlers can be passed to the scheduler transparently. 
+
+\begin{DoxyVersion}{Version}
+2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+26-\/\-April-\/2015 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 22 of file asio\-\_\-socket.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__socket_a3782c40466dc0ce70d645d65bcae6c01}{\index{rapp\-::cloud\-::asio\-\_\-socket@{rapp\-::cloud\-::asio\-\_\-socket}!schedule@{schedule}}
+\index{schedule@{schedule}!rapp::cloud::asio_socket@{rapp\-::cloud\-::asio\-\_\-socket}}
+\subsubsection[{schedule}]{\setlength{\rightskip}{0pt plus 5cm}virtual void rapp\-::cloud\-::asio\-\_\-socket\-::schedule (
+\begin{DoxyParamCaption}
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&}]{, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver \&}]{, }
+\item[{boost\-::asio\-::io\-\_\-service \&}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classrapp_1_1cloud_1_1asio__socket_a3782c40466dc0ce70d645d65bcae6c01}
+schedule this object as a job for A\-S\-I\-O execution 
+\begin{DoxyParams}{Parameters}
+{\em query} & defines the actual U\-R\-L/\-U\-R\-I \\
+\hline
+{\em resolver} & is the U\-R\-L/\-U\-R\-I resolver reference \\
+\hline
+{\em io\-\_\-service} & is the service queue on which this job will be scheduled to run \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a079406a29a503416f44f11ceb18a37b1}{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}, and \hyperlink{classrapp_1_1cloud_1_1asio__service__http_a796f3ed98261ae22243d08056cc9e8ca}{rapp\-::cloud\-::asio\-\_\-service\-\_\-http}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-socket/\hyperlink{asio__socket_8hpp}{asio\-\_\-socket.\-hpp}\end{DoxyCompactItemize}

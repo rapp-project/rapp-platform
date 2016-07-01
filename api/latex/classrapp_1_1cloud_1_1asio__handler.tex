@@ -1,0 +1,407 @@
+\hypertarget{classrapp_1_1cloud_1_1asio__handler}{\section{rapp\-:\-:cloud\-:\-:asio\-\_\-handler Class Reference}
+\label{classrapp_1_1cloud_1_1asio__handler}\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+}
+
+
+base class for asio handling, including helper methods and most protected members  
+
+
+
+
+{\ttfamily \#include $<$asio\-\_\-handler.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:asio\-\_\-handler\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classrapp_1_1cloud_1_1asio__handler__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1asio__handler_a144c5c14ac7f31a897920905ad6af353}{asio\-\_\-handler} (const std\-::string token)
+\begin{DoxyCompactList}\small\item\em ctor \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__handler_acdcc6b42de095be0dfd03130a1a611ef}{content\-\_\-length} (std\-::string response, std\-::size\-\_\-t \&length)
+\begin{DoxyCompactList}\small\item\em get the content leangth from \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_ab28177dac12c438dd460d7ff0ca2572b}{decode64} (const std\-::string \&val)
+\begin{DoxyCompactList}\small\item\em decode base64 \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_aebcef6a5afce74db8e92ac294aedfec8}{encode64} (const std\-::string \&val)
+\begin{DoxyCompactList}\small\item\em encode base64 \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__handler_a65bb45be483810d655b757608460e8da}{error\-\_\-handler} (const boost\-::system\-::error\-\_\-code \&error)
+\begin{DoxyCompactList}\small\item\em Handle an Error. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_a61462334625078bb44938d82df423e70}{escape\-\_\-string} (const std\-::string \&str)
+\begin{DoxyCompactList}\small\item\em escape J\-S\-O\-N strings when sending them over the socket \end{DoxyCompactList}\item 
+bool \hyperlink{classrapp_1_1cloud_1_1asio__handler_af4895e356be3517fdd926e6e36b65553}{has\-\_\-content\-\_\-length} (std\-::string response)
+\begin{DoxyCompactList}\small\item\em examine if the header response contains a {\ttfamily content-\/length} filed \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__handler_ad1f041aedc0fd6ad3329dc50eaa91424}{invalid\-\_\-request} (const std\-::string message)
+\begin{DoxyCompactList}\small\item\em Handle Invalid Query -\/ e.\-g.\-: response which states our query was invalid. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_a613df0c84400a0799ad8d61c3ca0acdc}{random\-\_\-boundary} () const 
+\begin{DoxyCompactList}\small\item\em Create a random boundary for the multipart/form in H\-T\-T\-P. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_a4cf46a963a7810cda800370f65a9f749}{strip\-\_\-header} (std\-::string response)
+\begin{DoxyCompactList}\small\item\em remove/strip the H\-T\-T\-P header and \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::size\-\_\-t \hyperlink{classrapp_1_1cloud_1_1asio__handler_a4c34ea05512283dade9bcdcf5b7c589e}{bytes\-\_\-transferred\-\_\-} = 0
+\begin{DoxyCompactList}\small\item\em Bytes Transferred. \end{DoxyCompactList}\item 
+std\-::function$<$ void(std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1asio__handler_a3a10b61382fd8ae1be4d0208228cbe00}{callback\-\_\-}
+\begin{DoxyCompactList}\small\item\em Callback Handler -\/ use with std\-::bind or boost variant. \end{DoxyCompactList}\item 
+std\-::size\-\_\-t \hyperlink{classrapp_1_1cloud_1_1asio__handler_add9ab3624ffe98259435ba5bdf37b8f2}{content\-\_\-length\-\_\-} = 0
+\begin{DoxyCompactList}\small\item\em Content-\/\-Length. \end{DoxyCompactList}\item 
+std\-::atomic$<$ bool $>$ \hyperlink{classrapp_1_1cloud_1_1asio__handler_aab1f045ee4c4e3b3d931513d91ef9524}{flag\-\_\-} = \{false\}
+\begin{DoxyCompactList}\small\item\em flag used to extract header \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_aa43515d00f301b7c2fe098c6cfcfe518}{header\-\_\-}
+\begin{DoxyCompactList}\small\item\em Header that will be used. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_a1a4fecd26c43b20bb7b1349c9f494eb2}{json\-\_\-}
+\begin{DoxyCompactList}\small\item\em J\-S\-O\-N reply. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_af7ee580670c0758a7d5b064b196f63dd}{post\-\_\-}
+\begin{DoxyCompactList}\small\item\em Actual post Data. \end{DoxyCompactList}\item 
+boost\-::asio\-::streambuf \hyperlink{classrapp_1_1cloud_1_1asio__handler_a0af7166690e952031a80be61d77faebb}{request\-\_\-}
+\begin{DoxyCompactList}\small\item\em Request Container. \end{DoxyCompactList}\item 
+boost\-::asio\-::streambuf \hyperlink{classrapp_1_1cloud_1_1asio__handler_a82f38d6e607030e2df7952cc772ce1cd}{response\-\_\-}
+\begin{DoxyCompactList}\small\item\em Response Container. \end{DoxyCompactList}\item 
+std\-::unique\-\_\-ptr\\*
+$<$ boost\-::asio\-::deadline\-\_\-timer $>$ \hyperlink{classrapp_1_1cloud_1_1asio__handler_ad99295ad7fd912df78dcf8955949178a}{timer\-\_\-}
+\begin{DoxyCompactList}\small\item\em time-\/out timer \end{DoxyCompactList}\item 
+const std\-::string \hyperlink{classrapp_1_1cloud_1_1asio__handler_ad76795ce6386cf5d2f48873defc6148f}{token\-\_\-}
+\begin{DoxyCompactList}\small\item\em user authentication token \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+base class for asio handling, including helper methods and most protected members 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Giokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 14 of file asio\-\_\-handler.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a144c5c14ac7f31a897920905ad6af353}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!asio\-\_\-handler@{asio\-\_\-handler}}
+\index{asio\-\_\-handler@{asio\-\_\-handler}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{asio\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::asio\-\_\-handler\-::asio\-\_\-handler (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_a144c5c14ac7f31a897920905ad6af353}
+
+
+ctor 
+
+
+
+Definition at line 19 of file asio\-\_\-handler.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_acdcc6b42de095be0dfd03130a1a611ef}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!content\-\_\-length@{content\-\_\-length}}
+\index{content\-\_\-length@{content\-\_\-length}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{content\-\_\-length}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-handler\-::content\-\_\-length (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{response, }
+\item[{std\-::size\-\_\-t \&}]{length}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_acdcc6b42de095be0dfd03130a1a611ef}
+
+
+get the content leangth from 
+
+
+\begin{DoxyParams}{Parameters}
+{\em header} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 16 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_ab28177dac12c438dd460d7ff0ca2572b}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!decode64@{decode64}}
+\index{decode64@{decode64}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{decode64}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::decode64 (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_ab28177dac12c438dd460d7ff0ca2572b}
+
+
+decode base64 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & must be encoded using base64 \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 101 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_aebcef6a5afce74db8e92ac294aedfec8}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!encode64@{encode64}}
+\index{encode64@{encode64}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{encode64}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::encode64 (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{val}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_aebcef6a5afce74db8e92ac294aedfec8}
+
+
+encode base64 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & must be plain-\/text string \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a base64 encoded string 
+\end{DoxyReturn}
+
+
+Definition at line 110 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a65bb45be483810d655b757608460e8da}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!error\-\_\-handler@{error\-\_\-handler}}
+\index{error\-\_\-handler@{error\-\_\-handler}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{error\-\_\-handler}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-handler\-::error\-\_\-handler (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{error}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_a65bb45be483810d655b757608460e8da}
+
+
+Handle an Error. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em error} & is the raised error from the client \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 6 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a61462334625078bb44938d82df423e70}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!escape\-\_\-string@{escape\-\_\-string}}
+\index{escape\-\_\-string@{escape\-\_\-string}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{escape\-\_\-string}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::escape\-\_\-string (
+\begin{DoxyParamCaption}
+\item[{const std\-::string \&}]{str}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_a61462334625078bb44938d82df423e70}
+
+
+escape J\-S\-O\-N strings when sending them over the socket 
+
+
+\begin{DoxyParams}{Parameters}
+{\em str} & will be escaped and returned \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 82 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_af4895e356be3517fdd926e6e36b65553}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!has\-\_\-content\-\_\-length@{has\-\_\-content\-\_\-length}}
+\index{has\-\_\-content\-\_\-length@{has\-\_\-content\-\_\-length}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{has\-\_\-content\-\_\-length}]{\setlength{\rightskip}{0pt plus 5cm}bool rapp\-::cloud\-::asio\-\_\-handler\-::has\-\_\-content\-\_\-length (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{response}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_af4895e356be3517fdd926e6e36b65553}
+
+
+examine if the header response contains a {\ttfamily content-\/length} filed 
+
+
+
+Definition at line 42 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_ad1f041aedc0fd6ad3329dc50eaa91424}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!invalid\-\_\-request@{invalid\-\_\-request}}
+\index{invalid\-\_\-request@{invalid\-\_\-request}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{invalid\-\_\-request}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-handler\-::invalid\-\_\-request (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{message}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_ad1f041aedc0fd6ad3329dc50eaa91424}
+
+
+Handle Invalid Query -\/ e.\-g.\-: response which states our query was invalid. 
+
+
+
+Definition at line 11 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a613df0c84400a0799ad8d61c3ca0acdc}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!random\-\_\-boundary@{random\-\_\-boundary}}
+\index{random\-\_\-boundary@{random\-\_\-boundary}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{random\-\_\-boundary}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::random\-\_\-boundary (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classrapp_1_1cloud_1_1asio__handler_a613df0c84400a0799ad8d61c3ca0acdc}
+
+
+Create a random boundary for the multipart/form in H\-T\-T\-P. 
+
+
+
+Definition at line 67 of file asio\-\_\-handler.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a4cf46a963a7810cda800370f65a9f749}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!strip\-\_\-header@{strip\-\_\-header}}
+\index{strip\-\_\-header@{strip\-\_\-header}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{strip\-\_\-header}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::strip\-\_\-header (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{response}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__handler_a4cf46a963a7810cda800370f65a9f749}
+
+
+remove/strip the H\-T\-T\-P header and 
+
+\begin{DoxyReturn}{Returns}
+the body 
+\end{DoxyReturn}
+
+
+Definition at line 55 of file asio\-\_\-handler.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a4c34ea05512283dade9bcdcf5b7c589e}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!bytes\-\_\-transferred\-\_\-@{bytes\-\_\-transferred\-\_\-}}
+\index{bytes\-\_\-transferred\-\_\-@{bytes\-\_\-transferred\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{bytes\-\_\-transferred\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::size\-\_\-t rapp\-::cloud\-::asio\-\_\-handler\-::bytes\-\_\-transferred\-\_\- = 0\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_a4c34ea05512283dade9bcdcf5b7c589e}
+
+
+Bytes Transferred. 
+
+
+
+Definition at line 74 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a3a10b61382fd8ae1be4d0208228cbe00}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!callback\-\_\-@{callback\-\_\-}}
+\index{callback\-\_\-@{callback\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{callback\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::string)$>$ rapp\-::cloud\-::asio\-\_\-handler\-::callback\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_a3a10b61382fd8ae1be4d0208228cbe00}
+
+
+Callback Handler -\/ use with std\-::bind or boost variant. 
+
+
+
+Definition at line 61 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_add9ab3624ffe98259435ba5bdf37b8f2}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!content\-\_\-length\-\_\-@{content\-\_\-length\-\_\-}}
+\index{content\-\_\-length\-\_\-@{content\-\_\-length\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{content\-\_\-length\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::size\-\_\-t rapp\-::cloud\-::asio\-\_\-handler\-::content\-\_\-length\-\_\- = 0\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_add9ab3624ffe98259435ba5bdf37b8f2}
+
+
+Content-\/\-Length. 
+
+
+
+Definition at line 72 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_aab1f045ee4c4e3b3d931513d91ef9524}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!flag\-\_\-@{flag\-\_\-}}
+\index{flag\-\_\-@{flag\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{flag\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::atomic$<$bool$>$ rapp\-::cloud\-::asio\-\_\-handler\-::flag\-\_\- = \{false\}\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_aab1f045ee4c4e3b3d931513d91ef9524}
+
+
+flag used to extract header 
+
+
+
+Definition at line 70 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_aa43515d00f301b7c2fe098c6cfcfe518}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!header\-\_\-@{header\-\_\-}}
+\index{header\-\_\-@{header\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{header\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::header\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_aa43515d00f301b7c2fe098c6cfcfe518}
+
+
+Header that will be used. 
+
+
+
+Definition at line 57 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a1a4fecd26c43b20bb7b1349c9f494eb2}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!json\-\_\-@{json\-\_\-}}
+\index{json\-\_\-@{json\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{json\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::json\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_a1a4fecd26c43b20bb7b1349c9f494eb2}
+
+
+J\-S\-O\-N reply. 
+
+
+
+Definition at line 76 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_af7ee580670c0758a7d5b064b196f63dd}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!post\-\_\-@{post\-\_\-}}
+\index{post\-\_\-@{post\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{post\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::post\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_af7ee580670c0758a7d5b064b196f63dd}
+
+
+Actual post Data. 
+
+
+
+Definition at line 59 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a0af7166690e952031a80be61d77faebb}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!request\-\_\-@{request\-\_\-}}
+\index{request\-\_\-@{request\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{request\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::streambuf rapp\-::cloud\-::asio\-\_\-handler\-::request\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_a0af7166690e952031a80be61d77faebb}
+
+
+Request Container. 
+
+
+
+Definition at line 63 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_a82f38d6e607030e2df7952cc772ce1cd}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!response\-\_\-@{response\-\_\-}}
+\index{response\-\_\-@{response\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{response\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::streambuf rapp\-::cloud\-::asio\-\_\-handler\-::response\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_a82f38d6e607030e2df7952cc772ce1cd}
+
+
+Response Container. 
+
+
+
+Definition at line 65 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_ad99295ad7fd912df78dcf8955949178a}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!timer\-\_\-@{timer\-\_\-}}
+\index{timer\-\_\-@{timer\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{timer\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::unique\-\_\-ptr$<$boost\-::asio\-::deadline\-\_\-timer$>$ rapp\-::cloud\-::asio\-\_\-handler\-::timer\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_ad99295ad7fd912df78dcf8955949178a}
+
+
+time-\/out timer 
+
+
+
+Definition at line 68 of file asio\-\_\-handler.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__handler_ad76795ce6386cf5d2f48873defc6148f}{\index{rapp\-::cloud\-::asio\-\_\-handler@{rapp\-::cloud\-::asio\-\_\-handler}!token\-\_\-@{token\-\_\-}}
+\index{token\-\_\-@{token\-\_\-}!rapp::cloud::asio_handler@{rapp\-::cloud\-::asio\-\_\-handler}}
+\subsubsection[{token\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}const std\-::string rapp\-::cloud\-::asio\-\_\-handler\-::token\-\_\-\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__handler_ad76795ce6386cf5d2f48873defc6148f}
+
+
+user authentication token 
+
+
+
+Definition at line 78 of file asio\-\_\-handler.\-hpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-handler/\hyperlink{asio__handler_8hpp}{asio\-\_\-handler.\-hpp}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-handler/\hyperlink{asio__handler_8cpp}{asio\-\_\-handler.\-cpp}\end{DoxyCompactItemize}

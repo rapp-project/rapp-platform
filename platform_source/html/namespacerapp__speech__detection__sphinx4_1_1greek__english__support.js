@@ -1,0 +1,4 @@
+var namespacerapp__speech__detection__sphinx4_1_1greek__english__support =
+[
+    [ "GreekEnglishSupport", "classrapp__speech__detection__sphinx4_1_1greek__english__support_1_1GreekEnglishSupport.html", "classrapp__speech__detection__sphinx4_1_1greek__english__support_1_1GreekEnglishSupport" ]
+];

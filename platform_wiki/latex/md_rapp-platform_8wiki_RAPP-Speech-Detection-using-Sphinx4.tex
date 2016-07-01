@@ -56,8 +56,6 @@ Let’s assume that some Greek words are available and we must configure the Sph
 \item Substitute all remaining letters with C\-M\-U phonemes
 \end{DoxyItemize}
 
-For more information you can read the full description \href{http://rapp-project.eu/wp-content/uploads/2015/03/RAPP_D2.1.1_V1.0_13032015.pdf}{\tt here -\/ 2bchanged}
-
 Then, the appropriate files are created (custom dictionary and language model) and the Sphinx4 library is configured. Then the audio pre-\/processing takes place, performing denoising similarly to the Google Speech Recognition module by deploying the R\-O\-S services of the Audio processing node.
 
 The R\-A\-P\-P Speech Detection using Sphinx component diagram is depicted in the figure.
@@ -65,6 +63,8 @@ The R\-A\-P\-P Speech Detection using Sphinx component diagram is depicted in th
 \mbox{[}\mbox{[}images/sphinx\-\_\-speech\-\_\-component\-\_\-diagram.\-png\mbox{]}\mbox{]}
 
 \section*{R\-O\-S Services}
+
+It should be stated that the language model is created based on the A\-R\-P\-A model for the {\ttfamily sentences} and on the J\-S\-G\-S for the {\ttfamily grammar} parameters, nevertheless only pure sentences are supported (i.\-e. the advanced J\-S\-G\-F uses cannot be employed). More information on the Sphinx language model can be found \href{http://cmusphinx.sourceforge.net/wiki/tutoriallm}{\tt here}.
 
 \subsection*{Speech Recognition using Sphinx service}
 
@@ -76,13 +76,13 @@ Service type\-: ```bash \#\-The language we want A\-S\-R for string language \#\
 
 \#\-The words recognized string\mbox{[}\mbox{]} words \#\-Possible error string error ```
 
-\section*{H\-O\-P services}
+\section*{Web services}
 
 \subsection*{Speech recognition sphinx R\-P\-S}
 
 The speech\-\_\-recognition\-\_\-sphinx R\-P\-S is of type 3 since it contains a H\-O\-P service frontend, contacting a R\-A\-P\-P R\-O\-S node, which utilizes the Sphinx4 library. The speech\-\_\-recognition\-\_\-sphinx R\-P\-S can be invoked using the following U\-R\-I\-:
 
-Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/speech\-\_\-recognition\-\_\-sphinx}
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/speech\-\_\-recognition\-\_\-sphinx4}
 
 \subsubsection*{Input/\-Output}
 
@@ -90,7 +90,7 @@ The speech\-\_\-recognition\-\_\-sphinx R\-P\-S has several input arguments, whi
 
 The speech\-\_\-detection\-\_\-sphinx R\-P\-S returns the recognized words in J\-S\-O\-N forma.
 
-``` Input = \{ “language”\-: “gr, en” “words”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “grammar”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “sentences”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “path”\-: “\-A\-U\-D\-I\-O\-\_\-\-F\-I\-L\-E\-\_\-\-U\-R\-I” “audio\-\_\-source”\-: “nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch, headset” “user”\-: “\-U\-S\-E\-R\-N\-A\-M\-E” \} {\ttfamily  } Output = \{ “words”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]} “error”\-: “\-Possible error” \} ```
+``` Input = \{ “language”\-: “gr, en” “words”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “grammar”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “sentences”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]}” “file”\-: “\-A\-U\-D\-I\-O\-\_\-\-F\-I\-L\-E\-\_\-\-U\-R\-I” “audio\-\_\-source”\-: “nao\-\_\-ogg, nao\-\_\-wav\-\_\-1\-\_\-ch, nao\-\_\-wav\-\_\-4\-\_\-ch, headset” \} {\ttfamily  } Output = \{ “words”\-: “\mbox{[}W\-O\-R\-D\-\_\-1, W\-O\-R\-D\-\_\-2 …\mbox{]} “error”\-: “\-Possible error” \} ```
 
 The request parameters are\-:
 
@@ -104,7 +104,7 @@ The request parameters are\-:
 \item {\ttfamily words\mbox{[}\mbox{]}}\-: The limited vocabulary from which Sphinx4 will do the matching. Must provide individual words in the language declared in the language parameter. If left empty a generalized vocabulary will be assumed. This will be valid for English but the results are not good.
 \item {\ttfamily grammar\mbox{[}\mbox{]}}\-: A form of language model. Contains either words or sentences that contain the words declared in the words parameter. If grammar is declared, Sphinx4 will either return results that exist as is in grammar or $<$nul$>$ if no matching exists.
 \item {\ttfamily sentences\mbox{[}\mbox{]}}\-: The second form of language model. Same functionality as grammar but Sphinx can return individual words contained in the sentences provided. This is essentially used to extract probabilities regarding the phonemes succession.
-\item {\ttfamily path}\-: The audio file path.
+\item {\ttfamily file}\-: The audio file path.
 \item {\ttfamily audio\-\_\-source}\-: Declares the source of the audio capture in order to perform correct denoising. The different types are\-:
 \begin{DoxyItemize}
 \item headset\-: Clean sound, no denoising needed
@@ -120,5 +120,7 @@ The returned parameters are\-:
 
 \begin{DoxyItemize}
 \item {\ttfamily error}\-: Possible errors
-\item {\ttfamily words\mbox{[}\mbox{]}}\-: The recognized words 
+\item {\ttfamily words\mbox{[}\mbox{]}}\-: The recognized words
 \end{DoxyItemize}
+
+The full documentation exists \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#speech-detection-sphinx4}{\tt here} 

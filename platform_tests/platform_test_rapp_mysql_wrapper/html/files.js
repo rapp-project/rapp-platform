@@ -1,4 +1,4 @@
 var files =
 [
-    [ "rapp_mysql_wrapper", "dir_674eda42ad24b3cf1bba3dd14db58d10.html", "dir_674eda42ad24b3cf1bba3dd14db58d10" ]
+    [ "rapp-platform", "dir_96d1f91f24e86765b0aae729dbf21983.html", "dir_96d1f91f24e86765b0aae729dbf21983" ]
 ];

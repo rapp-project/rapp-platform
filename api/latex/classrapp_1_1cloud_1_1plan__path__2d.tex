@@ -1,0 +1,120 @@
+\hypertarget{classrapp_1_1cloud_1_1plan__path__2d}{\section{rapp\-:\-:cloud\-:\-:plan\-\_\-path\-\_\-2d Class Reference}
+\label{classrapp_1_1cloud_1_1plan__path__2d}\index{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}}
+}
+
+
+{\ttfamily \#include $<$path\-\_\-planning.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:plan\-\_\-path\-\_\-2d\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1plan__path__2d__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:plan\-\_\-path\-\_\-2d\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1plan__path__2d__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \\*
+\hyperlink{classrapp_1_1object_1_1microphone__wav}{rapp\-::object\-::microphone\-\_\-wav} \hyperlink{classrapp_1_1cloud_1_1plan__path__2d_a95a605680256fbdf50b3ac0dcff4888f}{wav\-\_\-file}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1plan__path__2d_abda530d8b67fbd6a021c1f4a5cdb39bc}{plan\-\_\-path\-\_\-d2} (const std\-::string map\-\_\-name, const std\-::string robot\-\_\-type, const std\-::string algorithm, std\-::function$<$ void(std\-::unique\-\_\-ptr$<$ \hyperlink{classrapp_1_1cloud_1_1plan__path__2d_a95a605680256fbdf50b3ac0dcff4888f}{wav\-\_\-file} $>$)$>$ callback, const std\-::string token)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1plan__path__2d_aa78107b6cc049e3edb67a6c504755d8c}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::unique\-\_\-ptr\\*
+$<$ \hyperlink{classrapp_1_1cloud_1_1plan__path__2d_a95a605680256fbdf50b3ac0dcff4888f}{wav\-\_\-file} $>$ wav)$>$ \hyperlink{classrapp_1_1cloud_1_1plan__path__2d_a10752ebb3997d250e3d07c8f51dad77b}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 13 of file path\-\_\-planning.\-hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classrapp_1_1cloud_1_1plan__path__2d_a95a605680256fbdf50b3ac0dcff4888f}{\index{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}!wav\-\_\-file@{wav\-\_\-file}}
+\index{wav\-\_\-file@{wav\-\_\-file}!rapp::cloud::plan_path_2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}}
+\subsubsection[{wav\-\_\-file}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf rapp\-::object\-::microphone\-\_\-wav} {\bf rapp\-::cloud\-::plan\-\_\-path\-\_\-2d\-::wav\-\_\-file}}}\label{classrapp_1_1cloud_1_1plan__path__2d_a95a605680256fbdf50b3ac0dcff4888f}
+
+
+Definition at line 16 of file path\-\_\-planning.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1plan__path__2d_aa78107b6cc049e3edb67a6c504755d8c}{\index{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::plan_path_2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::plan\-\_\-path\-\_\-2d\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1plan__path__2d_aa78107b6cc049e3edb67a6c504755d8c}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 45 of file path\-\_\-planning.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1plan__path__2d_abda530d8b67fbd6a021c1f4a5cdb39bc}{\index{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}!plan\-\_\-path\-\_\-d2@{plan\-\_\-path\-\_\-d2}}
+\index{plan\-\_\-path\-\_\-d2@{plan\-\_\-path\-\_\-d2}!rapp::cloud::plan_path_2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}}
+\subsubsection[{plan\-\_\-path\-\_\-d2}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::plan\-\_\-path\-\_\-2d\-::plan\-\_\-path\-\_\-d2 (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{map\-\_\-name, }
+\item[{const std\-::string}]{robot\-\_\-type, }
+\item[{const std\-::string}]{algorithm, }
+\item[{std\-::function$<$ void(std\-::unique\-\_\-ptr$<$ {\bf wav\-\_\-file} $>$)$>$}]{callback, }
+\item[{const std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1plan__path__2d_abda530d8b67fbd6a021c1f4a5cdb39bc}
+
+\begin{DoxyParams}{Parameters}
+{\em \textbackslash{}param} & will receive the speech audio object \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file path\-\_\-planning.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1plan__path__2d_a10752ebb3997d250e3d07c8f51dad77b}{\index{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::plan_path_2d@{rapp\-::cloud\-::plan\-\_\-path\-\_\-2d}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::unique\-\_\-ptr$<${\bf wav\-\_\-file}$>$ wav)$>$ rapp\-::cloud\-::plan\-\_\-path\-\_\-2d\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1plan__path__2d_a10752ebb3997d250e3d07c8f51dad77b}
+
+
+Definition at line 79 of file path\-\_\-planning.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/navigation/path\-\_\-planning/\hyperlink{path__planning_8hpp}{path\-\_\-planning.\-hpp}\end{DoxyCompactItemize}

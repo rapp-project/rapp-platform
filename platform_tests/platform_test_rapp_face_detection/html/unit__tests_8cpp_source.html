@@ -158,39 +158,56 @@ $(document).ready(function(){initNavTree('unit__tests_8cpp_source.html','');});
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  EXPECT_EQ(1,faces.size());</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#a0c74fbf060d882596a65c2b90d8d9151">   71</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, qr_test)</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#a18c88ce4d18c803b325ff38ecf711bd3">   71</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, klpanagi_close_straight_test)</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  std::string path = ros::package::getPath(<span class="stringliteral">&quot;rapp_testing_tools&quot;</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  std::string s = path + std::string(<span class="stringliteral">&quot;/test_data/qr_code_rapp.jpg&quot;</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  std::string s = path + std::string(<span class="stringliteral">&quot;/test_data/face_samples/klpanagi_close_straight.jpg&quot;</span>);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  std::vector&lt;cv::Rect&gt; faces = face_detector_-&gt;findFaces(s);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  EXPECT_EQ(0,faces.size());</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  EXPECT_EQ(1,faces.size());</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#a4f4c4616043445725a75e1d51a419116">   82</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, file_not_exists_test)</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#ad33937a536f2020fd33598f9661e56ac">   82</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, klpanagi_close_straight_fast_test)</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  std::string path = ros::package::getPath(<span class="stringliteral">&quot;rapp_testing_tools&quot;</span>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  std::string s = path + std::string(<span class="stringliteral">&quot;/test_data/not_existent_file.jpg&quot;</span>);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  std::vector&lt;cv::Rect&gt; faces = face_detector_-&gt;findFaces(s);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  EXPECT_EQ(0,faces.size());</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  std::string s = path + std::string(<span class="stringliteral">&quot;/test_data/face_samples/klpanagi_close_straight.jpg&quot;</span>);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  std::vector&lt;cv::Rect&gt; faces = face_detector_-&gt;findFaces(s, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  EXPECT_EQ(1,faces.size());</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#abe40fd9d178686d072c13fe4dfba21d3">   93</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, zero_sized_image_test)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;{</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  cv::Mat tmp_img(0, 0, CV_8UC1);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  std::vector&lt;cv::Rect&gt; faces = face_detector_-&gt;detectFaces(tmp_img);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  EXPECT_EQ(0,faces.size());</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">  103</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="unit__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;{</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  testing::InitGoogleTest(&amp;argc, argv);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keywordflow">return</span> RUN_ALL_TESTS();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#a0c74fbf060d882596a65c2b90d8d9151">   94</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, qr_test)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;{</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  std::string path = ros::package::getPath(<span class="stringliteral">&quot;rapp_testing_tools&quot;</span>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  std::string s = path + std::string(<span class="stringliteral">&quot;/test_data/qr_code_rapp.jpg&quot;</span>);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  std::vector&lt;cv::Rect&gt; faces = face_detector_-&gt;findFaces(s);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  EXPECT_EQ(0,faces.size());</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#a4f4c4616043445725a75e1d51a419116">  105</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, file_not_exists_test)</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;{</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  std::string path = ros::package::getPath(<span class="stringliteral">&quot;rapp_testing_tools&quot;</span>);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  std::string s = path + std::string(<span class="stringliteral">&quot;/test_data/not_existent_file.jpg&quot;</span>);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  std::vector&lt;cv::Rect&gt; faces = face_detector_-&gt;findFaces(s);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  EXPECT_EQ(0,faces.size());</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#abe40fd9d178686d072c13fe4dfba21d3">  116</a></span>&#160;<a class="code" href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a>(<a class="code" href="classFaceDetectionTest.html">FaceDetectionTest</a>, zero_sized_image_test)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;{</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  cv::Mat tmp_img(0, 0, CV_8UC1);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  std::vector&lt;cv::Rect&gt; faces = face_detector_-&gt;detectFaces(tmp_img);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  EXPECT_EQ(0,faces.size());</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="unit__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">  126</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="unit__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> **argv)</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;{</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  testing::InitGoogleTest(&amp;argc, argv);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;  <span class="keywordflow">return</span> RUN_ALL_TESTS();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;}</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
 <div class="ttc" id="classFaceDetectionTest_html_a5d772e47e60b0f5bd04b541c9ddb19f2"><div class="ttname"><a href="classFaceDetectionTest.html#a5d772e47e60b0f5bd04b541c9ddb19f2">FaceDetectionTest::FaceDetectionTest</a></div><div class="ttdeci">FaceDetectionTest()</div><div class="ttdoc">Default constructor. </div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00034">unit_tests.cpp:34</a></div></div>
 <div class="ttc" id="classFaceDetectionTest_html_ac2b70fd8126f26aa1e9b4f0a8a0b7029"><div class="ttname"><a href="classFaceDetectionTest.html#ac2b70fd8126f26aa1e9b4f0a8a0b7029">FaceDetectionTest::TearDown</a></div><div class="ttdeci">virtual void TearDown()</div><div class="ttdoc">This function is called after the termination of each test. Destroys the dynamically alloced variable...</div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00048">unit_tests.cpp:48</a></div></div>
 <div class="ttc" id="classFaceDetectionTest_html_a4bc63bdc4212643f3375fcd9a0c25a11"><div class="ttname"><a href="classFaceDetectionTest.html#a4bc63bdc4212643f3375fcd9a0c25a11">FaceDetectionTest::face_detector_</a></div><div class="ttdeci">FaceDetector * face_detector_</div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00053">unit_tests.cpp:53</a></div></div>
-<div class="ttc" id="unit__tests_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="unit__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdoc">The main function. Initialized the unit tests. </div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00103">unit_tests.cpp:103</a></div></div>
+<div class="ttc" id="unit__tests_8cpp_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="unit__tests_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdoc">The main function. Initialized the unit tests. </div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00126">unit_tests.cpp:126</a></div></div>
 <div class="ttc" id="classFaceDetectionTest_html_a112f1e86a2c7296d26eb4fea9cae6e29"><div class="ttname"><a href="classFaceDetectionTest.html#a112f1e86a2c7296d26eb4fea9cae6e29">FaceDetectionTest::SetUp</a></div><div class="ttdeci">virtual void SetUp()</div><div class="ttdoc">Sets up the class variables for each unit test call. </div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00040">unit_tests.cpp:40</a></div></div>
 <div class="ttc" id="unit__tests_8cpp_html_ad7e224e2dc8c840a18c54607bef15ac0"><div class="ttname"><a href="unit__tests_8cpp.html#ad7e224e2dc8c840a18c54607bef15ac0">TEST_F</a></div><div class="ttdeci">TEST_F(FaceDetectionTest, lenna_test)</div><div class="ttdoc">Tests face detection with the Lenna image. Should be successful. </div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00060">unit_tests.cpp:60</a></div></div>
 <div class="ttc" id="classFaceDetectionTest_html"><div class="ttname"><a href="classFaceDetectionTest.html">FaceDetectionTest</a></div><div class="ttdoc">Handles the face detection unit testing using gtests. </div><div class="ttdef"><b>Definition:</b> <a href="unit__tests_8cpp_source.html#l00027">unit_tests.cpp:27</a></div></div>
@@ -199,8 +216,8 @@ $(document).ready(function(){initNavTree('unit__tests_8cpp_source.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_2d58d1813b7f5f8e463ef374e5158992.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_e4d27d3c4266e300f77eb674af76d482.html">tests</a></li><li class="navelem"><a class="el" href="dir_8b235cc8ebf4314a9adad5da147265b1.html">face_detection</a></li><li class="navelem"><a class="el" href="unit__tests_8cpp.html">unit_tests.cpp</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:52 for RAPP Platform Tests - Face Detection by
+    <li class="navelem"><a class="el" href="dir_8063c66539b437b8063feef97c7863fa.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_2d58d1813b7f5f8e463ef374e5158992.html">rapp_face_detection</a></li><li class="navelem"><a class="el" href="dir_e4d27d3c4266e300f77eb674af76d482.html">tests</a></li><li class="navelem"><a class="el" href="dir_8b235cc8ebf4314a9adad5da147265b1.html">face_detection</a></li><li class="navelem"><a class="el" href="unit__tests_8cpp.html">unit_tests.cpp</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:24 for RAPP Platform Tests - Face Detection by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

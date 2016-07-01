@@ -94,7 +94,7 @@ $(document).ready(function(){initNavTree('classrapp_1_1object_1_1picture.html','
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('classrapp_1_1object_1_1picture.html','
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classrapp_1_1object_1_1picture-members.html">List of all members</a>  </div>
@@ -137,32 +138,65 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a312b1e70d3e4af4f4a8ce8fc98b19afa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <a href="#a312b1e70d3e4af4f4a8ce8fc98b19afa">More...</a><br/></td></tr>
 <tr class="separator:a312b1e70d3e4af4f4a8ce8fc98b19afa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad6e18da0e6be9ad7d195ee34b79bf2c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#aad6e18da0e6be9ad7d195ee34b79bf2c">operator==</a> (const <a class="el" href="classrapp_1_1object_1_1picture.html">picture</a> &amp;rhs) const </td></tr>
-<tr class="memdesc:aad6e18da0e6be9ad7d195ee34b79bf2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Are pictures same ?  <a href="#aad6e18da0e6be9ad7d195ee34b79bf2c">More...</a><br/></td></tr>
+<tr class="memdesc:aad6e18da0e6be9ad7d195ee34b79bf2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">picture equality  <a href="#aad6e18da0e6be9ad7d195ee34b79bf2c">More...</a><br/></td></tr>
 <tr class="separator:aad6e18da0e6be9ad7d195ee34b79bf2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc2c1e50bd6192da8ee1588e3969a669"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#afc2c1e50bd6192da8ee1588e3969a669">save</a> (const std::string filepath)</td></tr>
 <tr class="memdesc:afc2c1e50bd6192da8ee1588e3969a669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save picture to filepath.  <a href="#afc2c1e50bd6192da8ee1588e3969a669">More...</a><br/></td></tr>
 <tr class="separator:afc2c1e50bd6192da8ee1588e3969a669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2045be9835aca3deac8c36e0552008ab"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#a2045be9835aca3deac8c36e0552008ab">type</a> () const </td></tr>
+<tr class="memdesc:a2045be9835aca3deac8c36e0552008ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">try and get image type (JPG/PNG supported)  <a href="#a2045be9835aca3deac8c36e0552008ab">More...</a><br/></td></tr>
+<tr class="separator:a2045be9835aca3deac8c36e0552008ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:abbc28aad3c22d1d47fa423ffb3e55b61"><td class="memItemLeft" align="right" valign="top">typedef char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#abbc28aad3c22d1d47fa423ffb3e55b61">byte</a></td></tr>
+<tr class="separator:abbc28aad3c22d1d47fa423ffb3e55b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a4edfc5d343a51a181c743d76d18c10f9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#a4edfc5d343a51a181c743d76d18c10f9">picture</a> ()=delete</td></tr>
 <tr class="separator:a4edfc5d343a51a181c743d76d18c10f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefe39dd6c7f1ef438e8232881c6450e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#aefe39dd6c7f1ef438e8232881c6450e1">openCopy_</a> (std::ifstream &amp;bytestream)</td></tr>
-<tr class="separator:aefe39dd6c7f1ef438e8232881c6450e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f767113dc2aca7c5be7ec58704cb5c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#a7f767113dc2aca7c5be7ec58704cb5c8">opencb_</a> (std::ifstream &amp;bytestream)</td></tr>
+<tr class="separator:a7f767113dc2aca7c5be7ec58704cb5c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a4c6377918f2286dbbe320cd9a1d8767c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="namespacerapp_1_1types.html#a1dbc9dc2ab4507d8fb58ac3a204d307b">rapp::types::byte</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#a4c6377918f2286dbbe320cd9a1d8767c">bytearray_</a></td></tr>
 <tr class="separator:a4c6377918f2286dbbe320cd9a1d8767c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd57377c1e24ac9bfeda846bb3076aae"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classrapp_1_1object_1_1picture.html#abd57377c1e24ac9bfeda846bb3076aae">imgtype_</a></td></tr>
+<tr class="separator:abd57377c1e24ac9bfeda846bb3076aae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>class which wraps around raw bytes of a picture </p>
-<dl class="section version"><dt>Version</dt><dd>2 </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>6-February-2015 </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>3 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>January 2016 </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Alex Gkiokas <a href="#" onclick="location.href='mai'+'lto:'+'a.g'+'ki'+'oka'+'s@'+'ort'+'el'+'io.'+'co'+'.uk'; return false;">a.gki<span style="display: none;">.nosp@m.</span>okas<span style="display: none;">.nosp@m.</span>@orte<span style="display: none;">.nosp@m.</span>lio.<span style="display: none;">.nosp@m.</span>co.uk</a> </dd></dl>
 
 <p>Definition at line <a class="el" href="picture_8hpp_source.html#l00013">13</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a class="anchor" id="abbc28aad3c22d1d47fa423ffb3e55b61"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef char <a class="el" href="classrapp_1_1object_1_1picture.html#abbc28aad3c22d1d47fa423ffb3e55b61">rapp::object::picture::byte</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00074">74</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a037d64b0a69603a9ad624760cf2b1072"></a>
 <div class="memitem">
 <div class="memproto">
@@ -268,11 +302,11 @@ Private Attributes</h2></td></tr>
 
 <p>Get picture as array of bytes. </p>
 
-<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00038">38</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
+<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00047">47</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aefe39dd6c7f1ef438e8232881c6450e1"></a>
+<a class="anchor" id="a7f767113dc2aca7c5be7ec58704cb5c8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -280,7 +314,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void rapp::object::picture::openCopy_ </td>
+          <td class="memname">void rapp::object::picture::opencb_ </td>
           <td>(</td>
           <td class="paramtype">std::ifstream &amp;&#160;</td>
           <td class="paramname"><em>bytestream</em></td><td>)</td>
@@ -294,7 +328,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00073">73</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
+<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00080">80</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
 
 </div>
 </div>
@@ -338,9 +372,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Are pictures same ? </p>
+<p>picture equality </p>
 
-<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00044">44</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
+<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00041">41</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
 
 </div>
 </div>
@@ -359,6 +393,25 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Save picture to filepath. </p>
+
+<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00059">59</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2045be9835aca3deac8c36e0552008ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string rapp::object::picture::type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>try and get image type (JPG/PNG supported) </p>
 
 <p>Definition at line <a class="el" href="picture_8hpp_source.html#l00053">53</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
 
@@ -383,7 +436,29 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00083">83</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
+<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00097">97</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abd57377c1e24ac9bfeda846bb3076aae"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string rapp::object::picture::imgtype_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="picture_8hpp_source.html#l00098">98</a> of file <a class="el" href="picture_8hpp_source.html">picture.hpp</a>.</p>
 
 </div>
 </div>
@@ -396,7 +471,7 @@ Private Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacerapp.html">rapp</a></li><li class="navelem"><a class="el" href="namespacerapp_1_1object.html">object</a></li><li class="navelem"><a class="el" href="classrapp_1_1object_1_1picture.html">picture</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:02:11 for RAPP Platform API by
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:49 for RAPP Platform API by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

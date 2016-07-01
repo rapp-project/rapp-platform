@@ -1,0 +1,140 @@
+\hypertarget{classrapp_1_1cloud_1_1face__detection}{\section{rapp\-:\-:cloud\-:\-:face\-\_\-detection Class Reference}
+\label{classrapp_1_1cloud_1_1face__detection}\index{rapp\-::cloud\-::face\-\_\-detection@{rapp\-::cloud\-::face\-\_\-detection}}
+}
+
+
+Asynchronous Service which will request the cloud to detect faces.  
+
+
+
+
+{\ttfamily \#include $<$face\-\_\-detection.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:face\-\_\-detection\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1face__detection__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:face\-\_\-detection\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1face__detection__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1face__detection_a6bed7d3a0e26bfc9921f2f9b82aa8c83}{face\-\_\-detection} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1picture}{rapp\-::object\-::picture} $>$ image, bool fast, const std\-::string token, std\-::function$<$ void(std\-::vector$<$ \hyperlink{classrapp_1_1object_1_1face}{rapp\-::object\-::face} $>$)$>$ callback)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1face__detection_a160f2cd18f65b7902b246204f42b6265}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle the rapp-\/platform J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ \hyperlink{classrapp_1_1object_1_1face}{rapp\-::object\-::face} $>$)$>$ \hyperlink{classrapp_1_1cloud_1_1face__detection_a26e6d7655f431ecf1dfb6db5c9c1743a}{delegate\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+Asynchronous Service which will request the cloud to detect faces. 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file face\-\_\-detection.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1face__detection_a6bed7d3a0e26bfc9921f2f9b82aa8c83}{\index{rapp\-::cloud\-::face\-\_\-detection@{rapp\-::cloud\-::face\-\_\-detection}!face\-\_\-detection@{face\-\_\-detection}}
+\index{face\-\_\-detection@{face\-\_\-detection}!rapp::cloud::face_detection@{rapp\-::cloud\-::face\-\_\-detection}}
+\subsubsection[{face\-\_\-detection}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::face\-\_\-detection\-::face\-\_\-detection (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::picture} $>$}]{image, }
+\item[{bool}]{fast, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::vector$<$ {\bf rapp\-::object\-::face} $>$)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1face__detection_a6bed7d3a0e26bfc9921f2f9b82aa8c83}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & is the input image \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See Also}
+\hyperlink{classrapp_1_1object_1_1picture}{rapp\-::object\-::picture} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em fast} & defines if this will be a fast call or not. \\
+\hline
+{\em callback} & is the function that will receive a vector of detected face(s) \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 22 of file face\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1face__detection_a160f2cd18f65b7902b246204f42b6265}{\index{rapp\-::cloud\-::face\-\_\-detection@{rapp\-::cloud\-::face\-\_\-detection}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::face_detection@{rapp\-::cloud\-::face\-\_\-detection}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::face\-\_\-detection\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1face__detection_a160f2cd18f65b7902b246204f42b6265}
+
+
+handle the rapp-\/platform J\-S\-O\-N reply 
+
+
+
+Definition at line 61 of file face\-\_\-detection.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1face__detection_a26e6d7655f431ecf1dfb6db5c9c1743a}{\index{rapp\-::cloud\-::face\-\_\-detection@{rapp\-::cloud\-::face\-\_\-detection}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::face_detection@{rapp\-::cloud\-::face\-\_\-detection}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<${\bf rapp\-::object\-::face}$>$)$>$ rapp\-::cloud\-::face\-\_\-detection\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1face__detection_a26e6d7655f431ecf1dfb6db5c9c1743a}
+
+
+The callback called upon completion of receiving the detected faces. 
+
+
+
+Definition at line 115 of file face\-\_\-detection.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/vision/face\-\_\-detection/\hyperlink{face__detection_8hpp}{face\-\_\-detection.\-hpp}\end{DoxyCompactItemize}

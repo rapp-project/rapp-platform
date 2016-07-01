@@ -24,20 +24,29 @@ std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d
 \hyperlink{classrapp_1_1object_1_1picture}{picture} \& \hyperlink{classrapp_1_1object_1_1picture_a312b1e70d3e4af4f4a8ce8fc98b19afa}{operator=} (const \hyperlink{classrapp_1_1object_1_1picture}{picture} \&)=default
 \begin{DoxyCompactList}\small\item\em Assignment operator. \end{DoxyCompactList}\item 
 bool \hyperlink{classrapp_1_1object_1_1picture_aad6e18da0e6be9ad7d195ee34b79bf2c}{operator==} (const \hyperlink{classrapp_1_1object_1_1picture}{picture} \&rhs) const 
-\begin{DoxyCompactList}\small\item\em Are pictures same ? \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em picture equality \end{DoxyCompactList}\item 
 bool \hyperlink{classrapp_1_1object_1_1picture_afc2c1e50bd6192da8ee1588e3969a669}{save} (const std\-::string filepath)
-\begin{DoxyCompactList}\small\item\em Save picture to filepath. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Save picture to filepath. \end{DoxyCompactList}\item 
+std\-::string \hyperlink{classrapp_1_1object_1_1picture_a2045be9835aca3deac8c36e0552008ab}{type} () const 
+\begin{DoxyCompactList}\small\item\em try and get image type (J\-P\-G/\-P\-N\-G supported) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef char \hyperlink{classrapp_1_1object_1_1picture_abbc28aad3c22d1d47fa423ffb3e55b61}{byte}
+\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classrapp_1_1object_1_1picture_a4edfc5d343a51a181c743d76d18c10f9}{picture} ()=delete
 \item 
-void \hyperlink{classrapp_1_1object_1_1picture_aefe39dd6c7f1ef438e8232881c6450e1}{open\-Copy\-\_\-} (std\-::ifstream \&bytestream)
+void \hyperlink{classrapp_1_1object_1_1picture_a7f767113dc2aca7c5be7ec58704cb5c8}{opencb\-\_\-} (std\-::ifstream \&bytestream)
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
 std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d307b}{rapp\-::types\-::byte} $>$ \hyperlink{classrapp_1_1object_1_1picture_a4c6377918f2286dbbe320cd9a1d8767c}{bytearray\-\_\-}
+\item 
+std\-::string \hyperlink{classrapp_1_1object_1_1picture_abd57377c1e24ac9bfeda846bb3076aae}{imgtype\-\_\-}
 \end{DoxyCompactItemize}
 
 
@@ -45,10 +54,10 @@ std\-::vector$<$ \hyperlink{namespacerapp_1_1types_a1dbc9dc2ab4507d8fb58ac3a204d
 class which wraps around raw bytes of a picture 
 
 \begin{DoxyVersion}{Version}
-2 
+3 
 \end{DoxyVersion}
 \begin{DoxyDate}{Date}
-6-\/\-February-\/2015 
+January 2016 
 \end{DoxyDate}
 \begin{DoxyAuthor}{Author}
 Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
@@ -56,6 +65,16 @@ Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.
 
 
 Definition at line 13 of file picture.\-hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classrapp_1_1object_1_1picture_abbc28aad3c22d1d47fa423ffb3e55b61}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!byte@{byte}}
+\index{byte@{byte}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{byte}]{\setlength{\rightskip}{0pt plus 5cm}typedef char {\bf rapp\-::object\-::picture\-::byte}\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1picture_abbc28aad3c22d1d47fa423ffb3e55b61}
+
+
+Definition at line 74 of file picture.\-hpp.
 
 
 
@@ -124,18 +143,18 @@ Get picture as array of bytes.
 
 
 
-Definition at line 38 of file picture.\-hpp.
+Definition at line 47 of file picture.\-hpp.
 
-\hypertarget{classrapp_1_1object_1_1picture_aefe39dd6c7f1ef438e8232881c6450e1}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!open\-Copy\-\_\-@{open\-Copy\-\_\-}}
-\index{open\-Copy\-\_\-@{open\-Copy\-\_\-}!rapp::object::picture@{rapp\-::object\-::picture}}
-\subsubsection[{open\-Copy\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::object\-::picture\-::open\-Copy\-\_\- (
+\hypertarget{classrapp_1_1object_1_1picture_a7f767113dc2aca7c5be7ec58704cb5c8}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!opencb\-\_\-@{opencb\-\_\-}}
+\index{opencb\-\_\-@{opencb\-\_\-}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{opencb\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::object\-::picture\-::opencb\-\_\- (
 \begin{DoxyParamCaption}
 \item[{std\-::ifstream \&}]{bytestream}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1picture_aefe39dd6c7f1ef438e8232881c6450e1}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1picture_a7f767113dc2aca7c5be7ec58704cb5c8}
 
 
-Definition at line 73 of file picture.\-hpp.
+Definition at line 80 of file picture.\-hpp.
 
 \hypertarget{classrapp_1_1object_1_1picture_a312b1e70d3e4af4f4a8ce8fc98b19afa}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!operator=@{operator=}}
 \index{operator=@{operator=}!rapp::object::picture@{rapp\-::object\-::picture}}
@@ -157,11 +176,11 @@ Assignment operator.
 ) const}}\label{classrapp_1_1object_1_1picture_aad6e18da0e6be9ad7d195ee34b79bf2c}
 
 
-Are pictures same ? 
+picture equality 
 
 
 
-Definition at line 44 of file picture.\-hpp.
+Definition at line 41 of file picture.\-hpp.
 
 \hypertarget{classrapp_1_1object_1_1picture_afc2c1e50bd6192da8ee1588e3969a669}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!save@{save}}
 \index{save@{save}!rapp::object::picture@{rapp\-::object\-::picture}}
@@ -176,6 +195,21 @@ Save picture to filepath.
 
 
 
+Definition at line 59 of file picture.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1picture_a2045be9835aca3deac8c36e0552008ab}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!type@{type}}
+\index{type@{type}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{type}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::object\-::picture\-::type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{classrapp_1_1object_1_1picture_a2045be9835aca3deac8c36e0552008ab}
+
+
+try and get image type (J\-P\-G/\-P\-N\-G supported) 
+
+
+
 Definition at line 53 of file picture.\-hpp.
 
 
@@ -186,7 +220,14 @@ Definition at line 53 of file picture.\-hpp.
 \subsubsection[{bytearray\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<${\bf rapp\-::types\-::byte}$>$ rapp\-::object\-::picture\-::bytearray\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1picture_a4c6377918f2286dbbe320cd9a1d8767c}
 
 
-Definition at line 83 of file picture.\-hpp.
+Definition at line 97 of file picture.\-hpp.
+
+\hypertarget{classrapp_1_1object_1_1picture_abd57377c1e24ac9bfeda846bb3076aae}{\index{rapp\-::object\-::picture@{rapp\-::object\-::picture}!imgtype\-\_\-@{imgtype\-\_\-}}
+\index{imgtype\-\_\-@{imgtype\-\_\-}!rapp::object::picture@{rapp\-::object\-::picture}}
+\subsubsection[{imgtype\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::string rapp\-::object\-::picture\-::imgtype\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1object_1_1picture_abd57377c1e24ac9bfeda846bb3076aae}
+
+
+Definition at line 98 of file picture.\-hpp.
 
 
 

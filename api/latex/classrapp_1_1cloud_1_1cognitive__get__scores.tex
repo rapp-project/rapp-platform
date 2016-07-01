@@ -1,0 +1,126 @@
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__scores}{\section{rapp\-:\-:cloud\-:\-:cognitive\-\_\-get\-\_\-scores Class Reference}
+\label{classrapp_1_1cloud_1_1cognitive__get__scores}\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores}}
+}
+
+
+{\ttfamily \#include $<$cognitive\-\_\-exercises.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:cognitive\-\_\-get\-\_\-scores\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1cognitive__get__scores__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:cognitive\-\_\-get\-\_\-scores\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1cognitive__get__scores__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1cognitive__get__scores_aff2009ecc53d8e68df85c6b56eb9e8e3}{cognitive\-\_\-get\-\_\-scores} (unsigned int up\-\_\-to\-\_\-time, const std\-::string test\-\_\-type, const std\-::string token, std\-::function$<$ void(std\-::vector$<$ unsigned int $>$, std\-::vector$<$ float $>$)$>$ callback)
+\begin{DoxyCompactList}\small\item\em get cognitive test scores \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1cognitive__get__scores_a400e789b960692d96cb083bfa31db696}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle platform's J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ unsigned int $>$, std\-::vector\\*
+$<$ float $>$)$>$ \hyperlink{classrapp_1_1cloud_1_1cognitive__get__scores_abea342e51fba4fb0528f0bcdae020ab7}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Giokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 235 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__scores_aff2009ecc53d8e68df85c6b56eb9e8e3}{\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores}!cognitive\-\_\-get\-\_\-scores@{cognitive\-\_\-get\-\_\-scores}}
+\index{cognitive\-\_\-get\-\_\-scores@{cognitive\-\_\-get\-\_\-scores}!rapp::cloud::cognitive_get_scores@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores}}
+\subsubsection[{cognitive\-\_\-get\-\_\-scores}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores\-::cognitive\-\_\-get\-\_\-scores (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{up\-\_\-to\-\_\-time, }
+\item[{const std\-::string}]{test\-\_\-type, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::vector$<$ unsigned int $>$, std\-::vector$<$ float $>$)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1cognitive__get__scores_aff2009ecc53d8e68df85c6b56eb9e8e3}
+
+
+get cognitive test scores 
+
+
+\begin{DoxyParams}{Parameters}
+{\em up\-\_\-to\-\_\-time} & defines scores queried up to that unix timestamp \\
+\hline
+{\em test\-\_\-type} & the test type \\
+\hline
+{\em token} & the rapp authentication token \\
+\hline
+{\em callback} & will receive an array of test classes and respective scores \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 245 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__scores_a400e789b960692d96cb083bfa31db696}{\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::cognitive_get_scores@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1cognitive__get__scores_a400e789b960692d96cb083bfa31db696}
+
+
+handle platform's J\-S\-O\-N reply 
+
+
+
+Definition at line 269 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__scores_abea342e51fba4fb0528f0bcdae020ab7}{\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::cognitive_get_scores@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<$unsigned int$>$, std\-::vector$<$float$>$)$>$ rapp\-::cloud\-::cognitive\-\_\-get\-\_\-scores\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1cognitive__get__scores_abea342e51fba4fb0528f0bcdae020ab7}
+
+
+Definition at line 301 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/cognitive\-\_\-exercises/\hyperlink{cognitive__exercises_8hpp}{cognitive\-\_\-exercises.\-hpp}\end{DoxyCompactItemize}

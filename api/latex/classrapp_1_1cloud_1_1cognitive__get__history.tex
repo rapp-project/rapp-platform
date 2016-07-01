@@ -1,0 +1,127 @@
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__history}{\section{rapp\-:\-:cloud\-:\-:cognitive\-\_\-get\-\_\-history Class Reference}
+\label{classrapp_1_1cloud_1_1cognitive__get__history}\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history}}
+}
+
+
+{\ttfamily \#include $<$cognitive\-\_\-exercises.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:cognitive\-\_\-get\-\_\-history\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1cognitive__get__history__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:cognitive\-\_\-get\-\_\-history\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1cognitive__get__history__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1cognitive__get__history_a032761594f708a59624227d99d83d193}{cognitive\-\_\-get\-\_\-history} (unsigned int from\-\_\-time, unsigned int to\-\_\-time, const std\-::string test\-\_\-type, const std\-::string token, std\-::function$<$ void(std\-::string)$>$ callback)
+\begin{DoxyCompactList}\small\item\em get history of cognitive game \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1cognitive__get__history_a9c815e07081ef62616f9ce913e27d190}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em forward (don't parse) platform reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1cognitive__get__history_a0d81d8bd2a5a4e4ea3cd84582008bee7}{delegate\-\_\-}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+May 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Giokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 184 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__history_a032761594f708a59624227d99d83d193}{\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history}!cognitive\-\_\-get\-\_\-history@{cognitive\-\_\-get\-\_\-history}}
+\index{cognitive\-\_\-get\-\_\-history@{cognitive\-\_\-get\-\_\-history}!rapp::cloud::cognitive_get_history@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history}}
+\subsubsection[{cognitive\-\_\-get\-\_\-history}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history\-::cognitive\-\_\-get\-\_\-history (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{from\-\_\-time, }
+\item[{unsigned int}]{to\-\_\-time, }
+\item[{const std\-::string}]{test\-\_\-type, }
+\item[{const std\-::string}]{token, }
+\item[{std\-::function$<$ void(std\-::string)$>$}]{callback}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1cognitive__get__history_a032761594f708a59624227d99d83d193}
+
+
+get history of cognitive game 
+
+
+\begin{DoxyParams}{Parameters}
+{\em from\-\_\-time} & is a unix timestamp \\
+\hline
+{\em to\-\_\-time} & is a unix timestamp \\
+\hline
+{\em test\-\_\-type} & is the cognitive test \\
+\hline
+{\em token} & is the rapp authentication token \\
+\hline
+{\em callback} & will receive a J\-S\-O\-N reply \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 195 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__history_a9c815e07081ef62616f9ce913e27d190}{\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::cognitive_get_history@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1cognitive__get__history_a9c815e07081ef62616f9ce913e27d190}
+
+
+forward (don't parse) platform reply 
+
+
+
+Definition at line 220 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1cognitive__get__history_a0d81d8bd2a5a4e4ea3cd84582008bee7}{\index{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::cognitive_get_history@{rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::string)$>$ rapp\-::cloud\-::cognitive\-\_\-get\-\_\-history\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1cognitive__get__history_a0d81d8bd2a5a4e4ea3cd84582008bee7}
+
+
+Definition at line 226 of file cognitive\-\_\-exercises.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/cognitive\-\_\-exercises/\hyperlink{cognitive__exercises_8hpp}{cognitive\-\_\-exercises.\-hpp}\end{DoxyCompactItemize}

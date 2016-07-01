@@ -1,0 +1,348 @@
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https}{\section{rapp\-:\-:cloud\-:\-:asio\-\_\-socket\-\_\-https Class Reference}
+\label{classrapp_1_1cloud_1_1asio__socket__https}\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+}
+
+
+wrapper for S\-S\-L/\-T\-L\-S secure H\-T\-T\-P communication  
+
+
+
+
+{\ttfamily \#include $<$asio\-\_\-socket\-\_\-https.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:asio\-\_\-socket\-\_\-https\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1asio__socket__https__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:asio\-\_\-socket\-\_\-https\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1asio__socket__https__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \\*
+boost\-::asio\-::ssl\-::stream\\*
+$<$ boost\-::asio\-::ip\-::tcp\-::socket $>$ \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a5c1860ee9dbd4b6b0a2e814c5c094b4e}{boost\-\_\-tls\-\_\-socket}
+\begin{DoxyCompactList}\small\item\em boost tls wraps around a tcp socket \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a4101db28b271b576112a108152a0033c}{asio\-\_\-socket\-\_\-https} (const std\-::string token)
+\begin{DoxyCompactList}\small\item\em construct using\-: \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a079406a29a503416f44f11ceb18a37b1}{schedule} (boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&query, boost\-::asio\-::ip\-::tcp\-::resolver \&resolver, boost\-::asio\-::io\-\_\-service \&io\-\_\-service)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a52d496ec2e1ef18a9afb8d2a5a7c7c08}{check\-\_\-timeout} ()
+\begin{DoxyCompactList}\small\item\em check timed-\/out \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a55aa424cbfca4e0a962de349fbf234d5}{handle\-\_\-connect} (const boost\-::system\-::error\-\_\-code \&error)
+\begin{DoxyCompactList}\small\item\em begin connect \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a358db85df829ef70c156fdbf96d6ef15}{handle\-\_\-handshake} (const boost\-::system\-::error\-\_\-code \&error)
+\begin{DoxyCompactList}\small\item\em handle handshake \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a9a00d1f13e8a6b1bc894f616ee2fa1d5}{handle\-\_\-read\-\_\-content} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Actual Data Contents. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a5e444d75f4d477a3939ca07e490870b5}{handle\-\_\-read\-\_\-headers} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for Handling Headers. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a7b36215578c9cb74e822c8aac109f7b9}{handle\-\_\-read\-\_\-status\-\_\-line} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for handling H\-T\-T\-P Header Response Data. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a6d1e9eeb4482b62310b0ca5acb8b23df}{handle\-\_\-write} (const boost\-::system\-::error\-\_\-code \&err)
+\begin{DoxyCompactList}\small\item\em Callback for handling request and waiting for response. \end{DoxyCompactList}\item 
+void \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a8d5a8a61eb3717767151a730f5e2939a}{reset} ()
+\begin{DoxyCompactList}\small\item\em reset handler (clear data, bytes, etc) and stop connection \end{DoxyCompactList}\item 
+bool \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a229c9f9040f850a2a0d5b38a6523cb7c}{verify\-\_\-certificate} (bool preverified, boost\-::asio\-::ssl\-::verify\-\_\-context \&ctx)
+\begin{DoxyCompactList}\small\item\em verify T\-L\-S certificate \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boost\-::asio\-::ssl\-::context \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a802a7a993889dfcfd66286fab4eb30fe}{ctx\-\_\-}
+\begin{DoxyCompactList}\small\item\em tls context \end{DoxyCompactList}\item 
+std\-::unique\-\_\-ptr$<$ \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a5c1860ee9dbd4b6b0a2e814c5c094b4e}{boost\-\_\-tls\-\_\-socket} $>$ \hyperlink{classrapp_1_1cloud_1_1asio__socket__https_a35bcea020d1f2efb9c367b9c9ef40153}{tls\-\_\-socket\-\_\-}
+\begin{DoxyCompactList}\small\item\em tls/ssl socket wrapper \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+wrapper for S\-S\-L/\-T\-L\-S secure H\-T\-T\-P communication 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Giokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file asio\-\_\-socket\-\_\-https.\-hpp.
+
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a5c1860ee9dbd4b6b0a2e814c5c094b4e}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!boost\-\_\-tls\-\_\-socket@{boost\-\_\-tls\-\_\-socket}}
+\index{boost\-\_\-tls\-\_\-socket@{boost\-\_\-tls\-\_\-socket}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{boost\-\_\-tls\-\_\-socket}]{\setlength{\rightskip}{0pt plus 5cm}typedef boost\-::asio\-::ssl\-::stream$<$boost\-::asio\-::ip\-::tcp\-::socket$>$ {\bf rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::boost\-\_\-tls\-\_\-socket}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a5c1860ee9dbd4b6b0a2e814c5c094b4e}
+
+
+boost tls wraps around a tcp socket 
+
+
+
+Definition at line 17 of file asio\-\_\-socket\-\_\-https.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a4101db28b271b576112a108152a0033c}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!asio\-\_\-socket\-\_\-https@{asio\-\_\-socket\-\_\-https}}
+\index{asio\-\_\-socket\-\_\-https@{asio\-\_\-socket\-\_\-https}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{asio\-\_\-socket\-\_\-https}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::asio\-\_\-socket\-\_\-https (
+\begin{DoxyParamCaption}
+\item[{const std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1asio__socket__https_a4101db28b271b576112a108152a0033c}
+
+
+construct using\-: 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & authentication token \\
+\hline
+{\em user} & \hyperlink{namespacerapp_1_1cloud}{rapp.\-cloud} username \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 24 of file asio\-\_\-socket\-\_\-https.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a52d496ec2e1ef18a9afb8d2a5a7c7c08}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!check\-\_\-timeout@{check\-\_\-timeout}}
+\index{check\-\_\-timeout@{check\-\_\-timeout}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{check\-\_\-timeout}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::check\-\_\-timeout (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a52d496ec2e1ef18a9afb8d2a5a7c7c08}
+
+
+check timed-\/out 
+
+
+
+Definition at line 216 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a55aa424cbfca4e0a962de349fbf234d5}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!handle\-\_\-connect@{handle\-\_\-connect}}
+\index{handle\-\_\-connect@{handle\-\_\-connect}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{handle\-\_\-connect}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::handle\-\_\-connect (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{error}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a55aa424cbfca4e0a962de349fbf234d5}
+
+
+begin connect 
+
+
+
+Definition at line 68 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a358db85df829ef70c156fdbf96d6ef15}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!handle\-\_\-handshake@{handle\-\_\-handshake}}
+\index{handle\-\_\-handshake@{handle\-\_\-handshake}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{handle\-\_\-handshake}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::handle\-\_\-handshake (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{error}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a358db85df829ef70c156fdbf96d6ef15}
+
+
+handle handshake 
+
+
+
+Definition at line 84 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a9a00d1f13e8a6b1bc894f616ee2fa1d5}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!handle\-\_\-read\-\_\-content@{handle\-\_\-read\-\_\-content}}
+\index{handle\-\_\-read\-\_\-content@{handle\-\_\-read\-\_\-content}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{handle\-\_\-read\-\_\-content}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::handle\-\_\-read\-\_\-content (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a9a00d1f13e8a6b1bc894f616ee2fa1d5}
+
+
+Callback for Handling Actual Data Contents. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 179 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a5e444d75f4d477a3939ca07e490870b5}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!handle\-\_\-read\-\_\-headers@{handle\-\_\-read\-\_\-headers}}
+\index{handle\-\_\-read\-\_\-headers@{handle\-\_\-read\-\_\-headers}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{handle\-\_\-read\-\_\-headers}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::handle\-\_\-read\-\_\-headers (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a5e444d75f4d477a3939ca07e490870b5}
+
+
+Callback for Handling Headers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 160 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a7b36215578c9cb74e822c8aac109f7b9}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!handle\-\_\-read\-\_\-status\-\_\-line@{handle\-\_\-read\-\_\-status\-\_\-line}}
+\index{handle\-\_\-read\-\_\-status\-\_\-line@{handle\-\_\-read\-\_\-status\-\_\-line}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{handle\-\_\-read\-\_\-status\-\_\-line}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::handle\-\_\-read\-\_\-status\-\_\-line (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a7b36215578c9cb74e822c8aac109f7b9}
+
+
+Callback for handling H\-T\-T\-P Header Response Data. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error message \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 124 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a6d1e9eeb4482b62310b0ca5acb8b23df}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!handle\-\_\-write@{handle\-\_\-write}}
+\index{handle\-\_\-write@{handle\-\_\-write}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{handle\-\_\-write}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::handle\-\_\-write (
+\begin{DoxyParamCaption}
+\item[{const boost\-::system\-::error\-\_\-code \&}]{err}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a6d1e9eeb4482b62310b0ca5acb8b23df}
+
+
+Callback for handling request and waiting for response. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em err} & is a possible error \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 105 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a8d5a8a61eb3717767151a730f5e2939a}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!reset@{reset}}
+\index{reset@{reset}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{reset}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::reset (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a8d5a8a61eb3717767151a730f5e2939a}
+
+
+reset handler (clear data, bytes, etc) and stop connection 
+
+
+
+Definition at line 203 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a079406a29a503416f44f11ceb18a37b1}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!schedule@{schedule}}
+\index{schedule@{schedule}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{schedule}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::schedule (
+\begin{DoxyParamCaption}
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver\-::query \&}]{query, }
+\item[{boost\-::asio\-::ip\-::tcp\-::resolver \&}]{resolver, }
+\item[{boost\-::asio\-::io\-\_\-service \&}]{io\-\_\-service}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a079406a29a503416f44f11ceb18a37b1}
+schedule this as a job for execution 
+\begin{DoxyParams}{Parameters}
+{\em query} & defines the U\-R\-L/\-U\-R\-I \\
+\hline
+{\em resolver} & resolves the U\-R\-L/\-U\-R\-I address \\
+\hline
+{\em io\-\_\-service} & is the queue on which jobs are scheduled \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{classrapp_1_1cloud_1_1asio__socket_a3782c40466dc0ce70d645d65bcae6c01}{rapp\-::cloud\-::asio\-\_\-socket}.
+
+
+
+Definition at line 6 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a229c9f9040f850a2a0d5b38a6523cb7c}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!verify\-\_\-certificate@{verify\-\_\-certificate}}
+\index{verify\-\_\-certificate@{verify\-\_\-certificate}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{verify\-\_\-certificate}]{\setlength{\rightskip}{0pt plus 5cm}bool rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::verify\-\_\-certificate (
+\begin{DoxyParamCaption}
+\item[{bool}]{preverified, }
+\item[{boost\-::asio\-::ssl\-::verify\-\_\-context \&}]{ctx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a229c9f9040f850a2a0d5b38a6523cb7c}
+
+
+verify T\-L\-S certificate 
+
+verify T\-L\-S certificate -\/ W\-A\-R\-N\-I\-N\-G\-: is this proper verification? 
+
+Definition at line 59 of file asio\-\_\-socket\-\_\-https.\-cpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a802a7a993889dfcfd66286fab4eb30fe}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!ctx\-\_\-@{ctx\-\_\-}}
+\index{ctx\-\_\-@{ctx\-\_\-}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{ctx\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}boost\-::asio\-::ssl\-::context rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::ctx\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a802a7a993889dfcfd66286fab4eb30fe}
+
+
+tls context 
+
+
+
+Definition at line 76 of file asio\-\_\-socket\-\_\-https.\-hpp.
+
+\hypertarget{classrapp_1_1cloud_1_1asio__socket__https_a35bcea020d1f2efb9c367b9c9ef40153}{\index{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}!tls\-\_\-socket\-\_\-@{tls\-\_\-socket\-\_\-}}
+\index{tls\-\_\-socket\-\_\-@{tls\-\_\-socket\-\_\-}!rapp::cloud::asio_socket_https@{rapp\-::cloud\-::asio\-\_\-socket\-\_\-https}}
+\subsubsection[{tls\-\_\-socket\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::unique\-\_\-ptr$<${\bf boost\-\_\-tls\-\_\-socket}$>$ rapp\-::cloud\-::asio\-\_\-socket\-\_\-https\-::tls\-\_\-socket\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1asio__socket__https_a35bcea020d1f2efb9c367b9c9ef40153}
+
+
+tls/ssl socket wrapper 
+
+
+
+Definition at line 74 of file asio\-\_\-socket\-\_\-https.\-hpp.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-socket\-\_\-https/\hyperlink{asio__socket__https_8hpp}{asio\-\_\-socket\-\_\-https.\-hpp}\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/asio\-\_\-socket\-\_\-https/\hyperlink{asio__socket__https_8cpp}{asio\-\_\-socket\-\_\-https.\-cpp}\end{DoxyCompactItemize}

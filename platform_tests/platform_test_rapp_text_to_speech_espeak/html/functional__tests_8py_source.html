@@ -161,8 +161,8 @@ $(document).ready(function(){initNavTree('functional__tests_8py_source.html','')
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        req.language = <span class="stringliteral">&#39;&#39;</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        req.text = <span class="stringliteral">&quot;This is a test&quot;</span></div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        response = stt_service(req)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        self.assertEqual(response.error, <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        self.assertEqual(os.path.isfile(os.path.expanduser(<span class="stringliteral">&quot;~/testing.wav&quot;</span>)), <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        self.assertNotEqual(response.error, <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        self.assertNotEqual(os.path.isfile(os.path.expanduser(<span class="stringliteral">&quot;~/testing.wav&quot;</span>)), <span class="keyword">True</span>)</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        os.system(<span class="stringliteral">&#39;rm ~/testing.wav&#39;</span>)</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="classfunctional__tests_1_1TextToSpeechFunc.html#a3ea6933263d83e40893753e2b1ec4526">   59</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classfunctional__tests_1_1TextToSpeechFunc.html#a3ea6933263d83e40893753e2b1ec4526">test_greek</a>(self):</div>
@@ -243,8 +243,8 @@ $(document).ready(function(){initNavTree('functional__tests_8py_source.html','')
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_f014572043165c665d1ec1131814dd4c.html">rapp_text_to_speech_espeak</a></li><li class="navelem"><a class="el" href="dir_c6db8e8c9b35b798233d4eca34a9c68c.html">tests</a></li><li class="navelem"><a class="el" href="dir_68243a52dcdcb4a6d11224bc1fba9439.html">rapp_text_to_speech_espeak</a></li><li class="navelem"><a class="el" href="functional__tests_8py.html">functional_tests.py</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:53 for RAPP Platform Tests - Text To Speech Espeak by
+    <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_ef07611e326c3a3cbe50dc8c60955319.html">rapp_text_to_speech_espeak</a></li><li class="navelem"><a class="el" href="dir_a7840bc0d81256debfe8045815b8eadf.html">tests</a></li><li class="navelem"><a class="el" href="dir_99b8aadab40d85e9a6363e9b1e86113d.html">rapp_text_to_speech_espeak</a></li><li class="navelem"><a class="el" href="functional__tests_8py.html">functional_tests.py</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:19:27 for RAPP Platform Tests - Text To Speech Espeak by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

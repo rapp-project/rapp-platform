@@ -1,0 +1,130 @@
+\hypertarget{classrapp_1_1cloud_1_1object__recognition}{\section{rapp\-:\-:cloud\-:\-:object\-\_\-recognition Class Reference}
+\label{classrapp_1_1cloud_1_1object__recognition}\index{rapp\-::cloud\-::object\-\_\-recognition@{rapp\-::cloud\-::object\-\_\-recognition}}
+}
+
+
+recognize object from an image  
+
+
+
+
+{\ttfamily \#include $<$object\-\_\-recognition.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:object\-\_\-recognition\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1object__recognition__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:object\-\_\-recognition\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1object__recognition__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1object__recognition_a75b499e0ffeffaa29f6df4cd0f639cc4}{object\-\_\-recognition} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1picture}{rapp\-::object\-::picture} $>$ image, std\-::function$<$ void(std\-::string)$>$ callback, std\-::string token)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1object__recognition_a9d9276bac84936029ef768aa8aa33f30}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle the rapp-\/platform J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::string)$>$ \hyperlink{classrapp_1_1cloud_1_1object__recognition_ad0f3846c9d37f37b9d4c6a38812fbc51}{delegate\-\_\-\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected faces. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+recognize object from an image 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file object\-\_\-recognition.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1object__recognition_a75b499e0ffeffaa29f6df4cd0f639cc4}{\index{rapp\-::cloud\-::object\-\_\-recognition@{rapp\-::cloud\-::object\-\_\-recognition}!object\-\_\-recognition@{object\-\_\-recognition}}
+\index{object\-\_\-recognition@{object\-\_\-recognition}!rapp::cloud::object_recognition@{rapp\-::cloud\-::object\-\_\-recognition}}
+\subsubsection[{object\-\_\-recognition}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::object\-\_\-recognition\-::object\-\_\-recognition (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::picture} $>$}]{image, }
+\item[{std\-::function$<$ void(std\-::string)$>$}]{callback, }
+\item[{std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1object__recognition_a75b499e0ffeffaa29f6df4cd0f639cc4}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & is a picture object pointer \\
+\hline
+{\em callback} & is the function that will receive a string \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 21 of file object\-\_\-recognition.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1object__recognition_a9d9276bac84936029ef768aa8aa33f30}{\index{rapp\-::cloud\-::object\-\_\-recognition@{rapp\-::cloud\-::object\-\_\-recognition}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::object_recognition@{rapp\-::cloud\-::object\-\_\-recognition}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::object\-\_\-recognition\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1object__recognition_a9d9276bac84936029ef768aa8aa33f30}
+
+
+handle the rapp-\/platform J\-S\-O\-N reply 
+
+
+
+Definition at line 55 of file object\-\_\-recognition.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1object__recognition_ad0f3846c9d37f37b9d4c6a38812fbc51}{\index{rapp\-::cloud\-::object\-\_\-recognition@{rapp\-::cloud\-::object\-\_\-recognition}!delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}}
+\index{delegate\-\_\-\-\_\-@{delegate\-\_\-\-\_\-}!rapp::cloud::object_recognition@{rapp\-::cloud\-::object\-\_\-recognition}}
+\subsubsection[{delegate\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::string)$>$ rapp\-::cloud\-::object\-\_\-recognition\-::delegate\-\_\-\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1object__recognition_ad0f3846c9d37f37b9d4c6a38812fbc51}
+
+
+The callback called upon completion of receiving the detected faces. 
+
+
+
+Definition at line 82 of file object\-\_\-recognition.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/vision/object\-\_\-recognition/\hyperlink{object__recognition_8hpp}{object\-\_\-recognition.\-hpp}\end{DoxyCompactItemize}

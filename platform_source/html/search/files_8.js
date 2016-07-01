@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['qr_5fdetection_2ecpp',['qr_detection.cpp',['../qr__detection_8cpp.html',1,'']]],
-  ['qr_5fdetection_2eh',['qr_detection.h',['../qr__detection_8h.html',1,'']]],
-  ['qr_5fdetection_5fnode_2ecpp',['qr_detection_node.cpp',['../qr__detection__node_8cpp.html',1,'']]],
-  ['qr_5fdetector_2ecpp',['qr_detector.cpp',['../qr__detector_8cpp.html',1,'']]],
-  ['qr_5fdetector_2eh',['qr_detector.h',['../qr__detector_8h.html',1,'']]]
+  ['image_5fclassification_2epy',['image_classification.py',['../image__classification_8py.html',1,'']]],
+  ['image_5floader_2ecpp',['image_loader.cpp',['../image__loader_8cpp.html',1,'']]],
+  ['image_5floader_2eh',['image_loader.h',['../image__loader_8h.html',1,'']]],
+  ['image_5fregistration_5fto_5fontology_2epy',['image_registration_to_ontology.py',['../image__registration__to__ontology_8py.html',1,'']]],
+  ['ip_5fapi_5flocator_2epy',['ip_api_locator.py',['../ip__api__locator_8py.html',1,'']]]
 ];

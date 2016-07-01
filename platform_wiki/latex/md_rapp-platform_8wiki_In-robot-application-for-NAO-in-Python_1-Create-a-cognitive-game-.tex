@@ -1,0 +1,78 @@
+This is an example application for Cognitive Exercises.
+
+In this tutorial we will focus on a step-\/by-\/step guidance through implementing the Cogntive Exercises R\-App (Robotic Application).
+
+The complete implemnention of the Cognitive\-Exercises R\-App can be found \href{https://github.com/rapp-project/rapp-applications-nao/tree/cognitive/nao/cognitiveExercises}{\tt here}
+
+\subsection*{Preparation steps}
+
+For this tutorial we will use the following tools\-:
+\begin{DoxyItemize}
+\item A real N\-A\-O robot
+\item The \href{https://github.com/rapp-project/rapp-robots-api}{\tt rapp-\/robots-\/api} for commanding N\-A\-O Robot.
+\item The \href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt Python rapp-\/platform-\/api} as we will need to call several R\-A\-P\-P Platform Services.
+\end{DoxyItemize}
+
+Of course the standard prerequisites are an editor and a terminal.
+
+\paragraph*{R\-A\-P\-P Robots A\-P\-I libraries setup}
+
+The first step is to clone the appropriate Git\-Hub repository in your P\-C\-:
+
+```bash \$ mkdir $\sim$/rapp\-\_\-nao \$ cd $\sim$/rapp\-\_\-nao \$ git clone \href{https://github.com/rapp-project/rapp-robyyots-api.git}{\tt https\-://github.\-com/rapp-\/project/rapp-\/robyyots-\/api.\-git} ```
+
+The next step is to transfer the R\-A\-P\-P Python libraries to the N\-A\-O robot. This will be done via {\ttfamily scp}, assuming that the N\-A\-O robot's I\-P is {\ttfamily 192.\-168.\-0.\-101} and username and password are {\ttfamily nao}\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-nao/ \$ tar -\/zcvf rapp\-\_\-robots\-\_\-api.\-tar.\-gz rapp-\/robots-\/api/ \$ scp rapp\-\_\-robots\-\_\-api.\-tar.\-gz \href{mailto:nao@192.168.0.101}{\tt nao@192.\-168.\-0.\-101}\-:/home/nao ```
+
+Now connect in N\-A\-O via ssh by {\ttfamily ssh nao@192.\-168.\-0.\-101} giving {\ttfamily nao} as password. Then untar the A\-P\-I\-:
+
+```bash \$ tar -\/xvf rapp\-\_\-robots\-\_\-api.\-tar.\-gz \$ rm rapp\-\_\-robots\-\_\-api.\-tar.\-gz ```
+
+The next step is to update the {\ttfamily P\-Y\-T\-H\-O\-N\-P\-A\-T\-H} variable. Since N\-A\-O has Gentoo as O\-S, we will modify the {\ttfamily bash\-\_\-profile} file\-:
+
+```bash \$ echo 'export P\-Y\-T\-H\-O\-N\-P\-A\-T\-H=\$\-P\-Y\-T\-H\-O\-N\-P\-A\-T\-H\-:/home/nao/rapp-\/robots-\/api/python/abstract\-\_\-classes' $>$$>$ /home/nao/.bash\-\_\-profile \$ echo 'export P\-Y\-T\-H\-O\-N\-P\-A\-T\-H=\$\-P\-Y\-T\-H\-O\-N\-P\-A\-T\-H\-:/home/nao/rapp-\/robots-\/api/python/implementations/nao\-\_\-v4\-\_\-naoqi2.1.\-4' $>$$>$ /home/nao/.bash\-\_\-profile \$ source $\sim$/.bash\-\_\-profile ```
+
+The last step to configure the {\ttfamily rapp-\/robots-\/api} is to declare the N\-A\-O I\-P. Since the robot A\-P\-I is in-\/robot, the I\-P must be localhost\-: {\ttfamily 127.\-0.\-0.\-1}.
+
+The I\-P must be declared in the first line of \href{https://github.com/rapp-project/rapp-robots-api/blob/master/python/implementations/nao_v4_naoqi2.1.4/nao_connectivity}{\tt this} file, thus the {\ttfamily nao\-\_\-connectivity} file located under {\ttfamily /home/nao/rapp-\/robots-\/api/python/implementations/nao\-\_\-v4\-\_\-naoqi2.1.\-4/nao\-\_\-connectivity} should contain\-:
+
+``` 127.\-0.\-0.\-1 9559 ```
+
+\paragraph*{R\-A\-P\-P Platform A\-P\-I (Python) libraries setup}
+
+The first step is to clone the \href{https://github.com/rapp-project/rapp-api}{\tt rapp-\/api} Git\-Hub repository in your P\-C\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-nao \$ git clone \href{https://github.com/rapp-project/rapp-api.git}{\tt https\-://github.\-com/rapp-\/project/rapp-\/api.\-git} ```
+
+The next step is to transfer the Python libraries to the N\-A\-O robot. This will be done via {\ttfamily scp}, assuming that the N\-A\-O robot's I\-P is {\ttfamily 192.\-168.\-0.\-101} and username and password are {\ttfamily nao}\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-nao/ \$ tar -\/zcvf rapp\-\_\-api.\-tar.\-gz rapp-\/api/ \$ scp rapp\-\_\-api.\-tar.\-gz \href{mailto:nao@192.168.0.101}{\tt nao@192.\-168.\-0.\-101}\-:/home/nao ```
+
+Now connect in N\-A\-O via ssh by {\ttfamily ssh nao@192.\-168.\-0.\-101} giving {\ttfamily nao} as password. Then untar the A\-P\-I\-:
+
+```bash \$ tar -\/xvf rapp\-\_\-api.\-tar.\-gz \$ rm rapp\-\_\-api.\-tar.\-gz ```
+
+The next step is to update the {\ttfamily P\-Y\-T\-H\-O\-N\-P\-A\-T\-H} variable. Since N\-A\-O has Gentoo as O\-S, we will modify the {\ttfamily bash\-\_\-profile} file\-:
+
+```bash \$ echo 'export P\-Y\-T\-H\-O\-N\-P\-A\-T\-H=\$\-P\-Y\-T\-H\-O\-N\-P\-A\-T\-H\-:/home/nao/rapp-\/api/python' $>$$>$ /home/nao/.bash\-\_\-profile \$ source $\sim$/.bash\-\_\-profile ```
+
+\subsection*{Writing the Cognitive Exercises R\-App}
+
+We will work on the host machine while implementing the R\-App and then we are going to transfer the application source files to the N\-A\-O Robot and execute.
+
+Let's create a package for the application\-:
+
+```bash \$ mkdir -\/p $\sim$/rapp\-\_\-nao/rapps/cognitive\-\_\-exercises \$ cd $\sim$/rapp\-\_\-nao/rapps/cognitive\-\_\-exercises \$ mkdir rapps \&\& cd rapps \$ touch cognitive\-\_\-exercises.\-py \$ chmod +x cognitive\-\_\-exercises.\-py ```
+
+Import the required components into the code\-:
+
+```python \#!/usr/bin/env python
+
+\section*{Import the R\-A\-P\-P Robot A\-P\-I}
+
+from rapp\-\_\-robot\-\_\-api import Rapp\-Robot \section*{Create an object in order to call the desired functions}
+
+rh = Rapp\-Robot()
+
+from Rapp\-Cloud import Rapp\-Platform\-Service from Rapp\-Cloud.\-Cloud\-Msgs import ( Cognitive\-Exercise\-Select, Cognitive\-Record\-Performance, Speech\-Recognition\-Sphinx, Set\-Noise\-Profile) ``` 

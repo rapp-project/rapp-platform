@@ -1,10 +1,10 @@
-The R\-A\-P\-P Knowrob wrapper R\-O\-S node is needed to expose specific services to the other R\-O\-S nodes and R\-P\-Ss (similarly to the My\-S\-Q\-L wrapper concept). In our implementation, the pure Know\-Rob ontology was enhanced after the insertion of extra classes derived from the Open\-A\-A\-L ontology, as well as others needed to implement the desired R\-Apps. The R\-A\-P\-P Knowrob wrapper component diagram is depicted in the figure.
+\#\-Methodology
 
-\mbox{[}\mbox{[}images/knowrob\-\_\-wrapper\-\_\-component\-\_\-diagram.\-png\mbox{]}\mbox{]}
+The R\-A\-P\-P Knowrob wrapper R\-O\-S node is needed to expose specific services to the other R\-O\-S nodes and R\-P\-Ss (similarly to the My\-S\-Q\-L wrapper concept). In our implementation, the pure Know\-Rob ontology was enhanced after the insertion of extra classes derived from the Open\-A\-A\-L ontology, as well as others needed to implement the desired R\-Apps.
 
 The services of the R\-A\-P\-P Knowrob wrapper are detailed below.
 
-\section*{R\-O\-S Services}
+\#\-R\-O\-S Services Each service is analyzed below.
 
 \subsection*{Subclasses of}
 
@@ -12,9 +12,21 @@ This service was created in order to return the subclasses of a specific ontolog
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/subclasses\-\_\-of}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The class whose subclasses we want string ontology\-\_\-class \#\-True if the query is recursive \subsection*{bool recursive }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-Container for the subclasses string\mbox{[}\mbox{]} results \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The class whose subclasses we want}
+
+string ontology\-\_\-class \section*{True if the query is recursive}
+
+\subsection*{bool recursive }
+
+\section*{Container for the subclasses}
+
+string\mbox{[}\mbox{]} results \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Superclasses of}
 
@@ -22,9 +34,21 @@ This service was created in order to return the superclasses of a specific ontol
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/superclasses\-\_\-of}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The class whose superclasses we want string ontology\-\_\-class \#\-True if the query is recursive \subsection*{bool recursive }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-Container for the superclasses string\mbox{[}\mbox{]} results \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The class whose superclasses we want}
+
+string ontology\-\_\-class \section*{True if the query is recursive}
+
+\subsection*{bool recursive }
+
+\section*{Container for the superclasses}
+
+string\mbox{[}\mbox{]} results \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Is sub-\/super-\/class of}
 
@@ -32,9 +56,23 @@ This service was created in order to investigate two classes’ semantic relatio
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/is\-\_\-subsuperclass\-\_\-of}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The parent class string parent\-\_\-class \#\-The child class string child\-\_\-class \#\-True if the query is recursive \subsection*{bool recursive }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-True if the semantic condition applies bool result \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The parent class}
+
+string parent\-\_\-class \section*{The child class}
+
+string child\-\_\-class \section*{True if the query is recursive}
+
+\subsection*{bool recursive }
+
+\section*{True if the semantic condition applies}
+
+bool result \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Create instance}
 
@@ -42,9 +80,25 @@ This service was created in order to create an instance related to a specific on
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/create\-\_\-instance}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The user to whom the instance belongs string username \#\-The instance’s ontology class string ontology\-\_\-class \#\-A file url (if needed) string file\-\_\-url \#\-Comments (if needed) \subsection*{string comments }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-A unique id string instance\-\_\-name \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The user to whom the instance belongs}
+
+string username \section*{The instance’s ontology class}
+
+string ontology\-\_\-class \section*{A file url (if needed)}
+
+string file\-\_\-url \section*{Comments (if needed)}
+
+\subsection*{string comments }
+
+\section*{A unique id}
+
+string instance\-\_\-name \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Create ontology alias}
 
@@ -52,9 +106,19 @@ This service was created in order to create an alias for a user within the ontol
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/create\-\_\-ontology\-\_\-alias}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The user to whom the instance belongs \subsection*{string username }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-A unique id string ontology\-\_\-alias \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The user to whom the instance belongs}
+
+\subsection*{string username }
+
+\section*{A unique id}
+
+string ontology\-\_\-alias \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{User instances of class}
 
@@ -62,9 +126,21 @@ This service allows an M\-L algorithm to retrieve user-\/specific information in
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/user\-\_\-instances\-\_\-of\-\_\-class}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The user whose instances must be returned string username \#\-The ontology class whose instances we desire \subsection*{string ontology\-\_\-class }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-The instances String\mbox{[}\mbox{]} results \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The user whose instances must be returned}
+
+string username \section*{The ontology class whose instances we desire}
+
+\subsection*{string ontology\-\_\-class }
+
+\section*{The instances}
+
+String\mbox{[}\mbox{]} results \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Load / Dump ontology}
 
@@ -72,9 +148,17 @@ Since the Know\-Rob ontology framework does not provide online storage functiona
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/load\-\_\-ontology} Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/dump\-\_\-ontology}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The file intended for loading or dumping the ontology \subsection*{string file\-\_\-url }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The file intended for loading or dumping the ontology}
+
+\subsection*{string file\-\_\-url }
+
+\section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Create cognitive test}
 
@@ -82,9 +166,27 @@ This service creates a new cognitive exercise test in the ontology as an instanc
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/create\-\_\-cognitve\-\_\-tests}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The type of the test string test\-\_\-type \#\-The sub type of the test string test\-\_\-subtype \#\-The difficulty of the test int32 test\-\_\-difficulty \#\-The variation id of the test int32 test\-\_\-variation \#\-The file path where the test is located \subsection*{string test\-\_\-path }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-The created test name string test\-\_\-name \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The type of the test}
+
+string test\-\_\-type \section*{The sub type of the test}
+
+string test\-\_\-subtype \section*{The difficulty of the test}
+
+int32 test\-\_\-difficulty \section*{The variation id of the test}
+
+int32 test\-\_\-variation \section*{The file path where the test is located}
+
+\subsection*{string test\-\_\-path }
+
+\section*{The created test name}
+
+string test\-\_\-name \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Return cognitive tests of type}
 
@@ -92,9 +194,27 @@ This service returns all cognitive tests of the given type that exist within the
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/cognitive\-\_\-tests\-\_\-of\-\_\-type}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The type of the tests to be returned \subsection*{string test\-\_\-type }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-The names of the tests string\mbox{[}\mbox{]} tests \#\-The subtype of the tests string\mbox{[}\mbox{]} subtype \#\-The file paths of the tests string\mbox{[}\mbox{]} file\-\_\-paths \#\-The difficulty of the tests string\mbox{[}\mbox{]} difficulty \#\-The variation of the tests string\mbox{[}\mbox{]} variation \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The type of the tests to be returned}
+
+\subsection*{string test\-\_\-type }
+
+\section*{The names of the tests}
+
+string\mbox{[}\mbox{]} tests \section*{The subtype of the tests}
+
+string\mbox{[}\mbox{]} subtype \section*{The file paths of the tests}
+
+string\mbox{[}\mbox{]} file\-\_\-paths \section*{The difficulty of the tests}
+
+string\mbox{[}\mbox{]} difficulty \section*{The variation of the tests}
+
+string\mbox{[}\mbox{]} variation \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Record user cognitive test performance}
 
@@ -102,9 +222,27 @@ This service records the user’s (patient’s) performance on a given test at a
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/record\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The name of the test string test \#\-The type of the test string test\-\_\-type \#\-The ontology alias of the patient who is taking the test string patient\-\_\-ontology\-\_\-alias \#\-The score the patient achieved in the test int32 score \#\-The timestamp at which the test was performed \subsection*{int32 timestamp }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-The name of the cognitive test performance entry string cognitive\-\_\-test\-\_\-performance\-\_\-entry \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The name of the test}
+
+string test \section*{The type of the test}
+
+string test\-\_\-type \section*{The ontology alias of the patient who is taking the test}
+
+string patient\-\_\-ontology\-\_\-alias \section*{The score the patient achieved in the test}
+
+int32 score \section*{The timestamp at which the test was performed}
+
+\subsection*{int32 timestamp }
+
+\section*{The name of the cognitive test performance entry}
+
+string cognitive\-\_\-test\-\_\-performance\-\_\-entry \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
 
 \subsection*{Return user cognitive test performance}
 
@@ -112,74 +250,159 @@ This service returns all the tests of the requested type that a specific user (p
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/user\-\_\-performance\-\_\-cognitve\-\_\-tests}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The ontology alias of the patient string ontology\-\_\-alias \#\-The type of the tests of interest \subsection*{string test\-\_\-type }
+Service type\-: ```bash \section*{Contains info about time and reference}
 
-\#\-The names of the tests string\mbox{[}\mbox{]} tests \#\-The scores of the tests string\mbox{[}\mbox{]} scores \#\-The difficulty of the tests string\mbox{[}\mbox{]} difficulty \#\-The variation ids of the tests string\mbox{[}\mbox{]} variation \#\-The timestamps at which the tests were performed string\mbox{[}\mbox{]} timestamps \#\-Possible error string error \#true if successful bool success ```
+Header header \section*{The ontology alias of the patient}
 
-\section*{Launchers}
+string ontology\-\_\-alias \section*{The type of the tests of interest}
+
+\subsection*{string test\-\_\-type }
+
+\section*{The names of the tests}
+
+string\mbox{[}\mbox{]} tests \section*{The scores of the tests}
+
+string\mbox{[}\mbox{]} scores \section*{The difficulty of the tests}
+
+string\mbox{[}\mbox{]} difficulty \section*{The variation ids of the tests}
+
+string\mbox{[}\mbox{]} variation \section*{The timestamps at which the tests were performed}
+
+string\mbox{[}\mbox{]} timestamps \section*{Possible error}
+
+string error \section*{true if successful}
+
+bool success ```
+
+\subsection*{Register image object to ontology}
+
+This service will register an image, annotated by the rapp\-\_\-caffe\-\_\-wrapper to the ontology.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/register\-\_\-image\-\_\-object\-\_\-to\-\_\-ontology}
+
+Service type\-: ```bash \section*{Contains info about time and reference}
+
+Header header \#the user's ontology alias string user\-\_\-ontology\-\_\-alias \#the ontology class of the to be registered object string object\-\_\-ontology\-\_\-class \#the caffe class of the to be registered object string caffe\-\_\-class \#the path to the image representing the object string image\-\_\-path \#timestamp of the time of registration \subsection*{int32 timestamp }
+
+\section*{The results of the query}
+
+\#the name of the registered object entry string object\-\_\-entry \#possible error string error \#trace information string\mbox{[}\mbox{]} trace \#true if service call was successful bool success ```
+
+\subsection*{Retract user ontology alias}
+
+This service will remove the ontology alias of a user from the ontology.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/retract\-\_\-user\-\_\-ontology\-\_\-alias}
+
+Service type\-: ```bash \section*{Contains info about time and reference}
+
+Header header \#the user ontology alias to be retracted \subsection*{string ontology\-\_\-alias }
+
+\section*{The results of the query}
+
+\#possible error string error \#trace information string\mbox{[}\mbox{]} trace \#true if service call was successful bool success ```
+
+\subsection*{Clear user cognitive test performance records}
+
+This service will remove all cognitive test performance records of a user from the ontology.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-knowrob\-\_\-wrapper/clear\-\_\-user\-\_\-cognitive\-\_\-tests\-\_\-performance\-\_\-records}
+
+Service type\-: ```bash \section*{Contains info about time and reference}
+
+Header header \#the username of the user whose records will be cleared string username \#specify clearing the records of this test type onle \subsection*{string test\-\_\-type }
+
+\section*{The results of the query}
+
+\#possible error string error \#trace information string\mbox{[}\mbox{]} trace \#true if service call was successful bool success ```
+
+\#\-Launchers
 
 \subsection*{Standard launcher}
 
 Launches the {\bfseries rapp\-\_\-knowrob\-\_\-wrapper} node and can be launched using ``` roslaunch rapp\-\_\-knowrob\-\_\-wrapper knowrob\-\_\-wrapper.\-launch ```
 
-\section*{H\-O\-P services}
+\#\-H\-O\-P services
 
-\subsection*{Subclasses-\/of R\-P\-S}
+\subsection*{Ontology-\/\-Sub\-Classes-\/\-Of}
 
-The subclasses\-\_\-of R\-P\-S is of type 3 since it contains a H\-O\-P service frontend, contacting a R\-A\-P\-P R\-O\-S ontology wrapper, which performs queries to the Know\-Rob ontology repository. The get subclass of R\-P\-S can be invoked using the following U\-R\-L.
+\subsubsection*{Service-\/\-Url}
 
-Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/subclasses\-\_\-of}
+``` /hop/ontology\-\_\-subclasses\-\_\-of ```
 
-\subsubsection*{Input/\-Output}
+\subsubsection*{Service request arguments}
 
-The sublasses\-\_\-of R\-P\-S has two input arguments, which are the ontology class for which the subclasses must be found and the recursive flag. These are encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
+```js \{ query\-: '' \} ```
+\begin{DoxyItemize}
+\item {\bfseries query} (String)\-: The query to the ontology database.
+\end{DoxyItemize}
 
-The subclasses\-\_\-of R\-P\-S returns the subclasses of the input class in a ontology U\-R\-L form. The encoding is in J\-S\-O\-N format.
+\subsubsection*{Service response}
 
-``` Input = \{ “class”\-: “\-T\-H\-E\-\_\-\-O\-N\-T\-O\-L\-O\-G\-Y\-\_\-\-C\-L\-A\-S\-S” “recursive”\-: “\-True of False” \} {\ttfamily  } Output = \{ “subclasses”\-: \mbox{[} “\-S\-U\-B\-C\-L\-\_\-\-U\-R\-L\-\_\-1”, “\-S\-U\-B\-C\-L\-\_\-\-U\-R\-L\-\_\-2”,… , “\-S\-U\-B\-C\-L\-\_\-\-U\-R\-L\-\_\-3” \mbox{]} “error”\-: “\-Possible error” \} ``` \subsubsection*{Example}
+application/json response.
 
-An example input for the subclasses\-\_\-of R\-P\-S is ``` Input = \{ “class”\-: “\-Oven” “recursive”\-: “\-False” \} ```
+```javascript \{ results\-: \mbox{[}\mbox{]}, error\-: '' \} ```
 
-For this specific input, the result obtained was
 
-``` Output = \{ “subclasses”\-: \mbox{[} “http\-://knowrob.org/kb/knowrob.\-owl\#\-Oven”, “http\-://knowrob.org/kb/knowrob.\-owl\#\-Microwave\-Oven”, “http\-://knowrob.org/kb/knowrob.\-owl\#\-Regular\-Oven”, “http\-://knowrob.org/kb/knowrob.\-owl\#\-Toaster\-Oven” \mbox{]} “error”\-: “” \} ```
+\begin{DoxyItemize}
+\item {\bfseries results} (Array)\-: Query results.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
 
-\subsection*{Superclasses-\/of R\-P\-S}
+```javascript \{ results\-: \mbox{[} '\href{http://knowrob.org/kb/knowrob.owl#Oven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Oven',} '\href{http://knowrob.org/kb/knowrob.owl#MicrowaveOven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Microwave\-Oven',} '\href{http://knowrob.org/kb/knowrob.owl#RegularOven',}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Regular\-Oven',} '\href{http://knowrob.org/kb/knowrob.owl#ToasterOven'}{\tt http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Toaster\-Oven'}\mbox{]}, error\-: '' \} ```
 
-The superclasses\-\_\-of R\-P\-S is of type 3 since it contains a H\-O\-P service frontend, contacting a R\-A\-P\-P R\-O\-S ontology wrapper, which performs queries to the Know\-Rob ontology repository. The superclasses\-\_\-of R\-P\-S can be invoked using the following U\-R\-L.
+\subsection*{Ontology-\/\-Super\-Classes-\/\-Of}
 
-Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/superclasses\-\_\-of}
+\subsubsection*{Service-\/\-Url}
 
-\subsubsection*{Input/\-Output}
+``` /hop/ontology\-\_\-superclasses\-\_\-of ```
 
-The superclasses\-\_\-of R\-P\-S has two input arguments, which are the ontology class for which the superclasses must be found and the recursive flag. These are encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
+\subsubsection*{Service request arguments}
 
-The superclasses\-\_\-of R\-P\-S returns the superclasses of the input class in an ontology U\-R\-L form. The encoding is in J\-S\-O\-N format.
+```js \{ query\-: '' \} ```
 
-``` Input = \{ “class”\-: “\-T\-H\-E\-\_\-\-O\-N\-T\-O\-L\-O\-G\-Y\-\_\-\-C\-L\-A\-S\-S” “recursive”\-: “\-True of False” \} {\ttfamily  } Output = \{ “superclasses”\-: \mbox{[} “\-S\-U\-P\-C\-L\-\_\-\-U\-R\-L\-\_\-1”, “\-S\-U\-P\-C\-L\-\_\-\-U\-R\-L\-\_\-2”,… , “\-S\-U\-P\-C\-L\-\_\-\-U\-R\-L\-\_\-3” \mbox{]} “error”\-: “\-Possible error” \} ``` \subsubsection*{Example}
 
-An example input for the superclasses\-\_\-of R\-P\-S is ``` Input = \{ “class”\-: “\-Spatial\-Thing” “recursive”\-: “\-False” \} ```
+\begin{DoxyItemize}
+\item {\bfseries query} (String)\-: The query to the ontology database.
+\end{DoxyItemize}
 
-For this specific input, the result obtained was
+\subsubsection*{Service response}
 
-``` Output = \{ “superclasses”\-: \mbox{[} “http\-://www.w3.\-org/2002/07/owl\#\-Thing” \mbox{]} “error”\-: “” \} ```
+application/json response.
 
-\subsection*{Is Sub-\/\-Superclass-\/of R\-P\-S}
+```javascript \{ results\-: \mbox{[}\mbox{]}, error\-: '' \} ```
 
-The is\-\_\-subsuperclass\-\_\-of R\-P\-S is of type 3 since it contains a H\-O\-P service frontend, contacting a R\-A\-P\-P R\-O\-S ontology wrapper, which performs queries to the Know\-Rob ontology repository.
 
-Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/is\-\_\-subsuperclass\-\_\-of}
+\begin{DoxyItemize}
+\item {\bfseries results} (Array)\-: Query results returned from ontology database.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
 
-\subsubsection*{Input/\-Output}
+\subsection*{Ontology-\/\-Is-\/\-Sub\-Super\-Class-\/\-Of}
 
-The is\-\_\-subsuperclass\-\_\-of R\-P\-S has three arguments, which are the parent and child ontology class, as well as the recursive flag. This is encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
+\subsubsection*{Service-\/\-Url}
 
-The is\-\_\-subsuperclass\-\_\-of R\-P\-S returns true if the semantic relation holds. The encoding is in J\-S\-O\-N format.
+``` /hop/ontology\-\_\-is\-\_\-subsuperclass\-\_\-of ```
 
-``` Input = \{ “parent\-\_\-class”\-: “\-T\-H\-E\-\_\-\-P\-A\-R\-E\-N\-T\-\_\-\-O\-N\-T\-O\-L\-O\-G\-Y\-\_\-\-C\-L\-A\-S\-S” “child\-\_\-class”\-: “\-T\-H\-E\-\_\-\-C\-H\-I\-L\-D\-\_\-\-O\-N\-T\-O\-L\-O\-G\-Y\-\_\-\-C\-L\-A\-S\-S” “recursive”\-: “\-True of False” \} {\ttfamily  } Output = \{ “result”\-: “\-True or False” “error”\-: “\-Possible error” \} ``` \subsubsection*{Example}
+\subsubsection*{Service request arguments}
 
-An example input for the is\-\_\-subsuperclass\-\_\-of R\-P\-S is ``` Input = \{ “parent\-\_\-class”\-: “\-Spatial\-Thing” “child\-\_\-class”\-: “\-Oven” “recursive”\-: “\-True” \} ```
+```js \{ parent\-\_\-class\-: '', child\-\_\-class\-: '', recursive\-: false \} ```
 
-For this specific input, the result obtained was
 
-``` Output = \{ “result”\-: “\-True” “error”\-: “” \} ``` 
+\begin{DoxyItemize}
+\item {\bfseries parent\-\_\-class} (String)\-: The parent class name.
+\item {\bfseries child\-\_\-class} (String) The child class name.
+\item {\bfseries recursive} (Boolean)\-: Defines if a recursive procedure will be used (true/false).
+\end{DoxyItemize}
+
+\subsubsection*{Service response}
+
+application/json response.
+
+```javascript \{ result\-: true, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries result} (Boolena)\-: Success index on ontology-\/is-\/subsuperclass-\/of query.
+\item {\bfseries error} (String)\-: Error message, if one occures. 
+\end{DoxyItemize}

@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -95,7 +94,7 @@ $(document).ready(function(){initNavTree('text__to__speech__espeak_8py_source.ht
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -159,40 +158,41 @@ $(document).ready(function(){initNavTree('text__to__speech__espeak_8py_source.ht
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    lang = req.language</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment"># Check for language</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> req.language == <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        lang = <span class="stringliteral">&#39;en&#39;</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment"># Check for audio output</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span> req.audio_output == <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        res.error = <span class="stringliteral">&#39;Text2Speech: Audio output not specified&#39;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">return</span> res</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    speed = 130 <span class="comment"># upper limit = 180</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    pitch = 50 <span class="comment"># upper limit = 99</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span> lang == <span class="stringliteral">&#39;el&#39;</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        lang = <span class="stringliteral">&#39;mb-gr2&#39;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        speed = 160</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        pitch = 99</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    command = <span class="stringliteral">&#39;espeak -p &#39;</span> + str(pitch) + <span class="stringliteral">&#39; -s &#39;</span> + str(speed) + \</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="stringliteral">&#39; -v &#39;</span> + lang + <span class="stringliteral">&#39; --stdout \&#39;&#39;</span> + req.text + <span class="stringliteral">&#39;\&#39; -w &#39;</span> +\</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            req.audio_output</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    output = os.system(command)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> output != 0:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        res.error = <span class="stringliteral">&quot;Error: Text to speech espeak malfunctioned. You have probably\</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="stringliteral">                given wrong language settings&quot;</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">return</span> res</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="comment"># Transform the output to wav 16kHz mono</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    os.system(<span class="stringliteral">&#39;sox &#39;</span> + req.audio_output + <span class="stringliteral">&#39; -c 1 -r 16000 &#39;</span> + req.audio_output + <span class="stringliteral">&#39;2.wav&#39;</span>)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    os.system(<span class="stringliteral">&#39;mv &#39;</span> + req.audio_output + <span class="stringliteral">&#39;2.wav &#39;</span> + req.audio_output)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">return</span> res</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  rospy.init_node(<span class="stringliteral">&#39;text_to_speech_espeak_ros_node&#39;</span>)</div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="namespacetext__to__speech__espeak.html#a9bdb1306d820edf490e227c108cd1dfa">   81</a></span>&#160;  text_to_speech_espeak_ros_node = <a class="code" href="classtext__to__speech__espeak_1_1TextToSpeechEspeak.html">TextToSpeechEspeak</a>()</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  rospy.spin()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        res.error = <span class="stringliteral">&#39;Language not specified&#39;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> res</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment"># Check for audio output</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> req.audio_output == <span class="stringliteral">&#39;&#39;</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        res.error = <span class="stringliteral">&#39;Text2Speech: Audio output not specified&#39;</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> res</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    speed = 130 <span class="comment"># upper limit = 180</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    pitch = 50 <span class="comment"># upper limit = 99</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> lang == <span class="stringliteral">&#39;el&#39;</span>:</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        lang = <span class="stringliteral">&#39;mb-gr2&#39;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        speed = 160</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        pitch = 99</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    command = <span class="stringliteral">&#39;espeak -p &#39;</span> + str(pitch) + <span class="stringliteral">&#39; -s &#39;</span> + str(speed) + \</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="stringliteral">&#39; -v &#39;</span> + lang + <span class="stringliteral">&#39; --stdout \&#39;&#39;</span> + req.text + <span class="stringliteral">&#39;\&#39; -w &#39;</span> +\</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            req.audio_output</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    output = os.system(command)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> output != 0:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        res.error = <span class="stringliteral">&quot;Error: Text to speech espeak malfunctioned. You have probably\</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="stringliteral">                given wrong language settings&quot;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> res</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment"># Transform the output to wav 16kHz mono</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    os.system(<span class="stringliteral">&#39;sox &#39;</span> + req.audio_output + <span class="stringliteral">&#39; -c 1 -r 16000 &#39;</span> + req.audio_output + <span class="stringliteral">&#39;2.wav&#39;</span>)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    os.system(<span class="stringliteral">&#39;mv &#39;</span> + req.audio_output + <span class="stringliteral">&#39;2.wav &#39;</span> + req.audio_output)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> res</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  rospy.init_node(<span class="stringliteral">&#39;text_to_speech_espeak_ros_node&#39;</span>)</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="namespacetext__to__speech__espeak.html#a9bdb1306d820edf490e227c108cd1dfa">   82</a></span>&#160;  text_to_speech_espeak_ros_node = <a class="code" href="classtext__to__speech__espeak_1_1TextToSpeechEspeak.html">TextToSpeechEspeak</a>()</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  rospy.spin()</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
 <div class="ttc" id="classtext__to__speech__espeak_1_1TextToSpeechEspeak_html_a2d7125fa374df3f2464895e9912740e1"><div class="ttname"><a href="classtext__to__speech__espeak_1_1TextToSpeechEspeak.html#a2d7125fa374df3f2464895e9912740e1">text_to_speech_espeak.TextToSpeechEspeak.serv</a></div><div class="ttdeci">serv</div><div class="ttdef"><b>Definition:</b> <a href="text__to__speech__espeak_8py_source.html#l00041">text_to_speech_espeak.py:41</a></div></div>
 <div class="ttc" id="classtext__to__speech__espeak_1_1TextToSpeechEspeak_html"><div class="ttname"><a href="classtext__to__speech__espeak_1_1TextToSpeechEspeak.html">text_to_speech_espeak.TextToSpeechEspeak</a></div><div class="ttdef"><b>Definition:</b> <a href="text__to__speech__espeak_8py_source.html#l00033">text_to_speech_espeak.py:33</a></div></div>
 <div class="ttc" id="classtext__to__speech__espeak_1_1TextToSpeechEspeak_html_abba6fcd2694efcaa710a531e8f6af894"><div class="ttname"><a href="classtext__to__speech__espeak_1_1TextToSpeechEspeak.html#abba6fcd2694efcaa710a531e8f6af894">text_to_speech_espeak.TextToSpeechEspeak.text_to_speech_callback</a></div><div class="ttdeci">def text_to_speech_callback</div><div class="ttdef"><b>Definition:</b> <a href="text__to__speech__espeak_8py_source.html#l00045">text_to_speech_espeak.py:45</a></div></div>
@@ -203,8 +203,8 @@ $(document).ready(function(){initNavTree('text__to__speech__espeak_8py_source.ht
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_0f57ef611029e0d074180b44328a62b6.html">rapp_text_to_speech_espeak</a></li><li class="navelem"><a class="el" href="dir_4715a0d10b78787bdc94d969edc20133.html">src</a></li><li class="navelem"><a class="el" href="text__to__speech__espeak_8py.html">text_to_speech_espeak.py</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_ef07611e326c3a3cbe50dc8c60955319.html">rapp_text_to_speech_espeak</a></li><li class="navelem"><a class="el" href="dir_0b40f9c49037ec5e421e3b8756aad2ec.html">src</a></li><li class="navelem"><a class="el" href="text__to__speech__espeak_8py.html">text_to_speech_espeak.py</a></li>
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:30 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

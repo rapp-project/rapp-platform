@@ -20,7 +20,7 @@ Service type\-: ```bash \#\-Contains info about time and reference Header header
 
 Launches the {\bfseries qr detection} node and can be launched using ``` roslaunch rapp\-\_\-qr\-\_\-detection qr\-\_\-detection.\-launch ```
 
-\section*{H\-O\-P services}
+\section*{Web services}
 
 \subsection*{U\-R\-L}
 
@@ -28,4 +28,6 @@ Launches the {\bfseries qr detection} node and can be launched using ``` roslaun
 
 \subsection*{Input / Output}
 
-``` Input = \{ “image”\-: “\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A” \} {\ttfamily  } Output = \{ “qrs”\-: \mbox{[} \{ “qr\-\_\-x” \-: “\-Q\-R\-\_\-\-X”, “qr\-\_\-y” \-: “\-Q\-R\-\_\-\-Y”, “message” \-: “\-M\-E\-S\-S\-A\-G\-E” \}, \{ … \} \mbox{]} \} ``` 
+``` Input = \{ “file”\-: “\-T\-H\-E\-\_\-\-A\-C\-T\-U\-A\-L\-\_\-\-I\-M\-A\-G\-E\-\_\-\-D\-A\-T\-A” \} {\ttfamily  } Output = \{ “qr\-\_\-centers”\-: \mbox{[} \{x\-: 100, y\-: 200\} \mbox{]}, \char`\"{}qr\-\_\-messages\char`\"{}\-: \mbox{[}\char`\"{}rapp project qr sample\char`\"{}\mbox{]}, \char`\"{}error\char`\"{}\-: \char`\"{}\char`\"{} \} ```
+
+The full documentation exists \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#qr-detection}{\tt here} 

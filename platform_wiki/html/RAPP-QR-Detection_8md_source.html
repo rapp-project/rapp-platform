@@ -106,66 +106,62 @@ $(document).ready(function(){initNavTree('RAPP-QR-Detection_8md.html','');});
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;A QR consists of square black and white patterns, arranged in a grid in the plane, which can be detected by a camera in order to perform the decoding process. Regarding the RAPP implementation, a ROS node was developed that uses the well-known ZBar library, in conjunction to OpenCV <span class="keywordflow">for</span> image manipulation. </div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"># ROS Services</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">##QR detection </span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span>Service URL: ```/rapp/rapp_qr_detection/detect_qrs```</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;Service type:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;```bash</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#Contains info about time and reference</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span>Header header</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#The image&#39;s filename to perform the detection</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="keywordtype">string</span> imageFilename</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;---</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#Container for detected qr positions</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span>geometry_msgs/PointStamped[] qr_centers</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">string</span>[] qr_messages</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">string</span> error</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;``` </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"># Launchers</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">## Standard launcher</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;Launches the **qr detection** node and can be launched <span class="keyword">using</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;```</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;roslaunch rapp_qr_detection qr_detection.launch</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;```</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"># HOP services</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">## URL</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span>```localhost:9001/hop/qr_detection ```</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">## Input / Output</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;```</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;Input = {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; “image”: “THE_ACTUAL_IMAGE_DATA”</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;```</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"># ROS Services</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">##QR detection </span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span>Service URL: ```/rapp/rapp_qr_detection/detect_qrs```</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;Service type:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;```bash</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#Contains info about time and reference</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span>Header header</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#The image&#39;s filename to perform the detection</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="keywordtype">string</span> imageFilename</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;---</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#Container for detected qr positions</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span>geometry_msgs/PointStamped[] qr_centers</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">string</span>[] qr_messages</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">string</span> error</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;``` </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"># Launchers</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">## Standard launcher</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;Launches the **qr detection** node and can be launched <span class="keyword">using</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;```</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;roslaunch rapp_qr_detection qr_detection.launch</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;```</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># Web services</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">## URL</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span>```localhost:9001/hop/qr_detection ```</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">## Input / Output</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;```</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;Input = {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; “file”: “THE_ACTUAL_IMAGE_DATA”</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;```</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;Output = {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  “qrs”: [</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      “qr_x” : “QR_X”,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      “qr_y” : “QR_Y”,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      “message” : “MESSAGE”</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    },</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      …</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  ]</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;```</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;```</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;Output = {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  “qr_centers”: [ {x: 100, y: 200} ],</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="stringliteral">&quot;qr_messages&quot;</span>: [<span class="stringliteral">&quot;rapp project qr sample&quot;</span>],</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="stringliteral">&quot;error&quot;</span>: <span class="stringliteral">&quot;&quot;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;```</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;The full documentation exists [here](https:<span class="comment">//github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#qr-detection)</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="RAPP-QR-Detection_8md.html">RAPP-QR-Detection.md</a></li>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:40 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

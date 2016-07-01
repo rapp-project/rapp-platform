@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -79,6 +78,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_vars.html"><span>Variables</span></a></li>
+      <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -101,7 +102,7 @@ $(document).ready(function(){initNavTree('globals.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -115,13 +116,42 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>checkIfFileExists()
 : <a class="el" href="knowrob__wrapper_8cpp.html#a1d733fb67ce063a4ec39598ed92b9934">knowrob_wrapper.cpp</a>
 </li>
+<li>checkIfStringContainsString()
+: <a class="el" href="knowrob__wrapper_8cpp.html#afc85e3a5b5eafb9075c5d30488635cd9">knowrob_wrapper.cpp</a>
+</li>
+<li>checkIfStringVectorContainsString()
+: <a class="el" href="knowrob__wrapper_8cpp.html#aa8cb4a268f99ed58cfc30f67201973df">knowrob_wrapper.cpp</a>
+</li>
+<li>exists_file()
+: <a class="el" href="path__planning_8cpp.html#a7cec9f4f9ebd175d0659ca6af28407a5">path_planning.cpp</a>
+</li>
+<li>input_poses_correct()
+: <a class="el" href="path__planning_8cpp.html#a2d7f67d6a56a0c2f6f3e6dbb15a13e03">path_planning.cpp</a>
+</li>
 <li>intToString()
 : <a class="el" href="knowrob__wrapper_8cpp.html#aaf197f973c9edcca9610fba8b86df471">knowrob_wrapper.cpp</a>
 </li>
 <li>main()
 : <a class="el" href="face__detection__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">face_detection_node.cpp</a>
+, <a class="el" href="hazard__detection__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">hazard_detection_node.cpp</a>
 , <a class="el" href="knowrob__wrapper__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">knowrob_wrapper_node.cpp</a>
 , <a class="el" href="qr__detection__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">qr_detection_node.cpp</a>
+, <a class="el" href="path__planning__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">path_planning_node.cpp</a>
+, <a class="el" href="map__saver_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">map_saver.cpp</a>
+, <a class="el" href="main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">main.cpp</a>
+, <a class="el" href="human__detection__node_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627">human_detection_node.cpp</a>
+</li>
+<li>MAP_IDX
+: <a class="el" href="image__loader_8cpp.html#a2388723427585df03b86ed963c9de575">image_loader.cpp</a>
+</li>
+<li>mySigintHandler()
+: <a class="el" href="path__planning__node_8cpp.html#a16a25cf0df7a1cc4416d24d0c04bbbc2">path_planning_node.cpp</a>
+</li>
+<li>path_planning_
+: <a class="el" href="path__planning__node_8cpp.html#af79b7ac743346f78db8ba8d461240789">path_planning_node.cpp</a>
+</li>
+<li>setPoseDist()
+: <a class="el" href="path__planning_8cpp.html#a32c836d364af6fbdc2c156cd79790bfa">path_planning.cpp</a>
 </li>
 <li>split()
 : <a class="el" href="knowrob__wrapper_8cpp.html#a527876ebdba0ec57bd96287221b4a594">knowrob_wrapper.cpp</a>
@@ -129,13 +159,26 @@ $(document).ready(function(){initNavTree('globals.html','');});
 <li>SplitFilename()
 : <a class="el" href="knowrob__wrapper_8cpp.html#abe4875a997df10557ec66d950b0bcb53">knowrob_wrapper.cpp</a>
 </li>
+<li>start_global_planners()
+: <a class="el" href="path__planning_8cpp.html#ada6fceb5f400dc77d77a85a420c20cb7">path_planning.cpp</a>
+</li>
+<li>start_map_servers()
+: <a class="el" href="path__planning_8cpp.html#a59a75750f22db778adfe665823a8e801">path_planning.cpp</a>
+</li>
+<li>start_tf_publisher()
+: <a class="el" href="path__planning_8cpp.html#a71f26f1a13d2a731ecad98ae7f181e10">path_planning.cpp</a>
+</li>
+<li>USAGE
+: <a class="el" href="main_8cpp.html#a56fe9bff0a1be75aae2da3e593053e2c">main.cpp</a>
+, <a class="el" href="map__saver_8cpp.html#a56fe9bff0a1be75aae2da3e593053e2c">map_saver.cpp</a>
+</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:31 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

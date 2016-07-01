@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['label',['label',['../classrapp_1_1object_1_1qrCode.html#aa794b7ec326c02e576d18f4eefb1728b',1,'rapp::object::qrCode']]],
-  ['lookatpoint',['lookAtPoint',['../classrapp_1_1robot_1_1nao.html#a8a3d202cdc642ffcc0d6678a0b3b62c5',1,'rapp::robot::nao::lookAtPoint()'],['../classrapp_1_1robot_1_1navigation.html#a3b9fa18bda273730de4439f324c1bcfb',1,'rapp::robot::navigation::lookAtPoint()']]]
+  ['label',['label',['../classrapp_1_1object_1_1qr__code.html#ad2298e44f6c2373814c5e494a404478a',1,'rapp::object::qr_code']]],
+  ['load_5fjsgf',['load_jsgf',['../speech__to__text_8cpp.html#a597be07572d7933e8427bed8e833a86f',1,'speech_to_text.cpp']]]
 ];

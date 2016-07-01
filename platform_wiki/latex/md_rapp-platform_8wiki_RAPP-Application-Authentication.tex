@@ -1,0 +1,115 @@
+R\-A\-P\-P application authentication allows the various R\-A\-P\-P Platform users to authenticate in order to gain access to the R\-A\-P\-P Platform services.
+
+\section*{R\-O\-S Services}
+
+\subsection*{Add new user from Platform}
+
+Add new user using Platform credentials.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-application\-\_\-authentication/add\-\_\-new\-\_\-user\-\_\-from\-\_\-platfrom}
+
+Service type\-:
+
+Add\-New\-User\-From\-Platform\-Srv.\-srv ``` string creator\-\_\-username string creator\-\_\-password string new\-\_\-user\-\_\-username string new\-\_\-user\-\_\-password \section*{New user's language}
+
+\subsection*{string language }
+
+string error \section*{Suggested username if provided already exists}
+
+string suggested\-\_\-username ```
+
+\subsection*{Add new user from Store}
+
+Add new user using Store credentials.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-application\-\_\-authentication/add\-\_\-new\-\_\-user\-\_\-from\-\_\-store}
+
+Service type\-:
+
+Add\-New\-User\-From\-Store\-Srv.\-srv ``` \section*{New user's username}
+
+string username \section*{New user's password}
+
+string password \section*{Creator device token from R\-A\-P\-P Store}
+
+string device\-\_\-token \section*{New user's language}
+
+\subsection*{string language }
+
+string error \section*{Suggested username if provided already exists}
+
+string suggested\-\_\-username ```
+
+\subsection*{Authenticate Token}
+
+Authenticates an active application token.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-application\-\_\-authentication/authenticate\-\_\-token}
+
+Service type\-:
+
+User\-Token\-Authentication\-Srv.\-srv ``` \subsection*{string token }
+
+string error \section*{The token corresponding username}
+
+string username ```
+
+\subsection*{Login}
+
+Allows a user to login useing the R\-A\-P\-P Platform credentials.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-application\-\_\-authentication/login}
+
+Service type\-:
+
+User\-Login\-Srv.\-srv ``` string username string password \section*{The device from which a user tries to login}
+
+\subsection*{string device\-\_\-token }
+
+string error string token ```
+
+\subsection*{Login from Store}
+
+Allows a user to login useing the R\-A\-P\-P Store token.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-application\-\_\-authentication/login\-\_\-from\-\_\-store}
+
+Service type\-:
+
+User\-Login\-Srv.\-srv ``` string username string password \section*{The R\-A\-P\-P Store token}
+
+\subsection*{string device\-\_\-token }
+
+string error string token ```
+
+\section*{Launchers}
+
+\subsection*{Standard launcher}
+
+Launches the {\bfseries rapp application authentication} node and can be invoked using\-: ```bash roslaunch rapp\-\_\-application\-\_\-authentication\-\_\-manager application\-\_\-authentication.\-launch ```
+
+\section*{Web Services}
+
+\subsection*{Login User}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/login\-\_\-user}
+
+\subsubsection*{Input/\-Output}
+
+``` Input = \{ username\-: '', password\-: '', device\-\_\-token\-: '' \} {\ttfamily  } Output = \{ token\-: '', error\-: '' \} ```
+
+\subsection*{Register user from Platform}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/register\-\_\-user\-\_\-from\-\_\-platform}
+
+\subsubsection*{Input/\-Output}
+
+``` Input = \{ creator\-\_\-username\-: '', creator\-\_\-password\-: '', new\-\_\-user\-\_\-username\-: '', new\-\_\-user\-\_\-password\-: '', language\-: '' \} {\ttfamily  } Output = \{ suggested\-\_\-username\-: '', error\-: '' \} ```
+
+\subsection*{Register user from Store}
+
+Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/register\-\_\-user\-\_\-from\-\_\-store}
+
+\subsubsection*{Input/\-Output}
+
+``` Input = \{ username\-: '', password\-: '', device\-\_\-token\-: '', language\-: '' \} {\ttfamily  } Output = \{ suggested\-\_\-username\-: '', error\-: '' \} ``` 

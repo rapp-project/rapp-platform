@@ -1,0 +1,263 @@
+In the current tutorial we will showcase the way to create a more complex application which utilizes external (out of R\-A\-P\-P) packages. This application will be create as a R\-O\-S node, in order to take advantage of other R\-O\-S packages.
+
+In this application we will track an object using the N\-A\-O front camera and the \href{https://github.com/pandora-auth-ros-pkg/open_tld}{\tt Open\-T\-L\-D} algorithm, as well as \href{https://github.com/pandora-auth-ros-pkg/pandora_tld}{\tt its wrapper} used in the \href{http://pandora.ee.auth.gr/}{\tt P\-A\-N\-D\-O\-R\-A robotics team}.
+
+Thus for this tutorial we will need\-:
+\begin{DoxyItemize}
+\item A real N\-A\-O robot
+\item the Nao\-Qi Python libraries
+\item the rapp-\/robots-\/api Git\-Hub repository
+\item the Open\-T\-L\-D Git\-Hub repository
+\item the P\-A\-N\-D\-O\-R\-A Open\-T\-L\-D wrapper
+\item R\-O\-S Indigo installed
+\item R\-O\-S packages for Nao\-Qi
+\end{DoxyItemize}
+
+This application's code can be found \href{https://github.com/rapp-project/rapps-nao/tree/master/3.track_object_TLD/tld_tracker_nao}{\tt here} in the form of a R\-O\-S package.
+
+\subsection*{Preparation}
+
+\paragraph*{Setup the Nao\-Qi Python libraries}
+
+Check \href{https://github.com/rapp-project/rapp-platform/wiki/Create-a-remote-robotic-application-for-NAO-in-Python-(novice}{\tt here}\#naoqi-\/python-\/libraries-\/setup) for details.
+
+\subsubsection*{Setup the R\-A\-P\-P Robots Python A\-P\-I}
+
+Check \href{https://github.com/rapp-project/rapp-platform/wiki/Create-a-remote-robotic-application-for-NAO-in-Python-(novice}{\tt here}\#rapp-\/robots-\/api-\/libraries-\/setup) for details.
+
+\paragraph*{Install R\-O\-S Indigo and R\-O\-S packages for Nao\-Qi}
+
+The installation procedure can be found \href{http://wiki.ros.org/indigo/Installation/Ubuntu}{\tt here} for the Ubuntu 14.\-04 distribution.
+
+After R\-O\-S installation, install the Nao\-Qi R\-O\-S packages by\-:
+
+```bash sudo apt-\/get install ros-\/indigo-\/naoqi-\/$\ast$ sudo apt-\/get install ros-\/indigo-\/nao-\/bringup ros-\/indigo-\/nao-\/apps ros-\/indigo-\/usb-\/cam ```
+
+\paragraph*{Setup Open\-T\-L\-D and P\-A\-N\-D\-O\-R\-A T\-L\-D R\-O\-S packages}
+
+Initially, a {\ttfamily catkin\-\_\-repository} must be created and the R\-O\-S packages cloned in it\-:
+
+```bash \section*{Create the proper folders}
+
+mkdir -\/p $\sim$/rapp\-\_\-nao/rapps \&\& cd $\sim$/rapp\-\_\-nao/rapps mkdir -\/p rapp\-\_\-catkin\-\_\-ws/src \&\& cd rapp\-\_\-catkin\-\_\-ws/src \section*{Initialize the Catkin workspace}
+
+catkin\-\_\-init\-\_\-workspace \section*{Clone the Open\-T\-L\-D and P\-A\-N\-D\-O\-R\-A T\-L\-D packages}
+
+git clone \href{https://github.com/pandora-auth-ros-pkg/pandora_tld.git}{\tt https\-://github.\-com/pandora-\/auth-\/ros-\/pkg/pandora\-\_\-tld.\-git} git clone \href{https://github.com/pandora-auth-ros-pkg/open_tld.git}{\tt https\-://github.\-com/pandora-\/auth-\/ros-\/pkg/open\-\_\-tld.\-git} \section*{Build the packages}
+
+cd $\sim$/rapp\-\_\-nao/rapps/rapp\-\_\-catkin\-\_\-ws \&\& catkin\-\_\-make -\/j1 \section*{Export the proper environmental variables}
+
+echo 'source $\sim$/rapp\-\_\-nao/rapps/rapp\-\_\-catkin\-\_\-ws/devel/setup.bash --extend' $>$$>$ $\sim$/.bashrc source $\sim$/.bashrc ```
+
+Next, you must change the input image topic to T\-L\-D in order to bind the callback from the N\-A\-O camera. The {\ttfamily $\sim$/rapp\-\_\-nao/rapps/rapp\-\_\-catkin\-\_\-ws/src/pandora\-\_\-tld/config/predator\-\_\-topics.yaml} must include the following\-:
+
+```yaml predator\-\_\-alert \-: /vision/predator\-\_\-alert input\-\_\-image\-\_\-topic\-: /nao\-\_\-robot/camera/top/camera/image\-\_\-raw begin\-\_\-hunt\-\_\-topic\-: /predator/hunt ``` \subsection*{Creating the application}
+
+Initially a R\-O\-S package must be created that will facilitate the code. The package will have {\ttfamily rospy} as dependency and will be named {\ttfamily tld\-\_\-tracker\-\_\-nao}\-:
+
+```bash cd $\sim$/rapp\-\_\-nao/rapps/rapp\-\_\-catkin\-\_\-ws/src catkin\-\_\-create\-\_\-pkg tld\-\_\-tracker\-\_\-nao rospy geometry\-\_\-msgs sensor\-\_\-msgs std\-\_\-msgs mkdir -\/p tld\-\_\-tracker\-\_\-nao/scripts touch tld\-\_\-tracker\-\_\-nao/scripts/tracker.\-py chmod +x tld\-\_\-tracker\-\_\-nao/scripts/tracker.\-py ```
+
+The contents of {\ttfamily tracker.\-py} follow\-:
+
+```python \#!/usr/bin/env python
+
+\section*{Authors\-:}
+
+\section*{Chrisa Gouniotou (\href{https://github.com/chrisagou}{\tt https\-://github.\-com/chrisagou})}
+
+\section*{Aspa Karanasiou (\href{https://github.com/aspa1}{\tt https\-://github.\-com/aspa1})}
+
+\section*{Manos Tsardoulias (\href{https://github.com/etsardou}{\tt https\-://github.\-com/etsardou})}
+
+\section*{Import the R\-A\-P\-P Robot A\-P\-I}
+
+from rapp\-\_\-robot\-\_\-api import Rapp\-Robot
+
+from geometry\-\_\-msgs.\-msg import Polygon from geometry\-\_\-msgs.\-msg import Twist
+
+from naoqi\-\_\-bridge\-\_\-msgs.\-msg import Joint\-Angles\-With\-Speed
+
+import rospy import sys import time
+
+class Nao\-Tld\-Tracker\-: \begin{DoxyVerb}def __init__(self):
+    self.rh = RappRobot()
+
+    # Use naoqi_brdge to move the head
+    self.joint_pub = rospy.Publisher('/joint_angles', JointAnglesWithSpeed, queue_size=1)
+
+    # NAO stands up
+    self.rh.motion.enableMotors()
+    self.rh.humanoid_motion.goToPosture("Stand", 0.7)
+
+    self.lost_object_counter = 20
+    self.lock_motion = False
+    self.hunt_initiated = False
+
+    # These are the NAO body velocities. They are automatically published
+    # in the self.set_velocities_callback
+    self.x_vel = 0
+    self.y_vel = 0
+    self.theta_vel = 0
+
+    # Subscription to the TLD tracking alerts
+    self.predator_sub = rospy.Subscriber("/vision/predator_alert", \
+            Polygon, self.track_bounding_box)
+
+    # Timer callback to check if tracking has been lost
+    rospy.Timer(rospy.Duration(0.1), self.lost_object_callback)
+    # Callback to set the velocities periodically
+    rospy.Timer(rospy.Duration(0.1), self.set_velocities_callback)
+
+# Callback of the TLD tracker. Called when the object has been detected
+def track_bounding_box(self, polygon):
+    self.hunt_initiated = True
+
+    # Set the timeout counter to 2 seconds
+    self.lost_object_counter = 20
+
+    # Velocities message initialization
+    joint = JointAnglesWithSpeed()
+    joint.joint_names.append("HeadYaw")
+    joint.joint_names.append("HeadPitch")
+    joint.speed = 0.1
+    joint.relative = True
+
+    # Get center of detected object and calculate the head turns
+    target_x = polygon.points[0].x + 0.5 * polygon.points[1].x
+    target_y = polygon.points[0].y + 0.5 * polygon.points[1].y
+
+    sub_x = target_x - 320 / 2.0
+    sub_y = target_y - 240 / 2.0
+
+    var_x = (sub_x / 160.0)
+    var_y = (sub_y / 120.0)
+
+    joint.joint_angles.append(-var_x * 0.05)
+    joint.joint_angles.append(var_y * 0.05)
+
+    ans = self.rh.humanoid_motion.getJointAngles(['HeadYaw', 'HeadPitch'])
+    head_pitch = ans['angles'][1]
+    head_yaw = ans['angles'][0]
+
+    # Get the sonar measurements
+    sonars = self.rh.sensors.getSonarsMeasurements()
+
+    # Check if NAO is close to an obstacle
+    if sonars['sonars']['front_left'] <= 0.3 or sonars['sonars']['front_right'] <= 0.3:
+        self.lock_motion = True
+        rospy.loginfo("Locked due to sonars")
+    # Check if NAOs head looks way too down or up
+    elif head_pitch >= 0.4 or head_pitch <= -0.4:
+        self.lock_motion = True
+        rospy.loginfo("Locked due to head pitch")
+    # Else approach the object
+    elif self.lock_motion is False:
+        self.theta_vel = head_yaw * 0.1
+        if -0.2 < head_yaw < 0.2:
+            print "Approaching"
+            self.x_vel = 0.5
+            self.y_vel = 0.0
+        else:
+            self.x_vel = 0.0
+            self.y_vel = 0.0
+            print "Centering"
+        self.joint_pub.publish(joint)
+
+    # Check the battery levels
+    batt = self.rh.sensors.getBatteryLevels()
+    battery = batt['levels'][0]
+    if battery < 25:
+        self.rh.audio.setVolume(100)
+        self.rh.audio.speak("My battery is low")
+        self.predator_sub.unregister()
+        self.rh.humanoid_motion.goToPosture("Sit", 0.7)
+        self.rh.motion.disableMotors()
+        sys.exit(1)
+
+# Callback invoked every 0.1 seconds to check for lost of object tracking
+def lost_object_callback(self, event):
+    # Continues only after the user has selected an object
+    if self.hunt_initiated:
+        self.lost_object_counter -= 1
+        # If 2 seconds have passed without tracking activity the robot stops
+        if self.lost_object_counter < 0:
+            self.lock_motion = True
+            self.x_vel = 0.0
+            self.y_vel = 0.0
+            self.theta_vel = 0.0
+            rospy.loginfo("Locked due to 2 seconds of non-tracking")
+
+            self.predator_sub.unregister()
+
+# Callback to periodically (0.1 sec) set velocities, except from the 
+# case where the robot has locked its motion
+def set_velocities_callback(self, event):
+    if not self.lock_motion:
+        self.rh.motion.moveByVelocity(self.x_vel, self.y_vel, \
+                self.theta_vel)
+    else:
+        self.rh.motion.moveByVelocity(0, 0, 0)
+\end{DoxyVerb}
+
+
+\section*{The main function}
+
+if {\bfseries name} == \char`\"{}\-\_\-\-\_\-main\-\_\-\-\_\-\char`\"{}\-: rospy.\-init\-\_\-node('nao\-\_\-tld\-\_\-tracker', anonymous = True) nao = Nao\-Tld\-Tracker() rospy.\-spin() ```
+
+The next step is to create a R\-O\-S launcher to deploy the node\-:
+
+```bash cd $\sim$/rapp\-\_\-nao/rapps/rapp\-\_\-catkin\-\_\-ws/src/tld\-\_\-tracker\-\_\-nao/ mkdir launch \&\& cd launch touch tld\-\_\-tracker\-\_\-nao.\-launch ```
+
+The {\ttfamily tld\-\_\-tracker\-\_\-nao.\-launch} must contain\-:
+
+```xml $<$launch$>$
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ 
+
+$<$node name=\char`\"{}nao\-\_\-tld\-\_\-tracker\-\_\-node\char`\"{} type=\char`\"{}tracker.\-py\char`\"{} pkg=\char`\"{}tld\-\_\-tracker\-\_\-nao\char`\"{} output=\char`\"{}screen\char`\"{}$>$ $<$/launch$>$ ```
+
+Furthermore, we need another launch file called {\ttfamily nao\-\_\-bringup.\-launch}. First we create it\-:
+
+```bash cd $\sim$/rapp\-\_\-nao/rapps/rapp\-\_\-catkin\-\_\-ws/src/tld\-\_\-tracker\-\_\-nao/launch touch nao\-\_\-bringup.\-launch ```
+
+And then we fill it with\-:
+
+```xml $<$launch$>$
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{}$>$ $<$arg name=\char`\"{}nao\-\_\-port\char`\"{} default=\char`\"{}\$(optenv N\-A\-O\-\_\-\-P\-O\-R\-T 9559)\char`\"{}$>$
+
+$<$node pkg=\char`\"{}diagnostic\-\_\-aggregator\char`\"{} type=\char`\"{}aggregator\-\_\-node\char`\"{} name=\char`\"{}diag\-\_\-agg\char`\"{} clear\-\_\-params=\char`\"{}true\char`\"{}$>$ $<$rosparam command=\char`\"{}load\char`\"{} file=\char`\"{}\$(find nao\-\_\-bringup)/config/nao\-\_\-analysers.\-yaml\char`\"{}$>$ $<$/node$>$
+
+$<$arg name=\char`\"{}version\char`\"{} value=\char`\"{}\-V40\char`\"{}$>$ 
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ 
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ 
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ $<$arg name=\char`\"{}nao\-\_\-port\char`\"{} value=\char`\"{}\$(arg nao\-\_\-port)\char`\"{}$>$ 
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ $<$arg name=\char`\"{}resolution\char`\"{} value=\char`\"{}1\char`\"{}$>$   $<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ $<$arg name=\char`\"{}source\char`\"{} value=\char`\"{}1\char`\"{}$>$ 
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ $<$arg name=\char`\"{}memory\-\_\-key\char`\"{} value=\char`\"{}\-Device/\-Sub\-Device\-List/\-U\-S/\-Left/\-Sensor/\-Value\char`\"{}$>$ $<$arg name=\char`\"{}frame\-\_\-id\char`\"{} value=\char`\"{}\-L\-Sonar\-\_\-frame\char`\"{}$>$   $<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ $<$arg name=\char`\"{}memory\-\_\-key\char`\"{} value=\char`\"{}\-Device/\-Sub\-Device\-List/\-U\-S/\-Right/\-Sensor/\-Value\char`\"{}$>$ $<$arg name=\char`\"{}frame\-\_\-id\char`\"{} value=\char`\"{}\-R\-Sonar\-\_\-frame\char`\"{}$>$ 
+
+$<$arg name=\char`\"{}nao\-\_\-ip\char`\"{} value=\char`\"{}\$(arg nao\-\_\-ip)\char`\"{}$>$ 
+
+$<$/launch$>$ ```
+
+Finally, the application can be launched by\-:
+
+```bash roslaunch tld\-\_\-tracker\-\_\-nao tld\-\_\-tracker\-\_\-nao.\-launch ```
+
+If everything is correct, a T\-L\-D window must be raised, showing live the stream from the N\-A\-O front camera. Click on this window, press {\ttfamily r} and select a rectangle with your mouse for the N\-A\-O to track. Have in mind that the object-\/to-\/track must have sufficient features for the T\-L\-D to succeed (e.\-g. a white wall won't work).
+
+Then, N\-A\-O should center the object with its head and start moving towards there. There are four reasons for N\-A\-O to stop\-:
+\begin{DoxyItemize}
+\item To loose tracking for 2 seconds
+\item To have a sonar measurement under 30 cm
+\item For the head pitch angle to be larger than 0.\-4 rad or smaller than -\/0.\-4 rad (the object is on the floor or very high)
+\item The battery level to be under 25\%
+\end{DoxyItemize}
+
+Below you can see an example where N\-A\-O tracks an orange!
+
+ 

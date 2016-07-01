@@ -1,0 +1,31 @@
+<map id="rapp::cloud::asio_handler" name="rapp::cloud::asio_handler">
+<area shape="rect" id="node2" href="$classrapp_1_1cloud_1_1asio__service__http.html" title="base class for asynchronous http websockets used for connecting to cloud services ..." alt="" coords="222,797,418,824"/>
+<area shape="rect" id="node30" href="$classrapp_1_1cloud_1_1asio__socket__https.html" title="wrapper for SSL/TLS secure HTTP communication " alt="" coords="238,849,402,890"/>
+<area shape="rect" id="node3" href="$classrapp_1_1cloud_1_1available__services.html" title="requests available services from platform " alt="" coords="493,5,638,46"/>
+<area shape="rect" id="node4" href="$classrapp_1_1cloud_1_1cognitive__get__history.html" title="rapp::cloud::cognitive\l_get_history" alt="" coords="492,70,639,111"/>
+<area shape="rect" id="node5" href="$classrapp_1_1cloud_1_1cognitive__get__scores.html" title="rapp::cloud::cognitive\l_get_scores" alt="" coords="492,135,639,177"/>
+<area shape="rect" id="node6" href="$classrapp_1_1cloud_1_1cognitive__record__performance.html" title="rapp::cloud::cognitive\l_record_performance" alt="" coords="492,201,639,242"/>
+<area shape="rect" id="node7" href="$classrapp_1_1cloud_1_1cognitive__test__selector.html" title="chose a congitive game to play " alt="" coords="492,266,639,307"/>
+<area shape="rect" id="node8" href="$classrapp_1_1cloud_1_1email__fetch.html" title="fetch email(s) " alt="" coords="503,331,628,373"/>
+<area shape="rect" id="node9" href="$classrapp_1_1cloud_1_1email__send.html" title="send an email " alt="" coords="485,397,645,424"/>
+<area shape="rect" id="node10" href="$classrapp_1_1cloud_1_1face__detection.html" title="Asynchronous Service which will request the cloud to detect faces. " alt="" coords="476,448,655,475"/>
+<area shape="rect" id="node11" href="$classrapp_1_1cloud_1_1geolocation.html" title="geolocation service " alt="" coords="485,499,645,525"/>
+<area shape="rect" id="node12" href="$classrapp_1_1cloud_1_1hazard__detection__door__check.html" title="detect open doors " alt="" coords="487,550,643,591"/>
+<area shape="rect" id="node13" href="$classrapp_1_1cloud_1_1hazard__detection__light__check.html" title="detect light levels " alt="" coords="488,615,643,657"/>
+<area shape="rect" id="node14" href="$classrapp_1_1cloud_1_1human__detection.html" title="detect humans in an image " alt="" coords="499,681,632,722"/>
+<area shape="rect" id="node15" href="$classrapp_1_1cloud_1_1login__user.html" title="rapp::cloud::login_user" alt="" coords="489,747,642,773"/>
+<area shape="rect" id="node16" href="$classrapp_1_1cloud_1_1news__explore.html" title="get news " alt="" coords="478,797,653,824"/>
+<area shape="rect" id="node17" href="$classrapp_1_1cloud_1_1object__recognition.html" title="recognize object from an image " alt="" coords="501,849,630,890"/>
+<area shape="rect" id="node18" href="$classrapp_1_1cloud_1_1ontology__is__subsuperclass__of.html" title="query if sub class is a super class of param " alt="" coords="491,914,639,955"/>
+<area shape="rect" id="node19" href="$classrapp_1_1cloud_1_1ontology__subclasses__of.html" title="get ontology subclass of a query " alt="" coords="494,979,637,1021"/>
+<area shape="rect" id="node20" href="$classrapp_1_1cloud_1_1ontology__superclasses__of.html" title="get ontology super&#45;classes of query " alt="" coords="494,1045,637,1086"/>
+<area shape="rect" id="node21" href="$classrapp_1_1cloud_1_1path__upload__map.html" title="rapp::cloud::path_upload_map" alt="" coords="467,1111,663,1137"/>
+<area shape="rect" id="node22" href="$classrapp_1_1cloud_1_1plan__path__2d.html" title="rapp::cloud::plan_path_2d" alt="" coords="480,1161,651,1188"/>
+<area shape="rect" id="node23" href="$classrapp_1_1cloud_1_1qr__detection.html" title="Asynchronous Service which will request the cloud to detect QR codes. " alt="" coords="483,1212,648,1239"/>
+<area shape="rect" id="node24" href="$classrapp_1_1cloud_1_1set__denoise__profile.html" title="setting the denoising audio profile for speech recognition " alt="" coords="483,1263,647,1305"/>
+<area shape="rect" id="node25" href="$classrapp_1_1cloud_1_1speech__detection__google.html" title="delegate speech&#45;to&#45;text to Google via RAPP " alt="" coords="497,1329,633,1370"/>
+<area shape="rect" id="node26" href="$classrapp_1_1cloud_1_1speech__detection__sphinx4.html" title="speech&#45;to&#45;text recognition using CMU sphinx4 " alt="" coords="497,1394,633,1435"/>
+<area shape="rect" id="node27" href="$classrapp_1_1cloud_1_1text__to__speech.html" title="request speech audio from text " alt="" coords="498,1459,633,1501"/>
+<area shape="rect" id="node28" href="$classrapp_1_1cloud_1_1weather__report__current.html" title="get current weather report " alt="" coords="495,1525,635,1566"/>
+<area shape="rect" id="node29" href="$classrapp_1_1cloud_1_1weather__report__forecast.html" title="get weather forecast " alt="" coords="495,1590,635,1631"/>
+</map>

@@ -1,0 +1,25 @@
+var classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler =
+[
+    [ "__init__", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a4ba653248d13cce805d8e8e842364faa", null ],
+    [ "add_new_user", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a105686cfb2ba3285147db320e683db96", null ],
+    [ "add_store_token_to_device", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a02c96e176e86700c498ac2879aaf9c73", null ],
+    [ "get_token_user", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a30c5df0f241e485119cf4de3a55cf2b2", null ],
+    [ "get_user_password", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#ac6c7b7a9f4dc7e6527964e7eb42be1ab", null ],
+    [ "username_exists", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#aebac3ab30cb9d77af2066b76c6893e0d", null ],
+    [ "validate_user_role", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#aee102581c03f4b70bce6ad761de4eab4", null ],
+    [ "verify_active_application_token", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a14b72d315837bfd8d913c2f0d23cbba9", null ],
+    [ "verify_active_robot_session", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a813e2701ff2670ceb49e647c46cf8b54", null ],
+    [ "verify_platform_device_token", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a01bbfd0ed934a2987d3f6db6008b9e01", null ],
+    [ "verify_store_device_token", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#af8d8ee721f892fdce17ab67d8217cfea", null ],
+    [ "write_new_application_token", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#ac508819d954ef10696106e9875d8bdb3", null ],
+    [ "_add_new_user_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#abff83e481ec569527cc83941c4e7ad46", null ],
+    [ "_add_store_token_to_device_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a69b9c29be7e8360459e29eac7f54c4dd", null ],
+    [ "_create_new_app_token_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#abe0a85fff839029dd6be19ce3eda291b", null ],
+    [ "_get_token_user_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a1d6f0076f803ce6ace5305c98f9feaaa", null ],
+    [ "_get_user_passwd_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#afcee5506c1801addb0702d0c7b209d21", null ],
+    [ "_username_exists_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a4cfb9a393dc0fbe21f0985e02c36d60c", null ],
+    [ "_validate_existing_device_token_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a686fd3a9b7d9426454dfd1471dd6db6c", null ],
+    [ "_validate_user_role_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a2c43b89eb219c26dac8f04bb2fc1701b", null ],
+    [ "_verify_appl_token_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#ae21e898efe1a1b6bcc6ce73b008459e1", null ],
+    [ "_verify_robot_session_proxy", "classrapp__application__authentication__manager_1_1database__handler_1_1DatabaseHandler.html#a9e58d8759993da8626073ecc804638df", null ]
+];

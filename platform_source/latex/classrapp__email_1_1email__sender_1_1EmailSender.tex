@@ -1,0 +1,191 @@
+\hypertarget{classrapp__email_1_1email__sender_1_1EmailSender}{\section{rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender Class Reference}
+\label{classrapp__email_1_1email__sender_1_1EmailSender}\index{rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender@{rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender}}
+}
+
+
+Inheritance diagram for rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classrapp__email_1_1email__sender_1_1EmailSender__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classrapp__email_1_1email__sender_1_1EmailSender__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__email_1_1email__sender_1_1EmailSender_a14412649b41a6226d1732e5c8c598028}{\-\_\-\-\_\-init\-\_\-\-\_\-}
+\item 
+def \hyperlink{classrapp__email_1_1email__sender_1_1EmailSender_a45f55e0f4898f0a587d33822967250af}{send\-Email\-Srv\-Callback}
+\begin{DoxyCompactList}\small\item\em The callback to send specified mails from users email account. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \hyperlink{classrapp__email_1_1email__sender_1_1EmailSender_a4726903f599d1b63689c7dd999011efa}{\-\_\-connect\-And\-Send}
+\begin{DoxyCompactList}\small\item\em Connect to the requested S\-M\-T\-P server and send email. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__email_1_1email__sender_1_1EmailSender_a243a7a9c33108f87a886670ada6f91ad}{\-\_\-create\-Email\-Body}
+\begin{DoxyCompactList}\small\item\em Creates the emails main body. \end{DoxyCompactList}\item 
+def \hyperlink{classrapp__email_1_1email__sender_1_1EmailSender_ab4dcd219814fa425832f5d63707fa8a6}{\-\_\-handle\-Attachment}
+\begin{DoxyCompactList}\small\item\em Add attachment to the email. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 41 of file email\-\_\-sender.\-py.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp__email_1_1email__sender_1_1EmailSender_a14412649b41a6226d1732e5c8c598028}{\index{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}!\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}}
+\index{\-\_\-\-\_\-init\-\_\-\-\_\-@{\-\_\-\-\_\-init\-\_\-\-\_\-}!rapp_email::email_sender::EmailSender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}}
+\subsubsection[{\-\_\-\-\_\-init\-\_\-\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender.\-\_\-\-\_\-init\-\_\-\-\_\- (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}}\label{classrapp__email_1_1email__sender_1_1EmailSender_a14412649b41a6226d1732e5c8c598028}
+
+
+Definition at line 43 of file email\-\_\-sender.\-py.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp__email_1_1email__sender_1_1EmailSender_a4726903f599d1b63689c7dd999011efa}{\index{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}!\-\_\-connect\-And\-Send@{\-\_\-connect\-And\-Send}}
+\index{\-\_\-connect\-And\-Send@{\-\_\-connect\-And\-Send}!rapp_email::email_sender::EmailSender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}}
+\subsubsection[{\-\_\-connect\-And\-Send}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender.\-\_\-connect\-And\-Send (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{user\-Email, }
+\item[{}]{user\-Password, }
+\item[{}]{recipients, }
+\item[{}]{server, }
+\item[{}]{port, }
+\item[{}]{msg}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__email_1_1email__sender_1_1EmailSender_a4726903f599d1b63689c7dd999011efa}
+
+
+Connect to the requested S\-M\-T\-P server and send email. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\-Email} & \mbox{[}string\mbox{]} The sender's email \\
+\hline
+{\em user\-Password} & \mbox{[}string\mbox{]} The sender's password \\
+\hline
+{\em recipients} & \mbox{[}list$<$string$>$\mbox{]} The recipients' emails \\
+\hline
+{\em server} & \mbox{[}string\mbox{]} The S\-M\-T\-P server's address \\
+\hline
+{\em port} & \mbox{[}string\mbox{]} The S\-M\-T\-P server's port\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em smtplib.\-S\-M\-T\-P\-Exception} & Base S\-M\-T\-P exception class \\
+\hline
+{\em socket.\-error} & Socket class exception (connection problem) \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 100 of file email\-\_\-sender.\-py.
+
+\hypertarget{classrapp__email_1_1email__sender_1_1EmailSender_a243a7a9c33108f87a886670ada6f91ad}{\index{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}!\-\_\-create\-Email\-Body@{\-\_\-create\-Email\-Body}}
+\index{\-\_\-create\-Email\-Body@{\-\_\-create\-Email\-Body}!rapp_email::email_sender::EmailSender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}}
+\subsubsection[{\-\_\-create\-Email\-Body}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender.\-\_\-create\-Email\-Body (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{recipients, }
+\item[{}]{user\-Email, }
+\item[{}]{body, }
+\item[{}]{subject}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__email_1_1email__sender_1_1EmailSender_a243a7a9c33108f87a886670ada6f91ad}
+
+
+Creates the emails main body. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em recipients} & \mbox{[}list$<$string$>$\mbox{]} The recipients' emails \\
+\hline
+{\em user\-Email} & \mbox{[}string\mbox{]} The sender's email \\
+\hline
+{\em subject} & \mbox{[}string\mbox{]} The email's subject \\
+\hline
+{\em body} & \mbox{[}string\mbox{]} The email's body text\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+msg \mbox{[}Mime\-Multipart\mbox{]} The email's main body to be sent via S\-M\-T\-P 
+\end{DoxyReturn}
+
+
+Definition at line 137 of file email\-\_\-sender.\-py.
+
+\hypertarget{classrapp__email_1_1email__sender_1_1EmailSender_ab4dcd219814fa425832f5d63707fa8a6}{\index{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}!\-\_\-handle\-Attachment@{\-\_\-handle\-Attachment}}
+\index{\-\_\-handle\-Attachment@{\-\_\-handle\-Attachment}!rapp_email::email_sender::EmailSender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}}
+\subsubsection[{\-\_\-handle\-Attachment}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender.\-\_\-handle\-Attachment (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp__email_1_1email__sender_1_1EmailSender_ab4dcd219814fa425832f5d63707fa8a6}
+
+
+Add attachment to the email. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & \mbox{[}string\mbox{]} The absolute path of the requested file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+attachment \mbox{[}mimeobject\mbox{]} The attachment format of the file to be appended to the email
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em I\-O\-Error} & General I\-O error \\
+\hline
+{\em Environment\-Error} & General I\-O error \\
+\hline
+\end{DoxyExceptions}
+
+
+Definition at line 158 of file email\-\_\-sender.\-py.
+
+\hypertarget{classrapp__email_1_1email__sender_1_1EmailSender_a45f55e0f4898f0a587d33822967250af}{\index{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}!send\-Email\-Srv\-Callback@{send\-Email\-Srv\-Callback}}
+\index{send\-Email\-Srv\-Callback@{send\-Email\-Srv\-Callback}!rapp_email::email_sender::EmailSender@{rapp\-\_\-email\-::email\-\_\-sender\-::\-Email\-Sender}}
+\subsubsection[{send\-Email\-Srv\-Callback}]{\setlength{\rightskip}{0pt plus 5cm}def rapp\-\_\-email.\-email\-\_\-sender.\-Email\-Sender.\-send\-Email\-Srv\-Callback (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{req}
+\end{DoxyParamCaption}
+)}}\label{classrapp__email_1_1email__sender_1_1EmailSender_a45f55e0f4898f0a587d33822967250af}
+
+
+The callback to send specified mails from users email account. 
+
+req \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Email\-::\-Send\-Email\-Srv\-Request\mbox{]} The send email request
+
+res \mbox{[}rapp\-\_\-platform\-\_\-ros\-\_\-communications\-::\-Email\-::\-Send\-Email\-Srv\-Response\mbox{]} The send email response 
+
+Definition at line 53 of file email\-\_\-sender.\-py.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/platform/rapp\-\_\-email/src/rapp\-\_\-email/\hyperlink{email__sender_8py}{email\-\_\-sender.\-py}\end{DoxyCompactItemize}

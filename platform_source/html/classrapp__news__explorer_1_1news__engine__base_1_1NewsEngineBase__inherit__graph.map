@@ -1,0 +1,4 @@
+<map id="rapp_news_explorer.news_engine_base.NewsEngineBase" name="rapp_news_explorer.news_engine_base.NewsEngineBase">
+<area shape="rect" id="node3" href="$classrapp__news__explorer_1_1event__registry__engine_1_1EventRegistryEngine.html" title="EventRegistry news engine hndler. " alt="" coords="381,5,585,61"/>
+<area shape="rect" id="node4" href="$classrapp__news__explorer_1_1google__news__engine_1_1GoogleNewsEngine.html" title="Google news engine hndler. " alt="" coords="371,85,595,126"/>
+</map>

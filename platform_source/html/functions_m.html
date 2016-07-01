@@ -47,7 +47,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -100,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_l.html#index_l"><span>l</span></a></li>
       <li class="current"><a href="functions_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_n.html#index_n"><span>n</span></a></li>
+      <li><a href="functions_o.html#index_o"><span>o</span></a></li>
       <li><a href="functions_p.html#index_p"><span>p</span></a></li>
       <li><a href="functions_q.html#index_q"><span>q</span></a></li>
       <li><a href="functions_r.html#index_r"><span>r</span></a></li>
@@ -108,6 +108,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_u.html#index_u"><span>u</span></a></li>
       <li><a href="functions_v.html#index_v"><span>v</span></a></li>
       <li><a href="functions_w.html#index_w"><span>w</span></a></li>
+      <li><a href="functions_x.html#index_x"><span>x</span></a></li>
+      <li><a href="functions_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_~.html#index_~"><span>~</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -130,7 +133,7 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -146,17 +149,64 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <li>main()
 : <a class="el" href="classSphinx4.html#aef64fe2e07f6ae4013fc64112ccedd17">Sphinx4</a>
 </li>
+<li>makeEqualToInstance()
+: <a class="el" href="classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams.html#a214b52656d5823111d4be524470c4f58">rapp_speech_detection_sphinx4.sphinx4_configuration_params.SphinxConfigurationParams</a>
+</li>
+<li>makeEqualToRequest()
+: <a class="el" href="classrapp__speech__detection__sphinx4_1_1sphinx4__configuration__params_1_1SphinxConfigurationParams.html#a72079f0f14a0dad90b4a2bbe8c98cc5c">rapp_speech_detection_sphinx4.sphinx4_configuration_params.SphinxConfigurationParams</a>
+</li>
+<li>map_pub
+: <a class="el" href="classMapServer.html#a470be44b3a485ea9650f7b39bc41cb4b">MapServer</a>
+</li>
+<li>map_received_
+: <a class="el" href="classcostmap__2d_1_1RappStaticLayer.html#abe9f1fbe3e0a5f77fb5c20352dc8fd7d">costmap_2d::RappStaticLayer</a>
+</li>
+<li>map_resp_
+: <a class="el" href="classMapServer.html#ac1be64f4c32a295b8a0bd09e716aeb42">MapServer</a>
+</li>
+<li>map_sub_
+: <a class="el" href="classcostmap__2d_1_1RappStaticLayer.html#a3ec9bdcd0e1fd00e0413ca2ace33213c">costmap_2d::RappStaticLayer</a>
+, <a class="el" href="classMapGenerator.html#ab64021c24a4a1b07626119c2099abe77">MapGenerator</a>
+</li>
+<li>map_update_sub_
+: <a class="el" href="classcostmap__2d_1_1RappStaticLayer.html#a2a347b65373e54e1755412c145115369">costmap_2d::RappStaticLayer</a>
+</li>
+<li>mapCallback()
+: <a class="el" href="classMapGenerator.html#a609548d83b6a77a5cd3056f7c5224962">MapGenerator</a>
+, <a class="el" href="classMapServer.html#ac6d14174ad41d296a33f6477f5f1ca73">MapServer</a>
+</li>
+<li>MapGenerator()
+: <a class="el" href="classMapGenerator.html#a000e39a8b904b5b22e380a6218e05a42">MapGenerator</a>
+</li>
+<li>mapname_
+: <a class="el" href="classMapGenerator.html#a8d2814ddf2d6231239cfd3703c682eb8">MapGenerator</a>
+</li>
+<li>MapServer()
+: <a class="el" href="classMapServer.html#a97df74346b07a9a1484664a0c41d5bdd">MapServer</a>
+</li>
+<li>mapUploadCallback()
+: <a class="el" href="classMapServer.html#a2c261b01ef4787563d6921a8819bcc07">MapServer</a>
+</li>
+<li>matchSize()
+: <a class="el" href="classcostmap__2d_1_1RappStaticLayer.html#a3c3628d218ccea099becefc62ae8df11">costmap_2d::RappStaticLayer</a>
+</li>
 <li>message
 : <a class="el" href="structQrCode.html#a50c2833944aaacd05c0612fa038974c6">QrCode</a>
 </li>
-<li>mysql_fetch_client
-: <a class="el" href="classKnowrobWrapper.html#aaa8ac92e0387787a4ba8bdc9a5886c4d">KnowrobWrapper</a>
+<li>meta_data_message_
+: <a class="el" href="classMapServer.html#a5aca513fe2a230e89e41f700703ee477">MapServer</a>
 </li>
-<li>mysql_update_client
-: <a class="el" href="classKnowrobWrapper.html#a16a7e3854cd229eabb1675eded4bafb4">KnowrobWrapper</a>
+<li>metadata_pub
+: <a class="el" href="classMapServer.html#a39b9c75c5bb3ca55346ba696b9cdcbb0">MapServer</a>
 </li>
-<li>mysql_write_client
-: <a class="el" href="classKnowrobWrapper.html#a3751c23317ae08cb539f51ea1eead504">KnowrobWrapper</a>
+<li>MS_pIDs
+: <a class="el" href="classPathPlanning.html#a8aed5a7bee30a377a8d6cb24032bd861">PathPlanning</a>
+</li>
+<li>mysql_get_user_ontology_alias_client
+: <a class="el" href="classKnowrobWrapper.html#a39f2268a17653590d51a7b3e0e243c6c">KnowrobWrapper</a>
+</li>
+<li>mysql_register_user_ontology_alias_client
+: <a class="el" href="classKnowrobWrapper.html#a57089b048f31c7b67ccdaeff7a834bc3">KnowrobWrapper</a>
 </li>
 </ul>
 </div><!-- contents -->
@@ -164,7 +214,7 @@ $(document).ready(function(){initNavTree('functions_m.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Dec 16 2015 02:01:26 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 1 2016 18:18:31 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,0 +1,148 @@
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__sphinx4}{\section{rapp\-:\-:cloud\-:\-:speech\-\_\-detection\-\_\-sphinx4 Class Reference}
+\label{classrapp_1_1cloud_1_1speech__detection__sphinx4}\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4}}
+}
+
+
+speech-\/to-\/text recognition using C\-M\-U sphinx4  
+
+
+
+
+{\ttfamily \#include $<$speech\-\_\-detection\-\_\-sphinx4.\-hpp$>$}
+
+
+
+Inheritance diagram for rapp\-:\-:cloud\-:\-:speech\-\_\-detection\-\_\-sphinx4\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1speech__detection__sphinx4__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for rapp\-:\-:cloud\-:\-:speech\-\_\-detection\-\_\-sphinx4\-:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{classrapp_1_1cloud_1_1speech__detection__sphinx4__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classrapp_1_1cloud_1_1speech__detection__sphinx4_a10a18f155bd796f1d190367a069393d1}{speech\-\_\-detection\-\_\-sphinx4} (const std\-::shared\-\_\-ptr$<$ \hyperlink{classrapp_1_1object_1_1audio}{rapp\-::object\-::audio} $>$ file, const std\-::string language, const std\-::string user, const std\-::vector$<$ std\-::string $>$ grammar, const std\-::vector$<$ std\-::string $>$ words, const std\-::vector$<$ std\-::string $>$ sentences, std\-::function$<$ void(std\-::vector$<$ std\-::string $>$ words)$>$ callback, std\-::string token)
+\begin{DoxyCompactList}\small\item\em construct a speech\-To\-Text handler \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classrapp_1_1cloud_1_1speech__detection__sphinx4_a91be47b4583b373bfdc7b63eb5eafaaf}{handle\-\_\-reply} (std\-::string json)
+\begin{DoxyCompactList}\small\item\em handle the rappl-\/platform J\-S\-O\-N reply \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\-::function$<$ void(std\-::vector\\*
+$<$ std\-::string $>$ words)$>$ \hyperlink{classrapp_1_1cloud_1_1speech__detection__sphinx4_a86ab4eead356c5a2f60e3e627f0f75f7}{delegate\-\_\-}
+\begin{DoxyCompactList}\small\item\em The callback called upon completion of receiving the detected words. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+speech-\/to-\/text recognition using C\-M\-U sphinx4 
+
+\begin{DoxyVersion}{Version}
+0.\-6.\-0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+April 2016 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Alex Gkiokas \href{mailto:a.gkiokas@ortelio.co.uk}{\tt a.\-gkiokas@ortelio.\-co.\-uk} 
+\end{DoxyAuthor}
+
+
+Definition at line 13 of file speech\-\_\-detection\-\_\-sphinx4.\-hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__sphinx4_a10a18f155bd796f1d190367a069393d1}{\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4}!speech\-\_\-detection\-\_\-sphinx4@{speech\-\_\-detection\-\_\-sphinx4}}
+\index{speech\-\_\-detection\-\_\-sphinx4@{speech\-\_\-detection\-\_\-sphinx4}!rapp::cloud::speech_detection_sphinx4@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4}}
+\subsubsection[{speech\-\_\-detection\-\_\-sphinx4}]{\setlength{\rightskip}{0pt plus 5cm}rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4\-::speech\-\_\-detection\-\_\-sphinx4 (
+\begin{DoxyParamCaption}
+\item[{const std\-::shared\-\_\-ptr$<$ {\bf rapp\-::object\-::audio} $>$}]{file, }
+\item[{const std\-::string}]{language, }
+\item[{const std\-::string}]{user, }
+\item[{const std\-::vector$<$ std\-::string $>$}]{grammar, }
+\item[{const std\-::vector$<$ std\-::string $>$}]{words, }
+\item[{const std\-::vector$<$ std\-::string $>$}]{sentences, }
+\item[{std\-::function$<$ void(std\-::vector$<$ std\-::string $>$ words)$>$}]{callback, }
+\item[{std\-::string}]{token}
+\end{DoxyParamCaption}
+)}}\label{classrapp_1_1cloud_1_1speech__detection__sphinx4_a10a18f155bd796f1d190367a069393d1}
+
+
+construct a speech\-To\-Text handler 
+
+
+\begin{DoxyParams}{Parameters}
+{\em audio} & is the actual binary sound file \\
+\hline
+{\em language} & is the language used for speech to text \\
+\hline
+{\em grammar} & is the Grammars used in Spc2\-Txt \\
+\hline
+{\em user} & is the user token \\
+\hline
+{\em words} & will be searched for in the audio \\
+\hline
+{\em sentences} & will be under consideration \\
+\hline
+{\em callback} & will be executed once the rapp cloud has responded \\
+\hline
+{\em token} & is the rapp authentication token \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 27 of file speech\-\_\-detection\-\_\-sphinx4.\-hpp.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__sphinx4_a91be47b4583b373bfdc7b63eb5eafaaf}{\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4}!handle\-\_\-reply@{handle\-\_\-reply}}
+\index{handle\-\_\-reply@{handle\-\_\-reply}!rapp::cloud::speech_detection_sphinx4@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4}}
+\subsubsection[{handle\-\_\-reply}]{\setlength{\rightskip}{0pt plus 5cm}void rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4\-::handle\-\_\-reply (
+\begin{DoxyParamCaption}
+\item[{std\-::string}]{json}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1speech__detection__sphinx4_a91be47b4583b373bfdc7b63eb5eafaaf}
+
+
+handle the rappl-\/platform J\-S\-O\-N reply 
+
+
+
+Definition at line 85 of file speech\-\_\-detection\-\_\-sphinx4.\-hpp.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classrapp_1_1cloud_1_1speech__detection__sphinx4_a86ab4eead356c5a2f60e3e627f0f75f7}{\index{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4}!delegate\-\_\-@{delegate\-\_\-}}
+\index{delegate\-\_\-@{delegate\-\_\-}!rapp::cloud::speech_detection_sphinx4@{rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4}}
+\subsubsection[{delegate\-\_\-}]{\setlength{\rightskip}{0pt plus 5cm}std\-::function$<$void(std\-::vector$<$std\-::string$>$ words)$>$ rapp\-::cloud\-::speech\-\_\-detection\-\_\-sphinx4\-::delegate\-\_\-\hspace{0.3cm}{\ttfamily [private]}}}\label{classrapp_1_1cloud_1_1speech__detection__sphinx4_a86ab4eead356c5a2f60e3e627f0f75f7}
+
+
+The callback called upon completion of receiving the detected words. 
+
+
+
+Definition at line 113 of file speech\-\_\-detection\-\_\-sphinx4.\-hpp.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/travis/rapp\-\_\-temp/rapp-\/api/cpp/includes/cloud/speech/speech\-\_\-detection\-\_\-sphinx4/\hyperlink{speech__detection__sphinx4_8hpp}{speech\-\_\-detection\-\_\-sphinx4.\-hpp}\end{DoxyCompactItemize}
