@@ -35,7 +35,7 @@ class SppechDetectionGoogleTests(unittest.TestCase):
 
         rospack = rospkg.RosPack()
         self.pkgDir = rospack.get_path('rapp_testing_tools')
- 
+
     def test_speechNormal(self):
         audioFile = path.join(self.pkgDir, 'test_data',
             'speech_detection_samples', 'recording_sentence1.ogg')
@@ -46,7 +46,7 @@ class SppechDetectionGoogleTests(unittest.TestCase):
 
         self.assertEqual(response['error'], u'')
         self.assertEqual(response['words'], valid_words_found)
- 
+
     def test_erroneous(self):
         audioFile = path.join(self.pkgDir, 'test_data',
             'speech_detection_samples', 'recording_sentence1.ogg')
@@ -63,8 +63,8 @@ class SppechDetectionGoogleTests(unittest.TestCase):
         self.assertNotEqual(response['error'], u'')
         response = self.ch.speechRecognitionGoogle(audioFile, [], 'en')
         self.assertNotEqual(response['error'], u'')
-        response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', 'klklklkl')
-        self.assertNotEqual(response['error'], u'')
+        #  response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', 'klklklkl')
+        #  self.assertNotEqual(response['error'], u'')
         response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', '')
         self.assertNotEqual(response['error'], u'')
         response = self.ch.speechRecognitionGoogle(audioFile, 'nao_ogg', 3)
