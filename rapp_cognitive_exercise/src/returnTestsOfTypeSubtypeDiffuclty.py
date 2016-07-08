@@ -92,14 +92,17 @@ class ReturnTests:
       res.trace.append("IndexError: " +str(e))
       res.error="IndexError: "+str(e)
       res.success=False
+      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
     except IOError, e:
       res.success=False
       res.trace.append("IOError: "+str(e))
       res.error="IOError: "+str(e)
+      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
     except KeyError, e:
       res.success=False
       res.trace.append('"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e))
       res.error='"KeyError (probably invalid cfg/.yaml parameter) "%s"' % str(e)
+      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
     except AppError as e:
       AppError.passErrorToRosSrv(e,res)
       res.totalNumberOfTestsReturned=0
