@@ -44,7 +44,7 @@ var webService = require(path.join(__dirname, '../webService/webService.js'));
  * @param wName - Worker's name to assign;
  */
 var setWorkerName = function( wName ){
-  if( ! wName ){
+  if (! wName) {
     throw new Error("Invalid set of Arguments. Missing wName!");
   }
   global.WORKER = global.WORKER || {name: wName, services: []};
@@ -56,34 +56,28 @@ var launchSvcAll = function(){
   var workerDir = path.dirname(path.join(
     ENV.PATHS.PKG_DIR, ENV.WORKERS[ WORKER.name ].path));
 
-  for( var i in workerSvc ){
-    var svcParams = ENV.SERVICES[ workerSvc[i] ];
-    if( svcParams.launch ){
+  for (var i in workerSvc) {
+    var svcParams = ENV.SERVICES[workerSvc[i]];
+    if (svcParams.launch) {
       var srcPath = '';
 
-      if( svcParams.path ){
-        srcPath = path.join(
-          ENV.PATHS.SERVICES_DIR, svcParams.path);
-      }
-      else{
-        srcPath = path.join(
-          ENV.PATHS.SERVICES_DIR,
-          svcParams.name, 'svc.js'
-        );
+      if (svcParams.path) {
+        srcPath = path.join(ENV.PATHS.SERVICES_DIR, svcParams.path);
+      } else {
+        srcPath = path.join(ENV.PATHS.SERVICES_DIR, svcParams.name, 'svc.js');
       }
 
       var svcImpl = require(srcPath);
 
       var options = {
-        name:       svcParams.name,
-        urlName:    svcParams.url_name,
+        name: svcParams.name,
+        urlName: svcParams.url_name,
         workerName: WORKER.name,
-        anonymous:  svcParams.anonymous,
-        namespace:  svcParams.namespace,
-        timeout:    svcParams.timeout,
-        rosSrvName: svcParams.ros_srv_name || "",
-        ros_bridge: svcParams.ros_bridge || false,
-        auth:       svcParams.authentication || false
+        anonymous: svcParams.anonymous,
+        namespace: svcParams.namespace,
+        timeout: svcParams.timeout,
+        ros_connection: svcParams.ros_connection || false,
+        authentication: svcParams.authentication || false
       };
 
       var svc = new webService(svcImpl, options);
@@ -95,7 +89,7 @@ var launchSvcAll = function(){
 
 
 // Global worker thread space hack!!
-global.ENV = require( path.join(__dirname, '../..', 'env.js') );
+global.ENV = require(path.join(__dirname, '../..', 'env.js'));
 
 
 exports.setWorkerName = setWorkerName;

@@ -61,7 +61,7 @@ function svcImpl ( req, resp, ros )
   }
 
   // Call ROS-Service.
-  ros.callService(rosSrvName, rosMsg, {success: callback, fail: onerror});
+  ros.callService(rosSrvName, rosMsg, callback, onerror);
 }
 
 

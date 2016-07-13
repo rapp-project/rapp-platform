@@ -32,10 +32,20 @@
 
 /*!
  * @brief Rapp Authentication prototype implementation.
+ *
+ * ROUTE
  */
-function RappAuth(ros) {
+function RappAuth(ros, onsuccess, onfailure) {
   this.rosSvcName = '/rapp/rapp_application_authentication/authenticate_token';
   this.ros = ros;
+
+  // Events
+  this.onsuccess = onsuccess || function(req, resp) {
+
+  };
+  this.onfailure = onfailure || function(req, resp) {
+
+  };
 
   this.getToken = function(req) {
     return req.header['accept-token'];
@@ -50,34 +60,33 @@ function RappAuth(ros) {
  * @param onSuccess {Function} The on-authentication-success callback.
  * @param onFailed {Function} The on-authentication-failure callback.
  */
-RappAuth.prototype.call = function(req, resp, onSuccess_, onFailed_) {
+RappAuth.prototype.authenticate = function(req, resp) {
   var that = this;
 
-  function callback(data){
+  function callback(data) {
     var success = data.success;
     var error = data.error;
     var username = data.username;
-    if (error){
-      onFailed_(error);
-    }
-    else{
-      onSuccess_(username);
+    if (error) {
+      that.onfailure(req, resp, that.ros, error);
+    } else {
+      req.username = username;
+      if (that.onsuccess) {
+        that.onsuccess(req, resp, that.ros);
+      }
     }
   }
 
-  function onerror(e){
-    onFailed_(e);
+  function onerror(e) {
+    that.onfailure(req, resp, that.ros, e);
   }
 
-  // The authentication Service ROSMsg.
+  // The authentication Service ROS-Msg.
   var rosMsg = {
     token: this.getToken(req)
   };
 
-
-  this.ros.callService(this.rosSvcName, rosMsg, {
-    success: callback,
-    fail: onerror});
+  this.ros.callService(this.rosSvcName, rosMsg, callback, onerror);
 };
 
 

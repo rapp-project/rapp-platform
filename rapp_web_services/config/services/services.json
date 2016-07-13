@@ -257,7 +257,7 @@
     "url_name": "path_planning_plan_path_2d",
     "namespace": "",
     "authentication": true,
-    "ros_connection": false,
+    "ros_connection": true,
     "timeout": 45000
   },
   "register_user_from_store": {
@@ -267,7 +267,7 @@
     "url_name": "register_user_from_store",
     "namespace": "",
     "authentication": true,
-    "ros_connection": false,
+    "ros_connection": true,
     "timeout": 45000
   },
   "register_user_from_platform": {
@@ -277,7 +277,7 @@
     "url_name": "register_user_from_platform",
     "namespace": "",
     "authentication": true,
-    "ros_connection": false,
+    "ros_connection": true,
     "timeout": 45000
   },
   "login_user": {
@@ -287,7 +287,7 @@
     "url_name": "login_user",
     "namespace": "",
     "authentication": true,
-    "ros_connection": false,
+    "ros_connection": true,
     "timeout": 45000
   }
 }
