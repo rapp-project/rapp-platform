@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "winston": "~2.1.1",
-    "adm-zip": "~0.4.7"
+    "adm-zip": "~0.4.7",
+    "roslib": "git+https://github.com/klpanagi/roslibjs.git#develop"
   }
 }
