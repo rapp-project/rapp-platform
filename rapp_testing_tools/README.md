@@ -23,8 +23,8 @@ $ <rapp_testing_tools_package_path>/scripts/default_tests
 ## Executing Tests
 
 The rapp_run_test.py script is used in order to execute developed tests.
+The script accept the following arguments:
 
-##### Execution time arguments:
 - [ **-i** ] : Test filepath, to execute. If empty, all tests under the **default_tests** directory will be executed.
 
 ```bash
