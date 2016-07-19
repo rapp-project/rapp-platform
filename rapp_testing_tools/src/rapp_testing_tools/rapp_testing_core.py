@@ -233,7 +233,7 @@ def execute_tests_all(tests, numCalls, threaded):
                 report_test_line = l
                 break
         print '\n\t' + report_test_line
-        if 'FAILED' in output:
+        if 'FAILED' in output or 'Traceback' in output:
             failed.append(test)
             sys.stdout.write(\
                     '\t' + bcolors.BOLD + bcolors.FAIL + \
