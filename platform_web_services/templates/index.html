@@ -60,35 +60,16 @@
 
 
     <section class="readme-section">
-        <article><h2>RAPP Platform Web Services Development Templates</h2><h2>Synopsis</h2><p>Use these templates/examples as the ground-truth to develop and/or extend RAPP Platform Web Services (a.k.a HOP Web Services).</p>
-<p>While developing RAPP Platform Web Services, you might want to read on <a href="https://github.com/manuel-serrano/hop">HOP/hopjs</a></p>
+        <article><h2>RAPP Platform Web Services Templates</h2><h2>Synopsis</h2><p>Use these templates/examples as the ground-truth to develop and/or extend RAPP Platform Web Services (a.k.a HOP Web Services).</p>
 <p>If you are not familiar with server-side applications, you might also have to read on <a href="https://nodejs.org/en/">Nodejs</a></p>
 <h2>Templates</h2><p>To make development of HOP Web Services more attractive and understandable, we provide two template source files:</p>
 <ul>
-<li>web_service.template.js</li>
-<li>web_service_post_file.template.js</li>
+<li>web_service_basic.template.js</li>
+<li>web_service_upload_file.template.js</li>
 </ul>
 <p>Using these templates as a reference while developing HOP Web Services, might save you alot of hours studying!<br>In most cases, you might have to change just a few lines of code!</p>
-<h4>web_service.template.js</h4><p>Illustrates a web-service implementation with, multiple input arguments, ROS interface, asynchronous response.</p>
-<h4>web_service_post_file.template.js</h4><p>Illustrates a web-service implementation with, multiple input arguments, file transfers, ROS interface, asynchronous response.</p>
-<p>##Notable comment:</p>
-<p>Currently a bug on HOP http request parser exists, which let all service input parameters to be parsed as strings.<br>For example:</p>
-<pre class="prettyprint source lang-javascript"><code>service foo( {str: '', num: 0} ){
-    console.log(typeof str);
-    console.log(typeof num);
-}</code></pre><p>will report both <strong>str</strong> and num arguments to be of type <strong>String</strong>.</p>
-<p>To overcome this issue in case of <strong>Number</strong> or <strong>Boolean</strong> data types, you have to manually cast to the appropriate type</p>
-<pre class="prettyprint source lang-javascript"><code>service foo( {bool_arg: false, num_arg: 0} ){
-      //  Dynamic cast to Boolean.
-    if (bool_arg === 'True' || bool_arg === 'true') {bool_arg = true;}
-      else {bool_arg = false;}
-
-    // Dynamic cast to Number.
-    num_arg = parseInt(num_arg);
-}</code></pre><h2>Contributors</h2><ul>
-<li>Konstaninos Panayiotou, [klpanagi@gmail.com]</li>
-<li>Manos Tsardoulias, [etsardou@gmail.com]</li>
-</ul></article>
+<h4>web_service_basic.template.js</h4><p>Illustrates a web-service implementation with, multiple input arguments, ROS interface</p>
+<h4>web_service_upload_file.template.js</h4><p>Illustrates a web-service implementation that accepts and handles file uploads.</p></article>
     </section>
 
 
@@ -103,7 +84,7 @@
 <header>
     
         <h2>
-        web_service.template.js
+        web_service_basic.template.js
         </h2>
         
     
@@ -114,27 +95,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Illustrates the implementation of a HOP Service, a.k.a<br> RAPP-Platform-Web-Service.</p>
-<p> Basic Components (modules)</p>
-<pre class="prettyprint source"><code> hop = require('hop').
-   Import and use hopjs functionalities.
-   For more information visit:
-       https://github.com/manuel-serrano/hop
-
- RosBridgeJS.js
-   Use this module to achieve communication with ROS-framework.
-   This module integrates a service controller to connect to
-   the rosbridge-websocket-server.
-   For more information on rosbridge-websocket-server visit:
-       http://wiki.ros.org/rosbridge_suite
-
-   For more information on the RosBridgeJS module visit:
-       https://github.com/klpanagi/RosBridgeJS
-
- RandStrGenerator.js
-   Random string generator class to generate cached unique
-   identity keys. Used to generate a unique id for each client
-   service request.</code></pre></div>
+            <div class="description"><p>Illustrates the implementation of a HOP Service, a.k.a<br> RAPP Platform Web Service.</p></div>
         
 
         
@@ -179,8 +140,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="web_service.template.js.html">web_service.template.js</a>,
-				 <a href="web_service.template.js.html#sunlight-1-line-21">line 21</a>
+				<a href="web_service_basic.template.js.html">web_service_basic.template.js</a>,
+				 <a href="web_service_basic.template.js.html#sunlight-1-line-21">line 21</a>
 			</li>
 		</ul>
 	</dd>
@@ -228,7 +189,7 @@
 <header>
     
         <h2>
-        web_service_post_file.template.js
+        web_service_upload_file.template.js
         </h2>
         
     
@@ -239,35 +200,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Illustrates the implementation of a HOP Service, a.k.a<br> RAPP-Platform-Web-Service, with file post field(s).</p>
-<p> We use multipart/form-data HTTP POST requests to transfer files from<br> client-side applications to the RAPP Platform Web Services.</p>
-<p> An example of using multipart/form-data file-data post fields is a request<br> for RAPP Platform face-detection service. In this case we need to send an<br> image frame to the face_detection RAPP Platform service in order to perform<br> face_detection operations onto that image frame.</p>
-<p> While posting multipart/form-data requests, the Front-End HOP HTTP Server<br> is responsible to parse the post fields, export the file-data post field,<br> store the file into the server's cache directory and report, as input<br> to the relevant HOP Web Service, the system path to the stored file.</p>
-<p> Basic Components (modules)</p>
-<pre class="prettyprint source"><code> hop = require('hop').
-   Import and use hopjs functionalities.
-   For more information visit:
-       https://github.com/manuel-serrano/hop
-
- RosBridgeJS.js
-   Use this module to achieve communication with ROS-framework.
-   This module integrates a service controller to connect to
-   the rosbridge-websocket-server.
-   For more information on rosbridge-websocket-server visit:
-       http://wiki.ros.org/rosbridge_suite
-
-   For more information on the RosBridgeJS module visit:
-       https://github.com/klpanagi/RosBridgeJS
-
- RandStrGenerator.js
-   Random string generator class to generate cached unique
-   identity keys. Used to generate a unique id for each client
-   service request.
-
- fileUtils.js
-   Wrapper to nodejs File System module ('fs'). Integrates
-   additional error handling while working with the file system.
-   (File System operations like copy, rename, remove, etc.)</code></pre></div>
+            <div class="description"><p>Illustrates the implementation of a HOP Service, a.k.a<br> RAPP Platform Web Service, which accepts and handles file uploads.</p></div>
         
 
         
@@ -312,8 +245,8 @@
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="web_service_post_file.template.js.html">web_service_post_file.template.js</a>,
-				 <a href="web_service_post_file.template.js.html#sunlight-1-line-21">line 21</a>
+				<a href="web_service_upload_file.template.js.html">web_service_upload_file.template.js</a>,
+				 <a href="web_service_upload_file.template.js.html#sunlight-1-line-21">line 21</a>
 			</li>
 		</ul>
 	</dd>
@@ -379,7 +312,7 @@
 
 <span class="jsdoc-message">
 	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
-	on Fri Jul 1st 2016 using the <a
+	on Tue Jul 19th 2016 using the <a
 	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
 </span>
 </footer>

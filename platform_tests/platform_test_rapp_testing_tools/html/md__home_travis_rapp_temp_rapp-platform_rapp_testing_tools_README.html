@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="RAPP_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">RAPP Platform Tests - Testing Tools
-   &#160;<span id="projectnumber">v0.5.5</span>
+   &#160;<span id="projectnumber">v0.6.0</span>
    </div>
    <div id="projectbrief">RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots</div>
   </td>
@@ -105,55 +105,31 @@ $(document).ready(function(){initNavTree('md__home_travis_rapp_temp_rapp-platfor
 <div class="contents">
 <div class="textblock"><h2>Synopsis</h2>
 <p>Testing tools used for RAPP Platform integration tests.</p>
-<p>All tests use the RappCloud python module,<a href="https://github.com/rapp-project/rapp-api/tree/master/python">python-rapp-api</a>, to communicate with RAPP Platform AI modules.</p>
+<p>All tests use the Python implementation of the RAPP Platform API,<a href="https://github.com/rapp-project/rapp-api/tree/master/python">rapp-platform-api/python</a>, to request for .</p>
+<p>Test classes inherit from Python unit testing framework, <a href="https://docs.python.org/2.7/library/unittest.html">unittest</a></p>
 <h2>Tests Directory</h2>
-<p>By default, this package containes basic, out-of-the-box, integration tests. These tests are located under:</p>
-<p>```shell $ &lt;rapp_testing_tools_package_path&gt;/scripts/default_tests ```</p>
+<p>By default, this package containes out-of-the-box, integration tests. These tests are located under:</p>
+<p>```bash $ &lt;rapp_testing_tools_package_path&gt;/scripts/default_tests ```</p>
 <h2>Executing Tests</h2>
-<p>The <a class="el" href="rapp__run__test_8py.html">rapp_run_test.py</a> script is used in order to execute developed tests.</p>
-<h5>Execution time arguments:</h5>
+<p>The <a class="el" href="rapp__run__test_8py.html">rapp_run_test.py</a> script is used in order to execute developed tests. The script accept the following arguments:</p>
 <ul>
-<li>[ **-i** ] : Give as input, the test name, to execute.</li>
+<li>[ **-i** ] : Test filepath, to execute. If empty, all tests under the <b>default_tests</b> directory will be executed.</li>
 </ul>
-<p>```shell $ ./rapp_run_test_.py -i face_detection_test_1.py ```</p>
+<p>```bash $ ./rapp_run_test_.py -i <a class="el" href="face__detection__tests_8py.html">default_tests/face_detection_tests.py</a> ```</p>
 <ul>
-<li>[ **-n** ] : Give number of execution of test(s).</li>
+<li>[ **-n** ] : Number of times of test(s) execution.</li>
 </ul>
-<p>```shell $ ./rapp_run_test.py -i face_detection_test_1.py -n 10 ```</p>
+<p>```bash $ ./rapp_run_test.py -i <a class="el" href="face__detection__tests_8py.html">default_tests/face_detection_tests.py</a> -n 10 ```</p>
 <ul>
-<li>[ **-t** ] : Run the test in threaded mode which means that multible invocations can be done, simultaneous. Each test execution is handled by a standalone thread.</li>
+<li>[ **-t** ] : Run the test in threaded mode. Multible invocations can be done, simultaneous. Each test execution is handled by a single thread.</li>
 </ul>
-<p>```shell $ ./rapp_run_test.py -i face_detection_test_1.py -n 10 -t ```</p>
-<ul>
-<li>[ **-c** ] : Test classes can be used to execute a spesific family of tests. Using test classes all tests, under this class, will be executed. In most cases a test class is named after the relevant RAPP Platform ROS-Package; [ <b>face-detection, qr-detection, speech-detection, speech-detection-sphinx4, speech-detection-google, ontology, cognitive, tts</b> ]</li>
-</ul>
-<p>```shell $ ./rapp_run_test.py -c face-detection ```</p>
-<p><b>Note:</b> If no test_name is provided as argument, all tests located under tests paths are executed!!</p>
-<p>There are two ways of executing developed tests:</p>
-<ul>
-<li>Execute directly.</li>
-<li>Execute under the ROS framework.</li>
-</ul>
-<h3>Using the python executable, directly.</h3>
-<p>The below example executes the qr_detection_test_1, five times in sequential mode.</p>
-<p>```shell $ ./rapp_run_test.py -i qr_detection_test_1.py -n 5 ```</p>
-<h3>Using ROS framework</h3>
-<p>The below example executes all tests, once.</p>
-<p>```shell $ rosrun <a class="el" href="namespacerapp__testing__tools.html">rapp_testing_tools</a> <a class="el" href="rapp__run__test_8py.html">rapp_run_test.py</a> ```</p>
+<p>```bash $ ./rapp_run_test.py -i <a class="el" href="face__detection__tests_8py.html">default_tests/face_detection_tests.py</a> -n 10 -t ```</p>
+<p><b>Note:</b> If no test_name is provided as argument, all tests are executed!!</p>
 <h2>Developing Tests</h2>
-<p>A template.py is located under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools/scripts/default_tests">default_tests</a> directory of the <a class="el" href="namespacerapp__testing__tools.html">rapp_testing_tools</a> package.</p>
-<p>```shell $ &lt;path_to_rapp_testing_tools_package&gt;/scripts/default_tests ```</p>
-<p>Also several tests have already been developed, located under the default_tests directory. Those can be used as a reference for developing new tests.</p>
-<h3>Where to store developed tests</h3>
-<p>By default, developed tests are stored under the scripts/default_tests directory.</p>
-<p>To define external tests directories, developers have to append that path into the params.yaml configuration file. This file is located under the config/ directory in this package.</p>
-<p>Lets say for example that you want to store tests under:</p>
-<p>```shell $ ${HOME}/rapp_integration_tests_external ```</p>
-<p>You can extend the path directories used by the test-engine to search under for python test source files. Just write down custom directory paths into the <a href="[params.yaml](https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/config/params.yaml">params.yaml</a>) file.</p>
-<p>```yaml tests_path:</p>
-<ul>
-<li>'~/rapp_integration_tests_external' ```</li>
-</ul>
+<p>A <a class="el" href="template__test_8py.html">template_test.py</a> is located under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools/scripts/default_tests">default_tests</a> directory of the <a class="el" href="namespacerapp__testing__tools.html">rapp_testing_tools</a> package.</p>
+<p>```bash $ &lt;path_to_rapp_testing_tools_package&gt;/scripts/default_tests/ ```</p>
+<p>Also, several tests have already been developed, located under the default_tests directory. Those can be used as a reference/examples for developing new tests.</p>
+<p>A Section in the <a href="https://github.com/rapp-project/rapp-platform/wiki/How-to-implement-an-integration-test%3F">Wiki</a> exists that guides through developing integration tests for the RAPP Platform.</p>
 <h2>Contributors</h2>
 <ul>
 <li>Konstantinos Panayiotou, [<a href="#" onclick="location.href='mai'+'lto:'+'klp'+'an'+'agi'+'@g'+'mai'+'l.'+'com'; return false;">klpan<span style="display: none;">.nosp@m.</span>agi@<span style="display: none;">.nosp@m.</span>gmail<span style="display: none;">.nosp@m.</span>.com</a>]</li>
@@ -168,7 +144,7 @@ $(document).ready(function(){initNavTree('md__home_travis_rapp_temp_rapp-platfor
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 1 2016 18:19:28 for RAPP Platform Tests - Testing Tools by
+    <li class="footer">Generated on Tue Jul 19 2016 11:44:08 for RAPP Platform Tests - Testing Tools by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

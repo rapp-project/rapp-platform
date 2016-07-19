@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="RAPP_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">RAPP Platform Wiki
-   &#160;<span id="projectnumber">v0.5.5</span>
+   &#160;<span id="projectnumber">v0.6.0</span>
    </div>
    <div id="projectbrief">RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots</div>
   </td>
@@ -103,50 +103,112 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_How-to-implemen
 <div class="textblock"><p>It is recommended to study on <a href="https://github.com/rapp-project/rapp-platform/wiki/RAPP-Testing-Tools">Rapp-Testing-Tools</a> first.</p>
 <p>Basic documentation on "**Developing Integration Tests**" can be found <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools">here</a>.</p>
 <p>A more-in-depth information on how to write your first integration test is presented here.</p>
-<p>The <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/scripts/default_tests/template.py">template.py</a> will be used as a reference.</p>
+<p>The <a href="https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/scripts/default_tests/template_test.py">template_test.py</a> will be used as a reference.</p>
 <p>Each integration test must have the following characteristics:</p>
 <ul>
-<li>Each test is written as a seperate python source file (.py).</li>
-<li>Each test is implemented as a RappInterfaceTest class.</li>
-<li>The RappInterfaceTest class must define two member methods:<ul>
-<li>execute()</li>
-<li>validate()</li>
-</ul>
-</li>
+<li>Each test class is written as a seperate python source file (.py).</li>
+<li>Each test inherits from <code>unittest.TestCase</code> class.</li>
 <li>The <a href="https://github.com/rapp-project/rapp-api/tree/master/python">Python RAPP Platform API</a> is used to call RAPP Platform Services.</li>
 </ul>
-<p>So lets first create our RappInterfaceTest class which includes the aforementioned member methods.</p>
-<p>```python class RappInterfaceTest: """ Integration test class """ def <b>init</b>(self): pass</p>
-<p>def execute(self): pass</p>
-<p>def validate(self): pass ```</p>
-<p>From the Python RAPP Platform API import the required components. Instantiate a new <code>RappPlatformService</code> object and the Cloud Messages that will be used.</p>
-<p>```python from RappCloud import RappPlatformService from RappCloud.CloudMsgs import (...)</p>
-<p>class RappInterfaceTest: """ Integration test class """ def <b>init</b>(self): self.svcClient = RappPlatformService() ... ```</p>
-<p>Next we need to implement the validation function, <code>validate()</code>.</p>
-<p>```python def validate(self, response): error = response.error if error != "": return [error, self.elapsed_time]</p>
-<h1>Validate Results</h1>
-<p>if self.valid_results == response.serialize(): return [True, self.elapsed_time] else: return ["Unexpected result : " + str(response.serialize()), self.elapsed_time] ```</p>
-<p>Notice that the <code>validate()</code> function has a parameter named response. This is the response object returned from the Platform Service call. It is critical to return validation results as presented above!!</p>
-<p>```python return [True, self.elapsed_time] ```</p>
-<p>If the response was succesfully validated,</p>
-<p>```python return ["Unexpected result : " + str(response.serialize()), self.elapsed_time] ```</p>
-<p>if the validation failed.</p>
-<p>The <a href="https://docs.python.org/2/library/timeit.html">timeit</a> python module is used to time the execution of the test. <b>This will be deprecated in v0.7.0 release and execution time of each test will be calculated by the rapp-testing-core-engine.</b></p>
-<p>Implement the execution function.</p>
-<p>The execution function must:</p>
+<p>If you are not familiar with the Python unit testing framework (unittest), start reading from <a href="https://docs.python.org/2.7/library/unittest.html">there</a> as the rapp_testing_tools is build ontop of it. Also, basic knowledge of using the <a href="https://github.com/rapp-project/rapp-api/tree/master/python">python-rapp-platform-api</a> is required.</p>
+<p>So lets create a test class for testing the integration behaviour of the Face-Detection RAPP Platform service/functionality.</p>
+<h4>Step 1: Create the source file for the test class</h4>
+<p>Copy the <code>template_test.py</code> file and name it <code>face_detection_tests.py</code> under the <code>default_tests</code> directory</p>
+<p>```bash $ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_testing_tools/scripts/default_tests $ cp template_test.py face_detection_tests.py ```</p>
+<p>Rename the test class to <code>FaceDetectionTests</code>:</p>
+<p>```python class FaceDetectionTests(unittest.TestCase): </p>
+<pre class="fragment">def setUp(self):
+    self.ch = RappPlatformAPI()
+
+    rospack = rospkg.RosPack()
+    self.pkgDir = rospack.get_path('rapp_testing_tools')
+
+def test_templateTest(self):
+    self.assertEqual(1, 1)
+</pre><p>```</p>
+<p>Note that the <code>setUp()</code> method instantiates a RappPlatformAPI() object for calling RAPP Platform Services.</p>
+<h4>Step 2: Implement a test case</h4>
+<p>As the <code>FaceDetectionTests</code> class inherits from <code>unittest.TestCase</code>, individual tests are defined with methods whose names start with the letters <code>test</code></p>
+<p>We will implement a test of performing face-detection on a single image file (Lenna.png). We assume that the image file was previously stored under the <code>test_data</code> directory. So lets create a member method named <code>test_lenna</code> This method will be responsible for loading the image file, call the RAPP Platform Service, through the API, and evaluate the results using <code>unittest</code> assertions</p>
+<p>```python class FaceDetectionTests(unittest.TestCase): </p>
+<pre class="fragment">def setUp(self):
+    self.ch = RappPlatformAPI()
+
+    rospack = rospkg.RosPack()
+    self.pkgDir = rospack.get_path('rapp_testing_tools')
+
+def test_lenna(self):
+    self.assertEqual(1, 1)
+    response = self.ch.faceDetection(imagepath)
+
+    valid_faces = [{
+        'up_left_point': {'y': 201.0, 'x': 213.0},
+        'down_right_point': {'y': 378.0, 'x': 390.0}
+    }]
+
+    self.assertEqual(response['error'], u'')
+    self.assertEqual(response['faces'], valid_faces)
+</pre><p> ```</p>
+<p>The first assertion, `self.assertEqual(response['error'], u'')` evaluates that no error was reported from the RAPP Platform The second assertion evaluates the response from the FaceDetector.</p>
+<p>The complete face_detection_tests.py source file is:</p>
+<p>```python from os import path import timeit import unittest import rospkg</p>
+<p><b>path</b> = os.path.dirname(os.path.realpath(<b>file</b>))</p>
+<p>from RappCloud import RappPlatformAPI</p>
+<p>class FaceDetectionTests(unittest.TestCase): </p>
+<pre class="fragment">def setUp(self):
+    self.ch = RappPlatformAPI()
+
+    rospack = rospkg.RosPack()
+    self.pkgDir = rospack.get_path('rapp_testing_tools')
+
+def test_lenna(self):
+    self.assertEqual(1, 1)
+    response = self.ch.faceDetection(imagepath)
+
+    valid_faces = [{
+        'up_left_point': {'y': 201.0, 'x': 213.0},
+        'down_right_point': {'y': 378.0, 'x': 390.0}
+    }]
+
+    self.assertEqual(response['error'], u'')
+    self.assertEqual(response['faces'], valid_faces)
+</pre><p>if <b>name</b> == "__main__": unittest.main() ```</p>
+<h4>Step 3: Executing the Face Detection test case</h4>
+<p>Head to the <code>scripts</code> directory and execute the <code>rapp_run_test.py</code> script, giving as input argument the <code>face_detection_tests.py</code> file to execute:</p>
+<p>```bash $ cd ~/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_testing_tools/scripts $ ./rapp_run_test.py -i default_tests/face_detection_tests.py ```</p>
+<p>On successful test execution, the output should be:</p>
+<p>```bash </p>
+<hr/>
+<p> RAPP Platfrom Tests </p>
+<hr/>
 <ul>
-<li>Call the, <b>to-test</b>, RAPP Platform Web Service(s).</li>
-<li>Invoke the validation function.</li>
+<li>Parameters: &ndash; Number of Executions for each given test: [1] &ndash; Serial execution</li>
+<li>Tests to Execute: 1] face_detection_tests x1</li>
 </ul>
-<p>```python def execute(self): start_time = timeit.default_timer() msg = QrDetection(imageFilepath='PATH') response = self.svc.call(msg) end_time = timeit.default_timer() self.elapsed_time = end_time - start_time return self.validate(response) ```</p>
-<p>You will notice that the above implementation of the <code>execute()</code> method calls the qr_detection Service!!</p>
-<p>```python msg = QrDetection(imageFilepath='PATH') response = self.svc.call(msg) ``` </p>
+<p>Running face_detection_tests... Ran 1 tests in 0.383s Success ```</p>
+<p>If an error occures on the RAPP Platform, the returned error message will be reported to the console output. For example, if the RAPP Platform Web Server was not previously launched properly, we should get a "Connection" error on the assertion of the <code>error</code> property of the response:</p>
+<p>```bash </p>
+<hr/>
+<p> RAPP Platfrom Tests </p>
+<hr/>
+<ul>
+<li>Parameters: &ndash; Number of Executions for each given test: [1] &ndash; Serial execution</li>
+<li>Tests to Execute: 1] face_detection_tests x1</li>
+</ul>
+<p>Running face_detection_tests... Ran 1 test in 0.078s Failed </p>
+<hr/>
+ <h2>FAIL: test_lenna (<b>main</b>.FaceDetectionTests) </h2>
+<p>Traceback (most recent call last): File "/home/rappuser/rapp_platform/rapp-platform-catkin-ws/src/rapp-platform/rapp_testing_tools/scripts/default_tests/face_detection_tests.py", line 61, in test_lenna self.assertEqual(response['error'], u'') AssertionError: 'Connection Error' != u'' </p>
+<hr/>
+<p> Ran 1 test in 0.078s</p>
+<p>FAILED (failures=1)</p>
+<p>``` </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
+    <li class="footer">Generated on Tue Jul 19 2016 11:43:36 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

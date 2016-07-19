@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>RAPP Platform Web Services Common Includes Source: common/worker_utils.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">RAPP Platform Web Services Common Includes</a>
+	</div>
+	<div class="navbar-collapse">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-common_fileUtils.html">common/fileUtils</a></li><li><a href="module-common_worker_utils.html">common/worker_utils</a></li><li><a href="module-common_zip.html">common/zip</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="logger.html">logger</a></li><li><a href="RandStrGen.html">RandStrGen</a></li><li><a href="ServerCore.html">ServerCore</a></li><li><a href="WriteStream.html">WriteStream</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+</div>
+
+
+<div class="container">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: common/worker_utils.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ *  MIT License (MIT)
+ *
+ *  Copyright (c) &lt;2014> &lt;Rapp Project EU>
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ *
+ *
+ *  Authors: Konstantinos Panayiotou
+ *  Contact: klpanagi@gmail.com
+ *
+ */
+
+/**
+ * @module
+ * @description Server-side worker thread utility functions.
+ */
+
+
+var path = require('path');
+var util = require('util');
+
+var webService = require(path.join(__dirname, '../webService/webService.js'));
+
+
+/**
+ * @function setWorkerName
+ * @description Sets worker's name in global scope object.
+ *
+ * @param wName - Worker's name to assign;
+ */
+var setWorkerName = function(wName) {
+  if( ! wName ){
+    throw new Error("Invalid set of Arguments. Missing wName!");
+  }
+  global.WORKER = global.WORKER || {name: wName, services: []};
+};
+
+
+/**
+ * @function launchSvcAll
+ * @description Launch all services registered to the worker thread calling
+ * this method
+ */
+var launchSvcAll = function(){
+  var workerSvc = ENV.WORKERS[ WORKER.name ].services;
+  var workerDir = path.dirname(path.join(
+    ENV.PATHS.PKG_DIR, ENV.WORKERS[ WORKER.name ].path));
+
+  for( var i in workerSvc ){
+    var svcParams = ENV.SERVICES[ workerSvc[i] ];
+    if( svcParams.launch ){
+      var srcPath = '';
+
+      if( svcParams.path ){
+        srcPath = path.join(
+          ENV.PATHS.SERVICES_DIR, svcParams.path);
+      }
+      else{
+        srcPath = path.join(
+          ENV.PATHS.SERVICES_DIR,
+          svcParams.name, 'svc.js'
+        );
+      }
+
+      var svcImpl = require(srcPath);
+
+      var options = {
+        name:       svcParams.name,
+        urlName:    svcParams.url_name,
+        workerName: WORKER.name,
+        anonymous:  svcParams.anonymous,
+        namespace:  svcParams.namespace,
+        timeout:    svcParams.timeout,
+        rosSrvName: svcParams.ros_srv_name || "",
+        ros_bridge: svcParams.ros_bridge || false,
+        auth:       svcParams.authentication || false
+      };
+
+      var svc = new webService(svcImpl, options);
+      // Register this service to the service handler
+      svc.register();
+    }
+  }
+};
+
+
+// Global worker thread space hack!!
+global.ENV = require( path.join(__dirname, '../..', 'env.js') );
+
+
+exports.setWorkerName = setWorkerName;
+exports.launchSvcAll = launchSvcAll;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Rapp Project EU 2015
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	on Tue Jul 19th 2016 using the <a
+	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<!--<script src="scripts/sunlight.js"></script>-->
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/bootstrap-dropdown.js"></script>
+<script src="scripts/toc.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "h1,h2,h3,h4",
+		showAndHide : false,
+                navbarOffset: 10,
+		smoothScrolling: true
+	} );
+
+	$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+	//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+  $( "table" ).each( function () {
+    var $this = $( this );
+    $this.addClass('table');
+  } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+<script>
+	$( function () {
+		$( '#main' ).localScroll( {
+			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
+		} );
+		$( "dt.name" ).each( function () {
+			var $this = $( this ).find("h4");
+			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+			var dt = $(this);
+			var children = dt.next( "dd" );
+
+			dt.prepend( icon ).css( {cursor : "pointer"} );
+			dt.addClass( "member-collapsed" ).addClass( "member" );
+
+
+			children.hide();
+
+			dt.children().on( "click", function () {
+				children = dt.next( "dd" );
+				children.slideToggle( "fast", function () {
+
+					if ( children.is( ":visible" ) ) {
+						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+						dt.addClass( "member-open" ).animate( "member-collapsed" );
+					} else {
+						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
+					}
+				} );
+			} );
+
+		} );
+	} );
+</script>
+
+
+<!--Google Analytics-->
+
+
+</body>
+</html>

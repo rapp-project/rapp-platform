@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="RAPP_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">RAPP Platform Wiki
-   &#160;<span id="projectnumber">v0.5.5</span>
+   &#160;<span id="projectnumber">v0.6.0</span>
    </div>
    <div id="projectbrief">RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots</div>
   </td>
@@ -102,62 +102,45 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Testing-To
 <div class="contents">
 <div class="textblock"><p>Testing tools used for RAPP Platform integration tests.</p>
 <p>The RAPP Testing Tools have been developed in consideration of providing to <b>RAPP developers</b>, a system integration suite. While developing independent RIC modules, Web Services, Platform Agents, Robot Agents, the rapp_testing_tools package provides a way to test the functionality, system-wide.</p>
-<p>All tests use the RappCloud python module,<a href="https://github.com/rapp-project/rapp-api/tree/master/python">python-rapp-api</a> to communicate with RAPP Platform AI modules.</p>
+<p>All tests use the Python implementation of the RAPP Platform API,<a href="https://github.com/rapp-project/rapp-api/tree/master/python">rapp-platform-api/python</a>, to request for .</p>
 <p>A test, written under the RAPP testing tools framework, is composed of, at-least, the following ingredients:</p>
 <ul>
-<li>The source code that describes the test (Python).</li>
+<li>The source code of the test class.</li>
 <li>(<b>Optional</b>) Data files used as a part of the test, if any are used. Data files can be, for example, image data files that will be transmitted to the RAPP Platform in order to perform image processing algorithms on those.</li>
 </ul>
-<p>The implementation of a test defines two stages;</p>
+<p>The implementation of a test is splitted into the following:</p>
 <ul>
-<li>The test execution.</li>
+<li>The RAPP Platform Service call(s).</li>
 <li>The validation of the response.</li>
 </ul>
-<blockquote class="doxtable">
-<p>The developer, of the integration tests, is responsible to declare this set of valid results.</p>
-<p></p>
-</blockquote>
-<p>[[images/rapp-testing-tools-dia.png]]</p>
-<p>Using the RAPP testing framework, several tests have been developed. At least one test, for each module located under the RAPP Improvement Center, has been developed. Integration test are used to check on the integration functionality, of the independent components which constitute the RAPP system. Those are developed in a way to also test the functionality of the interface layers between a client-side process and the RAPP Services.</p>
+<p>Test classes inherit from Python unit testing framework, <a href="https://docs.python.org/2.7/library/unittest.html">unittest</a></p>
+<p>At least one test, for each module located under the RAPP Improvement Center, has been developed. Integration test are used to check on the integration functionality, of the independent components which constitute the RAPP system. Those are developed in a way to also test the functionality of the interface layers between a client-side process and the RAPP Services.</p>
 <h2>Executing integration tests</h2>
-<p>The rapp_run_test.py script is used in order to execute developed tests.</p>
-<h5>Execution time arguments:</h5>
+<p>The rapp_run_test.py script is used in order to execute developed tests. This script accepts the following arguments passed by the cli:</p>
 <ul>
-<li>[ **-i** ] : Give as input, the test name, to execute.</li>
+<li>[ **-i** ] : Test filepath, to execute. If empty, all tests under the <b>default_tests</b> directory will be executed.</li>
 </ul>
-<p>```shell $ ./rapp_run_test_.py -i face_detection_test_1.py ```</p>
+<p>```bash $ ./rapp_run_test_.py -i default_tests/face_detection_tests.py ```</p>
 <ul>
-<li>[ **-n** ] : Give number of execution of test(s).</li>
+<li>[ **-n** ] : Number of times of test(s) execution.</li>
 </ul>
-<p>```shell $ ./rapp_run_test.py -i face_detection_test_1.py -n 10 ```</p>
+<p>```bash $ ./rapp_run_test.py -i default_tests/face_detection_tests.py -n 10 ```</p>
 <ul>
-<li>[ **-t** ] : Run the test in threaded mode which means that multible invocations can be done, simultaneous. Each test execution is handled by a standalone thread.</li>
+<li>[ **-t** ] : Run the test in threaded mode. Multible invocations can be done, simultaneous. Each test execution is handled by a single thread.</li>
 </ul>
-<p>```shell $ ./rapp_run_test.py -i face_detection_test_1.py -n 10 -t ```</p>
-<ul>
-<li>[ **-c** ] : Test classes can be used to execute a spesific family of tests. Using test classes all tests, under this class, will be executed. In most cases a test class is named after the relevant RAPP Platform ROS-Package; [ <b>face-detection, qr-detection, speech-detection, speech-detection-sphinx4, speech-detection-google, ontology, cognitive, tts</b> ]</li>
-</ul>
-<p>```shell $ ./rapp_run_test.py -i -c face-detection ```</p>
-<p><b>Note:</b> If no test_name is provided as argument, all tests located under tests paths are executed!!</p>
-<p>There are two ways of executing developed tests:</p>
-<ul>
-<li>Execute directly.</li>
-<li>Execute under the ROS framework.</li>
-</ul>
-<h3>Using the python executable, directly</h3>
-<p>The below example executes the qr_detection_test_1, five times in sequential mode.</p>
-<p>```shell $ ./rapp_run_test.py -i qr_detection_test_1.py -n 5 ```</p>
-<h3>Using ROS framework</h3>
-<p>The below example executes all tests, once.</p>
-<p>```shell $ rosrun rapp_testing_tools rapp_run_test.py ```</p>
-<h2>Developing RAPP integration tests using the RAPP-Testing-Tools</h2>
-<p>For <b>more-in-depth</b> information (how to write and execute your own integration tests, using the rapp_testin_tools framework), please have a look at the technical documentation of the <b>rapp_testing_tools</b> package, <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools">here</a>. </p>
+<p>```bash $ ./rapp_run_test.py -i default_tests/face_detection_tests.py -n 10 -t ```</p>
+<p><b>Note:</b> If no test_name is provided as argument, all tests are executed!!</p>
+<h2>Developing integration tests</h2>
+<p>A template_test.py is located under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools/scripts/default_tests">default_tests</a> directory of the rapp_testing_tools package.</p>
+<p>```bash $ &lt;path_to_rapp_testing_tools_package&gt;/scripts/default_tests/ ```</p>
+<p>Also, several tests have already been developed, located under the default_tests directory. Those can be used as a reference/examples for developing new tests.</p>
+<p>A Section in the <a href="https://github.com/rapp-project/rapp-platform/wiki/How-to-implement-an-integration-test%3F">Wiki</a> exists that guides through developing integration tests for the RAPP Platform. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 1 2016 18:18:55 for RAPP Platform Wiki by
+    <li class="footer">Generated on Tue Jul 19 2016 11:43:36 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

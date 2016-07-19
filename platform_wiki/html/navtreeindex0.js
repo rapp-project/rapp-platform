@@ -51,7 +51,9 @@ var NAVTREEINDEX0 =
 "md_rapp-platform_8wiki_RAPP-Weather-Reporter.html":[49],
 "md_rapp-platform_8wiki_Remote-application-for-NAO-in-Python_1-Detect-and-track-QR-tags-.html":[50],
 "md_rapp-platform_8wiki_Remote-application-for-NAO-in-Python_1-Use-ROS-_6-TLD-tracker-to-approach-arbitrary-objects-.html":[51],
-"md_rapp-platform_8wiki_What-is-the-RAPP-Platform.html":[52],
+"md_rapp-platform_8wiki_Troubleshooting-RAPP-Improvement-Center.html":[52],
+"md_rapp-platform_8wiki_Troubleshooting-RAPP-Platform-Web-Server.html":[53],
+"md_rapp-platform_8wiki_What-is-the-RAPP-Platform.html":[54],
 "md_rapp-platform_8wiki__Footer.html":[0],
 "md_rapp-platform_8wiki__Sidebar.html":[1],
 "pages.html":[]

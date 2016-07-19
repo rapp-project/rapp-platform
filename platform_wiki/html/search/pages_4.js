@@ -27,5 +27,7 @@ var searchData=
   ['rapp_2dtesting_2dtools',['RAPP-Testing-Tools',['../md_rapp-platform_8wiki_RAPP-Testing-Tools.html',1,'']]],
   ['rapp_2dtext_2dto_2dspeech_2dusing_2despeak_2d_26_2dmbrola',['RAPP-Text-to-speech-using-Espeak-&amp;-Mbrola',['../md_rapp-platform_8wiki_RAPP-Text-to-speech-using-Espeak-_6-Mbrola.html',1,'']]],
   ['rapp_2dutilities',['RAPP-Utilities',['../md_rapp-platform_8wiki_RAPP-Utilities.html',1,'']]],
-  ['rapp_2dweather_2dreporter',['RAPP-Weather-Reporter',['../md_rapp-platform_8wiki_RAPP-Weather-Reporter.html',1,'']]]
+  ['rapp_2dweather_2dreporter',['RAPP-Weather-Reporter',['../md_rapp-platform_8wiki_RAPP-Weather-Reporter.html',1,'']]],
+  ['rapp_20improvement_20center_20_28ric_29_20related_20troubleshooting',['RAPP Improvement Center (RIC) related troubleshooting',['../md_rapp-platform_8wiki_Troubleshooting-RAPP-Improvement-Center.html',1,'']]],
+  ['rapp_20platform_20web_20server_20_28ric_29_20related_20troubleshooting',['RAPP Platform Web Server (RIC) related troubleshooting',['../md_rapp-platform_8wiki_Troubleshooting-RAPP-Platform-Web-Server.html',1,'']]]
 ];

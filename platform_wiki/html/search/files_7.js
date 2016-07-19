@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['what_2dis_2dthe_2drapp_2dplatform_3f_2dwhy_2dis_2dit_2duseful_3f_2emd',['What-is-the-RAPP-Platform?-Why-is-it-useful?.md',['../What-is-the-RAPP-Platform_04-Why-is-it-useful_04_8md.html',1,'']]]
+  ['troubleshooting_2drapp_2dimprovement_2dcenter_2emd',['Troubleshooting-RAPP-Improvement-Center.md',['../Troubleshooting-RAPP-Improvement-Center_8md.html',1,'']]],
+  ['troubleshooting_2drapp_2dplatform_2dweb_2dserver_2emd',['Troubleshooting-RAPP-Platform-Web-Server.md',['../Troubleshooting-RAPP-Platform-Web-Server_8md.html',1,'']]]
 ];

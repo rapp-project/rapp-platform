@@ -2,92 +2,52 @@
 
 Testing tools used for R\-A\-P\-P Platform integration tests.
 
-All tests use the Rapp\-Cloud python module,\href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt python-\/rapp-\/api}, to communicate with R\-A\-P\-P Platform A\-I modules.
+All tests use the Python implementation of the R\-A\-P\-P Platform A\-P\-I,\href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt rapp-\/platform-\/api/python}, to request for .
+
+Test classes inherit from Python unit testing framework, \href{https://docs.python.org/2.7/library/unittest.html}{\tt unittest}
 
 \subsection*{Tests Directory}
 
-By default, this package containes basic, out-\/of-\/the-\/box, integration tests. These tests are located under\-:
+By default, this package containes out-\/of-\/the-\/box, integration tests. These tests are located under\-:
 
-```shell \$ $<$rapp\-\_\-testing\-\_\-tools\-\_\-package\-\_\-path$>$/scripts/default\-\_\-tests ```
+```bash \$ $<$rapp\-\_\-testing\-\_\-tools\-\_\-package\-\_\-path$>$/scripts/default\-\_\-tests ```
 
 \subsection*{Executing Tests}
 
-The \hyperlink{rapp__run__test_8py}{rapp\-\_\-run\-\_\-test.\-py} script is used in order to execute developed tests.
-
-\subparagraph*{Execution time arguments\-:}
+The \hyperlink{rapp__run__test_8py}{rapp\-\_\-run\-\_\-test.\-py} script is used in order to execute developed tests. The script accept the following arguments\-:
 
 
 \begin{DoxyItemize}
-\item \mbox{[} $\ast$$\ast$-\/i$\ast$$\ast$ \mbox{]} \-: Give as input, the test name, to execute.
+\item \mbox{[} $\ast$$\ast$-\/i$\ast$$\ast$ \mbox{]} \-: Test filepath, to execute. If empty, all tests under the {\bfseries default\-\_\-tests} directory will be executed.
 \end{DoxyItemize}
 
-```shell \$ ./rapp\-\_\-run\-\_\-test\-\_\-.py -\/i face\-\_\-detection\-\_\-test\-\_\-1.\-py ```
+```bash \$ ./rapp\-\_\-run\-\_\-test\-\_\-.py -\/i \hyperlink{face__detection__tests_8py}{default\-\_\-tests/face\-\_\-detection\-\_\-tests.\-py} ```
 
 
 \begin{DoxyItemize}
-\item \mbox{[} $\ast$$\ast$-\/n$\ast$$\ast$ \mbox{]} \-: Give number of execution of test(s).
+\item \mbox{[} $\ast$$\ast$-\/n$\ast$$\ast$ \mbox{]} \-: Number of times of test(s) execution.
 \end{DoxyItemize}
 
-```shell \$ ./rapp\-\_\-run\-\_\-test.py -\/i face\-\_\-detection\-\_\-test\-\_\-1.\-py -\/n 10 ```
+```bash \$ ./rapp\-\_\-run\-\_\-test.py -\/i \hyperlink{face__detection__tests_8py}{default\-\_\-tests/face\-\_\-detection\-\_\-tests.\-py} -\/n 10 ```
 
 
 \begin{DoxyItemize}
-\item \mbox{[} $\ast$$\ast$-\/t$\ast$$\ast$ \mbox{]} \-: Run the test in threaded mode which means that multible invocations can be done, simultaneous. Each test execution is handled by a standalone thread.
+\item \mbox{[} $\ast$$\ast$-\/t$\ast$$\ast$ \mbox{]} \-: Run the test in threaded mode. Multible invocations can be done, simultaneous. Each test execution is handled by a single thread.
 \end{DoxyItemize}
 
-```shell \$ ./rapp\-\_\-run\-\_\-test.py -\/i face\-\_\-detection\-\_\-test\-\_\-1.\-py -\/n 10 -\/t ```
+```bash \$ ./rapp\-\_\-run\-\_\-test.py -\/i \hyperlink{face__detection__tests_8py}{default\-\_\-tests/face\-\_\-detection\-\_\-tests.\-py} -\/n 10 -\/t ```
 
-
-\begin{DoxyItemize}
-\item \mbox{[} $\ast$$\ast$-\/c$\ast$$\ast$ \mbox{]} \-: Test classes can be used to execute a spesific family of tests. Using test classes all tests, under this class, will be executed. In most cases a test class is named after the relevant R\-A\-P\-P Platform R\-O\-S-\/\-Package; \mbox{[} {\bfseries face-\/detection, qr-\/detection, speech-\/detection, speech-\/detection-\/sphinx4, speech-\/detection-\/google, ontology, cognitive, tts} \mbox{]}
-\end{DoxyItemize}
-
-```shell \$ ./rapp\-\_\-run\-\_\-test.py -\/c face-\/detection ```
-
-{\bfseries Note\-:} If no test\-\_\-name is provided as argument, all tests located under tests paths are executed!!
-
-There are two ways of executing developed tests\-:
-\begin{DoxyItemize}
-\item Execute directly.
-\item Execute under the R\-O\-S framework.
-\end{DoxyItemize}
-
-\subsubsection*{Using the python executable, directly.}
-
-The below example executes the qr\-\_\-detection\-\_\-test\-\_\-1, five times in sequential mode.
-
-```shell \$ ./rapp\-\_\-run\-\_\-test.py -\/i qr\-\_\-detection\-\_\-test\-\_\-1.\-py -\/n 5 ```
-
-\subsubsection*{Using R\-O\-S framework}
-
-The below example executes all tests, once.
-
-```shell \$ rosrun \hyperlink{namespacerapp__testing__tools}{rapp\-\_\-testing\-\_\-tools} \hyperlink{rapp__run__test_8py}{rapp\-\_\-run\-\_\-test.\-py} ```
+{\bfseries Note\-:} If no test\-\_\-name is provided as argument, all tests are executed!!
 
 \subsection*{Developing Tests}
 
-A template.\-py is located under the \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools/scripts/default_tests}{\tt default\-\_\-tests} directory of the \hyperlink{namespacerapp__testing__tools}{rapp\-\_\-testing\-\_\-tools} package.
+A \hyperlink{template__test_8py}{template\-\_\-test.\-py} is located under the \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools/scripts/default_tests}{\tt default\-\_\-tests} directory of the \hyperlink{namespacerapp__testing__tools}{rapp\-\_\-testing\-\_\-tools} package.
 
-```shell \$ $<$path\-\_\-to\-\_\-rapp\-\_\-testing\-\_\-tools\-\_\-package$>$/scripts/default\-\_\-tests ```
+```bash \$ $<$path\-\_\-to\-\_\-rapp\-\_\-testing\-\_\-tools\-\_\-package$>$/scripts/default\-\_\-tests/ ```
 
-Also several tests have already been developed, located under the default\-\_\-tests directory. Those can be used as a reference for developing new tests.
+Also, several tests have already been developed, located under the default\-\_\-tests directory. Those can be used as a reference/examples for developing new tests.
 
-\subsubsection*{Where to store developed tests}
-
-By default, developed tests are stored under the scripts/default\-\_\-tests directory.
-
-To define external tests directories, developers have to append that path into the params.\-yaml configuration file. This file is located under the config/ directory in this package.
-
-Lets say for example that you want to store tests under\-:
-
-```shell \$ \$\{H\-O\-M\-E\}/rapp\-\_\-integration\-\_\-tests\-\_\-external ```
-
-You can extend the path directories used by the test-\/engine to search under for python test source files. Just write down custom directory paths into the \href{[params.yaml](https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/config/params.yaml}{\tt params.\-yaml}) file.
-
-```yaml tests\-\_\-path\-:
-\begin{DoxyItemize}
-\item '$\sim$/rapp\-\_\-integration\-\_\-tests\-\_\-external' ```
-\end{DoxyItemize}
+A Section in the \href{https://github.com/rapp-project/rapp-platform/wiki/How-to-implement-an-integration-test%3F}{\tt Wiki} exists that guides through developing integration tests for the R\-A\-P\-P Platform.
 
 \subsection*{Contributors}
 

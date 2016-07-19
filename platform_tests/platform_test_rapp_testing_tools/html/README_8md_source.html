@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="RAPP_logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">RAPP Platform Tests - Testing Tools
-   &#160;<span id="projectnumber">v0.5.5</span>
+   &#160;<span id="projectnumber">v0.6.0</span>
    </div>
    <div id="projectbrief">RAPP Platform is a collection of ROS nodes and back-end processes that aim to deliver ready-to-use generic services to robots</div>
   </td>
@@ -116,125 +116,77 @@ $(document).ready(function(){initNavTree('README_8md.html','');});
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;Testing tools used <span class="keywordflow">for</span> RAPP Platform integration tests.</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;All tests use the RappCloud python module,[python-rapp-api](https:<span class="comment">//github.com/rapp-project/rapp-api/tree/master/python), to communicate with RAPP Platform AI modules.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;All tests use the Python implementation of the RAPP Platform API,[rapp-platform-api/python](https:<span class="comment">//github.com/rapp-project/rapp-api/tree/master/python), to request for .</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">## Tests Directory</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;By <span class="keywordflow">default</span>, <span class="keyword">this</span> <span class="keyword">package </span>containes basic, out-of-the-box, integration tests. These tests are located</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;under:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;```shell</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;$ &lt;rapp_testing_tools_package_path&gt;/scripts/default_tests</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;```</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;Test classes inherit from Python unit testing framework, [unittest](https:<span class="comment">//docs.python.org/2.7/library/unittest.html)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">## Tests Directory</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;By <span class="keywordflow">default</span>, <span class="keyword">this</span> <span class="keyword">package </span>containes out-of-the-box, integration tests. These tests are located</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;under:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;```bash</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;$ &lt;rapp_testing_tools_package_path&gt;/scripts/default_tests</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;```</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;## Executing Tests</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;The rapp_run_test.py script is used in order to execute developed tests.</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;##### Execution time arguments:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;- [ **-i** ] : Give as input, the test name, to execute.</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;```shell</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;$ ./rapp_run_test_.py -i face_detection_test_1.py</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;```</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;- [ **-n** ] : Give number of execution of test(s).</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;```shell</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;$ ./rapp_run_test.py -i face_detection_test_1.py -n 10</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;```</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;- [ **-t** ] : Run the test in threaded mode which means that multible invocations can be done, simultaneous. Each test execution is handled by a standalone thread.</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;```shell</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;$ ./rapp_run_test.py -i face_detection_test_1.py -n 10 -t</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;```</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;## Executing Tests</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;The rapp_run_test.py script is used in order to execute developed tests.</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;The script accept the following arguments:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;- [ **-i** ] : Test filepath, to execute. If empty, all tests under the **default_tests** directory will be executed.</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;```bash</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;$ ./rapp_run_test_.py -i default_tests/face_detection_tests.py</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;```</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;- [ **-n** ] :  Number of times of test(s) execution.</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;```bash</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;$ ./rapp_run_test.py -i default_tests/face_detection_tests.py -n 10</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;```</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;- [ **-t** ] : Run the test in threaded mode. Multible invocations can be done, simultaneous. Each test execution is handled by a single thread.</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;```bash</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;$ ./rapp_run_test.py -i default_tests/face_detection_tests.py -n 10 -t</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;```</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;-  [ **-c** ] :  Test classes can be used to execute a spesific family of tests. Using test classes all tests, under this class, will be executed. In most cases a test class is named after the relevant RAPP Platform ROS-Package; [ **face-detection, qr-detection, speech-detection, speech-detection-sphinx4, speech-detection-google, ontology, cognitive, tts** ]</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;```shell</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;$ ./rapp_run_test.py -c face-detection</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;```</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;**Note:**</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;If no test_name is provided as argument, all tests located under tests paths</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;are executed!!</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;There are two ways of executing developed tests:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;- Execute directly.</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;- Execute under the ROS framework.</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;**Note:**</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;If no test_name is provided as argument, all tests are executed!!</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;## Developing Tests</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;A template_test.py is located under the [default_tests](https:<span class="comment">//github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools/scripts/default_tests) directory of the rapp_testing_tools package.</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;```bash</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;$ &lt;path_to_rapp_testing_tools_package&gt;/scripts/default_tests/</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;```</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;Also, several tests have already been developed, located under the default_tests</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;directory. Those can be used as a reference/examples for developing new tests.</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;### Using the python executable, directly.</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;The below example executes the qr_detection_test_1, five times in sequential</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;mode.</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;A Section in the [Wiki](https:<span class="comment">//github.com/rapp-project/rapp-platform/wiki/How-to-implement-an-integration-test%3F) exists that guides through developing integration tests for the RAPP Platform.</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;## Contributors</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;```shell</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;$ ./rapp_run_test.py -i qr_detection_test_1.py -n 5</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;```</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;- Konstantinos Panayiotou, [klpanagi@gmail.com]</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;- Manos Tsardoulias. [etsardou@gmail.com]</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">### Using ROS framework</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;The below example executes all tests, once.</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;```shell</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;$ rosrun rapp_testing_tools rapp_run_test.py</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;```</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">## Developing Tests</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;A <span class="keyword">template</span>.py is located under the [default_tests](https:<span class="comment">//github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools/scripts/default_tests) directory of the rapp_testing_tools package.</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;```shell</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;$ &lt;path_to_rapp_testing_tools_package&gt;/scripts/default_tests</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;```</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;Also several tests have already been developed, located under the default_tests</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;directory. Those can be used as a reference <span class="keywordflow">for</span> developing <span class="keyword">new</span> tests.</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;### Where to store developed tests</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;By <span class="keywordflow">default</span>, developed tests are stored under the scripts/default_tests directory. </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;To define external tests directories, developers have to append that path</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;into the params.yaml configuration file. This file is located under the config/</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;directory in <span class="keyword">this</span> package.</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;Lets say <span class="keywordflow">for</span> example that you want to store tests under:</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;```shell</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;$ ${HOME}/rapp_integration_tests_external</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;```</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;You can extend the path directories used by the test-engine to search under <span class="keywordflow">for</span> python test source files. Just write down custom directory paths into the [params.yaml]([params.yaml](https:<span class="comment">//github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/config/params.yaml)) file.</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;```yaml</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;tests_path:</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  - <span class="stringliteral">&#39;~/rapp_integration_tests_external&#39;</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;```</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor">## Contributors</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;- Konstantinos Panayiotou, [klpanagi@gmail.com]</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;- Manos Tsardoulias. [etsardou@gmail.com]</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">## Contact</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor"></span>- Konstantinos Panayiotou, [klpanagi@gmail.com]</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;## Contact</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;- Konstantinos Panayiotou, [klpanagi@gmail.com]</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="README_8md.html">README.md</a></li>
-    <li class="footer">Generated on Fri Jul 1 2016 18:19:28 for RAPP Platform Tests - Testing Tools by
+    <li class="footer">Generated on Tue Jul 19 2016 11:44:08 for RAPP Platform Tests - Testing Tools by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

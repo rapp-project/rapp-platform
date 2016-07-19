@@ -4,68 +4,146 @@ Basic documentation on \char`\"{}$\ast$$\ast$\-Developing Integration Tests$\ast
 
 A more-\/in-\/depth information on how to write your first integration test is presented here.
 
-The \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/scripts/default_tests/template.py}{\tt template.\-py} will be used as a reference.
+The \href{https://github.com/rapp-project/rapp-platform/blob/master/rapp_testing_tools/scripts/default_tests/template_test.py}{\tt template\-\_\-test.\-py} will be used as a reference.
 
 Each integration test must have the following characteristics\-:
 
 
 \begin{DoxyItemize}
-\item Each test is written as a seperate python source file (.py).
-\item Each test is implemented as a Rapp\-Interface\-Test class.
-\item The Rapp\-Interface\-Test class must define two member methods\-:
-\begin{DoxyItemize}
-\item execute()
-\item validate()
-\end{DoxyItemize}
+\item Each test class is written as a seperate python source file (.py).
+\item Each test inherits from {\ttfamily unittest.\-Test\-Case} class.
 \item The \href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt Python R\-A\-P\-P Platform A\-P\-I} is used to call R\-A\-P\-P Platform Services.
 \end{DoxyItemize}
 
-So lets first create our Rapp\-Interface\-Test class which includes the aforementioned member methods.
+If you are not familiar with the Python unit testing framework (unittest), start reading from \href{https://docs.python.org/2.7/library/unittest.html}{\tt there} as the rapp\-\_\-testing\-\_\-tools is build ontop of it. Also, basic knowledge of using the \href{https://github.com/rapp-project/rapp-api/tree/master/python}{\tt python-\/rapp-\/platform-\/api} is required.
 
-```python class Rapp\-Interface\-Test\-: \char`\"{}\char`\"{}\char`\"{} Integration test class \char`\"{}\char`\"{}\char`\"{} def {\bfseries init}(self)\-: pass
+So lets create a test class for testing the integration behaviour of the Face-\/\-Detection R\-A\-P\-P Platform service/functionality.
 
-def execute(self)\-: pass
+\paragraph*{Step 1\-: Create the source file for the test class}
 
-def validate(self)\-: pass ```
+Copy the {\ttfamily template\-\_\-test.\-py} file and name it {\ttfamily face\-\_\-detection\-\_\-tests.\-py} under the {\ttfamily default\-\_\-tests} directory
 
-From the Python R\-A\-P\-P Platform A\-P\-I import the required components. Instantiate a new {\ttfamily Rapp\-Platform\-Service} object and the Cloud Messages that will be used.
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-testing\-\_\-tools/scripts/default\-\_\-tests \$ cp template\-\_\-test.\-py face\-\_\-detection\-\_\-tests.\-py ```
 
-```python from Rapp\-Cloud import Rapp\-Platform\-Service from Rapp\-Cloud.\-Cloud\-Msgs import (...)
+Rename the test class to {\ttfamily Face\-Detection\-Tests}\-:
 
-class Rapp\-Interface\-Test\-: \char`\"{}\char`\"{}\char`\"{} Integration test class \char`\"{}\char`\"{}\char`\"{} def {\bfseries init}(self)\-: self.\-svc\-Client = Rapp\-Platform\-Service() ... ```
+```python class Face\-Detection\-Tests(unittest.\-Test\-Case)\-: \begin{DoxyVerb}def setUp(self):
+    self.ch = RappPlatformAPI()
 
-Next we need to implement the validation function, {\ttfamily validate()}.
+    rospack = rospkg.RosPack()
+    self.pkgDir = rospack.get_path('rapp_testing_tools')
 
-```python def validate(self, response)\-: error = response.\-error if error != \char`\"{}\char`\"{}\-: return \mbox{[}error, self.\-elapsed\-\_\-time\mbox{]}
+def test_templateTest(self):
+    self.assertEqual(1, 1)
+\end{DoxyVerb}
 
-\section*{Validate Results}
 
-if self.\-valid\-\_\-results == response.\-serialize()\-: return \mbox{[}True, self.\-elapsed\-\_\-time\mbox{]} else\-: return \mbox{[}\char`\"{}\-Unexpected result \-: \char`\"{} + str(response.\-serialize()), self.\-elapsed\-\_\-time\mbox{]} ```
+```
 
-Notice that the {\ttfamily validate()} function has a parameter named response. This is the response object returned from the Platform Service call. It is critical to return validation results as presented above!!
+Note that the {\ttfamily set\-Up()} method instantiates a Rapp\-Platform\-A\-P\-I() object for calling R\-A\-P\-P Platform Services.
 
-```python return \mbox{[}True, self.\-elapsed\-\_\-time\mbox{]} ```
+\paragraph*{Step 2\-: Implement a test case}
 
-If the response was succesfully validated,
+As the {\ttfamily Face\-Detection\-Tests} class inherits from {\ttfamily unittest.\-Test\-Case}, individual tests are defined with methods whose names start with the letters {\ttfamily test}
 
-```python return \mbox{[}\char`\"{}\-Unexpected result \-: \char`\"{} + str(response.\-serialize()), self.\-elapsed\-\_\-time\mbox{]} ```
+We will implement a test of performing face-\/detection on a single image file (Lenna.\-png). We assume that the image file was previously stored under the {\ttfamily test\-\_\-data} directory. So lets create a member method named {\ttfamily test\-\_\-lenna} This method will be responsible for loading the image file, call the R\-A\-P\-P Platform Service, through the A\-P\-I, and evaluate the results using {\ttfamily unittest} assertions
 
-if the validation failed.
+```python class Face\-Detection\-Tests(unittest.\-Test\-Case)\-: \begin{DoxyVerb}def setUp(self):
+    self.ch = RappPlatformAPI()
 
-The \href{https://docs.python.org/2/library/timeit.html}{\tt timeit} python module is used to time the execution of the test. {\bfseries This will be deprecated in v0.\-7.\-0 release and execution time of each test will be calculated by the rapp-\/testing-\/core-\/engine.}
+    rospack = rospkg.RosPack()
+    self.pkgDir = rospack.get_path('rapp_testing_tools')
 
-Implement the execution function.
+def test_lenna(self):
+    self.assertEqual(1, 1)
+    response = self.ch.faceDetection(imagepath)
 
-The execution function must\-:
+    valid_faces = [{
+        'up_left_point': {'y': 201.0, 'x': 213.0},
+        'down_right_point': {'y': 378.0, 'x': 390.0}
+    }]
+
+    self.assertEqual(response['error'], u'')
+    self.assertEqual(response['faces'], valid_faces)
+\end{DoxyVerb}
+ ```
+
+The first assertion, `self.assert\-Equal(response\mbox{[}'error'\mbox{]}, u'')` evaluates that no error was reported from the R\-A\-P\-P Platform The second assertion evaluates the response from the Face\-Detector.
+
+The complete face\-\_\-detection\-\_\-tests.\-py source file is\-:
+
+```python from os import path import timeit import unittest import rospkg
+
+{\bfseries path} = os.\-path.\-dirname(os.\-path.\-realpath({\bfseries file}))
+
+from Rapp\-Cloud import Rapp\-Platform\-A\-P\-I
+
+class Face\-Detection\-Tests(unittest.\-Test\-Case)\-: \begin{DoxyVerb}def setUp(self):
+    self.ch = RappPlatformAPI()
+
+    rospack = rospkg.RosPack()
+    self.pkgDir = rospack.get_path('rapp_testing_tools')
+
+def test_lenna(self):
+    self.assertEqual(1, 1)
+    response = self.ch.faceDetection(imagepath)
+
+    valid_faces = [{
+        'up_left_point': {'y': 201.0, 'x': 213.0},
+        'down_right_point': {'y': 378.0, 'x': 390.0}
+    }]
+
+    self.assertEqual(response['error'], u'')
+    self.assertEqual(response['faces'], valid_faces)
+\end{DoxyVerb}
+
+
+if {\bfseries name} == \char`\"{}\-\_\-\-\_\-main\-\_\-\-\_\-\char`\"{}\-: unittest.\-main() ```
+
+\paragraph*{Step 3\-: Executing the Face Detection test case}
+
+Head to the {\ttfamily scripts} directory and execute the {\ttfamily rapp\-\_\-run\-\_\-test.\-py} script, giving as input argument the {\ttfamily face\-\_\-detection\-\_\-tests.\-py} file to execute\-:
+
+```bash \$ cd $\sim$/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-testing\-\_\-tools/scripts \$ ./rapp\-\_\-run\-\_\-test.py -\/i default\-\_\-tests/face\-\_\-detection\-\_\-tests.\-py ```
+
+On successful test execution, the output should be\-:
+
+```bash 
+
+ R\-A\-P\-P Platfrom Tests 
+
+
 
 
 \begin{DoxyItemize}
-\item Call the, {\bfseries to-\/test}, R\-A\-P\-P Platform Web Service(s).
-\item Invoke the validation function.
+\item Parameters\-: -- Number of Executions for each given test\-: \mbox{[}1\mbox{]} -- Serial execution
+\item Tests to Execute\-: 1\mbox{]} face\-\_\-detection\-\_\-tests x1
 \end{DoxyItemize}
 
-```python def execute(self)\-: start\-\_\-time = timeit.\-default\-\_\-timer() msg = Qr\-Detection(image\-Filepath='P\-A\-T\-H') response = self.\-svc.\-call(msg) end\-\_\-time = timeit.\-default\-\_\-timer() self.\-elapsed\-\_\-time = end\-\_\-time -\/ start\-\_\-time return self.\-validate(response) ```
+Running face\-\_\-detection\-\_\-tests... Ran 1 tests in 0.\-383s Success ```
 
-You will notice that the above implementation of the {\ttfamily execute()} method calls the qr\-\_\-detection Service!!
+If an error occures on the R\-A\-P\-P Platform, the returned error message will be reported to the console output. For example, if the R\-A\-P\-P Platform Web Server was not previously launched properly, we should get a \char`\"{}\-Connection\char`\"{} error on the assertion of the {\ttfamily error} property of the response\-:
 
-```python msg = Qr\-Detection(image\-Filepath='P\-A\-T\-H') response = self.\-svc.\-call(msg) ``` 
+```bash 
+
+ R\-A\-P\-P Platfrom Tests 
+
+
+
+
+\begin{DoxyItemize}
+\item Parameters\-: -- Number of Executions for each given test\-: \mbox{[}1\mbox{]} -- Serial execution
+\item Tests to Execute\-: 1\mbox{]} face\-\_\-detection\-\_\-tests x1
+\end{DoxyItemize}
+
+Running face\-\_\-detection\-\_\-tests... Ran 1 test in 0.\-078s Failed 
+
+ \subsection*{F\-A\-I\-L\-: test\-\_\-lenna ({\bfseries main}.Face\-Detection\-Tests) }
+
+Traceback (most recent call last)\-: File \char`\"{}/home/rappuser/rapp\-\_\-platform/rapp-\/platform-\/catkin-\/ws/src/rapp-\/platform/rapp\-\_\-testing\-\_\-tools/scripts/default\-\_\-tests/face\-\_\-detection\-\_\-tests.\-py\char`\"{}, line 61, in test\-\_\-lenna self.\-assert\-Equal(response\mbox{[}'error'\mbox{]}, u'') Assertion\-Error\-: 'Connection Error' != u'' 
+
+ Ran 1 test in 0.\-078s
+
+F\-A\-I\-L\-E\-D (failures=1)
+
+``` 

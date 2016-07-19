@@ -53,6 +53,8 @@ var NAVTREE =
     [ "RAPP-Weather-Reporter", "md_rapp-platform_8wiki_RAPP-Weather-Reporter.html", null ],
     [ "(normal) Remote-application-for-NAO-in-Python:-Detect-and-track-QR-tags-(normal)", "md_rapp-platform_8wiki_Remote-application-for-NAO-in-Python_1-Detect-and-track-QR-tags-.html", null ],
     [ "(hard) Remote-application-for-NAO-in-Python:-Use-ROS-&-TLD-tracker-to-approach-arbitrary-objects-(hard)", "md_rapp-platform_8wiki_Remote-application-for-NAO-in-Python_1-Use-ROS-_6-TLD-tracker-to-approach-arbitrary-objects-.html", null ],
+    [ "RAPP Improvement Center (RIC) related troubleshooting", "md_rapp-platform_8wiki_Troubleshooting-RAPP-Improvement-Center.html", null ],
+    [ "RAPP Platform Web Server (RIC) related troubleshooting", "md_rapp-platform_8wiki_Troubleshooting-RAPP-Platform-Web-Server.html", null ],
     [ "?-Why-is-it-useful? What-is-the-RAPP-Platform?-Why-is-it-useful?", "md_rapp-platform_8wiki_What-is-the-RAPP-Platform.html", null ]
   ] ]
 ];

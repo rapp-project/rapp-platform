@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>RAPP Platform Web Services Common Includes Source: common/logger.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">RAPP Platform Web Services Common Includes</a>
+	</div>
+	<div class="navbar-collapse">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-common_fileUtils.html">common/fileUtils</a></li><li><a href="module-common_worker_utils.html">common/worker_utils</a></li><li><a href="module-common_zip.html">common/zip</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="logger.html">logger</a></li><li><a href="RandStrGen.html">RandStrGen</a></li><li><a href="ServerCore.html">ServerCore</a></li><li><a href="WriteStream.html">WriteStream</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+</div>
+
+
+<div class="container">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: common/logger.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/***
+ * Copyright 2015 RAPP
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Authors: Konstantinos Panayiotou
+ * Contact: klpanagi@gmail.com
+ *
+ */
+
+
+/**
+ * @file
+ * @description Debug to console output
+ *
+ * @author Konstantinos Panayiotou &lt;klpanagi@gmail.com>
+ * @copyright Rapp Project EU 2015
+ *
+ */
+
+var winston;
+try{
+  winston = require('winston');
+}
+catch( e ){
+  console.error("Could not load winston node.js: " + e);
+}
+
+
+/**
+ * @class logger
+ *
+ * @description Commonly used logger implementation (winston)
+ */
+var logger = function(args) {
+  args = args || {};
+  this.ns = args.ns || '';
+  var file = args.file || false;
+  var defaultColors= {
+    info: 'cyan', log: '', error: 'red', warn: 'yellow', trace: 'gray',
+    debug: 'blue', verbose: '', data: '', help: '', prompt: ''
+  };
+
+  var colors = args.colors || defaultColors;
+  try{
+    this.logger_ = new winston.Logger({
+      colors: colors
+    });
+
+    this.logger_.add(winston.transports.Console, {
+      prettyPrint: true,
+      colorize: true,
+      silent: false,
+      handleExceptions: true,
+      json: false,
+      timestamp: true
+    });
+
+    if (file) {
+      this.logger_.add(winston.transports.File,{
+        level: 'log',
+        filename: file,
+        handleExceptions: true,
+        json: false,
+        colorize: false
+      });
+    }
+    if (args.debug) {
+      this.logger_.add(winston.transports.Console, {
+        level: 'debug',
+        prettyPrint: true,
+        colorize: true,
+        silent: false,
+        handleExceptions: true,
+        json: false,
+        timestamp: false
+      });
+    }
+  }
+  catch( e ){
+    console.log(e);
+  }
+};
+
+logger.prototype.info = function( msg ){
+  if( typeof msg === String ){
+    this.logger_.log("info", "[%s] %s", this.ns, msg);
+  }
+  else{
+    this.logger_.log("info", "[%s] ", this.ns, msg);
+  }
+};
+
+logger.prototype.log = function( msg ){
+  if( typeof msg === String ){
+    this.logger_.log("debug", "[%s] %s", this.ns, msg);
+  }
+  else{
+    this.logger_.log("debug", "[%s] ", this.ns, msg);
+  }
+};
+
+logger.prototype.warn = function( msg ){
+  if( typeof msg === String ){
+    this.logger_.log("warn", "[%s] %s", this.ns, msg);
+  }
+  else{
+    this.logger_.log("warn", "[%s] ", this.ns, msg);
+  }
+};
+
+logger.prototype.error = function( msg ){
+  if( typeof msg === String ){
+    this.logger_.log("error", "[%s] %s", this.ns, msg);
+  }
+  else{
+    this.logger_.log("error", "[%s] ", this.ns, msg);
+  }
+};
+
+logger.prototype.debug = function( msg ){
+  this.logger_("debug", "[%s] %s", this.ns, msg);
+};
+
+logger.prototype.verbose = function( msg ){
+  this.logger_.log("verbose", "[%s] %s", this.ns, msg);
+};
+
+logger.prototype.trace = function( msg ){
+  this.logger_.log("trace", "[%s] %s", this.ns, msg);
+};
+
+module.exports = logger;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Rapp Project EU 2015
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	on Tue Jul 19th 2016 using the <a
+	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<!--<script src="scripts/sunlight.js"></script>-->
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/bootstrap-dropdown.js"></script>
+<script src="scripts/toc.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "h1,h2,h3,h4",
+		showAndHide : false,
+                navbarOffset: 10,
+		smoothScrolling: true
+	} );
+
+	$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+	//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+  $( "table" ).each( function () {
+    var $this = $( this );
+    $this.addClass('table');
+  } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+<script>
+	$( function () {
+		$( '#main' ).localScroll( {
+			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
+		} );
+		$( "dt.name" ).each( function () {
+			var $this = $( this ).find("h4");
+			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+			var dt = $(this);
+			var children = dt.next( "dd" );
+
+			dt.prepend( icon ).css( {cursor : "pointer"} );
+			dt.addClass( "member-collapsed" ).addClass( "member" );
+
+
+			children.hide();
+
+			dt.children().on( "click", function () {
+				children = dt.next( "dd" );
+				children.slideToggle( "fast", function () {
+
+					if ( children.is( ":visible" ) ) {
+						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+						dt.addClass( "member-open" ).animate( "member-collapsed" );
+					} else {
+						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
+					}
+				} );
+			} );
+
+		} );
+	} );
+</script>
+
+
+<!--Google Analytics-->
+
+
+</body>
+</html>

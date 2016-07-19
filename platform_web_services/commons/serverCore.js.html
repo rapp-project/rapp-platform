@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>RAPP Platform Web Services Common Includes Source: serverCore.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">RAPP Platform Web Services Common Includes</a>
+	</div>
+	<div class="navbar-collapse">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="module-common_fileUtils.html">common/fileUtils</a></li><li><a href="module-common_worker_utils.html">common/worker_utils</a></li><li><a href="module-common_zip.html">common/zip</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="logger.html">logger</a></li><li><a href="RandStrGen.html">RandStrGen</a></li><li><a href="ServerCore.html">ServerCore</a></li><li><a href="WriteStream.html">WriteStream</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+	</div>
+</div>
+</div>
+
+
+<div class="container">
+<div class="row">
+
+	
+	<div class="col-md-12">
+	
+		<div id="main">
+			
+
+		<h1 class="page-title">Source: serverCore.js</h1>
+    
+<section>
+    <article>
+        <pre
+            class="sunlight-highlight-javascript linenums">/**
+ *  MIT License (MIT)
+ *
+ *  Copyright (c) &lt;2014> &lt;Rapp Project EU>
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction, including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ *
+ *
+ *  Authors: Konstantinos Panayiotou
+ *  Contact: klpanagi@gmail.com
+ */
+
+/**
+ * @file
+ * @description Server Core implementation. Register workers/services,
+ * handle communication between web services and worker threads, etc.
+ *
+ * @author Konstantinos Panayiotou &lt;klpanagi@gmail.com>
+ * @copyright Rapp Project EU 2015
+ */
+
+
+
+var path = require('path');
+var hop = require('hop');
+var util = require('util');
+
+const ENV = require(path.join(__dirname, '../', 'env.js'));
+const PKG_DIR = ENV.PATHS.PKG_DIR;
+const INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
+
+var Rsg = require (path.join(INCLUDE_DIR, 'common', 'randStringGen.js'));
+var Fs = require(path.join(INCLUDE_DIR, 'common', 'fileUtils.js'));
+
+
+/**
+ *  Server Core implementation. Register workers/services, handle communication
+ *  between web services and worker threads, etc.
+ *
+ * @class ServerCore
+ *
+ * @param {Object} args - Arguments.
+ * @param {Object} args.logger - Pass a logger to the Prototype constructor.
+ */
+function ServerCore(opts) {
+  opts = opts || {};
+  this.logger = opts.logger || console;
+
+  this.services = {};
+  this.workers = {};
+  this.workers.main_thread = {
+    services: []
+  };
+  this.randStrLength = parseInt(opts.rand_str_lenth) || 5;
+  this.strGen = new Rsg(this.randStrLength);
+
+  /** Load server parameters.
+   * ------------------------ */
+  this.serverParams = {
+    hostname: hop.hostname,
+    port: hop.port,
+    protocol: (require(hop.config).HTTPSPort) ? "https" : "http"
+  };
+}
+
+
+/**
+ * Add a custom logger for the Server core to use for logging
+ *
+ * @function applyLogger
+ * @memberOf ServerCore
+ */
+ServerCore.prototype.applyLogger = function(logger) {
+  this.logger = logger || console;
+};
+
+
+/**
+ * Register a Web Service.
+ *
+ * @function registerService
+ * @memberOf ServerCore
+ *
+ * @param {string} svcName - The name of the web service
+ * @param {Object} frame - Hop Web service frame.
+ * @param {string} path - The Web Service relative url path
+ * e.g. /face_detection/detect_faces
+ * @param {string} wName - The name of the worker to register this web service
+ */
+ServerCore.prototype.registerService = function(svcName, frame, path, wName) {
+  if (!(svcName &amp;&amp; frame &amp;&amp; path &amp;&amp; wName)) {
+    this.logger.error("Service registration failed.");
+    return false;
+  }
+
+  var svcObj = {
+    worker: wName,
+    path: path,
+    url: this.serviceUrl(path),
+    frame: frame
+  };
+
+  if( this.workerExists(wName) &amp;&amp; (! this.serviceExists(svcName)) ) {
+    // Append to worker services array
+    this.workers[ wName ].services.push(svcName);
+    // Append service object to services array.
+    this.services[ svcName ] = svcObj;
+    this.logger.log(
+      util.format("Registered worker service {%s} under worker thread {%s}",
+        this.services[ svcName ].url, wName)
+    );
+    this.logger.log(svcObj);
+    return true;
+  } else {
+    this.logger.error(
+      util.format("{%s} service registration failed. Either non existed " +
+        " worker {%s} , or service with same name already registered", svcName,
+        wName)
+    );
+    return false;
+  }
+};
+
+
+/**
+ * Parse worker messages.
+ *
+ * @function parseWorkerMsg
+ * @memberOf ServerCore
+ *
+ * @param {Object} msg - Communication message
+ * @param {Object} msg.data - Message data.
+ * @param {String} msg.data.svc_name - Caller service name.
+ * @param {String} msg.data.worker_name - Caller worker name.
+ * @param {String} msg.data.svc_path - Caller service path (url).
+ * @param {Function} msg.data.svc_frame - Caller service frame.
+ */
+ServerCore.prototype.parseWorkerMsg = function(msg){
+  var wName = msg.data.worker_name || "";
+  var request = msg.data.request || "";
+  var response = {};
+
+  if( (! wName) || (! this.workerExists(wName)) ){
+    this.logger.error("Received message from non registered worker");
+  }
+
+  switch (request) {
+    case "svc_registration":
+      // Request to register service
+      let svcName = msg.data.svc_name || '';
+      let svcFrame = msg.data.svc_frame || undefined;
+      let svcPath = msg.data.svc_path || '';
+
+      this.registerService(svcName, svcFrame, svcPath, wName);
+      break;
+
+    case "get_svc_url":
+      let svcName = msg.data.svc_name || "";
+      if ( ! ( svcName &amp;&amp; serviceExists(svcName) ) ) {
+        response.error = util.format(
+          "Service %s does not exist in registed services", svcName);
+        response.svc_name = svcName;
+        response.svc_url = '';
+      }
+      else{
+        response.error = '';
+        response.svc_url = this.getSvcUrl(svcName);
+      }
+
+      this.workers[wName].postMessage(response);
+      break;
+
+    case "active_services":
+      let activeServices = [];
+      for (var k in this.services) {
+        let obj = {
+          name: k,
+          url: this.services[k].url
+        };
+        activeServices.push(obj);
+      }
+      this.workers[wName].postMessage(activeServices);
+      break;
+
+    default:
+      break;
+  }
+};
+
+
+/**
+ * Send message to worker thread.
+ *
+ * @function callWorker
+ * @memberOf ServerCore
+ *
+ * @param {String} wName - Worker's name to call.
+ * @param {Object} msg - Message object.
+ */
+ServerCore.prototype.callWorker = function( wName, msg ){
+  if (this.workerExists(wName)) {
+    this.workers[ wName ].postMessage(msg);
+  } else {
+    this.logger.log(
+      util.format("Attempt to call not existed worder service %s", wName)
+    );
+  }
+};
+
+
+/**
+ * Kill/Terminate/Close worker service.
+ *
+ * @function killWorker
+ * @memberOf ServerCore
+ *
+ * @param {String} wName - Worker name.
+ */
+ServerCore.prototype.killWorker = function( wName ){
+  if ( this.workerExists(wName) ){
+    this.workers[ wName ].terminate();
+    this.logger.warn("Terminated worker: %s", wName);
+  }
+};
+
+
+/**
+ * Creates and instantiates a worker thread.
+ *
+ * @function createWorker
+ * @memberOf ServerCore
+ *
+ * @param {String} wName - Worker name.
+ * @param {String} wFile - JS file to feed to worker thread.
+ */
+ServerCore.prototype.createWorker = function(wName, wFile) {
+  wName = wName || '';
+  wFile = wFile || '';
+
+  // Check if worker with given name already exists in list of registered
+  // workers.
+  if (this.workerExists(wName)) {
+    this.logger.error(util.format("Worker with name {%s} " +
+      "exists in registered workers", wName));
+    return false;
+  }
+
+  var this_ = this;
+
+  try {
+    this.workers[ wName ] = new Worker ( wFile );
+    // Each worker holds his own Array of registered services.
+    this.workers[ wName ].services = [];
+    //  Register 'this' worker onmessage callback
+    this.workers[ wName ].onmessage = function(msg){
+      this_.parseWorkerMsg(msg);
+    };
+    // Register worker onexit event callback.
+    this.workers[ wName ].onexit = function(){
+      this_.logger.error(util.format("Worker {%s} terminated"));
+    };
+    // Register worker onerror event callback.
+    this.workers[ wName ].onerror = function( e ){
+      this_.logger.warn(util.format("Worker send error message -> %s", e));
+    };
+  }
+  catch(e){
+    this.logger.error(util.format("Failed to launch worker {%s}: %s",
+        wName, e));
+    return false;
+  }
+
+  return true;
+};
+
+
+/**
+ * Register worker service.
+ * A worker can handle multiple services;
+ *
+ * @function registerWorker
+ * @memberOf ServerCore
+ *
+ * @param {Object} worker - Service information.
+ * @param {String} worker.file - Path to worker file.
+ * @param {String} worker.name - Service name.
+ */
+ServerCore.prototype.registerWorker = function(worker) {
+  worker = worker || {};
+  /** Worker registration requires the following properties:
+   *  name - worker.name.
+   *  file - worker.file.
+   */
+  if( (! worker) || (! worker.name) ){
+    this.logger.error("Could not register worker. " +
+      "Not a worker name was provided");
+    return false;
+  }
+  if (! worker.file) {
+    this.logger.error("Worker registration failed. Empty worker.file property");
+    return false;
+  }
+  // Check if worker with given name already exists in list of registered
+  // workers.
+  if (this.workerExists(worker.name)) {
+    this.logger.error(util.format("Worker named {%s} already registered"),
+      worker.name);
+    return false;
+  }
+
+  // Instantiate a new worker thread.
+  this.createWorker(worker.name, worker.file);
+};
+
+
+/**
+ * Create web service full url path by given service path.
+ *
+ * @function serviceUrl
+ * @memberOf ServerCore
+ *
+ * @param {String} path - Service's path (e.g. /hop/face_detection).
+ */
+ServerCore.prototype.serviceUrl = function(path) {
+  return util.format('%s://%s:%s%s', this.serverParams.protocol,
+    this.serverParams.hostname, this.serverParams.port, path);
+};
+
+
+/**
+ * Set the url path of given web service..
+ *
+ * @function setSvcUrl
+ * @memberOf ServerCore
+ *
+ * @param {String} svcName - Service name.
+ */
+ServerCore.prototype.setSvcUrl = function(svcName, path) {
+  path = path || '';
+  svcName = svcName || '';
+  if (! path) {
+    this.logger.error("Non service path provided!");
+    return false;
+  }
+  if (! svcName) {
+    this.logger.error("Non service name provided!");
+    return false;
+  }
+  if( ! serviceExists(svcName) ){
+    this.logger.error(util.format("Cannot set %s service url path. " +
+      "Service is not registerd!", svcName)
+    );
+    return false;
+  }
+  this.services[svcName].url = this.serviceUrl(path);
+  this.services[svcName].path = path;
+  return true;
+};
+
+
+/**
+ * Get the url path of given web service..
+ *
+ * @function getSvcUrl
+ * @memberOf ServerCore
+ *
+ * @param {String} svcName - Service name.
+ */
+ServerCore.prototype.getSvcUrl = function(svcName) {
+  svcName = svcName || '';
+  if (! svcName) {
+    this.logger.error("Non service name provided!");
+    return '';
+  }
+  if (! serviceExists(svcName)) {
+    this.logger.error(util.format("Cannot get %s service url path. " +
+      "Service is not registerd!", svcName)
+    );
+    return '';
+  }
+  return this.services[ svcName ].url;
+};
+
+
+/**
+ * Returns true if a service has been registered.
+ *
+ * @function serviceExists
+ * @memberOf ServerCore
+ *
+ * @param {String} svcName - Service name.
+ */
+ServerCore.prototype.serviceExists = function(svcName) {
+  if (this.services[svcName]) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+
+/**
+ *  Returns true if a worker has been registered.
+ *
+ * @function workerExists
+ * @memberOf ServerCore
+ *
+ * @param {String} wName - Worker name.
+ */
+ServerCore.prototype.workerExists = function(wName) {
+  if (this.workers[wName]) {
+    return true;
+  }
+  return false;
+};
+
+var serverCore = new ServerCore();
+
+
+// Export the se r.
+module.exports = serverCore;
+</pre>
+    </article>
+</section>
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+
+</div>
+</div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Rapp Project EU 2015
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	on Tue Jul 19th 2016 using the <a
+	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<!--<script src="scripts/sunlight.js"></script>-->
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/bootstrap-dropdown.js"></script>
+<script src="scripts/toc.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "h1,h2,h3,h4",
+		showAndHide : false,
+                navbarOffset: 10,
+		smoothScrolling: true
+	} );
+
+	$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+	//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+  $( "table" ).each( function () {
+    var $this = $( this );
+    $this.addClass('table');
+  } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+<script>
+	$( function () {
+		$( '#main' ).localScroll( {
+			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
+		} );
+		$( "dt.name" ).each( function () {
+			var $this = $( this ).find("h4");
+			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+			var dt = $(this);
+			var children = dt.next( "dd" );
+
+			dt.prepend( icon ).css( {cursor : "pointer"} );
+			dt.addClass( "member-collapsed" ).addClass( "member" );
+
+
+			children.hide();
+
+			dt.children().on( "click", function () {
+				children = dt.next( "dd" );
+				children.slideToggle( "fast", function () {
+
+					if ( children.is( ":visible" ) ) {
+						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+						dt.addClass( "member-open" ).animate( "member-collapsed" );
+					} else {
+						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
+					}
+				} );
+			} );
+
+		} );
+	} );
+</script>
+
+
+<!--Google Analytics-->
+
+
+</body>
+</html>

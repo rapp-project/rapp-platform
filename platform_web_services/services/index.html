@@ -1,0 +1,4075 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>RAPP Platform Web Services Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.cosmo.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">RAPP Platform Web Services</a>
+	</div>
+	<div class="navbar-collapse">
+		<ul class="nav navbar-nav">
+			
+		</ul>
+	</div>
+</div>
+</div>
+
+
+<div class="container">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h2>RAPP Platform Web Services</h2><h2>Synopsis</h2><p><strong>RAPP Platform Web Services</strong> are developed under the  <a href="https://github.com/manuel-serrano/hop">HOP Web Server</a>.<br>These services are used in order to communicate with the RAPP Platform ecosystem and access RIC(RAPP Improvement Center) AI modules.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Platform Services</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Computer Vision</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#face-detection">Face-Detection</a></td>
+<td style="text-align:center">Detect faces on an image frame</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#qr-detection">Qr-Detection</a></td>
+<td style="text-align:center">Detect and recognize Qr-Codes on an image frame</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#hazard-detection-door-check">Hazard-Detection-Door-Check</a></td>
+<td style="text-align:center">Detect open-doors (hazard) on an image frame</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#hazard-detection-light-check">Hazard-Detection-Light-Check</a></td>
+<td style="text-align:center">Detect lights-on (hazard) on an image frame</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#human-detection">Human-Detection</a></td>
+<td style="text-align:center">Detect human existance on on an image frame</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#object-recognition-caffe">Object-Recognition-Caffe</a></td>
+<td style="text-align:center">Recognize objects on an image frame using caffe framework</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Speech Recognition</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#set-noise-profile">Set-Noise-Profile</a></td>
+<td style="text-align:center">Set user's noise profile. Used to apply denoising on speech-recognition</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#speech-detection-sphinx4">Speech-Detection-Sphinx4</a></td>
+<td style="text-align:center">Performs speech-detection using the Platform integrated Sphinx4 engine</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#speech-detection-google">Speech-Detection-Google</a></td>
+<td style="text-align:center">Performs speech-detection using the Platform integrated Google engine</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Ontology Queries</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#ontology-subclasses-of">Ontology-SubclassesOf</a></td>
+<td style="text-align:center">Perform Ontology, subclasses-of, query</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#ontology-superclasses-of">Ontology-SuperClassesOf</a></td>
+<td style="text-align:center">Perform Ontology, superclasses-of, query</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#ontology-is-subsuperclass-of">Ontology-Is-SubSuperClass</a></td>
+<td style="text-align:center">Perform Ontology, is-subsuperclass-of, query</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Cognitive Exercises</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#cognitive-test-selector">Cognitive-Test-Selector</a></td>
+<td style="text-align:center">Returns a Cognitive Exercise literal that describes the test</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#cognitive-record-performance">Cognitive-Record-Performance</a></td>
+<td style="text-align:center">Record user's performance on a Cognitive Exercise</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#cognitive-get-history">Cognitive-Get-History</a></td>
+<td style="text-align:center">Returns user's history on Cognitive Exercise(s)</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#cognitive-get-scores">Cognitive-Get-Scores</a></td>
+<td style="text-align:center">Returns user's performance scores on Cognitive Exercise(s)</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Email Support</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#email-fetch">Email-Fetch</a></td>
+<td style="text-align:center">Fetch user's emails</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#email-send">Email-Send</a></td>
+<td style="text-align:center">Send an email, using user's account</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Weather Report</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#weather-report-forecast">Weather-Report-Forecast</a></td>
+<td style="text-align:center">Get detailed information about future weather conditions</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#weather-report-current">Weather-Repost-Current</a></td>
+<td style="text-align:center">Get detailed information about current weather conditions</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Path Planning</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#path-planning-upload-map">Path-Planning-Upload-Map</a></td>
+<td style="text-align:center">Upload a map to store on the Platform</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#path-planning-plan-path-2d">Path-Planning-Plan-Path-2D</a></td>
+<td style="text-align:center">2D Path Planning service</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Authentication-Registration</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#login-user">Login-User</a></td>
+<td style="text-align:center">Login existing user</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#register-user-from-platform">Register-User-From-Platform</a></td>
+<td style="text-align:center">Add new platform user using RAPP-Platform credentials</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#register-user-from-store">Register-User-From-Store</a></td>
+<td style="text-align:center">Add new platform user using RAPP-Store credentials</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Other</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#text-to-speech">Text-To-Speech</a></td>
+<td style="text-align:center">Text-to-speech translation on given input plain text</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#available-services">Available-Services</a></td>
+<td style="text-align:center">Returns a list of the Platform available services (up-to-date)</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#geolocation">Geolocaiton</a></td>
+<td style="text-align:center">Get information about client's location</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#news-explore">News-Explore</a></td>
+<td style="text-align:center">Search for news articles</td>
+</tr>
+</tbody>
+</table>
+<h2>Service specifications - Request arguments and response objects</h2><p>The Web Services listen to <strong>POST</strong> requests and can parse contents of the following type (Content-Type):</p>
+<ul>
+<li>application/x-www-form-urlencoded</li>
+<li>multipart/form-data</li>
+</ul>
+<p>A lot of services require from the client to upload a file to the server for processing, like Computer-VIsion, Speech-Recognition and more.<br>The <em>multipart/form-data</em> content-type is used to call a service that requresres file upload to the server.<br>Otherwise, use <em>application/x-www-form-urlencoded</em>.</p>
+<p>All data, except files, have to be  be send under a field named <strong>json</strong>.<br>In case of using <em>application/x-www-form-urlencoded</em> type this will look like:</p>
+<pre class="prettyprint source lang-http"><code>POST /hop/ontology_subclasses_of HTTP/1.1
+Connection: keep-alive
+...
+Content-Type: application/x-www-form-urlencoded
+
+json=%7B%22query%22%3A+%22Oven%22%7D</code></pre><p>and in case of multipart/form-data:</p>
+<pre class="prettyprint source lang-http"><code>POST /hop/face_detection HTTP/1.1
+Connection: keep-alive
+...
+Content-Type: multipart/form-data; boundary=993ac36c568042aa86582023b7422092
+
+--993ac36c568042aa86582023b7422092
+Content-Disposition: form-data; name=&quot;json&quot;
+
+{&quot;fast&quot;: false}
+--993ac36c568042aa86582023b7422092
+Content-Disposition: form-data; name=&quot;file&quot;; filename=&quot;Lenna.jpg&quot;
+
+&lt;file-data-here>
+...</code></pre><hr>
+<h3>Computer Vision</h3><hr>
+<h4>Face-Detection</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/face_detection</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '', fast: false }</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>image file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+<li><strong>fast</strong> (Boolean): If true, detection will take less time but it will be less accurate.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-js"><code>{ faces: [{&lt;face_1>}, ..., {&lt;face_n>}], error: '' }</code></pre><ul>
+<li><strong>faces</strong> (Array):  Vector with the recognized faces in an image frame.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<p>where <strong>face_x</strong> is an object of the following structure:</p>
+<pre class="prettyprint source lang-js"><code>face: { up_left_point: {&lt;point>}, down_right_point: {&lt;point>} }</code></pre><ul>
+<li><strong>up_left_point</strong> (Object): The up-left point coordinates of the detected face.</li>
+<li><strong>down_right_point</strong> (Object): The down-right point coordinates of the detected face.</li>
+</ul>
+<p>and <strong>point</strong> coordinates are presented in Cartesian Coordinate System as:</p>
+<pre class="prettyprint source lang-js"><code>point: { x: &lt;value_int>, y: &lt;value_int> }</code></pre><p>Response Sample:</p>
+<pre class="prettyprint source lang-javascript"><code> {
+   faces: [{
+     up_left_point: { y: 200, x: 212 },
+     down_right_point: { y: 379, x: 391 }
+   }],
+   error: ''
+ }</code></pre><h4>QR-Detection</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/qr_detection</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '' }</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>image file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ qr_centers: [{&lt;point_1>}, ..., {&lt;point_n>}], qr_messages: [&quot;&lt;qr_msg_1>&quot;, ..., &quot;&lt;qr_msg_n>&quot;], error: '' }</code></pre><p>where <strong>point_n</strong> coordinates are presented in Cartesian Coordinate System as:</p>
+<pre class="prettyprint source lang-js"><code>point: { x: &lt;value_int>, y: &lt;value_int> }</code></pre><ul>
+<li><strong>qr_centers</strong> (Array): Vector of points (x,y) of found QR in the image frame.</li>
+<li><strong>qr_messages</strong> (Array): Vector that containes message descriptions of found QR in an image frame (Array of Strings).</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<p>Response Sample:</p>
+<pre class="prettyprint source lang-javascript"><code>{
+  qr_centers: [ { y: 165, x: 165 } ],
+  qr_messages: ['rapp project qr sample'],
+  error: ''
+}</code></pre><h4>Hazard-Detection-Door-Check</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/hazard_detection_door_check</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '' }</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>image file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-js"><code>{ door_angle: 0, error: &quot;&quot; }</code></pre><ul>
+<li><strong>door_angle</strong> (Integer): The angle of the detected door, on the image frame. (Integer)</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Hazard-Detection-Light-Check</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/hazard_detection_light_check</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '' }</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>image file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-js"><code>{ light_level: 0, error: &quot;&quot; }</code></pre><ul>
+<li><strong>light_level</strong> (Integer): The, detected on the iimage frame, light level. (Integer)</li>
+<li><strong>error</strong> (String): Error message, if one occures. (String)</li>
+</ul>
+<h4>Human-Detection</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/human_detection</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '' }</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>image file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-js"><code>{ humans: [{&lt;human_1>}, ..., {&lt;human_n>}], error: &quot;&quot; }</code></pre><ul>
+<li><strong>humans</strong> (Array): Array of detected humans.</li>
+<li><strong>error</strong> (String): Error message, if one occures. (String)</li>
+</ul>
+<p>where <strong>human_x</strong> is an object of the following structure:</p>
+<pre class="prettyprint source lang-js"><code>human: { up_left_point: {x: 0, y: 0}, down_right_point: {x: 0, y: 0} }</code></pre><p>Each point (x, y) is presented in Cartesian Coordinate System as:</p>
+<pre class="prettyprint source lang-js"><code>point2D: { x: &lt;val, y: &lt;val> }</code></pre><h4>Object-Recognition-Caffe</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/object_recognition_caffe</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '' }</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>image file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-js"><code>{ object_class: '', error: '' }</code></pre><ul>
+<li><strong>object_class</strong> (String): Recognized object class.</li>
+<li><strong>error</strong> (String): Error message, if one occures. (String)</li>
+</ul>
+<hr>
+<h3>Speech Recognition</h3><hr>
+<h4>Set-Noise-Profile</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/set_noise_profile</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '', audio_source: '' }</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>audio file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+<li><strong>audio_source</strong> (String): A value that presents the <robot><em><encode></em><channels> information for the audio source data. e.g &quot;nao_wav_1_ch&quot;.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ error: '' }</code></pre><ul>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Speech-Detection-Sphinx4</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/speech_detection_sphinx4</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '', language: '', audio_source: '', words: [], sentences: [], grammar: []}</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>audio file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+<li><strong>language</strong> (String): Language to be used by the speech_detection_sphinx4 module. Currently valid language values are ‘gr’ for Greek and ‘en’ for English.</li>
+<li><strong>audio_source</strong> (String): A value that presents the <robot><em><encode></em><channels> information for the audio source data. e.g &quot;nao_wav_1_ch&quot;.</li>
+<li><strong>words</strong> (Array): A vector that carries the words to search for into the voice-audio-source.</li>
+<li><strong>sentences</strong> (Array): The under consideration sentences.</li>
+<li><strong>grammar</strong> (Array): Grammars to use in speech recognition.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ words: [], error: '' }</code></pre><ul>
+<li><strong>words</strong> (Array): A vector with the &quot;words-found&quot;</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Speech-Detection-Google</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/speech_detection_google</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ file: '', audio_source: '', language: ''}</code></pre><ul>
+<li><strong>file</strong>: Path to the uploaded file (<strong>audio file</strong>), stored by hop-server. This is the form-data name to attach the file to.</li>
+<li><strong>language</strong> (String): Language to be used by the speech_detection_sphinx4 module. Currently valid language values are ‘gr’ for Greek and ‘en’ for English.</li>
+<li><strong>audio_source</strong> (String): A value that presents the {robot}<em>{encode}</em>{channels} information for the audio source data. e.g &quot;nao_wav_1_ch&quot;.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ words: [], alternatives: [] error: '' }</code></pre><ul>
+<li><strong>'words'</strong> (Array): A vector that contains the &quot;words-found&quot; with highest confidence.</li>
+<li><strong>alternatives</strong> (Array): Alternative sentences. e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...]</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<hr>
+<h3>Ontology Queries</h3><hr>
+<p>The following Platform services give access to the Platform integrated Ontology system.</p>
+<h4>Ontology-SubClasses-Of</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/ontology_subclasses_of</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ ontology_class: '', recursive: false }</code></pre><ul>
+<li><strong>ontology_class</strong> (String): The ontology class.</li>
+<li><strong>recursive</strong> (Boolean): Recursive search.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ results: [], error: '' }</code></pre><ul>
+<li><strong>results</strong> (Array): Query results.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<pre class="prettyprint source lang-javascript"><code> { results: [ 'http://knowrob.org/kb/knowrob.owl#Oven',
+   'http://knowrob.org/kb/knowrob.owl#MicrowaveOven',
+   'http://knowrob.org/kb/knowrob.owl#RegularOven',
+   'http://knowrob.org/kb/knowrob.owl#ToasterOven'],
+   error: ''
+}</code></pre><h4>Ontology-SuperClasses-Of</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/ontology_superclasses_of</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ ontology_class: '', recursive: false }</code></pre><ul>
+<li><strong>ontology_class</strong> (String): The ontology class.</li>
+<li><strong>recursive</strong> (Boolean): Recursive search.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ results: [], error: '' }</code></pre><ul>
+<li><strong>results</strong> (Array): Query results returned from ontology database.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Ontology-Is-SubSuperClass-Of</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/ontology_is_subsuperclass_of</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ parent_class: '', child_class: '', recursive: false }</code></pre><ul>
+<li><strong>parent_class</strong> (String): The parent class name.</li>
+<li><strong>child_class</strong> (String) The child class name.</li>
+<li><strong>recursive</strong> (Boolean): Recursive search.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ result: true, error: '' }</code></pre><ul>
+<li><strong>result</strong> (Boolena): Success index on ontology-is-subsuperclass-of query.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<hr>
+<h3>Cognitive Exercises</h3><hr>
+<h4>Cognitive-Test-Selector</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/cognitive_test_chooser</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ test_type: '', test_subtype: '', test_diff: '', test_index: '' }</code></pre><ul>
+<li><strong>test_type</strong> (String): Cognitive Exercise test type. Can be one of<ul>
+<li>'ArithmeticCts'</li>
+<li>'AwarenessCts'</li>
+<li>'ReasoningCts'</li>
+<li>''</li>
+</ul>
+</li>
+<li><strong>test_subtype</strong> (String): Use this to force select from this subtype. Defaults to empty string &quot;&quot;.</li>
+<li><strong>test_diff</strong> (String): Use this to force select from this difficulty. Defaults to empty string &quot;&quot;.</li>
+<li><strong>test_index</strong> (String): Use this to force select from this id. Defaults to empty string &quot;&quot;.</li>
+</ul>
+<p>i.e</p>
+<pre class="prettyprint source lang-js"><code>{ test_type: 'Arithmetic', test_subtype: 'BasicArithmetic', test_diff: '1', test_index: '1' }</code></pre><p>For more information on available exercises have a look <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_cognitive_exercise">here</a></p>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code> { questions: [], possib_ans: [], correct_ans: [], test_instance: '', test_type: '', test_subtype: '', error: '' }</code></pre><ul>
+<li><strong>questions</strong> (Array): The exercise set of questions.</li>
+<li><strong>possib_ans</strong>(Array):  The set of answers for each question. vector<vector<string>&gt;</li>
+<li><strong>correct_ans</strong>(Array): The set of correct answers for each question. vector<string></li>
+<li><strong>test_instance</strong> (String): Returned test name. For example, 'ArithmeticCts_askw0Snwk'</li>
+<li><strong>test_type</strong> (String): Cognitive exercise class/type. Documentation on Cognitive Exercise classes can be found <a href="https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise">here</a></li>
+<li><strong>test_subtype</strong> (String): Cognitive exercise sub-type. Documentation on Subtypes can be found <a href="https://github.com/rapp-project/rapp-platform/tree/CognitiveSystem/rapp_cognitive_exercise">here</a></li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Cognitive-Record-Performance</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/cognitive_record_performance</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ test_instance: '', score: 0 }</code></pre><ul>
+<li><strong>test_instance</strong> (String): Cognitive Exercise test instance. The full cognitive test entry name as returned by the <strong>cognitive_test_chooser</strong> web service.</li>
+<li><strong>score</strong> (Integer): User's performance score on given test entry.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ performance_entry: '', error: '' }</code></pre><ul>
+<li><strong>performace_entry</strong> (String): User's cognitive test performance entry in ontology.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Cognitive-Get-History</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/cognitive_get_history</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ from_time: '', to_time: 0, test_type: '' }</code></pre><ul>
+<li><strong>test_type</strong> (String): Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts'] or leave empty (&quot;&quot;) for all.</li>
+<li><strong>from_time</strong> (Integer): Unix timestamp.</li>
+<li><strong>to_time</strong> (Integer):  Unix timestamp.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ records: {}, error: '' }</code></pre><ul>
+<li><strong>records</strong> (Object): Users history records on Cognitive Exerises</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Cognitive-Get-Scores</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/cognitive_get_scores</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ up_to_time: 0, test_type: '' }</code></pre><ul>
+<li><strong>test_type</strong> (String): Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts'] or leave empty (&quot;&quot;) for all.</li>
+<li><strong>up_to_time</strong> (Integer):  Unix timestamp. Return scores that have been recorder up to this time value.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ test_classes: [], scores: [], error: '' }</code></pre><ul>
+<li><strong>test_classes</strong> (Array): An array of the test classes indexes.</li>
+<li><strong>scores</strong> (Array): Array of scores. Each array index corresponds to the test class of the <strong>test_classes</strong> property.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<hr>
+<h3>Email Support</h3><hr>
+<h4>Email-Fetch</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/email_fetch</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ email: '', passwd: '', server: '', port: '', email_status: '', from_date: 0, to_date: 0, num_emails: 0 }</code></pre><ul>
+<li><strong>email</strong> (String): The user's email username</li>
+<li><strong>passwd</strong> (String): The user's email password</li>
+<li><strong>server</strong> (String): The email server's imap address, i.e. 'imap.gmail.com'</li>
+<li><strong>port</strong> (String): The email server imap port</li>
+<li><strong>email_status</strong> (String): Define which mails the users requests. Values: ALL, UNSEEN(DEFAULT)</li>
+<li><strong>from_date</strong> (Integer): Emails since date. Unix timestamp.</li>
+<li><strong>to_date</strong> (Integer): Emails until date. Unix timestamp.</li>
+<li><strong>num_emails</strong> (Integer): Number of requested emails</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ emails: [{&lt;emailEntry_1>}, ..., {&lt;emailEntry_n>}], error: '' }</code></pre><p>where emailEntry is an object of structure:</p>
+<pre class="prettyprint source lang-js"><code>{ sender: '', receivers: [], body: '', date: '', attachments: [] }</code></pre><ul>
+<li><strong>emails</strong> (Array): An array of emailEntry objects.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Email-Send</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/email_send</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ email: '', passwd: '', server: '', port: '', recipients: [], body: '', subject: '', file: '' }</code></pre><ul>
+<li><strong>email</strong> (String): The user's email username</li>
+<li><strong>passwd</strong> (String): The user's email password</li>
+<li><strong>server</strong> (String): The email server's smtp address, i.e. 'smtp.gmail.com'</li>
+<li><strong>port</strong> (String): The email server imap port</li>
+<li><strong>recipients</strong> (Array):  Email addresses of the recipients</li>
+<li><strong>body</strong> (String): The email body</li>
+<li><strong>subject</strong> (String): The email subject</li>
+<li><strong>file</strong>: File attachment. Single file. <strong>In case of multiple attachments a zip file must be send to this field name.</strong></li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ error: '' }</code></pre><ul>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<hr>
+<h3>Weather Report</h3><hr>
+<h4>Weather-Report-Current</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/weather_report_current</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ city: '', weather_reporter: '', metric: 0 }</code></pre><ul>
+<li><strong>city</strong> (String): The desirec city</li>
+<li><strong>weather_reporter</strong> (String): The weather API to use. Defaults to &quot;yweather&quot; .</li>
+<li><strong>metric</strong> (Integer): The return value units.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{
+    date: '', temperature: '', weather_description: '', humidity: '', visibility: '',
+    pressure: '', wind_speed: '', wind_temperature: '', wind_direction: '', error: ''
+}</code></pre><ul>
+<li><strong>date</strong> (String): The date.</li>
+<li><strong>temperature</strong> (String): The current temerature.</li>
+<li><strong>weather_description</strong> (String): A brief desctiption of the current weather</li>
+<li><strong>humidity</strong> (String): The current humidity</li>
+<li><strong>visibility</strong> (String): The current visibility.</li>
+<li><strong>pressure</strong> (String): The current pressure.</li>
+<li><strong>wind_speed</strong> (String): The current speed of the wind.</li>
+<li><strong>wind_temperature</strong> (String): The current temperature of the wind.</li>
+<li><strong>wind_direction</strong> (String): The current direction of the wind.</li>
+</ul>
+<h4>Weather-Report-Forecast</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/weather_report_forecast</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ city: '', weather_reporter: '', metric: 0 }</code></pre><ul>
+<li><strong>city</strong> (String): The desirec city</li>
+<li><strong>weather_reporter</strong> (String): The weather API to use. Defaults to &quot;yweather&quot; .</li>
+<li><strong>metric</strong> (Integer): The return value units.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ forecast: [{&lt;forecastEntry_1>}, ...,  {&lt;forecastEntry_n>}], error: '' }</code></pre><ul>
+<li><strong>forecast</strong> (Array): Array of <strong>forecastEntry</strong> objects.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<p>where forecast entries are forecastEntry objects:</p>
+<p>{ high_temp: '', low_temp: '', description: '', date: '' }</p>
+<hr>
+<h3>Path Planning</h3><hr>
+<h4>Path-Planning-Plan-Path-2D</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/path_planning_plan_path_2d</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ map_name: '', robot_type: '', algorithm: '', start: {}, goal: {} }</code></pre><ul>
+<li><strong>map_name</strong> (String): The map name to use.</li>
+<li><strong>robot_type</strong> (String): The robot type. It is required to determine it's parameters (footprint etc.)</li>
+<li><strong>algorithm</strong> {String}: The path planning algorithm to apply.</li>
+<li><strong>start</strong> {Object}: Start pose of the robot. (ROS-GeometryMsgs/PoseStamped)</li>
+<li><strong>goal</strong>: Goal pose of the robot. (ROS-GeometryMsgs/PoseStamped)</li>
+</ul>
+<p>More information on argument values under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_path_planning/rapp_path_planning">rapp_path_planning package</a></p>
+<h5>Service response</h5><pre class="prettyprint source lang-js"><code>{ plan_found: 0, path: [], error: '' }</code></pre><ul>
+<li><strong>plan_found</strong> (String): Plan Status. Can be one of<ul>
+<li>0 : path cannot be planned.</li>
+<li>1 : path found.</li>
+<li>2 : wrong map name.</li>
+<li>3 : wrong robot type.</li>
+<li>4 : wrong algorithm.</li>
+</ul>
+</li>
+<li><strong>path</strong>: if plan_found is true, this is an array of waypoints from start to goal, where the first one equals start and the last one equals goal.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Path-Planning-Upload-Map</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/path_planning_upload_map</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ png_file: '', yaml_file: '', map_name: '' }</code></pre><ul>
+<li><strong>png_file</strong>: The map image png file.</li>
+<li><strong>png_file</strong>: The map description yaml file.</li>
+<li><strong>map_name</strong>: The map name.</li>
+</ul>
+<h5>Service response</h5><pre class="prettyprint source lang-js"><code>{ error: '' }</code></pre><ul>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<hr>
+<h3>Authentication - Registration</h3><hr>
+<h4>Login-User</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/login_user</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ username: '', password: '', device_token }</code></pre><ul>
+<li><strong>username</strong> (String): Account username.</li>
+<li><strong>password</strong> (String): Account password.</li>
+<li><strong>device_token</strong> (String): The device (token) from which a user tries to login.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ token: '', error: '' }</code></pre><ul>
+<li><strong>token</strong> (String): Token used for accessing RAPP-Platform resources.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Register-User-From-Platform</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/register_user_from_platform</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ creator_username: '', creator_password: '', new_user_username: '', new_user_password: '', language: '' }</code></pre><ul>
+<li><strong>creator_username</strong> (String): Creator's (robot-admin) RAPP-Platform account username.</li>
+<li><strong>creator_password</strong> (String): Creator's (robot-admin) RAPP-Platform account password.</li>
+<li><strong>new_user_username</strong> (String): New user's account username.</li>
+<li><strong>new_user_password</strong> (String): New user's account password.</li>
+<li><strong>language</strong> (String): New user's language.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ suggested_username: '', error: '' }</code></pre><ul>
+<li><strong>suggested_username</strong> (String): Suggested username if the provided one already exists.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Register-User-From-Store</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/register_user_from_store</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ username: '', password: '', device_token: '', language: '' }</code></pre><ul>
+<li><strong>username</strong> (String): New user's username.</li>
+<li><strong>password</strong> (String): New user's password.</li>
+<li><strong>device_token</strong> (String): Creator device token from RAPP Store.</li>
+<li><strong>language</strong> (String): New user's account language.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ suggested_username: '', error: '' }</code></pre><ul>
+<li><strong>suggested_username</strong> (String): Suggested username if the provided one already exists.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<hr>
+<h3>Other</h3><hr>
+<h4>Text-To-Speech</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/text_to_speech</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ text: '', language: '' }</code></pre><ul>
+<li><strong>text</strong> (String): Input text to translate to audio data.</li>
+<li><strong>language</strong> (String): Language to be used for the TTS module. Valid values are currently <strong>el</strong> and <strong>en</strong></li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-javascript"><code>{ payload: &lt;audio_data>, basename: &lt;audio_file_basename>, encoding: &lt;payload_encoding>, error: &lt;error_message> }</code></pre><ul>
+<li><strong>payload</strong> (String/base64): The audio data payload. Payload encoding is defined by the 'encoding' json field. Decode the payload audio data (client-side) using the codec value from the 'encoding' field.</li>
+<li><strong>encoding</strong> (String): Codec used to encode the audio data payload. Currently encoding of binary data is done using base64 codec. Ignore this field. May be used in future implementations.</li>
+<li><strong>basename</strong> (String): A static basename for the audio data file, returned by the platform service. Ignore this field. May be usefull in future implementations.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Available-Services</h4><pre class="prettyprint source"><code>/hop/available_services</code></pre><h5>Service request arguments</h5><p>None.</p>
+<h5>Service response</h5><pre class="prettyprint source lang-js"><code>{ services: [], error: '' }</code></pre><ul>
+<li><strong>services</strong> (Array): An array of available RAPP Platform Services.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>Geolocation</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/geolocation</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ ipaddr: '', engine: '' }</code></pre><ul>
+<li><strong>ipaddr</strong>: The machine's ipaddr</li>
+<li><strong>engine</strong>: Engine to use. Defaults to 'ip-api' (Currently the only supported).</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-js"><code>{ city: '', country: '', country_code: '', latitude: 0.0, longtitude: 0.0, region: '', timezone: '', zip: '', error: '' }</code></pre><ul>
+<li><strong>city</strong>: (String): The city.</li>
+<li><strong>country</strong> (String): The country.</li>
+<li><strong>country_code</strong> (String): The country code.</li>
+<li><strong>latitude</strong>: (Float): The latitude.</li>
+<li><strong>longtitude</strong> (Float): The longtitude.</li>
+<li><strong>timezone</strong> (String): The timezone.</li>
+<li><strong>zip</strong> (String): The zip postal code.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<h4>News-Explore</h4><h5>Service-Url</h5><pre class="prettyprint source"><code>/hop/news_explore</code></pre><h5>Service request arguments</h5><pre class="prettyprint source lang-js"><code>{ news_engine: '', keywords: [], exclude_titles: [], region: '', topic: '', num_news: 0 }</code></pre><ul>
+<li><strong>news_engine</strong> (String): The news search engine to use.</li>
+<li><strong>keywords</strong> (Array): Desired keywords.</li>
+<li><strong>exclude_titles</strong> (Array): Reject list of previously read articles, in order to avoid duplicates.</li>
+<li><strong>region</strong> (String): Language/Region.</li>
+<li><strong>topic</strong> (String): Main topics, i.e. sports, politics, etc.</li>
+<li><strong>num_news</strong> (Integer): Number of news stories.</li>
+</ul>
+<h5>Service response</h5><p>application/json response.</p>
+<pre class="prettyprint source lang-js"><code>{ news_stories: [{&lt;story_1>}, ...,  {&lt;story_n>}], error: '' }</code></pre><ul>
+<li><strong>news_stories</strong> (Array): Array of <strong>story</strong> objects.</li>
+<li><strong>error</strong> (String): Error message, if one occures.</li>
+</ul>
+<p>where <em>story</em> object is:</p>
+<pre class="prettyprint source lang-js"><code>{ title: '', content: '', puplisher: '', publishedDate: '', url: '' }</code></pre><ul>
+<li><strong>title</strong> (String): Article title.</li>
+<li><strong>content</strong> (String): Article brief content.</li>
+<li><strong>publisher</strong> (String): Article publisher.</li>
+<li><strong>publishedDate</strong> (String): Article publication date.</li>
+<li><strong>url</strong> (String): Article original url.</li>
+</ul>
+<h2>Tests</h2><p>Developed tests and testing tools are currently located under the <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_testing_tools">rapp_testing_tools</a> package:</p>
+<pre class="prettyprint source lang-bash"><code>$ &lt;path_to_rapp_platform_repo>/rapp_testing_tools/</code></pre><h2>Contributors</h2><ul>
+<li>Konstaninos Panayiotou, [klpanagi@gmail.com]</li>
+<li>Manos Tsardoulias, [etsardou@gmail.com]</li>
+<li>Vincent Prunet, [vincent.prunet@inria.fr]</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        available_services/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Available-Services] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="available_services_svc.js.html">available_services/svc.js</a>,
+				 <a href="available_services_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        cognitive_get_history/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Cognitive-get-history] RAPP Platform web service implementation.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="cognitive_get_history_svc.js.html">cognitive_get_history/svc.js</a>,
+				 <a href="cognitive_get_history_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        cognitive_get_scores/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Cognitive-get-scores] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="cognitive_get_scores_svc.js.html">cognitive_get_scores/svc.js</a>,
+				 <a href="cognitive_get_scores_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        cognitive_record_performance/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Record-cognitive-test-performance] RAPP Platform web service implementation.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="cognitive_record_performance_svc.js.html">cognitive_record_performance/svc.js</a>,
+				 <a href="cognitive_record_performance_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        cognitive_test_chooser/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Cognitive-Test-Chooser] RAPP Platform web service implementation.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="cognitive_test_chooser_svc.js.html">cognitive_test_chooser/svc.js</a>,
+				 <a href="cognitive_test_chooser_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        email_fetch/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Email-Fetch] RAPP Platform web service implementation.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="email_fetch_svc.js.html">email_fetch/svc.js</a>,
+				 <a href="email_fetch_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        email_send/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Email-Send] RAPP Platform web service implementation.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="email_send_svc.js.html">email_send/svc.js</a>,
+				 <a href="email_send_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        face_detection/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Face-Detection] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="face_detection_svc.js.html">face_detection/svc.js</a>,
+				 <a href="face_detection_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        geolocation/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Geolocation] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="geolocation_svc.js.html">geolocation/svc.js</a>,
+				 <a href="geolocation_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        hazard_detection_door_check/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Hazard-Detection-Door-Check] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="hazard_detection_door_check_svc.js.html">hazard_detection_door_check/svc.js</a>,
+				 <a href="hazard_detection_door_check_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        hazard_detection_light_check/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Hazard-Detection-Light-Check] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="hazard_detection_light_check_svc.js.html">hazard_detection_light_check/svc.js</a>,
+				 <a href="hazard_detection_light_check_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        human_detection/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Human-Detection] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="human_detection_svc.js.html">human_detection/svc.js</a>,
+				 <a href="human_detection_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        login_user/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Login-User] RAPP Platform web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="login_user_svc.js.html">login_user/svc.js</a>,
+				 <a href="login_user_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        news_explore/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[News-Explore] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="news_explore_svc.js.html">news_explore/svc.js</a>,
+				 <a href="news_explore_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        object_recognition_caffe/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Object-Recognition] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="object_recognition_caffe_svc.js.html">object_recognition_caffe/svc.js</a>,
+				 <a href="object_recognition_caffe_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        ontology_is_subsuperclass_of/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Ontology-is-subsuperclass-of] RAPP Platform web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ontology_is_subsuperclass_of_svc.js.html">ontology_is_subsuperclass_of/svc.js</a>,
+				 <a href="ontology_is_subsuperclass_of_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        ontology_subclasses_of/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Ontology-subclasses-of] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ontology_subclasses_of_svc.js.html">ontology_subclasses_of/svc.js</a>,
+				 <a href="ontology_subclasses_of_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        ontology_superclasses_of/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Ontology-superclasses-of] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="ontology_superclasses_of_svc.js.html">ontology_superclasses_of/svc.js</a>,
+				 <a href="ontology_superclasses_of_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        path_planning_plan_path_2d/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Path-planning-Plan-Path-2D] RAPP Platform web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li><a href="mailto:wojciechsbox@gmail.com">Wojciech Dudek</a></li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="path_planning_plan_path_2d_svc.js.html">path_planning_plan_path_2d/svc.js</a>,
+				 <a href="path_planning_plan_path_2d_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        path_planning_upload_map/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Path-planning-upload-map] RAPP Platform web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li><a href="mailto:wojciechsbox@gmail.com">Wojciech Dudek</a></li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="path_planning_upload_map_svc.js.html">path_planning_upload_map/svc.js</a>,
+				 <a href="path_planning_upload_map_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        qr_detection/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Qr-Detection] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="qr_detection_svc.js.html">qr_detection/svc.js</a>,
+				 <a href="qr_detection_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        register_user_from_platform/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Register-User-From-Platform] RAPP Platform web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="register_user_from_platform_svc.js.html">register_user_from_platform/svc.js</a>,
+				 <a href="register_user_from_platform_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        register_user_from_store/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Register-User-From-Store] RAPP Platform web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="register_user_from_store_svc.js.html">register_user_from_store/svc.js</a>,
+				 <a href="register_user_from_store_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        set_noise_profile/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Set-noise-profile] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="set_noise_profile_svc.js.html">set_noise_profile/svc.js</a>,
+				 <a href="set_noise_profile_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        speech_detection_google/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Speech-detection-google] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="speech_detection_google_svc.js.html">speech_detection_google/svc.js</a>,
+				 <a href="speech_detection_google_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        speech_detection_sphinx4/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Speech-detection-sphinx4] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="speech_detection_sphinx4_svc.js.html">speech_detection_sphinx4/svc.js</a>,
+				 <a href="speech_detection_sphinx4_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        text_to_speech/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Text-to-Speech] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="text_to_speech_svc.js.html">text_to_speech/svc.js</a>,
+				 <a href="text_to_speech_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        weather_report_current/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Weather-Report-Current] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="weather_report_current_svc.js.html">weather_report_current/svc.js</a>,
+				 <a href="weather_report_current_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+	<h1 class="page-title">Index</h1>
+<section>
+
+<header>
+    
+        <h2>
+        weather_report_forecast/svc.js
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>[Weather-Report-Forecast] RAPP Platform front-end web service.</p></div>
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+	<dt class="tag-author method-doc-label method-doc-details-label">Author:</dt>
+	<dd class="tag-author">
+		<ul>
+			<li>Konstantinos Panayiotou</li>
+			</ul>
+	</dd>
+	
+
+	
+	<dt class="tag-copyright method-doc-label method-doc-details-label">Copyright:</dt>
+	<dd class="tag-copyright">
+		<ul class="dummy">
+			<li>Rapp Project EU 2015</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source method-doc-label method-doc-details-label">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="weather_report_forecast_svc.js.html">weather_report_forecast/svc.js</a>,
+				 <a href="weather_report_forecast_svc.js.html#sunlight-1-line-21">line 21</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	Rapp Project EU 2015
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a>
+	on Tue Jul 19th 2016 using the <a
+	href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<!--<script src="scripts/sunlight.js"></script>-->
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/bootstrap-dropdown.js"></script>
+<script src="scripts/toc.js"></script>
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			var id = $( heading ).attr( "id" );
+			return id && id.replace(/\~/g, '-inner-').replace(/\./g, '-static-') || ( prefix + i );
+		},
+		selectors   : "h1,h2,h3,h4",
+		showAndHide : false,
+                navbarOffset: 10,
+		smoothScrolling: true
+	} );
+
+	$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+	//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+  $( "table" ).each( function () {
+    var $this = $( this );
+    $this.addClass('table');
+  } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+</body>
+</html>
