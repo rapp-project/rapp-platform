@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Register-User-From-Store] RAPP Platform web service.
@@ -29,17 +29,22 @@
  */
 
 
-
 var path = require('path');
 
-var interfaces = require( path.join(__dirname, 'iface_obj.js') );
+var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
-var rosSrvName = "/rapp/rapp_application_authentication/add_new_user_from_store";
+const rosSrvName = "/rapp/rapp_application_authentication/add_new_user_from_store";
 
 
 
-function svcImpl ( req, resp, ros )
-{
+/**
+ *  [Register-User-From-Store]
+ *
+ *  Register a new RAPP Platform user.
+ *
+ *  Service Implementation.
+ */
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.username = req.body.username;
   rosMsg.password = req.body.password;
@@ -47,14 +52,14 @@ function svcImpl ( req, resp, ros )
   rosMsg.language = req.body.language;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -63,8 +68,6 @@ function svcImpl ( req, resp, ros )
   // Call ROS-Service.
   ros.callService(rosSrvName, rosMsg, {success: callback, fail: onerror});
 }
-
-
 
 
 /***
@@ -77,12 +80,12 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.suggested_username
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var response = new interfaces.client_res();
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const error = rosbridge_msg.error;
 
-  if( error ){
+  var response = new interfaces.client_res();
+
+  if (error) {
     response.error = error;
     return response;
   }

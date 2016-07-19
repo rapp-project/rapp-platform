@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Speech-detection-sphinx4] RAPP Platform front-end web service.
@@ -34,7 +34,7 @@ var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text";
+const rosSrvName = "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text";
 
 
 
@@ -45,33 +45,13 @@ var rosSrvName = "/rapp/rapp_speech_detection_sphinx4/batch_speech_to_text";
  *  Service Implementation
  *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.files.file ){
-    var response = new interfaces.client_res();
-    response.error = "No image file received";
+function svcImpl(req, resp, ros) {
+  if (! req.files.file) {
+    let response = new interfaces.client_res();
+    response.error = "Request is missing audio file upload";
     resp.sendJson(response);
     return;
   }
-
-  //if( ! req.audio_source ){
-  //error = 'Emptry \"audio_source\" argument';
-  //response.error = error;
-  //sendResponse( hop.HTTPResponseJson(response) );
-  //return;
-  //}
-  //if( ! req.language ){
-  //error = 'Emptry \"language\" argument';
-  //response.error = error;
-  //sendResponse( hop.HTTPResponseJson(response) );
-  //return;
-  //}
-  //if( ! req.words.length ){
-  //error = 'Emptry \"words\" array argument';
-  //response.error = error;
-  //sendResponse( hop.HTTPResponseJson(response) );
-  //return;
-  //}
 
   var rosMsg = new interfaces.ros_req();
   rosMsg.path = req.files.file[0];
@@ -83,15 +63,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.grammar = req.body.grammar;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -113,21 +93,19 @@ function svcImpl ( req, resp, ros )
  *  @returns {Array} response.words. An array of the detected-words.
  *  @returns {String} response.error - Error message
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var words = rosbridge_msg.words;
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const words = rosbridge_msg.words;
+  const error = rosbridge_msg.error;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
-  for (var ii = 0; ii < words.length; ii++)
-  {
-    response.words.push( words[ii] );
+  for (let ii = 0; ii < words.length; ii++) {
+    response.words.push(words[ii]);
   }
 
   return response;

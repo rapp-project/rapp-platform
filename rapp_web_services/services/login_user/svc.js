@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Login-User] RAPP Platform web service.
@@ -34,26 +34,30 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_application_authentication/login";
+const rosSrvName = "/rapp/rapp_application_authentication/login";
 
-
-
-function svcImpl ( req, resp, ros )
-{
+/**
+ *  [Login-User]
+ *  Login existent RAPP Platform user.
+ *
+ *  Service Implementation.
+ *
+ */
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.username = req.body.username;
   rosMsg.password = req.body.password;
   rosMsg.device_token = req.body.device_token;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -72,13 +76,12 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.error - Error message
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
+function parseRosbridgeMsg(rosbridge_msg) {
   var response = new interfaces.client_res();
-  var error = rosbridge_msg.error;
-  var token = rosbridge_msg.token;
+  const error = rosbridge_msg.error;
+  const token = rosbridge_msg.token;
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }

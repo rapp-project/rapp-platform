@@ -20,33 +20,27 @@
 
 
 /**
- * @module
+ * @file
  * @description Random String Generator. Generates and cache unique id
  * strings.
  *
- * @author Konstantinos Panayiotou
+ * @author Konstantinos Panayiotou <klpanagi@gmail.com>
  * @copyright Rapp Project EU 2015
- *
  */
 
 
 
 /**
  * @class RandStrGen
+ *
  * @description Random String Generator class. Generate cached unique strings.
+ *
  * @param {Number} [_length=5] - Generated strings length.
  * @param {Array} [_charsArray=] - Characters Array to use on string
  * generation
  *
- * @property {Method} setCharsArray(_charsArray) - Set/Re-Set characters array.
- * @property {Method} setLength(_length) - Set/Re-Set generated strings length.
- * @property {Method} addCached(_key) - Append input identity key into the
- * cache.
- * @property {Method} removeCached(_key) - Remove input identity key from cache
- * @property {Method} create() - Create a random identity key (NOT CACHED).
- * @property {Method} createUnique() - Create and return a unique identity key.
  */
-function RandStrGen ( _length, _charsArray ) {
+function RandStrGen (_length, _charsArray) {
   var charsArray_ = _charsArray ||
     "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
   var stringLength_ = _length || 5;
@@ -100,9 +94,14 @@ function RandStrGen ( _length, _charsArray ) {
 
 /**
  * @description Create a new random identity key (string)
+ *
+ * @function create
+ * @memberof RandStrGen
+ *
  * @returns {String} - The generated identity key.
  */
 RandStrGen.prototype.create = function ( ){
+  // @lends RandStrGen
 
   var randStr = '';
   for (var i=0; i<this.getLength(); i++) {
@@ -115,6 +114,10 @@ RandStrGen.prototype.create = function ( ){
 
 /**
  * @description Create a new UNIQUE identity key (string).
+ *
+ * @function create
+ * @memberof RandStrGen
+ *
  * @returns {String} - The generated identity key.
  */
 RandStrGen.prototype.createUnique = function ( ){

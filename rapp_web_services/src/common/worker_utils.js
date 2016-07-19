@@ -1,8 +1,3 @@
-/*!
- * @file worker_utils.js
- * @brief Server worker utility functions.
- */
-
 /**
  *  MIT License (MIT)
  *
@@ -32,18 +27,25 @@
  *
  */
 
+/**
+ * @module
+ * @description Server-side worker thread utility functions.
+ */
+
+
 var path = require('path');
 var util = require('util');
 
 var webService = require(path.join(__dirname, '../webService/webService.js'));
 
 
-/*!
- * @brief Sets worker's name in global scope object.
+/**
+ * @function setWorkerName
+ * @description Sets worker's name in global scope object.
  *
  * @param wName - Worker's name to assign;
  */
-var setWorkerName = function( wName ){
+var setWorkerName = function(wName) {
   if( ! wName ){
     throw new Error("Invalid set of Arguments. Missing wName!");
   }
@@ -51,6 +53,11 @@ var setWorkerName = function( wName ){
 };
 
 
+/**
+ * @function launchSvcAll
+ * @description Launch all services registered to the worker thread calling
+ * this method
+ */
 var launchSvcAll = function(){
   var workerSvc = ENV.WORKERS[ WORKER.name ].services;
   var workerDir = path.dirname(path.join(

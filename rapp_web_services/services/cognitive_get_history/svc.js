@@ -20,14 +20,14 @@
 
 
 
-/***
+/**
  * @fileOverview
  *
  * [Cognitive-get-history] RAPP Platform web service implementation.
  *
  *  @author Konstantinos Panayiotou
- *  @copyright Rapp Project EU 2015
  *
+ *  @copyright Rapp Project EU 2015
  */
 
 
@@ -35,7 +35,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_history";
+const rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_history";
 
 
 
@@ -45,8 +45,7 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_history";
  *
  *  Service Implementation.
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl (req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.username = req.username;
   rosMsg.fromTime = req.body.from_time;
@@ -54,14 +53,14 @@ function svcImpl ( req, resp, ros )
   rosMsg.testType= req.body.test_type;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -83,32 +82,32 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.error - Error message.
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var trace = rosbridge_msg.trace;
-  var success = rosbridge_msg.success;
-  var error = rosbridge_msg.error;
-  var recordsPerClass = rosbridge_msg.recordsPerTestType;
-  var testClasses = rosbridge_msg.testCategories;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const trace = rosbridge_msg.trace;
+  const success = rosbridge_msg.success;
+  const error = rosbridge_msg.error;
+  const recordsPerClass = rosbridge_msg.recordsPerTestType;
+  const testClasses = rosbridge_msg.testCategories;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
-  for( var ii = 0; ii < testClasses.length; ii++ ){
-    try{
+  for (let ii = 0; ii < testClasses.length; ii++) {
+    try {
       response.records[testClasses[ii].toLowerCase()] =
         recordsPerClass[ii].records;
     }
-    catch(e){
+    catch(e) {
       response.records[testClasses[ii].toLowerCase()] = [];
     }
   }
 
   return response;
 }
+
 
 module.exports = svcImpl;

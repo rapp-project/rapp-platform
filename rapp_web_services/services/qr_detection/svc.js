@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Qr-Detection] RAPP Platform front-end web service.
@@ -33,7 +33,7 @@ var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_qr_detection/detect_qrs";
+const rosSrvName = "/rapp/rapp_qr_detection/detect_qrs";
 
 
 
@@ -44,10 +44,9 @@ var rosSrvName = "/rapp/rapp_qr_detection/detect_qrs";
  *  Service Implementation.
  *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.files.file ){
-    var response = new interfaces.client_res();
+function svcImpl(req, resp, ros) {
+  if (! req.files.file) {
+    let response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
@@ -57,15 +56,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.imageFilename = req.files.file[0];
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -88,22 +87,20 @@ function svcImpl ( req, resp, ros )
  *    qr_message string message for each found QR code.
  *  @returns {String} response.error - Error message
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var qrCenters = rosbridge_msg.qr_centers;
-  var qrMessages = rosbridge_msg.qr_messages;
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const qrCenters = rosbridge_msg.qr_centers;
+  const qrMessages = rosbridge_msg.qr_messages;
+  const error = rosbridge_msg.error;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
-  for (var ii = 0; ii < qrCenters.length; ii++)
-  {
-    var qrPoint = { x: 0, y: 0};
+  for (let ii = 0; ii < qrCenters.length; ii++) {
+    let qrPoint = { x: 0, y: 0};
 
     qrPoint.x = qrCenters[ii].point.x;
     qrPoint.y = qrCenters[ii].point.y;

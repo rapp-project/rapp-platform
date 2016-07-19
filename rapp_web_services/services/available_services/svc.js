@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Available-Services] RAPP Platform front-end web service.
@@ -30,7 +30,7 @@
 
 var path = require('path');
 
-var interfaces = require( path.join(__dirname, 'iface_obj.js') );
+var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
 /* -- Set timer values for websocket communication to rosbridge -- */
 var scanTimer = 2 * 60 * 1000;  // Minutes
@@ -39,11 +39,11 @@ var initScanWait = 10 * 1000; // Seconds;
 
 var __availableServices = [];
 
-onmessage = function( msg ){
+onmessage = function(msg) {
   __availableServices.length = 0;
-  for ( var i in msg.data ){
+  for (let i in msg.data) {
   // HOP sends a weird array value sometimes !!!
-    if ( msg.data[i].car !== undefined ){
+    if (msg.data[i].car !== undefined) {
       continue;
     }
     __availableServices.push(msg.data[i]);
@@ -54,17 +54,16 @@ onmessage = function( msg ){
  *  Scan services for up-and-running available services.
  *  Scan timer value is used triggers this function invocation.
  */
-setTimeout(
-  function getActiveServices(){
-    var msg = {
-      worker_name: WORKER.name,
-      request: "active_services"
-    };
-    postMessage(msg);
+setTimeout(function getActiveServices() {
+  var msg = {
+    worker_name: WORKER.name,
+    request: "active_services"
+  };
+  postMessage(msg);
 
-    setTimeout(function(){
-      getActiveServices();
-    }, scanTimer);
+  setTimeout(function() {
+    getActiveServices();
+  }, scanTimer);
 
   }, initScanWait
 );
@@ -74,20 +73,8 @@ setTimeout(
  *  [Available-Services], RAPP Platform Front-End Web Service.
  *  Returns a list of currently available RAPP Platform Web Services.
  *
- *  @function available_services
- *
- *  @param {Object} args - Service input arguments (literal). Empty literal.
- *
- *  @returns {Object} response - JSON HTTPResponse object.
- *    Asynchronous HTTP Response.
- *  @returns {Array} response.services - List of RAPP Platform available
- *  services.
- *  @returns {String} response.error - Error message string to be filled
- *  when an error has been occured during service call.
- *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
   var response = new interfaces.client_res();
   response.services = __availableServices;
   resp.sendJson(response);

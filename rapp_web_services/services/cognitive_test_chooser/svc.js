@@ -19,10 +19,10 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
- * [Cognitive-Test-Selector] RAPP Platform web service implementation.
+ * [Cognitive-Test-Chooser] RAPP Platform web service implementation.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
@@ -34,7 +34,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser";
+const rosSrvName = "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser";
 
 
 /**
@@ -43,10 +43,8 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser";
  *
  *  Service Implementation.
  *
- *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl (req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.username = req.username;
   rosMsg.testType = req.body.test_type;
@@ -55,14 +53,14 @@ function svcImpl ( req, resp, ros )
   rosMsg.testIndex = req.body.test_index;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -94,21 +92,20 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var success = rosbridge_msg.success;
-  var error = rosbridge_msg.error;
-  var questions = rosbridge_msg.questions;
-  var answers = rosbridge_msg.answers;
-  var correctAnswers = rosbridge_msg.correctAnswers;
-  var test = rosbridge_msg.test;
-  var testType = rosbridge_msg.testType;
-  var testSubType = rosbridge_msg.testSubType;
-  var language = rosbridge_msg.language;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const success = rosbridge_msg.success;
+  const error = rosbridge_msg.error;
+  const questions = rosbridge_msg.questions;
+  const answers = rosbridge_msg.answers;
+  const correctAnswers = rosbridge_msg.correctAnswers;
+  const test = rosbridge_msg.test;
+  const testType = rosbridge_msg.testType;
+  const testSubType = rosbridge_msg.testSubType;
+  const language = rosbridge_msg.language;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
@@ -121,8 +118,7 @@ function parseRosbridgeMsg(rosbridge_msg)
   response.lang = language;
   response.error = error;
 
-  for (var ii = 0; ii < answers.length; ii++)
-  {
+  for (let ii = 0; ii < answers.length; ii++) {
     response.possib_ans.push( answers[ii].s );
   }
 

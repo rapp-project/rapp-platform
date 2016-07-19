@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Face-Detection] RAPP Platform front-end web service.
@@ -30,12 +30,11 @@
 
 
 var path = require('path');
-var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
+var Fs = require(path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js'));
 
-var interfaces = require( path.join(__dirname, 'iface_obj.js') );
+var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
-var rosSrvName = "/rapp/rapp_face_detection/detect_faces";
-
+const rosSrvName = "/rapp/rapp_face_detection/detect_faces";
 
 
 /**
@@ -43,13 +42,10 @@ var rosSrvName = "/rapp/rapp_face_detection/detect_faces";
  *  Handles requests to face_detection RAPP Platform Service
  *
  *  Service Implementation.
- *
- *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.files.file ){
-    var response = new interfaces.client_res();
+function svcImpl(req, resp, ros) {
+  if (! req.files.file) {
+    let response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
@@ -60,15 +56,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.fast = req.body.fast;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -89,27 +85,25 @@ function svcImpl ( req, resp, ros )
  *  @returns {Array} response.faces - An array of face-objects.
  *  @returns {String} response.error - Error message.
  */
-function parseRosbridgeMsg( rosbridge_msg )
-{
-  var faces_up_left = rosbridge_msg.faces_up_left;
-  var faces_down_right = rosbridge_msg.faces_down_right;
-  var error = rosbridge_msg.error;
-  var numFaces = faces_up_left.length;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const faces_up_left = rosbridge_msg.faces_up_left;
+  const faces_down_right = rosbridge_msg.faces_down_right;
+  const error = rosbridge_msg.error;
+  const numFaces = faces_up_left.length;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
-  for (var ii = 0; ii < numFaces; ii++)
-  {
+  for (let ii = 0; ii < numFaces; ii++) {
     /***
      * @namespace face
      * @property up_left_point - Face bounding box, up-left-point
      */
-    var face = {
+    let face = {
       up_left_point: {x: 0, y:0},
       down_right_point: {x: 0, y: 0}
     };
@@ -118,7 +112,7 @@ function parseRosbridgeMsg( rosbridge_msg )
     face.up_left_point.y = faces_up_left[ii].point.y;
     face.down_right_point.x = faces_down_right[ii].point.x;
     face.down_right_point.y = faces_down_right[ii].point.y;
-    response.faces.push( face );
+    response.faces.push(face);
   }
 
   return response;

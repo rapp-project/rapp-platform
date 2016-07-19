@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Set-noise-profile] RAPP Platform front-end web service.
@@ -34,21 +34,19 @@ var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_audio_processing/set_noise_profile";
+const rosSrvName = "/rapp/rapp_audio_processing/set_noise_profile";
 
 
 
 /**
- *  [Hazard-Detection-Door-Check]
- *  Handles requests to hazard_detection_door_check RAPP Platform Service
+ *  [Set-Noise-Profile]
+ *  Handles requests to set_noise_profile RAPP Platform Service
  *
  *  Service Implementation.
- *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.files.file ){
-    var response = new interfaces.client_res();
+function svcImpl(req, resp, ros) {
+  if (! req.files.file) {
+    let response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
@@ -60,15 +58,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.user = req.username;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -89,13 +87,12 @@ function svcImpl ( req, resp, ros )
  *  @returns {Object} response - Response object.
  *  @returns {String} response.error - Error message
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const error = rosbridge_msg.error;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }

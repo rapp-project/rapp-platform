@@ -20,21 +20,20 @@
 
 
 
-/***
+/**
  * @fileOverview
  *
  * [Cognitive-get-scores] RAPP Platform front-end web service.
  *
  *  @author Konstantinos Panayiotou
  *  @copyright Rapp Project EU 2015
- *
  */
 
 var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_score";
+const rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_score";
 
 
 /**
@@ -43,24 +42,22 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/user_all_categories_score";
  *
  *  Service Implementation.
  *
- *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.username = req.username;
   rosMsg.upToTime = req.body.up_to_time;
   rosMsg.testType = req.body.test_type;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -83,19 +80,16 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.error - Error message
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var trace = rosbridge_msg.trace;
-  var success = rosbridge_msg.success;
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const trace = rosbridge_msg.trace;
+  const success = rosbridge_msg.success;
+  const error = rosbridge_msg.error;
 
-  var testCategories = rosbridge_msg.testCategories;
-  var testScores = rosbridge_msg.testScores;
-
-  var logMsg = 'Returning to client';
+  const testCategories = rosbridge_msg.testCategories;
+  const testScores = rosbridge_msg.testScores;
 
   var response = new interfaces.client_res();
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
