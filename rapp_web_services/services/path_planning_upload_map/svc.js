@@ -19,20 +19,19 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Path-planning-upload-map] RAPP Platform web service.
  *
- *  @author Wojciech Dudek
- *  @mail wojciechsbox@gmail.com
+ *  @author Wojciech Dudek <wojciechsbox@gmail.com>
+
  *  @copyright Rapp Project EU 2015
  */
 
 
 var path = require('path');
 var util = require('util');
-
 
 var INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
@@ -44,9 +43,10 @@ var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
 /**
  *  [Path-planning-upload-map] RAPP Platform web service.
- *  Serves requests for path_planning_upload_map on given input: .png file, .yaml file, user name, map name.</p>
+ *
+ *  Serves requests for path_planning_upload_map on given input: .png file, .yaml file, user name, map name.
  */
-function svcImpl (req, resp, ros) {
+function svcImpl(req, resp, ros) {
   var response = new interfaces.client_res();
 
   if (! req.files.png_file) {
@@ -65,20 +65,20 @@ function svcImpl (req, resp, ros) {
     return;
   }
 
-  if( (typeof req.body.map_name !== "string")){
+  if (typeof req.body.map_name !== "string") {
     response.error = 'map_name must be of type {string}';
     resp.sendJson(response);
     return;
   }
 
-  var cpPNGFile = "~/rapp_platform_files/maps/" + req.username + "/" +
+  const cpPNGFile = "~/rapp_platform_files/maps/" + req.username + "/" +
     req.body.map_name + ".png";
-  var cpYAMLFile = "~/rapp_platform_files/maps/" + req.username + "/" +
+  const cpYAMLFile = "~/rapp_platform_files/maps/" + req.username + "/" +
     req.body.map_name + ".yaml";
 
 
   // create user directory if one does not exist.
-  if (!Fs.isDirectory("~/rapp_platform_files/maps/" + req.username)) {
+  if (! Fs.isDirectory("~/rapp_platform_files/maps/" + req.username)) {
     Fs.createDirRecur("~/rapp_platform_files/maps/" + req.username);
   }
 

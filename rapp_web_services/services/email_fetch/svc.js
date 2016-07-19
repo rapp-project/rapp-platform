@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Email-Fetch] RAPP Platform web service implementation.
@@ -28,7 +28,6 @@
  *  @copyright Rapp Project EU 2015
  *
  */
-
 
 
 var path = require('path');
@@ -46,18 +45,17 @@ var rosSrvName = "/rapp/rapp_email_receive/receive_email";
  *
  *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.body.email ){
-    var response = new interfaces.client_res();
+function svcImpl (req, resp, ros) {
+  if (! req.body.email) {
+    let response = new interfaces.client_res();
     response.error = 'Empty \"email\" argument';
-    sendResponse( hop.HTTPResponseJson(response) );
+    resp.sendJson(response);
     return;
   }
-  if( ! req.body.server ){
-    var response = new interfaces.client_res();
+  if (! req.body.server) {
+    let response = new interfaces.client_res();
     response.error = 'Empty \"server\" argument';
-    sendResponse( hop.HTTPResponseJson(response) );
+    resp.sendJson(response);
     return;
   }
 
@@ -72,14 +70,14 @@ function svcImpl ( req, resp, ros )
   rosMsg.numberOfEmails = req.body.num_emails;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -99,34 +97,32 @@ function svcImpl ( req, resp, ros )
  *  @returns {Array} response.emails - Array of email entries.
  *  @returns {String} response.error - Error message
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
+function parseRosbridgeMsg(rosbridge_msg) {
   var success = rosbridge_msg.status;
   var emails = rosbridge_msg.emails;
   var logMsg = 'Returning to client';
 
   var response = new interfaces.client_res();
 
-  if( success < 0 ){
+  if (success < 0) {
     // TODO What shall be returned to client????!!!!
     response.error = "Failed to fetch emails";
     return response;
   }
 
 
-  for ( var i in emails ){
+  for (let i in emails) {
     var emailEntry = new interfaces.email_entry();
     emailEntry.sender = emails[i].sender;
-    for ( var j in emails[i].receivers){
+    for (let j in emails[i].receivers) {
       emailEntry.receivers.push(emails[i].receivers[j]);
     }
 
-    for ( var j in emails[i].attachmentPaths ){
+    for (let j in emails[i].attachmentPaths) {
       var fPath = emails[i].attachmentPaths[j];
       var attachment = new interfaces.attachment();
       var f = Fs.readFileSync(fPath);
-      if( f )
-      {
+      if (f) {
         attachment.filename = f.basename;
         attachment.data = f.data.toString('base64');
         emailEntry.attachments.push(attachment);
@@ -137,10 +133,9 @@ function parseRosbridgeMsg(rosbridge_msg)
     emailEntry.subject = emails[i].subject;
 
     var body = '';
-    try{
+    try {
       body = Fs.readTextFile(emails[i].bodyPath);
-    }
-    catch(e){
+    } catch(e) {
       console.log(e);
       body = '';
     }

@@ -20,7 +20,7 @@
 
 
 
-/***
+/**
  * @fileOverview
  *
  * [Geolocation] RAPP Platform front-end web service.
@@ -34,8 +34,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_geolocator/locate";
-
+const rosSrvName = "/rapp/rapp_geolocator/locate";
 
 
 /**
@@ -45,9 +44,8 @@ var rosSrvName = "/rapp/rapp_geolocator/locate";
  *  Service Implementation.
  *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.body.ipaddr ){
+function svcImpl(req, resp, ros) {
+  if (! req.body.ipaddr) {
     // Retrieve client ip from request.
     // If the connection was established through a Proxy Server then the
     // returned information will be related to the Proxy Server location.
@@ -59,13 +57,13 @@ function svcImpl ( req, resp, ros )
   rosMsg.geolocator = req.body.engine;
 
   // ROS-Service response callback.
-  function callback(data){
-    var response = parseRosbridgeMsg( data );
+  function callback(data) {
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -94,13 +92,12 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.zip
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
+function parseRosbridgeMsg(rosbridge_msg) {
   var response = new interfaces.client_res();
 
-  var error = rosbridge_msg.error;
+  const error = rosbridge_msg.error;
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }

@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Ontology-superclasses-of] RAPP Platform front-end web service.
@@ -28,13 +28,11 @@
  *  @copyright Rapp Project EU 2015
  */
 
-
 var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_knowrob_wrapper/superclasses_of";
-
+const rosSrvName = "/rapp/rapp_knowrob_wrapper/superclasses_of";
 
 
 /**
@@ -44,21 +42,20 @@ var rosSrvName = "/rapp/rapp_knowrob_wrapper/superclasses_of";
  * Service Implementation
  *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.ontology_class = req.body.ontology_class;
   rosMsg.recursive = req.body.recursive;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -79,22 +76,20 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.error - Error message
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var results = rosbridge_msg.results;
-  var trace = rosbridge_msg.trace;
-  var success = rosbridge_msg.success;
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const results = rosbridge_msg.results;
+  const trace = rosbridge_msg.trace;
+  const success = rosbridge_msg.success;
+  const error = rosbridge_msg.error;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
-  for (var ii = 0; ii < results.length; ii++)
-  {
+  for (let ii = 0; ii < results.length; ii++) {
     response.results.push(results[ii]);
   }
 

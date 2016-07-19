@@ -1,8 +1,3 @@
-/*!
- * @file service_handler.js
- * @brief Hop service handler.
- */
-
 /**
  *  MIT License (MIT)
  *
@@ -29,39 +24,51 @@
  *
  *  Authors: Konstantinos Panayiotou
  *  Contact: klpanagi@gmail.com
- *
  */
+
+/**
+ * @file
+ * @description Server Core implementation. Register workers/services,
+ * handle communication between web services and worker threads, etc.
+ *
+ * @author Konstantinos Panayiotou <klpanagi@gmail.com>
+ * @copyright Rapp Project EU 2015
+ */
+
 
 
 var path = require('path');
 var hop = require('hop');
 var util = require('util');
 
-const ENV = require( path.join(__dirname, '../..', 'env.js') );
+const ENV = require(path.join(__dirname, '../', 'env.js'));
 const PKG_DIR = ENV.PATHS.PKG_DIR;
 const INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
 
-var Rsg = require ( path.join(INCLUDE_DIR, 'common', 'randStringGen.js') );
-var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
+var Rsg = require (path.join(INCLUDE_DIR, 'common', 'randStringGen.js'));
+var Fs = require(path.join(INCLUDE_DIR, 'common', 'fileUtils.js'));
 
 
-/*!
- * @brief ServiceHandler Prototype.
+/**
+ *  Server Core implementation. Register workers/services, handle communication
+ *  between web services and worker threads, etc.
+ *
+ * @class ServerCore
+ *
  * @param {Object} args - Arguments.
  * @param {Object} args.logger - Pass a logger to the Prototype constructor.
  */
-function ServiceHandler( args ){
-  args = args || {};
-  this.logger = {log: undefined, error: undefined};
-  this.logger = args.logger;
+function ServerCore(opts) {
+  opts = opts || {};
+  this.logger = opts.logger || console;
 
   this.services = {};
   this.workers = {};
   this.workers.main_thread = {
     services: []
   };
-  this.randStrLength = parseInt(args.rand_str_lenth) || 5;
-  this.strGen = new Rsg( this.randStrLength );
+  this.randStrLength = parseInt(opts.rand_str_lenth) || 5;
+  this.strGen = new Rsg(this.randStrLength);
 
   /** Load server parameters.
    * ------------------------ */
@@ -73,11 +80,31 @@ function ServiceHandler( args ){
 }
 
 
-/*!
- * @TODO Enable registration of services under main worker thread.
+/**
+ * Add a custom logger for the Server core to use for logging
+ *
+ * @function applyLogger
+ * @memberOf ServerCore
  */
-ServiceHandler.prototype.registerService = function( svcName, frame, path, wName ){
-  if( !(svcName && frame && path && wName) ){
+ServerCore.prototype.applyLogger = function(logger) {
+  this.logger = logger || console;
+};
+
+
+/**
+ * Register a Web Service.
+ *
+ * @function registerService
+ * @memberOf ServerCore
+ *
+ * @param {string} svcName - The name of the web service
+ * @param {Object} frame - Hop Web service frame.
+ * @param {string} path - The Web Service relative url path
+ * e.g. /face_detection/detect_faces
+ * @param {string} wName - The name of the worker to register this web service
+ */
+ServerCore.prototype.registerService = function(svcName, frame, path, wName) {
+  if (!(svcName && frame && path && wName)) {
     this.logger.error("Service registration failed.");
     return false;
   }
@@ -89,19 +116,18 @@ ServiceHandler.prototype.registerService = function( svcName, frame, path, wName
     frame: frame
   };
 
-  if( this.workerExists(wName) && (! this.serviceExists(svcName)) ){
+  if( this.workerExists(wName) && (! this.serviceExists(svcName)) ) {
     // Append to worker services array
     this.workers[ wName ].services.push(svcName);
     // Append service object to services array.
     this.services[ svcName ] = svcObj;
-    this.logger.info(
+    this.logger.log(
       util.format("Registered worker service {%s} under worker thread {%s}",
         this.services[ svcName ].url, wName)
     );
-    this.logger.info(svcObj);
+    this.logger.log(svcObj);
     return true;
-  }
-  else{
+  } else {
     this.logger.error(
       util.format("{%s} service registration failed. Either non existed " +
         " worker {%s} , or service with same name already registered", svcName,
@@ -112,8 +138,12 @@ ServiceHandler.prototype.registerService = function( svcName, frame, path, wName
 };
 
 
-/*!
- * @brief Parse worker messages.
+/**
+ * Parse worker messages.
+ *
+ * @function parseWorkerMsg
+ * @memberOf ServerCore
+ *
  * @param {Object} msg - Communication message
  * @param {Object} msg.data - Message data.
  * @param {String} msg.data.svc_name - Caller service name.
@@ -121,7 +151,7 @@ ServiceHandler.prototype.registerService = function( svcName, frame, path, wName
  * @param {String} msg.data.svc_path - Caller service path (url).
  * @param {Function} msg.data.svc_frame - Caller service frame.
  */
-ServiceHandler.prototype.parseWorkerMsg = function( msg ){
+ServerCore.prototype.parseWorkerMsg = function(msg){
   var wName = msg.data.worker_name || "";
   var request = msg.data.request || "";
   var response = {};
@@ -130,19 +160,19 @@ ServiceHandler.prototype.parseWorkerMsg = function( msg ){
     this.logger.error("Received message from non registered worker");
   }
 
-  switch( request ){
+  switch (request) {
     case "svc_registration":
       // Request to register service
-      var svcName = msg.data.svc_name || '';
-      var svcFrame = msg.data.svc_frame || undefined;
-      var svcPath = msg.data.svc_path || '';
+      let svcName = msg.data.svc_name || '';
+      let svcFrame = msg.data.svc_frame || undefined;
+      let svcPath = msg.data.svc_path || '';
 
       this.registerService(svcName, svcFrame, svcPath, wName);
       break;
 
     case "get_svc_url":
-      var svcName = msg.data.svc_name || "";
-      if( ! ( svcName && serviceExists(svcName) ) ){
+      let svcName = msg.data.svc_name || "";
+      if ( ! ( svcName && serviceExists(svcName) ) ) {
         response.error = util.format(
           "Service %s does not exist in registed services", svcName);
         response.svc_name = svcName;
@@ -150,23 +180,22 @@ ServiceHandler.prototype.parseWorkerMsg = function( msg ){
       }
       else{
         response.error = '';
-        response.svc_url = this.getSvcUrl( svcName );
+        response.svc_url = this.getSvcUrl(svcName);
       }
 
-      this.workers[ wName ].postMessage(response);
+      this.workers[wName].postMessage(response);
       break;
 
     case "active_services":
-      var activeServices = [];
-      for ( var k in this.services ){
-        activeServices.push(
-          {
-            name: k,
-            url: this.services[ k ].url
-          }
-        );
+      let activeServices = [];
+      for (var k in this.services) {
+        let obj = {
+          name: k,
+          url: this.services[k].url
+        };
+        activeServices.push(obj);
       }
-      this.workers[ wName ].postMessage(activeServices);
+      this.workers[wName].postMessage(activeServices);
       break;
 
     default:
@@ -175,28 +204,35 @@ ServiceHandler.prototype.parseWorkerMsg = function( msg ){
 };
 
 
-/*!
- * @brief Send message to worker thread.
+/**
+ * Send message to worker thread.
+ *
+ * @function callWorker
+ * @memberOf ServerCore
+ *
  * @param {String} wName - Worker's name to call.
  * @param {Object} msg - Message object.
  */
-ServiceHandler.prototype.callWorker = function( wName, msg ){
-  if (this.workerExists(wName)){
+ServerCore.prototype.callWorker = function( wName, msg ){
+  if (this.workerExists(wName)) {
     this.workers[ wName ].postMessage(msg);
-  }
-  else{
-    this.logger.info(
+  } else {
+    this.logger.log(
       util.format("Attempt to call not existed worder service %s", wName)
     );
   }
 };
 
 
-/*!
- * @brief Kill/Terminate/Close worker service.
+/**
+ * Kill/Terminate/Close worker service.
+ *
+ * @function killWorker
+ * @memberOf ServerCore
+ *
  * @param {String} wName - Worker name.
  */
-ServiceHandler.prototype.killWorker = function( wName ){
+ServerCore.prototype.killWorker = function( wName ){
   if ( this.workerExists(wName) ){
     this.workers[ wName ].terminate();
     this.logger.warn("Terminated worker: %s", wName);
@@ -204,18 +240,22 @@ ServiceHandler.prototype.killWorker = function( wName ){
 };
 
 
-/*!
- * @brief Creates and instantiates a worker thread.
+/**
+ * Creates and instantiates a worker thread.
+ *
+ * @function createWorker
+ * @memberOf ServerCore
+ *
  * @param {String} wName - Worker name.
  * @param {String} wFile - JS file to feed to worker thread.
  */
-ServiceHandler.prototype.createWorker = function( wName, wFile ){
+ServerCore.prototype.createWorker = function(wName, wFile) {
   wName = wName || '';
   wFile = wFile || '';
 
   // Check if worker with given name already exists in list of registered
   // workers.
-  if( this.workerExists(wName) ){
+  if (this.workerExists(wName)) {
     this.logger.error(util.format("Worker with name {%s} " +
       "exists in registered workers", wName));
     return false;
@@ -223,7 +263,7 @@ ServiceHandler.prototype.createWorker = function( wName, wFile ){
 
   var this_ = this;
 
-  try{
+  try {
     this.workers[ wName ] = new Worker ( wFile );
     // Each worker holds his own Array of registered services.
     this.workers[ wName ].services = [];
@@ -250,15 +290,18 @@ ServiceHandler.prototype.createWorker = function( wName, wFile ){
 };
 
 
-/*!
- * @brief Register worker service.
- * A worker can hold multiple services;
+/**
+ * Register worker service.
+ * A worker can handle multiple services;
+ *
+ * @function registerWorker
+ * @memberOf ServerCore
+ *
  * @param {Object} worker - Service information.
  * @param {String} worker.file - Path to worker file.
  * @param {String} worker.name - Service name.
  */
-ServiceHandler.prototype.registerWorker = function( worker )
-{
+ServerCore.prototype.registerWorker = function(worker) {
   worker = worker || {};
   /** Worker registration requires the following properties:
    *  name - worker.name.
@@ -269,13 +312,13 @@ ServiceHandler.prototype.registerWorker = function( worker )
       "Not a worker name was provided");
     return false;
   }
-  if( ! worker.file ){
+  if (! worker.file) {
     this.logger.error("Worker registration failed. Empty worker.file property");
     return false;
   }
   // Check if worker with given name already exists in list of registered
   // workers.
-  if( this.workerExists(worker.name) ){
+  if (this.workerExists(worker.name)) {
     this.logger.error(util.format("Worker named {%s} already registered"),
       worker.name);
     return false;
@@ -286,24 +329,36 @@ ServiceHandler.prototype.registerWorker = function( worker )
 };
 
 
-/*!
- * @brief Return service url by given service path.
+/**
+ * Create web service full url path by given service path.
+ *
+ * @function serviceUrl
+ * @memberOf ServerCore
+ *
  * @param {String} path - Service's path (e.g. /hop/face_detection).
  */
-ServiceHandler.prototype.serviceUrl = function( path ){
+ServerCore.prototype.serviceUrl = function(path) {
   return util.format('%s://%s:%s%s', this.serverParams.protocol,
     this.serverParams.hostname, this.serverParams.port, path);
 };
 
 
-ServiceHandler.prototype.setSvcUrl = function( svcName, path ){
+/**
+ * Set the url path of given web service..
+ *
+ * @function setSvcUrl
+ * @memberOf ServerCore
+ *
+ * @param {String} svcName - Service name.
+ */
+ServerCore.prototype.setSvcUrl = function(svcName, path) {
   path = path || '';
   svcName = svcName || '';
-  if( ! path ){
+  if (! path) {
     this.logger.error("Non service path provided!");
     return false;
   }
-  if( ! svcName ){
+  if (! svcName) {
     this.logger.error("Non service name provided!");
     return false;
   }
@@ -313,19 +368,27 @@ ServiceHandler.prototype.setSvcUrl = function( svcName, path ){
     );
     return false;
   }
-  this.services[ svcName ].url = this.serviceUrl( path );
-  this.services[ svcName ].path = path;
+  this.services[svcName].url = this.serviceUrl(path);
+  this.services[svcName].path = path;
   return true;
 };
 
 
-ServiceHandler.prototype.getSvcUrl = function( svcName ){
+/**
+ * Get the url path of given web service..
+ *
+ * @function getSvcUrl
+ * @memberOf ServerCore
+ *
+ * @param {String} svcName - Service name.
+ */
+ServerCore.prototype.getSvcUrl = function(svcName) {
   svcName = svcName || '';
-  if( ! svcName ){
+  if (! svcName) {
     this.logger.error("Non service name provided!");
     return '';
   }
-  if( ! serviceExists(svcName) ){
+  if (! serviceExists(svcName)) {
     this.logger.error(util.format("Cannot get %s service url path. " +
       "Service is not registerd!", svcName)
     );
@@ -335,32 +398,40 @@ ServiceHandler.prototype.getSvcUrl = function( svcName ){
 };
 
 
-/*!
- * @brief Returns true if a service has been registered.
+/**
+ * Returns true if a service has been registered.
+ *
+ * @function serviceExists
+ * @memberOf ServerCore
+ *
  * @param {String} svcName - Service name.
  */
-ServiceHandler.prototype.serviceExists = function( svcName ){
-  if ( this.services[ svcName ] ) {
+ServerCore.prototype.serviceExists = function(svcName) {
+  if (this.services[svcName]) {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
 };
 
 
-/*!
- * @brief Returns true if a worker has been registered.
+/**
+ *  Returns true if a worker has been registered.
+ *
+ * @function workerExists
+ * @memberOf ServerCore
+ *
  * @param {String} wName - Worker name.
  */
-ServiceHandler.prototype.workerExists = function( wName ){
-  if ( this.workers[ wName ] ) {
+ServerCore.prototype.workerExists = function(wName) {
+  if (this.workers[wName]) {
     return true;
   }
   return false;
 };
 
+var serverCore = new ServerCore();
 
 
-// Export Service Handler as module.
-module.exports = ServiceHandler;
+// Export the se r.
+module.exports = serverCore;

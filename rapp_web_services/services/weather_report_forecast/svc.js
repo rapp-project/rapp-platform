@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Weather-Report-Forecast] RAPP Platform front-end web service.
@@ -31,9 +31,9 @@
 
 var path = require('path');
 
-var interfaces = require( path.join(__dirname, 'iface_obj.js') );
+var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
-var rosSrvName = "/rapp/rapp_weather_reporter/weather_forecast";
+const rosSrvName = "/rapp/rapp_weather_reporter/weather_forecast";
 
 
 
@@ -44,22 +44,21 @@ var rosSrvName = "/rapp/rapp_weather_reporter/weather_forecast";
  *  Service Implementation.
  *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.city = req.body.city;
   rosMsg.weather_reporter = req.body.weather_reporter;
   rosMsg.metric = req.body.metric;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -83,17 +82,17 @@ function svcImpl ( req, resp, ros )
 function parseRosbridgeMsg(rosbridge_msg)
 {
   var response = new interfaces.client_res();
-  var forecast = rosbridge_msg.forecast;
+  const forecast = rosbridge_msg.forecast;
 
-  var error = rosbridge_msg.error;
+  const error = rosbridge_msg.error;
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
-  for (var i in forecast){
-    var forecastEntry = new interfaces.forecast_entry();
+  for (let i in forecast){
+    let forecastEntry = new interfaces.forecast_entry();
     forecastEntry.high_temp = forecast[i].high_temperature;
     forecastEntry.low_temp = forecast[i].low_temperature;
     forecastEntry.description = forecast[i].description;

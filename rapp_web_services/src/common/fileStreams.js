@@ -20,12 +20,11 @@
 
 
 /**
- * @module
- * @description NodeJs wrap methods while working with file system.
+ * @file
+ * @description NodeJs wrap methods while working with file streams.
  *
- * @author Konstantinos Panayiotou
- *  @copyright Rapp Project EU 2015
- *
+ * @author Konstantinos Panayiotou <klpanagi@gmail.com>
+ * @copyright Rapp Project EU 2015
  */
 
 
@@ -37,8 +36,8 @@ var colors = {
 };
 
 
-var fs = require( 'fs' );
-var Fs = require( './fileUtils.js' );
+var fs = require('fs');
+var Fs = require('./fileUtils.js');
 
 
 /**
@@ -47,38 +46,38 @@ var Fs = require( './fileUtils.js' );
  * @class WriteStream
  * @param {String} filePath The file-path to open the writable stream
  *
- * @property wstream_ - Writable Stream.
- * @property {String} endPoint_ - Stream end-point.
- * @property {Method} close(_callback) - Close the WriteStream. Has an optional
- * callback parameter to be called when an error has occured while closing
- * the writable stream
- * @property {Method} write(data) - Append data to the write-stream.
- *
  */
-function WriteStream( filePath )
-{
+function WriteStream(filePath) {
   /** @lends WriteStream.prototype */
   this.wstream_ = undefined;
   this.endPoint_ = filePath || '';
 
-  if( filePath )  { this.create(filePath); }
+  if (filePath)  {
+    this.create(filePath);
+  }
 
 }
 
 
 /**
  * @description Close the writable stream
+ *
+ * @function close
+ * @memberOf WriteStream
  */
-WriteStream.prototype.close = function( _callack )
-{
-  try { if(this.wstream_) { this.wstream_.end(); } }
-  catch(e)
-  {
-    var errorMsg = 'Thrown an exception on line 64' +
-        ' [fileStreams.js] while trying to close stream';
-      console.log(colors.error + errorMsg + colors.clear);
-    if(_callback) { _callback(); }
-    else { return false; }
+WriteStream.prototype.close = function(_callack) {
+  try {
+    if (this.wstream_) {
+      this.wstream_.end();
+    }
+  }
+  catch(e) {
+    console.log(e);
+    if (_callback) {
+      _callback();
+    } else {
+      return false;
+    }
   }
 
 };
@@ -87,30 +86,37 @@ WriteStream.prototype.close = function( _callack )
 /**
  * @description Create a writable stream
  *
+ * @function close
+ *
+ * @param {string} streamEndPoint - The stream end-point
+ * @memberOf WriteStream
  */
-WriteStream.prototype.create = function( streamEndPoint )
-{
-  var absFilePath = Fs.resolvePath( streamEndPoint );
+WriteStream.prototype.create = function(streamEndPoint) {
+  var absFilePath = Fs.resolvePath(streamEndPoint);
   try{
-    this.wstream_ = fs.createWriteStream( absFilePath );
+    this.wstream_ = fs.createWriteStream(absFilePath);
   }
   catch(e){
-    console.log(colors.error + e.toString() + colors.clear);
+    console.log(e);
     this.wstream_ = undefined;
     return false;
   }
 
-  console.log(colors.ok + 'Initiated Writable Stream '+ colors.clear +
-    "[%s]", absFilePath);
+  console.log('Initiated Writable Stream [%s]', absFilePath);
   return true;
 };
 
 
 /**
  * @description Flush data into the writable stream
+ *
+ * @function write
+ * @memberOf WriteStream
+ *
+ * @param data - Data to flush to the stream
  */
-WriteStream.prototype.write = function( data ){
-  this.wstream_.write( data );
+WriteStream.prototype.write = function(data) {
+  this.wstream_.write(data);
 };
 
 

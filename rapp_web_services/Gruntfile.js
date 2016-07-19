@@ -7,7 +7,11 @@ module.exports = function(grunt) {
     // Task configuration.
     jsdoc: {
       services: {
-        src: ['services/*.js', 'services/README.md'],
+        src: [
+          'services/**/svc.js',
+          '!services/templates/*.js',
+          'services/README.md'
+        ],
         options: {
           destination: 'doc/services',
           template: "node_modules/ink-docstrap/template",
@@ -15,7 +19,9 @@ module.exports = function(grunt) {
         }
       },
       commons: {
-        src: ['modules/common/*.js', 'modules/common/README.md'],
+        src: [
+          'src/**/*.js'
+        ],
         options: {
           destination: 'doc/commons',
           template: "node_modules/ink-docstrap/template",
@@ -23,7 +29,10 @@ module.exports = function(grunt) {
         }
       },
       templates: {
-        src: ['services/templates/*.js', 'services/templates/README.md'],
+        src: [
+          'services/templates/*.js',
+          'services/templates/README.md'
+        ],
         options: {
           destination: 'doc/templates',
           template: "node_modules/ink-docstrap/template",

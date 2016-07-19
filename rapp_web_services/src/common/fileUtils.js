@@ -21,8 +21,10 @@
 /**
  * @module
  *
- * @description NodeJs wrap methods while working with file system.
+ * @description Useful functionalities, while working with file system.
  *
+ * @author Konstantinos Panayiotou <klpanagi@gmail.com>
+ * @copyright Rapp Project EU 2015
  */
 
 var fs = require('fs');
@@ -486,7 +488,7 @@ function readTextFile(filepath, encoding) {
   // Encoding is set to utf8 by default
   encoding = encoding || 'utf8';
 
-  if ( ! filepath ) {
+  if (! filepath) {
     throw new Error("Not a filepath provided");
   }
 
@@ -501,6 +503,7 @@ function readTextFile(filepath, encoding) {
 
   return text;
 }
+
 
 module.exports = {
   resolvePath: resolvePath,

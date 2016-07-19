@@ -20,13 +20,12 @@
 
 
 
-/***
+/**
  * @fileOverview
  *
  * [Path-planning-Plan-Path-2D] RAPP Platform web service.
  *
- *  @author Wojciech Dudek
- *  @mail wojciechsbox@gmail.com
+ *  @author Wojciech Dudek <wojciechsbox@gmail.com>
  *  @copyright Rapp Project EU 2015
  */
 
@@ -34,11 +33,16 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_path_planning/planPath2d";
+const rosSrvName = "/rapp/rapp_path_planning/planPath2d";
 
 
-function svcImpl ( req, resp, ros )
-{
+/**
+ *  [Path-Planning-Plan-Path-2D]
+ *  Handles requests to path_planning_plan_path_2d RAPP Platform Service
+ *
+ *  Service Implementation.
+ */
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.user_name = req.username;
   rosMsg.map_name = req.body.map_name;
@@ -48,14 +52,14 @@ function svcImpl ( req, resp, ros )
   rosMsg.goal = req.body.goal;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -85,13 +89,12 @@ function svcImpl ( req, resp, ros )
  *    - 4 : wrong algorithm.
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  error = rosbridge_msg.error_message;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const error = rosbridge_msg.error_message;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
