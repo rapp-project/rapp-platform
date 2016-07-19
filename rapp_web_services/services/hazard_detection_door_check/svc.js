@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Hazard-Detection-Door-Check] RAPP Platform front-end web service.
@@ -34,7 +34,7 @@ var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_hazard_detection/door_check";
+const rosSrvName = "/rapp/rapp_hazard_detection/door_check";
 
 
 /**
@@ -44,10 +44,9 @@ var rosSrvName = "/rapp/rapp_hazard_detection/door_check";
  *  Service Implementation.
  *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.files.file ){
-    var response = new interfaces.client_res();
+function svcImpl(req, resp, ros) {
+  if (! req.files.file) {
+    let response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
@@ -57,15 +56,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.imageFilename = req.files.file[0];
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -86,14 +85,13 @@ function svcImpl ( req, resp, ros )
  *  @returns {Array} response.faces - An array of face-objects.
  *  @returns {String} response.error - Error message
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var error = rosbridge_msg.error;
-  var da = rosbridge_msg.door_angle;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const error = rosbridge_msg.error;
+  const da = rosbridge_msg.door_angle;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }

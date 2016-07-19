@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Email-Send] RAPP Platform web service implementation.
@@ -36,8 +36,7 @@ var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_email_send/send_email";
-
+const rosSrvName = "/rapp/rapp_email_send/send_email";
 
 
 /**
@@ -48,36 +47,15 @@ var rosSrvName = "/rapp/rapp_email_send/send_email";
  *
  *
  */
-function svcImpl ( req, resp, ros )
-{
-  //if( ! req.body.email ){
-    //error = 'Empty \"email\" argument';
-    //response.error = error;
-    //sendResponse( hop.HTTPResponseJson(response) );
-    //return;
-  //}
-  //if( ! req.body.recipients ){
-    //error = 'Empty \"recipients\" argument';
-    //response.error = error;
-    //sendResponse( hop.HTTPResponseJson(response) );
-    //return;
-  //}
-  //if( ! req.body.server ){
-    //error = 'Empty \"server\" argument';
-    //response.error = error;
-    //sendResponse( hop.HTTPResponseJson(response) );
-    //return;
-  //}
-
+function svcImpl(req, resp, ros) {
   var _files = [];
 
-  if(req.files.file){
+  if (req.files.file) {
     // If it is a zip file
-    if( zip.isZipFile(req.files.file[0]) ){
+    if (zip.isZipFile(req.files.file[0])) {
       _files = zip.unzip(req.files.file[0]).filepaths;
-    }
-    // If it is a single non-zip file
-    else{
+    } else {
+      // If it is a single non-zip file
       _files.push(req.files.file[0]);
     }
   }
@@ -93,15 +71,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.files = _files;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -121,14 +99,12 @@ function svcImpl ( req, resp, ros )
  *  @returns {Object} response - Response Object.
  *  @returns {String} response.error - Error message.
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var success = rosbridge_msg.status;
-  var logMsg = 'Returning to client';
+function parseRosbridgeMsg(rosbridge_msg) {
+  const success = rosbridge_msg.status;
 
   var response = new interfaces.client_res();
 
-  if( success < 0 ){
+  if (success < 0) {
     response.error = "Failed to send email";
   }
 

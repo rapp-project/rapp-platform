@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Speech-detection-google] RAPP Platform front-end web service.
@@ -30,11 +30,11 @@
 
 
 var path = require('path');
-var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
+var Fs = require(path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js'));
 
-var interfaces = require( path.join(__dirname, 'iface_obj.js') );
+var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
-var rosSrvName = "/rapp/rapp_speech_detection_google/speech_to_text";
+const rosSrvName = "/rapp/rapp_speech_detection_google/speech_to_text";
 
 
 /**
@@ -44,11 +44,10 @@ var rosSrvName = "/rapp/rapp_speech_detection_google/speech_to_text";
  *  Service Implementation.
  *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
 
-  if( ! req.files.file ){
-    var response = new interfaces.client_res();
+  if (! req.files.file) {
+    let response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
@@ -61,15 +60,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.language = req.body.language;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -94,23 +93,21 @@ function svcImpl ( req, resp, ros )
  *    <p> e.g. [['send', 'mail'], ['send', 'email'], ['set', 'mail']...] </p>
  *  @returns {String} response.error - Error message
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var words = rosbridge_msg.words;
-  var alternatives = rosbridge_msg.alternatives;
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const words = rosbridge_msg.words;
+  const alternatives = rosbridge_msg.alternatives;
+  const error = rosbridge_msg.error;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
   response.words = words;
 
-  for (var ii = 0; ii < alternatives.length; ii++)
-  {
+  for (let ii = 0; ii < alternatives.length; ii++) {
     response.alternatives.push( alternatives[ii].s );
   }
 

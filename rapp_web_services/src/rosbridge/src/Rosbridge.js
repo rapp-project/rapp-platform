@@ -1,7 +1,3 @@
-/*!
- * @file getServicesTest.js
- */
-
 /**
  *  MIT License (MIT)
  *
@@ -34,15 +30,6 @@
 
 var Bridge = require(__dirname + '/core/bridge.js');
 
-/*!
- *  @brief Global scope Rosbridge class.
- *
- *  Used in order to communicate with ROS-framework through rosbridge
- *  websocket server.
- *  For more information on Rosbridge-Websocket-Server visit:
- *  http://wiki.ros.org/rosbridgesuite
- *
- */
 function Rosbridge(options) {
   this.options = options || {};
   this.reconnect = options.reconnect || false;
@@ -59,7 +46,7 @@ function Rosbridge(options) {
  *  @param paramName Name of the parameter to retrieve from ROS
  *    parameter server.
  *
- *  @param callback Callback to execute on asynchronous response.
+ *  @param {callback} callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getParam = function( paramName, callback, opts ){
   this.rosbridge.getParam(paramName, callback);
@@ -69,7 +56,7 @@ Rosbridge.prototype.getParam = function( paramName, callback, opts ){
 /*!
  *  @brief Get list of available ROS-Services.
  *
- *  @param callback Callback to execute on asynchronous response.
+ *  @param {callback} callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getServices = function( callback, opts ){
   this.rosbridge.getServices(callback, opts);
@@ -79,7 +66,7 @@ Rosbridge.prototype.getServices = function( callback, opts ){
 /*!
  *  @brief Get list of running ROS-Nodes.
  *
- *  @param callback Callback to execute on asynchronous response.
+ *  @param {callback} callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getNodes = function( callback, opts ){
   this.rosbridge.getNodes(callback, opts);
@@ -89,7 +76,7 @@ Rosbridge.prototype.getNodes = function( callback, opts ){
 /*!
  *  @brief Get list of available ROS-Topics.
  *
- *  @param callback Callback to execute on asynchronous response.
+ *  @param {callback} callback to execute on asynchronous response.
  */
 Rosbridge.prototype.getTopics = function( callback, opts ){
   this.rosbridge.getTopics(callback, opts);

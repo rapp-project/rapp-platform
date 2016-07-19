@@ -34,26 +34,26 @@ var path = require('path');
 
 const ENV = require( path.join(__dirname, 'env.js') );
 const PKG_DIR = ENV.PATHS.PKG_DIR;
-const INCLUDE_DIR = ENV.PATHS.INCLUDE_DIR;
+const INCLUDES = ENV.PATHS.INCLUDE_DIR;
 const SERVICES_CACHE_DIR = ENV.PATHS.SERVICES_CACHE_DIR;
 const SERVER_CACHE_DIR = ENV.PATHS.SERVER_CACHE_DIR;
 /* --------------------------------------------------------------- */
 
-var hostname = hop.hostname;
-var port = hop.port;
+const hostname = hop.hostname;
+const port = hop.port;
 var workers = require('./config/services/workers.json');
 
-var Fs = require( path.join(INCLUDE_DIR, 'common', 'fileUtils.js') );
-var logger = new (require( path.join(INCLUDE_DIR, 'common', 'logger.js') ))(
-  {console: true, file: false, ns: ''});
+var Fs = require( path.join(INCLUDES, 'common', 'fileUtils.js') );
+const logger = new (require( path.join(INCLUDES, 'common', 'logger.js') ))(
+  {debug: false, file: false, ns: ''});
 if( createCacheDir(SERVICES_CACHE_DIR) ){
   logger.info('...Services caching in ' + SERVICES_CACHE_DIR);
-}else{
+} else {
   logger.error('Failed to create cache directories: ' + SERVICES_CACHE_DIR);
 }
 
-var srvHandler = new ( require( path.join(INCLUDE_DIR, 'servicehandler',
-    'service_handler.js') ))({logger: logger});
+var core = require(path.join(INCLUDES, 'serverCore.js'));
+core.applyLogger(logger);
 
 
 launchWorkers(workers);
@@ -62,7 +62,7 @@ launchWorkers(workers);
 /** ---------------------- [Util functions] --------------------- */
 /** ------------------------------------------------------------- */
 
-function createCacheDir( dir ){
+function createCacheDir(dir){
   if( dir === undefined || dir === '' )
   {
     return false;
@@ -74,14 +74,14 @@ function createCacheDir( dir ){
 }
 
 
-function launchWorkers( workers ){
+function launchWorkers(workers) {
   for(var w in workers){
     if( (workers[w].launch === true) || ( workers[w].launch) === undefined ){
       var worker = {
         file: path.join(__dirname, workers[w].path),
         name: w,
       };
-      srvHandler.registerWorker( worker );
+      core.registerWorker(worker);
     }
   }
 }
@@ -95,7 +95,7 @@ process.stdin.resume();
 process.on('SIGTERM',
   function(){
     console.log('Exiting with code: ');
-    srvHandler.terminate();
+    core.terminate();
   }
 );
 

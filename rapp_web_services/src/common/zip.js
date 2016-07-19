@@ -23,7 +23,7 @@
  * @module
  * @description Zip/Unzip wrapper methods
  *
- * @author Konstantinos Panayiotou
+ * @author Konstantinos Panayiotou <klpanagi@gmail.com>
  * @copyright Rapp Project EU 2016
  *
  */
@@ -47,7 +47,14 @@ var strGen = new RandStrGen( RAND_STR_LENGTH );
 var Fs = require(path.join(__dirname, 'fileUtils.js'));
 
 
-function _unzip( zipFilepath, outPath ){
+/**
+ * @function unzip
+ * @description Decompress a .zip file
+ *
+ * @param {String} zipFilepat - Zip file path
+ * @param {String} outPath - Path to extract from zip file
+ */
+function _unzip(zipFilepath, outPath) {
   if(! outPath){
     var ext = strGen.createUnique();
     outPath = path.join(path.dirname(zipFilepath), ext);
@@ -76,7 +83,13 @@ function _unzip( zipFilepath, outPath ){
 }
 
 
-function isZipFile( zipFilepath ){
+/**
+ * @function isZipFile
+ * @description Check if a file is a .zip file
+ *
+ * @param {String} zipFilepat - Zip file path
+ */
+function isZipFile(zipFilepath) {
   try{
     var zip = new AdmZip(zipFilepath);
   }

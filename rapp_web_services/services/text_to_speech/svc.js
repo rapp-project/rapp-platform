@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Text-to-Speech] RAPP Platform front-end web service.
@@ -42,16 +42,12 @@ var fs = require('fs');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_text_to_speech_espeak/text_to_speech_topic";
-var audioOutFormat = "wav";
-var audioOutPath = ENV.PATHS.SERVICES_CACHE_DIR;
-var basenamePrefix = "tts_";
+const rosSrvName = "/rapp/rapp_text_to_speech_espeak/text_to_speech_topic";
+const audioOutFormat = "wav";
+const audioOutPath = ENV.PATHS.SERVICES_CACHE_DIR;
+const basenamePrefix = "tts_";
 
-
-/*----------------< Random String Generator configurations >---------------*/
-var stringLength = 5;
-var randStrGen = new RandStringGen( stringLength );
-/* ----------------------------------------------------------------------- */
+var randStrGen = new RandStringGen(5);
 
 
 
@@ -62,13 +58,12 @@ var randStrGen = new RandStringGen( stringLength );
  *  Service Implementation
  *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
   // Assign a unique identification key for this service request.
-  var unqCallId = randStrGen.createUnique();
+  const unqCallId = randStrGen.createUnique();
 
   // Rename file. Add uniqueId value
-  var filePath = path.join(audioOutPath,
+  const filePath = path.join(audioOutPath,
     basenamePrefix + unqCallId + '.' + audioOutFormat);
 
   var rosMsg = new interfaces.ros_req();
@@ -77,20 +72,20 @@ function svcImpl ( req, resp, ros )
   rosMsg.text = req.body.text;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Remove this call id from random string generator cache.
-    randStrGen.removeCached( unqCallId );
+    randStrGen.removeCached(unqCallId);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data, filePath );
+    var response = parseRosbridgeMsg(data, filePath);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     // Remove local file immediately.
     Fs.rmFile(filePath);
     // Remove this call id from random string generator cache.
-    randStrGen.removeCached( unqCallId );
+    randStrGen.removeCached(unqCallId);
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -105,19 +100,19 @@ function svcImpl ( req, resp, ros )
  *  Craft response object.
  *
  */
-function parseRosbridgeMsg(rosbridge_msg, audioFilePath)
-{
-  var error = rosbridge_msg.error;
+function parseRosbridgeMsg(rosbridge_msg, audioFilePath) {
+  const error = rosbridge_msg.error;
+  const audioFile  = Fs.readFileSync(audioFilePath);
+
   var response = new interfaces.client_res();
 
-  if ( error )
-  {
+  if (error) {
     response.error = error;
     return response;
   }
 
-  if( (audioFile = Fs.readFileSync(audioFilePath)) )
-  {
+
+  if (audioFile) {
     response.payload = audioFile.data.toString('base64');
     response.basename = audioFile.basename;
     response.encoding = 'base64';

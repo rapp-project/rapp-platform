@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Human-Detection] RAPP Platform front-end web service.
@@ -34,7 +34,7 @@ var Fs = require( path.join(ENV.PATHS.INCLUDE_DIR, 'common', 'fileUtils.js') );
 
 var interfaces = require( path.join(__dirname, 'ihuman_obj.js') );
 
-var rosSrvName = "/rapp/rapp_human_detection/detect_humans";
+const rosSrvName = "/rapp/rapp_human_detection/detect_humans";
 
 
 
@@ -45,10 +45,9 @@ var rosSrvName = "/rapp/rapp_human_detection/detect_humans";
  *  Service Implementation.
  *
  */
-function svcImpl ( req, resp, ros )
-{
-  if( ! req.files.file ){
-    var response = new interfaces.client_res();
+function svcImpl(req, resp, ros) {
+  if (! req.files.file) {
+    let response = new interfaces.client_res();
     response.error = "No image file received";
     resp.sendJson(response);
     return;
@@ -58,15 +57,15 @@ function svcImpl ( req, resp, ros )
   rosMsg.imageFilename = req.files.file[0];
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
@@ -88,27 +87,26 @@ function svcImpl ( req, resp, ros )
  *  @returns {String} response.error - Error message string to be filled
  *    when an error has been occured during service call.
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var humans_up_left = rosbridge_msg.humans_up_left;
-  var humans_down_right = rosbridge_msg.humans_down_right;
-  var error = rosbridge_msg.error;
-  var numHumans = humans_up_left.length;
+function parseRosbridgeMsg(rosbridge_msg) {
+  const humans_up_left = rosbridge_msg.humans_up_left;
+  const humans_down_right = rosbridge_msg.humans_down_right;
+  const error = rosbridge_msg.error;
+  const numHumans = humans_up_left.length;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }
 
-  for (var ii = 0; ii < numHumans; ii++)
+  for (let ii = 0; ii < numHumans; ii++)
   {
     /***
      * @namespace human
      * @property up_left_point - Face bounding box, up-left-point
      */
-    var human = {
+    let human = {
       up_left_point: {x: 0, y:0},
       down_right_point: {x: 0, y: 0}
     };

@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [News-Explore] RAPP Platform front-end web service.
@@ -33,7 +33,7 @@ var path = require('path');
 
 var interfaces = require( path.join(__dirname, 'iface_obj.js') );
 
-var rosSrvName = "/rapp/rapp_news_explorer/fetch_news";
+const rosSrvName = "/rapp/rapp_news_explorer/fetch_news";
 
 
 /**
@@ -43,8 +43,7 @@ var rosSrvName = "/rapp/rapp_news_explorer/fetch_news";
  *  Service Implementation.
  *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.newsEngine = req.body.news_explore;
   rosMsg.keywords = req.body.keywords;
@@ -54,14 +53,14 @@ function svcImpl ( req, resp, ros )
   rosMsg.storyNum = req.body.num_news;
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
-    var response = parseRosbridgeMsg( data );
+    var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -80,15 +79,14 @@ function svcImpl ( req, resp, ros )
  *  @returns {Object} response - Response Object.
  *  @returns {String} response.error - Error message
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
+function parseRosbridgeMsg(rosbridge_msg) {
   //var success = rosbridge_msg.status;
-  var error = rosbridge_msg.error;
-  var newsStories = rosbridge_msg.stories;
+  const error = rosbridge_msg.error;
+  const newsStories = rosbridge_msg.stories;
 
   var response = new interfaces.client_res();
 
-  if( error ){
+  if (error) {
     response.error = error;
     return response;
   }

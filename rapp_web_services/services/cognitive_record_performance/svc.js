@@ -19,7 +19,7 @@
  */
 
 
-/***
+/**
  * @fileOverview
  *
  * [Record-cognitive-test-performance] RAPP Platform web service implementation.
@@ -31,9 +31,9 @@
 
 var path = require('path');
 
-var interfaces = require( path.join(__dirname, 'iface_obj.js') );
+var interfaces = require(path.join(__dirname, 'iface_obj.js'));
 
-var rosSrvName = "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance";
+const rosSrvName = "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance";
 
 
 
@@ -43,24 +43,22 @@ var rosSrvName = "/rapp/rapp_cognitive_exercise/record_user_cognitive_test_perfo
  *
  *  Service Implementation.
  *
- *
  */
-function svcImpl ( req, resp, ros )
-{
+function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.username = req.username;
   rosMsg.test = req.body.test_instance;
   rosMsg.score = parseInt(req.body.score);
 
   // ROS-Service response callback.
-  function callback(data){
+  function callback(data) {
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg( data );
     resp.sendJson(response);
   }
 
   // ROS-Service onerror callback.
-  function onerror(e){
+  function onerror(e) {
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
@@ -83,28 +81,15 @@ function svcImpl ( req, resp, ros )
  *    when an error has been occured during service call.
  *
  */
-function parseRosbridgeMsg(rosbridge_msg)
-{
-  var performance_entry = rosbridge_msg.userCognitiveTestPerformanceEntry;
-  var trace = rosbridge_msg.trace;
-  var success = rosbridge_msg.success;
-  var error = rosbridge_msg.error;
-
-  var logMsg = 'Returning to client.';
+function parseRosbridgeMsg(rosbridge_msg) {
+  const performance_entry = rosbridge_msg.userCognitiveTestPerformanceEntry;
+  const trace = rosbridge_msg.trace;
+  const success = rosbridge_msg.success;
+  const error = rosbridge_msg.error;
 
   var response = new interfaces.client_res();
   response.performance_entry = performance_entry;
   response.error = error;
-
-  if ( ! success )
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] error' +
-      ' ---> ' + error;
-  }
-  else
-  {
-    logMsg += ' ROS service [' + rosSrvName + '] returned with success';
-  }
 
   return response;
 }
