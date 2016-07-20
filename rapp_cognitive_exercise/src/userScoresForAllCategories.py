@@ -55,10 +55,12 @@ class UserScoresForAllCategories:
       res.trace.append("ValueError: " +str(e))
       res.error="ValueError: "+str(e)
       res.success=False
+      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
     except IndexError, e:
       res.trace.append("IndexError: " +str(e))
       res.error="IndexError: "+str(e)
       res.success=False
+      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
     except AppError as e:
       AppError.passErrorToRosSrv(e,res) 
     return res  

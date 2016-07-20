@@ -6,6 +6,7 @@ from datetime import datetime
 from os.path import expanduser
 from collections import OrderedDict
 from app_error_exception import AppError
+import traceback
 
 from rapp_platform_ros_communications.srv import (
   ontologySubSuperClassesOfSrv,
@@ -185,3 +186,16 @@ class CognitiveExerciseHelperFunctions:
       userPerfOrganizedByTimestamp[int(userPerf.timestamps[i])]=[tlist]      
     userPerfOrganizedByTimestamp=OrderedDict(sorted(userPerfOrganizedByTimestamp.items(), key=lambda t: t[0], reverse=True)) #Order is descending    
     return userPerfOrganizedByTimestamp
+
+  @staticmethod  
+  ## @brief Traces and returns the code line where an error occured
+  # @param error [String] the error occured
+  # @param trace [list] the execution messages trace list
+  #
+  # @param trace [list] the execution messages trace list
+  def traceError(error,trace):
+    for frame in traceback.extract_tb(sys.exc_info()[2]):
+      fname,lineno,fn,text = frame
+      print "Error in %s on line %d" % (fname, lineno)
+      error = error + "Error in %s on line %d" % (fname, lineno)
+      trace.append("Error in %s on line %d" % (fname, lineno))

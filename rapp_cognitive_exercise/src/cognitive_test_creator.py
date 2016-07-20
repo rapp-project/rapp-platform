@@ -25,6 +25,7 @@ import rospy
 import os
 import sys
 from app_error_exception import AppError
+from helper_functions import CognitiveExerciseHelperFunctions
 
 from rapp_platform_ros_communications.srv import (
   cognitiveTestCreatorSrv,
@@ -203,10 +204,12 @@ class CognitiveTestCreator:
     except IndexError:
       #print "test "+fname +" is broken"
       res.error="IndexError.. test "+fname +" is broken"
+      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
       res.success=False
     except IOError:
       #print "IO Error, cannot open test file or write xml file"
       res.error="IO Error, cannot open test file or write xml file"
+      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
       res.success=False
     except AppError as e:
       AppError.passErrorToRosSrv(e,res) 
