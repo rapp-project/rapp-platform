@@ -94,4 +94,18 @@ if (CATKIN_ENABLE_TESTING)
 
   # functional tests
   add_rostest(tests/${BASE_NAME}/functional_tests.launch)
+  
+  # code coverage for unit tests
+  set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+  if(CMAKE_COMPILER_IS_GNUCXX)
+    SET(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
+    SET(CMAKE_C_FLAGS_DEBUG "-g -O0 -fprofile-arcs -ftest-coverage")
+  
+    include(CodeCoverage)
+    set(COVERAGE_IGNORE 
+      '/opt/ros/*'
+      '/opt'
+    )
+    setup_target_for_coverage(test_coverage ${BASE_NAME}_unit_test coverage "${COVERAGE_IGNORE}")
+  endif()
 endif()

@@ -10,7 +10,8 @@
 
 #include "rapp_object_recognition/find_objects.hpp"
 
-#define DEBUG_IMAGES
+//#define DEBUG_IMAGES
+#define STRIP_ALL_ROSOUT
 
 namespace fs = boost::filesystem;
 
@@ -48,7 +49,9 @@ bool FindObjects::loadImage(const std::string & filename_, cv::Mat & image_) {
 		image_ = imread( filename_ );
 		return !image_.empty();
 	} catch (...) {
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_WARN ("Could not load image from file %s", filename_.c_str());
+#endif
 		return false;
 	}
 }
@@ -71,14 +74,18 @@ bool FindObjects::extractFeatures(const cv::Mat image_, std::vector<KeyPoint> & 
 			grid_detector->detect( gray_img, tmp, mask_ );
 			keypoints_.insert(keypoints_.end(), tmp.begin(), tmp.end());
 		}
-
+		
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO("Detected %d keypoints", (int)keypoints_.size());
+#endif
 
 		// Extract descriptors (feature vectors).
 		extractor->compute( gray_img, keypoints_, descriptors_ );
 		return true;
 	} catch (...) {
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_WARN ("Could not extract features from image");
+#endif
 		return false;
 	}//: catch
 }
@@ -89,8 +96,10 @@ int FindObjects::learnObject(const std::string & user, const std::string & fname
 	if (!loadImage(fname, model.image)) {
 		return -2;
 	}
-	
+
+#ifndef STRIP_ALL_ROSOUT
 	if (!silent_) ROS_DEBUG("Size of loaded image (%d,%d)", model.image.size().width, model.image.size().height );
+#endif
 
 	extractFeatures(model.image, model.keypoints, model.descriptors);
 
@@ -101,9 +110,11 @@ int FindObjects::learnObject(const std::string & user, const std::string & fname
 	}
 	
 	model.save(fs_path, name);
-
-	if (!silent_) ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
 	
+#ifndef STRIP_ALL_ROSOUT
+	if (!silent_) ROS_INFO("Successfull creation of model %s from file %s", name.c_str(), fname.c_str());
+#endif
+
 	return 0;
 }
 
@@ -125,7 +136,10 @@ bool FindObjects::loadModel(const std::string & user, const std::string & name) 
 	
 	models.push_back(std::move(model));
 	
+#ifndef STRIP_ALL_ROSOUT
 	if (!silent_) ROS_INFO("Loaded model: %s", name.c_str());
+#endif
+
 	return true;
 }
 
@@ -147,7 +161,9 @@ void FindObjects::storeObjectHypothesis(const ObjectHypothesis & hyp, unsigned i
 
 	// Special case: insert first object hypothesis.
 	if (hypotheses.size() == 0) {
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO("Adding first (0) object hypothesis");
+#endif
 		hypotheses.push_back(hyp);
 		return;
 	}
@@ -157,7 +173,9 @@ void FindObjects::storeObjectHypothesis(const ObjectHypothesis & hyp, unsigned i
 	for (; it != hypotheses.end(); ++it) {
 		// check, if new object center is close to already found one
 		if (norm(it->center - hyp.center) < 20) {
+#ifndef STRIP_ALL_ROSOUT
 			if (!silent_) ROS_INFO("Ignoring object hypothesis, to close to existing one");
+#endif
 			return;
 		}
 		if (it->score < hyp.score){
@@ -167,12 +185,14 @@ void FindObjects::storeObjectHypothesis(const ObjectHypothesis & hyp, unsigned i
 	}
 	
 	hypotheses.insert(it, hyp);
-	
+#ifndef STRIP_ALL_ROSOUT
 	if (!silent_) ROS_INFO("Adding next object hypothesis");
-
+#endif
 	// Limit the size of vectors.
 	if (hypotheses.size() > limit_){
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO("Removing last object hypothesis");
+#endif
 		hypotheses.pop_back();
 	}
 }
@@ -240,8 +260,10 @@ void FindObjects::refineHypothesis(ObjectHypothesis & hyp, cv::Mat scene_img) {
 		if( dist > max_dist ) max_dist = dist;
 	}//: for
 
+#ifndef STRIP_ALL_ROSOUT
 	if (!silent_) ROS_INFO ("Max dist : %f", max_dist);
 	if (!silent_) ROS_INFO ("Min dist : %f", min_dist);
+#endif
 
 	//-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
 	std::vector< DMatch > good_matches;
@@ -297,10 +319,14 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
                 std::vector<std::string> & found_names, std::vector<geometry_msgs::Point> & found_centers, std::vector<double> & found_scores){
 
 	if (models.empty()) {
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_WARN("No models loaded");
+#endif
 		return -1;
 	} else {
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO("Finding objects with the use of %d models", (int)models.size());
+#endif
 	}
   
 #ifdef DEBUG_IMAGES
@@ -322,24 +348,34 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 	// Extract features from scene.
 	extractFeatures(scene_img, scene_keypoints, scene_descriptors, true);
+#ifndef STRIP_ALL_ROSOUT
 	if (!silent_) ROS_INFO ("Scene features: %d", (int)scene_keypoints.size());
+#endif
 
 	// Iterate - try to detect each model one by one.
 	for (unsigned int m=0; m < models.size(); m++) {
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_DEBUG ("Trying to recognize model (%d): %s", m, models[m]->name.c_str());
+#endif
 
 		if (models[m]->keypoints.size() == 0) {
+#ifndef STRIP_ALL_ROSOUT
 			if (!silent_) ROS_WARN ("Model %s not valid as it does not contain texture.", models[m]->name.c_str());
+#endif
 			continue;
 		}//: if
 
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO ("Model features: %d", (int)models[m]->keypoints.size());
+#endif
 
 		std::vector< std::vector<DMatch> > knnmatches;
 		// Find matches.
 		matcher->match( models[m]->descriptors, scene_descriptors, matches );
-		
+
+#ifndef STRIP_ALL_ROSOUT		
 		if (!silent_) ROS_INFO ("Matches found: %d", (int)matches.size());
+#endif
 
 		// Filtering.
 		double max_dist = 0;
@@ -361,8 +397,10 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		}
 #endif
 
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO ("Max dist : %f", max_dist);
 		if (!silent_) ROS_INFO ("Min dist : %f", min_dist);
+#endif
 
 		//-- Draw only "good" matches (i.e. whose distance is less than 3*min_dist )
 		std::vector< DMatch > good_matches;
@@ -372,7 +410,9 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 				good_matches.push_back( matches[i]);
 		}//: for
 
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO ("Good matches: %d", (int)good_matches.size());
+#endif
 
 #ifdef DEBUG_IMAGES
 		Mat img_matches;
@@ -396,7 +436,9 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 		bool still_valid = true;
 		int rep = 0;
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO ("Model (%d: %s): keypoints= %d corrs= %d", m, models[m]->name.c_str(), (int)models[m]->keypoints.size(), (int)good_matches.size());
+#endif
 		do { // while (still_valid)
 			
 			if (obj.size() < 5) break;
@@ -453,7 +495,9 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 				}
 			} else {
 				// Hypothesis not valid.
+#ifndef STRIP_ALL_ROSOUT
 				if (!silent_) ROS_INFO ("   - %3d | REJ | inliers %d, score %lf", rep, inliers, hyp.score);
+#endif
 				still_valid = false;
 				ransac_thresh *= 1.3;
 			}//: else 
@@ -512,7 +556,9 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 		pt.z = 0.0;
 		found_centers.push_back(pt);
 		found_scores.push_back(h.score);
+#ifndef STRIP_ALL_ROSOUT
 		if (!silent_) ROS_INFO("Found object: %s, %lf, %lf", h.model->name.c_str(), pt.x, pt.y);
+#endif
 	}//: for
  
 	return 0;
