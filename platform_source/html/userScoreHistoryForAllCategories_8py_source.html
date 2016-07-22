@@ -173,83 +173,85 @@ $(document).ready(function(){initNavTree('userScoreHistoryForAllCategories_8py_s
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      res.trace.append(<span class="stringliteral">&quot;ValueError: &quot;</span> +str(e))</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      res.error=<span class="stringliteral">&quot;ValueError: &quot;</span>+str(e)</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      res.success=<span class="keyword">False</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">except</span> IndexError, e:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      res.trace.append(<span class="stringliteral">&quot;IndexError: &quot;</span> +str(e))</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      res.error=<span class="stringliteral">&quot;IndexError: &quot;</span>+str(e)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      res.success=<span class="keyword">False</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">except</span> AppError <span class="keyword">as</span> e:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      AppError.passErrorToRosSrv(e,res) </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> res</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="comment">## @brief Retrieves the test history of the user for the provided test categories  </span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="comment"># @param testTypesList [list] The list of the available tests as they were read from the ontology</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment"># @param userOntologyAlias [string] The user&#39;s ontology alias</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="comment"># @param fromTime [long] The time from which the user&#39;s performance records are taken into account</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="comment"># @param toTime [long] The time up to which the user&#39;s performance records are taken into account</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="comment"># </span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="comment"># @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&amp;] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a53ff38dc9793d099309aec998eeb3745">   82</a></span>&#160;  <span class="keyword">def </span><a class="code" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a53ff38dc9793d099309aec998eeb3745">assignTestHistoryForTestCategoriesToSrv</a>(self,testTypesList,userOntologyAlias,fromTime,toTime,res):        </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;   <span class="keywordflow">for</span> s <span class="keywordflow">in</span> testTypesList:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)            </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      if(userPerformanceResponse.success==<span class="keyword">True</span>): </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        userPerfOrganizedByTimestamp=CognitiveExerciseHelperFunctions.organizeUserPerformanceByTimestamp(userPerformanceResponse)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        sumCategoryScore=0</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        sumCategoryScoreDivideBy=0;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        countValidTests=0;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        arrayCognitiveExercisePerformanceRecords=ArrayCognitiveExercisePerformanceRecordsMsg()</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> userPerfOrganizedByTimestamp.items():</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;          if(k&lt;fromTime <span class="keywordflow">or</span> k&gt;toTime):</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            del userPerfOrganizedByTimestamp[k]</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;          <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            tmpRecord=CognitiveExercisePerformanceRecordsMsg()</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            tmpRecord.timestamp=k</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            tmpList=v[0][0].<a class="code" href="knowrob__wrapper_8cpp.html#a527876ebdba0ec57bd96287221b4a594">split</a>(<span class="stringliteral">&#39;#&#39;</span>) </div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">if</span> (tmpList[1] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>):</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;              tmpRecord.test=tmpList[1]</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            tmpRecord.score=long(v[0][1])           </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            tmpRecord.difficulty=v[0][2]</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            tmpList=v[0][3].<a class="code" href="knowrob__wrapper_8cpp.html#a527876ebdba0ec57bd96287221b4a594">split</a>(<span class="stringliteral">&#39;#&#39;</span>)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordflow">if</span> (tmpList[1] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>):</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;              tmpRecord.subtype=tmpList[1]</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            tmpRecord.type=s</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            countValidTests=countValidTests+1</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            sumCategoryScore=sumCategoryScore+long(v[0][2])*long(v[0][1])  <span class="comment">#[0][2] is difficulty, [0][1] is score         </span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            sumCategoryScoreDivideBy=sumCategoryScoreDivideBy+long(v[0][2])            </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            tmpAverageCategoryScore=float(sumCategoryScore/sumCategoryScoreDivideBy)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            tmpRecord.meanScoreForTypeUpToNow=tmpAverageCategoryScore</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            arrayCognitiveExercisePerformanceRecords.records.append(tmpRecord)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        res.recordsPerTestType.append(arrayCognitiveExercisePerformanceRecords)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="comment">## @brief Validates the fromTime and toTime variables  </span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="comment"># @param fromTime [long] The time from which the performance records are evaluated</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="comment"># @param toTime [long] The time up to which the performance records are evaluated</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="comment"># </span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="comment"># @return fromTime [long] The time from which the performance records are evaluated</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="comment"># @return toTime [long] The time up to which the performance records are evaluated</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="comment"># @exception Exception AppError</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a226888e324ec3a8867ffa47530acd073">  121</a></span>&#160;  <span class="keyword">def </span><a class="code" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a226888e324ec3a8867ffa47530acd073">validateTimeRange</a>(self,fromTime,toTime):</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">if</span> (toTime <span class="keywordflow">is</span> <span class="keywordtype">None</span> <span class="keywordflow">or</span> toTime==0):</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      toTime=9999999999999999999999</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">if</span> (fromTime <span class="keywordflow">is</span> <span class="keywordtype">None</span> <span class="keywordflow">or</span> fromTime==0):</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      fromTime=0    </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    if(fromTime&gt;=toTime):      </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      error=<span class="stringliteral">&quot;Invalid time range, fromTime is later than toTime&quot;</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <span class="keywordflow">raise</span> <a class="code" href="classapp__error__exception_1_1AppError.html">AppError</a>(error,error)     </div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">return</span> fromTime,toTime</div>
-<div class="ttc" id="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_html_a226888e324ec3a8867ffa47530acd073"><div class="ttname"><a href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a226888e324ec3a8867ffa47530acd073">userScoreHistoryForAllCategories.UserScoreHistoryForAllCategories.validateTimeRange</a></div><div class="ttdeci">def validateTimeRange</div><div class="ttdoc">Validates the fromTime and toTime variables. </div><div class="ttdef"><b>Definition:</b> <a href="userScoreHistoryForAllCategories_8py_source.html#l00121">userScoreHistoryForAllCategories.py:121</a></div></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">except</span> IndexError, e:</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      res.trace.append(<span class="stringliteral">&quot;IndexError: &quot;</span> +str(e))</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      res.error=<span class="stringliteral">&quot;IndexError: &quot;</span>+str(e)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      res.success=<span class="keyword">False</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">except</span> AppError <span class="keyword">as</span> e:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      AppError.passErrorToRosSrv(e,res) </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> res</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">## @brief Retrieves the test history of the user for the provided test categories  </span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="comment"># @param testTypesList [list] The list of the available tests as they were read from the ontology</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="comment"># @param userOntologyAlias [string] The user&#39;s ontology alias</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="comment"># @param fromTime [long] The time from which the user&#39;s performance records are taken into account</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  <span class="comment"># @param toTime [long] The time up to which the user&#39;s performance records are taken into account</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment"># </span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="comment"># @return res [rapp_platform_ros_communications::userScoreHistoryForAllCategoriesSrvResponse::Response&amp;] The output arguments of the service as defined in the userScoreHistoryForAllCategoriesSrv</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a53ff38dc9793d099309aec998eeb3745">   84</a></span>&#160;  <span class="keyword">def </span><a class="code" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a53ff38dc9793d099309aec998eeb3745">assignTestHistoryForTestCategoriesToSrv</a>(self,testTypesList,userOntologyAlias,fromTime,toTime,res):        </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;   <span class="keywordflow">for</span> s <span class="keywordflow">in</span> testTypesList:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)            </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      if(userPerformanceResponse.success==<span class="keyword">True</span>): </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        userPerfOrganizedByTimestamp=CognitiveExerciseHelperFunctions.organizeUserPerformanceByTimestamp(userPerformanceResponse)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        sumCategoryScore=0</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        sumCategoryScoreDivideBy=0;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        countValidTests=0;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        arrayCognitiveExercisePerformanceRecords=ArrayCognitiveExercisePerformanceRecordsMsg()</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> userPerfOrganizedByTimestamp.items():</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;          if(k&lt;fromTime <span class="keywordflow">or</span> k&gt;toTime):</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            del userPerfOrganizedByTimestamp[k]</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;          <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            tmpRecord=CognitiveExercisePerformanceRecordsMsg()</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            tmpRecord.timestamp=k</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            tmpList=v[0][0].<a class="code" href="knowrob__wrapper_8cpp.html#a527876ebdba0ec57bd96287221b4a594">split</a>(<span class="stringliteral">&#39;#&#39;</span>) </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">if</span> (tmpList[1] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;              tmpRecord.test=tmpList[1]</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            tmpRecord.score=long(v[0][1])           </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            tmpRecord.difficulty=v[0][2]</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            tmpList=v[0][3].<a class="code" href="knowrob__wrapper_8cpp.html#a527876ebdba0ec57bd96287221b4a594">split</a>(<span class="stringliteral">&#39;#&#39;</span>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordflow">if</span> (tmpList[1] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;              tmpRecord.subtype=tmpList[1]</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            tmpRecord.type=s</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            countValidTests=countValidTests+1</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            sumCategoryScore=sumCategoryScore+long(v[0][2])*long(v[0][1])  <span class="comment">#[0][2] is difficulty, [0][1] is score         </span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            sumCategoryScoreDivideBy=sumCategoryScoreDivideBy+long(v[0][2])            </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            tmpAverageCategoryScore=float(sumCategoryScore/sumCategoryScoreDivideBy)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            tmpRecord.meanScoreForTypeUpToNow=tmpAverageCategoryScore</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            arrayCognitiveExercisePerformanceRecords.records.append(tmpRecord)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        res.recordsPerTestType.append(arrayCognitiveExercisePerformanceRecords)</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="comment">## @brief Validates the fromTime and toTime variables  </span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="comment"># @param fromTime [long] The time from which the performance records are evaluated</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="comment"># @param toTime [long] The time up to which the performance records are evaluated</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="comment"># </span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="comment"># @return fromTime [long] The time from which the performance records are evaluated</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="comment"># @return toTime [long] The time up to which the performance records are evaluated</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <span class="comment"># @exception Exception AppError</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a226888e324ec3a8867ffa47530acd073">  123</a></span>&#160;  <span class="keyword">def </span><a class="code" href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a226888e324ec3a8867ffa47530acd073">validateTimeRange</a>(self,fromTime,toTime):</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">if</span> (toTime <span class="keywordflow">is</span> <span class="keywordtype">None</span> <span class="keywordflow">or</span> toTime==0):</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      toTime=9999999999999999999999</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">if</span> (fromTime <span class="keywordflow">is</span> <span class="keywordtype">None</span> <span class="keywordflow">or</span> fromTime==0):</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      fromTime=0    </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    if(fromTime&gt;=toTime):      </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      error=<span class="stringliteral">&quot;Invalid time range, fromTime is later than toTime&quot;</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keywordflow">raise</span> <a class="code" href="classapp__error__exception_1_1AppError.html">AppError</a>(error,error)     </div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">return</span> fromTime,toTime</div>
+<div class="ttc" id="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_html_a226888e324ec3a8867ffa47530acd073"><div class="ttname"><a href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a226888e324ec3a8867ffa47530acd073">userScoreHistoryForAllCategories.UserScoreHistoryForAllCategories.validateTimeRange</a></div><div class="ttdeci">def validateTimeRange</div><div class="ttdoc">Validates the fromTime and toTime variables. </div><div class="ttdef"><b>Definition:</b> <a href="userScoreHistoryForAllCategories_8py_source.html#l00123">userScoreHistoryForAllCategories.py:123</a></div></div>
 <div class="ttc" id="classapp__error__exception_1_1AppError_html"><div class="ttname"><a href="classapp__error__exception_1_1AppError.html">app_error_exception.AppError</a></div><div class="ttdoc">Exception compliant with the ros error and trace srvs. </div><div class="ttdef"><b>Definition:</b> <a href="rapp__caffe__wrapper_2src_2app__error__exception_8py_source.html#l00003">app_error_exception.py:3</a></div></div>
 <div class="ttc" id="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_html_afec98a890e1b34dcd2fd89ce6e422d83"><div class="ttname"><a href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#afec98a890e1b34dcd2fd89ce6e422d83">userScoreHistoryForAllCategories.UserScoreHistoryForAllCategories.returnUserHistory</a></div><div class="ttdeci">def returnUserHistory</div><div class="ttdoc">The callback function of the cognitive exercise user score history for all categories service...</div><div class="ttdef"><b>Definition:</b> <a href="userScoreHistoryForAllCategories_8py_source.html#l00047">userScoreHistoryForAllCategories.py:47</a></div></div>
 <div class="ttc" id="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_html"><div class="ttname"><a href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html">userScoreHistoryForAllCategories.UserScoreHistoryForAllCategories</a></div><div class="ttdoc">Provides the necessary functions for returning the history of user scores. </div><div class="ttdef"><b>Definition:</b> <a href="userScoreHistoryForAllCategories_8py_source.html#l00039">userScoreHistoryForAllCategories.py:39</a></div></div>
 <div class="ttc" id="knowrob__wrapper_8cpp_html_a527876ebdba0ec57bd96287221b4a594"><div class="ttname"><a href="knowrob__wrapper_8cpp.html#a527876ebdba0ec57bd96287221b4a594">split</a></div><div class="ttdeci">std::vector&lt; std::string &gt; split(std::string str, std::string sep)</div><div class="ttdoc">Splits string by delimiter. </div><div class="ttdef"><b>Definition:</b> <a href="knowrob__wrapper_8cpp_source.html#l00114">knowrob_wrapper.cpp:114</a></div></div>
-<div class="ttc" id="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_html_a53ff38dc9793d099309aec998eeb3745"><div class="ttname"><a href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a53ff38dc9793d099309aec998eeb3745">userScoreHistoryForAllCategories.UserScoreHistoryForAllCategories.assignTestHistoryForTestCategoriesToSrv</a></div><div class="ttdeci">def assignTestHistoryForTestCategoriesToSrv</div><div class="ttdoc">Retrieves the test history of the user for the provided test categories. </div><div class="ttdef"><b>Definition:</b> <a href="userScoreHistoryForAllCategories_8py_source.html#l00082">userScoreHistoryForAllCategories.py:82</a></div></div>
+<div class="ttc" id="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories_html_a53ff38dc9793d099309aec998eeb3745"><div class="ttname"><a href="classuserScoreHistoryForAllCategories_1_1UserScoreHistoryForAllCategories.html#a53ff38dc9793d099309aec998eeb3745">userScoreHistoryForAllCategories.UserScoreHistoryForAllCategories.assignTestHistoryForTestCategoriesToSrv</a></div><div class="ttdeci">def assignTestHistoryForTestCategoriesToSrv</div><div class="ttdoc">Retrieves the test history of the user for the provided test categories. </div><div class="ttdef"><b>Definition:</b> <a href="userScoreHistoryForAllCategories_8py_source.html#l00084">userScoreHistoryForAllCategories.py:84</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_efad18cd8deeb2069fbd733944c9d698.html">rapp_cognitive_exercise</a></li><li class="navelem"><a class="el" href="dir_9c089ac38ebcb2e098ac07dab8eced99.html">src</a></li><li class="navelem"><a class="el" href="userScoreHistoryForAllCategories_8py.html">userScoreHistoryForAllCategories.py</a></li>
-    <li class="footer">Generated on Tue Jul 19 2016 11:43:11 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 22 2016 10:04:40 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

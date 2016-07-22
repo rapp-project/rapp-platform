@@ -100,59 +100,149 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_RAPP-Cognitive-
 <div class="title">RAPP-Cognitive-Exercise </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The RAPP Cognitive exercise system aims to provide the Robot users a means of performing basic cognitive exercises. The cognitive tests supported belong to three distinct categories, a) Arithmetic, b) Reasoning/Recall, c) Awareness. A number of subcategories exist within each category. Tests have been implemented for all subcategories in different variations and difficulty settings. The NAO robot is used in order to dictate the test questions to the user and record the answers. A user performance history is being kept in the ontology that aids in keeping track of the user’s cognitive test performance and in adjusting the difficulty of the tests he is presented with. Based on past performance the test difficulty adapts to the user’s specific needs in each test category separately in order to accurately reflect the user’s individual cognitive strengths and weaknesses. To preserve the user’s interest different tests are selected for each category using a least recently used model. To further enhance variation, even tests of the same subcategory exist in different variations. The RAPP Cognitive exercise system component diagram is depicted below.</p>
-<p>[[images/cognitive_exercise_system_component_diagram.png]]</p>
+<div class="textblock"><p>The RAPP Cognitive exercise system aims to provide the Robot users a means of performing basic cognitive exercises. The cognitive tests supported belong to three distinct categories, a) Arithmetic, b) Reasoning/Recall, c) Awareness. A number of subcategories exist within each category. Tests have been implemented for all subcategories in different variations and difficulty settings. The NAO robot is used in order to dictate the test questions to the user and record the answers. A user performance history is being kept in the ontology that aids in keeping track of the user’s cognitive test performance and in adjusting the difficulty of the tests he is presented with. Based on past performance the test difficulty adapts to the user’s specific needs in each test category separately in order to accurately reflect the user’s individual cognitive strengths and weaknesses. To preserve the user’s interest different tests are selected for each category using a least recently used model. To further enhance variation, even tests of the same subcategory exist in different variations.</p>
 <h1>ROS Services</h1>
 <h2>Test Selector</h2>
-<p>This service was created in order to select the appropriate test for a user given its type. The service will load the user’s past performance from the ontology, determine the appropriate difficulty setting for the specific user and return the least recently used test of its type. In case no test type is provided then the least recently used test type category will be selected.</p>
+<p>This service was created in order to select the appropriate test for a user given its type. The service will load the user’s past performance from the ontology, determine the appropriate difficulty setting for the specific user and return the least recently used test of its type. In case no test type is provided then the least recently used test type category will be selected. By providing the testType, testSubType, testDifficulty and testIndex parameters, a test can be selected manually.</p>
 <p>Service URL: <code>/rapp/rapp_cognitive_exercise/cognitive_exercise_chooser</code></p>
-<p>Service type: ```bash #Contains info about time and reference Header header #The username of the user string username #The test type requested </p>
-<h2>String testType </h2>
-<p>#The test’s name string test #The test’s type string testType #The test’s sub type string testSubType #The test’s language string language #The test’s questions string[] questions #The list of answers for each test string[][] answers #The correct answers for each test string[] correct_answers #Possible error string error ```</p>
+<p>Service type: ```bash #the username of the user for which a cognitive test is requested string username #used to specify the selected test type string testType #used to specify the selected test sub type string testSubType #used to specify the selected test difficulty string testDifficulty #used to specify the selected test index (id) </p>
+<h2>string testIndex </h2>
+<p>#the returned test name string test #the returned test type string testType #the returned test sub type string testSubType #the returned test language string language #the questions of the returned test string[] questions #the possible answers of the questions rapp_platform_ros_communications/StringArrayMsg[] answers #the correct answers string[] correctAnswers #true if service call was successful bool success </p>
+<h1>possible error</h1>
+<p>string error #tracen information string[] trace ```</p>
 <h2>Record User Performance</h2>
 <p>This service was created in order to record the performance, meaning the score, of a user after completing a cognitive exercise test. The name of the test, its type and the user’s score are provided as input arguments. Within the service, a Unix timestamp is automatically generated. The timestamp reflects the time at which the test was performed. The service returns the name of the test performance entry that was created in the ontology.</p>
 <p>Service URL: <code>/rapp/rapp_cognitive_exercise/record_user_cognitive_test_performance</code></p>
-<p>Service type: ```bash #Contains info about time and reference Header header #The username of the user string username #The type of the test string testType #The test which was performed string test #The score the user achieved on the test </p>
-<h2>String score </h2>
-<p>#Container for the subclasses String user_cognitive_test_performance_entry #Possible error string error ```</p>
+<p>Service type: ```bash #the username of the user who completed the test string username #the name of the completed test string test #the score achieved </p>
+<h2>int32 score </h2>
+<p>#the name of the registered cognitive test user performance entry string userCognitiveTestPerformanceEntry #true if service call was successful bool success </p>
+<h1>possible error</h1>
+<p>string error #tracen information string[] trace ```</p>
 <h2>Cognitive Test creator</h2>
 <p>This service was created in order to create a cognitive test in the special xml format required and register it to the ontology. It accepts as an input a specially formatted text file containing all the information required for the test including its type, subtype, difficulty, questions, answers etc. The service formats the above information in an xml file and registers the test along with some vital information like it’s type and difficulty setting to the ontology. The service returns a bool variable that is true if xml creation and ontology registration were successful. Any possible error is contained in the error string variable also returned.</p>
 <p>Service URL: <code>/rapp/rapp_cognitive_exercise/cognitive_test_creator</code></p>
-<p>Service type: ```bash #Contains info about time and reference Header header #The text file containing the test information </p>
+<p>Service type: ```bash #the path to the cognitive test file </p>
 <h2>string inputFile </h2>
-<p>#True if test creation and registration to the ontology was successfull bool success #Possible error string error ```</p>
+<p>#true if service call was successful bool success </p>
+<h1>possible error</h1>
+<p>string error #tracen information string[] trace ```</p>
+<h2>Return tests of type subtype and diffuclty</h2>
+<p>This service will return the cognitive tests existing in the ontology for the given testType, testSubType, difficulty and language. In case any arguments are not provided, it will be ignored, as such the query can be specific or general as needed.</p>
+<p>Service URL: <code>/rapp/rapp_cognitive_exercise/return_tests_of_type_subtype_difficulty_topic</code></p>
+<p>Service type: ```bash #the type of the requested tests string testType #the subtype of the requested tests string testSubType #the difficulty of the requested tests string difficulty #the language of the requested tests </p>
+<h2>string language </h2>
+<p>#message containing the cognitive exercises CognitiveExercisesMsg[] cognitiveExercises #number of cognitive exercises returned int16 totalNumberOfTestsReturned #true if service call was successful bool success </p>
+<h1>possible error</h1>
+<p>string error #tracen information string[] trace ```</p>
+<h2>Return user cognitive test history</h2>
+<p>This service will return the history of cognitive test performance records of the user for all test categories.</p>
+<p>Service URL: <code>/rapp/rapp_cognitive_exercise/user_all_categories_history</code></p>
+<p>Service type: ```bash #the username of the user whose score history is requsted string username #the test types for which the history is requested string testType #timestamp after which score performance entries will be included in history int64 fromTime #timestamp up to which score performance entries will be included in history </p>
+<h2>int64 toTime </h2>
+<p>#message containing a;; user performance records for each test type (category) ArrayCognitiveExercisePerformanceRecordsMsg[] recordsPerTestType #the test categories string[] testCategories #true if service call was successful bool success </p>
+<h1>possible error</h1>
+<p>string error #trace information string[] trace ```</p>
+<h2>Return user cognitive test scores</h2>
+<p>This service will return the cumulative cognitive test scores of the user for all test categories.</p>
+<p>Service URL: <code>/rapp/rapp_cognitive_exercise/user_all_categories_score</code></p>
+<p>Service type: ```bash #the username of the user whose scores are requested string username #the type of the test for which the scores are requested string testType </p>
+<h1>timestamp up to which score performance entries will be requested</h1>
+<h2>int64 upToTime </h2>
+<p>#the test categories for which scores are returned string[] testCategories </p>
+<h1>the score of each test category</h1>
+<p>float64[] testScores #true if service call was successful bool success </p>
+<h1>possible error</h1>
+<p>string error #trace information string[] trace ```</p>
 <h1>Launchers</h1>
 <h2>Standard launcher</h2>
 <p>Launches the <b>rapp_cognitive_exercise</b> node and can be launched using ``` roslaunch rapp_cognitive_exercise cognitive_exercise.launch ```</p>
 <h1>HOP services</h1>
-<h2>Test Selector RPS</h2>
-<p>The test_selector RPS is of type 3 since it contains a HOP service front-end, contacting a RAPP ROS ontology wrapper, which performs queries to the KnowRob ontology repository. The get subclass of RPS can be invoked using the following URL.</p>
-<p>Service URL: <code>localhost:9001/hop/test_selector</code></p>
-<h3>Input/Output</h3>
-<p>The test_selector RPS has two arguments, which are the username of the user and the requested test type. This is encoded in JSON format in an ASCII string representation.</p>
-<p>The test_selector RPS the questions, the possible answers and the correct answers of the selected test. The encoding is in JSON format.</p>
-<p>``` Input = { “username”: “THE_USERNAME” “testType”: “THE_TEST_TYPE” } <code> </code> Output = { “test”: “The test’s name” “testType”: “The test’s type” “testSubType”: “The test’s sub type” “language”: “The test’s language” “questions”: “The questions of the test” “answers”: “The possible answers for each question of the test” “correct_answers”: “The correct answer for each question of the test” “error”: “Possible error” }</p>
-<p>``` </p>
-<h3>Example</h3>
-<p>An example input for the test_selector RPS is ``` Input = { “instance_name”: “Person_1” “attribute_names”: “ArithmeticCts” } ```</p>
-<p>For this specific input, the result obtained was</p>
-<p>``` Output = { “test”: “ArithmeticCts_XXXXXXX” “testType”: “ArithmetiCts” “testSubType”: “BasicArithmetic” “language”: “en” “questions”: “[How much is 2 plus 2?, How much is 5 plus 5?]” “answers”: “[2,3,4,5],[7,8,9,10]” “correct_answers”: “[4,10]" } ```</p>
-<h2>Record user cognitive test performance RPS</h2>
-<p>The record_user_cognitive_test_performance RPS is of type 3 since it contains a HOP service frontend, contacting a RAPP ROS ontology wrapper, which performs queries to the KnowRob ontology repository. The record user cognitive test performance of RPS can be invoked using the following URL.</p>
-<p>Service URL: <code>localhost:9001/hop/record_user_cognitive_test_performance</code></p>
-<h3>Input/Output</h3>
-<p>The record_user_cognitive_test_performance RPS has four arguments, which are the username of the user the test which was taken, the test’s type and the score achieved. This is encoded in JSON format in an ASCII string representation.</p>
-<p>The record_user_cognitive_test_performance RPS outputs only a possible error message which is empty when the query was successful. The encoding is in JSON format.</p>
-<p>``` Input = { “username”: “THE_USERNAME” “test”: “THE_TEST” “testType”: “THE_TEST_TYPE” } <code> </code> Output = { “error”: “Possible error” } ```</p>
-<h3>Example</h3>
-<p>An example input for the record_user_cognitive_test_performance RPS is ``` Input = { “instance_name”: “Person_1” “test”: “Test1” “testType”: “ArithmeticCts” “score”: “90” } ``` For this specific input, the result obtained was</p>
-<p>``` Output = { “error”: ``` </p>
+<h2>Cognitive-Test-Selector</h2>
+<h3>Service URL</h3>
+<p><code>/hop/cognitive_test_chooser</code></p>
+<h3>Service request arguments</h3>
+<p>The test_selector RPS arguments are the username of the user, the type and subtype of the requested test and the difficulty and index of the test for manual test selection. This is encoded in JSON format in an ASCII string representation.</p>
+<p>```js { test_type: '', test_subtype: '', test_diff: '', test_index: '' } ```</p>
+<ul>
+<li><b>test_type</b> (String): Cognitive Exercise test type. Can be one of<ul>
+<li>'ArithmeticCts'</li>
+<li>'AwarenessCts'</li>
+<li>'ReasoningCts'</li>
+<li>''</li>
+</ul>
+</li>
+<li><b>test_subtype</b> (String): Use this to force select from this subtype. Defaults to empty string "".</li>
+<li><b>test_diff</b> (String): Use this to force select from this difficulty. Defaults to empty string "".</li>
+<li><b>test_index</b> (String): Use this to force select from this id. Defaults to empty string "".</li>
+</ul>
+<h4>Example</h4>
+<p>An example input for the test_selector RPS is ```js { test_type: 'Arithmetic', test_subtype: 'BasicArithmetic', test_diff: '1', test_index: '1' } ```</p>
+<h3>Service response</h3>
+<p>```javascript { questions: [], possib_ans: [], correct_ans: [], test_instance: '', test_type: '', test_subtype: '', error: '' } ```</p>
+<ul>
+<li><b>questions</b> (Array): The exercise set of questions.</li>
+<li><b>possib_ans</b>(Array): The set of answers for each question. vector&lt;vector&lt;string&gt;&gt;</li>
+<li><b>correct_ans</b>(Array): The set of correct answers for each question. vector&lt;string&gt;</li>
+<li><b>test_instance</b> (String): Returned test name. For example, 'ArithmeticCts_askw0Snwk'</li>
+<li><b>test_type</b> (String): Cognitive exercise class/type.</li>
+<li><b>test_subtype</b> (String): Cognitive exercise sub-type.</li>
+<li><b>error</b> (String): Error message, if one occures.</li>
+</ul>
+<h2>Cognitive-Record-Performance</h2>
+<h3>Service URL</h3>
+<p>``` /hop/cognitive_record_performance ```</p>
+<h3>Service request arguments</h3>
+<p>```js { test_instance: '', score: 0 } ```</p>
+<ul>
+<li><b>test_instance</b> (String): Cognitive Exercise test instance. The full cognitive test entry name as returned by the <b>cognitive_test_chooser</b> web service.</li>
+<li><b>score</b> (Integer): User's performance score on given test entry.</li>
+</ul>
+<h3>Service response</h3>
+<p>```javascript { performance_entry: '', error: '' } ```</p>
+<ul>
+<li><b>performace_entry</b> (String): User's cognitive test performance entry in ontology.</li>
+<li><b>error</b> (String): Error message, if one occures.</li>
+</ul>
+<h2>Cognitive-Get-History</h2>
+<h3>Service Url</h3>
+<p>``` /hop/cognitive_get_history ```</p>
+<h3>Service request arguments</h3>
+<p>```js { from_time: '', to_time: 0, test_type: '' } ```</p>
+<ul>
+<li><b>test_type</b> (String): Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts'] or leave empty ("") for all.</li>
+<li><b>from_time</b> (Integer): Unix timestamp.</li>
+<li><b>to_time</b> (Integer): Unix timestamp.</li>
+</ul>
+<h3>Service response</h3>
+<p>application/json response.</p>
+<p>```javascript { records: {}, error: '' } ```</p>
+<ul>
+<li><b>records</b> (Object): Users history records on Cognitive Exerises</li>
+<li><b>error</b> (String): Error message, if one occures.</li>
+</ul>
+<h2>Cognitive-Get-Scores</h2>
+<h3>Service Url</h3>
+<p>``` /hop/cognitive_get_scores ```</p>
+<h3>Service request arguments</h3>
+<p>```js { up_to_time: 0, test_type: '' } ```</p>
+<ul>
+<li><b>test_type</b> (String): Cognitive Exercise test type. Can be one of ['ArithmeticCts', 'AwarenessCts', 'ReasoningCts'] or leave empty ("") for all.</li>
+<li><b>up_to_time</b> (Integer): Unix timestamp. Return scores that have been recorder up to this time value.</li>
+</ul>
+<h3>Service response</h3>
+<p>application/json response.</p>
+<p>```javascript { test_classes: [], scores: [], error: '' } ```</p>
+<ul>
+<li><b>test_classes</b> (Array): An array of the test classes indexes.</li>
+<li><b>scores</b> (Array): Array of scores. Each array index corresponds to the test class of the <b>test_classes</b> property.</li>
+<li><b>error</b> (String): Error message, if one occures. </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jul 19 2016 11:43:36 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 22 2016 10:05:07 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

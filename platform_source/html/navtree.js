@@ -35,8 +35,8 @@ var NAVTREEINDEX =
 [
 "Sphinx4_8java.html",
 "classcostmap__2d_1_1RappStaticLayer.html#ae072d082fab3e885667ef88321ecf7a1",
-"classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#ae4f2553c61a306faa2ac59ccbe1159b5",
-"dir_84a286ed91f5cb8cf67ffaeee86a9ce2.html",
+"classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#ad1fe3e8243ed542c6daae881a67bdd46",
+"dir_843356104f4f9b61877b79c22d9d6a65.html",
 "namespacemap__server.html"
 ];
 

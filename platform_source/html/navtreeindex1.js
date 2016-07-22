@@ -13,6 +13,7 @@ var NAVTREEINDEX1 =
 "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#a60d24a04497455fdbf8d12a3d968de4b":[1,0,7,0,8],
 "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#a9de637525f6de5c9e48c3ad7cd76843f":[1,0,7,0,3],
 "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#ab6068ecebe273ff39840754b613d2474":[1,0,7,0,2],
+"classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#ac64c1327d1888871fa1dbb79e2402052":[1,0,7,0,9],
 "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#afe782783345ebcf8cb2228b8379786c4":[1,0,7,0,4],
 "classimage__classification_1_1ImageClassification.html":[1,0,8,0],
 "classimage__classification_1_1ImageClassification.html#a18e8e6b97425c52d1bdc3848a6ec0129":[1,0,8,0,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html":[1,0,19,3,0],
 "classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#a121744fe761da152f89c91af07e1d0c8":[1,0,19,3,0,3],
 "classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#a1fda6376fa5d76de79dbf8f5b44438f9":[1,0,19,3,0,0],
-"classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#abb582bd5ed92e40591357e2422aa5eab":[1,0,19,3,0,2],
-"classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#ad1fe3e8243ed542c6daae881a67bdd46":[1,0,19,3,0,6]
+"classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#abb582bd5ed92e40591357e2422aa5eab":[1,0,19,3,0,2]
 };

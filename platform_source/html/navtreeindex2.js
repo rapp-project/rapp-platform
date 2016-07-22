@@ -1,5 +1,6 @@
 var NAVTREEINDEX2 =
 {
+"classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#ad1fe3e8243ed542c6daae881a67bdd46":[1,0,19,3,0,6],
 "classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#ae4f2553c61a306faa2ac59ccbe1159b5":[1,0,19,3,0,4],
 "classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#af14098e2dc744cd4f55e50e98e808623":[1,0,19,3,0,1],
 "classrapp__news__explorer_1_1news__engine__base_1_1NewsEngineBase.html#af60c108531498c4b24469f00d5c2c84e":[1,0,19,3,0,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX2 =
 "dir_686a1942c0ea85aa72cfe54a00a85e97.html":[2,0,0,13],
 "dir_6f2d56231d608159ab76c6b0f41534c7.html":[2,0,0,8,0],
 "dir_7a40f620689e221f802ac0c4116527dc.html":[2,0,0,15,0],
-"dir_83cffa0a8dac331bfd60ee7288ca61ec.html":[2,0,0,12,0,0],
-"dir_843356104f4f9b61877b79c22d9d6a65.html":[2,0,0,9]
+"dir_83cffa0a8dac331bfd60ee7288ca61ec.html":[2,0,0,12,0,0]
 };

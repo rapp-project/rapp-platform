@@ -8,5 +8,6 @@ var classhelper__functions_1_1CognitiveExerciseHelperFunctions =
     [ "getUserLanguage", "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#a41f7e6e6342f8dc016a3bfd349f69167", null ],
     [ "getUserOntologyAlias", "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#a4165e639bb258e4ff0b7954d8596b96d", null ],
     [ "getUserPerformanceRecordsForTestType", "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#a22a95ff40ea4c5de8751484dca12d425", null ],
-    [ "organizeUserPerformanceByTimestamp", "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#a60d24a04497455fdbf8d12a3d968de4b", null ]
+    [ "organizeUserPerformanceByTimestamp", "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#a60d24a04497455fdbf8d12a3d968de4b", null ],
+    [ "traceError", "classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#ac64c1327d1888871fa1dbb79e2402052", null ]
 ];

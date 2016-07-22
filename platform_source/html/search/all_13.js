@@ -43,6 +43,7 @@ var searchData=
   ['text_5fto_5fspeech_5fespeak_5fros_5fnode',['text_to_speech_espeak_ros_node',['../namespacetext__to__speech__espeak.html#a9bdb1306d820edf490e227c108cd1dfa',1,'text_to_speech_espeak']]],
   ['texttospeechespeak',['TextToSpeechEspeak',['../classtext__to__speech__espeak_1_1TextToSpeechEspeak.html',1,'text_to_speech_espeak']]],
   ['tp_5fpid',['TP_pID',['../classPathPlanning.html#a27d61d0eeb2e094043c517dd7ec380f4',1,'PathPlanning']]],
+  ['traceerror',['traceError',['../classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#ac64c1327d1888871fa1dbb79e2402052',1,'helper_functions::CognitiveExerciseHelperFunctions']]],
   ['track_5funknown_5fspace_5f',['track_unknown_space_',['../classcostmap__2d_1_1RappStaticLayer.html#a59bbc6d857f64db82fba12d6738b64b9',1,'costmap_2d::RappStaticLayer']]],
   ['transform_5faudio',['transform_audio',['../classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio.html#a4dc5ecce2d759a99d90165271722c1de',1,'rapp_audio_processing::rapp_transform_audio::TransformAudio']]],
   ['transformaudio',['TransformAudio',['../classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio.html',1,'rapp_audio_processing::rapp_transform_audio']]],

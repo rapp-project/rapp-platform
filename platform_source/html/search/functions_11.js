@@ -37,6 +37,7 @@ var searchData=
   ['tbluserupdatedatahandler',['tblUserUpdateDataHandler',['../classmysql__wrapper__old_1_1MySQLdbWrapper.html#a1dc8f85c1d034feed10bfc644387578f',1,'mysql_wrapper_old::MySQLdbWrapper']]],
   ['tbluserwritedatahandler',['tblUserWriteDataHandler',['../classmysql__wrapper__old_1_1MySQLdbWrapper.html#a3dc34a21a6a0bd4fd16c4ccb6e1cebc8',1,'mysql_wrapper_old::MySQLdbWrapper']]],
   ['text_5fto_5fspeech_5fcallback',['text_to_speech_callback',['../classtext__to__speech__espeak_1_1TextToSpeechEspeak.html#abba6fcd2694efcaa710a531e8f6af894',1,'text_to_speech_espeak::TextToSpeechEspeak']]],
+  ['traceerror',['traceError',['../classhelper__functions_1_1CognitiveExerciseHelperFunctions.html#ac64c1327d1888871fa1dbb79e2402052',1,'helper_functions::CognitiveExerciseHelperFunctions']]],
   ['transform_5faudio',['transform_audio',['../classrapp__audio__processing_1_1rapp__transform__audio_1_1TransformAudio.html#a4dc5ecce2d759a99d90165271722c1de',1,'rapp_audio_processing::rapp_transform_audio::TransformAudio']]],
   ['transformaudiocallback',['transformAudioCallback',['../classrapp__audio__processing_1_1rapp__audio__processing_1_1AudioProcessing.html#ab4b651662da6e310fb80605db2c52d7f',1,'rapp_audio_processing::rapp_audio_processing::AudioProcessing']]]
 ];

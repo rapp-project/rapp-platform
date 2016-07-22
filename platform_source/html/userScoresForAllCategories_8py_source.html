@@ -165,50 +165,52 @@ $(document).ready(function(){initNavTree('userScoresForAllCategories_8py_source.
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      res.trace.append(<span class="stringliteral">&quot;ValueError: &quot;</span> +str(e))</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      res.error=<span class="stringliteral">&quot;ValueError: &quot;</span>+str(e)</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      res.success=<span class="keyword">False</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">except</span> IndexError, e:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      res.trace.append(<span class="stringliteral">&quot;IndexError: &quot;</span> +str(e))</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      res.error=<span class="stringliteral">&quot;IndexError: &quot;</span>+str(e)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      res.success=<span class="keyword">False</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">except</span> AppError <span class="keyword">as</span> e:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      AppError.passErrorToRosSrv(e,res) </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">return</span> res  </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="comment">## @brief Calculates and returns the user&#39;s scores for the provided test types  </span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="comment"># @param testTypesList [list] The list of the available tests as they were read from the ontology</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="comment"># @param userOntologyAlias [string] The user&#39;s ontology alias</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="comment"># @param upToTime [long] The time up to which the user&#39;s performance records are taken into account</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="comment"># </span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="comment"># @return testScores [list] The test scores for each category</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html#afce279b2a5d8d9d80b119b8fbb31dcb1">   72</a></span>&#160;  <span class="keyword">def </span><a class="code" href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html#afce279b2a5d8d9d80b119b8fbb31dcb1">calculateUserScoresForCategories</a>(self,testTypesList,userOntologyAlias,upToTime):    </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    scoresPerCategory=[]</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    d1=OrderedDict()</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">for</span> s <span class="keywordflow">in</span> testTypesList:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)      </div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      if(userPerformanceResponse.success!=<span class="keyword">True</span>):</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        scoresPerCategory.append(0)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        scoreOfCategory=0</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        scoreOfCategoryDivideBy=0</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(userPerformanceResponse.tests)):</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;          if(int(userPerformanceResponse.timestamps[i])&lt;upToTime):</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            scoreOfCategory=scoreOfCategory+(int(userPerformanceResponse.scores[i])*int(userPerformanceResponse.difficulty[i]))            </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            scoreOfCategoryDivideBy=scoreOfCategoryDivideBy+int(userPerformanceResponse.difficulty[i])</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment">#scoresPerCategory.append(long(scoreOfCategory/len(userPerformanceResponse.tests)))</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        if(scoreOfCategoryDivideBy==0):</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;          scoresPerCategory.append(0)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;          scoresPerCategory.append(float(scoreOfCategory/scoreOfCategoryDivideBy))</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">return</span> scoresPerCategory    </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">except</span> IndexError, e:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      res.trace.append(<span class="stringliteral">&quot;IndexError: &quot;</span> +str(e))</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      res.error=<span class="stringliteral">&quot;IndexError: &quot;</span>+str(e)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      res.success=<span class="keyword">False</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">except</span> AppError <span class="keyword">as</span> e:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      AppError.passErrorToRosSrv(e,res) </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> res  </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="comment">## @brief Calculates and returns the user&#39;s scores for the provided test types  </span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="comment"># @param testTypesList [list] The list of the available tests as they were read from the ontology</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="comment"># @param userOntologyAlias [string] The user&#39;s ontology alias</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="comment"># @param upToTime [long] The time up to which the user&#39;s performance records are taken into account</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="comment"># </span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment"># @return testScores [list] The test scores for each category</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html#afce279b2a5d8d9d80b119b8fbb31dcb1">   74</a></span>&#160;  <span class="keyword">def </span><a class="code" href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html#afce279b2a5d8d9d80b119b8fbb31dcb1">calculateUserScoresForCategories</a>(self,testTypesList,userOntologyAlias,upToTime):    </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    scoresPerCategory=[]</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    d1=OrderedDict()</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">for</span> s <span class="keywordflow">in</span> testTypesList:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      userPerformanceResponse=CognitiveExerciseHelperFunctions.getUserPerformanceRecordsForTestType(s,userOntologyAlias)      </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      if(userPerformanceResponse.success!=<span class="keyword">True</span>):</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        scoresPerCategory.append(0)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        scoreOfCategory=0</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        scoreOfCategoryDivideBy=0</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(userPerformanceResponse.tests)):</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;          if(int(userPerformanceResponse.timestamps[i])&lt;upToTime):</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            scoreOfCategory=scoreOfCategory+(int(userPerformanceResponse.scores[i])*int(userPerformanceResponse.difficulty[i]))            </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            scoreOfCategoryDivideBy=scoreOfCategoryDivideBy+int(userPerformanceResponse.difficulty[i])</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="comment">#scoresPerCategory.append(long(scoreOfCategory/len(userPerformanceResponse.tests)))</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        if(scoreOfCategoryDivideBy==0):</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;          scoresPerCategory.append(0)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;          scoresPerCategory.append(float(scoreOfCategory/scoreOfCategoryDivideBy))</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">return</span> scoresPerCategory    </div>
 <div class="ttc" id="classuserScoresForAllCategories_1_1UserScoresForAllCategories_html"><div class="ttname"><a href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html">userScoresForAllCategories.UserScoresForAllCategories</a></div><div class="ttdoc">Provides the necessary functions for returning the user scores. </div><div class="ttdef"><b>Definition:</b> <a href="userScoresForAllCategories_8py_source.html#l00033">userScoresForAllCategories.py:33</a></div></div>
 <div class="ttc" id="classuserScoresForAllCategories_1_1UserScoresForAllCategories_html_a53a65f94b7d9c533193473073bc2f180"><div class="ttname"><a href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html#a53a65f94b7d9c533193473073bc2f180">userScoresForAllCategories.UserScoresForAllCategories.returnUserScores</a></div><div class="ttdeci">def returnUserScores</div><div class="ttdoc">The callback function of the cognitive exercise user scores for all categories service. </div><div class="ttdef"><b>Definition:</b> <a href="userScoresForAllCategories_8py_source.html#l00041">userScoresForAllCategories.py:41</a></div></div>
-<div class="ttc" id="classuserScoresForAllCategories_1_1UserScoresForAllCategories_html_afce279b2a5d8d9d80b119b8fbb31dcb1"><div class="ttname"><a href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html#afce279b2a5d8d9d80b119b8fbb31dcb1">userScoresForAllCategories.UserScoresForAllCategories.calculateUserScoresForCategories</a></div><div class="ttdeci">def calculateUserScoresForCategories</div><div class="ttdoc">Calculates and returns the user&#39;s scores for the provided test types. </div><div class="ttdef"><b>Definition:</b> <a href="userScoresForAllCategories_8py_source.html#l00072">userScoresForAllCategories.py:72</a></div></div>
+<div class="ttc" id="classuserScoresForAllCategories_1_1UserScoresForAllCategories_html_afce279b2a5d8d9d80b119b8fbb31dcb1"><div class="ttname"><a href="classuserScoresForAllCategories_1_1UserScoresForAllCategories.html#afce279b2a5d8d9d80b119b8fbb31dcb1">userScoresForAllCategories.UserScoresForAllCategories.calculateUserScoresForCategories</a></div><div class="ttdeci">def calculateUserScoresForCategories</div><div class="ttdoc">Calculates and returns the user&#39;s scores for the provided test types. </div><div class="ttdef"><b>Definition:</b> <a href="userScoresForAllCategories_8py_source.html#l00074">userScoresForAllCategories.py:74</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_96d1f91f24e86765b0aae729dbf21983.html">rapp-platform</a></li><li class="navelem"><a class="el" href="dir_efad18cd8deeb2069fbd733944c9d698.html">rapp_cognitive_exercise</a></li><li class="navelem"><a class="el" href="dir_9c089ac38ebcb2e098ac07dab8eced99.html">src</a></li><li class="navelem"><a class="el" href="userScoresForAllCategories_8py.html">userScoresForAllCategories.py</a></li>
-    <li class="footer">Generated on Tue Jul 19 2016 11:43:11 for RAPP Platform by
+    <li class="footer">Generated on Fri Jul 22 2016 10:04:40 for RAPP Platform by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

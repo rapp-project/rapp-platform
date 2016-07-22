@@ -1,18 +1,18 @@
-The R\-A\-P\-P Cognitive exercise system aims to provide the Robot users a means of performing basic cognitive exercises. The cognitive tests supported belong to three distinct categories, a) Arithmetic, b) Reasoning/\-Recall, c) Awareness. A number of subcategories exist within each category. Tests have been implemented for all subcategories in different variations and difficulty settings. The N\-A\-O robot is used in order to dictate the test questions to the user and record the answers. A user performance history is being kept in the ontology that aids in keeping track of the user’s cognitive test performance and in adjusting the difficulty of the tests he is presented with. Based on past performance the test difficulty adapts to the user’s specific needs in each test category separately in order to accurately reflect the user’s individual cognitive strengths and weaknesses. To preserve the user’s interest different tests are selected for each category using a least recently used model. To further enhance variation, even tests of the same subcategory exist in different variations. The R\-A\-P\-P Cognitive exercise system component diagram is depicted below.
-
-\mbox{[}\mbox{[}images/cognitive\-\_\-exercise\-\_\-system\-\_\-component\-\_\-diagram.\-png\mbox{]}\mbox{]}
+The R\-A\-P\-P Cognitive exercise system aims to provide the Robot users a means of performing basic cognitive exercises. The cognitive tests supported belong to three distinct categories, a) Arithmetic, b) Reasoning/\-Recall, c) Awareness. A number of subcategories exist within each category. Tests have been implemented for all subcategories in different variations and difficulty settings. The N\-A\-O robot is used in order to dictate the test questions to the user and record the answers. A user performance history is being kept in the ontology that aids in keeping track of the user’s cognitive test performance and in adjusting the difficulty of the tests he is presented with. Based on past performance the test difficulty adapts to the user’s specific needs in each test category separately in order to accurately reflect the user’s individual cognitive strengths and weaknesses. To preserve the user’s interest different tests are selected for each category using a least recently used model. To further enhance variation, even tests of the same subcategory exist in different variations.
 
 \section*{R\-O\-S Services}
 
 \subsection*{Test Selector}
 
-This service was created in order to select the appropriate test for a user given its type. The service will load the user’s past performance from the ontology, determine the appropriate difficulty setting for the specific user and return the least recently used test of its type. In case no test type is provided then the least recently used test type category will be selected.
+This service was created in order to select the appropriate test for a user given its type. The service will load the user’s past performance from the ontology, determine the appropriate difficulty setting for the specific user and return the least recently used test of its type. In case no test type is provided then the least recently used test type category will be selected. By providing the test\-Type, test\-Sub\-Type, test\-Difficulty and test\-Index parameters, a test can be selected manually.
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-cognitive\-\_\-exercise/cognitive\-\_\-exercise\-\_\-chooser}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The username of the user string username \#\-The test type requested \subsection*{String test\-Type }
+Service type\-: ```bash \#the username of the user for which a cognitive test is requested string username \#used to specify the selected test type string test\-Type \#used to specify the selected test sub type string test\-Sub\-Type \#used to specify the selected test difficulty string test\-Difficulty \#used to specify the selected test index (id) \subsection*{string test\-Index }
 
-\#\-The test’s name string test \#\-The test’s type string test\-Type \#\-The test’s sub type string test\-Sub\-Type \#\-The test’s language string language \#\-The test’s questions string\mbox{[}\mbox{]} questions \#\-The list of answers for each test string\mbox{[}\mbox{]}\mbox{[}\mbox{]} answers \#\-The correct answers for each test string\mbox{[}\mbox{]} correct\-\_\-answers \#\-Possible error string error ```
+\#the returned test name string test \#the returned test type string test\-Type \#the returned test sub type string test\-Sub\-Type \#the returned test language string language \#the questions of the returned test string\mbox{[}\mbox{]} questions \#the possible answers of the questions rapp\-\_\-platform\-\_\-ros\-\_\-communications/\-String\-Array\-Msg\mbox{[}\mbox{]} answers \#the correct answers string\mbox{[}\mbox{]} correct\-Answers \#true if service call was successful bool success \section*{possible error}
+
+string error \#tracen information string\mbox{[}\mbox{]} trace ```
 
 \subsection*{Record User Performance}
 
@@ -20,9 +20,11 @@ This service was created in order to record the performance, meaning the score, 
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-cognitive\-\_\-exercise/record\-\_\-user\-\_\-cognitive\-\_\-test\-\_\-performance}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The username of the user string username \#\-The type of the test string test\-Type \#\-The test which was performed string test \#\-The score the user achieved on the test \subsection*{String score }
+Service type\-: ```bash \#the username of the user who completed the test string username \#the name of the completed test string test \#the score achieved \subsection*{int32 score }
 
-\#\-Container for the subclasses String user\-\_\-cognitive\-\_\-test\-\_\-performance\-\_\-entry \#\-Possible error string error ```
+\#the name of the registered cognitive test user performance entry string user\-Cognitive\-Test\-Performance\-Entry \#true if service call was successful bool success \section*{possible error}
+
+string error \#tracen information string\mbox{[}\mbox{]} trace ```
 
 \subsection*{Cognitive Test creator}
 
@@ -30,9 +32,51 @@ This service was created in order to create a cognitive test in the special xml 
 
 Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-cognitive\-\_\-exercise/cognitive\-\_\-test\-\_\-creator}
 
-Service type\-: ```bash \#\-Contains info about time and reference Header header \#\-The text file containing the test information \subsection*{string input\-File }
+Service type\-: ```bash \#the path to the cognitive test file \subsection*{string input\-File }
 
-\#\-True if test creation and registration to the ontology was successfull bool success \#\-Possible error string error ```
+\#true if service call was successful bool success \section*{possible error}
+
+string error \#tracen information string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Return tests of type subtype and diffuclty}
+
+This service will return the cognitive tests existing in the ontology for the given test\-Type, test\-Sub\-Type, difficulty and language. In case any arguments are not provided, it will be ignored, as such the query can be specific or general as needed.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-cognitive\-\_\-exercise/return\-\_\-tests\-\_\-of\-\_\-type\-\_\-subtype\-\_\-difficulty\-\_\-topic}
+
+Service type\-: ```bash \#the type of the requested tests string test\-Type \#the subtype of the requested tests string test\-Sub\-Type \#the difficulty of the requested tests string difficulty \#the language of the requested tests \subsection*{string language }
+
+\#message containing the cognitive exercises Cognitive\-Exercises\-Msg\mbox{[}\mbox{]} cognitive\-Exercises \#number of cognitive exercises returned int16 total\-Number\-Of\-Tests\-Returned \#true if service call was successful bool success \section*{possible error}
+
+string error \#tracen information string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Return user cognitive test history}
+
+This service will return the history of cognitive test performance records of the user for all test categories.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-cognitive\-\_\-exercise/user\-\_\-all\-\_\-categories\-\_\-history}
+
+Service type\-: ```bash \#the username of the user whose score history is requsted string username \#the test types for which the history is requested string test\-Type \#timestamp after which score performance entries will be included in history int64 from\-Time \#timestamp up to which score performance entries will be included in history \subsection*{int64 to\-Time }
+
+\#message containing a;; user performance records for each test type (category) Array\-Cognitive\-Exercise\-Performance\-Records\-Msg\mbox{[}\mbox{]} records\-Per\-Test\-Type \#the test categories string\mbox{[}\mbox{]} test\-Categories \#true if service call was successful bool success \section*{possible error}
+
+string error \#trace information string\mbox{[}\mbox{]} trace ```
+
+\subsection*{Return user cognitive test scores}
+
+This service will return the cumulative cognitive test scores of the user for all test categories.
+
+Service U\-R\-L\-: {\ttfamily /rapp/rapp\-\_\-cognitive\-\_\-exercise/user\-\_\-all\-\_\-categories\-\_\-score}
+
+Service type\-: ```bash \#the username of the user whose scores are requested string username \#the type of the test for which the scores are requested string test\-Type \section*{timestamp up to which score performance entries will be requested}
+
+\subsection*{int64 up\-To\-Time }
+
+\#the test categories for which scores are returned string\mbox{[}\mbox{]} test\-Categories \section*{the score of each test category}
+
+float64\mbox{[}\mbox{]} test\-Scores \#true if service call was successful bool success \section*{possible error}
+
+string error \#trace information string\mbox{[}\mbox{]} trace ```
 
 \section*{Launchers}
 
@@ -42,44 +86,131 @@ Launches the {\bfseries rapp\-\_\-cognitive\-\_\-exercise} node and can be launc
 
 \section*{H\-O\-P services}
 
-\subsection*{Test Selector R\-P\-S}
+\subsection*{Cognitive-\/\-Test-\/\-Selector}
 
-The test\-\_\-selector R\-P\-S is of type 3 since it contains a H\-O\-P service front-\/end, contacting a R\-A\-P\-P R\-O\-S ontology wrapper, which performs queries to the Know\-Rob ontology repository. The get subclass of R\-P\-S can be invoked using the following U\-R\-L.
+\subsubsection*{Service U\-R\-L}
 
-Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/test\-\_\-selector}
+{\ttfamily /hop/cognitive\-\_\-test\-\_\-chooser}
 
-\subsubsection*{Input/\-Output}
+\subsubsection*{Service request arguments}
 
-The test\-\_\-selector R\-P\-S has two arguments, which are the username of the user and the requested test type. This is encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
+The test\-\_\-selector R\-P\-S arguments are the username of the user, the type and subtype of the requested test and the difficulty and index of the test for manual test selection. This is encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
 
-The test\-\_\-selector R\-P\-S the questions, the possible answers and the correct answers of the selected test. The encoding is in J\-S\-O\-N format.
+```js \{ test\-\_\-type\-: '', test\-\_\-subtype\-: '', test\-\_\-diff\-: '', test\-\_\-index\-: '' \} ```
 
-``` Input = \{ “username”\-: “\-T\-H\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E” “test\-Type”\-: “\-T\-H\-E\-\_\-\-T\-E\-S\-T\-\_\-\-T\-Y\-P\-E” \} {\ttfamily  } Output = \{ “test”\-: “\-The test’s name” “test\-Type”\-: “\-The test’s type” “test\-Sub\-Type”\-: “\-The test’s sub type” “language”\-: “\-The test’s language” “questions”\-: “\-The questions of the test” “answers”\-: “\-The possible answers for each question of the test” “correct\-\_\-answers”\-: “\-The correct answer for each question of the test” “error”\-: “\-Possible error” \}
 
-``` \subsubsection*{Example}
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive Exercise test type. Can be one of
+\begin{DoxyItemize}
+\item 'Arithmetic\-Cts'
+\item 'Awareness\-Cts'
+\item 'Reasoning\-Cts'
+\item ''
+\end{DoxyItemize}
+\item {\bfseries test\-\_\-subtype} (String)\-: Use this to force select from this subtype. Defaults to empty string \char`\"{}\char`\"{}.
+\item {\bfseries test\-\_\-diff} (String)\-: Use this to force select from this difficulty. Defaults to empty string \char`\"{}\char`\"{}.
+\item {\bfseries test\-\_\-index} (String)\-: Use this to force select from this id. Defaults to empty string \char`\"{}\char`\"{}.
+\end{DoxyItemize}
 
-An example input for the test\-\_\-selector R\-P\-S is ``` Input = \{ “instance\-\_\-name”\-: “\-Person\-\_\-1” “attribute\-\_\-names”\-: “\-Arithmetic\-Cts” \} ```
+\paragraph*{Example}
 
-For this specific input, the result obtained was
+An example input for the test\-\_\-selector R\-P\-S is ```js \{ test\-\_\-type\-: 'Arithmetic', test\-\_\-subtype\-: 'Basic\-Arithmetic', test\-\_\-diff\-: '1', test\-\_\-index\-: '1' \} ```
 
-``` Output = \{ “test”\-: “\-Arithmetic\-Cts\-\_\-\-X\-X\-X\-X\-X\-X\-X” “test\-Type”\-: “\-Arithmeti\-Cts” “test\-Sub\-Type”\-: “\-Basic\-Arithmetic” “language”\-: “en” “questions”\-: “\mbox{[}How much is 2 plus 2?, How much is 5 plus 5?\mbox{]}” “answers”\-: “\mbox{[}2,3,4,5\mbox{]},\mbox{[}7,8,9,10\mbox{]}” “correct\-\_\-answers”\-: “\mbox{[}4,10\mbox{]}" \} ```
+\subsubsection*{Service response}
 
-\subsection*{Record user cognitive test performance R\-P\-S}
+```javascript \{ questions\-: \mbox{[}\mbox{]}, possib\-\_\-ans\-: \mbox{[}\mbox{]}, correct\-\_\-ans\-: \mbox{[}\mbox{]}, test\-\_\-instance\-: '', test\-\_\-type\-: '', test\-\_\-subtype\-: '', error\-: '' \} ```
 
-The record\-\_\-user\-\_\-cognitive\-\_\-test\-\_\-performance R\-P\-S is of type 3 since it contains a H\-O\-P service frontend, contacting a R\-A\-P\-P R\-O\-S ontology wrapper, which performs queries to the Know\-Rob ontology repository. The record user cognitive test performance of R\-P\-S can be invoked using the following U\-R\-L.
 
-Service U\-R\-L\-: {\ttfamily localhost\-:9001/hop/record\-\_\-user\-\_\-cognitive\-\_\-test\-\_\-performance}
+\begin{DoxyItemize}
+\item {\bfseries questions} (Array)\-: The exercise set of questions.
+\item {\bfseries possib\-\_\-ans}(Array)\-: The set of answers for each question. vector$<$vector$<$string$>$$>$
+\item {\bfseries correct\-\_\-ans}(Array)\-: The set of correct answers for each question. vector$<$string$>$
+\item {\bfseries test\-\_\-instance} (String)\-: Returned test name. For example, 'Arithmetic\-Cts\-\_\-askw0\-Snwk'
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive exercise class/type.
+\item {\bfseries test\-\_\-subtype} (String)\-: Cognitive exercise sub-\/type.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
 
-\subsubsection*{Input/\-Output}
+\subsection*{Cognitive-\/\-Record-\/\-Performance}
 
-The record\-\_\-user\-\_\-cognitive\-\_\-test\-\_\-performance R\-P\-S has four arguments, which are the username of the user the test which was taken, the test’s type and the score achieved. This is encoded in J\-S\-O\-N format in an A\-S\-C\-I\-I string representation.
+\subsubsection*{Service U\-R\-L}
 
-The record\-\_\-user\-\_\-cognitive\-\_\-test\-\_\-performance R\-P\-S outputs only a possible error message which is empty when the query was successful. The encoding is in J\-S\-O\-N format.
+``` /hop/cognitive\-\_\-record\-\_\-performance ```
 
-``` Input = \{ “username”\-: “\-T\-H\-E\-\_\-\-U\-S\-E\-R\-N\-A\-M\-E” “test”\-: “\-T\-H\-E\-\_\-\-T\-E\-S\-T” “test\-Type”\-: “\-T\-H\-E\-\_\-\-T\-E\-S\-T\-\_\-\-T\-Y\-P\-E” \} {\ttfamily  } Output = \{ “error”\-: “\-Possible error” \} ```
+\subsubsection*{Service request arguments}
 
-\subsubsection*{Example}
+```js \{ test\-\_\-instance\-: '', score\-: 0 \} ```
 
-An example input for the record\-\_\-user\-\_\-cognitive\-\_\-test\-\_\-performance R\-P\-S is ``` Input = \{ “instance\-\_\-name”\-: “\-Person\-\_\-1” “test”\-: “\-Test1” “test\-Type”\-: “\-Arithmetic\-Cts” “score”\-: “90” \} ``` For this specific input, the result obtained was
 
-``` Output = \{ “error”\-: ``` 
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-instance} (String)\-: Cognitive Exercise test instance. The full cognitive test entry name as returned by the {\bfseries cognitive\-\_\-test\-\_\-chooser} web service.
+\item {\bfseries score} (Integer)\-: User's performance score on given test entry.
+\end{DoxyItemize}
+
+\subsubsection*{Service response}
+
+```javascript \{ performance\-\_\-entry\-: '', error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries performace\-\_\-entry} (String)\-: User's cognitive test performance entry in ontology.
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\subsection*{Cognitive-\/\-Get-\/\-History}
+
+\subsubsection*{Service Url}
+
+``` /hop/cognitive\-\_\-get\-\_\-history ```
+
+\subsubsection*{Service request arguments}
+
+```js \{ from\-\_\-time\-: '', to\-\_\-time\-: 0, test\-\_\-type\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive Exercise test type. Can be one of \mbox{[}'Arithmetic\-Cts', 'Awareness\-Cts', 'Reasoning\-Cts'\mbox{]} or leave empty (\char`\"{}\char`\"{}) for all.
+\item {\bfseries from\-\_\-time} (Integer)\-: Unix timestamp.
+\item {\bfseries to\-\_\-time} (Integer)\-: Unix timestamp.
+\end{DoxyItemize}
+
+\subsubsection*{Service response}
+
+application/json response.
+
+```javascript \{ records\-: \{\}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries records} (Object)\-: Users history records on Cognitive Exerises
+\item {\bfseries error} (String)\-: Error message, if one occures.
+\end{DoxyItemize}
+
+\subsection*{Cognitive-\/\-Get-\/\-Scores}
+
+\subsubsection*{Service Url}
+
+``` /hop/cognitive\-\_\-get\-\_\-scores ```
+
+\subsubsection*{Service request arguments}
+
+```js \{ up\-\_\-to\-\_\-time\-: 0, test\-\_\-type\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-type} (String)\-: Cognitive Exercise test type. Can be one of \mbox{[}'Arithmetic\-Cts', 'Awareness\-Cts', 'Reasoning\-Cts'\mbox{]} or leave empty (\char`\"{}\char`\"{}) for all.
+\item {\bfseries up\-\_\-to\-\_\-time} (Integer)\-: Unix timestamp. Return scores that have been recorder up to this time value.
+\end{DoxyItemize}
+
+\subsubsection*{Service response}
+
+application/json response.
+
+```javascript \{ test\-\_\-classes\-: \mbox{[}\mbox{]}, scores\-: \mbox{[}\mbox{]}, error\-: '' \} ```
+
+
+\begin{DoxyItemize}
+\item {\bfseries test\-\_\-classes} (Array)\-: An array of the test classes indexes.
+\item {\bfseries scores} (Array)\-: Array of scores. Each array index corresponds to the test class of the {\bfseries test\-\_\-classes} property.
+\item {\bfseries error} (String)\-: Error message, if one occures. 
+\end{DoxyItemize}
