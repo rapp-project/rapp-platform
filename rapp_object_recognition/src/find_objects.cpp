@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <fstream>
 
 #include <ros/ros.h>
 
@@ -334,6 +335,7 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 
 		if (!silent_) ROS_INFO ("Model features: %d", (int)models[m]->keypoints.size());
 
+		std::vector< std::vector<DMatch> > knnmatches;
 		// Find matches.
 		matcher->match( models[m]->descriptors, scene_descriptors, matches );
 		
@@ -349,6 +351,15 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			if( dist < min_dist ) min_dist = dist;
 			if( dist > max_dist ) max_dist = dist;
 		}//: for
+
+#ifdef DEBUG_IMAGES
+		{
+			std::ofstream of(debug_path + "matches_" + models[m]->name + ".txt");
+			for( int i = 0; i < matches.size(); i++ ) {
+				of << matches[i].distance << "\n";
+			}
+		}
+#endif
 
 		if (!silent_) ROS_INFO ("Max dist : %f", max_dist);
 		if (!silent_) ROS_INFO ("Min dist : %f", min_dist);
@@ -457,6 +468,16 @@ int FindObjects::findObjects(const std::string & user, const std::string & fname
 			circle( img_object, hyp.corners[0], 2, Scalar(255, 0, 0), 4);
 			Mat img_matches;
 			drawMatches(models[m]->image, models[m]->keypoints, img_object, scene_keypoints, used_matches, img_matches);
+			float dmin = 1000;
+			float dmax = 0;
+			float dsum = 0;
+			for (auto const & m : used_matches) {
+				if (m.distance < dmin) dmin = m.distance;
+				if (m.distance > dmax) dmax = m.distance;
+				dsum += m.distance;
+			}
+			std::string s = std::to_string(dmin) + " | " + std::to_string(dsum / used_matches.size()) + " | " + std::to_string(dmax);
+			cv::putText(img_matches, s, cv::Point(0, img_matches.size().height), FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar::all(255), 2, 8, false);
 			imwrite(debug_path + "matches_" + models[m]->name + "_" + std::to_string(rep) + ".png", img_matches);
 #endif
 			if (hyp.valid) {
