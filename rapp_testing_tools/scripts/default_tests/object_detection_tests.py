@@ -36,12 +36,48 @@ class ObjectDetectionTests(unittest.TestCase):
         rospack = rospkg.RosPack()
         self.pkgDir = rospack.get_path('rapp_testing_tools')
        
-    def test_noModels(self):
-        imagepath = path.join(self.pkgDir, 'test_data',
-            'face_samples', 'klpanagi_close_straight.jpg')
-        response = self.ch.objectDetectionFindObjects(imagepath)
+    def test_learn(self):
+        user = 'test'
 
+        # clear models database
+        response = self.ch.objectDetectionClearModels(user)
+        self.assertEqual(response['result'], 0)
+
+        # learn new object - existing image
+        name = 'cat'
+        fname = path.join(self.pkgDir, 'test_data',
+            'object_recognition_samples', 'book_1', 'cat.jpg')
+        response = self.ch.objectDetectionLearnObject(fname, name, user)
+        self.assertEqual(response['result'], 0)
+
+        # learn new object - missing image
+        name = 'catfoo'
+        fname = path.join(self.pkgDir, 'test_data',
+            'object_recognition_samples', 'book_1', 'catfoo.jpg')
+        print(fname)
+        response = self.ch.objectDetectionLearnObject(fname, name, user)
+        self.assertNotEqual(response['error'], '')
+
+        # detect objects - empty database
+        fname = path.join(self.pkgDir, 'test_data',
+            'object_recognition_samples', 'book_1', 'cat.jpg')
+        limit = 1
+        response = self.ch.objectDetectionFindObjects(fname, limit)
         self.assertEqual(response['result'], -1)
+
+        # load models to database
+        response = self.ch.objectDetectionLoadModels(['cat', 'catfoo'], user)
+        self.assertEqual(response['result'], 0)
+
+        # detect objects - initialized database
+        fname = path.join(self.pkgDir, 'test_data',
+            'object_recognition_samples', 'book_1', 'cat.jpg')
+        limit = 1
+        response = self.ch.objectDetectionFindObjects(fname, limit, user)
+        self.assertEqual(response['result'], 0)
+        self.assertEqual(len(response['found_names']), 1)
+        self.assertEqual(response['found_names'][0], 'cat')
+       
 
 '''
     def test_lenna(self):

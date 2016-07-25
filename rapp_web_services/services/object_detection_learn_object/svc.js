@@ -88,7 +88,6 @@ function svcImpl(req, resp, ros) {
  */
 function parseRosbridgeMsg(rosbridge_msg) {
   const result = rosbridge_msg.result;
-  const num_objects = names.length;
 
   var response = new interfaces.client_res();
   response.result = result;
