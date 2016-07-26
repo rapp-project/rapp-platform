@@ -9,6 +9,36 @@
     "ros_connection": true,
     "timeout": 45000
   },
+  "object_detection_clear_models" : {
+    "launch": true,
+    "anonymous": false,
+    "name": "object_detection_clear_models",
+    "url_name": "object_detection_clear_models",
+    "namespace": "",
+    "authentication": true,
+    "ros_connection": true,
+    "timeout": 45000
+  },
+  "object_detection_load_models" : {
+    "launch": true,
+    "anonymous": false,
+    "name": "object_detection_load_models",
+    "url_name": "object_detection_load_models",
+    "namespace": "",
+    "authentication": true,
+    "ros_connection": true,
+    "timeout": 45000
+  },
+  "object_detection_learn_object" : {
+    "launch": true,
+    "anonymous": false,
+    "name": "object_detection_learn_object",
+    "url_name": "object_detection_learn_object",
+    "namespace": "",
+    "authentication": true,
+    "ros_connection": true,
+    "timeout": 45000
+  },
   "hazard_detection_door_check" : {
     "launch": true,
     "anonymous": false,
