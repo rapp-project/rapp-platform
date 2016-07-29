@@ -46,7 +46,7 @@ const rosSrvName = "/rapp/rapp_object_detection/load_models";
 function svcImpl(req, resp, ros) {
   var rosMsg = new interfaces.ros_req();
   rosMsg.names = req.body.names;
-  rosMsg.user = req.body.user
+  rosMsg.user = req.username
 
   // ROS-Service response callback.
   function callback(data) {
