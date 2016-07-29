@@ -11,4 +11,18 @@ For simplicity, we will describe the procedure of calling a H\-O\-P Web Service 
 
 We assume that you have previously read on \href{https://github.com/rapp-project/rapp-platform/wiki/How-to-write-the-API-for-a-HOP-service%3F}{\tt How-\/to-\/write-\/the-\/\-A\-P\-I-\/for-\/a-\/\-H\-O\-P-\/\-Service} and implemented the respective Cloud Message class.
 
-Usage of the Python implementation of the rapp-\/platform-\/api is also described \href{https://github.com/rapp-project/rapp-api/tree/master/python#calling-rapp-platform-services---api-usage}{\tt here} 
+Usage of the Python implementation of the rapp-\/platform-\/api is also described \href{https://github.com/rapp-project/rapp-api/tree/master/python#calling-rapp-platform-services---api-usage}{\tt here}
+
+You can also use \href{https://curl.haxx.se/}{\tt curl} cli to make calls to the R\-A\-P\-P Platform Web Services. An example of calling the {\ttfamily ontology\-\_\-subclasses\-\_\-of} web service, using {\ttfamily curl-\/cli} is presented below\-:
+
+```bash curl -\/\-X P\-O\-S\-T -\/d 'json=\{\char`\"{}ontology\-\_\-class\char`\"{}\-:\char`\"{}\-Oven\char`\"{}, \char`\"{}recursive\char`\"{}\-: true\}' -\/\-H \char`\"{}\-Accept-\/\-Token\-:rapp\-\_\-token\char`\"{} localhost\-:9001/hop/ontology\-\_\-subclasses\-\_\-of ```
+
+```http P\-O\-S\-T /hop/ontology\-\_\-subclasses\-\_\-of H\-T\-T\-P/1.\-1 Host\-: localhost\-:9001 User-\/\-Agent\-: curl/7.\-49.\-1 Accept\-: $\ast$/$\ast$ Accept-\/\-Token\-:rapp\-\_\-token Content-\/\-Length\-: 49 Content-\/\-Type\-: application/x-\/www-\/form-\/urlencoded
+
+json=\{\char`\"{}ontology\-\_\-class\char`\"{}\-:\char`\"{}\-Oven\char`\"{}, \char`\"{}recursive\char`\"{}\-: true\}
+
+H\-T\-T\-P/1.\-1 200 Ok
+
+Content-\/\-Length\-: 211 Connection\-: keep-\/alive Content-\/type\-: application/json; charset=U\-T\-F-\/8 Server\-: Hop
+
+\{\char`\"{}results\char`\"{}\-:\mbox{[}\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Oven\char`\"{},\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Microwave\-Oven\char`\"{},\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Regular\-Oven\char`\"{},\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Toaster\-Oven\char`\"{}\mbox{]},\char`\"{}error\char`\"{}\-:\char`\"{}\char`\"{}\} ``` 

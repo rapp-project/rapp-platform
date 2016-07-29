@@ -106,13 +106,23 @@ $(document).ready(function(){initNavTree('md_rapp-platform_8wiki_I-do-not-even-w
 <p>155.207.19.229:9001/hop/HOP_SRV_NAME</p>
 <p></p>
 </blockquote>
-<p>You can find the HOP service names <a href="https://github.com/rapp-project/rapp-platform/wiki/RAPP-HOP-Web-services">here</a>. </p>
+<p>You can find the HOP service names <a href="https://github.com/rapp-project/rapp-platform/wiki/RAPP-HOP-Web-services">here</a>. Also since we use authentication you must set a <a href="https://github.com/rapp-project/rapp-api/tree/master/python#authenticationtokens">RAPP Platform application token</a> if you want to utilize the RAPP Platform API.</p>
+<p>Below are examples of calling deployed services, using <code>curl</code> cli (note that the token is passed as header parameter in the call - in the API case this is done automatically):</p>
+<h4>ontology_subclasses_of</h4>
+<p>```bash curl -X POST -d 'json={"ontology_class":"Oven", "recursive": true}' -H "Accept-Token:rapp_token" 155.207.19.229:9001/hop/ontology_subclasses_of ```</p>
+<p>will respond with</p>
+<p>```http {"results":["http://knowrob.org/kb/knowrob.owl#Oven","http://knowrob.org/kb/knowrob.owl#MicrowaveOven","http://knowrob.org/kb/knowrob.owl#RegularOven","http://knowrob.org/kb/knowrob.owl#ToasterOven"],"error":""} ```</p>
+<h4>face_detection</h4>
+<p>```bash curl -v -X POST -F "json={"fast"=true}" -F "file=@lenna.jpg" -H "Accept-Token:rapp_token" 155.207.19.229:9001/hop/face_detection ```</p>
+<p>will respond with</p>
+<p>```http {"faces":[{"up_left_point":{"x":95.0,"y":89.0},"down_right_point":{"x":171.0,"y":165.0}}],"error":""} ```</p>
+<p>You might have to read <a href="https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#service-specifications---request-arguments-and-response-objects">these</a> specifications on how to do valid POST requests to the Web Services </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 22 2016 10:11:24 for RAPP Platform Wiki by
+    <li class="footer">Generated on Fri Jul 29 2016 18:44:08 for RAPP Platform Wiki by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

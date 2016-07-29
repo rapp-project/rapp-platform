@@ -21,7 +21,7 @@ var NAVTREE =
     [ "? How-to-implement-an-integration-test?", "md_rapp-platform_8wiki_How-to-implement-an-integration-test.html", null ],
     [ "? How-to-write-the-API-for-a-HOP-service?", "md_rapp-platform_8wiki_How-to-write-the-API-for-a-HOP-service.html", null ],
     [ "? NOTE: Under development!", "md_rapp-platform_8wiki_I-do-not-even-want-to-try-the-easier-way_8-Do-you-have-something-up-and-running-to-test.html", null ],
-    [ "? NOTE: Under development", "md_rapp-platform_8wiki_I-do-not-want-to-install-RAPP-Platform_8-Is-there-an-easier-way-to-use-it.html", null ],
+    [ "? I-do-not-want-to-install-RAPP-Platform", "md_rapp-platform_8wiki_I-do-not-want-to-install-RAPP-Platform_8-Is-there-an-easier-way-to-use-it.html", null ],
     [ "(hard) In-robot-application-for-NAO-in-Python:-Create-a-cognitive-game-(hard)", "md_rapp-platform_8wiki_In-robot-application-for-NAO-in-Python_1-Create-a-cognitive-game-.html", null ],
     [ "RAPP-Application-Authentication", "md_rapp-platform_8wiki_RAPP-Application-Authentication.html", null ],
     [ "RAPP-Architecture", "md_rapp-platform_8wiki_RAPP-Architecture.html", null ],

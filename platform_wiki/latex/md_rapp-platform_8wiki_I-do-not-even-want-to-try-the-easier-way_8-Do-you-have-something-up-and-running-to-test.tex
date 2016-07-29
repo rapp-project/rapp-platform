@@ -8,4 +8,24 @@ The I\-P address of this instance is {\ttfamily 155.\-207.\-19.\-229} and you ca
 \end{quotation}
 
 
-You can find the H\-O\-P service names \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-HOP-Web-services}{\tt here}. 
+You can find the H\-O\-P service names \href{https://github.com/rapp-project/rapp-platform/wiki/RAPP-HOP-Web-services}{\tt here}. Also since we use authentication you must set a \href{https://github.com/rapp-project/rapp-api/tree/master/python#authenticationtokens}{\tt R\-A\-P\-P Platform application token} if you want to utilize the R\-A\-P\-P Platform A\-P\-I.
+
+Below are examples of calling deployed services, using {\ttfamily curl} cli (note that the token is passed as header parameter in the call -\/ in the A\-P\-I case this is done automatically)\-:
+
+\paragraph*{ontology\-\_\-subclasses\-\_\-of}
+
+```bash curl -\/\-X P\-O\-S\-T -\/d 'json=\{\char`\"{}ontology\-\_\-class\char`\"{}\-:\char`\"{}\-Oven\char`\"{}, \char`\"{}recursive\char`\"{}\-: true\}' -\/\-H \char`\"{}\-Accept-\/\-Token\-:rapp\-\_\-token\char`\"{} 155.\-207.\-19.\-229\-:9001/hop/ontology\-\_\-subclasses\-\_\-of ```
+
+will respond with
+
+```http \{\char`\"{}results\char`\"{}\-:\mbox{[}\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Oven\char`\"{},\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Microwave\-Oven\char`\"{},\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Regular\-Oven\char`\"{},\char`\"{}http\-://knowrob.\-org/kb/knowrob.\-owl\#\-Toaster\-Oven\char`\"{}\mbox{]},\char`\"{}error\char`\"{}\-:\char`\"{}\char`\"{}\} ```
+
+\paragraph*{face\-\_\-detection}
+
+```bash curl -\/v -\/\-X P\-O\-S\-T -\/\-F \char`\"{}json=\{\char`\"{}fast\char`\"{}=true\}\char`\"{} -\/\-F \char`\"{}file=@lenna.\-jpg\char`\"{} -\/\-H \char`\"{}\-Accept-\/\-Token\-:rapp\-\_\-token\char`\"{} 155.\-207.\-19.\-229\-:9001/hop/face\-\_\-detection ```
+
+will respond with
+
+```http \{\char`\"{}faces\char`\"{}\-:\mbox{[}\{\char`\"{}up\-\_\-left\-\_\-point\char`\"{}\-:\{\char`\"{}x\char`\"{}\-:95.\-0,\char`\"{}y\char`\"{}\-:89.\-0\},\char`\"{}down\-\_\-right\-\_\-point\char`\"{}\-:\{\char`\"{}x\char`\"{}\-:171.\-0,\char`\"{}y\char`\"{}\-:165.\-0\}\}\mbox{]},\char`\"{}error\char`\"{}\-:\char`\"{}\char`\"{}\} ```
+
+You might have to read \href{https://github.com/rapp-project/rapp-platform/tree/master/rapp_web_services/services#service-specifications---request-arguments-and-response-objects}{\tt these} specifications on how to do valid P\-O\-S\-T requests to the Web Services 
