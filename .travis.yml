@@ -13,6 +13,7 @@ env:
     - TEST_SUITE: UNIT1
     - TEST_SUITE: UNIT2
     - TEST_SUITE: INTEGRATION
+    - TEST_SUITE: DOCUMENTATION
 before_install: # Use this to prepare the system to install prerequisites or dependencies
   # Define some config vars
   - export ROS_DISTRO=indigo
@@ -46,5 +47,4 @@ script: # All commands must exit with code 0 on success. Anything else is consid
   - if [[ "$TEST_SUITE" == "INTEGRATION" ]]; then echo "Initiating integration tests" && bash ~/rapp_platform/rapp-platform-scripts/deploy/deploy_rapp_ros.sh & screen -d -m ~/rapp_platform/rapp-platform-scripts/deploy/deploy_web_services.sh && sleep 30 && echo "Executing normal integration tests" && rosrun rapp_testing_tools rapp_run_test.py ; fi
 after_success:
   # Create documentation on conditions
-  - cd ~/rapp_platform/rapp-platform-scripts/documentation
-  - bash travis_ci_documentation.sh
+  - if [[ "$TEST_SUITE" == "DOCUMENTATION" ]]; then cd ~/rapp_platform/rapp-platform-scripts/documentation && bash travis_ci_documentation.sh; fi
