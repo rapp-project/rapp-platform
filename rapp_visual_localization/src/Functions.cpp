@@ -6,7 +6,7 @@
 //#include "ResultOD.h"
 
 #include "rapp_visual_localization/VisOdom.hpp"
-
+#include <cstdio>
 // Other functions in VisOdom class
 
 ::cv::Mat CVisOdom::readImage4(char* fname, int row, int col, int dir)
@@ -42,7 +42,7 @@ case 4: d = 9;
 }
 
 char FILENM[128];
-sprintf_s(FILENM, "%s/%02d_%02d_%02d.png", fname, z, x, d);
+sprintf(FILENM, "%s/%02d_%02d_%02d.png", fname, z, x, d);
 
 //[X, Map1] = imread(FILENM,'bmp');
 inImg = ::cv::imread(FILENM);
@@ -193,7 +193,7 @@ void CVisOdom::ColorMaxFeatures(::cv::Mat& inImg, int my, int mx, ::cv::Mat& MVe
 	}
 
 	char FILENM[128];
-	sprintf_s(FILENM, "%s/%02d_%02d_%02d.png", fname, z, x, d);
+	sprintf(FILENM, "%s/%02d_%02d_%02d.png", fname, z, x, d);
 
 	// read the image from a file (test mode) or from a buffer (on-line mode(
 	if (testMode)
@@ -357,8 +357,8 @@ void CVisOdom::showBelief(double *StateDistribution, int StateNum, char *text)
 				}
 				char text1[120];
 				char text2[120];
-				sprintf_s(text1, "%s 1d", text);
-				sprintf_s(text2, "%s 2d", text);
+				sprintf(text1, "%s 1d", text);
+				sprintf(text2, "%s 2d", text);
 			::cv::namedWindow( text1, 1 );
 			::cv::imshow( text1, beliefImg  );
 			::cv::namedWindow( text2, 1 );

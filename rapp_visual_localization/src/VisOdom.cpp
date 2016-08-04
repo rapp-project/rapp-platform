@@ -1,4 +1,4 @@
-ď»ż/// File VizOdo.cpp
+/// File VizOdo.cpp
 /// Methods of class CVizOdom
 /// Based on the Matlab scripts: work4.m, work4learn.m
 /// Goal: implementation and testing the visual odometry algorithm
@@ -16,6 +16,8 @@
 
 #include "rapp_visual_localization/VisOdom.hpp"
 #include "rapp_visual_localization/Human.hpp"
+
+#include <cstdio>
 
 using namespace std;
 
@@ -684,10 +686,10 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 	}
 	
 	char FILENM[100];
-	sprintf_s(FILENM, "%s", this->sInMap);  // 'dane1/'; training image folder
+	sprintf(FILENM, "%s", this->sInMap);  // 'dane1/'; training image folder
 
 	char FILENMACT[100];
-	sprintf_s(FILENMACT, "%s", this->sInTest); // = 'vodom/'; test image folder
+	sprintf(FILENMACT, "%s", this->sInTest); // = 'vodom/'; test image folder
 
 
 // Parameters of the feature-space metrics
@@ -1654,10 +1656,10 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			if (this->logSwitch == 1)
 			{
 				char outName[128];
-				sprintf_s(outName, "%s/Belief_%03d_%02d.png", this->sOUT, testnum, ITER); // file name
+				sprintf(outName, "%s/Belief_%03d_%02d.png", this->sOUT, testnum, ITER); // file name
 				::cv::imwrite(outName, beliefImg); 
 
-				sprintf_s(outName, "%s/Belief2D_%03d_%02d.png", this->sOUT, testnum, ITER); // file name
+				sprintf(outName, "%s/Belief2D_%03d_%02d.png", this->sOUT, testnum, ITER); // file name
 				::cv::imwrite(outName, belief2DImg); 
 			}
 			beliefImg.release();
@@ -1737,7 +1739,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		if (this->logSwitch == 1)
 		{
 			char outName[128];
-			sprintf_s(outName, "%s/Path_%03d.png", this->sOUT, testnum); // file name
+			sprintf(outName, "%s/Path_%03d.png", this->sOUT, testnum); // file name
 			::cv::imwrite(outName, pathImg); 
 		}
 		

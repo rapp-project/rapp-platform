@@ -4,17 +4,14 @@
 #ifndef HUMAN
 #define HUMAN
 
-#include "Parameters.h"
-#include "Properties.h"
-#include "UserParameters.h"
-#include "ResultOD.h"
+#include "rapp_visual_localization/Parameters.hpp"
+#include "rapp_visual_localization/Properties.hpp"
+#include "rapp_visual_localization/UserParameters.hpp"
+#include "rapp_visual_localization/ResultOD.hpp"
 
 #include <time.h>
 
-//#include <opencv/cv.h>
-//#include <cv.h>
 #include <opencv2/opencv.hpp>
-//#include <opencv2/highgui/highgui.hpp>  
 
 using namespace std;
 
