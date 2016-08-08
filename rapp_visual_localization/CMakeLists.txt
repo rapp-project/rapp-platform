@@ -49,7 +49,7 @@ add_dependencies(${BASE_NAME}_lib
   ${catkin_EXPORTED_TARGETS}
 )
 
-## ROS node executable
+## Test node executable
 add_executable(${BASE_NAME}_appl
   src/CRappAppl.cpp
 )
@@ -58,6 +58,19 @@ target_link_libraries(${BASE_NAME}_appl
   ${catkin_LIBRARIES}
 )
 add_dependencies(${BASE_NAME}_appl
+  rapp_platform_ros_communications_gencpp
+  ${catkin_EXPORTED_TARGETS}
+)
+
+## ROS node executable
+add_executable(${BASE_NAME}_node
+  src/visual_localization_node.cpp
+)
+target_link_libraries(${BASE_NAME}_node
+  ${BASE_NAME}_lib
+  ${catkin_LIBRARIES}
+)
+add_dependencies(${BASE_NAME}_node
   rapp_platform_ros_communications_gencpp
   ${catkin_EXPORTED_TARGETS}
 )
