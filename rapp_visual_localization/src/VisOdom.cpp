@@ -492,7 +492,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			fmodel = ::cv::FileStorage(mapXml, ::cv::FileStorage::WRITE);
 			if (!fmodel.isOpened())
 			{
-				printf("Can not open file <mapXml>\n");
+				printf("Can not open file <mapXml> [%s]\n", mapXml);
 				return 0;
 			}
 			fmodel << "MVecMat"<< "[" ;
@@ -625,7 +625,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		fmodel = ::cv::FileStorage(mapXml, ::cv::FileStorage::READ);
 		if (!fmodel.isOpened())
 		{
-			printf("Can not open file <mapXml>\n");
+			printf("Can not open file <mapXml> [%s]\n", mapXml);
 			return mvMat;
 		}
 		n1 = fmodel["MVecMat"];

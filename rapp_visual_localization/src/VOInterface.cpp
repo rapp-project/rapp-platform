@@ -10,24 +10,22 @@
 
 ::cv::Mat CVisOdom::inObservationImage() // from robot's camera to CVisOdom
 {
-	::cv::Mat inImg;
-	//
-	// ...
-	//
-
-	return inImg;
+	return interchange->img;
 }
 
 bool CVisOdom::inMotionVector(int *dz, int *dx, int *dd) // from robot's odometry to CVisOdom
 {
-	//
-	// ...
-	//
+	*dx = interchange->dx;
+	*dz = interchange->dz;
+	*dd = interchange->dd;
+	
 	return false; // false= no boundary (wall at distance of 0.5 m) detected, true= wall detected 
 }
 
 void CVisOdom::outBelief(double *belief, int bestZ, int bestX, int bestD) // from CVisOdom to robot's navigation control
 {
-	//
-
+	interchange->belief = *belief;
+	interchange->best_x = bestX;
+	interchange->best_z = bestZ;
+	interchange->best_d = bestD;
 }

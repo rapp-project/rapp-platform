@@ -1,10 +1,11 @@
 #include "ros/ros.h"
+#include "ros/package.h"
 
 #include "rapp_visual_localization/VisOdom.hpp"
 
 class VisualLocalizationNode {
 public:
-  void createMap() {
+  void createMap(const std::string & map_xml) {
     method = M_COLORMAX; // typ zestawu cech obrazu
     int numImgs=3; // liczba obrazów sylwetki
     // Obiekt z parametrami definiowanymi przez użytkownika
@@ -22,25 +23,34 @@ public:
     objVO.initFeatureScaling(method); // inicjalizuj wagi cech (potrzebne zarówno w fazie uczenia jak i testowania/pracy)
     
     
-    MapXml = "work7ModelColorMax.xml"; // plik do zapisu tworzonej wizualnej mapy pomieszczenia
+    MapXml = map_xml; // plik do zapisu tworzonej wizualnej mapy pomieszczenia
     MeasXml = "work7MeasureColorMax.xml"; // plik z przygotowaną mapą obserwacji (tryb off-line) 
     
     // Utworzenie mapy i wypisanie jej do pliku xml
-    objVO.createMap(method, MapXml.c_str(), MeasXml.c_str(), 0, 0); // parameter 1 określa typ zestawu cech obrazu
+    objVO.createMap(method, (char*)map_xml.c_str(), (char*)MeasXml.c_str(), 0, 0); // parameter 1 określa typ zestawu cech obrazu
     // parametr 2: nazwa pliku z istniejącą mapą
     // parametr 3: nazwa pliku z pomiarami dla wszystkich stanów (w trybie testowania/symulacji)
     // parametr 4: tworzenie mapy (1) lub pomiń to (0) bo plik xml z mapą już istnieje (0)
     // parametr 5: na potrzeby testowania/symulacji utwórz wcześniej mapę cech dla wszystkich aktualnych pomiarów (1) lub pomiń (0)  
 
 
+
+    char ouDirHuman[] = "C:/RAPP/NAO/logHuman";
+    char inDirHuman[] = "C:/RAPP/NAO/human"; // katalog obrazów sylwetki
     char *inH = &inDirHuman[0];
     char *ouH = &ouDirHuman[0];
     char HumanXml[] = "humanModel.xml"; // plik z modelem sylwetki
 
+    // Przełączniki pomocnicze: dla wizualizacji, monitorowania i "utrwalania" wyników 
+    const int VIS = 0;  // wizualizacja w oknach obrazów z wynikami częściowymi
+    const int MONIT = 1; // wyświetlanie tekstu komunikatów w terminalu
+    const int LOG = 0; // utrwalenie wyników - zapis wyników na dysku do plików
 
     // Krok 4: Utworzenie modelu aktualnej sylwetki
     objH.createModel(inH, ouH, HumanXml, 0, VIS, MONIT, LOG);
     // parametr 3: =0 : wczytaj model sylwetki z domyslnego pliku; =1: utwórz na nowo model sylwetki
+
+    objVO.setInterchange(&(this->interchange));
   }
   
   void doWork() {
@@ -52,12 +62,9 @@ public:
     // Metod "work" może być podstawą wątku ale nie jest to konieczne
     // W trybie "test/symulacja": TESTNUM oznacza liczbę testów (ścieżek)
     // W trybie "praca on-line": TESTNUM będzie liczbą ostatnich pamiętanych wyników
-    results = objVO.work(TESTNUM, MAXITER, method, objH, MapXml.c_str(), MeasXml.c_str(), false);
+    results = objVO.work(TESTNUM, MAXITER, method, objH, (char*)MapXml.c_str(), (char*)MeasXml.c_str(), false);
     // ostatni parametr: true = tryb off-line (testowanie w warunkach symulacji pomiarów)
     // false = tryb on-line (rzeczywista nawigacja z samolokalizacją)
-    
-    std::string MapXml;
-    std::string MeasXml;
   }
 
 private:
@@ -67,8 +74,13 @@ private:
   
   MType method;   // typ zestawu cech obrazu
   // Obiekt z parametrami definiowanymi przez użytkownika
-  CUserParameters	upa = CUserParameters(numImgs, numImgs); 
+  CUserParameters upa; 
   // liczba obrazów sylwetki i tworzonych modeli sylwetki 
+
+  std::string MapXml;
+  std::string MeasXml;
+
+  Interchange interchange;
 };
 
 /**
@@ -137,14 +149,14 @@ private:
  */
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "find_objects_node");
+  ros::init(argc, argv, "visual_localization_node");
   ros::NodeHandle n;
 
   std::string service_name;
   
   VisualLocalizationNode vl_node;
-  vl_node.createMap();
-  vl_node.doWork();
+  vl_node.createMap(ros::package::getPath("rapp_visual_localization") + "/data/work7ModelColorMax.xml");
+ // vl_node.doWork();
 /*  if (!n.getParam("/rapp_object_recognition_topic", service_name))
     ROS_ERROR("rapp_object_recogntion_topic not set!");
   ros::ServiceServer service = n.advertiseService(service_name, service_FindObjects);

@@ -10,6 +10,8 @@
 #include "rapp_visual_localization/Human.hpp"
 #include "rapp_visual_localization/ResultOD.hpp"
 
+#include "rapp_visual_localization/Interchange.hpp"
+
 #include <time.h>
 
 #include <opencv2/opencv.hpp>
@@ -28,6 +30,8 @@ enum MType{
 	public:
 		///
 		/// ...
+
+		void setInterchange(Interchange * inter) { interchange = inter; }
 
 	private:
 		/// pola : dane we/wy i parametry analizy
@@ -67,6 +71,8 @@ enum MType{
 		int visualSwitch; // 1: czy ma prezentować okna on-line
 		int monitorSwitch; // 1: czy ma się zatrzymywać krok-po-kroku
 		int logSwitch; // 1: czy zapisywać wyniki do plików 
+
+		Interchange * interchange;
 	
 	public:
 
