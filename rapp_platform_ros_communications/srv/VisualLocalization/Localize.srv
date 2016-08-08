@@ -1,0 +1,14 @@
+# The email subject
+geometry_msgs/Pose2D[] pose_deltas
+
+# File names of the attachments
+string[] image_files
+
+---
+
+float64[] belief
+
+geometry_msgs/Pose2D[] best_poses
+
+# 0 success, -1 failure
+int8 status

@@ -3,6 +3,8 @@
 
 #include "rapp_visual_localization/VisOdom.hpp"
 
+#include "rapp_platform_ros_communications/Localize.h"
+
 class VisualLocalizationNode {
 public:
   void createMap(const std::string & map_xml) {
@@ -59,12 +61,39 @@ public:
 
     ::cv::Mat results;
 
+    std::cout << "A\n";
     // Metod "work" może być podstawą wątku ale nie jest to konieczne
     // W trybie "test/symulacja": TESTNUM oznacza liczbę testów (ścieżek)
     // W trybie "praca on-line": TESTNUM będzie liczbą ostatnich pamiętanych wyników
     results = objVO.work(TESTNUM, MAXITER, method, objH, (char*)MapXml.c_str(), (char*)MeasXml.c_str(), false);
     // ostatni parametr: true = tryb off-line (testowanie w warunkach symulacji pomiarów)
     // false = tryb on-line (rzeczywista nawigacja z samolokalizacją)
+    std::cout << "B\n";
+  }
+
+  bool srvLocalize(rapp_platform_ros_communications::Localize::Request  &req,
+                   rapp_platform_ros_communications::Localize::Response &res) 
+  {
+    interchange.img = cv::imread(req.image_files[0]);
+
+    if (interchange.img.empty()) {
+      ROS_ERROR("Can't load image %s\n", req.image_files[0].c_str());
+      return false;
+    }
+
+    interchange.dx = req.pose_deltas[0].x;
+    interchange.dz = req.pose_deltas[0].y;
+    interchange.dd = req.pose_deltas[0].theta;
+
+    doWork();
+
+    res.belief.push_back(interchange.belief);
+    geometry_msgs::Pose2D best_pose;
+    best_pose.x = interchange.best_x;
+    best_pose.y = interchange.best_z;
+    best_pose.theta = interchange.best_d;
+    res.best_poses.push_back(best_pose);
+    return true;
   }
 
 private:
@@ -157,10 +186,11 @@ int main(int argc, char **argv)
   VisualLocalizationNode vl_node;
   vl_node.createMap(ros::package::getPath("rapp_visual_localization") + "/data/work7ModelColorMax.xml");
  // vl_node.doWork();
-/*  if (!n.getParam("/rapp_object_recognition_topic", service_name))
-    ROS_ERROR("rapp_object_recogntion_topic not set!");
-  ros::ServiceServer service = n.advertiseService(service_name, service_FindObjects);
-  
+
+  if (!n.getParam("/rapp_visual_localization_topic", service_name))
+    ROS_ERROR("rapp_visual_localization_topic not set!");
+  ros::ServiceServer service = n.advertiseService(service_name, &VisualLocalizationNode::srvLocalize, &vl_node);
+/*  
   if (!n.getParam("/rapp_object_learn_topic", service_name))
     ROS_ERROR("rapp_object_learn_topic not set!");
   ros::ServiceServer service2 = n.advertiseService(service_name, service_LearnObject);

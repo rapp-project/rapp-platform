@@ -1,0 +1,4 @@
+rapp_visual_localization_topic: /rapp/rapp_visual_localization/localize
+
+# This variable holds the maximum simultaneous calls the node can serve
+rapp_hazard_detection_threads: 1
