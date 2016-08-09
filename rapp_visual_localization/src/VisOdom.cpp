@@ -79,7 +79,7 @@ void CVisOdom::initFeatureScaling(MType METHOD)
 {
 	// init the scaling coefficients for feature elements
 	// appropriate to the method used
-	for (int i=0; i<122; i++) ScaleMEASURE[i] = 1.0;
+	for (int i=0; i<112; i++) ScaleMEASURE[i] = 1.0;
 	int j = 0;
 	switch(METHOD)
 	{
@@ -181,7 +181,7 @@ void CVisOdom::initFeatureMemory(MType METHOD)
 {
 	// allocate memory for feature representation and scaling
 	// appropriate to the method used
-	for (int i=0; i<122; i++) ScaleMEASURE[i] = 1.0;
+//	for (int i=0; i<122; i++) ScaleMEASURE[i] = 1.0;
 	
 	switch (METHOD)
 	{
@@ -537,7 +537,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 ::cv::Mat CVisOdom::work(int MAXTESTNUM, int MAXITERATION, MType METHOD, CHuman& objH, 
 						 char* mapXml, char* measXml, bool testMode)
 {
-
+	std::cout << "Monitor switch: " << monitorSwitch << "\n";
 	int* stateTest = new int[StateNum];
 
 // 1) Read the model data in
@@ -545,9 +545,13 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 	::cv::FileNode n1, n2;
 	::cv::FileNodeIterator it1, it1_end, it2, it2_end;
 
+	if (monitorSwitch) std::cout << "CVisOdom::work(" << MAXTESTNUM << ", " << MAXITERATION << ", "
+	                             << METHOD << ", objH, " << mapXml << ", " << measXml << ", " << testMode << ")\n";
+
 	switch(METHOD)
 	{
 	case M_COLORHIST:
+		std::cout << "M_COLORHIST\n";
 		//for (int i=0; i<StateNum; i++)
 		//{
 		//	MEASMATVEC[i] = ::cv::Mat::zeros(16,7, CV_64FC1); 
@@ -556,7 +560,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		break;
 
 	case M_COLOR:
-		
+		std::cout << "M_COLOR\n";
 		fmodel = ::cv::FileStorage("workModel.xml", ::cv::FileStorage::READ);
 		if (!fmodel.isOpened())
 		{
@@ -611,6 +615,8 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		break;
 
 	case M_COLORMAX:
+		std::cout << "M_COLORMAX\n";
+		std::cout << "Monitor switch: " << monitorSwitch << "\n";
 		NUMBLOCKS = 165; // for image blocks of size 50x50
 		//for (int i=0; i<StateNum; i++)
 		//{
@@ -622,23 +628,28 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		//%load work4ModelColorMax.mat;
 		//%load work5MeasureColorMax.mat;
 		//load work6MeasureColorMax.mat; // skorygowane pomiary
+		std::cout << "A\n";
 		fmodel = ::cv::FileStorage(mapXml, ::cv::FileStorage::READ);
+		std::cout << "B\n";
 		if (!fmodel.isOpened())
 		{
 			printf("Can not open file <mapXml> [%s]\n", mapXml);
 			return mvMat;
 		}
+		std::cout << "C\n";
 		n1 = fmodel["MVecMat"];
+		std::cout << "D\n";
 		if (n1.type() != ::cv::FileNode::SEQ)
 		{
 			cerr << "MVecMat is not a sequence! FAIL" << endl;
 			return mvMat;
 		}
-		
+		std::cout << "E\n";
 		if (this->monitorSwitch == 1) 
 			std::cout << "VisOdom: reading model and measurements" << endl;
-   
+   		std::cout << "F\n";
 		it1 = n1.begin(), it1_end = n1.end();
+		std::cout << "Monitor switch: " << monitorSwitch << "\n";
 		//for (; it != it_end; ++it)
 		//OR
 		for (int i=0; i<StateNum; i++)
@@ -682,6 +693,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		break;
 
 	default:
+		std::cout << "DEFAULT!\n";
 		break;
 	}
 	
@@ -723,7 +735,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 	
 	::cv::Mat TestGoal;
 	::cv::Mat TestInitPos; 
-	if (testMode)
+/*	if (testMode)
 	{
 // Set in advance the initial data for all the test runs 
 		TestGoal = cv::Mat::zeros(MAXTESTNUM, 3, CV_32SC1);
@@ -731,6 +743,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 
 	for (int i=0; i< MAXTESTNUM; i++)
 	{
+		std::cout << "i = " << i << "\n";
 		// Generate goal positions
 		GoalX = ( (GoalX - 1) % NUMX) - 1;
 		GoalY = ( (GoalY - 2) % NUMZ) - 2;
@@ -763,7 +776,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		TestInitPos.at<int>(i,1) = InitPosY;
 		TestInitPos.at<int>(i,2) = InitPosD;
 	}
-	} // end testMode
+	} // end testMode*/
    
 
 ///////
@@ -876,6 +889,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 	//for(testnum=0; testnum < MAXTESTNUM; testnum++)
 	while(testnum < MAXTESTNUM)
 	{
+		std::cout << "while(" << testnum << " < " << MAXTESTNUM << ")\n";
 		// for visualization
 		if (this->visualSwitch == 1)
 		{
@@ -897,7 +911,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			PMunderS[i] = 0.0; // p(m|s)
 		}
 	
-		if (testMode)
+		/*if (testMode)
 		{
     // Get the current start position and goal position 
 		GoalX = TestGoal.at<int>(testnum, 0);
@@ -922,7 +936,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		RESULTPosition.at<int>(testnum,3) = InitPosY;
 		
 		RESULTShortest[testnum] = max(abs(GoalX - InitPosX), abs(GoalY - InitPosY));
-		}
+		}*/
 
 		PreviousState = -1;
 		PrevToPrevState = -2;
@@ -935,6 +949,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		int MAXITERATION1 = MAXITERATION - 1;
 		for (ITER = 0; ITER < MAXITERATION1; ITER++) 
 		{
+			//std::cout << "for ITER=" << ITER << "\n";
 			// Step 1: increase ITER - done
 			// Step 2: Select best state
 			beststate = 0;
@@ -985,7 +1000,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			int IsColumnMin = 0;
 			int IsBorder = 0; // for on-line mode, no specific border line can be detected
 			
-			if (testMode)
+			/*if (testMode)
 			{
 			// The current state index is: 
 			RealState = (PosY - 1) * NUMXxD + (PosX-1)* NUMD + PosD - 1;
@@ -1030,7 +1045,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 					}
 				}
 			} // end ITER>2
-			} // end test mode
+			} // end test mode*/
 			
 			// The current state index is: 
 			//RealState = (PosY - 1) * NUMXxD + (PosX-1)* NUMD + PosD - 1;
@@ -1072,7 +1087,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			
 			//
 			// Step 4: compute the action expected by assumed best state
-			if (testMode)
+			/*if (testMode)
 			{
 				if (ITER >2)
 				{
@@ -1236,7 +1251,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			if (PosD < 1) PosD += NUMD; // correction if out-of-range value
 			if (PosD > NUMD) PosD -= NUMD;
 			}
-			else // Step 5 (on-line mode) get the robot's motion vector
+			else // Step 5 (on-line mode) get the robot's motion vector*/
 			{
 				IsBorder = inMotionVector(&DeltaY, &DeltaX, &DeltaD); // from robot's odometry to CVisOdom
 				if (IsBorder) // border detected
@@ -1265,6 +1280,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			int prevX, prevY, prevD;
 			for (int j=0; j< StateNum; j++)
 			{
+				//std::cout << "for j=" << j << "\n";
 				// Determine the predecessor state of every state under given action
 				stateX = PosIndex.at<int>(j,1);
 				stateY = PosIndex.at<int>(j,0);
@@ -1296,9 +1312,13 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		
 		// Step 7: get measurement (image and its feature vector) at current real position
 		// Read in the image in given real state (off-line mode) or get current image (on-line)
+		std::cout << "readMeasImage4\n";
 		::cv::Mat ObrazM;
 		ObrazM = readMeasImage4(this->sInTest, PosY, PosX, PosD, testMode); // Get test image in state [k,l,dir]
-		if (ObrazM.data==NULL) terminationCall = true; // finish the on-line work
+		if (ObrazM.empty()) {
+			terminationCall = true; // finish the on-line work
+			break;
+		}
 
 		// ObrazO = ReadImage(FILENM, PosX, PosY); % the original image
 		// Obraz = DisturbImage(ObrazO, ny, nx); %my function for disturbing the measurement
@@ -1413,6 +1433,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		int realMeas;
 		for (int k=0; k< StateNum; k++)
 		{
+			//std::cout << "for k=" << k << "\n";
 			Dist = 0.0; 
 			switch (METHOD)
 			{
@@ -1676,7 +1697,7 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		//	}
 		//	cout << endl;
 		 //}
-		::cv::waitKey();
+		//::cv::waitKey();
 		if (this->monitorSwitch == 1)
 		{
 			// print intermediate data

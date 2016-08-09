@@ -7,18 +7,45 @@
 
 class VisualLocalizationNode {
 public:
+
   void createMap(const std::string & map_xml) {
     method = M_COLORMAX; // typ zestawu cech obrazu
     int numImgs=3; // liczba obrazów sylwetki
+
+	// Własności wynikają z dostępnej informacji o środowisku i kamerze
+	double space_dx = 200.0; // rozmiar dostępnego człowiekowi pomieszczenia w cm
+	double space_dz = 300.0; // rozmiar dostepnego człowiekowi pomieszczenia w cm
+	double camera_y = 100.0; // wysokość środka układu kamery nad podłogą
+	double camera_alfa = 0.0; // kąt nachylenia osi "z" kamery względem osi Z układu (podłogi)
+	double camera_f = 0.01; // wartość ogniskowej kamery
+	double camera_x = 100.0; // położenie początkowe (aktualne) robota
+	double camera_z = 0.0; //   -- " --
+
+	// ... // pobierz własności środowiska i pozycję kamery
+
+	// Utwórz obiekt z własnościami środowiska
+	CProperties pr = CProperties(space_dx, space_dz, camera_y, camera_alfa, camera_f, camera_x, camera_z); 
+	
+	// Obiekt z parametrami analizy obrazu - dobieranymi podczas instalacji
+	CParameters pa = CParameters(16, 0.2, 0.5, 0.20, 25, 42, 720); // low edge, edge threshold, corner max, corner min
+		// red color thresh min, intensity thresh min, direction's number
+	
+
+
+
     // Obiekt z parametrami definiowanymi przez użytkownika
     upa = CUserParameters(numImgs, numImgs); 
     // liczba obrazów sylwetki i tworzonych modeli sylwetki 
     
-    // Krok 3: Utworzenie wizualnej mapy pomieszczenia
+    objVO = CVisOdom("", "", "", pr, pa, upa, 0, 1, 0);
+    
+// Krok 3: Utworzenie wizualnej mapy pomieszczenia
     int numx=19; // liczba kolumn w mapie
     int numz=41; // liczba rzędów w mapie
     int numd=4; // liczba kierunków
     int vgrid = 5; // (nieistotne)
+
+
 
     objVO.initMap(numx, numz, numd, vgrid); // inicjalizuj dane związane z rozmiarem mapy
     objVO.initFeatureMemory(method); // alokuj pamięć dla reprezentacji cech obrazów (w fazie tworzenia mapy)

@@ -123,6 +123,8 @@ add_service_files(
   /ObjectRecognition/LearnObjectSrv.srv
   /ObjectRecognition/LoadModelsSrv.srv
   /ObjectRecognition/ClearModelsSrv.srv
+
+  /VisualLocalization/Localize.srv
 )
 
 ## Generate added messages and services with any dependencies listed here

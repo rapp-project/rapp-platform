@@ -10,7 +10,9 @@
 
 ::cv::Mat CVisOdom::inObservationImage() // from robot's camera to CVisOdom
 {
-	return interchange->img;
+	cv::Mat img = interchange->img;
+	interchange->img = cv::Mat();
+	return img;
 }
 
 bool CVisOdom::inMotionVector(int *dz, int *dx, int *dd) // from robot's odometry to CVisOdom
