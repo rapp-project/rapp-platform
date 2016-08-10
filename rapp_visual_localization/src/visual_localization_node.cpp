@@ -88,7 +88,7 @@ public:
 
     ::cv::Mat results;
 
-    std::cout << "A\n";
+    std::cout << "Working thread started\n";
     // Metod "work" może być podstawą wątku ale nie jest to konieczne
     // W trybie "test/symulacja": TESTNUM oznacza liczbę testów (ścieżek)
     // W trybie "praca on-line": TESTNUM będzie liczbą ostatnich pamiętanych wyników
@@ -101,24 +101,23 @@ public:
   bool srvLocalize(rapp_platform_ros_communications::Localize::Request  &req,
                    rapp_platform_ros_communications::Localize::Response &res) 
   {
-    interchange.img = cv::imread(req.image_files[0]);
+    cv::Mat img = cv::imread(req.image_files[0]);
 
-    if (interchange.img.empty()) {
+    if (img.empty()) {
       ROS_ERROR("Can't load image %s\n", req.image_files[0].c_str());
       return false;
     }
 
-    interchange.dx = req.pose_deltas[0].x;
-    interchange.dz = req.pose_deltas[0].y;
-    interchange.dd = req.pose_deltas[0].theta;
+    interchange.setStep(req.pose_deltas[0].x, req.pose_deltas[0].y, req.pose_deltas[0].theta);
+    interchange.setImage(img);
 
-    doWork();
+    auto pred = interchange.getPrediction();
 
-    res.belief.push_back(interchange.belief);
+    res.belief.push_back(interchange.getBelief());
     geometry_msgs::Pose2D best_pose;
-    best_pose.x = interchange.best_x;
-    best_pose.y = interchange.best_z;
-    best_pose.theta = interchange.best_d;
+    best_pose.x = pred.x;
+    best_pose.y = pred.y;
+    best_pose.theta = pred.d;
     res.best_poses.push_back(best_pose);
     return true;
   }
@@ -213,6 +212,8 @@ int main(int argc, char **argv)
   VisualLocalizationNode vl_node;
   vl_node.createMap(ros::package::getPath("rapp_visual_localization") + "/data/work7ModelColorMax.xml");
  // vl_node.doWork();
+
+  std::thread t(&VisualLocalizationNode::doWork, &vl_node);
 
   if (!n.getParam("/rapp_visual_localization_topic", service_name))
     ROS_ERROR("rapp_visual_localization_topic not set!");

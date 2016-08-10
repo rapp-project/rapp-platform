@@ -17,6 +17,8 @@ set(BASE_NAME visual_localization)
 
 find_package(PkgConfig)
 
+add_definitions(-std=c++11)
+
 ## System dependencies are found with CMake's conventions
 catkin_package(
   CATKIN_DEPENDS
