@@ -4,8 +4,9 @@
 #include "rapp_visual_localization/VisOdom.hpp"
 
 #include "rapp_platform_ros_communications/Localize.h"
+#include "rapp_platform_ros_communications/LocalizeInit.h"
 
-class VisualLocalizationNode {
+class VisualLocalizationWrapper {
 public:
 
   void createMap(const std::string & map_xml) {
@@ -37,7 +38,7 @@ public:
     upa = CUserParameters(numImgs, numImgs); 
     // liczba obrazów sylwetki i tworzonych modeli sylwetki 
     
-    objVO = CVisOdom("", "", "", pr, pa, upa, 0, 1, 0);
+    objVO = CVisOdom("", "", "", pr, pa, upa, 0, 0, 0);
     
 // Krok 3: Utworzenie wizualnej mapy pomieszczenia
     int numx=19; // liczba kolumn w mapie
@@ -56,7 +57,7 @@ public:
     MeasXml = "work7MeasureColorMax.xml"; // plik z przygotowaną mapą obserwacji (tryb off-line) 
     
     // Utworzenie mapy i wypisanie jej do pliku xml
-    objVO.createMap(method, (char*)map_xml.c_str(), (char*)MeasXml.c_str(), 0, 0); // parameter 1 określa typ zestawu cech obrazu
+//    objVO.createMap(method, (char*)map_xml.c_str(), (char*)MeasXml.c_str(), 0, 0); // parameter 1 określa typ zestawu cech obrazu
     // parametr 2: nazwa pliku z istniejącą mapą
     // parametr 3: nazwa pliku z pomiarami dla wszystkich stanów (w trybie testowania/symulacji)
     // parametr 4: tworzenie mapy (1) lub pomiń to (0) bo plik xml z mapą już istnieje (0)
@@ -98,28 +99,8 @@ public:
     std::cout << "B\n";
   }
 
-  bool srvLocalize(rapp_platform_ros_communications::Localize::Request  &req,
-                   rapp_platform_ros_communications::Localize::Response &res) 
-  {
-    cv::Mat img = cv::imread(req.image_files[0]);
-
-    if (img.empty()) {
-      ROS_ERROR("Can't load image %s\n", req.image_files[0].c_str());
-      return false;
-    }
-
-    interchange.setStep(req.pose_deltas[0].x, req.pose_deltas[0].y, req.pose_deltas[0].theta);
-    interchange.setImage(img);
-
-    auto pred = interchange.getPrediction();
-
-    res.belief.push_back(interchange.getBelief());
-    geometry_msgs::Pose2D best_pose;
-    best_pose.x = pred.x;
-    best_pose.y = pred.y;
-    best_pose.theta = pred.d;
-    res.best_poses.push_back(best_pose);
-    return true;
+  Interchange & operator()() {
+    return interchange;
   }
 
 private:
@@ -138,65 +119,71 @@ private:
   Interchange interchange;
 };
 
-/**
- * Serves the object detection ROS service callback
- * 
- * \param req [in]  The ROS service request
- * \param res [out] The ROS service response
- * 
- * \return The success status of the call
- */
-/*bool service_FindObjects(rapp_platform_ros_communications::FindObjectsSrv::Request  &req,
-                         rapp_platform_ros_communications::FindObjectsSrv::Response &res)
-{
-  res.result = detectors[req.user].findObjects(req.user, req.fname, req.limit, res.found_names, res.found_centers, res.found_scores);
-  return true;
-}*/
 
-/**
- * Serves the object learning ROS service callback
- * 
- * \param req [in]  The ROS service request
- * \param res [out] The ROS service response
- * 
- * \return The success status of the call
- */
-/*bool service_LearnObject(rapp_platform_ros_communications::LearnObjectSrv::Request  &req,
-                         rapp_platform_ros_communications::LearnObjectSrv::Response &res)
-{
-  res.result = detectors[req.user].learnObject(req.user, req.fname, req.name);
-  return true;
-}*/
+class VisualLocalizationNode {
+public:
+  VisualLocalizationNode() {
+    next_id = 0;
+  }
 
-/**
- * Serves the models loading ROS service callback
- * 
- * \param req [in]  The ROS service request
- * \param res [out] The ROS service response
- * 
- * \return The success status of the call
- */
-/*bool service_LoadModels(rapp_platform_ros_communications::LoadModelsSrv::Request  &req,
-                         rapp_platform_ros_communications::LoadModelsSrv::Response &res)
-{
-  detectors[req.user].loadModels(req.user, req.names, res.result);
-  return true;
-}*/
+  bool srvLocalize(rapp_platform_ros_communications::Localize::Request  &req,
+                   rapp_platform_ros_communications::Localize::Response &res) 
+  {
 
-/**
- * Serves the models clearing ROS service callback
- * 
- * \param req [in]  The ROS service request
- * \param res [out] The ROS service response
- * 
- * \return The success status of the call
- */
-/*bool service_ClearModels(rapp_platform_ros_communications::ClearModelsSrv::Request  &req,
-                         rapp_platform_ros_communications::ClearModelsSrv::Response &res)
-{
-  detectors[req.user].clearModels(req.user);
-  return true;
-}*/
+    if (objs.count(req.id) < 1) {
+      ROS_ERROR("There is no visual localization started for id %d!", req.id);
+      return false;
+    }
+
+    cv::Mat img = cv::imread(req.image_files[0]);
+
+    auto & wrap = objs[req.id];
+
+    if (img.empty()) {
+      ROS_ERROR("Can't load image %s\n", req.image_files[0].c_str());
+      return false;
+    }
+
+    wrap().setStep(req.pose_deltas[0].x, req.pose_deltas[0].y, req.pose_deltas[0].theta);
+    wrap().setImage(img);
+
+    auto pred = wrap().getPrediction();
+
+    res.belief.push_back(wrap().getBelief());
+    geometry_msgs::Pose2D best_pose;
+    best_pose.x = pred.x;
+    best_pose.y = pred.y;
+    best_pose.theta = pred.d;
+    res.best_poses.push_back(best_pose);
+    return true;
+  }
+
+  bool srvInit(rapp_platform_ros_communications::LocalizeInit::Request  & req,
+               rapp_platform_ros_communications::LocalizeInit::Response & res) 
+  {
+    VisualLocalizationWrapper & wrap = objs[next_id];
+    wrap.createMap(req.map);
+
+    threads[next_id] = std::thread(&VisualLocalizationWrapper::doWork, &wrap);
+
+    res.id = next_id;
+
+    ROS_INFO("Started new visual localization with id %d.", res.id);
+
+    ++next_id;
+    return true;
+  }
+
+private:
+  std::map<int, VisualLocalizationWrapper> objs;
+  std::map<int, std::thread> threads;
+
+  int next_id;
+};
+
+
+
+
 
 /**
  * The executable's main function.
@@ -210,14 +197,12 @@ int main(int argc, char **argv)
   std::string service_name;
   
   VisualLocalizationNode vl_node;
-  vl_node.createMap(ros::package::getPath("rapp_visual_localization") + "/data/work7ModelColorMax.xml");
- // vl_node.doWork();
-
-  std::thread t(&VisualLocalizationNode::doWork, &vl_node);
 
   if (!n.getParam("/rapp_visual_localization_topic", service_name))
     ROS_ERROR("rapp_visual_localization_topic not set!");
   ros::ServiceServer service = n.advertiseService(service_name, &VisualLocalizationNode::srvLocalize, &vl_node);
+  
+  ros::ServiceServer service2 = n.advertiseService(service_name+"_init", &VisualLocalizationNode::srvInit, &vl_node);
 /*  
   if (!n.getParam("/rapp_object_learn_topic", service_name))
     ROS_ERROR("rapp_object_learn_topic not set!");

@@ -1,0 +1,7 @@
+# Path to the map file
+string map
+
+---
+
+# ID of the started localization service
+int8 id

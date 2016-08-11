@@ -4,6 +4,9 @@ geometry_msgs/Pose2D[] pose_deltas
 # File names of the attachments
 string[] image_files
 
+# ID of the localize service
+int8 id
+
 ---
 
 float64[] belief
@@ -12,3 +15,6 @@ geometry_msgs/Pose2D[] best_poses
 
 # 0 success, -1 failure
 int8 status
+
+# Error message
+string error

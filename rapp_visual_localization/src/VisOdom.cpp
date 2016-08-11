@@ -537,7 +537,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 ::cv::Mat CVisOdom::work(int MAXTESTNUM, int MAXITERATION, MType METHOD, CHuman& objH, 
 						 char* mapXml, char* measXml, bool testMode)
 {
-	std::cout << "Monitor switch: " << monitorSwitch << "\n";
 	int* stateTest = new int[StateNum];
 
 // 1) Read the model data in
@@ -551,7 +550,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 	switch(METHOD)
 	{
 	case M_COLORHIST:
-		std::cout << "M_COLORHIST\n";
 		//for (int i=0; i<StateNum; i++)
 		//{
 		//	MEASMATVEC[i] = ::cv::Mat::zeros(16,7, CV_64FC1); 
@@ -560,7 +558,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		break;
 
 	case M_COLOR:
-		std::cout << "M_COLOR\n";
 		fmodel = ::cv::FileStorage("workModel.xml", ::cv::FileStorage::READ);
 		if (!fmodel.isOpened())
 		{
@@ -615,8 +612,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		break;
 
 	case M_COLORMAX:
-		std::cout << "M_COLORMAX\n";
-		std::cout << "Monitor switch: " << monitorSwitch << "\n";
 		NUMBLOCKS = 165; // for image blocks of size 50x50
 		//for (int i=0; i<StateNum; i++)
 		//{
@@ -628,28 +623,21 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		//%load work4ModelColorMax.mat;
 		//%load work5MeasureColorMax.mat;
 		//load work6MeasureColorMax.mat; // skorygowane pomiary
-		std::cout << "A\n";
 		fmodel = ::cv::FileStorage(mapXml, ::cv::FileStorage::READ);
-		std::cout << "B\n";
 		if (!fmodel.isOpened())
 		{
 			printf("Can not open file <mapXml> [%s]\n", mapXml);
 			return mvMat;
 		}
-		std::cout << "C\n";
 		n1 = fmodel["MVecMat"];
-		std::cout << "D\n";
 		if (n1.type() != ::cv::FileNode::SEQ)
 		{
 			cerr << "MVecMat is not a sequence! FAIL" << endl;
 			return mvMat;
 		}
-		std::cout << "E\n";
 		if (this->monitorSwitch == 1) 
 			std::cout << "VisOdom: reading model and measurements" << endl;
-   		std::cout << "F\n";
 		it1 = n1.begin(), it1_end = n1.end();
-		std::cout << "Monitor switch: " << monitorSwitch << "\n";
 		//for (; it != it_end; ++it)
 		//OR
 		for (int i=0; i<StateNum; i++)
@@ -693,7 +681,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		break;
 
 	default:
-		std::cout << "DEFAULT!\n";
 		break;
 	}
 	
@@ -889,7 +876,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 	//for(testnum=0; testnum < MAXTESTNUM; testnum++)
 	while(testnum < MAXTESTNUM)
 	{
-		std::cout << "while(" << testnum << " < " << MAXTESTNUM << ")\n";
 		// for visualization
 		if (this->visualSwitch == 1)
 		{
@@ -949,7 +935,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		int MAXITERATION1 = MAXITERATION - 1;
 		for (ITER = 0; ITER < MAXITERATION1; ITER++) 
 		{
-			//std::cout << "for ITER=" << ITER << "\n";
 			// Step 1: increase ITER - done
 			// Step 2: Select best state
 			beststate = 0;
@@ -1280,7 +1265,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 			int prevX, prevY, prevD;
 			for (int j=0; j< StateNum; j++)
 			{
-				//std::cout << "for j=" << j << "\n";
 				// Determine the predecessor state of every state under given action
 				stateX = PosIndex.at<int>(j,1);
 				stateY = PosIndex.at<int>(j,0);
@@ -1312,7 +1296,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		
 		// Step 7: get measurement (image and its feature vector) at current real position
 		// Read in the image in given real state (off-line mode) or get current image (on-line)
-		std::cout << "readMeasImage4\n";
 		::cv::Mat ObrazM;
 		ObrazM = readMeasImage4(this->sInTest, PosY, PosX, PosD, testMode); // Get test image in state [k,l,dir]
 		if (ObrazM.empty()) {
@@ -1433,7 +1416,6 @@ int CVisOdom::createMap(MType METHOD, char* mapXml, char* measXml, int mapSwitch
 		int realMeas;
 		for (int k=0; k< StateNum; k++)
 		{
-			//std::cout << "for k=" << k << "\n";
 			Dist = 0.0; 
 			switch (METHOD)
 			{

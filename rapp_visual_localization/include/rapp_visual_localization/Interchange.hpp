@@ -20,6 +20,7 @@ public:
 		
 		std::cout << "Setting image.\n";
 
+		prediction_flag = false;
 		image_flag = true;
 		img = i;
 
