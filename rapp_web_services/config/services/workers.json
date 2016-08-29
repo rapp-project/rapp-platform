@@ -9,6 +9,14 @@
       "object_detection_learn_object"
     ]
   },
+  "visual_localization": {
+    "launch": true,
+    "path": "workers/visual_localization.js",
+    "services": [
+      "visual_localization",
+      "visual_localization_init"
+    ]
+  },
   "hazard_detection": {
     "launch": true,
     "path": "workers/hazard_detection.js",

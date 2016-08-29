@@ -39,6 +39,26 @@
     "ros_connection": true,
     "timeout": 45000
   },
+  "visual_localization_init" : {
+    "launch": true,
+    "anonymous": false,
+    "name": "visual_localization_init",
+    "url_name": "visual_localization_init",
+    "namespace": "",
+    "authentication": true,
+    "ros_connection": true,
+    "timeout": 45000
+  }, 
+  "visual_localization" : {
+    "launch": true,
+    "anonymous": false,
+    "name": "visual_localization",
+    "url_name": "visual_localization",
+    "namespace": "",
+    "authentication": true,
+    "ros_connection": true,
+    "timeout": 45000
+  },
   "hazard_detection_door_check" : {
     "launch": true,
     "anonymous": false,

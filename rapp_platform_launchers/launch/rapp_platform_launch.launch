@@ -19,4 +19,5 @@
   <include file="$(find rapp_path_planning)/launch/path_planning.launch" />
   <include file="$(find rapp_application_authentication_manager)/launch/application_authentication.launch" />
   <include file="$(find rapp_object_recognition)/launch/object_detection.launch" />
+  <include file="$(find rapp_visual_localization)/launch/visual_localization.launch" />
 </launch>
