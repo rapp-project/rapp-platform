@@ -1,6 +1,8 @@
 #include "ros/ros.h"
 #include "ros/package.h"
 
+#include <boost/filesystem.hpp>
+
 #include "rapp_visual_localization/VisOdom.hpp"
 
 #include "rapp_platform_ros_communications/Localize.h"
@@ -135,32 +137,38 @@ public:
       return false;
     }
 
-    cv::Mat img = cv::imread(req.image_files[0]);
+    cv::Mat img = cv::imread(req.image);
 
     auto & wrap = objs[req.id];
 
     if (img.empty()) {
-      ROS_ERROR("Can't load image %s\n", req.image_files[0].c_str());
+      ROS_ERROR("Can't load image %s\n", req.image.c_str());
       return false;
     }
 
-    wrap().setStep(req.pose_deltas[0].x, req.pose_deltas[0].y, req.pose_deltas[0].theta);
+    wrap().setStep(req.pose_delta.x, req.pose_delta.y, req.pose_delta.theta);
     wrap().setImage(img);
 
     auto pred = wrap().getPrediction();
 
-    res.belief.push_back(wrap().getBelief());
+    res.belief = wrap().getBelief();
     geometry_msgs::Pose2D best_pose;
     best_pose.x = pred.x;
     best_pose.y = pred.y;
     best_pose.theta = pred.d;
-    res.best_poses.push_back(best_pose);
+    res.best_pose = best_pose;
     return true;
   }
 
   bool srvInit(rapp_platform_ros_communications::LocalizeInit::Request  & req,
                rapp_platform_ros_communications::LocalizeInit::Response & res) 
   {
+    if (!boost::filesystem::exists(req.map)) {
+      ROS_ERROR("Can't load map: %s\n", req.map.c_str());
+      res.error = "Map file doesn't exist";
+      return true;
+    }
+
     VisualLocalizationWrapper & wrap = objs[next_id];
     wrap.createMap(req.map);
 

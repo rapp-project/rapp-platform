@@ -1,17 +1,17 @@
 # The email subject
-geometry_msgs/Pose2D[] pose_deltas
+geometry_msgs/Pose2D pose_delta
 
 # File names of the attachments
-string[] image_files
+string image
 
 # ID of the localize service
 int8 id
 
 ---
 
-float64[] belief
+float64 belief
 
-geometry_msgs/Pose2D[] best_poses
+geometry_msgs/Pose2D best_pose
 
 # 0 success, -1 failure
 int8 status
