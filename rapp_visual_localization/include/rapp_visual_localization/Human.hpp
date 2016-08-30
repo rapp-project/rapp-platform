@@ -185,11 +185,12 @@ using namespace std;
 		*/
 		CHuman(void);
 
-		//
-		//void createModel(char* directoryIN, char* directoryOUT, char* modelFilenameXml,
-		//	bool isModel=false, int visualswitch=0, int logswitch=0, int monitorswitch=0);
+		//// temporary functions
+		void createModel(char* directoryIN, char* directoryOUT, char* modelFilenameXml,
+			bool isModel=false, int visualswitch=0, int logswitch=0, int monitorswitch=0);
 
-		//::cv::Rect detectPerson(::cv::Mat obraz);
+		::cv::Rect detectPerson(::cv::Mat obraz);
+		////
 
 		/**
 		* @brief Generacja wzorca

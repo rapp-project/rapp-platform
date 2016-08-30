@@ -2,20 +2,18 @@
 
 //using namespace std;
 
+//// temporary functions
+void CHuman::createModel(char* directoryIN, char* directoryOUT, char* modelFilenameXml,
+			bool isModel, int visualswitch, int logswitch, int monitorswitch)
+{
+}
 
-//void CHuman::createModel(char* directoryIN, char* directoryOUT, char* modelFilenameXml,
-//			bool isModel, int visualswitch, int logswitch, int monitorswitch)
-//{
-
-//}
-
-//::cv::Rect CHuman::detectPerson(::cv::Mat obraz)
-//{
-//	::cv::Rect detected;
-
-
-//	return detected;
-//}
+::cv::Rect CHuman::detectPerson(::cv::Mat obraz)
+{
+	::cv::Rect detected;
+	return detected;
+}
+////
 
 /**
 * @brief Główna klasa służąca do generacji lub do wykrywania wzorca
