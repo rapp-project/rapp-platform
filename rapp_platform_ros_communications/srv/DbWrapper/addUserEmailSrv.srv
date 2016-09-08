@@ -1,0 +1,7 @@
+string username
+string owner
+string email
+---
+bool success
+string error
+string[] trace

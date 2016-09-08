@@ -60,6 +60,7 @@ add_service_files(
   /DbWrapper/createNewCloudAgentServiceSrv.srv
   /DbWrapper/createNewCloudAgentSrv.srv
   /DbWrapper/getCloudAgentServiceTypeAndHostPortSrv.srv
+  /DbWrapper/addUserEmailSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
