@@ -1,0 +1,6 @@
+string username
+---
+PlatformUserInfoMsg platform_user_info
+bool success
+string error
+string[] trace

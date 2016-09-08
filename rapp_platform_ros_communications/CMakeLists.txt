@@ -24,6 +24,7 @@ add_message_files(
   WeatherForecastMsg.msg
   ArrayCognitiveExercisePerformanceRecordsMsg.msg
   CognitiveExercisesMsg.msg
+  PlatformUserInfoMsg.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -61,6 +62,7 @@ add_service_files(
   /DbWrapper/createNewCloudAgentSrv.srv
   /DbWrapper/getCloudAgentServiceTypeAndHostPortSrv.srv
   /DbWrapper/addUserEmailSrv.srv
+  /DbWrapper/getPlatformUserInfoSrv.srv
 
   /OntologyWrapper/createInstanceSrv.srv
   /OntologyWrapper/ontologySubSuperClassesOfSrv.srv
