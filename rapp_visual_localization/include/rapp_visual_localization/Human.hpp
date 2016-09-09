@@ -158,7 +158,7 @@ using namespace std;
 	public:
 
 		// loading the model
-		void CHuman::loadModelFromFile(std::string path_, std::string model_file_name);
+		void loadModelFromFile(std::string path_, std::string model_file_name);
 
 	   	CHuman(char *in, char* out, CProperties pr, CParameters pa, CUserParameters upa,
 			int vis=0, int monit=0, int log=0)
@@ -203,12 +203,6 @@ using namespace std;
 			std::vector< std::vector<std::string> > & models_names_vec,// wektor zawierający nazwy modeli
 			std::string output_model_path, std::string model_file_name // sciezka do pliku z modelem
 			);
-
-		void createModel(char* directoryIN, char* directoryOUT, char* modelFilenameXml,
-
-			bool isModel = false, int visualswitch = 0, int logswitch = 0, int monitorswitch = 0);
-
-
 
 		std::vector< ::cv::Rect > detectPerson(::cv::Mat obraz,
 			std::string model_path,
