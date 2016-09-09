@@ -1,0 +1,23 @@
+# Contains info about time and reference
+Header header
+# The image's filename to perform face detection
+string imageFilename
+# Learn the face model
+bool learn
+# CSV file's URL
+string fn_csv
+# Recognize faces
+bool recognize
+# Face model's URL
+string model_name
+# Container for detected face positions
+geometry_msgs/PointStamped[] faces_up_left
+geometry_msgs/PointStamped[] faces_down_right
+# User name
+string user
+---
+
+string model_name
+int32[] recognizedIDs
+float64[] predictedConfidenceVec
+string error

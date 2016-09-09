@@ -1,0 +1,4 @@
+rapp_face_recognition_recognize_faces_topic: /rapp/rapp_face_recognition/recognize_faces
+
+# This variable holds the maximum simultaneous calls the node can serve
+rapp_face_recognition_threads: 10
