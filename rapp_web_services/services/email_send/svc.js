@@ -72,7 +72,6 @@ function svcImpl(req, resp, ros) {
 
   // ROS-Service response callback.
   function callback(data) {
-    Fs.rmFile(req.files.file[0]);
     // Parse rosbridge message and craft client response
     var response = parseRosbridgeMsg(data);
     resp.sendJson(response);
@@ -80,7 +79,6 @@ function svcImpl(req, resp, ros) {
 
   // ROS-Service onerror callback.
   function onerror(e) {
-    Fs.rmFile(req.files.file[0]);
     var response = new interfaces.client_res();
     response.error = e;
     resp.sendJson(response);
