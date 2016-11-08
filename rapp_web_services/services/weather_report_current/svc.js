@@ -87,18 +87,15 @@ function parseRosbridgeMsg(rosbridge_msg) {
     return response;
   }
 
-  var currentWeather = new interfaces.current_weather();
-  currentWeather.date = rosbridge_msg.date;
-  currentWeather.temperature = rosbridge_msg.temperature;
-  currentWeather.weather_description = rosbridge_msg.weather_description;
-  currentWeather.humidity = rosbridge_msg.humidity;
-  currentWeather.visibility = rosbridge_msg.visibility;
-  currentWeather.pressure = rosbridge_msg.pressure;
-  currentWeather.wind_speed = rosbridge_msg.wind_speed;
-  currentWeather.wind_temperature = rosbridge_msg.wind_temperature;
-  currentWeather.wind_direction = rosbridge_msg.wind_direction;
-
-  response = currentWeather;
+  response.date = rosbridge_msg.date;
+  response.temperature = rosbridge_msg.temperature;
+  response.weather_description = rosbridge_msg.weather_description;
+  response.humidity = rosbridge_msg.humidity;
+  response.visibility = rosbridge_msg.visibility;
+  response.pressure = rosbridge_msg.pressure;
+  response.wind_speed = rosbridge_msg.wind_speed;
+  response.wind_temperature = rosbridge_msg.wind_temperature;
+  response.wind_direction = rosbridge_msg.wind_direction;
 
   return response;
 }
