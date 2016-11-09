@@ -106,7 +106,7 @@ function parseRosbridgeMsg(rosbridge_msg) {
   }
 
   for (let ii = 0; ii < num_objects; ii++) {
-    let center = {x: 0, y:0};
+    let center = {x: 0, y:0, z:0};
 
     center.x = centers[ii].x;
     center.y = centers[ii].y;
