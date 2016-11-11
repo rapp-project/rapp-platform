@@ -36,10 +36,11 @@ var workerEnv = require(path.join(__dirname, 'config/services',
 
 var pathsEnv = require(path.join(__dirname, 'config/env', 'paths.json'));
 
-var serverCfg = require(path.join(__dirname,
+const serverCfg = require(path.join(__dirname,
     'config/server/server.js'));
 
-var env = {
+
+const env = {
   SERVER: serverCfg,
   ROSBRIDGE: {
     HOSTNAME: rosEnv.ip_addr,
@@ -50,14 +51,17 @@ var env = {
   PATHS: {
     SERVER_CACHE_DIR: Fs.resolvePath( pathsEnv.cache_dir_server ),
     SERVICES_CACHE_DIR: Fs.resolvePath( pathsEnv.cache_dir_services ),
-    LOG_DIR: Fs.resolvePath( pathsEnv.log_dir ),
-    LOG_DIR_SRVS: Fs.resolvePath( pathsEnv.log_dir_services ),
+    LOG_DIR: Fs.resolvePath(pathsEnv.log_dir),
+    LOG_DIR_SRVS: Fs.resolvePath(pathsEnv.log_dir_services),
     PKG_DIR: __dirname,
     INCLUDE_DIR: path.join( __dirname, 'src' ),
     CONFIG_DIR: path.join( __dirname, 'config' ),
     SERVICES_DIR: path.join( __dirname, 'services' ),
     WORKERS_DIR: path.join( __dirname, 'workers' )
-  }
+  },
+  DEBUG: true,
+  LOGGING: true
 };
+
 
 module.exports = env;

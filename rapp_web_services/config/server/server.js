@@ -21,14 +21,14 @@
 var path = require('path');
 var util = require('util');
 
-var cfg = require(path.join(__dirname, 'server.json'));
+const cfg = require(path.join(__dirname, 'server.json'));
 
-var home = process.env.HOME;
+const home = process.env.HOME;
 
-var hopDir = resolvePath(cfg.paths.hop_dir);
-var logDir = resolvePath(cfg.paths.log_dir);
+const hopDir = resolvePath(cfg.paths.hop_dir);
+const logDir = resolvePath(cfg.paths.log_dir);
 
-var serverCfg = {
+const serverCfg = {
   mode: cfg.mode,
   launch_files: [
     path.join(__dirname, "../..", "init.js")
@@ -42,13 +42,13 @@ var serverCfg = {
     cache_dir: path.join(hopDir, "cache/server")
   },
   run: cfg.run,
-  logging: cfg.logging
+  logging: cfg.logging,
+  startTimestamp: getUnixTime()
 };
 
 
-
 function getUnixTime(){
- return (new Date().getTime() / 1000);
+ return (new Date().getTime() / 1000).toString();
 }
 
 

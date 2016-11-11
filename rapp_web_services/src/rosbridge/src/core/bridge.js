@@ -64,7 +64,6 @@ function Bridge(options) {
     if(! this.isActive()){
       //var errMsg = '[Rosbridge]: Cannot call ros-service. ' +
         //'Rosbridge connection is not active...';
-      //console.log(colors.error + '[Rosbridge]: ' + errMsg + colors.clear);
       if ( opts.fail ) { opts.fail(errMsg); }
       return false;
     }
@@ -93,8 +92,8 @@ function Bridge(options) {
     }
     var srvMsg = SrvMsg.GetServices();
     this.controller.registerService(srvMsg, function(data){
-      if( ! data ) { return; }
-      if( data.result ) { callback(data.values.services); }
+      if (! data) { return; }
+      if (data.result) { callback(data.values.services); }
       // Catch rosbridge_websocket_server error messages
       else{
         var errMsg = data.values.toString();
@@ -188,9 +187,6 @@ Bridge.prototype.callSrv = function (srvName, args, opts) {
   opts = opts || {};
   // If rosbridge connection is not estalished, inform and return.
   if (! this.isActive()) {
-    //var errMsg = '[Rosbridge]: Cannot call ros-service. ' +
-      //'Rosbridge connection is not active...';
-    //console.log(colors.error + '[Rosbridge]: ' + errMsg + colors.clear);
     if ( opts.fail ) { opts.fail(errMsg); }
     return false;
   }
@@ -205,14 +201,11 @@ Bridge.prototype.callSrv = function (srvName, args, opts) {
     // Catch rosbridge_websocket_server error messages
     else{
       var errMsg = data.values.toString();
-      //console.log(colors.error + '[Rosbridge]: ' + errMsg + colors.clear);
       if( opts.fail ) { opts.fail(errMsg); }
     }
   });
   return true;
 };
-
-
 
 
 module.exports = Bridge;

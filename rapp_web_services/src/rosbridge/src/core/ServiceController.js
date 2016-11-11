@@ -83,17 +83,12 @@ function ServiceController(args) {
 
       // Onopen event handler.
       this.ws_.onopen = function(){
-        var msg = util.format(
-          'Connection to rosbridge websocket server established: {%s:%s}',
-          __this.hostname_, __this.port_);
-        console.log(msg);
         __connected = true;
         __this.events_.onopen();
       };
 
       // Onclose event handler.
       this.ws_.onclose = function(){
-        console.log('Connection to rosbridge websocket server closed');
         __this.ws_ = undefined;
         __this.events_.onclose();
       };
@@ -103,7 +98,6 @@ function ServiceController(args) {
         var response = JSON.parse(event.value);
         if (__this.requests_[response.id] !== undefined)
         {
-          //console.log(response)
           __this.requests_[response.id](response);
           __this.clearRequest(response.id);
         }
@@ -111,11 +105,7 @@ function ServiceController(args) {
 
       // Onerror event handler.
       this.ws_.onerror = function(e){
-        //var errorMsg = util.format("Connection error for [ws://%s:%s] : %s",
-          //__this.hostname_, __this.port_, e);
-        //console.log(errorMsg);
-        //console.log(e)
-        __this.events_.onerror();
+        __this.events_.onerror(e);
         __this.ws_.close();
         __this.ws_ = undefined;
       };
@@ -149,7 +139,6 @@ function ServiceController(args) {
   };
 
 }
-
 
 
 /**

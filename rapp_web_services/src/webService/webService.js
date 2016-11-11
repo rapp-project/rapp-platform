@@ -9,16 +9,48 @@ var ROS = require(path.join(__dirname, '../rosbridge/src/Rosbridge.js'));
 var ENV = require(path.join(__dirname, '../../env.js'));
 var bodyParser = require(path.join(__dirname, 'bodyParser.js'));
 var fileParser = require(path.join(__dirname, 'fileParser.js'));
+var logger = require(path.join(__dirname, '../common/logger.js'));
 
 
 /*!
  * @brief Response object to be passed to the request callback
  * @param hopSendResponse The HOP sendResponse object.
  */
-function Response (hopSendResponse) {
-  this.send = hopSendResponse;
+function Response (hopSendResponse, socket, logger) {
+  this.hopSend = hopSendResponse;
+  this.socket = socket || {};
   this.routes = [];
+  this.logger = logger;
+  this.done = false;
 }
+
+/*!
+ * @brief General Send method
+ *
+ * @type msg: string || object
+ * @param msg: Response Message
+ *
+ * @type options: object
+ * @param options: Response Options used when sending 4xx, 5xx errors
+ */
+Response.prototype.send = function(msg, options){
+  if (this.done) {
+    return;
+  }
+  msg = msg || {};
+  options = options || {};
+  var sendObj = {};
+  if (typeof msg === 'string'){
+    sendObj = hop.HTTPResponseString(msg, options);
+  }
+  else {
+    sendObj = hop.HTTPResponseJson(msg, options);
+  }
+  this.hopSend(sendObj);
+  this.logger.log("Response " + this.socket.hostAddress + ':' +
+    this.socket.port, msg);
+  this.done = true;
+};
 
 
 /*!
@@ -26,18 +58,8 @@ function Response (hopSendResponse) {
  * @param obj_ The json object to send.
  */
 Response.prototype.sendJson = function(obj) {
-  this.send(hop.HTTPResponseJson(obj));
+  this.send(obj);
 };
-
-
-/*!
- * @brief Send an application/json error response.
- * @param obj_ The json object to send.
- */
-Response.prototype.sendError = function(obj) {
-  this.send(hop.HTTPResponseJson(obj));
-};
-
 
 
 /*!
@@ -48,7 +70,7 @@ Response.prototype.sendServerError = function(msg) {
   var options = {
     startLine: "HTTP/1.1 500 Internal Server Error"
   };
-  this.send(hop.HTTPResponseString(msg, options));
+  this.send(msg, options);
 };
 
 
@@ -61,14 +83,14 @@ Response.prototype.sendUnauthorized = function(msg) {
   var options = {
     startLine: "HTTP/1.1 401 Unauthorized"
   };
-  this.send(hop.HTTPResponseString(msg, options));
+  this.send(msg, options);
 };
 
 
 /*!
  * @brief Request object to pass to the request callback.
  */
-function Request(hopReq, hopArgs) {
+function Request(hopReq, hopArgs, logger) {
   this._hopArgs = hopArgs;
   this.body = {};
   this.header = {};
@@ -80,7 +102,17 @@ function Request(hopReq, hopArgs) {
   for (var k in hopArgs){
     this.body[k] = hopArgs[k];
   }
+
+  this.logger = logger;
 }
+
+Request.prototype.stringify = function(){
+  return JSON.stringify({
+    body: this.body,
+    header: this.header,
+    socket: this.socket
+  });
+};
 
 
 /*!
@@ -128,6 +160,17 @@ function WebService (onRequest, options) {
   this.rosSrvName = options.rosSrvName || "";
   this.timeout = options.timeout || 45;
   //----------------------------------------------
+  this.logger = new logger(
+    {
+      debug: ENV.DEBUG,
+      logging: ENV.LOGGING,
+      logdir: ENV.PATHS.LOG_DIR_SRVS,
+      logname: this.name
+    }
+  );
+
+  this.logger.log(util.format("Logging at %s", this.logger.logpath));
+
 
   if (options.ros_bridge || options.auth){
     // Assign a ros-connection to this service instance
@@ -155,35 +198,31 @@ function WebService (onRequest, options) {
   this.svcImpl = function(kwargs){
     // Instantiate a new Request object.
     var _req = new Request(this, kwargs);
-
+    for (var i in that.reqParsers) {
+      that.reqParsers[i].call(_req);
+    }
     // Asynchronous http response
     return hop.HTTPResponseAsync( function( sendResponse ) {
+      that.logger.log(
+        util.format("Request from %s",
+          _req.socket.hostAddress + ':' + _req.socket.port),
+        {header: _req.header, body: _req.body, files: _req.files}
+      );
       // Instantioate a new Response object.
-      var _resp = new Response(sendResponse);
+      var _resp = new Response(sendResponse, _req.socket, that.logger);
       try {
-
-        for (var i in that.reqParsers) {
-          that.reqParsers[i].call(_req);
-        }
-
         // ------------ Authenticate ---------------
         that.auth.call(_req, _resp,
           // On authentication success.
           function(username)  {
-            //console.log(username);
             _req.username = username;
             // Call registered onRequest callback
             that.onRequest(_req, _resp, that.ros);
           },
           // On authentication failure.
-          function(e)  {
-            // Remove all received files
-            for(var k in _req.files){
-              for(var i in _req.files[k]){
-                Fs.rmFile(_req.files[k][i]);
-              }
-            }
-            console.log(e);
+          function(e) {
+            that.deleteReqFiles(_req);
+            that.logger.log(e);
             // Response Authentication Failure
             _resp.sendUnauthorized();
           }
@@ -202,7 +241,7 @@ function WebService (onRequest, options) {
         }, that.timeout);
       }
       catch (e) {
-        console.log(e);
+        logger.log(e);
         _resp.sendServerError();
       }
 
@@ -243,16 +282,35 @@ WebService.prototype.register = function () {
  *  Connection over websockets.
  */
 WebService.prototype.connectROS = function() {
+  var that = this;
   this.ros = new ROS({
     hostname: ENV.ROSBRIDGE.HOSTNAME,
     port: ENV.ROSBRIDGE.PORT,
     reconnect: true,
     onconnection: function() {
-      // .
+      that.logger.log(
+        util.format("Established connection to Rosbridge websocket server [%s]",
+          ENV.ROSBRIDGE.HOSTNAME + ':' + ENV.ROSBRIDGE.PORT)
+      );
+    },
+    onclose: function() {
+      that.logger.log('Connection to rosbridge websocket server closed');
+    },
+    onerror: function(e) {
+      that.logger.log('Rosbridge error: ' + e);
     }
   });
 };
 
+
+WebService.prototype.deleteReqFiles = function (req) {
+  // Remove all received files
+  for(var k in req.files){
+    for(var i in req.files[k]){
+      Fs.rmFile(req.files[k][i]);
+    }
+  }
+};
 
 
 module.exports = WebService;
