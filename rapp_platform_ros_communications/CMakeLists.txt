@@ -111,6 +111,8 @@ add_service_files(
   /PathPlanning/MapServer/MapServerGetMapRosSrv.srv
   /PathPlanning/MapServer/MapServerUploadMapRosSrv.srv
 
+  /BuildMap2D/BuildMap2DRosSrv.srv
+
   /ApplicationAuthentication/UserTokenAuthenticationSrv.srv
   /ApplicationAuthentication/UserLoginSrv.srv
   /ApplicationAuthentication/AddNewUserFromStoreSrv.srv

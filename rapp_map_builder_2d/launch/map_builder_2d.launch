@@ -1,0 +1,6 @@
+<launch>
+  <node name="rapp_map_builder_2d_node" pkg="rapp_map_builder_2d" 
+    type="map_builder_2d_node" output="screen" />
+  <rosparam file="$(find rapp_map_builder_2d)/cfg/rapp_map_builder_2d_params.yaml" 
+    command="load" />
+</launch>

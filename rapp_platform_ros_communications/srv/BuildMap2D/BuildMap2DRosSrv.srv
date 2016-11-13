@@ -1,0 +1,8 @@
+# Contains path to the bag file
+string bag_file_path
+# Contains path and name of the end map <<path/end_map_name>>
+string map_path
+---
+byte status
+string error_message
+
