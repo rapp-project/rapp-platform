@@ -20,27 +20,33 @@
 
 import os
 import unittest
-import rospkg
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
 from RappCloud import RappPlatformAPI
 
 
-class NewsExploreTests(unittest.TestCase):
+class UserPersonalInfoTests(unittest.TestCase):
 
     def setUp(self):
         self.ch = RappPlatformAPI()
 
-    def test_default(self):
-        response = self.ch.newsExplore(news_engine='',
-                                       keywords=['football'],
-                                       exclude_titles=[],
-                                       region='',
-                                       topic='',
-                                       num_news=2)
-        print response
+    def assertDictKeysEqual(self, d1, d2, msg=None):
+        for key, val in d1.iteritems():
+            self.assertIn(key, d2, msg)
 
+    def test_response_structure(self):
+        response = self.ch.userPersonalInfo()
+        print response
+        valid_response = {
+            'error': '',
+            'name': '',
+            'surname': '',
+            'language': '',
+            'emails': []
+        }
+
+        self.assertDictKeysEqual(response, valid_response)
 
 if __name__ == "__main__":
     unittest.main()

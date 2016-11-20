@@ -40,11 +40,11 @@ class EmailSendTests(unittest.TestCase):
         attach = join(self.pkgDir, 'test_data', 'Lenna.png')
 
         msg = EmailSend(
-            email='glagloui@gmail.com',
-            password='181289dj',
+            email='rapp.platform@gmail.com',
+            password='',
             server='smtp.gmail.com',
             port='587',
-            recipients=['glagloui@gmail.com'],
+            recipients=['rapp.platform@gmail.com'],
             body='Rapp Send Email Test',
             subject='Rapp Send Email Test',
             attach_file=attach)
