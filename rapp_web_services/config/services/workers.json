@@ -131,7 +131,8 @@
     "services": [
       "news_explore",
       "geolocation",
-      "available_services"
+      "available_services",
+      "user_personal_info"
     ]
   }
 }
