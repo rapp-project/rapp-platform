@@ -20,8 +20,6 @@
 
 import os
 import timeit
-import rospkg
-from os.path import join
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 

@@ -18,37 +18,27 @@
 # Authors: Konstantinos Panayiotou, Manos Tsardoulias
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
-
 import os
-import timeit
+import unittest
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import WeatherReportForecast
-
-class RappInterfaceTest:
-
-  def __init__(self):
-    self.msg = WeatherReportForecast()
-    self.msg.req.city = 'Athens'
-    self.msg.req.weather_reporter = ''
-    self.msg.req.metric = 0
-
-    self.svc = RappPlatformService(self.msg)
+from RappCloud import RappPlatformAPI
 
 
-  def execute(self):
-    start_time = timeit.default_timer()
-    response = self.svc.call()
-    end_time = timeit.default_timer()
-    self.elapsed_time = end_time - start_time
-    return self.validate(response)
+class NewsExploreTests(unittest.TestCase):
 
+    def setUp(self):
+        self.ch = RappPlatformAPI()
 
-  def validate(self, response):
-    if not response.error:
-        return [True, self.elapsed_time]
-    else:
-        return [response.error, self.elapsed_time]
+    def test_default(self):
+        response = self.ch.newsExplore(news_engine='',
+                                       keywords=['football'],
+                                       exclude_titles=[],
+                                       region='',
+                                       topic='',
+                                       num_news=2)
+        ## Assertio here!
 
+if __name__ == "__main__":
+    unittest.main()

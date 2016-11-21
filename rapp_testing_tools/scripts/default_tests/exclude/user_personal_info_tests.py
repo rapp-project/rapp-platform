@@ -18,37 +18,35 @@
 # Authors: Konstantinos Panayiotou, Manos Tsardoulias
 # contact: klpanagi@gmail.com, etsardou@iti.gr
 
-
 import os
-import timeit
+import unittest
 
 __path__ = os.path.dirname(os.path.realpath(__file__))
 
-from RappCloud import RappPlatformService
-from RappCloud.CloudMsgs import WeatherReportCurrent
-
-class RappInterfaceTest:
-
-  def __init__(self):
-    self.msg = WeatherReportCurrent()
-    self.msg.req.city = 'Athens'
-    self.msg.req.weather_reporter = ''
-    self.msg.req.metric = 0
-
-    self.svc = RappPlatformService(self.msg)
+from RappCloud import RappPlatformAPI
 
 
-  def execute(self):
-    start_time = timeit.default_timer()
-    response = self.svc.call()
-    end_time = timeit.default_timer()
-    self.elapsed_time = end_time - start_time
-    return self.validate(response)
+class UserPersonalInfoTests(unittest.TestCase):
 
+    def setUp(self):
+        self.ch = RappPlatformAPI()
 
-  def validate(self, response):
-    if not response.error:
-        return [True, self.elapsed_time]
-    else:
-        return [response.error, self.elapsed_time]
+    def assertDictKeysEqual(self, d1, d2, msg=None):
+        for key, val in d1.iteritems():
+            self.assertIn(key, d2, msg)
 
+    def test_response_structure(self):
+        response = self.ch.userPersonalInfo()
+        print response
+        valid_response = {
+            'error': '',
+            'name': '',
+            'surname': '',
+            'language': '',
+            'emails': []
+        }
+
+        self.assertDictKeysEqual(response, valid_response)
+
+if __name__ == "__main__":
+    unittest.main()
