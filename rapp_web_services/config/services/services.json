@@ -329,5 +329,15 @@
     "authentication": true,
     "ros_connection": false,
     "timeout": 45000
+  },
+  "user_personal_info": {
+    "launch": true,
+    "anonymous": false,
+    "name": "user_personal_info",
+    "url_name": "user_personal_info",
+    "namespace": "",
+    "authentication": true,
+    "ros_connection": false,
+    "timeout": 45000
   }
 }

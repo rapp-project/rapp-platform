@@ -71,9 +71,20 @@ from rapp_platform_ros_communications.srv import (
   createNewCloudAgentSrvResponse,
   getCloudAgentServiceTypeAndHostPortSrv,
   getCloudAgentServiceTypeAndHostPortSrvRequest,
-  getCloudAgentServiceTypeAndHostPortSrvResponse  
+  getCloudAgentServiceTypeAndHostPortSrvResponse,
+  addUserEmailSrv,
+  addUserEmailSrvRequest,
+  addUserEmailSrvResponse,
+  getPlatformUserInfoSrv,
+  getPlatformUserInfoSrvRequest,
+  getPlatformUserInfoSrvResponse
   )
 
+from rapp_platform_ros_communications.msg import (
+  PlatformUserInfoMsg,
+  StringArrayMsg
+  )
+  
 ## @class MySQLdbWrapper
 # @brief The mysql wrapper ros node
 class MySQLdbWrapper:
@@ -136,8 +147,7 @@ class MySQLdbWrapper:
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_remove_platform_user_service_topic")
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_remove_platform_user_service_topic Not found error")
-    self.serv=rospy.Service(self.serv_topic, removePlatformUserSrv, self.removePlatformUserDataHandler)
-    
+    self.serv=rospy.Service(self.serv_topic, removePlatformUserSrv, self.removePlatformUserDataHandler)    
 
     self.serv_topic = rospy.get_param("rapp_mysql_wrapper_check_active_robot_session_service_topic")
     if(not self.serv_topic):
@@ -168,6 +178,16 @@ class MySQLdbWrapper:
     if(not self.serv_topic):
       rospy.logerror("rapp_mysql_wrapper_get_cloud_agent_service_type_and_host_port_topic Not found error")
     self.serv=rospy.Service(self.serv_topic, getCloudAgentServiceTypeAndHostPortSrv, self.getCloudAgentServiceTypeAndHostPortDataHandler) 
+    
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_add_user_email_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_add_user_email_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, addUserEmailSrv, self.addUserEmailSrvDataHandler)
+    
+    self.serv_topic = rospy.get_param("rapp_mysql_wrapper_get_platform_user_info_topic")
+    if(not self.serv_topic):
+      rospy.logerror("rapp_mysql_wrapper_get_platform_user_info_topic Not found error")
+    self.serv=rospy.Service(self.serv_topic, getPlatformUserInfoSrv, self.getPlatformUserInfoSrvDataHandler)   
     
   ## @brief Implements the getUserOntologyAlias service main function
   # @param req [rapp_platform_ros_communications::getUserOntologyAliasSrvRequest::Request&] The ROS service request
@@ -787,6 +807,94 @@ class MySQLdbWrapper:
       con.close()
     return res
 
+
+  ## @brief Implements the addUserEmailService service main function
+  # @param req [rapp_platform_ros_communications::addUserEmailSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::addUserEmailSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError
+  def addUserEmailService(self,req):
+    try:
+      res = addUserEmailSrvResponse()             
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()    
+      cur.execute("LOCK TABLES platform_user READ, platform_user_emails WRITE")     
+      cur.execute("insert into platform_user_emails (platform_user_id,owner,email) VALUES ((select id from platform_user where username=%s),%s,%s)",(req.username,req.owner,req.email)) 
+      cur.execute("UNLOCK TABLES")
+      res.success=True
+      con.close()
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res 
+
+  ## @brief Implements the getPlatformUserInfoService service main function
+  # @param req [rapp_platform_ros_communications::getPlatformUserInfoSrvRequest::Request&] The ROS service request
+  #
+  # @return res [rapp_platform_ros_communications::getPlatformUserInfoSrvResponse::Response&] The ROS service response
+  # @exception Exception IndexError
+  # @exception Exception IOError
+  # @exception Exception mdbError 
+  def getPlatformUserInfoService(self,req):
+    try:
+      res = getPlatformUserInfoSrvResponse()      
+      userInfo = PlatformUserInfoMsg()
+      db_username,db_password=self.getLogin()
+      con = mdb.connect('localhost', db_username, db_password, 'rapp_platform');
+      cur = con.cursor()
+      cur.execute("select name,surname,ontology_alias,(select name from language where id=language_id),id from platform_user where username=%s",(req.username))
+      result_set = cur.fetchall()
+      if(result_set and len(result_set[0])>0):
+        userInfo.name=result_set[0][0]
+        userInfo.surname=result_set[0][1]   
+        userInfo.ontology_alias=result_set[0][2]  
+        userInfo.language=result_set[0][3]     
+        userid=result_set[0][4]                
+        cur.execute("select owner,email from platform_user_emails where platform_user_id=%s",(userid))
+        result_set = cur.fetchall()
+        for i in range(len(result_set)):
+          emailEntry=StringArrayMsg()
+          for j in range(len(result_set[i])):
+            temp_s=result_set[i][j]
+            emailEntry.s.append((str(result_set[i][j])))
+          userInfo.emails.append(emailEntry) 
+
+      res.platform_user_info=userInfo
+      con.close()
+      res.success=True
+    except mdb.Error, e:
+      res.trace.append(("Database Error %d: %s" % (e.args[0],e.args[1])))
+      res.success=False
+      res.error="Error %d: %s" % (e.args[0],e.args[1])
+      con.close()
+    except IndexError, e:
+      res.trace.append("IndexError: " +str(e))
+      res.success=False
+      res.error="IndexError: " +str(e)
+      con.close()
+    except IOError, e:
+      res.success=False
+      res.trace.append("IOError: " +str(e))
+      res.error="IOError: " +str(e)
+      con.close()
+    return res
+
+
   ## @brief Gets the columns of the table
   # @param tblName [string] the name of the table
   #
@@ -972,4 +1080,20 @@ class MySQLdbWrapper:
   def getCloudAgentServiceTypeAndHostPortDataHandler(self,req):
     res = getCloudAgentServiceTypeAndHostPortSrvResponse()
     res=self.getCloudAgentServiceTypeAndHostPort(req)
+    return res
+
+  ## @brief The addUserEmailSrv service callback
+  # @param req [rapp_platform_ros_communications::addUserEmailSrvDataHandlerRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::addUserEmailSrvDataHandlerResponse::Response&] The ROS service response
+  def addUserEmailSrvDataHandler(self,req):
+    res = addUserEmailSrvResponse()
+    res=self.addUserEmailService(req)
+    return res
+
+  ## @brief The getPlatformUserInfoSrv service callback
+  # @param req [rapp_platform_ros_communications::getPlatformUserInfoSrvRequest::Request&] The ROS service request
+  # @return res [rapp_platform_ros_communications::getPlatformUserInfoSrvResponse::Response&] The ROS service response
+  def getPlatformUserInfoSrvDataHandler(self,req):
+    res = getPlatformUserInfoSrvResponse()
+    res=self.getPlatformUserInfoService(req)
     return res
