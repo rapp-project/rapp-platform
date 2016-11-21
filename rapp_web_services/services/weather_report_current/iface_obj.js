@@ -20,10 +20,8 @@
 
 
 var clientRes = function( ){
-  var obj = {
-    weather_current: new currentWeather(),
-    error: ''
-  };
+  var obj = new currentWeather();
+  obj.error = '';
   return obj;
 };
 
