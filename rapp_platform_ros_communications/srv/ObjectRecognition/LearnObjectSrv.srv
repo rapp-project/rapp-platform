@@ -1,0 +1,9 @@
+# Path (id) of model image
+string fname
+# Name of the object
+string name
+# User name
+string user
+---
+# Result: 0 - ok, -1 - no models, -2 - no image to analyse
+int32 result

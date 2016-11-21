@@ -1,0 +1,6 @@
+<launch>
+
+	<node name="find_objects_node" type="find_objects_node" pkg="rapp_object_recognition" output="screen" />
+
+	<rosparam file="$(find rapp_object_recognition)/cfg/object_recognition_params.yaml" command="load" />
+</launch>

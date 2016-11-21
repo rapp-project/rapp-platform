@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rapp_object_recognition</name>
+  <version>0.0.1</version>
+  <description>Simple, 2D object recognition</description>
+
+  <maintainer email="stefanczyk.maciek@gmail.com">Maciej Stefańczyk</maintainer>
+  <license>BSD</license>
+  <author email="stefanczyk.maciek@gmail.com">Maciej Stefańczyk</author>
+
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>sensor_msgs</depend>
+  <depend>image_transport</depend>
+  <depend>rapp_platform_ros_communications</depend>
+  <depend>rostest</depend>
+  
+  <export>
+  </export>
+</package>

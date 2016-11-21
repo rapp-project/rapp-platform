@@ -1,4 +1,14 @@
 {
+  "object_detection": {
+    "launch": true,
+    "path": "workers/object_detection.js",
+    "services": [
+      "object_detection_find_objects",
+      "object_detection_clear_models",
+      "object_detection_load_models",
+      "object_detection_learn_object"
+    ]
+  },
   "hazard_detection": {
     "launch": true,
     "path": "workers/hazard_detection.js",

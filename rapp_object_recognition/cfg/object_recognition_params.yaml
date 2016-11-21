@@ -1,0 +1,5 @@
+rapp_object_recognition_topic: /rapp/rapp_object_detection/find_objects
+rapp_object_learn_topic: /rapp/rapp_object_detection/learn_object
+rapp_object_load_topic: /rapp/rapp_object_detection/load_models
+rapp_object_clear_topic: /rapp/rapp_object_detection/clear_models
+rapp_object_recognition_threads: 5
