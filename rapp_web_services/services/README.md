@@ -17,6 +17,10 @@ These services are used in order to communicate with the RAPP Platform ecosystem
 | [Hazard-Detection-Light-Check](#hazard-detection-light-check)	  |  Detect lights-on (hazard) on an image frame				  |
 | [Human-Detection](#human-detection)		                  |  Detect human existance on on an image frame 				  |
 | [Object-Recognition-Caffe](#object-recognition-caffe)		  |  Recognize objects on an image frame using caffe framework			  |
+| [Object-Detection-Learn-Object](#object-detection-learn-object) |  Learn new model for object detection                                         |
+| [Object-Detection-Clear-Models](#object-detection-clear-models) |  Clear models kept in cache                                                   |
+| [Object-Detection-Load-Models](#object-detection-load-models)   |  Load models into cache                                                       |
+| [Object-Detection-Find-Objects](#object-detection-find-objects) |  Find objects on scene using models from cache                                |
 |                                                                 |                                                                               |
 |   *Speech Recognition*                                          |                                                                               |
 |                                                                 |                                                                               |
@@ -343,6 +347,122 @@ application/json response.
 - **object_class** (String): Recognized object class.
 - **error** (String): Error message, if one occures. (String)
 
+#### Object-Detection-Learn-Object
+
+##### Service-Url
+
+```
+/hop/object_detection_learn_object
+```
+
+##### Service request arguments
+
+```js
+{file: '', name: ''}
+```
+
+- **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
+- **name**: Name of the model to create
+
+##### Service response
+
+```js
+{ result: <result_code>, error: <error_msg> }
+```
+
+- **result** (Int): 0 - OK, -1 - No models loaded, -2 - No image to analyze
+- **error** (String): Error message, if one occures.
+
+#### Object-Detection-Clear-Models
+
+##### Service-Url
+
+```
+/hop/object_detection_clear_models
+```
+
+##### Service request arguments
+
+```js
+{}
+```
+
+##### Service response
+
+```js
+{ result: <result_code>, error: <error_msg> }
+```
+
+- **result** (Int): 0 - OK, -1 - No models loaded, -2 - No image to analyze
+- **error** (String): Error message, if one occures.
+
+#### Object-Detection-Load-Models
+
+##### Service-Url
+
+```
+/hop/object_detection_load_models
+```
+
+##### Service request arguments
+
+```js
+{names: []}
+```
+
+- **names**: list of models (names) to load
+
+##### Service response
+
+```js
+{ result: <result_code>, error: <error_msg> }
+```
+
+- **result** (Int): 0 - OK, -1 - No models loaded, -2 - No image to analyze
+- **error** (String): Error message, if one occures.
+
+#### Object-Detection-Find-Objects
+
+##### Service-Url
+
+```
+/hop/object_detection_find_objects
+```
+
+##### Service request arguments
+
+```js
+{ file: '', limit: <limit> }
+```
+
+- **file**: Path to the uploaded file (**image file**), stored by hop-server. This is the form-data name to attach the file to.
+- **limit**: Limit response to this number of best matches
+
+##### Service response
+
+```js
+{ found_names: [<name_1>, ..., <name_N>], found_centers: [<point_1>, ..., <point_N>], found_scores: [<value_1>, ..., <value_N>], result: <result_code>, error: <error_msg> }
+```
+
+- **found_names** (Array): List of names of found objects
+- **found_centers** (Array): List of centers (x, y, z) of found object (in image space, thus z=0)
+- **found_scores** (Array): List of scores for found objects (with 1 being the highest)
+- **result** (Int): 0 - OK, -1 - No models loaded, -2 - No image to analyze
+- **error** (String): Error message, if one occures.
+
+**Note**: All the returned arrays have the same size. It can be 0 (empty) if no objects are found, and it can go up to the limit set in query.
+
+Response Sample:
+
+```javascript
+{
+    found_names: ['cat', 'dog'],
+    found_centers: [{x: 12, y: 56, z: 0}, {x: 65, y: 31, z: 0}],
+    found_scores: [0.86, 0.31],
+    status: 0,
+    error: ''
+}
+```
 
 -----------------------------------------------------------
 ### Speech Recognition
