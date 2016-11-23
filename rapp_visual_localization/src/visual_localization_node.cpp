@@ -8,6 +8,24 @@
 #include "rapp_platform_ros_communications/Localize.h"
 #include "rapp_platform_ros_communications/LocalizeInit.h"
 
+std::string expand_user(std::string path) {
+	if (not path.empty() and path[0] == '~') {
+		assert(path.size() == 1 or path[1] == '/');  // or other error handling
+		char const* home = getenv("HOME");
+		if (home or (home = getenv("USERPROFILE"))) {
+			path.replace(0, 1, home);
+		}
+		else {
+			char const *hdrive = getenv("HOMEDRIVE");
+			char const *hpath = getenv("HOMEPATH");
+			assert(hdrive);  // or other error handling
+			assert(hpath);
+			path.replace(0, 1, std::string(hdrive) + hpath);
+		}
+	}
+	return path;
+}
+
 class VisualLocalizationWrapper {
 public:
 
@@ -163,14 +181,16 @@ public:
   bool srvInit(rapp_platform_ros_communications::LocalizeInit::Request  & req,
                rapp_platform_ros_communications::LocalizeInit::Response & res) 
   {
-    if (!boost::filesystem::exists(req.map)) {
-      ROS_ERROR("Can't load map: %s\n", req.map.c_str());
+    std::string fs_path = expand_user("~/rapp_platform_files/") + req.user + "/maps/";
+
+    if (!boost::filesystem::exists(fs_path+req.map)) {
+      ROS_ERROR("Can't load map: %s (user: %s)\n", req.map.c_str(), req.user.c_str());
       res.error = "Map file doesn't exist";
       return true;
     }
 
     VisualLocalizationWrapper & wrap = objs[next_id];
-    wrap.createMap(req.map);
+    wrap.createMap(fs_path+req.map);
 
     threads[next_id] = std::thread(&VisualLocalizationWrapper::doWork, &wrap);
 

@@ -46,6 +46,7 @@ const rosSrvName = "/rapp/rapp_visual_localization/localize_init";
 function svcImpl(req, resp, ros) {
 
   var rosMsg = new interfaces.ros_req();
+  rosMsg.user = req.username;
   rosMsg.map = req.body.map;
 
   // ROS-Service response callback.

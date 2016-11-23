@@ -34,6 +34,7 @@ var client_req = function( ){
 
 var ros_req = function( ){
   var obj = {
+    user: '',
     map: ''
   };
   return obj;
