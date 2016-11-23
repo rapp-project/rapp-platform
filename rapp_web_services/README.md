@@ -55,6 +55,21 @@ pm2 start server.yaml
 
 **Note**: Do not change HOP Server configuration parameters, unless you know what you are doing!!
 
+### Debugging
+
+Debug mode cah be enabled from the `env.js` file by setting the `DEBUG` parameter.
+On debug mode, request and response parameters are logged to the console through stdout.
+
+By default, Debug mode is disabled.
+
+### Logging
+
+Enable logging to files by setting the `LOGGING` parameters in `env.js` file to `true`.
+Web Services log files are stored under `~/.hop/log/services` directory.
+
+By default, logging is disabled.
+
+**Note**: We do not include a mechanism to remove old log files!!!
 
 ## Directories
 

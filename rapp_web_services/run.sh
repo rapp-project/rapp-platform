@@ -109,7 +109,7 @@ CLEARCACHE=true
 FAST_SERVER_EVENT=false
 
 ## Verbosity ##
-VERB_LEVEL=2  #10 Default
+VERB_LEVEL=1  #10 Default
 DEBUG_LEVEL=1 #10 Default
 WARN_LEVEL=1  #10 Default
 SECURITY_LEVEL=0

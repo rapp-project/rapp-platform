@@ -36,108 +36,67 @@ catch( e ){
   console.error("Could not load winston node.js: " + e);
 }
 
+var path = require('path');
+
 
 /**
  * @class logger
  *
  * @description Commonly used logger implementation (winston)
  */
-var logger = function(args) {
+var Logger = function(args) {
   args = args || {};
   this.ns = args.ns || '';
-  var file = args.file || false;
   var defaultColors= {
     info: 'cyan', log: '', error: 'red', warn: 'yellow', trace: 'gray',
     debug: 'blue', verbose: '', data: '', help: '', prompt: ''
   };
+  this.debug = args.debug || false;
+  this.logdir = args.logdir || '/tmp';
+  this.ns = args.logname || 'uknown';
+  this.logname = this.ns + '-' + Date.now() + '.log';
+  this.logpath = path.join(this.logdir, this.logname);
+  this.debug = args.debug || false;
 
   var colors = args.colors || defaultColors;
   try{
-    this.logger_ = new winston.Logger({
+    this._logger = new winston.Logger({
       colors: colors
     });
 
-    this.logger_.add(winston.transports.Console, {
-      prettyPrint: true,
-      colorize: true,
-      silent: false,
-      handleExceptions: true,
-      json: false,
-      timestamp: true
-    });
-
-    if (file) {
-      this.logger_.add(winston.transports.File,{
-        level: 'log',
-        filename: file,
+    if (args.logging) {
+      this._logger.add(winston.transports.File,{
+        level: 'info',
+        filename: this.logpath,
         handleExceptions: true,
         json: false,
-        colorize: false
+        timestamp: true
       });
     }
-    if (args.debug) {
-      this.logger_.add(winston.transports.Console, {
-        level: 'debug',
+
+    if (this.debug) {
+      this._logger.add(winston.transports.Console, {
+        level: 'info',
         prettyPrint: true,
         colorize: true,
         silent: false,
         handleExceptions: true,
         json: false,
-        timestamp: false
+        timestamp: true
       });
     }
   }
-  catch( e ){
+  catch(e){
     console.log(e);
   }
+
+  this.info = this._logger.info;
 };
 
-logger.prototype.info = function( msg ){
-  if( typeof msg === String ){
-    this.logger_.log("info", "[%s] %s", this.ns, msg);
-  }
-  else{
-    this.logger_.log("info", "[%s] ", this.ns, msg);
-  }
+
+Logger.prototype.log = function(msgStr, metadata) {
+  this._logger.log("info", "[%s] ", this.ns, msgStr,
+    metadata !== undefined ? metadata : {});
 };
 
-logger.prototype.log = function( msg ){
-  if( typeof msg === String ){
-    this.logger_.log("debug", "[%s] %s", this.ns, msg);
-  }
-  else{
-    this.logger_.log("debug", "[%s] ", this.ns, msg);
-  }
-};
-
-logger.prototype.warn = function( msg ){
-  if( typeof msg === String ){
-    this.logger_.log("warn", "[%s] %s", this.ns, msg);
-  }
-  else{
-    this.logger_.log("warn", "[%s] ", this.ns, msg);
-  }
-};
-
-logger.prototype.error = function( msg ){
-  if( typeof msg === String ){
-    this.logger_.log("error", "[%s] %s", this.ns, msg);
-  }
-  else{
-    this.logger_.log("error", "[%s] ", this.ns, msg);
-  }
-};
-
-logger.prototype.debug = function( msg ){
-  this.logger_("debug", "[%s] %s", this.ns, msg);
-};
-
-logger.prototype.verbose = function( msg ){
-  this.logger_.log("verbose", "[%s] %s", this.ns, msg);
-};
-
-logger.prototype.trace = function( msg ){
-  this.logger_.log("trace", "[%s] %s", this.ns, msg);
-};
-
-module.exports = logger;
+module.exports = Logger;
