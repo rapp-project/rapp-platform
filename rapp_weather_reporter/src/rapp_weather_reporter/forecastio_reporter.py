@@ -99,14 +99,34 @@ class ForecastIOReporter(WeatherReporterBase):
     # @return values [dict] The final values
     def _handle_current_weather_report(self, report):
         response = {}
-
-        response['date'] = str(report.time)
-        response['temperature'] = str(report.temperature)
-        response['weather_description'] = str(report.summary)
-        response['humidity'] = str(report.humidity)
-        response['visibility'] = str(report.visibility)
-        response['pressure'] = str(report.pressure)
-        response['wind_speed'] = str(report.windSpeed)
+        try:
+            response['date'] = str(report.time)
+        except Exception:
+            response['date'] = ''
+        try:
+            response['temperature'] = str(report.temperature)
+        except Exception:
+            response['temperature'] = ''
+        try:
+            response['weather_description'] = str(report.summary)
+        except Exception:
+            response['weather_description'] = ''
+        try:
+            response['humidity'] = str(report.humidity)
+        except Exception:
+            response['humidity'] = ''
+        try:
+            response['visibility'] = str(report.visibility)
+        except Exception:
+            response['visibility'] = ''
+        try:
+            response['pressure'] = str(report.pressure)
+        except Exception:
+            response['pressure'] = ''
+        try:
+            response['wind_speed'] = str(report.windSpeed)
+        except Exception:
+            response['wind_speed'] = ''
         response['wind_temperature'] = ''
         response['wind_direction'] = ''
 
@@ -120,7 +140,7 @@ class ForecastIOReporter(WeatherReporterBase):
                 str(report.get_day(day)['temperatureMax'])
             fore['low_temperature'] = \
                 str(report.get_day(day)['temperatureMin'])
-            fore['description'] = str(report.get_day(day)['summary'])
+            fore['description'] = report.get_day(day)['summary'].encode('utf8')
             fore['date'] = str(report.get_day(day)['time'])
             response.append(fore)
         return response
