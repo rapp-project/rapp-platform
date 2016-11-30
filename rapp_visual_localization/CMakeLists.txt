@@ -71,6 +71,7 @@ add_executable(${BASE_NAME}_node
 target_link_libraries(${BASE_NAME}_node
   ${BASE_NAME}_lib
   ${catkin_LIBRARIES}
+  yaml-cpp
 )
 add_dependencies(${BASE_NAME}_node
   rapp_platform_ros_communications_gencpp

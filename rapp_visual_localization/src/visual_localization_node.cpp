@@ -1,6 +1,8 @@
 #include "ros/ros.h"
 #include "ros/package.h"
 
+#include <yaml-cpp/yaml.h>
+
 #include <boost/filesystem.hpp>
 
 #include "rapp_visual_localization/VisOdom.hpp"
@@ -60,11 +62,20 @@ public:
     
     objVO = CVisOdom("", "", "", pr, pa, upa, 0, 0, 0);
     
-// Krok 3: Utworzenie wizualnej mapy pomieszczenia
-    int numx=19; // liczba kolumn w mapie
+    
+	// Krok 3: Utworzenie wizualnej mapy pomieszczenia
+
+    YAML::Node config = YAML::LoadFile(map_xml+".yaml");
+    int numx = config["numx"].as<int>();
+    int numz = config["numz"].as<int>();
+    int numd = config["numd"].as<int>();
+    int vgrid = config["vgrid"].as<int>();
+    
+/*    int numx=19; // liczba kolumn w mapie
     int numz=41; // liczba rzędów w mapie
     int numd=4; // liczba kierunków
-    int vgrid = 5; // (nieistotne)
+    int vgrid = 5; // (nieistotne)*/
+    
 
 
 
@@ -73,7 +84,7 @@ public:
     objVO.initFeatureScaling(method); // inicjalizuj wagi cech (potrzebne zarówno w fazie uczenia jak i testowania/pracy)
     
     
-    MapXml = map_xml; // plik do zapisu tworzonej wizualnej mapy pomieszczenia
+    MapXml = map_xml+".xml"; // plik do zapisu tworzonej wizualnej mapy pomieszczenia
     MeasXml = "work7MeasureColorMax.xml"; // plik z przygotowaną mapą obserwacji (tryb off-line) 
     
     // Utworzenie mapy i wypisanie jej do pliku xml
