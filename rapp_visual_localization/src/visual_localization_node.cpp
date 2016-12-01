@@ -194,7 +194,7 @@ public:
   {
     std::string fs_path = expand_user("~/rapp_platform_files/") + req.user + "/maps/";
 
-    if (!boost::filesystem::exists(fs_path+req.map)) {
+    if (!boost::filesystem::exists(fs_path+req.map+".xml")) {
       ROS_ERROR("Can't load map: %s (user: %s)\n", req.map.c_str(), req.user.c_str());
       res.error = "Map file doesn't exist";
       return true;
