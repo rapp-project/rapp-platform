@@ -153,6 +153,36 @@ std::map<std::string, bool> FindObjects::loadModels(const std::string & user, co
 	return ret;
 }
 
+int FindObjects::loadKeywords(const std::string & user, const std::vector<std::string> & keywords, int & result) {
+
+	int ret = 0;
+	std::string fs_path = expand_user("~/rapp_platform_files/") + user + "/models/";
+	
+	if(!fs::exists(fs_path) || !fs::is_directory(fs_path)) return 0;
+
+	fs::recursive_directory_iterator it(fs_path);
+	fs::recursive_directory_iterator endit;
+
+	while(it != endit)
+	{
+		std::vector<std::string> tmp_keywords;
+		if(fs::is_regular_file(*it) && it->path().extension() == ".yml") {
+			std::string mname = it->path().stem().string();
+			cv::FileStorage fs(fs_path + mname + ".yml", cv::FileStorage::READ);
+			if (!fs.isOpened()) continue;
+			fs["keywords"] >> tmp_keywords;
+			fs.release();
+			if (std::find_first_of (keywords.begin(), keywords.end(), tmp_keywords.begin(), tmp_keywords.end()) != keywords.end()) {
+				loadModel(user, mname);
+				++ret;
+			}
+		}
+		++it;
+	}
+
+	return ret;
+}
+
 void FindObjects::storeObjectHypothesis(const ObjectHypothesis & hyp, unsigned int limit_) {
 
 	// Special case: do not insert anything is smaller than one;)

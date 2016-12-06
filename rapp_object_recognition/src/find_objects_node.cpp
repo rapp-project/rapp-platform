@@ -2,6 +2,7 @@
 #include "rapp_platform_ros_communications/FindObjectsSrv.h"
 #include "rapp_platform_ros_communications/LearnObjectSrv.h"
 #include "rapp_platform_ros_communications/LoadModelsSrv.h"
+#include "rapp_platform_ros_communications/LoadKeywordsSrv.h"
 #include "rapp_platform_ros_communications/ClearModelsSrv.h"
 
 #include "rapp_object_recognition/find_objects.hpp"
@@ -55,6 +56,21 @@ bool service_LoadModels(rapp_platform_ros_communications::LoadModelsSrv::Request
 }
 
 /**
+ * Serves the models loading by keywords ROS service callback
+ * 
+ * \param req [in]  The ROS service request
+ * \param res [out] The ROS service response
+ * 
+ * \return The success status of the call
+ */
+bool service_LoadKeywords(rapp_platform_ros_communications::LoadKeywordsSrv::Request  &req,
+                          rapp_platform_ros_communications::LoadKeywordsSrv::Response &res)
+{
+  detectors[req.user].loadModels(req.user, req.keywords, res.result);
+  return true;
+}
+
+/**
  * Serves the models clearing ROS service callback
  * 
  * \param req [in]  The ROS service request
@@ -91,10 +107,14 @@ int main(int argc, char **argv)
   if (!n.getParam("/rapp_object_load_topic", service_name))
     ROS_ERROR("rapp_object_load_topic not set!");
   ros::ServiceServer service3 = n.advertiseService(service_name, service_LoadModels);
+
+  if (!n.getParam("/rapp_object_keywords_topic", service_name))
+    ROS_ERROR("rapp_object_keywords_topic not set!");
+  ros::ServiceServer service4 = n.advertiseService(service_name, service_LoadKeywords);
   
   if (!n.getParam("/rapp_object_clear_topic", service_name))
     ROS_ERROR("rapp_object_clear_topic not set!");
-  ros::ServiceServer service4 = n.advertiseService(service_name, service_ClearModels);
+  ros::ServiceServer service5 = n.advertiseService(service_name, service_ClearModels);
   
   ROS_INFO("Ready to find objects.");
   

@@ -1,0 +1,7 @@
+# User name
+string user
+# Object keywords to load
+string[] keywords
+---
+# Result: 0 - ok, -1 - no models, -2 - no image to analyse
+int32 result

@@ -29,6 +29,16 @@
     "ros_connection": true,
     "timeout": 45000
   },
+  "object_detection_load_keywords" : {
+    "launch": true,
+    "anonymous": false,
+    "name": "object_detection_load_keywords",
+    "url_name": "object_detection_load_keywords",
+    "namespace": "",
+    "authentication": true,
+    "ros_connection": true,
+    "timeout": 45000
+  },
   "object_detection_learn_object" : {
     "launch": true,
     "anonymous": false,

@@ -230,6 +230,23 @@ TEST_F(ObjectDetectionTest, test_detect_nao)
 }
 
 /**
+ * \brief Tests loading models by keyword
+ * 
+ * 
+ */ 
+TEST_F(ObjectDetectionTest, test_keywords)
+{
+  std::string path = ros::package::getPath("rapp_testing_tools");
+  bool cl = find_objects_->clearModels("test");
+  EXPECT_TRUE(cl);
+
+  int status;
+  find_objects_->loadKeywords("test", {"a", "b", "c"}, status);
+
+}
+
+
+/**
  * \brief The main function. Initializes the unit tests
  */
 int main(int argc, char **argv)

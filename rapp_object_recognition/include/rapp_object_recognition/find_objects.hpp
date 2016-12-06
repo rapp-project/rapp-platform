@@ -84,6 +84,17 @@ public:
 	 */
 	std::map<std::string, bool> loadModels(const std::string & user, const std::vector<std::string> & names, int & result);
 
+	/**
+	 * Load multiple models based on specified keywords.
+	 *
+	 * \param [in] user Username (to look for the models)
+	 * \param [in] keywords List of keywords to load
+	 * \param [out] result Overall operation status
+	 *
+	 * \return Number of loaded models
+	 */
+	int loadKeywords(const std::string & user, const std::vector<std::string> & keywords, int & result);
+
 protected:
 	/**
 	 *  Load image.
