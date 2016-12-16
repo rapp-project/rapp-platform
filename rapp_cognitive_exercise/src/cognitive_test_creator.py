@@ -28,22 +28,22 @@ from app_error_exception import AppError
 from helper_functions import CognitiveExerciseHelperFunctions
 
 from rapp_platform_ros_communications.srv import (
-  cognitiveTestCreatorSrv,
-  cognitiveTestCreatorSrvResponse,
-  cognitiveTestCreatorSrvRequest,
-  createCognitiveExerciseTestSrv,
-  createCognitiveExerciseTestSrvResponse,
-  createCognitiveExerciseTestSrvRequest,
-  cognitiveTestsOfTypeSrv,
-  cognitiveTestsOfTypeSrvRequest,
-  cognitiveTestsOfTypeSrvResponse,
-  returnTestsOfTypeSubtypeDifficultySrv,
-  returnTestsOfTypeSubtypeDifficultySrvResponse,
-  returnTestsOfTypeSubtypeDifficultySrvRequest
+    cognitiveTestCreatorSrv,
+    cognitiveTestCreatorSrvResponse,
+    cognitiveTestCreatorSrvRequest,
+    createCognitiveExerciseTestSrv,
+    createCognitiveExerciseTestSrvResponse,
+    createCognitiveExerciseTestSrvRequest,
+    cognitiveTestsOfTypeSrv,
+    cognitiveTestsOfTypeSrvRequest,
+    cognitiveTestsOfTypeSrvResponse,
+    returnTestsOfTypeSubtypeDifficultySrv,
+    returnTestsOfTypeSubtypeDifficultySrvResponse,
+    returnTestsOfTypeSubtypeDifficultySrvRequest
   )
 
 from rapp_platform_ros_communications.msg import (
-  StringArrayMsg
+    StringArrayMsg
   )
 
 ## @class CognitiveTestCreator
@@ -56,21 +56,24 @@ class CognitiveTestCreator:
   # @param req [rapp_platform_ros_communications::cognitiveTestCreatorSrvRequest::Request&] The ROS service request
   # @param res [rapp_platform_ros_communications::cognitiveTestCreatorSrvResponse::Response&] The ROS service response
 
-  def testCreator(self,req):
-    res=cognitiveTestCreatorSrvResponse()
-    fname=req.inputFile
-    d=dict()
-    questions=dict()
-    answers=dict()
-    correctAnswers=dict()
-    listQuestions=[]
-    listAnswers=[]
-    listCorrectAnswers=[]
-    supportedLanguages=[]
-    flag=False
-    questionsStart=False
-    count=0    
-    
+  def testCreator(self, req):
+    res = cognitiveTestCreatorSrvResponse()
+    fname = os.path.realpath(req.inputFile)
+    if not os.path.isfile(fname):
+        res.error = "Test description file does not exist"
+        return res
+    d = dict()
+    questions = dict()
+    answers = dict()
+    correctAnswers = dict()
+    listQuestions = []
+    listAnswers = []
+    listCorrectAnswers = []
+    supportedLanguages = []
+    flag = False
+    questionsStart = False
+    count = 0
+
     try:
       with open(fname) as f:
         content = f.readlines()
@@ -83,8 +86,8 @@ class CognitiveTestCreator:
               res.trace.append("error, difficulty or variation ID is not an integer")
               flag=False
           if(tmp[0] == "language"):
-            if(not len(questions)==len(answers)==len(correctAnswers)):
-              flag=False
+            if(not len(questions) == len(answers) == len(correctAnswers)):
+              flag = False
               res.trace.append("error, test is broken, questions-answers-correctAnswers not equal in size")
               break
             supportedLanguages.append(tmp[1])
@@ -94,31 +97,33 @@ class CognitiveTestCreator:
             answers.clear()
             listCorrectAnswers.append(correctAnswers.copy())
             correctAnswers.clear()
-            questionsStart=True
-            flag=True
-            count=0
-          elif(questionsStart):
-            if(tmp[0] == "question"):
-              count=count+1;
-              tmp[0]=tmp[0]+str(count)
-              #print tmp[1]
-              questions[tmp[0]]=tmp[1]
-            elif(tmp[0]=="answers"):
-              tmp[0]=tmp[0]+str(count)
-              answers[tmp[0]]=tmp[1]
-            elif(tmp[0]=="correctAnswer"):
-              tmp[0]=tmp[0]+str(count)
-              if(tmp[1] not in answers["answers"+str(count)]):
-                flag=False
-                res.trace.append("Correct Answer not in answers in Question "+str(count) +" in test "+fname )
+            questionsStart = True
+            flag = True
+            count = 0
+          elif (questionsStart):
+            if (tmp[0] == "question"):
+              count = count + 1;
+              tmp[0] = tmp[0] + str(count)
+              questions[tmp[0]] = tmp[1]
+            elif (tmp[0] == "answers"):
+              tmp[0] = tmp[0] + str(count)
+              answers[tmp[0]] = tmp[1]
+            elif (tmp[0] == "correctAnswer"):
+              tmp[0] = tmp[0] + str(count)
+              if (tmp[1] not in answers["answers"+str(count)]):
+                flag = False
+                res.trace.append(
+                    "Correct Answer not in answers in Question " + \
+                    str(count) + " in test " + fname)
                 break
-              correctAnswers[tmp[0]]=tmp[1]
+              correctAnswers[tmp[0]] = tmp[1]
             else:
-              flag=False
-              res.trace.append("field other than questions,answers,correctAnswer found")
+              flag = False
+              res.trace.append(
+                  "field other than questions,answers,correctAnswer found")
               break
           else:
-            d[tmp[0]]=[tmp[1]]
+            d[tmp[0]] = [tmp[1]]
 
       if(not len(questions)==len(answers)==len(correctAnswers)):
         flag=False
@@ -144,50 +149,54 @@ class CognitiveTestCreator:
           correctAnswers=listCorrectAnswers[l] 
           currentLanguage=ET.SubElement(Languages, supportedLanguages[l-1])
           for i in range(1,count+1):
-            nm="Q"+str(i)
-            Q=ET.SubElement(currentLanguage, "Question", name=nm)
-            nm="question"+str(i)
-            ET.SubElement(Q, "body").text = questions[nm].decode('UTF-8')
-            nm="answers"+str(i)
-            answs=answers[nm].split(",")
+            nm = "Q"+str(i)
+            Q = ET.SubElement(currentLanguage, "Question", name=nm)
+            nm = "question"+str(i)
+            ET.SubElement(Q, "body").text = questions[nm].decode('utf8')
+            nm = "answers"+str(i)
+            answs = answers[nm].split(",")
             for j in answs:
-              A=ET.SubElement(Q, "answer")
-              ET.SubElement(A, "body").text = j.decode('UTF-8')
-            nm="correctAnswer"+str(i)
-            corrAnswer=correctAnswers[nm]
-            ET.SubElement(Q, "correctAnswer").text = corrAnswer.decode('UTF-8')
+              A = ET.SubElement(Q, "answer")
+              ET.SubElement(A, "body").text = j.decode('utf8')
+            nm = "correctAnswer"+str(i)
+            corrAnswer = correctAnswers[nm]
+            ET.SubElement(Q, "correctAnswer").text = corrAnswer.decode('utf8')
 
         tree = ET.ElementTree(root)
         rospack = rospkg.RosPack()
 
-        localPackagePath=rospack.get_path('rapp_cognitive_exercise')
-        test_id=self.determineCognitiveTestId(d["testType"][0], d["testSubType"][0], d["difficulty"][0])
-        xmlFileName=d["testType"][0]+"_"+d["testSubType"][0]+"_"+"diff"+d["difficulty"][0]+"_id_"+str(test_id)
-        inNodeName="/cognitiveTests/"+xmlFileName+".xml"
-        localPackagePath=localPackagePath+inNodeName
-        tree.write(localPackagePath,encoding="UTF-8",xml_declaration=True)
+        localPackagePath = rospack.get_path('rapp_cognitive_exercise')
+        test_id = self.determineCognitiveTestId(
+            d["testType"][0], d["testSubType"][0], d["difficulty"][0])
+        xmlFileName = "{0}_{1}_diff{2}_id_{3}".format(
+            d["testType"][0], d["testSubType"][0], d["difficulty"][0],
+            str(test_id))
+        print test_id
+        inNodeName = "/cognitiveTests/" + xmlFileName + ".xml"
+        localPackagePath = localPackagePath + inNodeName
+        tree.write(localPackagePath, encoding="UTF-8", xml_declaration=True)
 
         serv_topic = rospy.get_param('rapp_knowrob_wrapper_create_cognitve_tests')          
-        createTestReq=createCognitiveExerciseTestSrvRequest()
-        createTestReq.test_type=d["testType"][0]
-        createTestReq.test_difficulty=int(d["difficulty"][0])
-        createTestReq.test_subtype=d["testSubType"][0]
-        createTestReq.test_path=inNodeName
-        createTestReq.supported_languages=supportedLanguages        
-        createTestReq.test_id=supportedLanguages=test_id
+        createTestReq = createCognitiveExerciseTestSrvRequest()
+        createTestReq.test_type = d["testType"][0]
+        createTestReq.test_difficulty = int(d["difficulty"][0])
+        createTestReq.test_subtype = d["testSubType"][0]
+        createTestReq.test_path = inNodeName
+        createTestReq.supported_languages = supportedLanguages        
+        createTestReq.test_id = test_id
         
         knowrob_service = rospy.ServiceProxy(serv_topic, createCognitiveExerciseTestSrv)
         createCognitiveTestResponse = knowrob_service(createTestReq)
-        if(createCognitiveTestResponse.success!=True):
+        if(createCognitiveTestResponse.success != True):
           res.trace.extend(createCognitiveTestResponse.trace)
-          res.error=createCognitiveTestResponse.error
-          res.success=False
+          res.error = createCognitiveTestResponse.error
+          res.success = False
           os.remove(localPackagePath)
           return res
           
-        ontologyName=createCognitiveTestResponse.test_name
-        tmp=ontologyName.split("#")
-        ontologyName=tmp[1]
+        ontologyName = createCognitiveTestResponse.test_name
+        tmp = ontologyName.split("#")
+        ontologyName = tmp[1]
 
         tree = ET.parse(localPackagePath)
         root = tree.getroot()
@@ -201,17 +210,20 @@ class CognitiveTestCreator:
         res.error="test "+fname +" is broken"
         res.success=False
 
-    except IndexError:
+    except IndexError as e:
+      print e.message
       #print "test "+fname +" is broken"
-      res.error="IndexError.. test "+fname +" is broken"
-      CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
-      res.success=False
-    except IOError:
+      res.error = "IndexError.. test "+fname +" is broken"
+      CognitiveExerciseHelperFunctions.traceError(res.error, res.trace)
+      res.success = False
+    except IOError as e:
+      print e.message
       #print "IO Error, cannot open test file or write xml file"
       res.error="IO Error, cannot open test file or write xml file"
       CognitiveExerciseHelperFunctions.traceError(res.error,res.trace)
       res.success=False
     except AppError as e:
+      print e.message
       AppError.passErrorToRosSrv(e,res) 
     return res
 
@@ -223,13 +235,13 @@ class CognitiveTestCreator:
   # @return bool [bool] True if string can be converted to an integer, otherwise false
   def determineCognitiveTestId(self, testType, testSubType, difficulty):
     serv_topic = rospy.get_param('rapp_cognitive_exercise_return_tests_of_type_subtype_difficulty_topic')
-    returnTestsOfTypeSubtypeDifficultySrvReq=returnTestsOfTypeSubtypeDifficultySrvRequest()
-    returnTestsOfTypeSubtypeDifficultySrvReq.testType=testType
-    returnTestsOfTypeSubtypeDifficultySrvReq.testSubType=testSubType
-    returnTestsOfTypeSubtypeDifficultySrvReq.difficulty=difficulty
+    srvReq = returnTestsOfTypeSubtypeDifficultySrvRequest()
+    srvReq.testType = testType
+    srvReq.testSubType = testSubType
+    srvReq.difficulty = difficulty
     knowrob_service = rospy.ServiceProxy(serv_topic, returnTestsOfTypeSubtypeDifficultySrv)
-    returnTestsOfTypeSubtypeDifficultySrvRes = knowrob_service(returnTestsOfTypeSubtypeDifficultySrvReq)  
-    return returnTestsOfTypeSubtypeDifficultySrvRes.totalNumberOfTestsReturned
+    srvRes = knowrob_service(srvReq)  
+    return srvRes.totalNumberOfTestsReturned
 
   ## @brief Checks if string can be converted to an integer
   # @param s [string] The input string
