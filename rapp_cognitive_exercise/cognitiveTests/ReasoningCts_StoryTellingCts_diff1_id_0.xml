@@ -112,7 +112,7 @@
         <answer>
           <body>όχι</body>
         </answer>
-        <correctAnswer>όχι</correctAnswer>
+        <correctAnswer>ναι</correctAnswer>
       </Question>
       <Question name="Q12">
         <body>Όλη η οικογένεια χάρηκε με αυτή την ιδέα.</body>
@@ -126,5 +126,5 @@
       </Question>
     </el>
   </Languages>
-  <name>ReasoningCts_ZxKuHwbZ</name>
+  <name>ReasoningCts_vUXiHMJy</name>
 </cognitiveTest>
