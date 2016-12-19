@@ -157,7 +157,7 @@ class CognitiveExerciseFunc(unittest.TestCase):
         req.inputFile="someInvalidPath"
         response = test_service(req)     
         self.assertEqual(response.success, False)  
-        self.assertEqual(response.error, "IO Error, cannot open test file or write xml file")
+        self.assertEqual(response.error, "Test description file does not exist")
         
     ## Tests the cognitive exercise return user scores service for valid input
     def test_user_scores_for_all_categories_valid_input(self):
