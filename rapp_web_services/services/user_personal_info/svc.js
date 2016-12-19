@@ -83,7 +83,7 @@ function parseRosbridgeMsg(rosbridge_msg) {
   var response = new interfaces.client_res();
 
   if (rosbridge_msg.error) {
-    response.error = error;
+    response.error = rosbridge_msg.error;
     return response;
   }
 
